@@ -6,6 +6,11 @@
  */
 
 // Constants for placeholder List data for seed files.
+const PROMOS = [
+  {title: '8 Days Cultural China'},
+  {title: '15 Days Classic China'},
+];
+
 const LISTS = [
   {title: 'Shopping List'},
   {title: 'To Do List'},
@@ -50,4 +55,4 @@ const getListsItems = (listIds = []) => [
   {name: 'Invites', list_id: listIds[2], owner_fb_id: 3},
 ];
 
-module.exports = {getListsItems, getUsersLists, LISTS, USERS};
+module.exports = {getListsItems, getUsersLists, LISTS, USERS, PROMOS};
