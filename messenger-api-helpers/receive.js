@@ -62,7 +62,8 @@ const handleReceivePostback = (event) => {
   } else if (type.substring(0, 16) === 'subscribed_lists') {
     sendSharedLists(senderId, type);
   } else if (type.substring(0, 11) === 'get_started') {
-    sendApi.sendWelcomeMessage(senderId);
+    sendApi.sendIntroMessage(senderId);
+    sendApi.sendPromoMessage(senderId);
     return;
   }
   // eslint-enable camelcase
