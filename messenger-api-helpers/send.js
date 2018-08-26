@@ -68,9 +68,18 @@ const sendReadReceipt = (recipientId) => {
   api.callMessagesAPI(messageData);
 };
 
+// Send the intro message welcoming & describing the bot.
+const sendIntroMessage = (recipientId) => {
+  sendMessage(recipientId, messages.introMessage(APP_URL));
+};
+
 // Send the initial message welcoming & describing the bot.
-const sendWelcomeMessage = (recipientId) => {
-  sendMessage(recipientId, messages.welcomeMessage(APP_URL));
+const sendPromoMessage = (recipientId) => {
+  Lists.getAllPromos()
+      .then((promos) => {
+        console.log('>>>>Printing all promotions', promos);
+        sendMessage(recipientId, messages.promoMessage(APP_URL, promos));
+      });
 };
 
 // Let the user know that they don't have any lists yet.
@@ -129,5 +138,6 @@ export default {
   sendMessage,
   sendNoListsYet,
   sendReadReceipt,
-  sendWelcomeMessage,
+  sendIntroMessage,
+  sendPromoMessage,
 };

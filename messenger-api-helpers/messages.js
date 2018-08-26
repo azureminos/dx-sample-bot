@@ -34,6 +34,25 @@ const openExistingListButton = (listUrl, buttonText = 'Edit List') => {
 };
 
 /**
+ * Buttons for opening a new list in a webview with dynamic generated contents
+ *
+ * @param {string} apiUri - Hostname of the server.
+ * @param {array} promos - promo list.
+ * @returns {array} -
+ *   Message to create a list of buttons pointing to the new list form.
+ */
+const createButtons = (apiUri, promos) => {
+  var btns = [];
+
+  for(var i=0; promos && i<promos.length; i++) {
+    var promo = promos[i];
+    btns.push(createListButton(apiUri, promo))
+  }
+
+  return btns;
+};
+
+/**
  * Button for opening a new list in a webview
  *
  * @param {string} apiUri - Hostname of the server.
@@ -41,7 +60,10 @@ const openExistingListButton = (listUrl, buttonText = 'Edit List') => {
  * @returns {object} -
  *   Message to create a button pointing to the new list form.
  */
-const createListButton = (apiUri, buttonTitle = 'Create a List') => {
+const createListButton = (apiUri, promo) => {
+  var buttonTitle = promo.title;
+  var keyUrl = promo.key;
+
   return {
     type: 'web_url',
     url: `${apiUri}/lists/new`,
@@ -62,18 +84,28 @@ const createListButton = (apiUri, buttonTitle = 'Create a List') => {
  * Message that welcomes the user to the bot
  *
  * @param {string} apiUri - Hostname of the server.
+ * @returns {object} - Message with welcome text and self-intro.
+ */
+const introMessage = (apiUri) => {
+  return {
+    text: "Hi there. Please allow me to introduce myself first. I'm David, your personal travel assistant."
+  };
+};
+
+/**
+ * Message that welcomes the user to the bot
+ *
+ * @param {string} apiUri - Hostname of the server.
  * @returns {object} - Message with welcome text and a button to start a new list.
  */
-const welcomeMessage = (apiUri) => {
+const promoMessage = (apiUri, promos) => {
   return {
     attachment: {
       type: 'template',
       payload: {
         template_type: 'button',
         text: 'Ready to make a shared list with your friends? Everyone can add items, check things off, and stay in sync.',
-        buttons: [
-          createListButton(apiUri),
-        ],
+        buttons: createButtons(apiUri, promos)
       },
     },
   };
@@ -212,7 +244,8 @@ const shareListMessage = (apiUri, listId, title, buttonText) => {
 };
 
 export default {
-  welcomeMessage,
+  introMessage,
+  promoMessage,
   listCreatedMessage,
   paginatedListsMessage,
   createListButton,

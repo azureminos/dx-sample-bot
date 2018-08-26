@@ -51,6 +51,8 @@ const handleReceivePostback = (event) => {
    * actions to be a string that represents a JSON object
    * containing `type` and `data` properties. EG:
    */
+  console.log('>>>>Received postback event', event);
+
   const type = event.postback.payload;
   const senderId = event.sender.id;
 
@@ -75,6 +77,8 @@ const handleReceivePostback = (event) => {
  * docs/messenger-platform/webhook-reference/message-received
  */
 const handleReceiveMessage = (event) => {
+  console.log('>>>>Received message event', event);
+
   const message = event.message;
   const senderId = event.sender.id;
 
