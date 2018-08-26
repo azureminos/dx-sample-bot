@@ -11,6 +11,7 @@ import castArray from 'lodash/castArray';
 // ===== MESSENGER =============================================================
 import messages from './messages';
 import api from './api';
+import Promos from '../models/promos';
 
 const {APP_URL} = process.env;
 
@@ -75,7 +76,7 @@ const sendIntroMessage = (recipientId) => {
 
 // Send the initial message welcoming & describing the bot.
 const sendPromoMessage = (recipientId) => {
-  Lists.getAllPromos()
+  Promos.getAllPromos()
       .then((promos) => {
         console.log('>>>>Printing all promotions', promos);
         sendMessage(recipientId, messages.promoMessage(APP_URL, promos));

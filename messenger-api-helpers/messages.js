@@ -62,7 +62,7 @@ const createButtons = (apiUri, promos) => {
  */
 const createListButton = (apiUri, promo) => {
   var buttonTitle = promo.title;
-  var keyUrl = promo.key;
+  var idPromo = promo.id;
 
   return {
     type: 'web_url',
