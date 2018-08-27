@@ -89,5 +89,4 @@ export default {
   domainWhitelisting,
   persistentMenu,
   getStartedButton,
-  setHomeUrl,
 };
