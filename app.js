@@ -17,6 +17,7 @@ import {Server} from 'http';
 
 // ===== MESSENGER =============================================================
 import ThreadSetup from './messenger-api-helpers/thread-setup';
+import MessengerSetup from './messenger-api-helpers/messenger-setup';
 
 // ===== ROUTES ================================================================
 import index from './routes/index';
@@ -135,9 +136,9 @@ app.use((err, req, res) => {
    ============================================= */
 
 ThreadSetup.domainWhitelisting();
-ThreadSetup.setHomeUrl();
 ThreadSetup.persistentMenu();
 ThreadSetup.getStartedButton();
+MessengerSetup.setHomeUrl();
 
 /* =============================================
    =            Complete Configuration         =
