@@ -32,6 +32,6 @@ const handleListCreation = (req, res) => {
 
 router.get('/:listId', handleListCreation);
 
-//router.get('/:promoId/:listId', handleListCreation);
+router.get('/:promoId/:listId', handleListCreation);
 
 export default router;
