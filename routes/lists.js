@@ -13,19 +13,20 @@ import Lists from '../models/lists';
 
 const router = express.Router();
 
-router.get('/:listId', (req, res) => {
+router.get('/:promoId/:listId', (req, res) => {
   const {hostname} = req;
   const {DEMO, PORT, LOCAL} = process.env;
   const reqId = req.params.listId;
+  const promoId = req.params.promoId;
   const socketAddress = (DEMO && LOCAL) ?
     `http://${hostname}:${PORT}` : `wss://${hostname}`;
 
   if (reqId === 'new') {
     Lists.create().then(({id}) => {
-      res.render('./index', {listId: id, socketAddress, demo: DEMO});
+      res.render('./index', {listId: id, promoId: promoId, socketAddress, demo: DEMO});
     });
   } else {
-    res.render('./index', {listId: reqId, socketAddress, demo: DEMO});
+    res.render('./index', {listId: reqId, promoId: promoId, socketAddress, demo: DEMO});
   }
 });
 

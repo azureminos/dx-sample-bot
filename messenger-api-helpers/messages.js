@@ -62,11 +62,11 @@ const createButtons = (apiUri, promos) => {
  */
 const createListButton = (apiUri, promo) => {
   var buttonTitle = promo.title;
-  var idPromo = promo.id;
+  var promoId = promo.id;
 
   return {
     type: 'web_url',
-    url: `${apiUri}/lists/new`,
+    url: '${apiUri}/lists/'+promoId+'/new',
     title: buttonTitle,
     webview_height_ratio: 'tall',
     messenger_extensions: true,
