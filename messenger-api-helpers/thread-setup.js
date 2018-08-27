@@ -33,6 +33,29 @@ const domainWhitelisting = () => {
   );
 };
 
+
+/**
+ * Adds the home url to the Messenger App's whitelist.
+ *
+ * This is required to use Messenger Extensions which
+ * this demo uses to get UserId's from a Messenger WebView.
+ *
+ * @returns {undefined}
+ */
+const setHomeUrl = () => {
+  api.callThreadAPI(
+    {
+      setting_type: 'https://dx-sample-bot.herokuapp.com/',
+      home_url: {
+        url: '',
+        webview_height_ratio: 'tall',
+        webview_share_button: 'show',
+        in_test:true
+      },
+    }
+  );
+};
+
 /**
  * Sets the persistent menu for the application
  *
@@ -89,4 +112,5 @@ export default {
   domainWhitelisting,
   persistentMenu,
   getStartedButton,
+  setHomeUrl,
 };
