@@ -43,12 +43,10 @@ const openExistingListButton = (listUrl, buttonText = 'Edit List') => {
  */
 const createButtons = (apiUri, promos) => {
   var btns = [];
-
   for(var i=0; promos && i<promos.length; i++) {
     var promo = promos[i];
     btns.push(createListButton(apiUri, promo))
   }
-  console.log('>>>>Print all buttons', btns);
   return btns;
 };
 

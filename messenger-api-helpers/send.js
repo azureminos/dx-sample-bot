@@ -90,7 +90,7 @@ const sendNoListsYet = (recipientId) => {
 
 // Show user the lists they are associated with.
 const sendLists = (recipientId, action, lists, offset) => {
-  console.log('sendLists, recipientId['+recipientId+'], action['+action+'], listId['+listId+']');
+  console.log('>>>>sendLists, recipientId['+recipientId+'], action['+action+'], listId['+listId+']');
   // Show different responses based on number of lists.
   switch (lists.length) {
   case 0:
@@ -126,7 +126,7 @@ const sendLists = (recipientId, action, lists, offset) => {
 
 // Send a message notifying the user their list has been created.
 const sendListCreated = (recipientId, listId, title) => {
-  console.log('sendListCreated, recipientId['+recipientId+'], listId['+listId+'], title['+title+']');
+  console.log('>>>>sendListCreated, recipientId['+recipientId+'], listId['+listId+'], title['+title+']');
   sendMessage(
     recipientId,
     [

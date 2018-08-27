@@ -55,7 +55,7 @@ const getFacebookProfileInfoForUsers = (users = [], listId, socketUsers) =>
 
 // Join Room, Update Necessary List Info, Notify All Users in room of changes.
 const join = ({
-  request: {senderId, listId},
+  request: {senderId, listId, promoId},
   allInRoom,
   sendStatus,
   socket,
@@ -75,6 +75,7 @@ const join = ({
 
     Lists.addUser(list.id, user.fbId)
       .then((usersList) => {
+        console.log('>>>>PromoID['+promoId+']');
         if (!listOwner) {
           sendApi.sendListCreated(user.fbId, list.id, list.title);
           allInRoom(list.id).emit('list:setOwnerId', usersList.userFbId);

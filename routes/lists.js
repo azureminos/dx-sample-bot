@@ -14,7 +14,7 @@ import Lists from '../models/lists';
 const router = express.Router();
 
 const handleListCreation = (req, res) => {
-  console.log('>>>>Print incoming msg', req);
+  //console.log('>>>>Print incoming msg', req);
   const {hostname} = req;
   const {DEMO, PORT, LOCAL} = process.env;
   const reqId = req.params.listId;
