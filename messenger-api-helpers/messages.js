@@ -66,7 +66,7 @@ const createListButton = (apiUri, promo) => {
 
   return {
     type: 'web_url',
-    url: '${apiUri}/lists/'+promoId+'/new',
+    url: '${apiUri}/lists/Tour'+promoId+'/new',
     title: buttonTitle,
     webview_height_ratio: 'tall',
     messenger_extensions: true,
