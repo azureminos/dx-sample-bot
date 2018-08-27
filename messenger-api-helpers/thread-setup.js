@@ -45,9 +45,9 @@ const domainWhitelisting = () => {
 const setHomeUrl = () => {
   api.callThreadAPI(
     {
-      setting_type: 'https://dx-sample-bot.herokuapp.com/',
+      setting_type: 'home_url',
       home_url: {
-        url: '',
+        url: 'https://dx-sample-bot.herokuapp.com/index',
         webview_height_ratio: 'tall',
         webview_share_button: 'show',
         in_test:true
