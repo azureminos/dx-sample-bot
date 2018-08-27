@@ -52,6 +52,7 @@ const createButtons = (apiUri, promos) => {
   return btns;
 };
 
+const listPromoUrl = (apiUri, promoId) => `${apiUri}/lists/${promoId}/new`;
 /**
  * Button for opening a new list in a webview
  *
@@ -66,7 +67,7 @@ const createListButton = (apiUri, promo) => {
 
   return {
     type: 'web_url',
-    url: '${apiUri}/lists/new',
+    url: listPromoUrl(apiUri, promoId),
     title: buttonTitle,
     webview_height_ratio: 'tall',
     messenger_extensions: true,
