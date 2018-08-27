@@ -43,11 +43,10 @@ const domainWhitelisting = () => {
  * @returns {undefined}
  */
 const setHomeUrl = () => {
-  api.callThreadAPI(
+  api.callMessengerProfileAPI(
     {
-      setting_type: 'home_url',
       home_url: {
-        url: 'https://dx-sample-bot.herokuapp.com/index',
+        url: 'https://dx-sample-bot.herokuapp.com/lists/new',
         webview_height_ratio: 'tall',
         webview_share_button: 'show',
         in_test:true
