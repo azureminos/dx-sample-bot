@@ -55,14 +55,13 @@ const getFacebookProfileInfoForUsers = (users = [], listId, socketUsers) =>
 
 // Join Room, Update Necessary List Info, Notify All Users in room of changes.
 const join = ({
-  request: {senderId, listId, promoId},
+  request: {senderId, listId},
   allInRoom,
   sendStatus,
   socket,
   socketUsers,
   userSocket,
 }) => {
-  console.log('>>>>User Socket Join - senderId['+senderId+'], listId['+listId+'], promoId['+promoId+']');
   Promise.all([
     Lists.get(listId),
     Lists.getAllItems(listId),
@@ -76,7 +75,6 @@ const join = ({
 
     Lists.addUser(list.id, user.fbId)
       .then((usersList) => {
-        console.log('>>>>PromoID['+promoId+']');
         if (!listOwner) {
           sendApi.sendListCreated(user.fbId, list.id, list.title);
           allInRoom(list.id).emit('list:setOwnerId', usersList.userFbId);
