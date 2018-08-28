@@ -62,6 +62,7 @@ const join = ({
   socketUsers,
   userSocket,
 }) => {
+  console.log('>>>>User Socket Join - senderId['+senderId+'], listId['+listId+'], promoId['+promoId+']');
   Promise.all([
     Lists.get(listId),
     Lists.getAllItems(listId),
