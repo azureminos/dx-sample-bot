@@ -199,11 +199,9 @@ const setTitle = (newTitle = '', listId) => {
  * @param   {String} title - The title of the list to create.
  * @returns {Object} list - The newly created list.
  */
-const create = (title = 'Shopping List', promoId = 1) => {
-  console.log('List.create(title['+title+'], promoId['+promoId+'])');
+const create = (title = 'Shopping List', promoId = 1) =>
   Lists()
     .insert({title: title, promo_id: promoId}, 'id').then(get);
-};
 
 export default {
   addUser,
