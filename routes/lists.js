@@ -10,6 +10,7 @@ import express from 'express';
 
 // ===== DB ====================================================================
 import Lists from '../models/lists';
+import Promos from '../models/promos';
 
 const router = express.Router();
 
