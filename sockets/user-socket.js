@@ -7,6 +7,7 @@
 
 // ===== DB ====================================================================
 import Lists from '../models/lists';
+import Promos from '../models/promos';
 import Users from '../models/users';
 
 // ===== MESSENGER =============================================================
