@@ -18,7 +18,7 @@ export default function attachSockets(io) {
 
     const channel = (channel, handler) => {
       socket.on(channel, (request, sendStatus) => {
-        const {userId, listId} = socketUsers.get(socket.id) || {};
+        const {userId, listId, promoId} = socketUsers.get(socket.id) || {};
 
         handler({
           allInRoom,
