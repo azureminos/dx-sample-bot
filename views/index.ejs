@@ -14,9 +14,10 @@
       window.attachApp(userId, <%= listId %>, "<%= socketAddress %>");
     <% } else if (listId) { %>
       window.extAsyncInit = function() {
-        console.log('>>>>demo', demo);
-        console.log('>>>>listId', listId);
-        console.log('>>>>promoId', promoId);
+        console.log('>>>>demo - <%= demo %>');
+        console.log('>>>>listId - <%= listId %>');
+        console.log('>>>>socketAddress - <%= socketAddress %>');
+        console.log('>>>>promoId - <%= promoId %>');
         MessengerExtensions.getContext(
           '266691027485519',
           function success(context) {
