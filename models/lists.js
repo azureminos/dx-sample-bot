@@ -187,7 +187,7 @@ const setOwner = (listId, userFbId) =>
  * @returns {Object} list - The updated List.
  */
 const setTitle = (newTitle = '', listId) => {
-  const title = (newTitle === null) ? 'Shopping List' : newTitle;
+  const title = (newTitle === null) ? 'Holiday Destination' : newTitle;
 
   return Lists()
     .where('id', parseInt(listId, 10)).update({title}, ['id', 'title'])
@@ -199,7 +199,7 @@ const setTitle = (newTitle = '', listId) => {
  * @param   {String} title - The title of the list to create.
  * @returns {Object} list - The newly created list.
  */
-const create = (title = 'Shopping List', promoId = 1) =>
+const create = (title = 'Holiday Destination', promoId = 3) =>
   Lists()
     .insert({title: title, promo_id: promoId}, 'id').then(get);
 

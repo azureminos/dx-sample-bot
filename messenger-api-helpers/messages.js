@@ -218,7 +218,7 @@ const listCreatedMessage = {
  * @param {string} buttonText - Text for the action button.
  * @returns {object} - Message to configure the customized sharing menu.
  */
-const shareListMessage = (apiUri, listId, title, buttonText) => {
+const shareListMessage = (apiUri, listId, title, promoId, buttonText) => {
   const urlToList = listUrl(apiUri, listId);
   console.log({urlToList});
   return {
@@ -228,8 +228,8 @@ const shareListMessage = (apiUri, listId, title, buttonText) => {
         template_type: 'generic',
         elements: [{
           title: title,
-          image_url: `${apiUri}/media/button-cover.png`,
-          subtitle: 'A shared list from Tasks',
+          image_url: `${apiUri}/media/tour-${promoId}-cover.png`,
+          subtitle: 'Your travel destination details',
           default_action: {
             type: 'web_url',
             url: urlToList,

@@ -18,6 +18,12 @@ const Promos = () => Knex('promos');
  * getAllPromos - Gets all Promos
  * @returns {Array} lists - Array of all Lists.
  */
+const get = (promoId) =>
+  Promos()
+    .where('id', parseInt(promoId, 10))
+    .first()
+    .then(camelCaseKeys);
+
 const getAllPromos = () =>
   Promos().select();
 

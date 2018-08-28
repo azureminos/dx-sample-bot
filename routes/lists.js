@@ -18,13 +18,13 @@ const handleListCreation = (req, res) => {
   const {hostname} = req;
   const {DEMO, PORT, LOCAL} = process.env;
   const reqId = req.params.listId;
-  const promoId = req.params.promoId;
+  const promoId = req.params.promoId || 3;
   const socketAddress = (DEMO && LOCAL) ? `http://${hostname}:${PORT}` : `wss://${hostname}`;
   
   console.log('>>>>Printing input params', {listId: reqId, promoId: promoId, socketAddress, demo: DEMO});
   
   if (reqId === 'new') {
-    Lists.create('Shopping List', Number(promoId)).then(({id}) => {
+    Lists.create('Holiday Destination', Number(promoId)).then(({id}) => {
       res.render('./index', {listId: id, socketAddress, demo: DEMO});
     });
   } else {
