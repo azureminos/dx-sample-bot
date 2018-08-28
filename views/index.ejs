@@ -17,6 +17,7 @@
         MessengerExtensions.getContext(
           '1898084047093164',
           function success(context) {
+            console.log('>>>>Print all context', context);
             window.attachApp(
               context.psid,
               <%= listId %>,
