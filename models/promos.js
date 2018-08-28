@@ -28,5 +28,6 @@ const getAllPromos = () =>
   Promos().select();
 
 export default {
+  get,
   getAllPromos,
 };
