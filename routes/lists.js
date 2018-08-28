@@ -24,7 +24,7 @@ const handleListCreation = (req, res) => {
   
   console.log('>>>>Printing input params', {listId: reqId, promoId: promoId, socketAddress, demo: DEMO});
 
-  Promos.get(Number(promoId)).then(({promo}) => {
+  Promos.get(Number(promoId)).then((promo) => {
     if (reqId === 'new') {
       Lists.create('Holiday Destination', Number(promoId)).then(({id}) => {
         console.log('>>>>Printing input params of index', {listId: id, title: promo.title, socketAddress, demo: DEMO});
