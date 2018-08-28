@@ -1,44 +1,45 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Shopping List</title>
+    <% if (title) { %>
+      <title><%= title %></title>
+    <% } else { %>
+      <title>Kara Cosmetics</title>
+    <% } %>
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
     <script src="/bundle.js"></script>
   </head>
   <body>
     <div id="content"></div>
     <script>
-    <% if (demo) { %>
-      // Use a random demo ID when viewing locally.
-      const userId = Math.floor(Math.random() * 4) + 1;
-      window.attachApp(userId, <%= listId %>, "<%= socketAddress %>");
-    <% } else if (listId) { %>
-      window.extAsyncInit = function() {
-        console.log('>>>>demo - <%= demo %>');
-        console.log('>>>>listId - <%= listId %>');
-        console.log('>>>>socketAddress - <%= socketAddress %>');
-        console.log('>>>>promoId - <%= promoId %>');
-        MessengerExtensions.getContext(
-          '266691027485519',
-          function success(context) {
-            console.log('>>>>Print all context', context);
-            window.attachApp(
-              context.psid,
-              <%= listId %>,
-              "<%= socketAddress %>",
-              context.thread_type);
-          }, function error(err) {
-            window.attachApp();
-          });
-      };
-    <% } %>
-      (function(d, s, id){
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) {return;}
-        js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.com/en_US/messenger.Extensions.js";
-        fjs.parentNode.insertBefore(js, fjs);
-      }(document, 'script', 'Messenger'));
+     <% if (locals.gift) { %>
+     const gift = JSON.parse('<%- locals.gift  %>');
+     <% } else { %>
+     const gift = null;
+     <% } %>
+     <% if (demo) { %>
+       window.attachApp("demo", gift);
+     <% } else if (typeof terms !== 'undefined' && terms) { %>
+       window.attachTerms();
+     <% } else { %>
+       window.extAsyncInit = function() {
+         // the Messenger Extensions JS SDK is done loading
+         MessengerExtensions.getUserID(function success(uids) {
+           window.attachApp(uids.psid, gift);
+         }, function error(err) {
+           window.attachApp();
+         });
+       };
+
+       (function(doc, script, domId){
+         var js, fjs = doc.getElementsByTagName(script)[0];
+         if (doc.getElementById(domId)) { return; }
+         js = doc.createElement(script);
+         js.id = domId;
+         js.src = "//connect.facebook.com/en_US/messenger.Extensions.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'Messenger'));
+     <% } %>
     </script>
   </body>
 </html>
