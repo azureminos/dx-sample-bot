@@ -22,14 +22,20 @@ const handleListCreation = (req, res) => {
   const socketAddress = (DEMO && LOCAL) ? `http://${hostname}:${PORT}` : `wss://${hostname}`;
   
   console.log('>>>>Printing input params', {listId: reqId, promoId: promoId, socketAddress, demo: DEMO});
-  
-  if (reqId === 'new') {
-    Lists.create('Holiday Destination', Number(promoId)).then(({id}) => {
-      res.render('./index', {listId: id, socketAddress, demo: DEMO});
-    });
-  } else {
-    res.render('./index', {listId: reqId, socketAddress, demo: DEMO});
-  }
+
+  Promos.get(Number(promoId)).then(({promo}) => {
+    if (reqId === 'new') {
+      Lists.create('Holiday Destination', Number(promoId)).then(({id}) => {
+        console.log('>>>>Printing input params of index', {listId: id, title: promo.title, socketAddress, demo: DEMO});
+        res.render('./index', {listId: id, title: promo.title, socketAddress, demo: DEMO});
+      });
+    } else {
+      console.log('>>>>Printing input params of index', {listId: id, title: promo.title, socketAddress, demo: DEMO});
+      res.render('./index', {listId: reqId, title: promo.title, socketAddress, demo: DEMO});
+    }
+  })
+
+
 };
 
 router.get('/:listId', handleListCreation);
