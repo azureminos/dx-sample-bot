@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const {getListsItems, getUsersLists, LISTS, USERS} =
+const {PROMOS} =
   require('../sample-seed-helpers');
 
 /**
@@ -22,16 +22,9 @@ exports.seed = (knex, Promise) =>
     knex('lists_items').del(),
     knex('lists').del(),
     knex('users').del(),
+    knex('promos').del(),
   ]).then(() =>
     Promise.all([
-      knex('lists').insert(LISTS, 'id'),
-      knex('users').insert(USERS, 'id'),
-    ]).then((ids) => {
-      const listIds = ids[0];
-
-      return Promise.all([
-        knex('users_lists').insert(getUsersLists(listIds)),
-        knex('lists_items').insert(getListsItems(listIds)),
-      ]);
-    })
+      knex('promos').insert(PROMOS, 'id'),
+    ])
   );

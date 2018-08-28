@@ -72,7 +72,7 @@ const join = ({
       console.error("List doesn't exist!");
       sendStatus('noList');
     }
-
+    console.log('>>>>Print list before addUser', list);
     Lists.addUser(list.id, user.fbId)
       .then((usersList) => {
         if (!listOwner) {
