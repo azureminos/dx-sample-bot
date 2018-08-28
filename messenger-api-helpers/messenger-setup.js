@@ -27,7 +27,7 @@ const setHomeUrl = () => {
   api.callMessengerProfileAPI(
     {
       home_url: {
-        url: [APP_URL]+'lists/new',
+        url: [APP_URL]+'index',
         webview_height_ratio: 'tall',
         webview_share_button: 'show',
         in_test:true
