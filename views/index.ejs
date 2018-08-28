@@ -8,15 +8,15 @@
   <body>
     <div id="content"></div>
     <script>
-    console.log('>>>>demo', demo);
-    console.log('>>>>listId', listId);
-    console.log('>>>>promoId', promoId);
     <% if (demo) { %>
       // Use a random demo ID when viewing locally.
       const userId = Math.floor(Math.random() * 4) + 1;
       window.attachApp(userId, <%= listId %>, "<%= socketAddress %>");
     <% } else if (listId) { %>
       window.extAsyncInit = function() {
+        console.log('>>>>demo', demo);
+        console.log('>>>>listId', listId);
+        console.log('>>>>promoId', promoId);
         MessengerExtensions.getContext(
           '266691027485519',
           function success(context) {
