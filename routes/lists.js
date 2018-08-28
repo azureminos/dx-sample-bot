@@ -20,7 +20,9 @@ const handleListCreation = (req, res) => {
   const reqId = req.params.listId;
   const promoId = req.params.promoId;
   const socketAddress = (DEMO && LOCAL) ? `http://${hostname}:${PORT}` : `wss://${hostname}`;
-
+  
+  console.log('>>>>Printing input params', {listId: reqId, promoId: promoId, socketAddress, demo: DEMO});
+  
   if (reqId === 'new') {
     Lists.create().then(({id}) => {
       res.render('./index', {listId: id, promoId: promoId, socketAddress, demo: DEMO});
