@@ -87,7 +87,7 @@ const createListButton = (apiUri, promo) => {
  */
 const introMessage = (apiUri) => {
   return {
-    text: "Hi there. Please allow me to introduce myself first. I'm David, your personal travel assistant."
+    text: "Hi there. Please allow me to introduce myself first. I'm Bot, your personal travel assistant."
   };
 };
 
@@ -103,7 +103,7 @@ const promoMessage = (apiUri, promos) => {
       type: 'template',
       payload: {
         template_type: 'button',
-        text: 'Ready to make a shared list with your friends? Everyone can add items, check things off, and stay in sync.',
+        text: 'Ready to find your next holiday? Our small-group China tours are selling fast.',
         buttons: createButtons(apiUri, promos)
       },
     },
