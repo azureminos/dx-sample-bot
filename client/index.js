@@ -27,6 +27,7 @@ import '../public/style.css';
  * Function for attaching the application when MessengerExtensions has loaded
  */
 window.attachApp = (viewerId, listId, socketAddress, threadType) => {
+  console.log('>>>>window.attachApp', {viewerId:viewerId,listId:listId, socketAddress:socketAddress, threadType:threadType})
   const apiUri = `https://${window.location.hostname}`;
   let app;
   if (viewerId) {
