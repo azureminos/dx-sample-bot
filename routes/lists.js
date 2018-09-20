@@ -31,7 +31,7 @@ const handleListCreation = (req, res) => {
         res.render('./index', {listId: id, title: promo.title, socketAddress, demo: DEMO});
       });
     } else {
-      console.log('>>>>Printing input params of index', {listId: id, title: promo.title, socketAddress, demo: DEMO});
+      console.log('>>>>Printing input params of index', {listId: reqId, title: promo.title, socketAddress, demo: DEMO});
       res.render('./index', {listId: reqId, title: promo.title, socketAddress, demo: DEMO});
     }
   })
