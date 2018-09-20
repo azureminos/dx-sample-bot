@@ -306,6 +306,7 @@ export default class App extends React.Component {
             title={title}
             apiUri={apiUri}
             listId={listId}
+            promoId={promoId}
             sharingMode={sharingMode}
             buttonText={buttonText}
           />
