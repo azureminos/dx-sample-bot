@@ -22,6 +22,7 @@ import messages from '../messenger-api-helpers/messages';
 const Invite = ({
   title,
   listId,
+  promoId,
   apiUri,
   sharingMode,
   buttonText,
@@ -36,7 +37,7 @@ const Invite = ({
       }, function error(errorCode, errorMessage) {
         console.error({errorCode, errorMessage});
       },
-      messages.shareListMessage(apiUri, listId, title),
+      messages.shareListMessage(apiUri, listId, title, promoId),
       sharingMode);
   };
 
