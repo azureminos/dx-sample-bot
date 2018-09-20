@@ -56,6 +56,7 @@ export default class App extends React.Component {
   static propTypes = {
     apiUri: React.PropTypes.string.isRequired,
     listId: React.PropTypes.number.isRequired,
+    promoId: React.PropTypes.number.isRequired,
     socketAddress: React.PropTypes.string.isRequired,
     viewerId: React.PropTypes.number.isRequired,
     threadType: React.PropTypes.string.isRequired,
