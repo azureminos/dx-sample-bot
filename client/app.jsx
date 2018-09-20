@@ -273,7 +273,7 @@ export default class App extends React.Component {
     if (users.length > 0) {
       /* ----------  Setup Sections (anything dynamic or repeated) ---------- */
 
-      const {apiUri, listId, viewerId, threadType} = this.props;
+      const {apiUri, listId, promoId, viewerId, threadType} = this.props;
       const itemList = items.filter(Boolean).map((item) => {
         return (
           <Item
