@@ -28,11 +28,11 @@ const handleListCreation = (req, res) => {
     if (reqId === 'new') {
       Lists.create('Holiday Destination', Number(promoId)).then(({id}) => {
         console.log('>>>>Printing input params of index', {listId: id, title: promo.title, socketAddress, demo: DEMO});
-        res.render('./index', {listId: id, title: promo.title, socketAddress, demo: DEMO});
+        res.render('./index', {listId: id, title: promo.title, promoId: promo.id, socketAddress, demo: DEMO});
       });
     } else {
       console.log('>>>>Printing input params of index', {listId: reqId, title: promo.title, socketAddress, demo: DEMO});
-      res.render('./index', {listId: reqId, title: promo.title, socketAddress, demo: DEMO});
+      res.render('./index', {listId: reqId, title: promo.title, promoId: promo.id, socketAddress, demo: DEMO});
     }
   })
 
