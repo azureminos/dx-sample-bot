@@ -15,11 +15,12 @@
     <% } else if (listId) { %>
       window.extAsyncInit = function() {
         MessengerExtensions.getContext(
-          '266691027485519',
+          '1898084047093164',
           function success(context) {
             window.attachApp(
               context.psid,
               <%= listId %>,
+              <%= promoId %>,
               "<%= socketAddress %>",
               context.thread_type);
           }, function error(err) {
