@@ -22,6 +22,7 @@ import MessengerSetup from './messenger-api-helpers/messenger-setup';
 // ===== ROUTES ================================================================
 import index from './routes/index';
 import lists from './routes/lists';
+import promos from './routes/promos';
 import webhooks from './routes/webhooks';
 
 // ===== SOCKETS ===============================================================
@@ -88,6 +89,7 @@ app.use(function(req, res, next) {
 app.use('/', index);
 app.use('/lists', lists);
 app.use('/webhook', webhooks);
+app.use('/promos', promos);
 
 /* ----------  Errors  ---------- */
 
