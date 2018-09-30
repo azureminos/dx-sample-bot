@@ -62,8 +62,8 @@ const handleReceivePostback = (event) => {
   } else if (type.substring(0, 16) === 'subscribed_lists') {
     sendSharedLists(senderId, type);
   } else if (type.substring(0, 11) === 'get_started') {
-    sendApi.sendIntroMessage(senderId);
-    sendApi.sendPromoMessage(senderId);
+    //sendApi.sendIntroMessage(senderId);
+    sendApi.sendPromoMessage2(senderId);
     return;
   }
   // eslint-enable camelcase
@@ -89,8 +89,8 @@ const handleReceiveMessage = (event) => {
   sendApi.sendReadReceipt(senderId);
 
   if (message.text) {
-    sendApi.sendIntroMessage(senderId);
-    sendApi.sendPromoMessage(senderId);
+    //sendApi.sendIntroMessage(senderId);
+    sendApi.sendPromoMessage2(senderId);
   }
 };
 

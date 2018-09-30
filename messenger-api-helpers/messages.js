@@ -8,6 +8,8 @@
 /* eslint-disable camelcase */
 /* eslint-disable max-len */
 
+import { each } from 'lodash'
+
 /*
  * BUTTONS
  *
@@ -110,6 +112,36 @@ const promoMessage = (apiUri, promos) => {
   };
 };
 
+const promoMessage2 = (apiUri, promos) => {
+  let items = []
+  each(promos, (promo) => {
+    const urlToPromo = promoUrl(apiUri, promo.id);
+    console.log('>>>>Generated URL >> '+urlToPromo, promo);
+
+    items.push({
+       title: promo.title,
+       image_url: `${apiUri}/media/tour-${promo.id}-cover.png`,
+       subtitle: promo.title,
+       default_action: {
+         type: 'web_url',
+         url: urlToPromo,
+         messenger_extensions: true,
+       },
+       buttons: [openExistingListButton(urlToPromo, 'View Tour')],
+     });
+  });
+
+  return {
+     attachment: {
+       type: 'template',
+       payload: {
+         template_type: 'generic',
+         elements: items,
+       },
+     },
+   };
+};
+
 /**
  * Message for when the user has no lists yet.
  *
@@ -141,7 +173,7 @@ const noListsMessage = (apiUri) => {
  * @returns {string} - URI for the required list.
  */
 const listUrl = (apiUri, listId) => `${apiUri}/lists/${listId}`;
-
+const promoUrl = (apiUri, promoId) => `${apiUri}/lists/${promoId}/new`;
 /**
  * A single list for the list template.
  * The name here is to distinguish lists and list templates.
@@ -245,6 +277,7 @@ const shareListMessage = (apiUri, listId, title, promoId, buttonText) => {
 export default {
   introMessage,
   promoMessage,
+  promoMessage2,
   listCreatedMessage,
   paginatedListsMessage,
   createListButton,

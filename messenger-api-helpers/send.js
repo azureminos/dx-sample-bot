@@ -83,6 +83,15 @@ const sendPromoMessage = (recipientId) => {
       });
 };
 
+// Send the initial message welcoming & describing the bot.
+const sendPromoMessage2 = (recipientId) => {
+  Promos.getAllPromos()
+      .then((promos) => {
+        console.log('>>>>Printing all promotions', promos);
+        sendMessage(recipientId, messages.promoMessage2(APP_URL, promos));
+      });
+};
+
 // Let the user know that they don't have any lists yet.
 const sendNoListsYet = (recipientId) => {
   sendMessage(recipientId, messages.noListsMessage(APP_URL));
@@ -144,4 +153,5 @@ export default {
   sendReadReceipt,
   sendIntroMessage,
   sendPromoMessage,
+  sendPromoMessage2,
 };
