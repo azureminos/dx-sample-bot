@@ -99,7 +99,7 @@ const sendNoListsYet = (recipientId) => {
 
 // Show user the lists they are associated with.
 const sendLists = (recipientId, action, lists, offset) => {
-  console.log('>>>>sendLists, recipientId['+recipientId+'], action['+action+'], listId['+listId+']');
+  console.log('>>>>sendLists, recipientId['+recipientId+'], action['+action+'], lists', lists);
   // Show different responses based on number of lists.
   switch (lists.length) {
   case 0:

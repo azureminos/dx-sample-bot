@@ -77,7 +77,7 @@ const join = ({
     Lists.addUser(list.id, user.fbId)
       .then((usersList) => {
         if (!listOwner) {
-          Promos.get(list.promoId).then((promo) => {sendApi.sendListCreated(user.fbId, list.id, list.title, promo);})
+          //Promos.get(list.promoId).then((promo) => {sendApi.sendListCreated(user.fbId, list.id, list.title, promo);})
           allInRoom(list.id).emit('list:setOwnerId', usersList.userFbId);
         }
       })
