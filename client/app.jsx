@@ -9,7 +9,7 @@
 import io from 'socket.io-client';
 import React, {createElement} from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import {Panel, Form} from 'react-weui';
+import {Panel, Form, Tab, NavBarItem, Article} from 'react-weui';
 
 // ===== COMPONENTS ============================================================
 import Invite from './invite.jsx';
@@ -326,40 +326,61 @@ export default class App extends React.Component {
 
     /* ----------  Inner Structure  ---------- */
       page =
-        (<section id='list'>
-          <Viewers
-            users={users}
-            viewerId={viewerId}
-          />
-
-          <Panel>
-            {titleField}
-
-            <section id='items'>
-              <Form checkbox>
-                <ReactCSSTransitionGroup
-                  transitionName='item'
-                  transitionEnterTimeout={250}
-                  transitionLeaveTimeout={250}
-                >
-                  {itemList}
-                </ReactCSSTransitionGroup>
-              </Form>
-
-              <NewItem
-                newItemText={newItemText}
-                disabled={updating}
-                resetting={resetting}
-                addNewItem={this.addNewItem}
-                setNewItemText={this.setNewItemText}
+        (
+        <Tab type="navbar">
+          <NavBarItem label="Nav1">
+            <section id='list'>
+              <Viewers
+                users={users}
+                viewerId={viewerId}
               />
+
+              <Panel>
+                {titleField}
+
+                <section id='items'>
+                  <Form checkbox>
+                    <ReactCSSTransitionGroup
+                      transitionName='item'
+                      transitionEnterTimeout={250}
+                      transitionLeaveTimeout={250}
+                    >
+                      {itemList}
+                    </ReactCSSTransitionGroup>
+                  </Form>
+
+                  <NewItem
+                    newItemText={newItemText}
+                    disabled={updating}
+                    resetting={resetting}
+                    addNewItem={this.addNewItem}
+                    setNewItemText={this.setNewItemText}
+                  />
+                </section>
+              </Panel>
+
+              <Updating updating={updating} />
+
+              {invite}
             </section>
-          </Panel>
-
-          <Updating updating={updating} />
-
-          {invite}
-        </section>);
+          </NavBarItem>
+          <NavBarItem label="Nav2">
+            <Article>
+              <h1>Page 2</h1>
+              <section>
+                <h2 className="title">Heading</h2>
+                <section>
+                  <h3>2.1 Title</h3>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                  consequat. Duis aute</p>
+                </section>
+              </section>
+            </Article>
+          </NavBarItem>
+        </Tab>
+        );
     } else if (socketStatus === 'noList') {
       // We were unable to find a matching list in our system.
       page = <ListNotFound/>;
