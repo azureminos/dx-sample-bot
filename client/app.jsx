@@ -327,6 +327,7 @@ export default class App extends React.Component {
     /* ----------  Inner Structure  ---------- */
       page =
         (
+        <section>
         <Tab type="navbar">
           <NavBarItem label="Nav1">
             <section id='list'>
@@ -360,7 +361,6 @@ export default class App extends React.Component {
               </Panel>
               <Updating updating={updating} />
             </section>
-            {invite}
           </NavBarItem>
           <NavBarItem label="Nav2">
             <Article>
@@ -378,6 +378,8 @@ export default class App extends React.Component {
             </Article>
           </NavBarItem>
         </Tab>
+        {invite}
+        </section>
         );
     } else if (socketStatus === 'noList') {
       // We were unable to find a matching list in our system.
