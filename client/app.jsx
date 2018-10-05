@@ -358,11 +358,9 @@ export default class App extends React.Component {
                   />
                 </section>
               </Panel>
-
               <Updating updating={updating} />
-
-              {invite}
             </section>
+            {invite}
           </NavBarItem>
           <NavBarItem label="Nav2">
             <Article>
