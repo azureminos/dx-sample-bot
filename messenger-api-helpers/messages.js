@@ -31,7 +31,7 @@ const openExistingListButton = (listUrl, buttonText = 'Edit List') => {
     title: buttonText,
     url: listUrl,
     messenger_extensions: true,
-    webview_height_ratio: 'tall',
+    webview_height_ratio: 'full',
   };
 };
 
@@ -69,7 +69,7 @@ const createListButton = (apiUri, promo) => {
     type: 'web_url',
     url: listPromoUrl(apiUri, promoId),
     title: buttonTitle,
-    webview_height_ratio: 'tall',
+    webview_height_ratio: 'full',
     messenger_extensions: true,
   };
 };
@@ -192,7 +192,7 @@ const listElement = ({id, subscriberIds, title}, apiUri) => {
       type: 'web_url',
       url: listUrl(apiUri, id),
       messenger_extensions: true,
-      webview_height_ratio: 'tall',
+      webview_height_ratio: 'full',
     },
   };
 };
