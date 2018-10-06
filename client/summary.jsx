@@ -1,7 +1,7 @@
 /* ----------  External Libraries  ---------- */
 
 import React from 'react';
-import {Button} from 'react-weui';
+import {Article} from 'react-weui';
 
 
 /*
