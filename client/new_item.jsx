@@ -49,9 +49,9 @@ const NewItem = ({
   const classes = resetting ? 'resetting' : null; // For wipe animation
 
   const options = [
-    {value: 1, label: 'Beijing'},
-    {value: 2, label: 'Shanghai'},
-    {value: 3, label: 'Xiamen'}
+    {value: 'Beijing', label: 'Beijing'},
+    {value: 'Shanghai', label: 'Shanghai'},
+    {value: 'Xiamen', label: 'Xiamen'}
   ];
 
   return (
@@ -68,7 +68,7 @@ const NewItem = ({
             id='new-item-text'
             onChange={(event) => setNewItemText(event.target.value)}
             data={options}
-            defaultValue='3'/>
+            defaultValue='Xiamen'/>
         </form>
       </CellBody>
     </Cell>
