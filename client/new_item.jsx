@@ -68,7 +68,7 @@ const NewItem = ({
             id='new-item-text'
             onChange={(event) => setNewItemText(event.target.value)}
             data={options}
-            defaultValue='Xiamen'/>
+          />
         </form>
       </CellBody>
     </Cell>
