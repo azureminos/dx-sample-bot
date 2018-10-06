@@ -8,23 +8,28 @@ import {Article} from 'react-weui';
  * Tour Summary based on the user added list items
  */
 const TourSummary = ({
-  items
+  items,
+  title,
 }) => {
   console.log('>>>>TourSummary', items);
+  let count = 0;
+  const itemList = items.filter(Boolean).map((item) => {
+    count++;
+    return (
+      <section>
+        <h3>Day {count}</h3>
+        <p>{item.name}</p>
+      </section>
+    );
+  });
 
   return (
     <div id='summary'>
       <Article>
-        <h1>Page 2</h1>
+        <h1>{title}</h1>
         <section>
-          <h2 className="title">Heading</h2>
-          <section>
-            <h3>2.1 Title</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-            consequat. Duis aute</p>
-          </section>
+          <h2 className="title">Itinerary</h2>
+          {itemList}
         </section>
       </Article>
     </div>
