@@ -7,7 +7,7 @@
 
 // ===== MODULES ===============================================================
 import React, {createElement} from 'react';
-import {Cell, CellBody, CellHeader, Input} from 'react-weui';
+import {Cell, CellBody, CellHeader, Select} from 'react-weui';
 
 const SCROLL_DURATION = 1000; // total duration in ms for scroll animation.
 
@@ -48,6 +48,12 @@ const NewItem = ({
 
   const classes = resetting ? 'resetting' : null; // For wipe animation
 
+  const options = [
+    {value: 1, label: 'Beijing'},
+    {value: 2, label: 'Shanghai'},
+    {value: 3, label: 'Xiamen'}
+  ];
+
   return (
     <Cell id='new-item'>
       <CellHeader id='input-indicator' onClick={onSubmit}>
@@ -55,28 +61,14 @@ const NewItem = ({
       </CellHeader>
 
       <CellBody>
-        {/* Empty action attr enables 'Go' Submit Button on iOS Keyboard */}
         <form action onSubmit={onSubmit}>
-          /*<Input
+          <Select
             className={classes}
             disabled={disabled}
             id='new-item-text'
-            onBlur={onSubmit}
             onChange={(event) => setNewItemText(event.target.value)}
-            placeholder='Add an item to the list'
-            type='text'
-            value={newItemText}
-          />*/
-          <select
-            className={classes}
-            disabled={disabled}
-            id='new-item-text'
-            onChange={(event) => setNewItemText(event.target.value)}>
-            <option value="Beijing">Beijing</option>
-            <option value="Shanghai">Shanghai</option>
-            <option value="Xiamen">Xiamen</option>
-            <option value="Tianjing">Tianjing</option>
-          </select>
+            data={options}
+            defaultValue='3'/>
         </form>
       </CellBody>
     </Cell>
