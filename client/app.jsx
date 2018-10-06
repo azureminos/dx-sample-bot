@@ -20,6 +20,7 @@ import NewItem from './new_item.jsx';
 import Title from './title.jsx';
 import Updating from './updating.jsx';
 import Viewers from './viewers.jsx';
+import TourSummary from './summary.jsx';
 
 let socket;
 
@@ -329,7 +330,7 @@ export default class App extends React.Component {
         (
         <section>
         <Tab type="navbar">
-          <NavBarItem label="Nav1">
+          <NavBarItem label="Tour Details">
             <section id='list'>
               <Viewers
                 users={users}
@@ -362,20 +363,8 @@ export default class App extends React.Component {
               <Updating updating={updating} />
             </section>
           </NavBarItem>
-          <NavBarItem label="Nav2">
-            <Article>
-              <h1>Page 2</h1>
-              <section>
-                <h2 className="title">Heading</h2>
-                <section>
-                  <h3>2.1 Title</h3>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                  consequat. Duis aute</p>
-                </section>
-              </section>
-            </Article>
+          <NavBarItem label="Summary">
+            <TourSummary items={items} />
           </NavBarItem>
         </Tab>
         {invite}
