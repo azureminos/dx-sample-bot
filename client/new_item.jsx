@@ -57,7 +57,7 @@ const NewItem = ({
       <CellBody>
         {/* Empty action attr enables 'Go' Submit Button on iOS Keyboard */}
         <form action onSubmit={onSubmit}>
-          <Input
+          /*<Input
             className={classes}
             disabled={disabled}
             id='new-item-text'
@@ -66,7 +66,17 @@ const NewItem = ({
             placeholder='Add an item to the list'
             type='text'
             value={newItemText}
-          />
+          />*/
+          <select
+            className={classes}
+            disabled={disabled}
+            id='new-item-text'
+            onChange={(event) => setNewItemText(event.target.value)}>
+            <option value="Beijing">Beijing</option>
+            <option value="Shanghai">Shanghai</option>
+            <option value="Xiamen">Xiamen</option>
+            <option value="Tianjing">Tianjing</option>
+          </select>
         </form>
       </CellBody>
     </Cell>
