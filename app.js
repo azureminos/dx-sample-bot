@@ -26,6 +26,7 @@ import promos from './routes/promos';
 import webhooks from './routes/webhooks';
 import region from './routes/region';
 import country from './routes/country';
+import city from './routes/city';
 
 // ===== SOCKETS ===============================================================
 import attachSockets from './sockets';
@@ -94,6 +95,7 @@ app.use('/webhook', webhooks);
 app.use('/promos', promos);
 app.use('/region', region);
 app.use('/country', country);
+app.use('/city', city);
 /* ----------  Errors  ---------- */
 
 // catch 404 and forward to error handler
