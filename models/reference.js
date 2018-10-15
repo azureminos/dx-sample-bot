@@ -25,7 +25,8 @@ const getCountryByRegion = (region) =>
 const getCountry = (countryId) =>
   Country()
     .select('id', 'name', 'region', 'desc', 'alias', 'tag')
-    .where('id', countryId);
+    .where('id', countryId)
+    .fist();
 
 const setCountry = (country) =>
   Country()
@@ -50,6 +51,53 @@ const delCountry = (countryId) =>
     .where('id', countryId)
     .del();
 
+const getAllCity = () =>
+  City()
+    .join('country', {'city.countryId': 'country.id'})
+    .select('id', 'name', 'countryId','country.name as countryName', 'desc', 'alias', 'tag');
+
+const getCityByCountryName = (countryName) =>
+  City()
+    .join('country', {'city.countryId': 'country.id'})
+    .select('id', 'name', 'countryId','country.name as countryName', 'desc', 'alias', 'tag')
+    .where('country.name', countryName);
+
+const getCityByCountryId = (countryId) =>
+  City()
+    .join('country', {'city.countryId': 'country.id'})
+    .select('id', 'name', 'countryId','country.name as countryName', 'desc', 'alias', 'tag')
+    .where('countryId', countryId);
+
+const getCity = (cityId) =>
+  City()
+    .join('country', {'city.countryId': 'country.id'})
+    .select('id', 'name', 'countryId','country.name as countryName', 'desc', 'alias', 'tag');
+    .where('id', cityId)
+    .first();
+
+const setCity = (city) =>
+  City()
+    .where({id: city.id})
+    .update(
+      {
+        name: city.name,
+        countryId: city.countryId,
+        desc: city.desc,
+        tag: city.tag,
+        alias: city.alias,
+      },
+      ['id', 'name', 'countryId', 'desc', 'alias', 'tag']
+    );
+
+const addCountry = (city) =>
+  City()
+    .insert(city, ['id', 'name', 'countryId', 'desc', 'alias', 'tag']);
+
+const delCountry = (cityId) =>
+  City()
+    .where('id', cityId)
+    .del();
+
 export default {
   getAllRegion,
   getAllCountry,
@@ -58,4 +106,11 @@ export default {
   setCountry,
   addCountry,
   delCountry,
+  getAllCity,
+  getCityByCountryName,
+  getCityByCountryId,
+  getCity,
+  setCity,
+  addCity,
+  delCity,
 };

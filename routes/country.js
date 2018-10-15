@@ -45,12 +45,12 @@ router.post('/', function(req, res) {
 });
 
 router.delete('/', function(req, res) {
-  const item = req.body;
-  console.log('>>>>Delete reference item', item);
+  const country = req.body;
+  console.log('>>>>Delete country item', country);
 
-  Ref.delReference(item.id)
+  Ref.delCountry(country.id)
     .then(() => {
-      console.log('>>>>Deleted reference item', item);
+      console.log('>>>>Deleted country item', country);
       res.send('ok');
     })
 });
