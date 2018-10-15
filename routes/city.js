@@ -1,5 +1,5 @@
 import express from 'express';
-import Ref from '../models/reference';
+import Ref from '../models/city';
 
 const router = express.Router();
 
