@@ -13,18 +13,18 @@ const getAllRegion = () =>
 
 const getAllCountry = () =>
   Country()
-    .select('id as countryId', 'name as countryName', 'desc as countryDesc');
+    .select('id as countryId', 'name as countryName', 'desc as countryDesc', 'countryAlias', 'countryTag');
 
 const getCountryByRegion = (region) =>
   Country()
-    .select('id as countryId', 'name as countryName', 'desc as countryDesc')
+    .select('id as countryId', 'name as countryName', 'desc as countryDesc', 'countryAlias', 'countryTag')
     .where('region', region)
     .orWhere('alias', 'like', '%'+region+'%')
     .orWhere('tag', 'like', '%'+region+'%');
 
 const getCountry = (countryId) =>
   Country()
-    .select('id as countryId', 'name as countryName', 'desc as countryDesc')
+    .select('id as countryId', 'name as countryName', 'desc as countryDesc', 'countryAlias', 'countryTag')
     .where('id', countryId);
 
 const setCountry = (country) =>
