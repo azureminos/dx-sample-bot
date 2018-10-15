@@ -2,7 +2,7 @@
 import Knex  from '../db/knex';
 
 const Country = () => Knex('country');
-//const City = () => Knex('city');
+const City = () => Knex('city');
 //const Attraction = () => Knex('attraction');
 
 // ===== Region & Country ======================================================
