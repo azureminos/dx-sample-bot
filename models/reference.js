@@ -53,24 +53,24 @@ const delCountry = (countryId) =>
 
 const getAllCity = () =>
   City()
-    .join('country', {'city.country_d': 'country.id'})
+    .join('country', {'city.country_id': 'country.id'})
     .select('id', 'name', 'country_id as countryId','country.name as countryName', 'desc', 'alias', 'tag');
 
 const getCityByCountryName = (countryName) =>
   City()
-    .join('country', {'city.country_d': 'country.id'})
+    .join('country', {'city.country_id': 'country.id'})
     .select('id', 'name', 'country_id as countryId','country.name as countryName', 'desc', 'alias', 'tag')
     .where('country.name', countryName);
 
 const getCityByCountryId = (countryId) =>
   City()
-    .join('country', {'city.country_d': 'country.id'})
+    .join('country', {'city.country_id': 'country.id'})
     .select('id', 'name', 'country_id as countryId','country.name as countryName', 'desc', 'alias', 'tag')
     .where('country_id', countryId);
 
 const getCity = (cityId) =>
   City()
-    .join('country', {'city.country_d': 'country.id'})
+    .join('country', {'city.country_id': 'country.id'})
     .select('id', 'name', 'country_id as countryId','country.name as countryName', 'desc', 'alias', 'tag')
     .where('id', cityId)
     .first();
