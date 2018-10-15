@@ -89,11 +89,11 @@ const setCity = (city) =>
       ['id', 'name', 'countryId', 'desc', 'alias', 'tag']
     );
 
-const addCountry = (city) =>
+const addCity = (city) =>
   City()
     .insert(city, ['id', 'name', 'countryId', 'desc', 'alias', 'tag']);
 
-const delCountry = (cityId) =>
+const delCity = (cityId) =>
   City()
     .where('id', cityId)
     .del();
