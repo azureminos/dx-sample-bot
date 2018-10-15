@@ -71,7 +71,7 @@ const getCityByCountryId = (countryId) =>
 const getCity = (cityId) =>
   City()
     .join('country', {'city.countryId': 'country.id'})
-    .select('id', 'name', 'countryId','country.name as countryName', 'desc', 'alias', 'tag');
+    .select('id', 'name', 'countryId','country.name as countryName', 'desc', 'alias', 'tag')
     .where('id', cityId)
     .first();
 
