@@ -53,25 +53,25 @@ const delCountry = (countryId) =>
 
 const getAllCity = () =>
   City()
-    .join('country', {'city.countryId': 'country.id'})
-    .select('id', 'name', 'countryId','country.name as countryName', 'desc', 'alias', 'tag');
+    .join('country', {'city.country_d': 'country.id'})
+    .select('id', 'name', 'country_id as countryId','country.name as countryName', 'desc', 'alias', 'tag');
 
 const getCityByCountryName = (countryName) =>
   City()
-    .join('country', {'city.countryId': 'country.id'})
-    .select('id', 'name', 'countryId','country.name as countryName', 'desc', 'alias', 'tag')
+    .join('country', {'city.country_d': 'country.id'})
+    .select('id', 'name', 'country_id as countryId','country.name as countryName', 'desc', 'alias', 'tag')
     .where('country.name', countryName);
 
 const getCityByCountryId = (countryId) =>
   City()
-    .join('country', {'city.countryId': 'country.id'})
-    .select('id', 'name', 'countryId','country.name as countryName', 'desc', 'alias', 'tag')
-    .where('countryId', countryId);
+    .join('country', {'city.country_d': 'country.id'})
+    .select('id', 'name', 'country_id as countryId','country.name as countryName', 'desc', 'alias', 'tag')
+    .where('country_id', countryId);
 
 const getCity = (cityId) =>
   City()
-    .join('country', {'city.countryId': 'country.id'})
-    .select('id', 'name', 'countryId','country.name as countryName', 'desc', 'alias', 'tag')
+    .join('country', {'city.country_d': 'country.id'})
+    .select('id', 'name', 'country_id as countryId','country.name as countryName', 'desc', 'alias', 'tag')
     .where('id', cityId)
     .first();
 
@@ -81,17 +81,25 @@ const setCity = (city) =>
     .update(
       {
         name: city.name,
-        countryId: city.countryId,
+        country_id: city.countryId,
         desc: city.desc,
         tag: city.tag,
         alias: city.alias,
       },
-      ['id', 'name', 'countryId', 'desc', 'alias', 'tag']
+      ['id', 'name', 'country_id as countryId', 'desc', 'alias', 'tag']
     );
 
 const addCity = (city) =>
   City()
-    .insert(city, ['id', 'name', 'countryId', 'desc', 'alias', 'tag']);
+    .insert(
+      {
+        name: city.name,
+        country_id: city.countryId,
+        desc: city.desc,
+        tag: city.tag,
+        alias: city.alias,
+      },
+    ['id', 'name', 'country_id as countryId', 'desc', 'alias', 'tag']);
 
 const delCity = (cityId) =>
   City()
