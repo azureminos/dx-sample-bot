@@ -21,14 +21,18 @@ router.get('/', function(req, res) {
           res.send(result);
         });
     } else {
-      res.send([]);
+      Ref.getAllCity()
+        .then((result) => {
+          console.log('>>>>Retrieved all city items', result);
+          res.send(result);
+        });
     }
   } else {
     Ref.getAllCity()
       .then((result) => {
         console.log('>>>>Retrieved all city items', result);
         res.send(result);
-      })
+      });
   }
 });
 
