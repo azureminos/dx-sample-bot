@@ -33,37 +33,48 @@ const setAttraction = (attraction) =>
     .where({id: attraction.id})
     .update(
       {
-        name: city.name,
-        country_id: city.countryId,
-        desc: city.desc,
-        tag: city.tag,
-        alias: city.alias,
+        name: attraction.name,
+        city_id: attraction.cityId,
+        desc: attraction.desc,
+        tag: attraction.tag,
+        alias: attraction.alias,
       },
-      ['id', 'name', 'country_id as countryId', 'desc', 'alias', 'tag']
+      ['id', 'name', 'city_id as cityId', 'desc', 'alias', 'tag']
     );
 
-const addAttraction = (city) =>
+const addAttraction = (attraction) =>
   Attraction()
     .insert(
       {
-        name: city.name,
-        country_id: city.countryId,
-        desc: city.desc,
-        tag: city.tag,
-        alias: city.alias,
+        name: attraction.name,
+        city_id: attraction.cityId,
+        desc: attraction.desc,
+        tag: attraction.tag,
+        alias: attraction.alias,
       },
-    ['id', 'name', 'country_id as countryId', 'desc', 'alias', 'tag']);
+    ['id', 'name', 'city_id as cityId', 'desc', 'alias', 'tag']);
 
 const delAttraction = (attractionId) =>
   Attraction()
     .where('id', attractionId)
     .del();
 
-const getAttractionImage = (attractionId) =>
+const getAttractionImageUrl = (attractionId) =>
   Attraction()
-    .select('id', 'name', 'image')
+    .select('imageUrl')
     .where('id', attractionId)
     .first();
+
+
+const setAttractionImageUrl = (attraction) =>
+  Attraction()
+    .where({id: attraction.id})
+    .update(
+      {
+        imageUrl: attraction.imageUrl
+      },
+      ['id']
+    );
 
 export default {
   getAllAttraction,
@@ -73,5 +84,6 @@ export default {
   setAttraction,
   addAttraction,
   delAttraction,
-  getAttractionImage,
+  getAttractionImageUrl,
+  setAttractionImageUrl,
 };
