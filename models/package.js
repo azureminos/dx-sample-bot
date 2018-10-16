@@ -98,13 +98,13 @@ const setPackageImageUrl = (package) =>
 
 const getAllPackageDetails = () =>
   Package()
-    .select('image')
+    .select('image_url')
     .where('id', attractionId)
     .first()
 
 const getPackageDetails = (packageId) => {
   return Package()
-    .select('image')
+    .select('image_url')
     .where('id', attractionId)
     .first()
 }
