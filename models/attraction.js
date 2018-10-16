@@ -7,24 +7,28 @@ const Attraction = () => Knex('attraction');
 const getAllAttraction = () =>
   Attraction()
     .join('city', {'attraction.city_id': 'city.id'})
-    .select('attraction.id', 'attraction.name', 'attraction.city_id as cityId','city.name as cityName', 'attraction.desc', 'attraction.alias', 'attraction.tag')
+    .select('attraction.id', 'attraction.name', 'attraction.city_id as cityId','city.name as cityName',
+      'attraction.desc', 'attraction.alias', 'attraction.tag', 'attraction.image_url as imageUrl')
 
 const getAttractionByCityName = (cityName) =>
   Attraction()
     .join('city', {'attraction.city_id': 'city.id'})
-    .select('attraction.id', 'attraction.name', 'attraction.city_id as cityId','city.name as cityName', 'attraction.desc', 'attraction.alias', 'attraction.tag')
+    .select('attraction.id', 'attraction.name', 'attraction.city_id as cityId','city.name as cityName',
+      'attraction.desc', 'attraction.alias', 'attraction.tag', 'attraction.image_url as imageUrl')
     .where('city.name', cityName);
 
 const getAttractionByCityId = (cityId) =>
   Attraction()
     .join('city', {'attraction.city_id': 'city.id'})
-    .select('attraction.id', 'attraction.name', 'attraction.city_id as cityId','city.name as cityName', 'attraction.desc', 'attraction.alias', 'attraction.tag')
+    .select('attraction.id', 'attraction.name', 'attraction.city_id as cityId','city.name as cityName',
+      'attraction.desc', 'attraction.alias', 'attraction.tag', 'attraction.image_url as imageUrl')
     .where('attraction.city_id', cityId);
 
 const getAttraction = (attractionId) =>
   Attraction()
     .join('city', {'attraction.city_id': 'city.id'})
-    .select('attraction.id', 'attraction.name', 'attraction.city_id as cityId','city.name as cityName', 'attraction.desc', 'attraction.alias', 'attraction.tag')
+    .select('attraction.id', 'attraction.name', 'attraction.city_id as cityId','city.name as cityName',
+      'attraction.desc', 'attraction.alias', 'attraction.tag', 'attraction.image_url as imageUrl')
     .where('attraction.id', attractionId)
     .first();
 
@@ -61,7 +65,7 @@ const delAttraction = (attractionId) =>
 
 const getAttractionImageUrl = (attractionId) =>
   Attraction()
-    .select('imageUrl')
+    .select('image_url')
     .where('id', attractionId)
     .first();
 
