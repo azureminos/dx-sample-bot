@@ -43,31 +43,31 @@ const getPackage = (packageId) =>
     .select('id', 'name', 'desc', 'days', 'is_promoted as isPromoted', 'image_url as imageUrl')
     .first()
 
-const setPackage = (package) =>
+const setPackage = (pkg) =>
   Package()
-    .where({id: package.id})
+    .where({id: pkg.id})
     .update(
       {
-        name: package.name,
-        desc: package.desc,
-        days: package.days,
-        is_promoted: package.isPromoted,
-        is_active: package.isActive,
-        image_url: package.imageUrl,
+        name: pkg.name,
+        desc: pkg.desc,
+        days: pkg.days,
+        is_promoted: pkg.isPromoted,
+        is_active: pkg.isActive,
+        image_url: pkg.imageUrl,
       },
       ['id', 'name', 'desc', 'days', 'is_promoted as isPromoted', 'image_url as imageUrl']
     )
 
-const addPackage = (package) =>
+const addPackage = (pkg) =>
   Package()
     .insert(
       {
-        name: package.name,
-        desc: package.desc,
-        days: package.days,
-        is_promoted: package.isPromoted,
-        is_active: package.isActive,
-        image_url: package.imageUrl,
+        name: pkg.name,
+        desc: pkg.desc,
+        days: pkg.days,
+        is_promoted: pkg.isPromoted,
+        is_active: pkg.isActive,
+        image_url: pkg.imageUrl,
       },
       ['id', 'name', 'desc', 'days', 'is_promoted as isPromoted', 'image_url as imageUrl']
     )
@@ -88,12 +88,12 @@ const getPackageImageUrl = (packageId) =>
     .where('id', attractionId)
     .first()
 
-const setPackageImageUrl = (package) =>
+const setPackageImageUrl = (pkg) =>
   Package()
-    .where({id: package.id})
+    .where({id: pkg.id})
     .update(
       {
-        image_url: package.imageUrl
+        image_url: pkg.imageUrl
       },
       ['id']
     )
