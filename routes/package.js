@@ -1,5 +1,5 @@
 import express from 'express';
-import package from '../models/package';
+import Pkg from '../models/package';
 
 const router = express.Router();
 
@@ -9,32 +9,32 @@ router.get('/', function(req, res) {
 
   if(query) {
     if(query.countryName) {
-      Ref.getPackageByCountry()
+      Pkg.getPackageByCountry()
         .then((result) => {
           console.log('>>>>Retrieved all package items by country['+query.countryName+']', result);
           res.send(result);
         });
     } else if(query.cityName) {
-      Ref.getPackageByCity()
+      Pkg.getPackageByCity()
         .then((result) => {
           console.log('>>>>Retrieved all package items by city['+query.cityName+']', result);
           res.send(result);
         });
     } else if(query.isPromoted) {
-      Ref.getAllPromotedPackage()
+      Pkg.getAllPromotedPackage()
         .then((result) => {
           console.log('>>>>Retrieved all promoted package items', result);
           res.send(result);
         });
     } else {
-      Ref.getAllPackage()
+      Pkg.getAllPackage()
         .then((result) => {
           console.log('>>>>Retrieved all city items', result);
           res.send(result);
         });
     }
   } else {
-    Ref.getAllCity()
+    Pkg.getAllPackage()
       .then((result) => {
         console.log('>>>>Retrieved all city items', result);
         res.send(result);
@@ -45,7 +45,7 @@ router.get('/', function(req, res) {
 router.get('/:packageId', function(req, res) {
   const packageId = req.params.packageId;
   console.log('>>>>Retrieve package by packageId', packageId);
-  Ref.getPackage(packageId)
+  Pkg.getPackage(packageId)
     .then((result) => {
       console.log('>>>>Retrieved package item', result);
       res.send(result);
@@ -53,10 +53,10 @@ router.get('/:packageId', function(req, res) {
 });
 
 router.put('/', function(req, res) {
-  const package = req.body;
-  console.log('>>>>Insert package item', package);
+  const pkg = req.body;
+  console.log('>>>>Insert package item', pkg);
 
-  Ref.addPackage(package)
+  Pkg.addPackage(pkg)
     .then(([result]) => {
       console.log('>>>>Inserted package item', result);
       res.send(result);
@@ -64,10 +64,10 @@ router.put('/', function(req, res) {
 });
 
 router.post('/', function(req, res) {
-  const package = req.body;
-  console.log('>>>>Update package item', package);
+  const pkg = req.body;
+  console.log('>>>>Update package item', pkg);
 
-  Ref.setPackage(package)
+  Pkg.setPackage(pkg)
     .then(([result]) => {
       console.log('>>>>Updated package item', result);
       res.send(result);
@@ -75,12 +75,12 @@ router.post('/', function(req, res) {
 });
 
 router.delete('/', function(req, res) {
-  const package = req.body;
-  console.log('>>>>Delete package item', package);
+  const pkg = req.body;
+  console.log('>>>>Delete package item', pkg);
 
-  Ref.delPackage(package.id)
+  Pkg.delPackage(pkg.id)
     .then(() => {
-      console.log('>>>>Deleted package item', package);
+      console.log('>>>>Deleted package item', pkg);
       res.send('ok');
     })
 });
