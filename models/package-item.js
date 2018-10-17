@@ -39,7 +39,7 @@ const setPackageItem = (item) =>
     .where({id: item.id})
     .update(
       {
-        pkg_id: item.pkdId,
+        pkg_id: item.packageId,
         day_no: item.dayNo,
         order: item.order,
         attraction_id: item.attractionId,
@@ -51,7 +51,7 @@ const addPackageItem = (item) =>
   PackageItem()
     .insert(
       {
-       pkg_id: item.pkdId,
+       pkg_id: item.packageId,
         day_no: item.dayNo,
         order: item.order,
         attraction_id: item.attractionId,
