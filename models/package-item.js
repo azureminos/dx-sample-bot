@@ -51,7 +51,7 @@ const addPackageItem = (item) =>
   PackageItem()
     .insert(
       {
-       pkg_id: item.packageId,
+        pkg_id: item.packageId,
         day_no: item.dayNo,
         order: item.order,
         attraction_id: item.attractionId,
