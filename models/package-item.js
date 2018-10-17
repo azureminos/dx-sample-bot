@@ -1,5 +1,6 @@
 // ===== DB ====================================================================
 import Knex  from '../db/knex';
+import {camelCaseKeys} from './util';
 
 const PackageItem = () => Knex('package_item');
 
@@ -48,7 +49,15 @@ const setPackageItem = (item) =>
 
 const addPackageItem = (item) =>
   PackageItem()
-    .insert(item, ['id', 'pkg_id as packageId', 'day_no as dayNo', 'order', 'attraction_id as attractionId'])
+    .insert(
+      {
+       pkg_id: item.pkdId,
+        day_no: item.dayNo,
+        order: item.order,
+        attraction_id: item.attractionId,
+      },
+      ['id', 'pkg_id as packageId', 'day_no as dayNo', 'order', 'attraction_id as attractionId']
+    )
 
 const delPackageItem = (itemId) =>
   PackageItem()
