@@ -9,13 +9,13 @@ const RatePlan = () => Knex('rate_plan');
 const getAllPackage = () =>
   Package()
     .where('is_active', true)
-    .select('id', 'name', 'desc', 'days', 'is_promoted as isPromoted', 'is_actived as isActive', 'image_url as imageUrl')
+    .select('id', 'name', 'desc', 'days', 'is_promoted as isPromoted', 'is_active as isActive', 'image_url as imageUrl')
 
 const getAllPromotedPackage = () =>
   Package()
     .where('is_active', true)
     .where('is_promoted', true)
-    .select('id', 'name', 'desc', 'days', 'is_promoted as isPromoted', 'is_actived as isActive', 'image_url as imageUrl')
+    .select('id', 'name', 'desc', 'days', 'is_promoted as isPromoted', 'is_active as isActive', 'image_url as imageUrl')
 
 const getPackageByCountry = (countryName) =>
   Package()
@@ -42,7 +42,7 @@ const getPackage = (packageId) =>
   Package()
     .where('attraction.id', packageId)
     .where('is_active', true)
-    .select('id', 'name', 'desc', 'days', 'is_promoted as isPromoted', 'is_actived as isActive', 'image_url as imageUrl')
+    .select('id', 'name', 'desc', 'days', 'is_promoted as isPromoted', 'is_active as isActive', 'image_url as imageUrl')
     .first()
 
 const setPackage = (pkg) =>
