@@ -38,7 +38,7 @@ router.get('/', function(req, res) {
 
 router.get('/:itemId', function(req, res) {
   const itemId = req.params.itemId;
-  console.log('>>>>Retrieve package-item by itemId', countryId);
+  console.log('>>>>Retrieve package-item by itemId', itemId);
   PackageItem.getPackageItem(itemId)
     .then((result) => {
       console.log('>>>>Retrieved package-item item', result);
