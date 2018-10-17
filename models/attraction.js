@@ -42,8 +42,9 @@ const setAttraction = (attraction) =>
         desc: attraction.desc,
         tag: attraction.tag,
         alias: attraction.alias,
+        imageUrl: attraction.imageUrl
       },
-      ['id', 'name', 'city_id as cityId', 'desc', 'alias', 'tag']
+      ['id', 'name', 'city_id as cityId', 'desc', 'alias', 'tag', 'imageUrl']
     );
 
 const addAttraction = (attraction) =>
@@ -55,8 +56,10 @@ const addAttraction = (attraction) =>
         desc: attraction.desc,
         tag: attraction.tag,
         alias: attraction.alias,
+        imageUrl: attraction.imageUrl
       },
-    ['id', 'name', 'city_id as cityId', 'desc', 'alias', 'tag']);
+      ['id', 'name', 'city_id as cityId', 'desc', 'alias', 'tag', 'imageUrl']
+    );
 
 const delAttraction = (attractionId) =>
   Attraction()
