@@ -120,8 +120,8 @@ export default {
   setPackage,
   addPackage,
   delPackage,
-  getPackageImage,
-  setPackageImage,
+  getPackageImageUrl,
+  setPackageImageUrl,
   getAllPackageDetails,
   getPackageDetails,
 };
