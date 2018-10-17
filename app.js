@@ -28,7 +28,7 @@ import region from './routes/region';
 import country from './routes/country';
 import city from './routes/city';
 import attraction from './routes/attraction';
-import package from './routes/package';
+import pkg from './routes/package';
 
 // ===== SOCKETS ===============================================================
 import attachSockets from './sockets';
@@ -99,7 +99,7 @@ app.use('/region', region);
 app.use('/country', country);
 app.use('/city', city);
 app.use('/attraction', attraction);
-app.use('/package', package);
+app.use('/package', pkg);
 /* ----------  Errors  ---------- */
 
 // catch 404 and forward to error handler
