@@ -8,31 +8,31 @@ const PackageItem = () => Knex('package_item');
 const getAllPackageItem = () =>
   PackageItem()
     .join('attraction', 'attraction.id', 'package_item.attraction_id')
-    .select('id', 'pkg_id', 'day_no', 'order', 'attraction_id', 'attraction.name as attraction_name')
-    .then(camelCaseKeys);
+    .select('package_item.id', 'package_item.pkg_id as packageId', 'package_item.day_no as dayNo', 'package_item.order',
+      'package_item.attraction_id as attractionId', 'attraction.name as attractionName')
 
 const getItemByPackageId = (packageId) =>
   PackageItem()
     .join('attraction', 'attraction.id', 'package_item.attraction_id')
-    .select('id', 'pkg_id', 'day_no', 'order', 'attraction_id', 'attraction.name as attraction_name')
+    .select('package_item.id', 'package_item.pkg_id as packageId', 'package_item.day_no as dayNo', 'package_item.order',
+      'package_item.attraction_id as attractionId', 'attraction.name as attractionName')
     .where('package_item.pkg_id', packageId)
-    .then(camelCaseKeys);
 
 const getItemByPackageName = (packageName) =>
   PackageItem()
     .join('attraction', 'attraction.id', 'package_item.attraction_id')
     .join('package', 'package.id', 'package_item.pkg_id')
-    .select('id', 'pkg_id', 'day_no', 'order', 'attraction_id', 'attraction.name as attraction_name')
+    .select('package_item.id', 'package_item.pkg_id as packageId', 'package_item.day_no as dayNo', 'package_item.order',
+      'package_item.attraction_id as attractionId', 'attraction.name as attractionName')
     .where('package.name', packageName)
-    .then(camelCaseKeys);
 
 const getPackageItem = (itemId) =>
   PackageItem()
     .join('attraction', 'attraction.id', 'package_item.attraction_id')
-    .select('id', 'pkg_id', 'day_no', 'order', 'attraction_id', 'attraction.name as attraction_name')
+    .select('package_item.id', 'package_item.pkg_id as packageId', 'package_item.day_no as dayNo', 'package_item.order',
+      'package_item.attraction_id as attractionId', 'attraction.name as attractionName')
     .where('id', itemId)
     .fist()
-    .then(camelCaseKeys);
 
 const setPackageItem = (item) =>
   PackageItem()
@@ -44,13 +44,11 @@ const setPackageItem = (item) =>
         order: item.order,
         attraction_id: item.attractionId,
       },
-      ['id', 'pkg_id', 'day_no', 'order', 'attraction_id']
-    ).then(camelCaseKeys);
+      ['id', 'pkg_id as packageId', 'day_no as dayNo', 'order', 'attraction_id as attractionId']
 
 const addPackageItem = (item) =>
   PackageItem()
-    .insert(item, ['id', 'pkg_id', 'day_no', 'order', 'attraction_id'])
-    .then(camelCaseKeys);
+    .insert(item, ['id', 'pkg_id as packageId', 'day_no as dayNo', 'order', 'attraction_id as attractionId'])
 
 const delPackageItem = (itemId) =>
   PackageItem()
