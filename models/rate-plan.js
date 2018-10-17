@@ -15,7 +15,7 @@ const getRatePlanByPackageId = (packageId) =>
       'min_joins as minJoins', 'pkg_rate as packageRate')
     .where('rate_plan.pkg_id', packageId)
 
-const getRatePlanYyPackageName = (packageName) =>
+const getRatePlanByPackageName = (packageName) =>
   RatePlan()
     .join('package', 'package.id', 'rate_plan.pkg_id')
     .select('id', 'pkg_id as packageId', 'tier', 'premium_fee as premiumFee',
