@@ -9,13 +9,13 @@ const RatePlan = () => Knex('rate_plan');
 const getAllPackage = () =>
   Package()
     .where('is_active', true)
-    .select('id', 'name', 'desc', 'days', 'is_promoted as isPromoted', 'image_url as imageUrl')
+    .select('id', 'name', 'desc', 'days', 'is_promoted as isPromoted', 'is_actived as isActive', 'image_url as imageUrl')
 
 const getAllPromotedPackage = () =>
   Package()
     .where('is_active', true)
     .where('is_promoted', true)
-    .select('id', 'name', 'desc', 'days', 'is_promoted as isPromoted', 'image_url as imageUrl')
+    .select('id', 'name', 'desc', 'days', 'is_promoted as isPromoted', 'is_actived as isActive', 'image_url as imageUrl')
 
 const getPackageByCountry = (countryName) =>
   Package()
@@ -23,7 +23,8 @@ const getPackageByCountry = (countryName) =>
     .join('attraction', {'attraction.id': 'package_item.attraction_id'})
     .join('city', {'city.id': 'attraction.city_id'})
     .join('country', {'country.id': 'city.ccountry_id'})
-    .select('package.id', 'package.name', 'package.desc', 'package.days', 'package.is_promoted as isPromoted', 'package.image_url as imageUrl')
+    .select('package.id', 'package.name', 'package.desc', 'package.days', 'package.is_promoted as isPromoted'
+            , 'package.is_active as isActive', 'package.image_url as imageUrl')
     .where('country.name', countryName)
     .where('is_active', true)
 
@@ -32,7 +33,8 @@ const getPackageByCity = (cityName) =>
     .join('package_item', {'package_item.pkg_id': 'package.id'})
     .join('attraction', {'attraction.id': 'package_item.attraction_id'})
     .join('city', {'city.id': 'attraction.city_id'})
-    .select('package.id', 'package.name', 'package.desc', 'package.days', 'package.is_promoted as isPromoted', 'package.image_url as imageUrl')
+    .select('package.id', 'package.name', 'package.desc', 'package.days', 'package.is_promoted as isPromoted'
+            , 'package.is_active as isActive', 'package.image_url as imageUrl')
     .where('city.name', cityName)
     .where('is_active', true)
 
@@ -40,7 +42,7 @@ const getPackage = (packageId) =>
   Package()
     .where('attraction.id', packageId)
     .where('is_active', true)
-    .select('id', 'name', 'desc', 'days', 'is_promoted as isPromoted', 'image_url as imageUrl')
+    .select('id', 'name', 'desc', 'days', 'is_promoted as isPromoted', 'is_actived as isActive', 'image_url as imageUrl')
     .first()
 
 const setPackage = (pkg) =>
@@ -55,7 +57,7 @@ const setPackage = (pkg) =>
         is_active: pkg.isActive,
         image_url: pkg.imageUrl,
       },
-      ['id', 'name', 'desc', 'days', 'is_promoted as isPromoted', 'image_url as imageUrl']
+      ['id', 'name', 'desc', 'days', 'is_promoted as isPromoted', 'is_active as isActive', 'image_url as imageUrl']
     )
 
 const addPackage = (pkg) =>
@@ -69,7 +71,7 @@ const addPackage = (pkg) =>
         is_active: pkg.isActive,
         image_url: pkg.imageUrl,
       },
-      ['id', 'name', 'desc', 'days', 'is_promoted as isPromoted', 'image_url as imageUrl']
+      ['id', 'name', 'desc', 'days', 'is_promoted as isPromoted', 'is_active as isActive', 'image_url as imageUrl']
     )
 
 const delPackage = (packageId) =>
