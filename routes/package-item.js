@@ -17,7 +17,7 @@ router.get('/', function(req, res) {
     } else if(query.packageName) {
       PackageItem.getItemByPackageName()
         .then((result) => {
-          console.log('>>>>Retrieved all package-item items by packageId['+packageId+']', result);
+          console.log('>>>>Retrieved all package-item items by packageName['+packageName+']', result);
           res.send(result);
         });
     } else {
