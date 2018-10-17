@@ -1,96 +1,102 @@
-// ===== DB ====================================================================
-import Knex  from '../db/knex';
+import express from 'express';
+import Attraction from '../models/attraction';
 
-const Attraction = () => Knex('attraction');
+const router = express.Router();
 
-// ===== Attraction ======================================================
-const getAllAttraction = () =>
-  Attraction()
-    .join('city', {'attraction.city_id': 'city.id'})
-    .select('attraction.id', 'attraction.name', 'attraction.city_id as cityId','city.name as cityName',
-      'attraction.desc', 'attraction.alias', 'attraction.tag', 'attraction.image_url as imageUrl')
+router.get('/', function(req, res) {
+  const query = req.body;
+  console.log('>>>>Retrieve attraction', query);
 
-const getAttractionByCityName = (cityName) =>
-  Attraction()
-    .join('city', {'attraction.city_id': 'city.id'})
-    .select('attraction.id', 'attraction.name', 'attraction.city_id as cityId','city.name as cityName',
-      'attraction.desc', 'attraction.alias', 'attraction.tag', 'attraction.image_url as imageUrl')
-    .where('city.name', cityName);
+  if(query) {
+    if(query.cityId) {
+      Attraction.getAttractionByCityId()
+        .then((result) => {
+          console.log('>>>>Retrieved all attraction items by city id['+query.cityId+']', result);
+          res.send(result);
+        });
+    } else if(query.cityName) {
+      Attraction.getAttractionByCityName()
+        .then((result) => {
+          console.log('>>>>Retrieved all attraction items by city name['+query.cityName+']', result);
+          res.send(result);
+        });
+    } else {
+      Attraction.getAllAttraction()
+        .then((result) => {
+          console.log('>>>>Retrieved all attraction items', result);
+          res.send(result);
+        });
+    }
+  } else {
+    Attraction.getAllAttraction()
+      .then((result) => {
+        console.log('>>>>Retrieved all attraction items', result);
+        res.send(result);
+      });
+  }
+});
 
-const getAttractionByCityId = (cityId) =>
-  Attraction()
-    .join('city', {'attraction.city_id': 'city.id'})
-    .select('attraction.id', 'attraction.name', 'attraction.city_id as cityId','city.name as cityName',
-      'attraction.desc', 'attraction.alias', 'attraction.tag', 'attraction.image_url as imageUrl')
-    .where('attraction.city_id', cityId);
+router.get('/:attractionId', function(req, res) {
+  const attractionId = req.params.attractionId;
+  console.log('>>>>Retrieve city by attractionId', attractionId);
+  Attraction.getAttraction(attractionId)
+    .then((result) => {
+      console.log('>>>>Retrieved attraction item', result);
+      res.send(result);
+    })
+});
 
-const getAttraction = (attractionId) =>
-  Attraction()
-    .join('city', {'attraction.city_id': 'city.id'})
-    .select('attraction.id', 'attraction.name', 'attraction.city_id as cityId','city.name as cityName',
-      'attraction.desc', 'attraction.alias', 'attraction.tag', 'attraction.image_url as imageUrl')
-    .where('attraction.id', attractionId)
-    .first();
+router.put('/', function(req, res) {
+  const attraction = req.body;
+  console.log('>>>>Insert attraction item', attraction);
 
-const setAttraction = (attraction) =>
-  Attraction()
-    .where({id: attraction.id})
-    .update(
-      {
-        name: attraction.name,
-        city_id: attraction.cityId,
-        desc: attraction.desc,
-        tag: attraction.tag,
-        alias: attraction.alias,
-        imageUrl: attraction.imageUrl
-      },
-      ['id', 'name', 'city_id as cityId', 'desc', 'alias', 'tag', 'imageUrl']
-    );
+  Attraction.addAttraction(attraction)
+    .then(([result]) => {
+      console.log('>>>>Inserted attraction item', result);
+      res.send(result);
+    })
+});
 
-const addAttraction = (attraction) =>
-  Attraction()
-    .insert(
-      {
-        name: attraction.name,
-        city_id: attraction.cityId,
-        desc: attraction.desc,
-        tag: attraction.tag,
-        alias: attraction.alias,
-        imageUrl: attraction.imageUrl
-      },
-      ['id', 'name', 'city_id as cityId', 'desc', 'alias', 'tag', 'imageUrl']
-    );
+router.post('/', function(req, res) {
+  const attraction = req.body;
+  console.log('>>>>Update attraction item', attraction);
 
-const delAttraction = (attractionId) =>
-  Attraction()
-    .where('id', attractionId)
-    .del();
+  Attraction.setAttraction(attraction)
+    .then(([result]) => {
+      console.log('>>>>Updated attraction item', result);
+      res.send(result);
+    })
+});
 
-const getAttractionImageUrl = (attractionId) =>
-  Attraction()
-    .select('image_url')
-    .where('id', attractionId)
-    .first();
+router.delete('/', function(req, res) {
+  const attraction = req.body;
+  console.log('>>>>Delete attraction item', attraction);
 
+  Attraction.delAttraction(attraction.id)
+    .then(() => {
+      console.log('>>>>Deleted city item', city);
+      res.send('ok');
+    })
+});
 
-const setAttractionImageUrl = (attraction) =>
-  Attraction()
-    .where({id: attraction.id})
-    .update(
-      {
-        imageUrl: attraction.imageUrl
-      },
-      ['id']
-    );
+router.get('/image/:attractionId', function(req, res) {
+  const attractionId = req.params.attractionId;
+  console.log('>>>>Retrieve image url by attractionId['+attractionId+']');
+  Attraction.getAttractionImageUrl(attractionId)
+    .then((result) => {
+      console.log('>>>>Retrieve image url by attractionId['+attractionId+']', result);
+      res.send(result);
+    })
+});
 
-export default {
-  getAllAttraction,
-  getAttractionByCityName,
-  getAttractionByCityId,
-  getAttraction,
-  setAttraction,
-  addAttraction,
-  delAttraction,
-  getAttractionImageUrl,
-  setAttractionImageUrl,
-};
+router.post('/image/:attractionId', function(req, res) {
+  const attractionId = req.params.attractionId;
+  const imageUrl = req.body.imageUrl;
+  console.log('>>>>update image url by attractionId['+attractionId+']', imageUrl);
+  /*Attraction.getAttraction(attractionId)
+    .then((result) => {
+      console.log('>>>>Retrieved attraction item', result);
+      res.send(result);
+    })*/
+});
+export default router;
