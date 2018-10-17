@@ -1,6 +1,5 @@
 // ===== DB ====================================================================
 import Knex  from '../db/knex';
-import {camelCaseKeys} from './util';
 
 const PackageItem = () => Knex('package_item');
 
