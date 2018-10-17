@@ -61,7 +61,7 @@ router.post('/', function(req, res) {
   const item = req.body;
   console.log('>>>>Update rate-plan item', item);
 
-  RatePlan.setRatePlan(country)
+  RatePlan.setRatePlan(item)
     .then(([result]) => {
       console.log('>>>>Updated rate-plan item', result);
       res.send(result);
