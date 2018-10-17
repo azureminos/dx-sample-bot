@@ -61,7 +61,7 @@ router.post('/', function(req, res) {
   const item = req.body;
   console.log('>>>>Update package-item item', item);
 
-  PackageItem.setPackageItem(country)
+  PackageItem.setPackageItem(item)
     .then(([result]) => {
       console.log('>>>>Updated package-item item', result);
       res.send(result);
