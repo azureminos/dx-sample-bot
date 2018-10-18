@@ -42,8 +42,9 @@ const setAttraction = (attraction) =>
         desc: attraction.desc,
         tag: attraction.tag,
         alias: attraction.alias,
+        image_url: attraction.imageUrl
       },
-      ['id', 'name', 'city_id as cityId', 'desc', 'alias', 'tag']
+      ['id', 'name', 'city_id as cityId', 'desc', 'alias', 'tag', 'image_url as imageUrl']
     );
 
 const addAttraction = (attraction) =>
@@ -55,8 +56,10 @@ const addAttraction = (attraction) =>
         desc: attraction.desc,
         tag: attraction.tag,
         alias: attraction.alias,
+        image_url: attraction.imageUrl
       },
-    ['id', 'name', 'city_id as cityId', 'desc', 'alias', 'tag']);
+      ['id', 'name', 'city_id as cityId', 'desc', 'alias', 'tag', 'image_url as imageUrl']
+    );
 
 const delAttraction = (attractionId) =>
   Attraction()
@@ -75,7 +78,7 @@ const setAttractionImageUrl = (attraction) =>
     .where({id: attraction.id})
     .update(
       {
-        imageUrl: attraction.imageUrl
+        image_url: attraction.imageUrl
       },
       ['id']
     );
