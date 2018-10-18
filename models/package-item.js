@@ -9,13 +9,13 @@ const getAllPackageItem = () =>
   PackageItem()
     .join('attraction', 'attraction.id', 'package_item.attraction_id')
     .select('package_item.id', 'package_item.pkg_id as packageId', 'package_item.day_no as dayNo', 'package_item.order',
-      'package_item.attraction_id as attractionId', 'attraction.name as attractionName')
+      'package_item.attraction_id as attractionId', 'attraction.name as attractionName', 'package_item.desc as desc')
 
 const getItemByPackageId = (packageId) =>
   PackageItem()
     .join('attraction', 'attraction.id', 'package_item.attraction_id')
     .select('package_item.id', 'package_item.pkg_id as packageId', 'package_item.day_no as dayNo', 'package_item.order',
-      'package_item.attraction_id as attractionId', 'attraction.name as attractionName')
+      'package_item.attraction_id as attractionId', 'attraction.name as attractionName', 'package_item.desc as desc')
     .where('package_item.pkg_id', packageId)
 
 const getItemByPackageName = (packageName) =>
@@ -23,14 +23,14 @@ const getItemByPackageName = (packageName) =>
     .join('attraction', 'attraction.id', 'package_item.attraction_id')
     .join('package', 'package.id', 'package_item.pkg_id')
     .select('package_item.id', 'package_item.pkg_id as packageId', 'package_item.day_no as dayNo', 'package_item.order',
-      'package_item.attraction_id as attractionId', 'attraction.name as attractionName')
+      'package_item.attraction_id as attractionId', 'attraction.name as attractionName', 'package_item.desc as desc')
     .where('package.name', packageName)
 
 const getPackageItem = (itemId) =>
   PackageItem()
     .join('attraction', 'attraction.id', 'package_item.attraction_id')
     .select('package_item.id', 'package_item.pkg_id as packageId', 'package_item.day_no as dayNo', 'package_item.order',
-      'package_item.attraction_id as attractionId', 'attraction.name as attractionName')
+      'package_item.attraction_id as attractionId', 'attraction.name as attractionName', 'package_item.desc as desc')
     .where('id', itemId)
     .fist()
 
@@ -44,7 +44,7 @@ const setPackageItem = (item) =>
         order: item.order,
         attraction_id: item.attractionId,
       },
-      ['id', 'pkg_id as packageId', 'day_no as dayNo', 'order', 'attraction_id as attractionId']
+      ['id', 'pkg_id as packageId', 'day_no as dayNo', 'order', 'attraction_id as attractionId', 'desc']
     )
 
 const addPackageItem = (item) =>
@@ -56,7 +56,7 @@ const addPackageItem = (item) =>
         order: item.order,
         attraction_id: item.attractionId,
       },
-      ['id', 'pkg_id as packageId', 'day_no as dayNo', 'order', 'attraction_id as attractionId']
+      ['id', 'pkg_id as packageId', 'day_no as dayNo', 'order', 'attraction_id as attractionId', 'desc']
     )
 
 const delPackageItem = (itemId) =>
