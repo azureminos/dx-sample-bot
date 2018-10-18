@@ -40,7 +40,7 @@ const getPackageByCity = (cityName) =>
 
 const getPackage = (packageId) =>
   Package()
-    .where('attraction.id', packageId)
+    .where('id', packageId)
     .where('is_active', true)
     .select('id', 'name', 'desc', 'days', 'is_promoted as isPromoted', 'is_active as isActive', 'image_url as imageUrl')
     .first()
