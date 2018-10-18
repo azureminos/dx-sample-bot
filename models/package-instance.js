@@ -3,7 +3,7 @@ import Knex  from '../db/knex';
 import Package from '../models/package';
 
 const PackageInst = () => Knex('package_inst');
-const PackageInstItem = () => Knex('package_inst_item');
+const PackageInstItem = () => Knex('package_inst_items');
 const PackageParticipant = () => Knex('package_participant');
 
 // ===== Package ======================================================
