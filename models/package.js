@@ -103,8 +103,8 @@ const setPackageImageUrl = (pkg) =>
 const getPackageDetails = (packageId) =>
   Promise.all([
     getPackage(packageId),
-    PackageItem.getPackageItem(packageId),
-    RatePlan.getRatePlan(packageId),
+    PackageItem.getItemByPackageId(packageId),
+    RatePlan.getRatePlanByPackageId(packageId),
   ])
   .then(([pkg, items, rates]) => {
     if (pkg) {
