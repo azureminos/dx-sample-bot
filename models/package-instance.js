@@ -17,7 +17,7 @@ const addPackageInstance = (packageId, userId) =>
             pkg_id: pkg.id,
           },
           ['id', 'pkg_id as packageId', 'is_premium as isPremium']
-        ).then([packageInst] => {
+        ).then(([packageInst]) => {
           console.log('>>>>package instance added', packageInst);
         })
     });
