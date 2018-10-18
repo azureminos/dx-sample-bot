@@ -31,6 +31,7 @@ import attraction from './routes/attraction';
 import pkg from './routes/package';
 import pkgItem from './routes/package-item';
 import ratePlan from './routes/rate-plan';
+import packageInstance from './routes/package-instance';
 
 // ===== SOCKETS ===============================================================
 import attachSockets from './sockets';
@@ -104,6 +105,7 @@ app.use('/attraction', attraction);
 app.use('/package', pkg);
 app.use('/packageItem', pkgItem);
 app.use('/ratePlan', ratePlan);
+app.use('/packageInstance', packageInstance);
 
 /* ----------  Errors  ---------- */
 
