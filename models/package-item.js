@@ -43,6 +43,7 @@ const setPackageItem = (item) =>
         day_no: item.dayNo,
         order: item.order,
         attraction_id: item.attractionId,
+        desc: item.desc,
       },
       ['id', 'pkg_id as packageId', 'day_no as dayNo', 'order', 'attraction_id as attractionId', 'desc']
     )
@@ -55,6 +56,7 @@ const addPackageItem = (item) =>
         day_no: item.dayNo,
         order: item.order,
         attraction_id: item.attractionId,
+        desc: item.desc,
       },
       ['id', 'pkg_id as packageId', 'day_no as dayNo', 'order', 'attraction_id as attractionId', 'desc']
     )
