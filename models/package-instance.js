@@ -15,6 +15,7 @@ const getPackageInstance = (instId) =>
       'package_inst.pkg_fee as fee', 'package.name as name', 'package.desc as desc','package.days as days',
       'package.image_url as imageUrl')
     .where('package_inst.id', instId)
+    .first()
 
 const getPackageInstanceDetails = (instId) =>
   Promise.all([
@@ -29,9 +30,9 @@ const getPackageInstanceDetails = (instId) =>
     console.log('>>>>Retrieved package instance participants', pkgInstParticipants);
     console.log('>>>>Retrieved package instance rate plans', pkgRatePlans);
 
-    pkgInst['items'] = pkgInstItems;
-    pkgInst['rates'] = pkgRatePlans;
-    pkgInst['participants'] = pkgInstParticipants;
+    pkgInst.items = pkgInstItems;
+    pkgInst.rates = pkgRatePlans;
+    pkgInst.participants = pkgInstParticipants;
 
     return pkgInst;
   })
