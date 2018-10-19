@@ -29,9 +29,9 @@ const getPackageInstanceDetails = (instId) =>
     console.log('>>>>Retrieved package instance participants', pkgInstParticipants);
     console.log('>>>>Retrieved package instance rate plans', pkgRatePlans);
 
-    pkgInst.items = pkgInstItems;
-    pkgInst.rates = pkgRatePlans;
-    pkgInst.participants = pkgInstParticipants;
+    pkgInst['items'] = pkgInstItems;
+    pkgInst['rates'] = pkgRatePlans;
+    pkgInst['participants'] = pkgInstParticipants;
 
     return pkgInst;
   })
