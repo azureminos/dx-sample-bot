@@ -24,7 +24,7 @@ const delPackageParticipant = (instId) =>
     .del()
 
 export default {
-  getPackageParticipant
+  getPackageParticipant,
   addPackageParticipant,
   delPackageParticipant,
 };
