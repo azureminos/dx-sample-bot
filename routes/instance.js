@@ -17,18 +17,27 @@ const handleInstanceCreation = (req, res) => {
   //console.log('>>>>Print incoming msg', req);
   const {hostname} = req;
   const {DEMO, PORT, LOCAL} = process.env;
-  const packageId = req.params.packageId;
   const socketAddress = (DEMO && LOCAL) ? `http://${hostname}:${PORT}` : `wss://${hostname}`;
 
-  console.log('>>>>Printing input params', {packageId: packageId, socketAddress, demo: DEMO});
-  PackageInstance
-    .addPackageInstance(packageId)
-    .then((pkg) => {
-      res.render('./index2', {packageId: packageId, socketAddress, demo: DEMO});
-    })
+  const instId = req.params.instId;
+  const packageId = req.params.packageId;
+
+  console.log('>>>>Printing input params', {packageId: packageId, instId: instId, socketAddress: socketAddress, demo: DEMO});
+
+  if (reqId === 'new') {
+    PackageInstance
+      .addPackageInstance(packageId)
+      .then((packageInst) =>
+        res.render('./index2', {instId: packageInst.id, socketAddress, demo: DEMO});
+      )
+  } else if (reqId === 'home') {
+    res.render('./index2', {instId: null, socketAddress});
+  } else {
+    res.render('./index2', {instId: instId, socketAddress, demo: DEMO});
+  }
 };
 
-router.get('/:packageId', handleInstanceCreation);
-
+router.get('/:instId', handleInstanceCreation);
+router.get('/:instId/:packageId', handleInstanceCreation);
 
 export default router;
