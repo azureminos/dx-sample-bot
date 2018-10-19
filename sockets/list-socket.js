@@ -11,8 +11,8 @@ import ListsItems from '../models/lists-items';
 
 // Update the title of the given List and
 // notifies all subscribed users of the change.
-const updateTitle = ({request: {listId, title}, sendStatus, socket}) => {
-  Lists.setTitle(title, listId)
+const updateTitle = ({request: {instId, title}, sendStatus, socket}) => {
+  Lists.setTitle(title, instId)
     .then((list) => {
       socket.to(list.id).emit('title:update', list.title);
       sendStatus('ok');
@@ -22,13 +22,13 @@ const updateTitle = ({request: {listId, title}, sendStatus, socket}) => {
 // Creates a new ListItem and notifies
 // all subscribed users of the change.
 const addItem = ({
-  request: {senderId, listId, name},
+  request: {senderId, instId, name},
   sendStatus,
   allInRoom,
 }) => {
-  ListsItems.create(name, listId, senderId)
+  ListsItems.create(name, instId, senderId)
     .then((listItem) => {
-      allInRoom(listId).emit('item:add', listItem);
+      allInRoom(instId).emit('item:add', listItem);
       sendStatus('ok');
     });
 };
@@ -36,12 +36,12 @@ const addItem = ({
 // Updates an existing ListItem and notifies
 // all subscribed users of the change.
 const updateItem = ({request, sendStatus, allInRoom}) => {
-  const {listId, id, name, completerFbId} = request;
-  console.log('request', {listId, id, name, completerFbId});
+  const {instId, id, name, completerFbId} = request;
+  console.log('request', {instId, id, name, completerFbId});
 
   ListsItems.update({id, name, completerFbId})
     .then(({id, name, completerFbId}) => {
-      allInRoom(listId)
+      allInRoom(instId)
         .emit('item:update', {id, name, completerFbId});
       sendStatus('ok');
     });

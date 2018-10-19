@@ -49,14 +49,14 @@ const getFacebookProfileInfoForUsers = (users = [], listId, socketUsers) =>
     .then((res) => res.map((resUser = {}) => {
       // Detect online status via socketUser with matching list & FB IDs.
       const isOnline = [...socketUsers.values()].find((socketUser) =>
-        socketUser.listId === listId && socketUser.userId === resUser.fbId);
+        socketUser.listId === instId && socketUser.userId === resUser.fbId);
 
       return Object.assign({}, resUser, {online: !!isOnline || false});
     }));
 
 // Join Room, Update Necessary List Info, Notify All Users in room of changes.
 const join = ({
-  request: {senderId, listId},
+  request: {senderId, instId},
   allInRoom,
   sendStatus,
   socket,
@@ -64,9 +64,9 @@ const join = ({
   userSocket,
 }) => {
   Promise.all([
-    Lists.get(listId),
-    Lists.getAllItems(listId),
-    Lists.getOwner(listId),
+    Lists.get(instId),
+    Lists.getAllItems(instId),
+    Lists.getOwner(instId),
     getUser(senderId),
   ]).then(([list, items, listOwner, user]) => {
     if (!list) {
@@ -82,11 +82,11 @@ const join = ({
         }
       })
       .then(() => {
-        socketUsers.set(socket.id, {listId: list.id, userId: user.fbId});
+        socketUsers.set(socket.id, {instId: list.id, userId: user.fbId});
 
-        Lists.getAllUsers(listId)
+        Lists.getAllUsers(instId)
           .then((users) => {
-            return getFacebookProfileInfoForUsers(users, listId, socketUsers);
+            return getFacebookProfileInfoForUsers(users, instId, socketUsers);
           })
           .then((fbUsers) => {
             const viewerUser =
@@ -108,7 +108,7 @@ const join = ({
 };
 
 // Notify users in room when user leaves.
-const leave = ({userId, listId, allInRoom, socket, socketUsers}) => {
+const leave = ({userId, instId, allInRoom, socket, socketUsers}) => {
   if (!userId) {
     console.error('User not registered to socket');
     return;
@@ -119,12 +119,12 @@ const leave = ({userId, listId, allInRoom, socket, socketUsers}) => {
   // Detect online status via socketUser with matching list & FB IDs.
   const onlineUsers =
     [...socketUsers.values()].reduce((onlineUsers, socketUser) => (
-      (socketUser.listId === listId)
+      (socketUser.instId === instId)
         ? [...onlineUsers, socketUser.userId]
         : onlineUsers
   ), []);
 
-  allInRoom(listId).emit('users:setOnline', onlineUsers);
+  allInRoom(instId).emit('users:setOnline', onlineUsers);
 };
 
 export default {join, leave};

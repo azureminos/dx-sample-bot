@@ -15,19 +15,22 @@ import ReactDOM from 'react-dom';
 /* ----------  Internal Components  ---------- */
 
 import App from './app.jsx';
+import App2 from './app2.jsx';
 import Oops from './oops.jsx';
 
 /* ----------  Stylesheets  ---------- */
 
 import 'weui';
 import 'react-weui/build/packages/react-weui.css';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import '../public/style.css';
 
 /*
  * Function for attaching the application when MessengerExtensions has loaded
  */
 window.attachApp = (viewerId, listId, promoId, socketAddress, threadType) => {
-  console.log('>>>>window.attachApp',
+  console.log('>>>>window.attachApp2',
     {viewerId:viewerId, listId:listId, promoId:promoId, socketAddress:socketAddress, threadType:threadType});
 
   const apiUri = `https://${window.location.hostname}`;
@@ -56,14 +59,14 @@ window.attachApp = (viewerId, listId, promoId, socketAddress, threadType) => {
 };
 
 window.attachApp2 = (viewerId, instId, socketAddress, threadType) => {
-  console.log('>>>>window.attachApp2', {viewerId:viewerId, instId:instId, socketAddress:socketAddress, threadType:threadType});
+  console.log('>>>>window.attachApp', {viewerId:viewerId, instId:instId, socketAddress:socketAddress, threadType:threadType});
 
   const apiUri = `https://${window.location.hostname}`;
   let app;
   if (viewerId) {
     app = (
       // The main show
-      <App
+      <App2
         viewerId={viewerId}
         instId={instId}
         apiUri={apiUri}

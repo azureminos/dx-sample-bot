@@ -18,11 +18,11 @@ export default function attachSockets(io) {
 
     const channel = (channel, handler) => {
       socket.on(channel, (request, sendStatus) => {
-        const {userId, listId} = socketUsers.get(socket.id) || {};
+        const {userId, instId} = socketUsers.get(socket.id) || {};
 
         handler({
           allInRoom,
-          listId,
+          instId,
           request,
           sendStatus,
           socket,
