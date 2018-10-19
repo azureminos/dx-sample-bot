@@ -24,13 +24,13 @@ const handleInstanceCreation = (req, res) => {
 
   console.log('>>>>Printing input params', {packageId: packageId, instId: instId, socketAddress: socketAddress, demo: DEMO});
 
-  if (reqId === 'new') {
+  if (instId === 'new') {
     PackageInstance
       .addPackageInstance(packageId)
       .then((packageInst) =>
         res.render('./index2', {instId: packageInst.id, socketAddress, demo: DEMO})
       )
-  } else if (reqId === 'home') {
+  } else if (instId === 'home') {
     res.render('./index2', {instId: null, socketAddress});
   } else {
     res.render('./index2', {instId: instId, socketAddress, demo: DEMO});
