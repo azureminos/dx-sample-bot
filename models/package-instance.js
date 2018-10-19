@@ -30,11 +30,12 @@ const getPackageInstanceDetails = (instId) =>
     console.log('>>>>Retrieved package instance participants', pkgInstParticipants);
     console.log('>>>>Retrieved package instance rate plans', pkgRatePlans);
 
-    pkgInst.items = pkgInstItems;
-    pkgInst.rates = pkgRatePlans;
-    pkgInst.participants = pkgInstParticipants;
+    let result = {...pkgInst};
+    result.items = [...pkgInstItems];
+    result.rates = [...pkgRatePlans];
+    result.participants = [...pkgInstParticipants];
 
-    return pkgInst;
+    return result;
   })
 
 const addPackageInstance = (packageId, userId) =>
