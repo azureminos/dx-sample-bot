@@ -38,7 +38,7 @@ window.attachApp2 = (viewerId, listId, promoId, socketAddress, threadType) => {
   if (viewerId) {
     app = (
       // The main show
-      <App2
+      <App
         viewerId={viewerId}
         listId={listId}
         promoId={promoId}

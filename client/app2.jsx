@@ -34,12 +34,113 @@ export default class App2 extends React.Component {
 
     this.state = {
       packageInst: null,
-      packages: null;
+      packages: null,
       ownerId: null,
       resetting: false,
       title: this.props.title,
       updating: false,
       users: [],
+    };
+
+    /*--------------------Dummy Data---------------*/
+    this.state.ownerId = 1;
+    this.state.users = [
+      {fbId: 1, online: true}
+    ];
+    this.state.title = 'Dummy';
+    this.state.packageInst = {
+      "id": 13,
+      "startDate": null,
+      "isPremium": false,
+      "fee": null,
+      "name": "China 2 Days",
+      "desc": "China 2 Days",
+      "days": 2,
+      "imageUrl": "media/package_2.png",
+      "items": [
+        {
+          "id": 21,
+          "dayNo": 1,
+          "order": 1,
+          "createdBy": 1,
+          "updatedBy": 1,
+          "desc": "Day time in attr 4",
+          "attractionName": "Attr 4",
+          "attractionDesc": "Attr 4",
+          "imageUrl": "media/attraction_2.png",
+          "city": "Dummy 2"
+        },
+        {
+          "id": 22,
+          "dayNo": 2,
+          "order": 1,
+          "createdBy": 1,
+          "updatedBy": 1,
+          "desc": "Day time in attr 5",
+          "attractionName": "Attr 5",
+          "attractionDesc": "Attr 5",
+          "imageUrl": "media/attraction_1.png",
+          "city": "Dummy 2"
+        }
+      ],
+      "rates": [
+        {
+          "id": 3,
+          "packageId": 1,
+          "tier": 1,
+          "premiumFee": "500.00",
+          "minJoins": 10,
+          "packageRate": "1800.00"
+        }
+      ],
+      "participants": [
+        {
+          "userId": 1,
+          "isOwner": true
+        }
+      ]
+    };
+    this.state.packages = [];
+
+    this.state.packageInst = null;
+    this.state.packages = {
+      "id": 1,
+      "name": "China 2 Days",
+      "desc": "China 2 Days",
+      "days": 2,
+      "isPromoted": true,
+      "isActive": true,
+      "imageUrl": "media/package_2.png",
+      "items": [
+          {
+              "id": 3,
+              "packageId": 1,
+              "dayNo": 1,
+              "order": 1,
+              "attractionId": 4,
+              "attractionName": "Attr 4",
+              "desc": "Day time in attr 4"
+          },
+          {
+              "id": 4,
+              "packageId": 1,
+              "dayNo": 2,
+              "order": 1,
+              "attractionId": 5,
+              "attractionName": "Attr 5",
+              "desc": "Day time in attr 5"
+          }
+      ],
+      "rates": [
+          {
+              "id": 3,
+              "packageId": 1,
+              "tier": 1,
+              "premiumFee": "500.00",
+              "minJoins": 10,
+              "packageRate": "1800.00"
+          }
+      ]
     };
   }
 
@@ -255,107 +356,6 @@ export default class App2 extends React.Component {
       updating,
       socketStatus,
     } = this.state;
-    /*--------------------Dummy Data---------------*/
-    ownerId = 1;
-    users = [
-      {fbId: 1, online: true}
-    ];
-    title = 'Dummy';
-    packageInst = {
-      "id": 13,
-      "startDate": null,
-      "isPremium": false,
-      "fee": null,
-      "name": "China 2 Days",
-      "desc": "China 2 Days",
-      "days": 2,
-      "imageUrl": "media/package_2.png",
-      "items": [
-        {
-          "id": 21,
-          "dayNo": 1,
-          "order": 1,
-          "createdBy": 1,
-          "updatedBy": 1,
-          "desc": "Day time in attr 4",
-          "attractionName": "Attr 4",
-          "attractionDesc": "Attr 4",
-          "imageUrl": "media/attraction_2.png",
-          "city": "Dummy 2"
-        },
-        {
-          "id": 22,
-          "dayNo": 2,
-          "order": 1,
-          "createdBy": 1,
-          "updatedBy": 1,
-          "desc": "Day time in attr 5",
-          "attractionName": "Attr 5",
-          "attractionDesc": "Attr 5",
-          "imageUrl": "media/attraction_1.png",
-          "city": "Dummy 2"
-        }
-      ],
-      "rates": [
-        {
-          "id": 3,
-          "packageId": 1,
-          "tier": 1,
-          "premiumFee": "500.00",
-          "minJoins": 10,
-          "packageRate": "1800.00"
-        }
-      ],
-      "participants": [
-        {
-          "userId": 1,
-          "isOwner": true
-        }
-      ]
-    };
-    packages = [];
-
-    packageInst = null;
-    packages = {
-      "id": 1,
-      "name": "China 2 Days",
-      "desc": "China 2 Days",
-      "days": 2,
-      "isPromoted": true,
-      "isActive": true,
-      "imageUrl": "media/package_2.png",
-      "items": [
-          {
-              "id": 3,
-              "packageId": 1,
-              "dayNo": 1,
-              "order": 1,
-              "attractionId": 4,
-              "attractionName": "Attr 4",
-              "desc": "Day time in attr 4"
-          },
-          {
-              "id": 4,
-              "packageId": 1,
-              "dayNo": 2,
-              "order": 1,
-              "attractionId": 5,
-              "attractionName": "Attr 5",
-              "desc": "Day time in attr 5"
-          }
-      ],
-      "rates": [
-          {
-              "id": 3,
-              "packageId": 1,
-              "tier": 1,
-              "premiumFee": "500.00",
-              "minJoins": 10,
-              "packageRate": "1800.00"
-          }
-      ]
-    };
-
 
     let page;
 
