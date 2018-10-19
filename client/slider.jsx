@@ -17,7 +17,7 @@ const CenterSlider = ({items, buttonName, apiUri}) => {
     const imageUrl = apiUri + '/' + item.imageUrl;
     return (
         <div key={item.id}>
-          <img src={imageUrl} alt={item.name} ></img>
+          <img src={imageUrl} alt={item.name} width="150"></img>
           <p>{item.desc}</p>
           <button>{buttonName}</button>
         </div>

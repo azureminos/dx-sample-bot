@@ -9,7 +9,7 @@
 import io from 'socket.io-client';
 import React, {createElement} from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import {Page, Tab, NavBarItem} from 'react-weui';
+import {Tab, NavBarItem} from 'react-weui';
 
 
 // ===== COMPONENTS ============================================================
@@ -390,17 +390,15 @@ export default class App2 extends React.Component {
     /* ----------  Animated Wrapper  ---------- */
 
     return (
-      <Page>
-        <div id='app'>
-          <ReactCSSTransitionGroup
-            transitionName='page'
-            transitionEnterTimeout={500}
-            transitionLeaveTimeout={500}
-          >
-            {page}
-          </ReactCSSTransitionGroup>
-        </div>
-      </Page>
+      <div id='app'>
+        <ReactCSSTransitionGroup
+          transitionName='page'
+          transitionEnterTimeout={500}
+          transitionLeaveTimeout={500}
+        >
+          {page}
+        </ReactCSSTransitionGroup>
+      </div>
     );
   }
 }

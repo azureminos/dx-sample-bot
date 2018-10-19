@@ -44,7 +44,7 @@ const PackageDetails = ({packageInst, apiUri}) => {
     <div>
       <Panel>
         <h2>{packageInst.name}</h2>
-        <img src={packageImageUrl} alt={packageInst.name} ></img>
+        <img src={packageImageUrl} alt={packageInst.name} width="180" ></img>
         <p>{packageInst.desc}</p>
       </Panel>
       <Panel>
