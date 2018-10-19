@@ -103,7 +103,7 @@ export default class App2 extends React.Component {
     };
     this.state.packages = [];
 
-    this.state.packageInst = null;
+    /*this.state.packageInst = null;
     this.state.packages = [
         {
             "id": 2,
@@ -123,7 +123,7 @@ export default class App2 extends React.Component {
             "isActive": true,
             "imageUrl": "media/package_2.png"
         }
-    ];
+    ];*/
   }
 
   static propTypes = {
