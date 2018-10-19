@@ -131,7 +131,7 @@ const sendListCreated = (recipientId, packageInst) => {
     [
       messages.listCreatedMessage,
       messages.shareListMessage(APP_URL, packageInst.id, packageInst.title, packageInst.desc,
-        packageInst.imageUrl, 'Tour Details'),
+        packageInst.imageUrl, 'View Package'),
     ]);
 };
 
