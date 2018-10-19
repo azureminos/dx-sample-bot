@@ -23,7 +23,12 @@ const getPackageInstanceDetails = (instId) =>
     PackageInstItem.getPackageInstItem(instId),
     PackageInstParticipant.getPackageParticipant(instId),
     ])
-  .then(([pkgInst, pkgInstItems, pkgRatePlans, pkgInstParticipants]) => {
+  .then(([pkgInst, pkgRatePlans, pkgInstItems, pkgInstParticipants]) => {
+    console.log('>>>>Retrieved package instance', pkgInst);
+    console.log('>>>>Retrieved package instance items', pkgInstItems);
+    console.log('>>>>Retrieved package instance participants', pkgInstParticipants);
+    console.log('>>>>Retrieved package instance rate plans', pkgRatePlans);
+
     pkgInst.items = pkgInstItems;
     pkgInst.rates = pkgRatePlans;
     pkgInst.participants = pkgInstParticipants;
