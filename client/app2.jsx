@@ -390,15 +390,17 @@ export default class App2 extends React.Component {
     /* ----------  Animated Wrapper  ---------- */
 
     return (
-      <div id='app'>
-        <ReactCSSTransitionGroup
-          transitionName='page'
-          transitionEnterTimeout={500}
-          transitionLeaveTimeout={500}
-        >
-          {page}
-        </ReactCSSTransitionGroup>
-      </div>
+      <Page>
+        <div id='app'>
+          <ReactCSSTransitionGroup
+            transitionName='page'
+            transitionEnterTimeout={500}
+            transitionLeaveTimeout={500}
+          >
+            {page}
+          </ReactCSSTransitionGroup>
+        </div>
+      </Page>
     );
   }
 }
