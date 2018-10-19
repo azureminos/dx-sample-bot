@@ -2,8 +2,8 @@
 import Knex  from '../db/knex';
 import Package from '../models/package';
 import RatePlan from '../models/rate-plan';
-import PackageInstItem from '../models/package-instance-items';
-import PackageInstParticipant from '../models/package-instance-particitpant';
+import PackageInstItem from '../models/package-instance-item';
+import PackageInstParticipant from '../models/package-instance-participant';
 
 const PackageInst = () => Knex('package_inst');
 
