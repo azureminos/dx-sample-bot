@@ -53,48 +53,80 @@ export default class App2 extends React.Component {
     this.state.title = 'Dummy';
     this.state.packageInst =
     {
-        "id": 34,
+        "id": 37,
         "startDate": null,
         "isPremium": false,
         "fee": null,
-        "name": "China 2 Days",
-        "desc": "China 2 Days",
+        "name": "Another China 2 Days",
+        "desc": "Another China 2 Days",
         "days": 2,
-        "imageUrl": "media/package_2.png",
+        "imageUrl": "media/package_1.png",
         "items": [
             {
-                "id": 63,
+                "id": 69,
                 "dayNo": 1,
                 "order": 1,
                 "createdBy": null,
                 "updatedBy": null,
-                "desc": "Day time in Tian An Men",
-                "attractionName": "Tian An Men",
-                "attractionDesc": "Tian An Men",
-                "imageUrl": "media/attraction_2.png",
-                "city": "Beijing"
+                "desc": "Day time in the Bund",
+                "attractionName": "The Bund",
+                "attractionDesc": "The Bund",
+                "imageUrl": "media/attraction_1.png",
+                "city": "Shanghai"
             },
             {
-                "id": 64,
+                "id": 70,
+                "dayNo": 1,
+                "order": 2,
+                "createdBy": null,
+                "updatedBy": null,
+                "desc": "Night time in Lu Jia Zui",
+                "attractionName": "Lu Jia Zui",
+                "attractionDesc": "Lu Jia Zui",
+                "imageUrl": "media/attraction_1.png",
+                "city": "Shanghai"
+            },
+            {
+                "id": 71,
                 "dayNo": 2,
                 "order": 1,
                 "createdBy": null,
                 "updatedBy": null,
-                "desc": "Day time in The Great Wall",
+                "desc": "Morning to the Great Wall",
                 "attractionName": "The Great Wall",
                 "attractionDesc": "The Great Wall",
                 "imageUrl": "media/attraction_1.png",
+                "city": "Beijing"
+            },
+            {
+                "id": 72,
+                "dayNo": 2,
+                "order": 2,
+                "createdBy": null,
+                "updatedBy": null,
+                "desc": "Afternoon go to the Forbidden Palace",
+                "attractionName": "The Forbidden Palace",
+                "attractionDesc": "The Forbidden Palace",
+                "imageUrl": "media/attraction_2.png",
                 "city": "Beijing"
             }
         ],
         "rates": [
             {
-                "id": 3,
-                "packageId": 1,
+                "id": 1,
+                "packageId": 2,
                 "tier": 1,
-                "premiumFee": "500.00",
-                "minJoins": 10,
-                "packageRate": "1800.00"
+                "premiumFee": "800.00",
+                "minJoins": 6,
+                "packageRate": "2000.00"
+            },
+            {
+                "id": 2,
+                "packageId": 2,
+                "tier": 2,
+                "premiumFee": "300.00",
+                "minJoins": 12,
+                "packageRate": "1500.00"
             }
         ]
     };
