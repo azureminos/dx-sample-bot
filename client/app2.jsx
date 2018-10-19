@@ -22,6 +22,7 @@ import Updating from './updating.jsx';
 import Viewers from './viewers.jsx';
 import TourSummary from './summary.jsx';
 import CenterSlider from './slider.jsx';
+import PackageDetails from './package-details.jsx';
 
 let socket;
 
@@ -363,11 +364,11 @@ export default class App2 extends React.Component {
         <Tab type="navbar">
           <NavBarItem label="Package Details">
             <section id='package'>
-              <PackageSummary
+              <PackageDetails
                 packageInst={packageInst}
                 apiUri={apiUri}
               >
-              </PackageSummary>
+              </PackageDetails>
             </section>
           </NavBarItem>
           <NavBarItem label="Package Summary">
