@@ -50,10 +50,9 @@ const addPackageInstance = (packageId, userId) =>
 
 const delPackageInstance = (packageInstId) =>
   Promise.all([
-    PackageInst().where('id', packageInstId).del(),
     PackageInstItem.delPackageInstItem(packageInstId),
     PackageInstParticipant.delPackageParticipant(packageInstId),
-  ])
+  ]).then(() => PackageInst().where('id', packageInstId).del())
 
 export default {
   getPackageInstance,
