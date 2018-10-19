@@ -350,6 +350,7 @@ export default class App2 extends React.Component {
     const {
       ownerId,
       packageInst,
+      packages,
       users,
       title,
       resetting,
