@@ -1,5 +1,8 @@
 import React, { Component } from "react";
+import Collapsible from 'react-collapsible';
+
 import CenterSlider from './slider.jsx';
+
 
 const PackageDetails = ({packageInst, apiUri}) => {
   console.log('>>>>PackageDetails', {packageInst: packageInst, apiUri: apiUri});

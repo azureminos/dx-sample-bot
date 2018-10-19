@@ -10,7 +10,7 @@ import io from 'socket.io-client';
 import React, {createElement} from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import {Panel, Form, Tab, NavBarItem, Article} from 'react-weui';
-import Collapsible from 'react-collapsible';
+
 
 // ===== COMPONENTS ============================================================
 import Invite from './invite.jsx';
