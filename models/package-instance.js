@@ -36,7 +36,7 @@ const addPackageInstance = (packageId, userId) =>
     Package.getPackageDetails(packageId),
     PackageInst().insert({pkg_id: packageId},['id', 'pkg_id as packageId', 'is_premium as isPremium']),
   ])
-  .then(([pkg, packageInstance]) => {
+  .then(([pkg, [packageInstance]) => {
     console.log('>>>>Added package instance', packageInstance);
     console.log('>>>>Retrieved package', pkg);
 
