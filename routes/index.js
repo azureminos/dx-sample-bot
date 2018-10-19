@@ -9,13 +9,14 @@
 import express from 'express';
 
 const router = express.Router();
+const {hostname} = req;
+const {DEMO, PORT, LOCAL} = process.env;
+const socketAddress = (DEMO && LOCAL) ? `http://${hostname}:${PORT}` : `wss://${hostname}`;
 
 // GET home page
 router.get('/', (_, res) => {
-  res.render('./index', {
-    demo: process.env.DEMO,
-    listId: null,
-  });
+  console.log('>>>>print input into index2', {instId: null, socketAddress});
+  res.render('./index2', {instId: null, socketAddress});
 });
 
 export default router;
