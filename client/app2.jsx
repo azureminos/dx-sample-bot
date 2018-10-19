@@ -357,92 +357,26 @@ export default class App2 extends React.Component {
     } else if (users.length > 0) {
       // Skip and show loading spinner if we don't have data yet
       /* ----------  Setup Sections (anything dynamic or repeated) ---------- */
-
       const {apiUri, instId, viewerId, threadType} = this.props;
-
-
-      let invite;
-      const isOwner = viewerId === ownerId;
-      if (isOwner || threadType !== 'USER_TO_PAGE') {
-        // only owners are able to share their lists and other
-        // participants are able to post back to groups.
-        let sharingMode;
-        let buttonText;
-
-        if (threadType === 'USER_TO_PAGE') {
-          sharingMode = 'broadcast';
-          buttonText = 'Invite your friends to this list';
-        } else {
-          sharingMode = 'current_thread';
-          buttonText = 'Send to conversation';
-        }
-
-        /*invite = (
-          <Invite
-            title={title}
-            apiUri={apiUri}
-            instId={instId}
-            sharingMode={sharingMode}
-            buttonText={buttonText}
-          />
-        );*/
-      }
-
-      let titleField;
-      if (isOwner) {
-        titleField = (
-          <Title
-            text={title}
-            setTitleText={this.setTitleText}
-          />
-        );
-      }
-
-    /* ----------  Inner Structure  ---------- */
-      page =
-        (
+      page = (
         <section>
         <Tab type="navbar">
-          <NavBarItem label="Tour Details">
-            <section id='list'>
-              <Viewers
-                users={users}
-                viewerId={viewerId}
-              />
-
-              <Panel>
-                {titleField}
-
-                <section id='items'>
-                  <Form checkbox>
-                    <ReactCSSTransitionGroup
-                      transitionName='item'
-                      transitionEnterTimeout={250}
-                      transitionLeaveTimeout={250}
-                    >
-                      {itemList}
-                    </ReactCSSTransitionGroup>
-                  </Form>
-
-                  <NewItem
-                    newItemText={newItemText}
-                    disabled={updating}
-                    resetting={resetting}
-                    addNewItem={this.addNewItem}
-                    setNewItemText={this.setNewItemText}
-                  />
-                </section>
-              </Panel>
-              <Updating updating={updating} />
+          <NavBarItem label="Package Details">
+            <section id='package'>
+              <PackageSummary
+                packageInst={packageInst}
+                apiUri={apiUri}
+              >
+              </PackageSummary>
             </section>
           </NavBarItem>
-          <NavBarItem label="Summary">
-            <TourSummary items={items} />
+          <NavBarItem label="Package Summary">
+            <p>Tab Summary</p>
           </NavBarItem>
         </Tab>
-        {invite}
         </section>
-        );
+      );
+
     } else if (socketStatus === 'noList') {
       // We were unable to find a matching list in our system.
       page = <ListNotFound/>;
