@@ -9,7 +9,7 @@
 import io from 'socket.io-client';
 import React, {createElement} from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import {Tab, NavBarItem} from 'react-weui';
+import {Page, Tab, NavBarItem} from 'react-weui';
 
 
 // ===== COMPONENTS ============================================================
