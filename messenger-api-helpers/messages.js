@@ -10,6 +10,11 @@
 
 import { each } from 'lodash'
 
+/*============URL=============*/
+const listUrl = (apiUri, listId) => `${apiUri}/lists/${listId}`;
+const homeUrl = (apiUri) => `${apiUri}/`;
+const packageUrl = (apiUri, packageId) => `${apiUri}/instance/new/${packageId}`;
+const packageInstUrl = (apiUri, instId) => `${apiUri}/instance/${instId}`;
 /*
  * BUTTONS
  *
@@ -36,24 +41,6 @@ const openExistingListButton = (listUrl, buttonText = 'Edit List') => {
 };
 
 /**
- * Buttons for opening a new list in a webview with dynamic generated contents
- *
- * @param {string} apiUri - Hostname of the server.
- * @param {array} promos - promo list.
- * @returns {array} -
- *   Message to create a list of buttons pointing to the new list form.
- */
-const createButtons = (apiUri, promos) => {
-  var btns = [];
-  for(var i=0; promos && i<promos.length; i++) {
-    var promo = promos[i];
-    btns.push(createListButton(apiUri, promo))
-  }
-  return btns;
-};
-
-const listPromoUrl = (apiUri, promoId) => `${apiUri}/lists/${promoId}/new`;
-/**
  * Button for opening a new list in a webview
  *
  * @param {string} apiUri - Hostname of the server.
@@ -61,14 +48,11 @@ const listPromoUrl = (apiUri, promoId) => `${apiUri}/lists/${promoId}/new`;
  * @returns {object} -
  *   Message to create a button pointing to the new list form.
  */
-const createListButton = (apiUri, promo) => {
-  var buttonTitle = promo.title;
-  var promoId = promo.id;
-
+const createListButton = (apiUri) => {
   return {
     type: 'web_url',
-    url: listPromoUrl(apiUri, promoId),
-    title: buttonTitle,
+    url: homeUrl(apiUri),
+    title: 'View All Packages',
     webview_height_ratio: 'full',
     messenger_extensions: true,
   };
@@ -93,42 +77,22 @@ const introMessage = (apiUri) => {
   };
 };
 
-/**
- * Message that welcomes the user to the bot
- *
- * @param {string} apiUri - Hostname of the server.
- * @returns {object} - Message with welcome text and a button to start a new list.
- */
-const promoMessage = (apiUri, promos) => {
-  return {
-    attachment: {
-      type: 'template',
-      payload: {
-        template_type: 'button',
-        text: 'Ready to find your next holiday? Our small-group China tours are selling fast.',
-        buttons: createButtons(apiUri, promos)
+const packageMessage = (apiUri, packages) => {
+  let items = packages.map((pkg) => {
+    const urlToPackage = packageUrl(apiUri, pkg.id);
+    console.log('>>>>Generated URL >> '+urlToPackage, pkg);
+
+    return {
+      title: pkg.name,
+      image_url: `${apiUri}/${pkg.imageUrl}`,
+      subtitle: pkg.desc,
+      default_action: {
+        type: 'web_url',
+        url: urlToPackage,
+        messenger_extensions: true,
       },
-    },
-  };
-};
-
-const promoMessage2 = (apiUri, promos) => {
-  let items = []
-  each(promos, (promo) => {
-    const urlToPromo = promoUrl(apiUri, promo.id);
-    console.log('>>>>Generated URL >> '+urlToPromo, promo);
-
-    items.push({
-       title: promo.title,
-       image_url: `${apiUri}/media/tour-${promo.id}-cover.png`,
-       subtitle: promo.title,
-       default_action: {
-         type: 'web_url',
-         url: urlToPromo,
-         messenger_extensions: true,
-       },
-       buttons: [openExistingListButton(urlToPromo, 'View Tour')],
-     });
+      buttons: [openExistingListButton(urlToPackage, 'View Package')],
+    };
   });
 
   return {
@@ -154,7 +118,7 @@ const noListsMessage = (apiUri) => {
       type: 'template',
       payload: {
         template_type: 'button',
-        text: 'It looks like you don’t have any lists yet. Would you like to create one?',
+        text: 'It looks like you don’t have booked any packages yet.',
         buttons: [
           createListButton(apiUri),
         ],
@@ -172,8 +136,7 @@ const noListsMessage = (apiUri) => {
  * @param {int} listId - The list ID.
  * @returns {string} - URI for the required list.
  */
-const listUrl = (apiUri, listId) => `${apiUri}/lists/${listId}`;
-const promoUrl = (apiUri, promoId) => `${apiUri}/lists/${promoId}/new`;
+
 /**
  * A single list for the list template.
  * The name here is to distinguish lists and list templates.
@@ -250,9 +213,8 @@ const listCreatedMessage = {
  * @param {string} buttonText - Text for the action button.
  * @returns {object} - Message to configure the customized sharing menu.
  */
-const shareListMessage = (apiUri, listId, title, promoId, buttonText) => {
-  const urlToList = listUrl(apiUri, listId);
-  console.log({urlToList});
+const shareListMessage = (apiUri, instId, title, desc, imageUrl, buttonText) => {
+  const urlToPackageInst = listUrl(apiUri, instId);
   return {
     attachment: {
       type: 'template',
@@ -260,14 +222,14 @@ const shareListMessage = (apiUri, listId, title, promoId, buttonText) => {
         template_type: 'generic',
         elements: [{
           title: title,
-          image_url: `${apiUri}/media/tour-${promoId}-cover.png`,
-          subtitle: 'Your travel destination details',
+          image_url: `${apiUri}/${imageUrl}`,
+          subtitle: desc,
           default_action: {
             type: 'web_url',
-            url: urlToList,
+            url: urlToPackageInst,
             messenger_extensions: true,
           },
-          buttons: [openExistingListButton(urlToList, buttonText)],
+          buttons: [openExistingListButton(urlToPackageInst, buttonText)],
         }],
       },
     },
@@ -276,8 +238,7 @@ const shareListMessage = (apiUri, listId, title, promoId, buttonText) => {
 
 export default {
   introMessage,
-  promoMessage,
-  promoMessage2,
+  packageMessage,
   listCreatedMessage,
   paginatedListsMessage,
   createListButton,

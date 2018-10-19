@@ -14,16 +14,14 @@ const getPackageInstItem = (instId) =>
       'attraction.image_url as imageUrl', 'city.name as city')
     .where('package_inst_items.pkg_inst_id', instId)
 
-const addPackageInstItem = (instId, pkgItems, userId) => {
-  console.log('>>>>Add package instance items, instId['+instId+'], userId['+userId+']', pkgItems);
+const addPackageInstItem = (instId, pkgItems) => {
+  console.log('>>>>Add package instance items, instId['+instId+']', pkgItems);
   const items = pkgItems.map((item) => {
     return {
       pkg_inst_id: instId,
       pkg_item_id: item.id,
       day_no: item.dayNo,
       order: item.order,
-      created_by: userId,
-      updated_by: userId,
     };
   });
   console.log('>>>>after re-format', items);

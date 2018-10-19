@@ -63,7 +63,7 @@ const handleReceivePostback = (event) => {
     sendSharedLists(senderId, type);
   } else if (type.substring(0, 11) === 'get_started') {
     //sendApi.sendIntroMessage(senderId);
-    sendApi.sendPromoMessage2(senderId);
+    sendApi.sendPackageMessage(senderId);
     return;
   }
   // eslint-enable camelcase
@@ -90,7 +90,7 @@ const handleReceiveMessage = (event) => {
 
   if (message.text) {
     //sendApi.sendIntroMessage(senderId);
-    sendApi.sendPromoMessage2(senderId);
+    sendApi.sendPackageMessage(senderId);
   }
 };
 

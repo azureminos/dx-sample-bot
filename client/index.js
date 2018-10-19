@@ -54,3 +54,30 @@ window.attachApp = (viewerId, listId, promoId, socketAddress, threadType) => {
 
   ReactDOM.render(app, document.getElementById('content'));
 };
+
+window.attachApp2 = (viewerId, instId, socketAddress, threadType) => {
+  console.log('>>>>window.attachApp2', {viewerId:viewerId, instId:instId, socketAddress:socketAddress, threadType:threadType});
+
+  const apiUri = `https://${window.location.hostname}`;
+  let app;
+  if (viewerId) {
+    app = (
+      // The main show
+      <App
+        viewerId={viewerId}
+        instId={instId}
+        apiUri={apiUri}
+        socketAddress={socketAddress}
+        threadType={threadType}
+      />
+    );
+  } else {
+    /**
+     * MessengerExtensions are only available on iOS and Android,
+     * so show an error page if MessengerExtensions was unable to start
+     */
+    app = <Oops />;
+  }
+
+  ReactDOM.render(app, document.getElementById('content'));
+};

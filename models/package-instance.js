@@ -19,30 +19,26 @@ const getPackageInstance = (instId) =>
 
 const getPackageInstanceDetails = (instId) =>
   Promise.all([
-    getPackageInstance(instId),
-    RatePlan.getRatePlanByInstId(instId),
-    PackageInstItem.getPackageInstItem(instId),
-    PackageInstParticipant.getPackageParticipant(instId),
+      getPackageInstance(instId),
+      RatePlan.getRatePlanByInstId(instId),
+      PackageInstItem.getPackageInstItem(instId),
     ])
-  .then(([pkgInst, pkgRatePlans, pkgInstItems, pkgInstParticipants]) => {
+  .then(([pkgInst, pkgRatePlans, pkgInstItems]) => {
     pkgInst.items = pkgInstItems;
     pkgInst.rates = pkgRatePlans;
-    pkgInst.participants = pkgInstParticipants;
 
     console.log('>>>>Retrieved package instance', pkgInst);
     return pkgInst;
   })
 
-const addPackageInstance = (packageId, userId) =>
+const addPackageInstance = (packageId) =>
   Promise.all([
     Package.getPackageDetails(packageId),
     PackageInst().insert({pkg_id: packageId},['id', 'pkg_id as packageId', 'is_premium as isPremium']),
   ])
   .then(([pkg, [packageInstance]]) =>
-    Promise.all([
-      PackageInstItem.addPackageInstItem(packageInstance.id, pkg.items, userId),
-      PackageInstParticipant.addPackageParticipant(packageInstance.id, userId, true),
-    ]).then(() =>
+    PackageInstItem.addPackageInstItem(packageInstance.id, pkg.items)
+    .then(() =>
       getPackageInstanceDetails(packageInstance.id)
     )
   )

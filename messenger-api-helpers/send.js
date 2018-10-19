@@ -11,7 +11,7 @@ import castArray from 'lodash/castArray';
 // ===== MESSENGER =============================================================
 import messages from './messages';
 import api from './api';
-import Promos from '../models/promos';
+import Package from '../models/package';
 
 const {APP_URL} = process.env;
 
@@ -75,20 +75,10 @@ const sendIntroMessage = (recipientId) => {
 };
 
 // Send the initial message welcoming & describing the bot.
-const sendPromoMessage = (recipientId) => {
-  Promos.getAllPromos()
-      .then((promos) => {
-        console.log('>>>>Printing all promotions', promos);
-        sendMessage(recipientId, messages.promoMessage(APP_URL, promos));
-      });
-};
-
-// Send the initial message welcoming & describing the bot.
-const sendPromoMessage2 = (recipientId) => {
-  Promos.getAllPromos()
-      .then((promos) => {
-        console.log('>>>>Printing all promotions', promos);
-        sendMessage(recipientId, messages.promoMessage2(APP_URL, promos));
+const sendPackageMessage = (recipientId) => {
+  Package.getAllPackage()
+      .then((packages) => {
+        sendMessage(recipientId, messages.packageMessage(APP_URL, packages));
       });
 };
 
@@ -134,14 +124,14 @@ const sendLists = (recipientId, action, lists, offset) => {
 };
 
 // Send a message notifying the user their list has been created.
-const sendListCreated = (recipientId, listId, title, promo) => {
-  console.log('>>>>sendListCreated, recipientId['+recipientId+'], listId['+listId+'], title['+title+']');
-  console.log('>>>>promo', promo);
+const sendListCreated = (recipientId, packageInst) => {
+  console.log('>>>>sendListCreated, recipientId['+recipientId+'', packageInst);
   sendMessage(
     recipientId,
     [
       messages.listCreatedMessage,
-      messages.shareListMessage(APP_URL, listId, promo.title, promo.id, 'Tour Details'),
+      messages.shareListMessage(APP_URL, packageInst.id, packageInst.title, packageInst.desc,
+        packageInst.imageUrl 'Tour Details'),
     ]);
 };
 
@@ -152,6 +142,5 @@ export default {
   sendNoListsYet,
   sendReadReceipt,
   sendIntroMessage,
-  sendPromoMessage,
-  sendPromoMessage2,
+  sendPackageMessage,
 };
