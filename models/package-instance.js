@@ -2,7 +2,7 @@
 import Knex  from '../db/knex';
 import Package from '../models/package';
 import RatePlan from '../models/rate-plan';
-import PackageInstItem from '../models/package-instance-item';
+import PackageInstItem from '../models/package-instance-items';
 import PackageInstParticipant from '../models/package-instance-particitpant';
 
 const PackageInst = () => Knex('package_inst');
@@ -38,6 +38,8 @@ const addPackageInstance = (packageId, userId) =>
   ])
   .then(([pkg, packageInstance]) =>
     Promise.all([
+      console.log('>>>>Added package instance', packageInstance);
+      console.log('>>>>Retrieved package', pkg);
       PackageInstItem.addPackageInstItem(packageInstance.id, pkg.items, userId),
       PackageInstParticipant.addPackageParticipant(packageInstance.id, userId, true),
     ]).then(() =>
@@ -48,8 +50,8 @@ const addPackageInstance = (packageId, userId) =>
 const delPackageInstance = (packageInstId) =>
   Promise.all([
     PackageInst().where('id', packageInstId).del(),
-    PackageInstItem().where('pkg_inst_id', packageInstId).del(),
-    PackageParticipant().where('pkg_inst_id', packageInstId).del(),
+    PackageInstItem.delPackageInstItem(packageInstId),
+    PackageInstParticipant.delPackageParticipant(packageInstId),
   ])
 
 export default {

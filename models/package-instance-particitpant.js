@@ -9,14 +9,16 @@ const getPackageParticipant = (instId) =>
     .select('user_fb_id as userId', 'is_owner as isOwner')
     .where('pkg_inst_id', instId)
 
-const addPackageParticipant = (instId, userId, isOwner) =>
-  PackageParticipant().insert(
+const addPackageParticipant = (instId, userId, isOwner) => {
+  console.log('>>>>Add package instance participant, instId['+instId+'], userId['+userId+'], isOwner['+isOwner+']');
+  return PackageParticipant().insert(
     {
       pkg_inst_id: instId,
       user_fb_id: userId,
       is_owner: isOwner,
     }
-  )
+  );
+}
 
 const delPackageParticipant = (instId) =>
   PackageParticipant()

@@ -15,6 +15,7 @@ const getPackageInstItem = (instId) =>
     .where('package_inst_items.pkg_inst_id', instId)
 
 const addPackageInstItem = (instId, pkgItems, userId) => {
+  console.log('>>>>Add package instance items, instId['+instId+'], userId['+userId+']', pkgItems);
   const items = pkgItems.map((item) => {
     return {
       pkg_inst_id: instId,
@@ -25,7 +26,7 @@ const addPackageInstItem = (instId, pkgItems, userId) => {
       updated_by: userId,
     };
   });
-
+  console.log('>>>>after re-format', items);
   return PackageInstItem().insert(items);
 }
 
