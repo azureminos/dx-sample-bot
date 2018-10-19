@@ -13,7 +13,7 @@ const getPackageInstance = (instId) =>
     .join('package', 'package.id', 'package_inst.pkg_id')
     .select('package_inst.id', 'package_inst.start_date as startDate','package_inst.is_premium as isPremium',
       'package_inst.pkg_fee as fee', 'package.name as name', 'package.desc as desc','package.days as days',
-      'package.imageUrl as imageUrl')
+      'package.image_url as imageUrl')
     .where('package_inst.id', instId)
 
 const getPackageInstanceDetails = (instId) =>

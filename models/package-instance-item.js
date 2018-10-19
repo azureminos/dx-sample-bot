@@ -11,7 +11,7 @@ const getPackageInstItem = (instId) =>
     .select('package_inst_items.id', 'package_inst_items.day_no as dayNo', 'package_inst_items.order',
       'package_inst_items.created_by as createdBy', 'package_inst_items.updated_by as updatedBy',
       'package_item.desc as desc', 'attraction.name as attractionName', 'attraction.desc as attractionDesc',
-      'attraction.imageUrl as imageUrl', 'city.name as city')
+      'attraction.image_url as imageUrl', 'city.name as city')
     .where('package_inst_items.pkg_inst_id', instId)
 
 const addPackageInstItem = (instId, pkgItems, userId) => {
