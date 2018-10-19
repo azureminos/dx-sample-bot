@@ -104,45 +104,26 @@ export default class App2 extends React.Component {
     this.state.packages = [];
 
     this.state.packageInst = null;
-    this.state.packages = {
-      "id": 1,
-      "name": "China 2 Days",
-      "desc": "China 2 Days",
-      "days": 2,
-      "isPromoted": true,
-      "isActive": true,
-      "imageUrl": "media/package_2.png",
-      "items": [
-          {
-              "id": 3,
-              "packageId": 1,
-              "dayNo": 1,
-              "order": 1,
-              "attractionId": 4,
-              "attractionName": "Attr 4",
-              "desc": "Day time in attr 4"
-          },
-          {
-              "id": 4,
-              "packageId": 1,
-              "dayNo": 2,
-              "order": 1,
-              "attractionId": 5,
-              "attractionName": "Attr 5",
-              "desc": "Day time in attr 5"
-          }
-      ],
-      "rates": [
-          {
-              "id": 3,
-              "packageId": 1,
-              "tier": 1,
-              "premiumFee": "500.00",
-              "minJoins": 10,
-              "packageRate": "1800.00"
-          }
-      ]
-    };
+    this.state.packages = [
+        {
+            "id": 2,
+            "name": "Another China 2 Days",
+            "desc": "Another China 2 Days",
+            "days": 2,
+            "isPromoted": true,
+            "isActive": true,
+            "imageUrl": "media/package_1.png"
+        },
+        {
+            "id": 1,
+            "name": "China 2 Days",
+            "desc": "China 2 Days",
+            "days": 2,
+            "isPromoted": true,
+            "isActive": true,
+            "imageUrl": "media/package_2.png"
+        }
+    ];
   }
 
   static propTypes = {
