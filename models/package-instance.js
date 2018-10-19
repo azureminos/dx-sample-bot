@@ -30,12 +30,11 @@ const getPackageInstanceDetails = (instId) =>
     console.log('>>>>Retrieved package instance participants', pkgInstParticipants);
     console.log('>>>>Retrieved package instance rate plans', pkgRatePlans);
 
-    let result = {...pkgInst};
-    result.items = [...pkgInstItems];
-    result.rates = [...pkgRatePlans];
-    result.participants = [...pkgInstParticipants];
+    pkgInst.items = pkgInstItems;
+    pkgInst.rates = pkgRatePlans;
+    pkgInst.participants = pkgInstParticipants;
 
-    return result;
+    return pkgInst;
   })
 
 const addPackageInstance = (packageId, userId) =>
@@ -47,7 +46,7 @@ const addPackageInstance = (packageId, userId) =>
     console.log('>>>>Added package instance', packageInstance);
     console.log('>>>>Retrieved package', pkg);
 
-    return Promise.all([
+    Promise.all([
       PackageInstItem.addPackageInstItem(packageInstance.id, pkg.items, userId),
       PackageInstParticipant.addPackageParticipant(packageInstance.id, userId, true),
     ]).then(() =>
