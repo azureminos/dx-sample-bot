@@ -17,8 +17,8 @@ router.get('/', (req, res) => {
   const {DEMO, PORT, LOCAL} = process.env;
   const socketAddress = (DEMO && LOCAL) ? `http://${hostname}:${PORT}` : `wss://${hostname}`;
 
-  console.log('>>>>print input into index2', {instId: null, socketAddress});
-  res.render('./index2', {instId: null, socketAddress});
+  console.log('>>>>print input into index', {instId: null, socketAddress});
+  res.render('./index', {instId: null, socketAddress});
 });
 
 export default router;
