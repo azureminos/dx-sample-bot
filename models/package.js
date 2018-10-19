@@ -109,7 +109,7 @@ const getPackageDetails = (packageId) =>
   .then(([pkg, items, rates]) => {
     if (pkg) {
       pkg.items = items;
-      pkg.ratePlan = rates;
+      pkg.rates = rates;
     }
     return pkg;
   });
