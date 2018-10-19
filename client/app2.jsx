@@ -344,13 +344,12 @@ export default class App2 extends React.Component {
 
     if(!packageInst) {
       const {apiUri, instId, viewerId, threadType} = this.props;
-      console.log(this.props);
-      console.log(apiUri);
       page = (
         <section>
           <CenterSlider
             items={packages}
             buttonName="Book Now"
+            apiUri={apiUri}
           >
           </CenterSlider>
         </section>

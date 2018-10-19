@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import Slider from "react-slick";
 
-const CenterSlider = ({items, buttonName}) => {
-  console.log('>>>>CenterSlider', {items: items, buttonName: buttonName});
+const CenterSlider = ({items, buttonName, apiUri}) => {
+  console.log('>>>>CenterSlider', {items: items, buttonName: buttonName, apiUri: apiUri});
 
   const settings = {
     className: "center",
@@ -14,9 +14,10 @@ const CenterSlider = ({items, buttonName}) => {
   };
 
   const itemList = items.map((item) => {
+    const imageUrl = apiUri + '/' + item.imageUrl;
     return (
         <div key={item.id}>
-          <img src={item.imageUrl} alt={item.name} ></img>
+          <img src={imageUrl} alt={item.name} ></img>
           <p>{item.desc}</p>
           <button>{buttonName}</button>
         </div>
