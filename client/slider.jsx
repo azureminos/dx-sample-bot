@@ -23,7 +23,7 @@ const CenterSlider = ({items, buttonName}) => {
     );
   });
 
-  console.log(itemList);
+  console.log('>>>>CenterSlider items', itemList);
 
   return (
     <div>

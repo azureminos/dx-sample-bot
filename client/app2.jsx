@@ -21,6 +21,7 @@ import Title from './title.jsx';
 import Updating from './updating.jsx';
 import Viewers from './viewers.jsx';
 import TourSummary from './summary.jsx';
+import CenterSlider from './slider.jsx';
 
 let socket;
 
