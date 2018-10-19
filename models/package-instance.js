@@ -1,26 +1,49 @@
 // ===== DB ====================================================================
 import Knex  from '../db/knex';
 import Package from '../models/package';
+import RatePlan from '../models/rate-plan';
+import PackageInstItem from '../models/package-instance-item';
+import PackageInstParticipant from '../models/package-instance-particitpant';
 
 const PackageInst = () => Knex('package_inst');
-const PackageInstItem = () => Knex('package_inst_items');
-const PackageParticipant = () => Knex('package_participant');
 
 // ===== Package ======================================================
+const getPackageInstance = (instId) =>
+  PackageInst()
+    .join('package', 'package.id', 'package_inst.pkg_id')
+    .select('package_inst.id', 'package_inst.start_date as startDate','package_inst.is_premium as isPremium',
+      'package_inst.pkg_fee as fee', 'package.name as name', 'package.desc as desc','package.days as days',
+      'package.imageUrl as imageUrl')
+    .where('package_inst.id', instId)
+
+const getPackageInstanceDetails = (instId) =>
+  Promise.all([
+    getPackageInstance(instId),
+    RatePlan.getRatePlanByInstId(instId),
+    PackageInstItem.getPackageInstItem(instId),
+    PackageInstParticipant.getPackageParticipant(instId),
+    ])
+  .then(([pkgInst, pkgInstItems, pkgRatePlans, pkgInstParticipants]) => {
+    pkgInst.items = pkgInstItems;
+    pkgInst.rates = pkgRatePlans;
+    pkgInst.participants = pkgInstParticipants;
+
+    return pkgInst;
+  })
+
 const addPackageInstance = (packageId, userId) =>
-  Package
-    .getPackageDetails(packageId)
-    .then((pkg) => {
-      PackageInst()
-        .insert(
-          {
-            pkg_id: pkg.id,
-          },
-          ['id', 'pkg_id as packageId', 'is_premium as isPremium']
-        ).then(([packageInst]) => {
-          console.log('>>>>package instance added', packageInst);
-        })
-    });
+  Promise.all([
+    Package.getPackageDetails(packageId),
+    PackageInst().insert({pkg_id: packageId},['id', 'pkg_id as packageId', 'is_premium as isPremium']),
+  ])
+  .then(([pkg, packageInstance]) =>
+    Promise.all([
+      PackageInstItem.addPackageInstItem(packageInstance.id, pkg.items, userId),
+      PackageInstParticipant.addPackageParticipant(packageInstance.id, userId, true),
+    ]).then(() =>
+      getPackageInstanceDetails(packageInstance.id)
+    )
+  )
 
 const delPackageInstance = (packageInstId) =>
   Promise.all([
@@ -30,6 +53,8 @@ const delPackageInstance = (packageInstId) =>
   ])
 
 export default {
+  getPackageInstance,
+  getPackageInstanceDetails,
   addPackageInstance,
   delPackageInstance,
 };

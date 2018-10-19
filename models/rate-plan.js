@@ -9,6 +9,13 @@ const getAllRatePlan = () =>
     .select('id', 'pkg_id as packageId', 'tier', 'premium_fee as premiumFee',
       'min_joins as minJoins', 'pkg_rate as packageRate')
 
+const getRatePlanByInstId = (instId) =>
+  RatePlan()
+    .join('package_inst', 'package_inst.pkg_id', 'rate_plan.pkg_id')
+    .select('id', 'pkg_id as packageId', 'tier', 'premium_fee as premiumFee',
+      'min_joins as minJoins', 'pkg_rate as packageRate')
+    .where('package_inst.id', instId)
+
 const getRatePlanByPackageId = (packageId) =>
   RatePlan()
     .select('id', 'pkg_id as packageId', 'tier', 'premium_fee as premiumFee',
@@ -64,6 +71,7 @@ const delRatePlan = (itemId) =>
 
 export default {
   getAllRatePlan,
+  getRatePlanByInstId,
   getRatePlanByPackageId,
   getRatePlanByPackageName,
   getRatePlan,
