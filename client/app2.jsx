@@ -411,7 +411,6 @@ export default class App2 extends React.Component {
             items={packages}
             buttonName="Book Now"
             apiUri={apiUri}
-            cityAttractions={cityAttractions}
           >
           </CenterSlider>
         </section>
@@ -428,6 +427,7 @@ export default class App2 extends React.Component {
               <PackageSummary
                 packageInst={packageInst}
                 apiUri={apiUri}
+                cityAttractions={cityAttractions}
               >
               </PackageSummary>
               <Updating updating={updating} />

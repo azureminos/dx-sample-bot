@@ -45,8 +45,9 @@ const PackageSummary = ({packageInst, apiUri, cityAttractions}) => {
   _.forEach(cityAttractions, function(attractions, city) {
     _.concat(tags, _.filter(attractions, { isLiked: true }));
   });
+  console.log('>>>>Show tags', tags);
 
-  const TagList = {
+  const tagSetting = {
     tags: tags,
     title: null,
     isReadonly: true,
