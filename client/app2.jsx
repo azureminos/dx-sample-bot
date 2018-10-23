@@ -23,7 +23,7 @@ import Updating from './updating.jsx';
 import Viewers from './viewers.jsx';
 import TourSummary from './summary.jsx';
 import CenterSlider from './slider.jsx';
-import PackageDetails from './package-details.jsx';
+import PackageSummary from './package-summary.jsx';
 
 let socket;
 
@@ -39,7 +39,8 @@ export default class App2 extends React.Component {
       packageInst: null,
       packages: null,
       ownerId: null,
-      resetting: false,
+      cityAttractions: null,
+      isCustomisable: false,
       title: this.props.title,
       updating: false,
       users: [],
@@ -47,6 +48,79 @@ export default class App2 extends React.Component {
 
     /*--------------------Dummy Data---------------*/
     this.state.ownerId = 1;
+    this.state.isCustomisable = false;
+    this.state.cityAttractions = {
+      Shanghai: [
+        {
+          "id": 1,
+          "name": "The Bund",
+          "cityId": 1,
+          "cityName": "Shanghai",
+          "desc": "The Bund",
+          "alias": "The Bund",
+          "tag": "The Bund",
+          "imageUrl": "media/attraction_1.png",
+          "isLiked": true,
+        },
+        {
+          "id": 3,
+          "name": "Lu Jia Zui",
+          "cityId": 1,
+          "cityName": "Shanghai",
+          "desc": "Lu Jia Zui",
+          "alias": "Lu Jia Zui",
+          "tag": "Lu Jia Zui",
+          "imageUrl": "media/attraction_1.png",
+          "isLiked": true,
+        },
+        {
+          "id": 2,
+          "name": "Xu Jia Hui",
+          "cityId": 1,
+          "cityName": "Shanghai",
+          "desc": "Xu Jia Hui",
+          "alias": "Xu Jia Hui",
+          "tag": "Xu Jia Hui",
+          "imageUrl": "media/attraction_2.png",
+          "isLiked": false,
+        },
+      ],
+      Beijing: [
+        {
+          "id": 4,
+          "name": "Tian An Men",
+          "cityId": 2,
+          "cityName": "Beijing",
+          "desc": "Tian An Men",
+          "alias": "Tian An Men",
+          "tag": "Tian An Men",
+          "imageUrl": "media/attraction_2.png",
+          "isLiked": false,
+        },
+        {
+          "id": 5,
+          "name": "The Great Wall",
+          "cityId": 2,
+          "cityName": "Beijing",
+          "desc": "The Great Wall",
+          "alias": "The Great Wall",
+          "tag": "The Great Wall",
+          "imageUrl": "media/attraction_1.png",
+          "isLiked": true,
+        },
+        {
+          "id": 6,
+          "name": "The Forbidden Palace",
+          "cityId": 2,
+          "cityName": "Beijing",
+          "desc": "The Forbidden Palace",
+          "alias": "The Forbidden Palace",
+          "tag": "The Forbidden Palace",
+          "imageUrl": "media/attraction_2.png",
+          "isLiked": false,
+        },
+      ],
+    };
     this.state.users = [
       {fbId: 1, online: true}
     ];
@@ -264,49 +338,6 @@ export default class App2 extends React.Component {
     this.setState({users});
   }
 
-  /* ----------  Items  ---------- */
-
-  addItem(item) {
-    this.setState({items: [...this.state.items, item]});
-  }
-
-  pushUpdatedItem(itemId, name, completerFbId) {
-    this.pushToRemote('item:update', {id: itemId, name, completerFbId});
-  }
-
-  setItem({id, name, completerFbId}) {
-    const items = this.state.items.map((item) =>
-      (item.id === id)
-        ? Object.assign({}, item, {id: id, name, completerFbId})
-        : item
-    );
-
-    this.setState({items});
-  }
-
-  /* ----------  New Item Field  ---------- */
-
-  setNewItemText(newText) {
-    console.log('Set new item text:', newText);
-    this.setState({newItemText: newText});
-  }
-
-  // Turn new item text into an actual list item
-  addNewItem() {
-    const {newItemText: name} = this.state;
-
-    this.resetNewItem();
-    this.pushToRemote('item:add', {name});
-  }
-
-  resetNewItem() {
-    this.setState({resetting: true});
-
-    setTimeout(() => {
-      this.setState({newItemText: '', resetting: false});
-    }, 600);
-  }
-
   /* =============================================
      =              React Lifecycle              =
      ============================================= */
@@ -361,6 +392,7 @@ export default class App2 extends React.Component {
       ownerId,
       packageInst,
       packages,
+      cityAttractions,
       users,
       title,
       resetting,
@@ -379,6 +411,7 @@ export default class App2 extends React.Component {
             items={packages}
             buttonName="Book Now"
             apiUri={apiUri}
+            cityAttractions={cityAttractions}
           >
           </CenterSlider>
         </section>
@@ -390,17 +423,18 @@ export default class App2 extends React.Component {
       page = (
         <section>
         <Tab type="navbar">
-          <NavBarItem label="Package Details">
+          <NavBarItem label="Summary">
             <section id='package'>
-              <PackageDetails
+              <PackageSummary
                 packageInst={packageInst}
                 apiUri={apiUri}
               >
-              </PackageDetails>
+              </PackageSummary>
+              <Updating updating={updating} />
             </section>
           </NavBarItem>
-          <NavBarItem label="Package Summary">
-            <p>Tab Summary</p>
+          <NavBarItem label="Itinerary">
+            <p>Your Itinerary</p>
           </NavBarItem>
         </Tab>
         </section>

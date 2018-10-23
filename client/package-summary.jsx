@@ -3,14 +3,14 @@ import {Panel} from 'react-weui';
 import Collapsible from 'react-collapsible';
 
 import CenterSlider from './slider.jsx';
+import TagList from './tag-list.js';
 
-
-const PackageDetails = ({packageInst, apiUri}) => {
-  console.log('>>>>PackageDetails', {packageInst: packageInst, apiUri: apiUri});
+const PackageSummary = ({packageInst, apiUri, cityAttractions}) => {
+  console.log('>>>>PackageSummary', {packageInst: packageInst, apiUri: apiUri, cityAttractions: cityAttractions});
   const packageImageUrl = apiUri + '/' + packageInst.imageUrl;
 
   let cityMap = _.groupBy(packageInst.items, function(item){return item.city});;
-  console.log('>>>>PackageDetails city map', cityMap);
+  console.log('>>>>PackageSummary city map', cityMap);
 
   const cityCollapsible = _.keys(cityMap).map((city, idx) => {
     let setting = {
@@ -40,6 +40,18 @@ const PackageDetails = ({packageInst, apiUri}) => {
     );
   });
 
+  /*=====Prepare settings of TagList======*/
+  let tags = [];
+  _.forEach(cityAttractions, function(attractions, city) {
+    _.concat(tags, _.filter(attractions, { isLiked: true }));
+  });
+
+  const TagList = {
+    tags: tags,
+    title: null,
+    isReadonly: true,
+  };
+
   return (
     <div>
       <Panel>
@@ -50,8 +62,11 @@ const PackageDetails = ({packageInst, apiUri}) => {
       <Panel>
         {cityCollapsible}
       </Panel>
+      <Panel>
+        <TagList {...tagSetting} />
+      </Panel>
     </div>
   );
 };
 
-export default PackageDetails;
+export default PackageSummary;
