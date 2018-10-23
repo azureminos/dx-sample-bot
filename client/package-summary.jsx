@@ -44,7 +44,7 @@ const PackageSummary = ({packageInst, apiUri, cityAttractions}) => {
   let tags = [];
   _.forEach(cityAttractions, function(value, key) {
     console.log(key, value);
-    _.concat(tags, _.filter(value, { isLiked: true }));
+    tags = _.concat(tags, _.filter(value, { isLiked: true }));
   });
   console.log('>>>>Show tags', tags);
 
