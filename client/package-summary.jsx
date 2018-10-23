@@ -47,7 +47,7 @@ const PackageSummary = ({packageInst, apiUri, cityAttractions}) => {
     tags = _.concat(tags, _.filter(value, { isLiked: true }));
   });
   console.log('>>>>Show tags', tags);
-  tags = tags.map((item) => {return item.name});
+  tags = tags.map((item) => {return {id: item.id, text: item.name}});
   console.log('>>>>After format tags', tags);
 
   const tagSetting = {
