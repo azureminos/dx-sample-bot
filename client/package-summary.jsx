@@ -42,8 +42,9 @@ const PackageSummary = ({packageInst, apiUri, cityAttractions}) => {
 
   /*=====Prepare settings of TagList======*/
   let tags = [];
-  _.forEach(cityAttractions, function(attractions, city) {
-    _.concat(tags, _.filter(attractions, { isLiked: true }));
+  _.forEach(cityAttractions, function(value, key) {
+    console.log(key, value);
+    _.concat(tags, _.filter(value, { isLiked: true }));
   });
   console.log('>>>>Show tags', tags);
 
