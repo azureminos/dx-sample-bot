@@ -6,9 +6,10 @@
  */
 
 // ===== DB ====================================================================
-import Lists from '../models/lists';
-import Promos from '../models/promos';
 import Users from '../models/users';
+import Packages from '../models/users';
+import PackageInst from '../models/package-instance';
+import PackageParticipant from '../models/package-instance-participant';
 
 // ===== MESSENGER =============================================================
 import userApi from '../messenger-api-helpers/user';
@@ -63,49 +64,67 @@ const join = ({
   socketUsers,
   userSocket,
 }) => {
-  Promise.all([
-    Lists.get(instId),
-    Lists.getAllItems(instId),
-    Lists.getOwner(instId),
-    getUser(senderId),
-  ]).then(([list, items, listOwner, user]) => {
-    if (!list) {
-      console.error("List doesn't exist!");
-      sendStatus('noList');
-    }
-    console.log('>>>>Print list before addUser', list);
-    Lists.addUser(list.id, user.fbId)
-      .then((usersList) => {
-        if (!listOwner) {
-          //Promos.get(list.promoId).then((promo) => {sendApi.sendListCreated(user.fbId, list.id, list.title, promo);})
-          allInRoom(list.id).emit('list:setOwnerId', usersList.userFbId);
-        }
-      })
-      .then(() => {
-        socketUsers.set(socket.id, {instId: list.id, userId: user.fbId});
+  console.log('>>>>Start to process User Join event with Input['+senderId+', '+instId+']');
+  if(instId) {
+    Promise.all([
+      PackageInst.delPackageInstance(instId),
+      PackageInst.getAttractionsByInstId(instId),
+      PackageInst.getOwner(instId),
+      getUser(senderId),
+    ]).then(([packageInst, cityAttractions, instOwner, user]) => {
+      if (!packageInst) {
+        console.error("Package instance doesn't exist!");
+        sendStatus('noPackageInst');
+      }
+      console.log('>>>>Print package instance before addUser', list);
+      PackageParticipant.addParticipant(packageInst.id, user.fbId)
+        .then((usersInst) => {
+          if (!instOwner) {
+            allInRoom(packageInst.id).emit('packageInst:setOwnerId', usersInst.fbId);
+          }
+        })
+        .then(() => {
+          socketUsers.set(socket.id, {instId: packageInst.id, userId: user.fbId});
 
-        Lists.getAllUsers(instId)
-          .then((users) => {
-            return getFacebookProfileInfoForUsers(users, instId, socketUsers);
-          })
-          .then((fbUsers) => {
-            const viewerUser =
-              fbUsers.find((fbUser) => fbUser.fbId === user.fbId);
-            socket.join(list.id);
-            socket.in(list.id).emit('user:join', viewerUser);
+          PackageParticipant.getParticipantByInstId(instId)
+            .then((users) => {
+              return getFacebookProfileInfoForUsers(users, instId, socketUsers);
+            })
+            .then((fbUsers) => {
+              const viewerUser =
+                fbUsers.find((fbUser) => fbUser.fbId === user.fbId);
+              socket.join(packageInst.id);
+              socket.in(packageInst.id).emit('user:join', viewerUser);
 
-            userSocket.emit('init', {
-              ...list,
-              items,
-              users: fbUsers,
-              ownerId: listOwner ? listOwner.fbId : user.fbId,
+              userSocket.emit('init', {
+                packageInst,
+                cityAttractions,
+                users: fbUsers,
+                ownerId: instOwner ? instOwner.fbId : user.fbId,
+              });
+
+              sendStatus('ok');
             });
-
+        });
+    });
+  } else {
+    Packages
+      .getAllPromotedPackage()
+      .then((packages) => {
+        if (!packages) {
+          console.error("No package available!");
+          sendStatus('noPackage');
+        } else {
+          console.log('>>>>Print all packages', packages);
+            userSocket.emit('init', {
+              packages,
+            });
             sendStatus('ok');
-          });
+        }
       });
-  });
-};
+  }
+}
+
 
 // Notify users in room when user leaves.
 const leave = ({userId, instId, allInRoom, socket, socketUsers}) => {
