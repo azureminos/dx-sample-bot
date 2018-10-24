@@ -17,6 +17,19 @@ const getPackageInstance = (instId) =>
     .where('package_inst.id', instId)
     .first()
 
+const getAttractionsByInstId = (instId) => {
+  return PackageInst()
+    .join('package_item', {'package_item.pkg_id': 'package_inst.pkg_id'})
+    .join('attraction', {'attraction.id': 'package_item.attraction_id'})
+    .join('city', {'city.id': 'attraction.city_id'})
+    .select('city.name as cityName', 'attraction.name as name', 'attraction.desc as desc', 'attraction.image_url as imageUrl')
+    .where('package_inst.id', instId)
+    .then((result) => {
+      console.log('>>>>PackageInst.getAttractionsByInstId['+instId+']', result);
+      return _.groupBy(result, (item) => item.cityName);
+    });
+}
+
 const getPackageInstanceDetails = (instId) =>
   Promise.all([
       getPackageInstance(instId),
@@ -46,7 +59,7 @@ const addPackageInstance = (packageId) =>
 const delPackageInstance = (packageInstId) =>
   Promise.all([
     PackageInstItem.delPackageInstItem(packageInstId),
-    PackageInstParticipant.delPackageParticipant(packageInstId),
+    PackageInstParticipant.delParticipantByInstId(packageInstId),
   ]).then(() => PackageInst().where('id', packageInstId).del())
 
 export default {
@@ -54,4 +67,5 @@ export default {
   getPackageInstanceDetails,
   addPackageInstance,
   delPackageInstance,
+  getAttractionsByInstId,
 };

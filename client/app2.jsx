@@ -14,14 +14,11 @@ import {Tab, NavBarItem} from 'react-weui';
 
 // ===== COMPONENTS ============================================================
 import Invite from './invite.jsx';
-import Item from './item.jsx';
 import ListNotFound from './list_not_found.jsx';
 import LoadingScreen from './loading_screen.jsx';
-import NewItem from './new_item.jsx';
 import Title from './title.jsx';
 import Updating from './updating.jsx';
 import Viewers from './viewers.jsx';
-import TourSummary from './summary.jsx';
 import CenterSlider from './slider.jsx';
 import PackageSummary from './package-summary.jsx';
 
@@ -37,11 +34,10 @@ export default class App2 extends React.Component {
 
     this.state = {
       packageInst: null,
-      packages: null,
+      packages: [],
       ownerId: null,
       cityAttractions: null,
       isCustomisable: false,
-      title: this.props.title,
       updating: false,
       users: [],
     };
@@ -124,7 +120,6 @@ export default class App2 extends React.Component {
     this.state.users = [
       {fbId: 1, online: true}
     ];
-    this.state.title = 'Dummy';
     this.state.packageInst =
     {
         "id": 37,
@@ -254,6 +249,9 @@ export default class App2 extends React.Component {
   pushToRemote(channel, message) {
     this.setState({updating: true}); // Set the updating spinner
 
+    console.log('>>>>Push event['+channel+'] with message',
+      {senderId: this.props.viewerId, instId: this.props.instId, ...message,}
+    );
     socket.emit(
       `push:${channel}`,
       {
@@ -342,7 +340,7 @@ export default class App2 extends React.Component {
      =              React Lifecycle              =
      ============================================= */
 
-  /*componentWillMount() {
+  componentWillMount() {
     // Connect to socket.
     socket = io.connect(
       this.props.socketAddress,
@@ -350,16 +348,16 @@ export default class App2 extends React.Component {
     );
 
     // Add socket event handlers.
-    socket.on('init', ({users, items, ownerId, title} = {}) => {
-      this.setState({users, items, ownerId, title});
+    socket.on('init', ({packageInst, packages, cityAttractions, users, ownerId} = {}) => {
+      this.setState({packageInst, packages, cityAttractions, users, ownerId});
     });
 
-    socket.on('item:add', this.addItem);
-    socket.on('item:update', this.setItem);
-    socket.on('list:setOwnerId', this.setOwnerId);
-    socket.on('title:update', this.setDocumentTitle);
+    //socket.on('item:add', this.addItem);
+    //socket.on('item:update', this.setItem);
+    //socket.on('list:setOwnerId', this.setOwnerId);
+    //socket.on('title:update', this.setDocumentTitle);
     socket.on('user:join', this.userJoin);
-    socket.on('users:setOnline', this.setOnlineUsers);
+    //socket.on('users:setOnline', this.setOnlineUsers);
 
     const self = this;
     // Check for permission, ask if there is none
@@ -385,7 +383,7 @@ export default class App2 extends React.Component {
       console.error({errorCode, errorMessage});
       window.MessengerExtensions.requestCloseBrowser(null, null);
     });
-  }*/
+  }
 
   render() {
     const {
