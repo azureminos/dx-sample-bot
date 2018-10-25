@@ -43,7 +43,7 @@ export default class App2 extends React.Component {
     };
 
     /*--------------------Dummy Data---------------*/
-    this.state.ownerId = 1;
+    /*this.state.ownerId = 1;
     this.state.isCustomisable = false;
     this.state.cityAttractions = {
       Shanghai: [
@@ -199,7 +199,7 @@ export default class App2 extends React.Component {
             }
         ]
     };
-    this.state.packages = [];
+    this.state.packages = [];*/
 
     /*this.state.packageInst = null;
     this.state.packages = [
@@ -349,10 +349,10 @@ export default class App2 extends React.Component {
     );
 
     // Add socket event handlers.
-    socket.on('init', (result = {}) => {
-      console.log('>>>>Result coming back from socket [init]', result);
-      //{packageInst, packages, cityAttractions, users, ownerId} = result;
-      //this.setState({packageInst, packages, cityAttractions, users, ownerId});
+    socket.on('init', ({packageInst, packages=[], cityAttractions, users, ownerId} = {}) => {
+      console.log('>>>>Result coming back from socket [init]',
+        {packageInst:packageInst, packages:packages, cityAttractions:cityAttractions, users:users, ownerId:ownerId});
+      this.setState({packageInst, packages, cityAttractions, users, ownerId});
     });
 
     //socket.on('item:add', this.addItem);
