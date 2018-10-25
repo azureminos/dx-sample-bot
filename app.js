@@ -32,6 +32,7 @@ import pkg from './routes/package';
 import pkgItem from './routes/package-item';
 import ratePlan from './routes/rate-plan';
 import packageInstance from './routes/package-instance';
+import instanceParticipant from './routes/package-instance-participant';
 import instRoute from './routes/instance';
 
 // ===== SOCKETS ===============================================================
@@ -107,6 +108,7 @@ app.use('/package', pkg);
 app.use('/packageItem', pkgItem);
 app.use('/ratePlan', ratePlan);
 app.use('/packageInstance', packageInstance);
+app.use('/instanceParticipant', instanceParticipant);
 app.use('/instance', instRoute);
 
 /* ----------  Errors  ---------- */
