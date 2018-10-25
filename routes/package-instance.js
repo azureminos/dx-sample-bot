@@ -57,6 +57,17 @@ router.put('/', function(req, res) {
     })
 });
 
+router.post('/', function(req, res) {
+  console.log('>>>>Post package-instance item', req.body);
+  const {packageId} = req.body;
+
+  PackageInstances.addPackageInstance(packageId)
+    .then((result) => {
+      console.log('>>>>Inserted package-instance item', result);
+      res.send(result);
+    })
+});
+
 /*router.post('/', function(req, res) {
   const item = req.body;
   console.log('>>>>Update package-item item', item);
