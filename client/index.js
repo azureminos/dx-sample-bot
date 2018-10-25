@@ -60,6 +60,8 @@ window.attachApp2 = (viewerId, listId, promoId, socketAddress, threadType) => {
 
 window.attachApp = (viewerId, instId, socketAddress, threadType) => {
   console.log('>>>>window.attachApp', {viewerId:viewerId, instId:instId, socketAddress:socketAddress, threadType:threadType});
+  instId = instId?Number(instId):null;
+  console.log('>>>>instId after re-format', instId);
 
   const apiUri = `https://${window.location.hostname}`;
   let app;
