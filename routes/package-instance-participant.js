@@ -11,7 +11,7 @@ router.get('/:instId', function(req, res) {
       console.log('>>>>Retrieved package-item participant', result);
       res.send(result);
     })
-});*/
+});
 
 router.put('/', function(req, res) {
   console.log('>>>>Insert package-instance participant', req.body);
@@ -23,17 +23,6 @@ router.put('/', function(req, res) {
       res.send(result);
     })
 });
-
-/*router.post('/', function(req, res) {
-  const item = req.body;
-  console.log('>>>>Update package-item item', item);
-
-  PackageItem.setPackageItem(item)
-    .then(([result]) => {
-      console.log('>>>>Updated package-item item', result);
-      res.send(result);
-    })
-});*/
 
 router.delete('/', function(req, res) {
   console.log('>>>>Delete package-instance participant', req.body);
