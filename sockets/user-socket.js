@@ -10,7 +10,7 @@
 
 // ===== DB ====================================================================
 import Users from '../models/users';
-import Packages from '../models/users';
+import Packages from '../models/package';
 import PackageInst from '../models/package-instance';
 import PackageParticipant from '../models/package-instance-participant';
 
