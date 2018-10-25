@@ -117,6 +117,7 @@ const getPackageDetails = (packageId) =>
 
 export default {
   getAllPackage,
+  getAllPromotedPackage,
   getPackageByCountry,
   getPackageByCity,
   getPackage,
