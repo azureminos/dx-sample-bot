@@ -79,7 +79,7 @@ const join = ({
         console.error("Package instance doesn't exist!");
         sendStatus('noPackageInst');
       }
-      console.log('>>>>Print package instance before addUser', list);
+      console.log('>>>>Print package instance before addUser', packageInst);
       PackageParticipant.addParticipant(packageInst.id, user.fbId)
         .then((usersInst) => {
           if (!instOwner) {
@@ -91,6 +91,7 @@ const join = ({
 
           PackageParticipant.getParticipantByInstId(instId)
             .then((users) => {
+              console.log('>>>>Calling getFacebookProfileInfoForUsers', {users: users, instId: instId, socketUsers:socketUsers});
               return getFacebookProfileInfoForUsers(users, instId, socketUsers);
             })
             .then((fbUsers) => {
