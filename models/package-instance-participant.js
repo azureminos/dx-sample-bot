@@ -22,7 +22,7 @@ const addParticipant = (instId, fbId) => {
       PackageParticipant()
         .where({pkg_inst_id: instId, user_fb_id: fbId})
         .first()
-        .then((usersInst) => ({hasOwner, alreadyAdded: !!usersList}))
+        .then((usersInst) => ({hasOwner, alreadyAdded: !!usersInst}))
     )
     .then(({hasOwner, alreadyAdded}) => {
       if (alreadyAdded && !hasOwner) {
@@ -36,7 +36,7 @@ const addParticipant = (instId, fbId) => {
           .first();
       }
 
-      return UsersLists()
+      return PackageParticipant()
         .insert(
           {is_owner: !hasOwner, pkg_inst_id: instId, user_fb_id: fbId},
           ['id', 'user_fb_id as fbId', 'is_owner as isOwner', 'pkg_inst_id as instId']
