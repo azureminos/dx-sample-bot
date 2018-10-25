@@ -48,12 +48,12 @@ const getUserDetails = (senderId) => {
   });
 };
 
-const getFacebookProfileInfoForUsers = (users = [], listId, socketUsers) =>
+const getFacebookProfileInfoForUsers = (users = [], instId, socketUsers) =>
   Promise.all(users.map((user) => getUserDetails(user.fbId)))
     .then((res) => res.map((resUser = {}) => {
       // Detect online status via socketUser with matching list & FB IDs.
       const isOnline = [...socketUsers.values()].find((socketUser) =>
-        socketUser.listId === instId && socketUser.userId === resUser.fbId);
+        socketUser.instId === instId && socketUser.userId === resUser.fbId);
 
       return Object.assign({}, resUser, {online: !!isOnline || false});
     }));
