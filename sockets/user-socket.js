@@ -70,7 +70,7 @@ const join = ({
   console.log('>>>>Start to process User Join event with Input['+senderId+', '+instId+']');
   if(instId) {
     Promise.all([
-      PackageInst.delPackageInstance(instId),
+      PackageInst.getPackageInstanceDetails(instId),
       PackageInst.getAttractionsByInstId(instId),
       PackageParticipant.getOwnerByInstId(instId),
       getUser(senderId),
