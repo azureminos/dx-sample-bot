@@ -318,6 +318,7 @@ export default class App2 extends React.Component {
 
   // Socket Event Handler for User Join event.
   userJoin(newUser) {
+    console.log('>>>>Result coming back from socket [user:join]', newUser);
     const oldUsers = this.state.users.slice();
     const existing = oldUsers.find((user) => user.fbId === newUser.fbId);
 
@@ -348,7 +349,9 @@ export default class App2 extends React.Component {
     );
 
     // Add socket event handlers.
-    socket.on('init', ({packageInst, packages, cityAttractions, users, ownerId} = {}) => {
+    socket.on('init', (result = {}) => {
+      console.log('>>>>Result coming back from socket [init]', result);
+      {packageInst, packages, cityAttractions, users, ownerId} = result;
       this.setState({packageInst, packages, cityAttractions, users, ownerId});
     });
 
@@ -370,6 +373,7 @@ export default class App2 extends React.Component {
         window.MessengerExtensions.askPermission(function(response) {
           const isGranted = response.isGranted;
           if (isGranted) {
+            console.log('>>>>calling socket [push:user:join]', self.props.viewerId);
             self.pushToRemote('user:join', {id: self.props.viewerId});
           } else {
             window.MessengerExtensions.requestCloseBrowser(null, null);
@@ -402,6 +406,7 @@ export default class App2 extends React.Component {
     let page;
 
     if(!packageInst) {
+      console.log('>>>>No package instance found, let user select a package');
       const {apiUri, instId, viewerId, threadType} = this.props;
       page = (
         <section>
@@ -416,6 +421,7 @@ export default class App2 extends React.Component {
     } else if (users.length > 0) {
       // Skip and show loading spinner if we don't have data yet
       /* ----------  Setup Sections (anything dynamic or repeated) ---------- */
+      console.log('>>>>Package instance and user found', {props: this.props, state: this.state});
       const {apiUri, instId, viewerId, threadType} = this.props;
       page = (
         <section>
