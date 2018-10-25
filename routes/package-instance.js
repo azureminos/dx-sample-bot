@@ -46,6 +46,7 @@ router.get('/:itemId', function(req, res) {
     })
 });*/
 
+
 router.put('/', function(req, res) {
   console.log('>>>>Insert package-instance item', req.body);
   const {packageId} = req.body;
@@ -57,27 +58,6 @@ router.put('/', function(req, res) {
     })
 });
 
-router.post('/', function(req, res) {
-  console.log('>>>>Post package-instance item', req.body);
-  const {packageId} = req.body;
-
-  PackageInstances.addPackageInstance(packageId)
-    .then((result) => {
-      console.log('>>>>Inserted package-instance item', result);
-      res.send(result);
-    })
-});
-
-/*router.post('/', function(req, res) {
-  const item = req.body;
-  console.log('>>>>Update package-item item', item);
-
-  PackageItem.setPackageItem(item)
-    .then(([result]) => {
-      console.log('>>>>Updated package-item item', result);
-      res.send(result);
-    })
-});*/
 
 router.delete('/', function(req, res) {
   console.log('>>>>Delete package-instance item', req.body);
