@@ -44,7 +44,7 @@ const addParticipant = (instId, fbId) => {
     });
 }
 
-const ParticipantByInstId = (instId) =>
+const delParticipantByInstId = (instId) =>
   PackageParticipant()
     .where('pkg_inst_id', instId)
     .del()
