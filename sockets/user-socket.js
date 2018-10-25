@@ -5,6 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
+// ===== Module ================================================================
+import _ from 'lodash';
+
 // ===== DB ====================================================================
 import Users from '../models/users';
 import Packages from '../models/users';
