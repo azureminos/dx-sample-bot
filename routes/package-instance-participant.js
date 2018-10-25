@@ -1,49 +1,57 @@
-import express from 'express';
-import InstanceParticipants from '../models/package-instance-participant';
+// ===== DB ====================================================================
+import Knex  from '../db/knex';
 
-const router = express.Router();
+const PackageParticipant = () => Knex('package_participant');
 
-router.get('/:instId', function(req, res) {
-  const instId = req.params.instId;
-  console.log('>>>>Retrieve package-item by itemId', itemId);
-  InstanceParticipants.getParticipantByInstId(instId)
-    .then((result) => {
-      console.log('>>>>Retrieved package-item participant', result);
-      res.send(result);
-    })
-});
+// ===== Package ======================================================
+const getParticipantByInstId = (instId) =>
+  PackageParticipant()
+    .select('user_fb_id as fbId', 'is_owner as isOwner')
+    .where('pkg_inst_id', instId)
 
-router.put('/', function(req, res) {
-  console.log('>>>>Insert package-instance participant', req.body);
-  const {instId, userId} = req.body;
+const getOwnerByInstId = (instId) =>
+  PackageParticipant()
+    .where({pkg_inst_id: instId, is_owner: true})
+    .first('user_fb_id as fbId');
 
-  InstanceParticipants.addParticipant(instId, userId)
-    .then((result) => {
-      console.log('>>>>Inserted package-instance participant', result);
-      res.send(result);
-    })
-});
+const addParticipant = (instId, fbId) => {
+  console.log('>>>>Add package instance participant, instId['+instId+'], fbId['+fbId+']');
+  return getOwnerByInstId(instId)
+    .then((user) => !!user)
+    .then((hasOwner) =>
+      PackageParticipant()
+        .where({pkg_inst_id: instId, user_fb_id: fbId})
+        .first()
+        .then((usersInst) => ({hasOwner, alreadyAdded: !!usersInst}))
+    )
+    .then(({hasOwner, alreadyAdded}) => {
+      if (alreadyAdded && !hasOwner) {
+        return PackageParticipant()
+          .where({pkg_inst_id: instId, user_fb_id: fbId})
+          .first()
+          .update({is_owner: true}, ['id', 'user_fb_id as fbId', 'is_owner as isOwner', 'pkg_inst_id as instId']);
+      } else if (alreadyAdded) {
+        return PackageParticipant()
+          .where({pkg_inst_id: instId, user_fb_id: fbId})
+          .first();
+      }
 
-router.post('/', function(req, res) {
-  console.log('>>>>Post package-instance participant', req.body);
-  const {instId, userId} = req.body;
+      return PackageParticipant()
+        .insert(
+          {is_owner: !hasOwner, pkg_inst_id: instId, user_fb_id: fbId},
+          ['id', 'user_fb_id as fbId', 'is_owner as isOwner', 'pkg_inst_id as instId']
+        );
+    });
+}
 
-  InstanceParticipants.addParticipant(instId, userId)
-    .then((result) => {
-      console.log('>>>>Inserted package-instance participant', result);
-      res.send(result);
-    })
-});
+const delParticipantByInstId = (instId) =>
+  PackageParticipant()
+    .where('pkg_inst_id', instId)
+    .del()
 
-router.delete('/', function(req, res) {
-  console.log('>>>>Delete package-instance participant', req.body);
-  const {InstId} = req.body;
-
-  InstanceParticipants.delParticipant(InstId)
-    .then(() => {
-      console.log('>>>>Deleted package-instance participant for instance['+InstId+']');
-      res.send('ok');
-    })
-});
-
-export default router;
+export default {
+  getParticipantByInstId,
+  getOwnerByInstId,
+  addParticipant,
+  delParticipantByInstId,
+};
