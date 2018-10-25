@@ -48,9 +48,9 @@ router.get('/:itemId', function(req, res) {
 
 router.put('/', function(req, res) {
   console.log('>>>>Insert package-instance item', req.body);
-  const {packageId, userId} = req.body;
+  const {packageId} = req.body;
 
-  PackageInstances.addPackageInstance(packageId, userId)
+  PackageInstances.addPackageInstance(packageId)
     .then((result) => {
       console.log('>>>>Inserted package-instance item', result);
       res.send(result);
