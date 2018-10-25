@@ -24,6 +24,17 @@ router.put('/', function(req, res) {
     })
 });
 
+router.post('/', function(req, res) {
+  console.log('>>>>Post package-instance participant', req.body);
+  const {instId, userId} = req.body;
+
+  InstanceParticipants.addParticipant(instId, userId)
+    .then((result) => {
+      console.log('>>>>Inserted package-instance participant', result);
+      res.send(result);
+    })
+});
+
 router.delete('/', function(req, res) {
   console.log('>>>>Delete package-instance participant', req.body);
   const {InstId} = req.body;
