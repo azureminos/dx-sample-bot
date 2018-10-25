@@ -69,7 +69,7 @@ const join = ({
     Promise.all([
       PackageInst.delPackageInstance(instId),
       PackageInst.getAttractionsByInstId(instId),
-      PackageInst.getOwner(instId),
+      PackageParticipant.getOwnerByInstId(instId),
       getUser(senderId),
     ]).then(([packageInst, cityAttractions, instOwner, user]) => {
       if (!packageInst) {
