@@ -104,6 +104,7 @@ const join = ({
                 packageInst,
                 cityAttractions,
                 users: fbUsers,
+                packages: [],
                 ownerId: instOwner ? instOwner.fbId : user.fbId,
               });
 
