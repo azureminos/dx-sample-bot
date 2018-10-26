@@ -164,4 +164,8 @@ const leave = ({userId, instId, allInRoom, socket, socketUsers}) => {
   allInRoom(instId).emit('users:setOnline', onlineUsers);
 };
 
-export default {join, leave};
+const setLikedAttraction = ({likedAttraction, fbId}) => {
+  console.log('>>>>Received event to setLikedAttraction', {likedAttraction: likedAttraction, fbId: fbId});
+};
+
+export default {join, leave, setLikedAttraction};

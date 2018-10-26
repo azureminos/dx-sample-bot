@@ -120,14 +120,23 @@ export default class App2 extends React.Component {
   /* ----------  Attractions  ---------- */
   setLikedAttraction(attractionId) {
     const cityAttractions = this.state.cityAttractions;
-    console.log('>>>>setLikedAttraction['+attractionId+']', cityAttractions);
+    const fbId = this.props.viewerId;
+    let likedAttraction = [];
+
+    console.log('>>>>setLikedAttraction['+attractionId+']', {cityAttractions: cityAttractions, fbId: fbId});
     _.forEach(_.values(cityAttractions), (attractions) => {
       _.forEach(attractions, (a) => {
         if(a.id == attractionId) {
           a.isLiked = !a.isLiked;
         }
+
+        if(a.isLiked) {
+          likedAttraction.push(a.name);
+        }
       })
-    })
+    });
+    console.log('>>>>Send event to update user liked attraction', likedAttraction.toString());
+    this.pushToRemote('likedAttraction:set', {likedAttraction: likedAttraction.toString(), fbId: fbId});
   }
 
   /* ----------  List  ---------- */
