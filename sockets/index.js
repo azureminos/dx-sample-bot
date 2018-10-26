@@ -29,6 +29,7 @@ export default function attachSockets(io) {
           socketUsers,
           userId,
           userSocket,
+          likedAttraction,
         });
       });
     };

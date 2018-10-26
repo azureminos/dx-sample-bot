@@ -143,7 +143,6 @@ const join = ({
   }
 }
 
-
 // Notify users in room when user leaves.
 const leave = ({userId, instId, allInRoom, socket, socketUsers}) => {
   if (!userId) {
@@ -164,8 +163,8 @@ const leave = ({userId, instId, allInRoom, socket, socketUsers}) => {
   allInRoom(instId).emit('users:setOnline', onlineUsers);
 };
 
-const setLikedAttraction = ({likedAttraction, fbId}) => {
-  console.log('>>>>Received event to setLikedAttraction', {likedAttraction: likedAttraction, fbId: fbId});
+const setLikedAttraction = ({likedAttraction, userId}) => {
+  console.log('>>>>Received event to setLikedAttraction', {likedAttraction: likedAttraction, userId: userId});
 };
 
 export default {join, leave, setLikedAttraction};
