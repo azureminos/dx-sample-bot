@@ -25,7 +25,8 @@ const getAttractionsByInstId = (instId) => {
     .join('package_item', {'package_item.pkg_id': 'package_inst.pkg_id'})
     .join('attraction', {'attraction.id': 'package_item.attraction_id'})
     .join('city', {'city.id': 'attraction.city_id'})
-    .select('city.name as cityName', 'attraction.name as name', 'attraction.desc as desc', 'attraction.image_url as imageUrl')
+    .select('city.name as cityName', 'attraction.id as id', 'attraction.name as name', 'attraction.desc as desc',
+      'attraction.image_url as imageUrl')
     .where('package_inst.id', instId)
     .then((result) => {
       console.log('>>>>PackageInst.getAttractionsByInstId['+instId+']', result);

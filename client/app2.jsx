@@ -352,6 +352,17 @@ export default class App2 extends React.Component {
     socket.on('init', ({packageInst, packages=[], cityAttractions, users, ownerId} = {}) => {
       console.log('>>>>Result coming back from socket [init]',
         {packageInst:packageInst, packages:packages, cityAttractions:cityAttractions, users:users, ownerId:ownerId});
+      const u = _.filter(users, (user) => {return user.fbId == ownerId});
+      console.log('>>>>Matched User['+ownerId+']', u);
+      if(u) {
+        const liked = u[0].likedAttractions.split(',');
+        _.forEach(_.values(cityAttractions), (attrs) => {
+          _.forEach(attrs, (attr) => {
+            attr.isLiked = _.find(liked, (likedId) => { return likedId==attr.id});
+          })
+        });
+      }
+      console.log('>>>>After update liked attractions', cityAttractions);
       this.setState({packageInst, packages, cityAttractions, users, ownerId});
     });
 
