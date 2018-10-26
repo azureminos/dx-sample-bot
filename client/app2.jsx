@@ -123,7 +123,7 @@ export default class App2 extends React.Component {
     //const userId = this.props.viewerId;
     let likedAttraction = [];
 
-    console.log('>>>>setLikedAttraction['+attractionId+']', {cityAttractions: cityAttractions, fbId: fbId});
+    console.log('>>>>setLikedAttraction['+attractionId+']', cityAttractions);
     _.forEach(_.values(cityAttractions), (attractions) => {
       _.forEach(attractions, (a) => {
         if(a.id == attractionId) {
