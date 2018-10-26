@@ -20,7 +20,6 @@ import NewItem from './new_item.jsx';
 import Title from './title.jsx';
 import Updating from './updating.jsx';
 import Viewers from './viewers.jsx';
-import TourSummary from './summary.jsx';
 
 let socket;
 
@@ -364,7 +363,7 @@ export default class App extends React.Component {
             </section>
           </NavBarItem>
           <NavBarItem label="Summary">
-            <TourSummary items={items} />
+            <p>summary tab</p>
           </NavBarItem>
         </Tab>
         {invite}

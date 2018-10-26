@@ -9,17 +9,14 @@ const PackageSummary = ({packageInst, apiUri, cityAttractions, likeAttraction}) 
   console.log('>>>>PackageSummary', {packageInst: packageInst, apiUri: apiUri, cityAttractions: cityAttractions});
   const packageImageUrl = apiUri + '/' + packageInst.imageUrl;
 
-  let cityMap = _.groupBy(packageInst.items, function(item){return item.city});;
-  console.log('>>>>PackageSummary city map', cityMap);
-
-  const cityCollapsible = _.keys(cityMap).map((city, idx) => {
+  const cityCollapsible = _.keys(cityAttractions).map((city, idx) => {
     let setting = {
       key: idx,
       trigger: city,
       open: true
     };
 
-    let items = cityMap[city].map((item) => {
+    let items = cityAttractions[city].map((item) => {
       return {
         id: item.id,
         name: item.attractionName,
