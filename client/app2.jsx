@@ -32,6 +32,9 @@ export default class App2 extends React.Component {
   constructor(props) {
     super(props);
 
+    this.pushCreatePackageInst = this.pushCreatePackageInst.bind(this);
+    this.setLikedAttraction = this.setLikedAttraction.bind(this);
+    
     this.state = {
       packageInst: null,
       packages: [],
@@ -287,6 +290,24 @@ export default class App2 extends React.Component {
      =           State & Event Handlers          =
      ============================================= */
 
+  /* ----------  Package  ------- */
+  pushCreatePackageInst(packageId) {
+    const ownerId = this.props.viewerId;
+    this.pushToRemote('packageInst:create', {packageId, ownerId});
+  }
+
+  /* ----------  Attractions  ---------- */
+  setLikedAttraction(attractionId) {
+    const cityAttractions = this.state.cityAttractions;
+    _.forEach(_.keys(cityAttractions), (attractions) => {
+      _.forEach(attractions, (a) => {
+        if(a.id == attractionId) {
+          a.isLiked = !a.isLiked;
+        }
+      })
+    })
+  }
+
   /* ----------  List  ---------- */
 
   // For the initial data fetch
@@ -424,6 +445,7 @@ export default class App2 extends React.Component {
           <CenterSlider
             items={packages}
             buttonName="Book Now"
+            buttonAction={this.pushCreatePackageInst}
             apiUri={apiUri}
           >
           </CenterSlider>
@@ -443,6 +465,7 @@ export default class App2 extends React.Component {
                 packageInst={packageInst}
                 apiUri={apiUri}
                 cityAttractions={cityAttractions}
+                likeAttraction={this.setLikedAttraction}
               >
               </PackageSummary>
               <Updating updating={updating} />
