@@ -120,7 +120,7 @@ export default class App2 extends React.Component {
   /* ----------  Attractions  ---------- */
   setLikedAttraction(attractionId) {
     const cityAttractions = this.state.cityAttractions;
-    const userId = this.props.viewerId;
+    //const userId = this.props.viewerId;
     let likedAttraction = [];
 
     console.log('>>>>setLikedAttraction['+attractionId+']', {cityAttractions: cityAttractions, fbId: fbId});
@@ -136,7 +136,7 @@ export default class App2 extends React.Component {
       })
     });
     console.log('>>>>Send event to update user liked attraction', likedAttraction.toString());
-    this.pushToRemote('likedAttraction:set', {likedAttraction: likedAttraction.toString(), userId: userId});
+    this.pushToRemote('likedAttraction:set', {likedAttraction: likedAttraction.toString()});
   }
 
   /* ----------  List  ---------- */

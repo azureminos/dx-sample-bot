@@ -163,7 +163,7 @@ const leave = ({userId, instId, allInRoom, socket, socketUsers}) => {
   allInRoom(instId).emit('users:setOnline', onlineUsers);
 };
 
-const setLikedAttraction = ({likedAttraction, userId}) => {
+const setLikedAttraction = ({request: {likedAttraction}, sendStatus, socket, userId}) => {
   console.log('>>>>Received event to setLikedAttraction', {likedAttraction: likedAttraction, userId: userId});
 };
 
