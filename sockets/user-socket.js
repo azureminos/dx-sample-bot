@@ -92,7 +92,10 @@ const join = ({
           PackageParticipant.getParticipantByInstId(instId)
             .then((users) => {
               console.log('>>>>Calling getFacebookProfileInfoForUsers', {users: users, instId: instId, socketUsers:socketUsers});
-              return {users, getFacebookProfileInfoForUsers(users, instId, socketUsers)};
+              return Promise.all([
+                users,
+                getFacebookProfileInfoForUsers(users, instId, socketUsers),
+              ]);
             })
             .then(([users, fbUsers]) => {
               console.log('>>>>print users', users);
