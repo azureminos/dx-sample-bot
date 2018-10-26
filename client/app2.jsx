@@ -45,186 +45,6 @@ export default class App2 extends React.Component {
       users: [],
     };
 
-    /*--------------------Dummy Data---------------*/
-    /*this.state.ownerId = 1;
-    this.state.isCustomisable = false;
-    this.state.cityAttractions = {
-      Shanghai: [
-        {
-          "id": 1,
-          "name": "The Bund",
-          "cityId": 1,
-          "cityName": "Shanghai",
-          "desc": "The Bund",
-          "alias": "The Bund",
-          "tag": "The Bund",
-          "imageUrl": "media/attraction_1.png",
-          "isLiked": true,
-        },
-        {
-          "id": 3,
-          "name": "Lu Jia Zui",
-          "cityId": 1,
-          "cityName": "Shanghai",
-          "desc": "Lu Jia Zui",
-          "alias": "Lu Jia Zui",
-          "tag": "Lu Jia Zui",
-          "imageUrl": "media/attraction_1.png",
-          "isLiked": true,
-        },
-        {
-          "id": 2,
-          "name": "Xu Jia Hui",
-          "cityId": 1,
-          "cityName": "Shanghai",
-          "desc": "Xu Jia Hui",
-          "alias": "Xu Jia Hui",
-          "tag": "Xu Jia Hui",
-          "imageUrl": "media/attraction_2.png",
-          "isLiked": false,
-        },
-      ],
-      Beijing: [
-        {
-          "id": 4,
-          "name": "Tian An Men",
-          "cityId": 2,
-          "cityName": "Beijing",
-          "desc": "Tian An Men",
-          "alias": "Tian An Men",
-          "tag": "Tian An Men",
-          "imageUrl": "media/attraction_2.png",
-          "isLiked": false,
-        },
-        {
-          "id": 5,
-          "name": "The Great Wall",
-          "cityId": 2,
-          "cityName": "Beijing",
-          "desc": "The Great Wall",
-          "alias": "The Great Wall",
-          "tag": "The Great Wall",
-          "imageUrl": "media/attraction_1.png",
-          "isLiked": true,
-        },
-        {
-          "id": 6,
-          "name": "The Forbidden Palace",
-          "cityId": 2,
-          "cityName": "Beijing",
-          "desc": "The Forbidden Palace",
-          "alias": "The Forbidden Palace",
-          "tag": "The Forbidden Palace",
-          "imageUrl": "media/attraction_2.png",
-          "isLiked": false,
-        },
-      ],
-    };
-    this.state.users = [
-      {fbId: 1, online: true}
-    ];
-    this.state.packageInst =
-    {
-        "id": 37,
-        "startDate": null,
-        "isPremium": false,
-        "fee": null,
-        "name": "Another China 2 Days",
-        "desc": "Another China 2 Days",
-        "days": 2,
-        "imageUrl": "media/package_1.png",
-        "items": [
-            {
-                "id": 69,
-                "dayNo": 1,
-                "order": 1,
-                "createdBy": null,
-                "updatedBy": null,
-                "desc": "Day time in the Bund",
-                "attractionName": "The Bund",
-                "attractionDesc": "The Bund",
-                "imageUrl": "media/attraction_1.png",
-                "city": "Shanghai"
-            },
-            {
-                "id": 70,
-                "dayNo": 1,
-                "order": 2,
-                "createdBy": null,
-                "updatedBy": null,
-                "desc": "Night time in Lu Jia Zui",
-                "attractionName": "Lu Jia Zui",
-                "attractionDesc": "Lu Jia Zui",
-                "imageUrl": "media/attraction_1.png",
-                "city": "Shanghai"
-            },
-            {
-                "id": 71,
-                "dayNo": 2,
-                "order": 1,
-                "createdBy": null,
-                "updatedBy": null,
-                "desc": "Morning to the Great Wall",
-                "attractionName": "The Great Wall",
-                "attractionDesc": "The Great Wall",
-                "imageUrl": "media/attraction_1.png",
-                "city": "Beijing"
-            },
-            {
-                "id": 72,
-                "dayNo": 2,
-                "order": 2,
-                "createdBy": null,
-                "updatedBy": null,
-                "desc": "Afternoon go to the Forbidden Palace",
-                "attractionName": "The Forbidden Palace",
-                "attractionDesc": "The Forbidden Palace",
-                "imageUrl": "media/attraction_2.png",
-                "city": "Beijing"
-            }
-        ],
-        "rates": [
-            {
-                "id": 1,
-                "packageId": 2,
-                "tier": 1,
-                "premiumFee": "800.00",
-                "minJoins": 6,
-                "packageRate": "2000.00"
-            },
-            {
-                "id": 2,
-                "packageId": 2,
-                "tier": 2,
-                "premiumFee": "300.00",
-                "minJoins": 12,
-                "packageRate": "1500.00"
-            }
-        ]
-    };
-    this.state.packages = [];*/
-
-    /*this.state.packageInst = null;
-    this.state.packages = [
-        {
-            "id": 2,
-            "name": "Another China 2 Days",
-            "desc": "Another China 2 Days",
-            "days": 2,
-            "isPromoted": true,
-            "isActive": true,
-            "imageUrl": "media/package_1.png"
-        },
-        {
-            "id": 1,
-            "name": "China 2 Days",
-            "desc": "China 2 Days",
-            "days": 2,
-            "isPromoted": true,
-            "isActive": true,
-            "imageUrl": "media/package_2.png"
-        }
-    ];*/
   }
 
   static propTypes = {
@@ -293,13 +113,15 @@ export default class App2 extends React.Component {
   /* ----------  Package  ------- */
   pushCreatePackageInst(packageId) {
     const ownerId = this.props.viewerId;
+    console.log('>>>>Send event to create package instance with input', {packageId: packageId, ownerId: ownerId});
     this.pushToRemote('packageInst:create', {packageId, ownerId});
   }
 
   /* ----------  Attractions  ---------- */
   setLikedAttraction(attractionId) {
     const cityAttractions = this.state.cityAttractions;
-    _.forEach(_.keys(cityAttractions), (attractions) => {
+    console.log('>>>>setLikedAttraction['+attractionId+']', cityAttractions);
+    _.forEach(_.values(cityAttractions), (attractions) => {
       _.forEach(attractions, (a) => {
         if(a.id == attractionId) {
           a.isLiked = !a.isLiked;
@@ -375,7 +197,7 @@ export default class App2 extends React.Component {
         {packageInst:packageInst, packages:packages, cityAttractions:cityAttractions, users:users, ownerId:ownerId});
       const u = _.filter(users, (user) => {return user.fbId == ownerId});
       console.log('>>>>Matched User['+ownerId+']', u);
-      if(u) {
+      if(u && u[0].likedAttractions) {
         const liked = u[0].likedAttractions.split(',');
         _.forEach(_.values(cityAttractions), (attrs) => {
           _.forEach(attrs, (attr) => {
