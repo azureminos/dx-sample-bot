@@ -19,11 +19,7 @@ const CenterSlider = ({items, buttonName, buttonAction, apiUri}) => {
         <div key={item.id}>
           <img src={imageUrl} alt={item.name} width="300"></img>
           <p>{item.desc}</p>
-          <button
-            name={buttonName}
-            onClick={() => buttonAction(item.id)}
-          >
-          </button>
+          <button onClick={() => buttonAction(item.id)} >{buttonName}</button>
         </div>
     );
   });
