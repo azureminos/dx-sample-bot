@@ -6,7 +6,7 @@ const PackageParticipant = () => Knex('package_participant');
 // ===== Package ======================================================
 const getParticipantByInstId = (instId) =>
   PackageParticipant()
-    .select('user_fb_id as fbId', 'is_owner as isOwner')
+    .select('user_fb_id as fbId', 'is_owner as isOwner', 'liked_attractions as likedAttractions')
     .where('pkg_inst_id', instId)
 
 const getOwnerByInstId = (instId) =>

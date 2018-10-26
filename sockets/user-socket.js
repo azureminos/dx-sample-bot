@@ -100,6 +100,14 @@ const join = ({
             .then(([users, fbUsers]) => {
               console.log('>>>>print users', users);
               console.log('>>>>print fbUsers', fbUsers);
+              const ngUsers = fbUsers.map((u) => {
+                var m = _.filter(users, (user) => {return user.fbId == u.fbId});
+                if(m) {
+                  u.likedAttractions = m[0].likedAttractions;
+                }
+                  return u;
+              });
+
               const viewerUser =
                 fbUsers.find((fbUser) => fbUser.fbId === user.fbId);
               socket.join(packageInst.id);
@@ -108,7 +116,7 @@ const join = ({
               userSocket.emit('init', {
                 packageInst,
                 cityAttractions,
-                users: fbUsers,
+                users: ngUsers,
                 packages: [],
                 ownerId: instOwner ? instOwner.fbId : user.fbId,
               });
