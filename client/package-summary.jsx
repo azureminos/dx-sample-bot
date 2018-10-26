@@ -5,7 +5,7 @@ import Collapsible from 'react-collapsible';
 import CenterSlider from './slider.jsx';
 import TagList from './tag-list.js';
 
-const PackageSummary = ({packageInst, apiUri, cityAttractions}) => {
+const PackageSummary = ({packageInst, apiUri, cityAttractions, likeAttraction}) => {
   console.log('>>>>PackageSummary', {packageInst: packageInst, apiUri: apiUri, cityAttractions: cityAttractions});
   const packageImageUrl = apiUri + '/' + packageInst.imageUrl;
 
@@ -33,6 +33,7 @@ const PackageSummary = ({packageInst, apiUri, cityAttractions}) => {
         <CenterSlider
           items={items}
           buttonName="Like"
+          buttonAction={likeAttraction}
           apiUri={apiUri}
         >
         </CenterSlider>
