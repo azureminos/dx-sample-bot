@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import {Button} from 'react-weui';
 import Slider from "react-slick";
 
 const CenterSlider = ({items, buttonName, buttonAction, apiUri}) => {
@@ -20,10 +19,11 @@ const CenterSlider = ({items, buttonName, buttonAction, apiUri}) => {
         <div key={item.id}>
           <img src={imageUrl} alt={item.name} width="300"></img>
           <p>{item.desc}</p>
-          <Button
+          <button
             name={buttonName}
             onClick={() => buttonAction(item.id)}
-          />
+          >
+          </button>
         </div>
     );
   });
