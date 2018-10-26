@@ -1,7 +1,8 @@
 import React, { Component } from "react";
+import {Button} from 'react-weui';
 import Slider from "react-slick";
 
-const CenterSlider = ({items, buttonName, apiUri}) => {
+const CenterSlider = ({items, buttonName, buttonAction, apiUri}) => {
   console.log('>>>>CenterSlider', {items: items, buttonName: buttonName, apiUri: apiUri});
 
   const settings = {
@@ -19,7 +20,10 @@ const CenterSlider = ({items, buttonName, apiUri}) => {
         <div key={item.id}>
           <img src={imageUrl} alt={item.name} width="300"></img>
           <p>{item.desc}</p>
-          <button>{buttonName}</button>
+          <Button
+            name={buttonName}
+            onClick={() => buttonAction(item.id)}
+          />
         </div>
     );
   });
