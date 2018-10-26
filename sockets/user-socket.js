@@ -165,6 +165,7 @@ const leave = ({userId, instId, allInRoom, socket, socketUsers}) => {
 
 const setLikedAttraction = ({request: {likedAttraction}, sendStatus, socket, userId}) => {
   console.log('>>>>Received event to setLikedAttraction', {likedAttraction: likedAttraction, userId: userId});
+  sendStatus('ok');
 };
 
 export default {join, leave, setLikedAttraction};
