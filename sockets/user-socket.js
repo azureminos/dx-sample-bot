@@ -51,8 +51,6 @@ const getUserDetails = (senderId) => {
 const getFacebookProfileInfoForUsers = (users = [], instId, socketUsers) =>
   Promise.all(users.map((user) => getUserDetails(user.fbId)))
     .then((res) => res.map((resUser = {}) => {
-      console.log('>>>>getFacebookProfileInfoForUsers user', user);
-      console.log('>>>>getFacebookProfileInfoForUsers fbUser', res);
       // Detect online status via socketUser with matching list & FB IDs.
       const isOnline = [...socketUsers.values()].find((socketUser) =>
         socketUser.instId === instId && socketUser.userId === resUser.fbId);
@@ -94,9 +92,11 @@ const join = ({
           PackageParticipant.getParticipantByInstId(instId)
             .then((users) => {
               console.log('>>>>Calling getFacebookProfileInfoForUsers', {users: users, instId: instId, socketUsers:socketUsers});
-              return getFacebookProfileInfoForUsers(users, instId, socketUsers);
+              return {users, getFacebookProfileInfoForUsers(users, instId, socketUsers)};
             })
-            .then((fbUsers) => {
+            .then(([users, fbUsers]) => {
+              console.log('>>>>print users', users);
+              console.log('>>>>print fbUsers', fbUsers);
               const viewerUser =
                 fbUsers.find((fbUser) => fbUser.fbId === user.fbId);
               socket.join(packageInst.id);
