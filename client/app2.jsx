@@ -201,6 +201,11 @@ export default class App2 extends React.Component {
     );
 
     // Add socket event handlers.
+    socket.on('pre-init', ({packages=[]} = {}) => {
+      console.log('>>>>Result coming back from socket [pre-init]', {packages:packages});
+      this.setState({packages});
+    });
+
     socket.on('init', ({packageInst, packages=[], cityAttractions, users, ownerId} = {}) => {
       console.log('>>>>Result coming back from socket [init]',
         {packageInst:packageInst, packages:packages, cityAttractions:cityAttractions, users:users, ownerId:ownerId});
