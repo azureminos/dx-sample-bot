@@ -28,7 +28,7 @@ const handleInstanceCreation = (req, res) => {
     PackageInstance
       .addPackageInstance(packageId)
       .then((packageInst) =>
-        res.render('./index', {instId: packageInst.id, socketAddress, demo: DEMO})
+        res.render('./index', {instId: "", socketAddress, demo: DEMO})
       )
   } else if (instId === 'home') {
     res.render('./index', {instId: "", socketAddress, demo: DEMO});
