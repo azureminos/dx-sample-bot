@@ -19,7 +19,7 @@ module.exports = {
   },
   development: {
     client: 'pg',
-    connection: 'postgres://localhost/list_bot_dev',
+    connection: 'postgres://qobnyzboaiiwyg:a17ca8f391b99fab31c6a5d73e17ed775d92f3e135a1e01a69a66c70fb2dcdc1@ec2-54-235-94-36.compute-1.amazonaws.com:5432/datq5kquk52697?ssl=true',
     migrations: {
       directory: `${__dirname}/db/migrations`,
     },
