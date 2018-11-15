@@ -207,6 +207,15 @@ exports.up = (knex, Promise) => {
         table.timestamp('created_ts').defaultTo(knex.fn.now());
         table.timestamp('updated_ts').defaultTo(knex.fn.now());
       }),
+      knex.schema.createTable('change_log', (table) => {
+        table.increments();
+        table.integer('user_id');
+        table.string('pkg_inst_id');
+        table.string('action');
+        table.string('additional_field');
+        table.timestamp('created_ts').defaultTo(knex.fn.now());
+        table.timestamp('updated_ts').defaultTo(knex.fn.now());
+      }),
     ]));
   };
   
