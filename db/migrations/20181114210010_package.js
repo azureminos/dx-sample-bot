@@ -217,10 +217,9 @@ exports.up = (knex, Promise) => {
         table.timestamp('updated_ts').defaultTo(knex.fn.now());
       }),
     ]));
-  };
-  
-  exports.down = (knex, Promise) => {
-    return Promise.all([
-    ]);
-  };
-  
+};
+
+exports.down = (knex, Promise) => {
+  return Promise.all([
+  ]);
+};
