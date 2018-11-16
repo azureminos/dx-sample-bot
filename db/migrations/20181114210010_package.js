@@ -48,8 +48,8 @@ exports.up = (knex, Promise) => {
         table.string('type_name');
         table.string('type_value');
         table.string('room_type');
-        table.string('notes');
         table.decimal('cost', 10, 2);
+        table.string('notes');
         table.string('additional_field');
         table.timestamp('created_ts').defaultTo(knex.fn.now());
         table.timestamp('updated_ts').defaultTo(knex.fn.now());
@@ -70,10 +70,10 @@ exports.up = (knex, Promise) => {
         table.string('description');
         table.string('tag');
         table.string('alias');
-        table.string('notes');
         table.integer('visit_hours');
         table.integer('traffic_hours');
         table.string('nearby_attractions');
+        table.string('notes');
         table.string('additional_field');
         table.timestamp('created_ts').defaultTo(knex.fn.now());
         table.timestamp('updated_ts').defaultTo(knex.fn.now());
@@ -138,6 +138,7 @@ exports.up = (knex, Promise) => {
         table.integer('min_participant').defaultTo(0);
         table.string('type_name');
         table.string('type_value');
+        table.string('description');
         table.decimal('cost', 10, 2);
         table.string('additional_field');
         table.timestamp('created_ts').defaultTo(knex.fn.now());
@@ -165,7 +166,8 @@ exports.up = (knex, Promise) => {
         table.date('end_date');
         table.boolean('is_premium').defaultTo(false);
         table.boolean('is_custom').defaultTo(false);
-        table.string('type');
+        table.string('type_name');
+        table.string('type_value');
         table.decimal('pkg_fee', 10, 2);
         table.string('comments');
         table.string('notes');
