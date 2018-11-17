@@ -13,7 +13,7 @@ const getAllPackage = () =>
     .where('is_active', true)
     .select('id', 'name', 'description', 'fine_print as finePrint', 'notes'
       , 'days', 'max_participant as maxParticipant', 'is_promoted as isPromoted'
-      , 'is_active as isActive', 'image_url as imageUrl')
+      , 'is_active as isActive')
     .then(() => {
       return dPackage.getAllPackage();
     });
@@ -24,7 +24,7 @@ const getAllPromotedPackage = () =>
     .where('is_promoted', true)
     .select('id', 'name', 'description', 'fine_print as finePrint', 'notes'
       , 'days', 'max_participant as maxParticipant', 'is_promoted as isPromoted'
-      , 'is_active as isActive', 'image_url as imageUrl')
+      , 'is_active as isActive')
     .then(() => {
       return dPackage.getAllPackage();
     });
