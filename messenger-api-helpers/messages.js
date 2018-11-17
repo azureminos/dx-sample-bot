@@ -8,7 +8,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable max-len */
 
-import { each } from 'lodash'
+import {filter} from 'lodash';
 
 /*============URL=============*/
 const listUrl = (apiUri, listId) => `${apiUri}/lists/${listId}`;
@@ -80,11 +80,18 @@ const introMessage = (apiUri) => {
 const packageMessage = (apiUri, packages) => {
   let items = packages.map((pkg) => {
     const urlToPackage = packageUrl(apiUri, pkg.id);
+    const imgCover = filter(pkg.images, {isCoverPage: true});
+    // Set image url of package
+    let imageUrl = 'media/tour-1-cover.png';
+    if (imgCover && imgCover.length > 0) {
+      imageUrl = imgCover[0].imageUrl;
+    }
+
     console.log('>>>>Generated URL >> '+urlToPackage, pkg);
 
     return {
       title: pkg.name,
-      image_url: `${apiUri}/${pkg.imageUrl}`,
+      image_url: `${apiUri}/${imageUrl}`,
       subtitle: pkg.desc,
       default_action: {
         type: 'web_url',
