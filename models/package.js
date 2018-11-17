@@ -1,49 +1,40 @@
 // ===== DB ====================================================================
 import Knex  from '../db/knex';
-
-const Package = () => Knex('package');
 import PackageItem from '../models/package-item';
 import RatePlan from '../models/rate-plan';
+// Dummy Data
+import dPackage from '../dummy/package';
+
+const Package = () => Knex('package');
 
 // ===== Package ======================================================
 const getAllPackage = () =>
   Package()
     .where('is_active', true)
-    .select('id', 'name', 'desc', 'days', 'is_promoted as isPromoted', 'is_active as isActive', 'image_url as imageUrl')
+    .select('id', 'name', 'description', 'fine_print as finePrint', 'notes'
+      , 'days', 'max_participant as maxParticipant', 'is_promoted as isPromoted'
+      , 'is_active as isActive', 'image_url as imageUrl')
+    .then(() => {
+      return dPackage.getAllPackage();
+    });
 
 const getAllPromotedPackage = () =>
   Package()
     .where('is_active', true)
     .where('is_promoted', true)
-    .select('id', 'name', 'desc', 'days', 'is_promoted as isPromoted', 'is_active as isActive', 'image_url as imageUrl')
-
-const getPackageByCountry = (countryName) =>
-  Package()
-    .join('package_item', {'package_item.pkg_id': 'package.id'})
-    .join('attraction', {'attraction.id': 'package_item.attraction_id'})
-    .join('city', {'city.id': 'attraction.city_id'})
-    .join('country', {'country.id': 'city.ccountry_id'})
-    .select('package.id', 'package.name', 'package.desc', 'package.days', 'package.is_promoted as isPromoted'
-            , 'package.is_active as isActive', 'package.image_url as imageUrl')
-    .where('country.name', countryName)
-    .where('is_active', true)
-
-const getPackageByCity = (cityName) =>
-  Package()
-    .join('package_item', {'package_item.pkg_id': 'package.id'})
-    .join('attraction', {'attraction.id': 'package_item.attraction_id'})
-    .join('city', {'city.id': 'attraction.city_id'})
-    .select('package.id', 'package.name', 'package.desc', 'package.days', 'package.is_promoted as isPromoted'
-            , 'package.is_active as isActive', 'package.image_url as imageUrl')
-    .where('city.name', cityName)
-    .where('is_active', true)
+    .select('id', 'name', 'description', 'fine_print as finePrint', 'notes'
+      , 'days', 'max_participant as maxParticipant', 'is_promoted as isPromoted'
+      , 'is_active as isActive', 'image_url as imageUrl')
+    .then(() => {
+      return dPackage.getAllPackage();
+    });
 
 const getPackage = (packageId) =>
   Package()
     .where('id', packageId)
     .where('is_active', true)
     .select('id', 'name', 'desc', 'days', 'is_promoted as isPromoted', 'is_active as isActive', 'image_url as imageUrl')
-    .first()
+    .first();
 
 const setPackage = (pkg) =>
   Package()
@@ -58,7 +49,7 @@ const setPackage = (pkg) =>
         image_url: pkg.imageUrl,
       },
       ['id', 'name', 'desc', 'days', 'is_promoted as isPromoted', 'is_active as isActive', 'image_url as imageUrl']
-    )
+    );
 
 const addPackage = (pkg) =>
   Package()
@@ -72,7 +63,7 @@ const addPackage = (pkg) =>
         image_url: pkg.imageUrl,
       },
       ['id', 'name', 'desc', 'days', 'is_promoted as isPromoted', 'is_active as isActive', 'image_url as imageUrl']
-    )
+    );
 
 const delPackage = (packageId) =>
   Package()
@@ -82,13 +73,13 @@ const delPackage = (packageId) =>
         is_active: false,
       },
       ['id']
-    )
+    );
 
 const getPackageImageUrl = (packageId) =>
   Package()
     .select('image_url as imageUrl')
     .where('id', attractionId)
-    .first()
+    .first();
 
 const setPackageImageUrl = (pkg) =>
   Package()
@@ -98,7 +89,7 @@ const setPackageImageUrl = (pkg) =>
         image_url: pkg.imageUrl
       },
       ['id']
-    )
+    );
 
 const getPackageDetails = (packageId) =>
   Promise.all([
@@ -114,12 +105,9 @@ const getPackageDetails = (packageId) =>
     return pkg;
   });
 
-
 export default {
   getAllPackage,
   getAllPromotedPackage,
-  getPackageByCountry,
-  getPackageByCity,
   getPackage,
   setPackage,
   addPackage,
