@@ -13,10 +13,7 @@ const getAllPackage = () =>
     .where('is_active', true)
     .select('id', 'name', 'description', 'fine_print as finePrint', 'notes',
       'days', 'max_participant as maxParticipant', 'is_promoted as isPromoted',
-      'is_active as isActive')
-    .then(() => {
-      return dPackage.getAllPackage();
-    });
+      'is_active as isActive', 'is_extention as isExtention');
 
 const getAllPromotedPackage = () =>
   Package()
@@ -24,10 +21,7 @@ const getAllPromotedPackage = () =>
     .where('is_promoted', true)
     .select('id', 'name', 'description', 'fine_print as finePrint', 'notes',
       'days', 'max_participant as maxParticipant', 'is_promoted as isPromoted',
-      'is_active as isActive')
-    .then(() => {
-      return dPackage.getAllPackage();
-    });
+      'is_active as isActive', 'is_extention as isExtention');
 
 const getPackage = (packageId) =>
   Package()
@@ -35,11 +29,8 @@ const getPackage = (packageId) =>
     .where('is_active', true)
     .select('id', 'name', 'description', 'fine_print as finePrint', 'notes',
       'days', 'max_participant as maxParticipant', 'is_promoted as isPromoted',
-      'is_active as isActive')
-    .first()
-    .then(() => {
-      return dPackage.getPackage(packageId);
-    });
+      'is_active as isActive', 'is_extention as isExtention')
+    .first();
 
 const setPackage = (pkg) =>
   Package()

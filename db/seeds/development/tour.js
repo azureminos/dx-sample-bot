@@ -5,15 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const {getReferences, getTours, getTourDetails, CITIES, ATTRACTIONS, TOURS, TOUR_DETAILS} =
+const {COUNTRY, CITY, ATTRACTION, ATTRACTION_IMAGE, PACKAGE, PACKAGE_IMAGE, PACKAGE_ITEM} =
   require('../sample-seed-helpers');
 
-var map = {
-  tour: {},
-  attraction: {}
-};
 /**
- * Test ENV Seed File - When run with `knex seed:run`,
+ * Dev ENV Seed File - When run with `knex seed:run`,
  * populates database with placeholder data.
  * @param {string} knex - Knex dependency
  * @param {Promise} Promise - Promise dependency
@@ -22,92 +18,231 @@ var map = {
  */
 exports.seed = (knex, Promise) =>
   Promise.all([
-    knex('tour_inst_user').del(),
-    knex('tour_inst_items').del(),
-    knex('tour_inst').del(),
-    knex('tour_image').del(),
-    knex('tour_details').del(),
-    knex('reference').del(),
-    knex('tour').del(),
-  ]).then(() => {
-    console.log('>>>>All Tour Data Deleted');
-    return Promise.all([
-      knex('reference').insert(getReferences(), ['id','value']),
-      knex('tour').insert(getTours(), ['id','name'])
-    ]).then(([items, tours]) => {
-      console.log('>>>>All Items Data Inserted', items);
-      for(var i=0; i<items.length; i++) {
-        map.attraction[items[i].value] = items[i].id;
-      }
-      console.log('>>>>All Tour Data Inserted', tours);
-      for(var i=0; i<tours.length; i++) {
-        map.tour[tours[i].name] = tours[i].id;
-      }
-      console.log('>>>>Ref Map Generated', map);
-
-      return knex('tour_details').insert(getTourDetails(map), 'id');
-    }).then((ids) => {console.log('>>>>Inserted int tour_details', ids)});
-  }
-
-
-
-
-  );
-
-
-
-
-/*
-      knex('reference').insert(getReferences(), ['id','value']),
-      knex('tour').insert(getTours(), ['id','name'])
-      .then((refs) => {
-        console.log('>>>>Inserted into reference table', refs);
-        for(var i=0; i<refs.length; i++) {
-          ref.item[refs[i].value] = refs[i].id;
-        }
-      })
-
-      .then((tours) => {
-        console.log('>>>>Inserted into tour table', tours);
-        for(var i=0; i<tours.length; i++) {
-          ref.tour[tours[i].name] = tours[i].id;
-        }
-      })
-*/
-
-
-
-   /*. knex('reference').insert(getReferences(), ['id','value'])
-
-    }).then(() => {
-      return knex('tour').insert(getTours,['id','name']);
-    })
-    then((dids) => {
-      console.log('>>>>Inserted into tour_destination', dids);
-      return knex('tour_activity').insert(getActivities(dids), 'id');
-    })
-    .then((aids) => {
-      console.log('>>>>Inserted into tour_activity', aids);
-      for(var i=0; i<aids.length; i++) {
-        ref.activity[ACTIVITIES[i].name] = aids[i];
-      }
-      console.log('>>>>Populated ref.activity', ref.activity);
-      return knex('tour').insert(TOURS, 'id');
-    })
-    .then((tids) => {
-      console.log('>>>>Inserted into tour', tids);
-      for(var i=0; i<tids.length; i++) {
-        ref.tour[TOURS[i].name] = tids[i];
-      }
-      console.log('>>>>Populated ref.tour', ref.tour);
-      return knex('tour_details').insert(getTourDetails(ref), 'id');
-    })
-    .then((tdids) => {
-      console.log('>>>>Inserted into tour_details', tdids);
-    })*/
-
-
-
-
-
-
+    knex.schema.createTable('country', (table) => {
+      table.increments();
+      table.string('name').notNullable();
+      table.string('description');
+      table.string('region');
+      table.string('tag');
+      table.string('alias');
+      table.string('additional_field');
+      table.timestamp('created_ts').defaultTo(knex.fn.now());
+      table.timestamp('updated_ts').defaultTo(knex.fn.now());
+    }),
+    knex.schema.createTable('city', (table) => {
+      table.increments();
+      table.string('name').notNullable();
+      table.string('description');
+      table.integer('country_id').references('country.id').notNullable();
+      table.string('tag');
+      table.string('alias');
+      table.string('additional_field');
+      table.timestamp('created_ts').defaultTo(knex.fn.now());
+      table.timestamp('updated_ts').defaultTo(knex.fn.now());
+    }),
+    knex.schema.createTable('hotel', (table) => {
+      table.increments();
+      table.integer('city_id').references('city.id').notNullable();
+      table.string('name').notNullable();
+      table.string('description');
+      table.string('stars');
+      table.string('type_name');
+      table.string('type_value');
+      table.string('room_type');
+      table.decimal('cost', 10, 2);
+      table.string('notes');
+      table.string('additional_field');
+      table.timestamp('created_ts').defaultTo(knex.fn.now());
+      table.timestamp('updated_ts').defaultTo(knex.fn.now());
+    }),
+    knex.schema.createTable('hotel_image', (table) => {
+      table.increments();
+      table.integer('hotel_id').references('hotel.id').notNullable();
+      table.string('image_url').notNullable();
+      table.boolean('is_cover_page');
+      table.string('additional_field');
+      table.timestamp('created_ts').defaultTo(knex.fn.now());
+      table.timestamp('updated_ts').defaultTo(knex.fn.now());
+    }),
+    knex.schema.createTable('attraction', (table) => {
+      table.increments();
+      table.integer('city_id').references('city.id').notNullable();
+      table.string('name').notNullable();
+      table.string('description');
+      table.string('tag');
+      table.string('alias');
+      table.integer('visit_hours');
+      table.integer('traffic_hours');
+      table.string('nearby_attractions');
+      table.string('notes');
+      table.string('additional_field');
+      table.timestamp('created_ts').defaultTo(knex.fn.now());
+      table.timestamp('updated_ts').defaultTo(knex.fn.now());
+    }),
+    knex.schema.createTable('attraction_image', (table) => {
+      table.increments();
+      table.integer('attraction_id').references('attraction.id').notNullable();
+      table.string('image_url').notNullable();
+      table.boolean('is_cover_page');
+      table.string('additional_field');
+      table.timestamp('created_ts').defaultTo(knex.fn.now());
+      table.timestamp('updated_ts').defaultTo(knex.fn.now());
+    }),
+    knex.schema.createTable('package', (table) => {
+      table.increments();
+      table.string('name').notNullable();
+      table.string('description');
+      table.string('fine_print');
+      table.string('notes');
+      table.integer('days');
+      table.integer('max_participant').defaultTo(0);
+      table.boolean('is_promoted').defaultTo(false);
+      table.boolean('is_active').defaultTo(false);
+      table.boolean('is_extention').defaultTo(false);
+      table.string('additional_field');
+      table.timestamp('created_ts').defaultTo(knex.fn.now());
+      table.timestamp('updated_ts').defaultTo(knex.fn.now());
+    }),
+    knex.schema.createTable('package_item', (table) => {
+      table.increments();
+      table.integer('pkg_id').references('package.id').notNullable();
+      table.integer('day_no');
+      table.integer('day_seq');
+      table.integer('attraction_id').references('attraction.id').notNullable();
+      table.string('description');
+      table.string('notes');
+      table.string('additional_field');
+      table.timestamp('created_ts').defaultTo(knex.fn.now());
+      table.timestamp('updated_ts').defaultTo(knex.fn.now());
+    }),
+    knex.schema.createTable('package_image', (table) => {
+      table.increments();
+      table.integer('pkg_id').references('package.id').notNullable();
+      table.string('image_url').notNullable();
+      table.boolean('is_cover_page');
+      table.string('additional_field');
+      table.timestamp('created_ts').defaultTo(knex.fn.now());
+      table.timestamp('updated_ts').defaultTo(knex.fn.now());
+    }),
+    knex.schema.createTable('package_depart_date', (table) => {
+      table.increments();
+      table.integer('pkg_id').references('package.id').notNullable();
+      table.string('depart_dates');
+      table.string('additional_field');
+      table.timestamp('created_ts').defaultTo(knex.fn.now());
+      table.timestamp('updated_ts').defaultTo(knex.fn.now());
+    }),
+    knex.schema.createTable('package_rate', (table) => {
+      table.increments();
+      table.integer('pkg_id').references('package.id').notNullable();
+      table.integer('tier').notNullable();
+      table.decimal('premium_fee', 10, 2);
+      table.integer('max_participant').defaultTo(0);
+      table.integer('min_participant').defaultTo(0);
+      table.decimal('cost', 10, 2);
+      table.string('additional_field');
+      table.timestamp('created_ts').defaultTo(knex.fn.now());
+      table.timestamp('updated_ts').defaultTo(knex.fn.now());
+    }),
+    knex.schema.createTable('car_rate', (table) => {
+      table.increments();
+      table.integer('pkg_id').references('package.id').notNullable();
+      table.integer('max_participant').defaultTo(0);
+      table.integer('min_participant').defaultTo(0);
+      table.string('type_name');
+      table.string('type_value');
+      table.string('description');
+      table.decimal('cost', 10, 2);
+      table.string('additional_field');
+      table.timestamp('created_ts').defaultTo(knex.fn.now());
+      table.timestamp('updated_ts').defaultTo(knex.fn.now());
+    }),
+    knex.schema.createTable('flight_rate', (table) => {
+      table.increments();
+      table.integer('pkg_id').references('package.id').notNullable();
+      table.string('airline');
+      table.string('type_name');
+      table.string('type_value');
+      table.string('description');
+      table.boolean('is_peak');
+      table.date('range_from');
+      table.date('range_to');
+      table.decimal('cost', 10, 2);
+      table.string('additional_field');
+      table.timestamp('created_ts').defaultTo(knex.fn.now());
+      table.timestamp('updated_ts').defaultTo(knex.fn.now());
+    }),
+    knex.schema.createTable('package_inst', (table) => {
+      table.increments();
+      table.integer('pkg_id').references('package.id').notNullable();
+      table.date('start_date');
+      table.date('end_date');
+      table.boolean('is_premium').defaultTo(false);
+      table.boolean('is_custom').defaultTo(false);
+      table.string('type_name');
+      table.string('type_value');
+      table.decimal('pkg_fee', 10, 2);
+      table.string('comments');
+      table.string('notes');
+      table.string('additional_field');
+      table.timestamp('created_ts').defaultTo(knex.fn.now());
+      table.timestamp('updated_ts').defaultTo(knex.fn.now());
+    }),
+    knex.schema.createTable('package_inst_participant', (table) => {
+      table.increments();
+      table.integer('pkg_inst_id').references('package_inst.id').notNullable();
+      table.integer('user_id').references('all_user.id').notNullable();
+      table.boolean('is_owner').defaultTo(false);
+      table.string('liked_attractions'); // comma separated attraction id
+      table.string('additional_field');
+      table.timestamp('created_ts').defaultTo(knex.fn.now());
+      table.timestamp('updated_ts').defaultTo(knex.fn.now());
+    }),
+    knex.schema.createTable('package_inst_item', (table) => {
+      table.increments();
+      table.integer('pkg_inst_id').references('package_inst.id').notNullable();
+      table.integer('attraction_id').references('attraction.id').notNullable();
+      table.integer('day_no');
+      table.integer('day_seq');
+      table.string('created_by');
+      table.string('updated_by');
+      table.string('additional_field');
+      table.timestamp('created_ts').defaultTo(knex.fn.now());
+      table.timestamp('updated_ts').defaultTo(knex.fn.now());
+    }),
+    knex.schema.createTable('all_user', (table) => {
+      table.increments();
+      table.string('login_type');
+      table.string('login_id');
+      table.string('name');
+      table.string('mobile');
+      table.string('phone');
+      table.string('email');
+      table.string('additional_field');
+      table.timestamp('created_ts').defaultTo(knex.fn.now());
+      table.timestamp('updated_ts').defaultTo(knex.fn.now());
+    }),
+    knex.schema.createTable('change_log', (table) => {
+      table.increments();
+      table.integer('user_id');
+      table.string('pkg_inst_id');
+      table.string('action');
+      table.string('additional_field');
+      table.timestamp('created_ts').defaultTo(knex.fn.now());
+      table.timestamp('updated_ts').defaultTo(knex.fn.now());
+    })])
+    .then(() => {
+      knex('country').insert(COUNTRY);
+      knex('city').insert(CITY);
+      //knex('hotel').insert();
+      //knex('hotel_image').insert();
+      knex('attraction').insert(ATTRACTION);
+      knex('attraction_image').insert(ATTRACTION_IMAGE);
+      knex('package').insert(PACKAGE);
+      knex('package_item').insert(PACKAGE_ITEM);
+      knex('package_image').insert(PACKAGE_IMAGE);
+      //knex('package_depart_date').insert();
+      //knex('package_rate').insert();
+      //knex('car_rate').insert();
+      //knex('flight_rate').insert();
+    });

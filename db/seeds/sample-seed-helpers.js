@@ -5,121 +5,63 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// Constants for placeholder List data for seed files.
-const PROMOS = [
-  {title: '8 Days Cultural China'},
-  {title: '15 Days Classic China'},
+const COUNTRY = [
+  {name: 'China', description: 'China', region: 'Asia Pacific'},
 ];
 
-const LISTS = [
-  {title: 'Shopping List'},
-  {title: 'To Do List'},
-  {title: 'Party Planning List'},
+const CITY = [
+  {name: 'Beijing', description: 'Beijing', country_id: 1},
+  {name: 'Shanghai', description: 'Shanghai', country_id: 1},
 ];
 
-// Constants for placeholder User data for seed files.
-const USERS = [
-  {fb_id: 1},
-  {fb_id: 2},
-  {fb_id: 3},
-  {fb_id: 4},
+const ATTRACTION = [
+  {city_id: 1, name: 'The Forbidden Palace', description: 'Forbiden Palace', visit_hours: 2, traffic_hours: 1, nearby_attractions: 2},
+  {city_id: 1, name: 'Tian An Men', description: 'Tian An Men', visit_hours: 2, traffic_hours: 1, nearby_attractions: 1},
+  {city_id: 2, name: 'Longhua Temple', description: 'Longhua Temple', visit_hours: 2, traffic_hours: 1},
+  {city_id: 2, name: 'Yu Garden', dedescriptionsc: 'Yu Garden', visit_hours: 2, traffic_hours: 1},
 ];
 
-/**
- * getUsersLists - Gets placeholder UsersLists data for seed files.
- * @param   {Array} listIds - Array of list IDs.
- * @returns {Array} usersLists - Array of placeholder usersLists data for seeds.
- */
-const getUsersLists = (listIds = []) => [
-  {list_id: listIds[0], user_fb_id: 1, owner: true},
-  {list_id: listIds[0], user_fb_id: 2},
-  {list_id: listIds[0], user_fb_id: 3},
-  {list_id: listIds[1], user_fb_id: 1},
-  {list_id: listIds[1], user_fb_id: 2, owner: true},
-  {list_id: listIds[2], user_fb_id: 2, owner: true},
-  {list_id: listIds[2], user_fb_id: 3},
+const ATTRACTION_IMAGE = [
+  {attraction_id: 1, image_url: 'media/Beijing_ForbiddenPalace.jpg', is_cover_page: true},
+  {attraction_id: 2, image_url: 'media/Beijing_TianAnMen.jpg', is_cover_page: true},
+  {attraction_id: 3, image_url: 'media/Shanghai_LonghuaTemple.jpg', is_cover_page: true},
+  {attraction_id: 4, image_url: 'media/Shanghai_YuGarden.jpg', is_cover_page: true},
 ];
 
-/**
- * getListsItems - Gets placeholder ListsItems data for seed files.
- * @param   {Array} listIds - Array of list IDs.
- * @returns {Array} listsItems - Array of placeholder listsItems data for seeds.
- */
-const getListsItems = (listIds = []) => [
-  {name: 'Cheese', list_id: listIds[0], owner_fb_id: 1, completer_fb_id: 2},
-  {name: 'Milk', list_id: listIds[0], owner_fb_id: 3, completer_fb_id: 3},
-  {name: 'Bread', list_id: listIds[0], owner_fb_id: 1},
-  {name: 'Pay Bills', list_id: listIds[1], owner_fb_id: 1, completer_fb_id: 2},
-  {name: 'Call Parents', list_id: listIds[1], owner_fb_id: 2},
-  {name: 'Balloons', list_id: listIds[2], owner_fb_id: 2},
-  {name: 'Invites', list_id: listIds[2], owner_fb_id: 3},
+const PACKAGE = [{
+  name: '4 Days China Tour',
+  description: 'It\'s a 4 Days China Tour. First 2 days in Beijing, then 2 days in Shanghai.',
+  finePrint: 'Depart every Tuesday and Friday from 01/06/2019 to 30/09/2019. extra 500 for single traveller',
+  notes: 'No surcharge for families.',
+  days: 4,
+  maxParticipant: 30,
+  isPromoted: true,
+  isActive: true,
+  isExtention: false,
+},
+{
+  name: '3 Days China Tour',
+  description: 'It\'s a 3 Days China Tour. First 2 days in Beijing, then 1 day in Shanghai.',
+  finePrint: 'Depart every Tuesday and Friday from 01/06/2019 to 30/09/2019. extra 500 for single traveller',
+  notes: 'No surcharge for families.',
+  days: 3,
+  maxParticipant: 20,
+  isPromoted: true,
+  isActive: true,
+  isExtention: false,
+}];
+
+const PACKAGE_IMAGE = [
+  {pkg_id: 1, image_url: 'media/Beijing_ForbiddenPalace.jpg', is_cover_page: true},
+  {pkg_id: 1, image_url: 'media/Beijing_TianAnMen.jpg', is_cover_page: false},
+  {pkg_id: 1, image_url: 'media/Shanghai_LonghuaTemple.jpg', is_cover_page: false},
+  {pkg_id: 1, image_url: 'media/Shanghai_YuGarden.jpg', is_cover_page: false},
+  {pkg_id: 2, image_url: 'media/Beijing_ForbiddenPalace.jpg', is_cover_page: false},
+  {pkg_id: 2, image_url: 'media/Beijing_TianAnMen.jpg', is_cover_page: true},
+  {pkg_id: 2, image_url: 'media/Shanghai_LonghuaTemple.jpg', is_cover_page: false},
 ];
 
-/**
- * Copyright 2017-present, Facebook, Inc. All rights reserved.
- *
- * This source code is licensed under the license found in the
- * LICENSE file in the root directory of this source tree.
- */
-const each = require("lodash/forEach");
-
-const CITIES = [
-  {name: 'Beijing', desc: 'Beijing'},
-  {name: 'Shanghai', desc: 'Shanghai'},
-];
-
-const ATTRACTIONS = [
-  {name: 'The Forbiden Palace', desc: 'Forbiden Palace', },
-  {name: 'The Bund', desc: 'The Bund'},
-  {name: 'The Great Wall', desc: 'The Great Wall'},
-  {name: 'Oriental Pearl Tower', desc: 'Oriental Pearl Tower'},
-];
-
-const getReferences = () => {
-  var rs = []
-  each(CITIES, function(city) {
-    rs.push({
-      category: 'city',
-      value: city.name,
-      name: city.name,
-      desc: city.desc,
-    });
-  });
-
-  each(ATTRACTIONS, function(attraction) {
-    rs.push({
-      category: 'attraction',
-      value: attraction.name,
-      name: attraction.name,
-      desc: attraction.desc,
-    });
-  });
-
-  return rs;
-};
-
-const TOURS = [
-  {name: '1 Day Beijing Tour', desc: '1 Day Beijing Tour', days: 1},
-  {name: '1 Day Shanghai Tour', desc: '1 Day Shanghai Tour', days: 1},
-  {name: '2 Days China Tour', desc: '2 Days China Tour', days: 2},
-];
-
-const getTours = () => {
-  var rs = []
-  each(TOURS, function(tour) {
-    rs.push({
-      name: tour.name,
-      desc: tour.desc,
-      days: tour.days,
-      is_promoted: true,
-      is_active: true,
-    });
-  });
-
-  return rs;
-};
-
-const TOUR_DETAILS = [
+const PACKAGE_ITEM = [
   {tour: '1 Day Beijing Tour', day_no: 1, order: 1001, activity: 'The Forbiden Palace', desc: 'Visit the Forbiden Palace'},
   {tour: '1 Day Shanghai Tour', day_no: 1, order: 1001, activity: 'Oriental Pearl Tower', desc: 'Visit the Oriental Pearl Tower in the morning'},
   {tour: '1 Day Shanghai Tour', day_no: 1, order: 1002, activity: 'The Bund', desc: 'Visit the Bund in the afternoon and evening'},
@@ -128,21 +70,4 @@ const TOUR_DETAILS = [
   {tour: '2 Days China Tour', day_no: 2, order: 2002, activity: 'The Bund', desc: 'Visit the Bund in the afternoon and evening'},
 ];
 
-const getTourDetails = (ref) => {
-  var rs = []
-  each(TOUR_DETAILS, function(item) {
-    var r = {
-      tour_id: ref.tour[item.tour],
-      day_no: item.day_no,
-      order: item.order,
-      item_id: ref.attraction[item.activity],
-      desc: item.desc
-    };
-    rs.push(r);
-  });
-  console.log('>>>>getTourDetails', rs);
-  return rs;
-};
-
-module.exports = {getListsItems, getUsersLists, LISTS, USERS, PROMOS,
-  getReferences, getTours, getTourDetails, CITIES, ATTRACTIONS, TOURS, TOUR_DETAILS};
+module.exports = {COUNTRY, CITY, ATTRACTION, ATTRACTION_IMAGE, PACKAGE, PACKAGE_IMAGE, PACKAGE_ITEM};
