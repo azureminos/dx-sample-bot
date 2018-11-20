@@ -6,10 +6,12 @@ const PackageInstItem = () => Knex('package_inst_item');
 const getPackageInstItem = (instId) =>
   PackageInstItem()
     .join('attraction', 'attraction.id', 'package_inst_item.attraction_id')
+    .join('attraction_image', {'attraction_image.attraction_id': 'package_inst_item.attraction_id', 'attraction_image.is_cover_page': true})
     .join('city', 'city.id', 'attraction.city_id')
     .select('package_inst_item.id', 'package_inst_item.day_no as dayNo', 'package_inst_item.day_seq as daySeq',
       'package_inst_item.created_by as createdBy', 'package_inst_item.updated_by as updatedBy', 'city.name as city',
-      'attraction.id as attractionId', 'attraction.name as attractionName', 'attraction.description as description')
+      'attraction.id as attractionId', 'attraction.name as attractionName', 'attraction.description as description',
+      'attraction_image.image_url as attractionImageUrl')
     .where('package_inst_item.pkg_inst_id', instId);
 
 const addPackageInstItem = (instId, pkgItems) => {
