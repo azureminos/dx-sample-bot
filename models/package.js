@@ -2,8 +2,6 @@
 import Knex  from '../db/knex';
 import PackageItem from '../models/package-item';
 import RatePlan from '../models/rate-plan';
-// Dummy Data
-import dPackage from '../dummy/package';
 
 const Package = () => Knex('package');
 
