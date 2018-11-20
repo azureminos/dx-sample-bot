@@ -7,7 +7,7 @@
 
 exports.up = (knex, Promise) => {
   return Promise.all([
-    /*knex.schema.dropTable('change_log'),
+    knex.schema.dropTable('change_log'),
     knex.schema.dropTable('package_inst_participant'),
     knex.schema.dropTable('package_inst_item'),
     knex.schema.dropTable('package_inst'),
@@ -24,7 +24,7 @@ exports.up = (knex, Promise) => {
     knex.schema.dropTable('hotel_image'),
     knex.schema.dropTable('hotel'),
     knex.schema.dropTable('city'),
-    knex.schema.dropTable('country'),*/
+    knex.schema.dropTable('country'),
   ]).then(() => Promise.all([
     knex.schema.createTable('country', (table) => {
       table.increments();
