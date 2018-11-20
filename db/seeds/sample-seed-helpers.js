@@ -31,24 +31,24 @@ const ATTRACTION_IMAGE = [
 const PACKAGE = [{
   name: '4 Days China Tour',
   description: 'It\'s a 4 Days China Tour. First 2 days in Beijing, then 2 days in Shanghai.',
-  finePrint: 'Depart every Tuesday and Friday from 01/06/2019 to 30/09/2019. extra 500 for single traveller',
+  fine_print: 'Depart every Tuesday and Friday from 01/06/2019 to 30/09/2019. extra 500 for single traveller',
   notes: 'No surcharge for families.',
   days: 4,
-  maxParticipant: 30,
-  isPromoted: true,
-  isActive: true,
-  isExtention: false,
+  max_participant: 30,
+  is_promoted: true,
+  is_active: true,
+  is_extention: false,
 },
 {
   name: '3 Days China Tour',
   description: 'It\'s a 3 Days China Tour. First 2 days in Beijing, then 1 day in Shanghai.',
-  finePrint: 'Depart every Tuesday and Friday from 01/06/2019 to 30/09/2019. extra 500 for single traveller',
+  fine_print: 'Depart every Tuesday and Friday from 01/06/2019 to 30/09/2019. extra 500 for single traveller',
   notes: 'No surcharge for families.',
   days: 3,
-  maxParticipant: 20,
-  isPromoted: true,
-  isActive: true,
-  isExtention: false,
+  max_participant: 20,
+  is_promoted: true,
+  is_active: true,
+  is_extention: false,
 }];
 
 const PACKAGE_IMAGE = [
@@ -62,12 +62,14 @@ const PACKAGE_IMAGE = [
 ];
 
 const PACKAGE_ITEM = [
-  {tour: '1 Day Beijing Tour', day_no: 1, order: 1001, activity: 'The Forbiden Palace', desc: 'Visit the Forbiden Palace'},
-  {tour: '1 Day Shanghai Tour', day_no: 1, order: 1001, activity: 'Oriental Pearl Tower', desc: 'Visit the Oriental Pearl Tower in the morning'},
-  {tour: '1 Day Shanghai Tour', day_no: 1, order: 1002, activity: 'The Bund', desc: 'Visit the Bund in the afternoon and evening'},
-  {tour: '2 Days China Tour', day_no: 1, order: 1001, activity: 'The Forbiden Palace', desc: 'Visit the Forbiden Palace'},
-  {tour: '2 Days China Tour', day_no: 2, order: 2001, activity: 'Oriental Pearl Tower', desc: 'Visit the Oriental Pearl Tower in the morning'},
-  {tour: '2 Days China Tour', day_no: 2, order: 2002, activity: 'The Bund', desc: 'Visit the Bund in the afternoon and evening'},
+  {pkg_id: 1, day_no: 1, day_seq: 1, attraction_id: 1, description: 'Day tour at The Forbidden Palace'},
+  {pkg_id: 1, day_no: 2, day_seq: 1, attraction_id: 2, description: 'Day tour at Tian An Men'},
+  {pkg_id: 1, day_no: 3, day_seq: 1, attraction_id: 3,  description: 'Day tour at Shanghai Longhua Temple'},
+  {pkg_id: 1, day_no: 4, day_seq: 1, attraction_id: 4, description: 'Day tour at the Yu Garden'},
+  {pkg_id: 2, day_no: 1, day_seq: 1, attraction_id: 1, description: 'Day tour at The Forbidden Palace'},
+  {pkg_id: 2, day_no: 2, day_seq: 1, attraction_id: 2, description: 'Day tour at Tian An Men'},
+  {pkg_id: 2, day_no: 3, day_seq: 1, attraction_id: 3, description: 'Day tour at Shanghai Longhua Temple'},
+  {pkg_id: 2, day_no: 3, day_seq: 2, attraction_id: 4, description: 'Day tour at the Yu Garden'}
 ];
 
 module.exports = {COUNTRY, CITY, ATTRACTION, ATTRACTION_IMAGE, PACKAGE, PACKAGE_IMAGE, PACKAGE_ITEM};
