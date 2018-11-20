@@ -26,6 +26,7 @@ const getPackageInstance = (instId) =>
         PackageImage.getImageByPackageId(packageInst.packageId),
       ]).then(([packageInst, images]) => {
         packageInst.images = images;
+        console.log('>>>>Before return getPackageInstance', packageInst);
         return packageInst;
       });
     });
@@ -51,6 +52,7 @@ const getPackageInstanceDetails = (instId) =>
     PackageInstItem.getPackageInstItem(instId),
   ])
   .then(([pkgInst, /*pkgRatePlans,*/ pkgInstItems]) => {
+    console.log('>>>>Calling getPackageInstanceDetails', {pkgInst: pkgInst, pkgInstItems: pkgInstItems});
     pkgInst.items = pkgInstItems;
     //pkgInst.rates = pkgRatePlans;
 
