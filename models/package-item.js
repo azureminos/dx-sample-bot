@@ -1,22 +1,25 @@
 // ===== DB ====================================================================
 import Knex  from '../db/knex';
 import {camelCaseKeys} from './util';
+// Dummy Data
+import dPackageItem from '../dummy/package-item';
 
 const PackageItem = () => Knex('package_item');
 
 // ===== Region & Country ======================================================
 const getAllPackageItem = () =>
   PackageItem()
-    .join('attraction', 'attraction.id', 'package_item.attraction_id')
-    .select('package_item.id', 'package_item.pkg_id as packageId', 'package_item.day_no as dayNo', 'package_item.order',
-      'package_item.attraction_id as attractionId', 'attraction.name as attractionName', 'package_item.desc as desc')
+    .select()
+    .then(() => {
+      return dPackageItem.getAllItems();
+    });
 
 const getItemByPackageId = (packageId) =>
   PackageItem()
-    .join('attraction', 'attraction.id', 'package_item.attraction_id')
-    .select('package_item.id', 'package_item.pkg_id as packageId', 'package_item.day_no as dayNo', 'package_item.order',
-      'package_item.attraction_id as attractionId', 'attraction.name as attractionName', 'package_item.desc as desc')
-    .where('package_item.pkg_id', packageId)
+    .select()
+    .then(() => {
+      return dPackageItem.getItemsByPackageId(packageId);
+    });
 
 const getItemByPackageName = (packageName) =>
   PackageItem()

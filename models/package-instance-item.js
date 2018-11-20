@@ -19,9 +19,9 @@ const addPackageInstItem = (instId, pkgItems) => {
   const items = pkgItems.map((item) => {
     return {
       pkg_inst_id: instId,
-      pkg_item_id: item.id,
+      attraction_id: item.attractionId,
       day_no: item.dayNo,
-      order: item.order,
+      day_seq: item.daySeq,
     };
   });
   console.log('>>>>after re-format', items);
