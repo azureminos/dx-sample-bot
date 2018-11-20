@@ -21,7 +21,7 @@ const getPackageInstance = (instId) =>
     .first()
     .then((packageInst) => {
       console.log('>>>>Calling getPackageInstance', packageInst);
-      Promise.all([
+      return Promise.all([
         packageInst,
         PackageImage.getImageByPackageId(packageInst.packageId),
       ]).then(([packageInst, images]) => {
