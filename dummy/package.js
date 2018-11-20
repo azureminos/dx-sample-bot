@@ -42,11 +42,11 @@ const getAllPackage = () => {
     isExtention: false,
     images: [{
       imageUrl: 'media/Beijing_ForbiddenPalace.jpg',
-      isCoverPage: true,
+      isCoverPage: false,
     },
     {
       imageUrl: 'media/Beijing_TianAnMen.jpg',
-      isCoverPage: false,
+      isCoverPage: true,
     },
     {
       imageUrl: 'media/Shanghai_YuGarden.jpg',
@@ -59,7 +59,12 @@ const getAllPromotedPackage = () => {
   return _.filter(getAllPackage(), {isPromoted: true});
 };
 
+const getPackage = (packageId) => {
+  return _.filter(getAllPackage(), {id: packageId})[0];
+};
+
 export default {
   getAllPackage,
   getAllPromotedPackage,
+  getPackage,
 };

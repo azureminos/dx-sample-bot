@@ -46,7 +46,7 @@ router.get('/', function(req, res) {
 router.get('/:packageId', function(req, res) {
   const packageId = req.params.packageId;
   console.log('>>>>Retrieve package by packageId', packageId);
-  Pkg.getPackageDetails(packageId)
+  Pkg.getPackage(packageId)
     .then((result) => {
       console.log('>>>>Retrieved package item', result);
       res.send(result);
