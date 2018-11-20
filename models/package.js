@@ -11,9 +11,9 @@ const Package = () => Knex('package');
 const getAllPackage = () =>
   Package()
     .where('is_active', true)
-    .select('id', 'name', 'description', 'fine_print as finePrint', 'notes'
-      , 'days', 'max_participant as maxParticipant', 'is_promoted as isPromoted'
-      , 'is_active as isActive')
+    .select('id', 'name', 'description', 'fine_print as finePrint', 'notes',
+      'days', 'max_participant as maxParticipant', 'is_promoted as isPromoted',
+      'is_active as isActive')
     .then(() => {
       return dPackage.getAllPackage();
     });
@@ -22,9 +22,9 @@ const getAllPromotedPackage = () =>
   Package()
     .where('is_active', true)
     .where('is_promoted', true)
-    .select('id', 'name', 'description', 'fine_print as finePrint', 'notes'
-      , 'days', 'max_participant as maxParticipant', 'is_promoted as isPromoted'
-      , 'is_active as isActive')
+    .select('id', 'name', 'description', 'fine_print as finePrint', 'notes',
+      'days', 'max_participant as maxParticipant', 'is_promoted as isPromoted',
+      'is_active as isActive')
     .then(() => {
       return dPackage.getAllPackage();
     });
@@ -33,7 +33,9 @@ const getPackage = (packageId) =>
   Package()
     .where('id', packageId)
     .where('is_active', true)
-    .select('id', 'name', 'desc', 'days', 'is_promoted as isPromoted', 'is_active as isActive', 'image_url as imageUrl')
+    .select('id', 'name', 'description', 'fine_print as finePrint', 'notes',
+      'days', 'max_participant as maxParticipant', 'is_promoted as isPromoted',
+      'is_active as isActive')
     .first()
     .then(() => {
       return dPackage.getPackage(packageId);
