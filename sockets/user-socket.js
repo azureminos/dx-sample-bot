@@ -21,7 +21,7 @@ import sendApi from '../messenger-api-helpers/send';
 // Find or Create a new/existing User with the given id.
 const getUser = (senderId) => {
   return Customer.findOrCreate({
-    fb_id: senderId, // eslint-disable-line camelcase
+    loginId: senderId, // eslint-disable-line camelcase
   });
 };
 
@@ -80,14 +80,14 @@ const join = ({
         sendStatus('noPackageInst');
       }
       console.log('>>>>Print package instance before addUser', packageInst);
-      PackageParticipant.addParticipant(packageInst.id, user.fbId)
+      PackageParticipant.addParticipant(packageInst.id, user.loginId)
         .then((usersInst) => {
           if (!instOwner) {
-            allInRoom(packageInst.id).emit('packageInst:setOwnerId', usersInst.fbId);
+            allInRoom(packageInst.id).emit('packageInst:setOwnerId', usersInst.loginId);
           }
         })
         .then(() => {
-          socketUsers.set(socket.id, {instId: packageInst.id, userId: user.fbId});
+          socketUsers.set(socket.id, {instId: packageInst.id, userId: user.loginId});
 
           PackageParticipant.getParticipantByInstId(instId)
             .then((users) => {
@@ -101,7 +101,7 @@ const join = ({
               console.log('>>>>print users', users);
               console.log('>>>>print fbUsers', fbUsers);
               const ngUsers = fbUsers.map((u) => {
-                var m = _.filter(users, (user) => {return user.fbId == u.fbId});
+                var m = _.filter(users, (user) => {return user.loginId == u.fbId});
                 if(m) {
                   u.likedAttractions = m[0].likedAttractions;
                 }
@@ -109,7 +109,7 @@ const join = ({
               });
 
               const viewerUser =
-                fbUsers.find((fbUser) => fbUser.fbId === user.fbId);
+                fbUsers.find((fbUser) => fbUser.fbId === user.loginId);
               socket.join(packageInst.id);
               socket.in(packageInst.id).emit('user:join', viewerUser);
 
@@ -118,7 +118,7 @@ const join = ({
                 cityAttractions,
                 users: ngUsers,
                 packages: [],
-                ownerId: instOwner ? instOwner.fbId : user.fbId,
+                ownerId: instOwner ? instOwner.loginId : user.loginId,
               });
 
               sendStatus('ok');

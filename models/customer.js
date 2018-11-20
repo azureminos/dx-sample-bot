@@ -22,20 +22,19 @@ const platformType = AppConfig.getPlatformType();
  */
 export const findOrCreate = (user = {}) => {
   return Customer()
-    .where('login_id', parseInt(user.fb_id, 10))
-    .where('login_type', platformType)
+    .where({'login_id': user.loginId, 'login_type': platformType})
     .first()
     .then((foundUsers) => {
       if (!foundUsers) {
-        return Customer().insert({login_type: platformType, login_id: user.fb_id}, 'login_id');
+        return Customer().insert({login_type: platformType, login_id: user.loginId}, 'login_id');
       }
       return Customer()
-        .where('login_id', parseInt(user.fb_id, 10))
+        .where('login_id', user.loginId)
         .update(user, 'login_id');
     })
     .then((userFbId) => {
       return Customer()
-        .where('login_id', parseInt(userFbId, 10))
+        .where('login_id', user.loginId)
         .first()
         .then(camelCaseKeys);
     });

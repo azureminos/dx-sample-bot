@@ -180,7 +180,7 @@ exports.up = (knex, Promise) => {
     knex.schema.createTable('package_inst_participant', (table) => {
       table.increments();
       table.integer('pkg_inst_id').references('package_inst.id').notNullable();
-      table.integer('user_id').references('all_user.id').notNullable();
+      table.string('login_id').references('all_user.login_id').notNullable();
       table.boolean('is_owner').defaultTo(false);
       table.string('liked_attractions'); // comma separated attraction id
       table.string('additional_field');
@@ -213,7 +213,7 @@ exports.up = (knex, Promise) => {
     }),
     knex.schema.createTable('change_log', (table) => {
       table.increments();
-      table.integer('user_id');
+      table.string('login_id');
       table.string('pkg_inst_id');
       table.string('action');
       table.string('additional_field');
