@@ -11,18 +11,18 @@ const getAllRegion = () =>
 
 const getAllCountry = () =>
   Country()
-    .select('id', 'name', 'region', 'desc', 'alias', 'tag');
+    .select('id', 'name', 'region', 'description', 'alias', 'tag');
 
 const getCountryByRegion = (region) =>
   Country()
-    .select('id', 'name', 'region', 'desc', 'alias', 'tag')
+    .select('id', 'name', 'region', 'description', 'alias', 'tag')
     .where('region', region)
     .orWhere('alias', 'like', '%'+region+'%')
     .orWhere('tag', 'like', '%'+region+'%');
 
 const getCountry = (countryId) =>
   Country()
-    .select('id', 'name', 'region', 'desc', 'alias', 'tag')
+    .select('id', 'name', 'region', 'description', 'alias', 'tag')
     .where('id', countryId)
     .fist();
 
@@ -33,16 +33,16 @@ const setCountry = (country) =>
       {
         name: country.name,
         region: country.region,
-        desc: country.desc,
+        description: country.description,
         tag: country.tag,
         alias: country.alias,
       },
-      ['id', 'name', 'region', 'desc', 'alias', 'tag']
+      ['id', 'name', 'region', 'description', 'alias', 'tag']
     );
 
 const addCountry = (country) =>
   Country()
-    .insert(country, ['id', 'name', 'region', 'desc', 'alias', 'tag']);
+    .insert(country, ['id', 'name', 'region', 'description', 'alias', 'tag']);
 
 const delCountry = (countryId) =>
   Country()
