@@ -16,7 +16,7 @@ const getPackageInstItem = (instId) =>
     .where('package_inst_item.pkg_inst_id', instId);
 
 const addPackageInstItem = (instId, pkgItems) => {
-  console.log('>>>>Add package instance items, instId['+instId+']', pkgItems);
+  //console.log('>>>>Add package instance items, instId['+instId+']', pkgItems);
   const items = pkgItems.map((item) => {
     return {
       pkg_inst_id: instId,
@@ -25,7 +25,7 @@ const addPackageInstItem = (instId, pkgItems) => {
       day_seq: item.daySeq,
     };
   });
-  console.log('>>>>after re-format', items);
+  //console.log('>>>>after re-format', items);
   return PackageInstItem().insert(items);
 }
 

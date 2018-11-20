@@ -20,30 +20,32 @@ const getPackageInstance = (instId) =>
     .where('package_inst.id', instId)
     .first()
     .then((packageInst) => {
-      console.log('>>>>Calling getPackageInstance', packageInst);
+      //console.log('>>>>Calling getPackageInstance', packageInst);
       return Promise.all([
         packageInst,
         PackageImage.getImageByPackageId(packageInst.packageId),
       ]).then(([packageInst, images]) => {
         packageInst.images = images;
-        console.log('>>>>Before return getPackageInstance', packageInst);
+        //console.log('>>>>Before return getPackageInstance', packageInst);
         return packageInst;
       });
     });
 
 const getAttractionsByInstId = (instId) => {
-  return PackageInst()
-    .join('package_item', {'package_item.pkg_id': 'package_inst.pkg_id'})
-    .join('attraction', {'attraction.id': 'package_item.attraction_id'})
+  return PackageInstItem()
+    .join('attraction', {'attraction.id': 'package_inst_item.attraction_id'})
+    .join('attraction_image', {
+      'attraction_image.attraction_id': 'package_inst_item.attraction_id',
+      'attraction_image.is_cover_page': Knex.raw('?', [true])})
     .join('city', {'city.id': 'attraction.city_id'})
-    .select('city.name as cityName', 'attraction.id as id', 'attraction.name as name', 'attraction.desc as desc',
-      'attraction.image_url as imageUrl')
-    .where('package_inst.id', instId)
+    .select('city.name as cityName', 'attraction.id as id', 'attraction.name as name', 'attraction.description as description',
+    'attraction_image.image_url as attractionImageUrl')
+    .where('package_inst_item.pkg_inst_id', instId)
     .then((result) => {
-      console.log('>>>>PackageInst.getAttractionsByInstId['+instId+']', result);
+      console.log('>>>>PackageInst.getAttractionsByInstId[' + instId + ']', result);
       return _.groupBy(result, (item) => item.cityName);
     });
-}
+};
 
 const getPackageInstanceDetails = (instId) =>
   Promise.all([
@@ -52,10 +54,8 @@ const getPackageInstanceDetails = (instId) =>
     PackageInstItem.getPackageInstItem(instId),
   ])
   .then(([pkgInst, /*pkgRatePlans,*/ pkgInstItems]) => {
-    console.log('>>>>Calling getPackageInstanceDetails', {pkgInst: pkgInst, pkgInstItems: pkgInstItems});
     pkgInst.items = pkgInstItems;
     //pkgInst.rates = pkgRatePlans;
-
     console.log('>>>>Retrieved package instance', pkgInst);
     return pkgInst;
   });

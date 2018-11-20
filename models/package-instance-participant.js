@@ -1,18 +1,21 @@
 // ===== DB ====================================================================
 import Knex  from '../db/knex';
+import AppConfig from '../config/app-config';
 
 const PackageParticipant = () => Knex('package_participant');
+const platformType = AppConfig.getPlatformType();
 
 // ===== Package ======================================================
 const getParticipantByInstId = (instId) =>
   PackageParticipant()
-    .select('user_fb_id as fbId', 'is_owner as isOwner', 'liked_attractions as likedAttractions')
-    .where('pkg_inst_id', instId)
+    .select('user_id as userId', 'is_owner as isOwner', 'liked_attractions as likedAttractions')
+    .where('pkg_inst_id', instId);
 
 const getOwnerByInstId = (instId) =>
   PackageParticipant()
+    .join('all_user', {'all_user.id': 'package_inst_participant.user_id', 'all_user.login_type': Knex.raw('?', [platformType])})
     .where({pkg_inst_id: instId, is_owner: true})
-    .first('user_fb_id as fbId');
+    .first('all_user.login_id as fbId');
 
 const addParticipant = (instId, fbId) => {
   console.log('>>>>Add package instance participant, instId['+instId+'], fbId['+fbId+']');
@@ -42,12 +45,12 @@ const addParticipant = (instId, fbId) => {
           ['id', 'user_fb_id as fbId', 'is_owner as isOwner', 'pkg_inst_id as instId']
         );
     });
-}
+};
 
 const delParticipantByInstId = (instId) =>
   PackageParticipant()
     .where('pkg_inst_id', instId)
-    .del()
+    .del();
 
 export default {
   getParticipantByInstId,
