@@ -10,7 +10,7 @@ import PackageInstItem from '../models/package-instance-item';
 import PackageInstParticipant from '../models/package-instance-participant';
 
 const PackageInst = () => Knex('package_inst');
-
+const InstItem = () => Knex('package_inst_item');
 // ===== Package ======================================================
 const getPackageInstance = (instId) =>
   PackageInst()
@@ -32,7 +32,7 @@ const getPackageInstance = (instId) =>
     });
 
 const getAttractionsByInstId = (instId) => {
-  return PackageInstItem()
+  return InstItem()
     .join('attraction', {'attraction.id': 'package_inst_item.attraction_id'})
     .join('attraction_image', {
       'attraction_image.attraction_id': 'package_inst_item.attraction_id',
