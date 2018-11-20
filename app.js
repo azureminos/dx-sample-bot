@@ -34,6 +34,7 @@ import ratePlan from './routes/rate-plan';
 import packageInstance from './routes/package-instance';
 import instanceParticipant from './routes/package-instance-participant';
 import instRoute from './routes/instance';
+import seedRoute from './routes/seed';
 
 // ===== SOCKETS ===============================================================
 import attachSockets from './sockets';
@@ -110,6 +111,7 @@ app.use('/ratePlan', ratePlan);
 app.use('/packageInstance', packageInstance);
 app.use('/instanceParticipant', instanceParticipant);
 app.use('/instance', instRoute);
+app.use('/seed', seedRoute);
 
 /* ----------  Errors  ---------- */
 

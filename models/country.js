@@ -49,7 +49,6 @@ const delCountry = (countryId) =>
     .where('id', countryId)
     .del();
 
-
 export default {
   getAllRegion,
   getAllCountry,
