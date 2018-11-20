@@ -8,8 +8,6 @@ import PackageImage from '../models/package-image';
 import RatePlan from '../models/rate-plan';
 import PackageInstItem from '../models/package-instance-item';
 import PackageInstParticipant from '../models/package-instance-participant';
-// Dummy Data
-import dPackage from '../dummy/package';
 
 const PackageInst = () => Knex('package_inst');
 
@@ -22,6 +20,7 @@ const getPackageInstance = (instId) =>
     .where('package_inst.id', instId)
     .first()
     .then((packageInst) => {
+      console.log('>>>>Calling getPackageInstance', packageInst);
       Promise.all([
         packageInst,
         PackageImage.getImageByPackageId(packageInst.packageId),

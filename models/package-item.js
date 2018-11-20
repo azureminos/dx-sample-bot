@@ -9,25 +9,24 @@ const PackageItem = () => Knex('package_item');
 // ===== Region & Country ======================================================
 const getAllPackageItem = () =>
   PackageItem()
-    .select()
-    .then(() => {
-      return dPackageItem.getAllItems();
-    });
+    .join('attraction', 'attraction.id', 'package_item.attraction_id')
+    .select('package_item.id', 'package_item.pkg_id as packageId', 'package_item.day_no as dayNo', 'package_item.day_seq as daySeq',
+      'package_item.attraction_id as attractionId', 'attraction.name as attractionName', 'package_item.description as description');
 
 const getItemByPackageId = (packageId) =>
   PackageItem()
-    .select()
-    .then(() => {
-      return dPackageItem.getItemsByPackageId(packageId);
-    });
+    .join('attraction', 'attraction.id', 'package_item.attraction_id')
+    .select('package_item.id', 'package_item.pkg_id as packageId', 'package_item.day_no as dayNo', 'package_item.day_seq as daySeq',
+      'package_item.attraction_id as attractionId', 'attraction.name as attractionName', 'package_item.description as description')
+    .where('package_item.pkg_id', packageId);
 
 const getItemByPackageName = (packageName) =>
   PackageItem()
     .join('attraction', 'attraction.id', 'package_item.attraction_id')
     .join('package', 'package.id', 'package_item.pkg_id')
-    .select('package_item.id', 'package_item.pkg_id as packageId', 'package_item.day_no as dayNo', 'package_item.order',
-      'package_item.attraction_id as attractionId', 'attraction.name as attractionName', 'package_item.desc as desc')
-    .where('package.name', packageName)
+    .select('package_item.id', 'package_item.pkg_id as packageId', 'package_item.day_no as dayNo', 'package_item.day_seq as daySeq',
+      'package_item.attraction_id as attractionId', 'attraction.name as attractionName', 'package_item.description as description')
+    .where('package.name', packageName);
 
 const getPackageItem = (itemId) =>
   PackageItem()

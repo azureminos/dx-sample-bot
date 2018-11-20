@@ -1,6 +1,5 @@
 import express from 'express';
 import Pkg from '../models/package';
-import dmPackage from '../dummy/package';
 
 const router = express.Router();
 
