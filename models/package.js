@@ -36,8 +36,9 @@ const getPackage = (packageId) =>
     .select('id', 'name', 'description', 'fine_print as finePrint', 'notes',
       'days', 'max_participant as maxParticipant', 'is_promoted as isPromoted',
       'is_active as isActive')
-    .first()
+    //.first()
     .then(() => {
+      console.log('>>>>Models: getPackage()', packageId);
       return dPackage.getPackage(packageId);
     });
 
