@@ -2,7 +2,7 @@
 import Knex  from '../db/knex';
 import AppConfig from '../config/app-config';
 
-const PackageParticipant = () => Knex('package_participant');
+const PackageParticipant = () => Knex('package_inst_participant');
 const platformType = AppConfig.getPlatformType();
 
 // ===== Package ======================================================
