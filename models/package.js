@@ -100,12 +100,12 @@ const getPackageDetails = (packageId) =>
   Promise.all([
     getPackage(packageId),
     PackageItem.getItemByPackageId(packageId),
-    RatePlan.getRatePlanByPackageId(packageId),
+    //RatePlan.getRatePlanByPackageId(packageId),
   ])
-  .then(([pkg, items, rates]) => {
+  .then(([pkg, items/*, rates*/]) => {
     if (pkg) {
       pkg.items = items;
-      pkg.rates = rates;
+      //pkg.rates = rates;
     }
     return pkg;
   });

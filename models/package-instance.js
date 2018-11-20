@@ -27,6 +27,7 @@ const getPackageInstance = (instId) =>
       packageInst.days = p.days;
       packageInst.finePrint = p.finePrint;
       packageInst.maxParticipant = p.maxParticipant;
+      packageInst.images = p.images;
       return packageInst;
     });
 
