@@ -7,25 +7,6 @@
 
 exports.up = (knex, Promise) => {
   return Promise.all([
-    knex.schema.dropTable('change_log'),
-    knex.schema.dropTable('package_inst_participant'),
-    knex.schema.dropTable('package_inst_item'),
-    knex.schema.dropTable('package_inst'),
-    knex.schema.dropTable('all_user'),
-    knex.schema.dropTable('package_rate'),
-    knex.schema.dropTable('car_rate'),
-    knex.schema.dropTable('flight_rate'),
-    knex.schema.dropTable('package_item'),
-    knex.schema.dropTable('package_depart_date'),
-    knex.schema.dropTable('package_image'),
-    knex.schema.dropTable('package'),
-    knex.schema.dropTable('attraction_image'),
-    knex.schema.dropTable('attraction'),
-    knex.schema.dropTable('hotel_image'),
-    knex.schema.dropTable('hotel'),
-    knex.schema.dropTable('city'),
-    knex.schema.dropTable('country'),
-  ]).then(() => Promise.all([
     knex.schema.createTable('country', (table) => {
       table.increments();
       table.string('name').notNullable();
@@ -239,7 +220,7 @@ exports.up = (knex, Promise) => {
       table.timestamp('created_ts').defaultTo(knex.fn.now());
       table.timestamp('updated_ts').defaultTo(knex.fn.now());
     }),
-  ]));
+  ]);
 };
 
 exports.down = (knex, Promise) => {
