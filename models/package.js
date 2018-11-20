@@ -2,6 +2,7 @@
 import Knex  from '../db/knex';
 import PackageItem from '../models/package-item';
 import RatePlan from '../models/rate-plan';
+import PackageImage from '../models/package-image';
 
 const Package = () => Knex('package');
 
@@ -62,38 +63,19 @@ const addPackage = (pkg) =>
 const delPackage = (packageId) =>
   Package()
     .where({id: packageId})
-    .update(
-      {
-        is_active: false,
-      },
-      ['id']
-    );
-
-const getPackageImageUrl = (packageId) =>
-  Package()
-    .select('image_url as imageUrl')
-    .where('id', attractionId)
-    .first();
-
-const setPackageImageUrl = (pkg) =>
-  Package()
-    .where({id: pkg.id})
-    .update(
-      {
-        image_url: pkg.imageUrl
-      },
-      ['id']
-    );
+    .update({is_active: false}, ['id']);
 
 const getPackageDetails = (packageId) =>
   Promise.all([
     getPackage(packageId),
     PackageItem.getItemByPackageId(packageId),
     //RatePlan.getRatePlanByPackageId(packageId),
+    PackageImage.getImageByPackageId(packageId),
   ])
-  .then(([pkg, items/*, rates*/]) => {
+  .then(([pkg, items/*, rates*/, images]) => {
     if (pkg) {
       pkg.items = items;
+      pkg.images = images;
       //pkg.rates = rates;
     }
     return pkg;
@@ -106,7 +88,5 @@ export default {
   setPackage,
   addPackage,
   delPackage,
-  getPackageImageUrl,
-  setPackageImageUrl,
   getPackageDetails,
 };

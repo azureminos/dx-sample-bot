@@ -4,6 +4,7 @@ import _ from 'lodash';
 // ===== DB ====================================================================
 import Knex  from '../db/knex';
 import Package from '../models/package';
+import PackageImage from '../models/package-image';
 import RatePlan from '../models/rate-plan';
 import PackageInstItem from '../models/package-instance-item';
 import PackageInstParticipant from '../models/package-instance-participant';
@@ -21,14 +22,13 @@ const getPackageInstance = (instId) =>
     .where('package_inst.id', instId)
     .first()
     .then((packageInst) => {
-      const p = dPackage.getPackage(packageInst.packageId);
-      packageInst.packageName = p.name;
-      packageInst.description = p.description;
-      packageInst.days = p.days;
-      packageInst.finePrint = p.finePrint;
-      packageInst.maxParticipant = p.maxParticipant;
-      packageInst.images = p.images;
-      return packageInst;
+      Promise.all([
+        packageInst,
+        PackageImage.getImageByPackageId(packageInst.packageId),
+      ]).then(([packageInst, images]) => {
+        packageInst.images = images;
+        return packageInst;
+      });
     });
 
 const getAttractionsByInstId = (instId) => {
@@ -47,17 +47,17 @@ const getAttractionsByInstId = (instId) => {
 
 const getPackageInstanceDetails = (instId) =>
   Promise.all([
-      getPackageInstance(instId),
-      //RatePlan.getRatePlanByInstId(instId),
-      PackageInstItem.getPackageInstItem(instId),
-    ])
+    getPackageInstance(instId),
+    //RatePlan.getRatePlanByInstId(instId),
+    PackageInstItem.getPackageInstItem(instId),
+  ])
   .then(([pkgInst, /*pkgRatePlans,*/ pkgInstItems]) => {
     pkgInst.items = pkgInstItems;
     //pkgInst.rates = pkgRatePlans;
 
     console.log('>>>>Retrieved package instance', pkgInst);
     return pkgInst;
-  })
+  });
 
 const addPackageInstance = (packageId) =>
   Promise.all([
