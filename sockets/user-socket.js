@@ -9,7 +9,7 @@
 import _ from 'lodash';
 
 // ===== DB ====================================================================
-import Users from '../models/users';
+import Customer from '../models/customer';
 import Packages from '../models/package';
 import PackageInst from '../models/package-instance';
 import PackageParticipant from '../models/package-instance-participant';
@@ -20,7 +20,7 @@ import sendApi from '../messenger-api-helpers/send';
 
 // Find or Create a new/existing User with the given id.
 const getUser = (senderId) => {
-  return Users.findOrCreate({
+  return Customer.findOrCreate({
     fb_id: senderId, // eslint-disable-line camelcase
   });
 };

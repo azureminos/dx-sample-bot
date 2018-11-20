@@ -47,7 +47,7 @@ export const findOrCreate = (user = {}) => {
  * @returns {Object} user - The found user.
  */
 export const get = (userFbId) =>
-  Users()
+  Customer()
     .where('fb_id', parseInt(userFbId, 10))
     .first()
     .then(camelCaseKeys);
