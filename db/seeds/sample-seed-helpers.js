@@ -18,7 +18,7 @@ const ATTRACTION = [
   {city_id: 1, name: 'The Forbidden Palace', description: 'Forbiden Palace', visit_hours: 2, traffic_hours: 1, nearby_attractions: 2},
   {city_id: 1, name: 'Tian An Men', description: 'Tian An Men', visit_hours: 2, traffic_hours: 1, nearby_attractions: 1},
   {city_id: 2, name: 'Longhua Temple', description: 'Longhua Temple', visit_hours: 2, traffic_hours: 1},
-  {city_id: 2, name: 'Yu Garden', dedescriptionsc: 'Yu Garden', visit_hours: 2, traffic_hours: 1},
+  {city_id: 2, name: 'Yu Garden', description: 'Yu Garden', visit_hours: 2, traffic_hours: 1},
 ];
 
 const ATTRACTION_IMAGE = [
@@ -64,12 +64,12 @@ const PACKAGE_IMAGE = [
 const PACKAGE_ITEM = [
   {pkg_id: 1, day_no: 1, day_seq: 1, attraction_id: 1, description: 'Day tour at The Forbidden Palace'},
   {pkg_id: 1, day_no: 2, day_seq: 1, attraction_id: 2, description: 'Day tour at Tian An Men'},
-  {pkg_id: 1, day_no: 3, day_seq: 1, attraction_id: 3,  description: 'Day tour at Shanghai Longhua Temple'},
+  {pkg_id: 1, day_no: 3, day_seq: 1, attraction_id: 3, description: 'Day tour at Shanghai Longhua Temple'},
   {pkg_id: 1, day_no: 4, day_seq: 1, attraction_id: 4, description: 'Day tour at the Yu Garden'},
   {pkg_id: 2, day_no: 1, day_seq: 1, attraction_id: 1, description: 'Day tour at The Forbidden Palace'},
   {pkg_id: 2, day_no: 2, day_seq: 1, attraction_id: 2, description: 'Day tour at Tian An Men'},
   {pkg_id: 2, day_no: 3, day_seq: 1, attraction_id: 3, description: 'Day tour at Shanghai Longhua Temple'},
-  {pkg_id: 2, day_no: 3, day_seq: 2, attraction_id: 4, description: 'Day tour at the Yu Garden'}
+  {pkg_id: 2, day_no: 3, day_seq: 2, attraction_id: 4, description: 'Day tour at the Yu Garden'},
 ];
 
 module.exports = {COUNTRY, CITY, ATTRACTION, ATTRACTION_IMAGE, PACKAGE, PACKAGE_IMAGE, PACKAGE_ITEM};

@@ -7,24 +7,24 @@ const City = () => Knex('city');
 const getAllCity = () =>
   City()
     .join('country', {'city.country_id': 'country.id'})
-    .select('city.id', 'city.name', 'city.country_id as countryId','country.name as countryName', 'city.desc', 'city.alias', 'city.tag')
+    .select('city.id', 'city.name', 'city.country_id as countryId', 'country.name as countryName', 'city.description', 'city.alias', 'city.tag')
 
 const getCityByCountryName = (countryName) =>
   City()
     .join('country', {'city.country_id': 'country.id'})
-    .select('city.id', 'city.name', 'city.country_id as countryId','country.name as countryName', 'city.desc', 'city.alias', 'city.tag')
+    .select('city.id', 'city.name', 'city.country_id as countryId','country.name as countryName', 'city.description', 'city.alias', 'city.tag')
     .where('country.name', countryName);
 
 const getCityByCountryId = (countryId) =>
   City()
     .join('country', {'city.country_id': 'country.id'})
-    .select('city.id', 'city.name', 'city.country_id as countryId','country.name as countryName', 'city.desc', 'city.alias', 'city.tag')
+    .select('city.id', 'city.name', 'city.country_id as countryId','country.name as countryName', 'city.description', 'city.alias', 'city.tag')
     .where('city.country_id', countryId);
 
 const getCity = (cityId) =>
   City()
     .join('country', {'city.country_id': 'country.id'})
-    .select('city.id', 'city.name', 'city.country_id as countryId','country.name as countryName', 'city.desc', 'city.alias', 'city.tag')
+    .select('city.id', 'city.name', 'city.country_id as countryId','country.name as countryName', 'city.description', 'city.alias', 'city.tag')
     .where('city.id', cityId)
     .first();
 
@@ -35,7 +35,7 @@ const setCity = (city) =>
       {
         name: city.name,
         country_id: city.countryId,
-        desc: city.desc,
+        description: city.description,
         tag: city.tag,
         alias: city.alias,
       },
@@ -48,7 +48,7 @@ const addCity = (city) =>
       {
         name: city.name,
         country_id: city.countryId,
-        desc: city.desc,
+        description: city.description,
         tag: city.tag,
         alias: city.alias,
       },

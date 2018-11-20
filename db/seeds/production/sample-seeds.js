@@ -16,24 +16,38 @@ const {COUNTRY, CITY, ATTRACTION, ATTRACTION_IMAGE, PACKAGE, PACKAGE_IMAGE, PACK
  * @returns {Promise} A single Promise that resolves when
  * user and list items have been inserted into the database.
  */
-exports.seed = (knex, Promise) =>
-  Promise.all([
-    knex('country').insert(COUNTRY, 'id'),
-    //knex('city').insert(CITY, 'id'),
-    // knex('hotel').insert(),
-    // knex('hotel_image').insert()
-    //knex('attraction').insert(ATTRACTION, 'id'),
-    //knex('attraction_image').insert(ATTRACTION_IMAGE, 'id'),
-    //knex('package').insert(PACKAGE, 'id'),
-    //knex('package_item').insert(PACKAGE_ITEM, 'id'),
-    //knex('package_image').insert(PACKAGE_IMAGE, 'id'),
-    // knex('package_depart_date').insert(),
-    // knex('package_rate').insert(),
-    // knex('car_rate').insert(),
-    // knex('flight_rate').insert(),
-  ])
-  .then((ids) => {
-    for (let i = 0; i < ids.length; i++) {
-      console.log('>>>>Pring IDs', ids[i]);
-    }
-  });
+exports.seed = (knex, Promise) => {
+  knex('country')
+    .insert(COUNTRY, 'id')
+    .then((ids) => {
+      console.log('Country IDs', ids);
+      knex('city')
+        .insert(CITY, 'id')
+        .then((ids) => {
+          console.log('City IDs', ids);
+          knex('attraction')
+            .insert(ATTRACTION, 'id')
+            .then((ids) => {
+              console.log('Attraction IDs', ids);
+              knex('attraction_image')
+                .insert(ATTRACTION_IMAGE, 'id')
+                .then((ids) => {
+                  console.log('Attraction Image IDs', ids);
+                  knex('package')
+                    .insert(PACKAGE, 'id')
+                    .then((ids) => {
+                      console.log('Package IDs', ids);
+                      knex('package_item')
+                        .insert(PACKAGE_ITEM, 'id')
+                        .then((ids) => {
+                          console.log('Package Item IDs', ids);
+                          knex('package_image')
+                            .insert(PACKAGE_IMAGE, 'id')
+                            .then((ids) => console.log('Package IMage IDs', ids));
+                        });
+                    });
+                });
+            });
+        });
+    });
+}
