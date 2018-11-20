@@ -60,7 +60,7 @@ const getAllPromotedPackage = () => {
 };
 
 const getPackage = (packageId) => {
-  return _.filter(getAllPackage(), {id: packageId});
+  return _.filter(getAllPackage(), {id: Number(packageId)});
 };
 
 export default {
