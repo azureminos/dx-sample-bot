@@ -1,13 +1,15 @@
 import React, { Component } from "react";
 import {Panel} from 'react-weui';
 import Collapsible from 'react-collapsible';
-
-import CenterSlider from './slider.jsx';
+import _ from 'lodash';
+import SuperSlider from './super-slider.jsx';
 import TagList from './tag-list.js';
 
 const PackageSummary = ({packageInst, apiUri, cityAttractions, likeAttraction}) => {
   console.log('>>>>PackageSummary', {packageInst: packageInst, apiUri: apiUri, cityAttractions: cityAttractions});
-  const packageImageUrl = apiUri + '/' + packageInst.imageUrl;
+  const pkgCoverPage = _.filter(packageInst.items, {isCoverPage: true});
+  const packageImageUrl = pkgCoverPage.length?(apiUri + '/' + pkgCoverPage[0].imageUrl):'';
+  console.log('>>>>packageImageUrl', packageImageUrl);
 
   const cityCollapsible = _.keys(cityAttractions).map((city, idx) => {
     let setting = {
@@ -20,20 +22,20 @@ const PackageSummary = ({packageInst, apiUri, cityAttractions, likeAttraction}) 
       return {
         id: item.id,
         name: item.attractionName,
-        desc: item.desc,
-        imageUrl: item.imageUrl
+        desc: item.description,
+        imageUrl: item.attractionImageUrl
       };
     });
 
     return (
       <Collapsible {...setting} >
-        <CenterSlider
+        <SuperSlider
           items={items}
           buttonName="Like"
           buttonAction={likeAttraction}
           apiUri={apiUri}
         >
-        </CenterSlider>
+        </SuperSlider>
       </Collapsible>
     );
   });
