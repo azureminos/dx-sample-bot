@@ -33,7 +33,7 @@ export const findOrCreate = (user = {}) => {
       console.log('>>>>Customer.findOrCreate() >> User FOund');
       return Customer()
         .where('login_id', user.loginId)
-        .update(user, 'login_id as loginId');
+        .update({login_id: user.loginId}, 'login_id as loginId');
     })
     .then((loginId) => {
       console.log('>>>>Customer.findOrCreate() >> Get User['+loginId+']', user);
