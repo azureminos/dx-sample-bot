@@ -80,18 +80,14 @@ const introMessage = (apiUri) => {
 const packageMessage = (apiUri, packages) => {
   let items = packages.map((pkg) => {
     const urlToPackage = packageUrl(apiUri, pkg.id);
-    const imgCover = filter(pkg.images, {isCoverPage: true});
-    // Set image url of package
-    let imageUrl = 'media/tour-1-cover.png';
-    if (imgCover && imgCover.length > 0) {
-      imageUrl = imgCover[0].imageUrl;
-    }
-
-    console.log('>>>>Generated URL >> '+urlToPackage, pkg);
+    
+    // Set default package image url
+    const defaultImageUrl = 'media/tour-1-cover.png';
+    console.log('>>>>Generated URL >> ' + urlToPackage, pkg);
 
     return {
       title: pkg.name,
-      image_url: `${apiUri}/${imageUrl}`,
+      image_url: `${apiUri}/${pkg.imageUrl || defaultImageUrl}`,
       subtitle: pkg.desc,
       default_action: {
         type: 'web_url',
