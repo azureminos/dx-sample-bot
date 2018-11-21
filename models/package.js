@@ -9,7 +9,7 @@ const Package = () => Knex('package');
 // ===== Package ======================================================
 const getAllPackage = () =>
   Package()
-    .join('package_image', {'package_image.pkg_id': 'package.id', 'package_image.is_cover_page': knex.raw('?', [true])})
+    .join('package_image', {'package_image.pkg_id': 'package.id', 'package_image.is_cover_page': Knex.raw('?', [true])})
     .where('is_active', true)
     .select('id', 'name', 'description', 'fine_print as finePrint', 'notes',
       'days', 'max_participant as maxParticipant', 'is_promoted as isPromoted',
