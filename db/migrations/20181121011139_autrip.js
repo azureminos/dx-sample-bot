@@ -180,7 +180,7 @@ exports.up = (knex, Promise) => {
     knex.schema.createTable('package_inst_participant', (table) => {
       table.increments();
       table.integer('pkg_inst_id').references('package_inst.id').notNullable();
-      table.string('login_id').references('all_user.login_id').notNullable();
+      table.string('login_id').notNullable();
       table.boolean('is_owner').defaultTo(false);
       table.string('liked_attractions'); // comma separated attraction id
       table.string('additional_field');
