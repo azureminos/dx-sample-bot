@@ -21,20 +21,24 @@ const platformType = AppConfig.getPlatformType();
  * @returns {Object} user - The created user.
  */
 export const findOrCreate = (user = {}) => {
+  console.log('>>>>Customer.findOrCreate()', user);
   return Customer()
     .where({'login_id': user.loginId, 'login_type': platformType})
     .first()
     .then((foundUsers) => {
       if (!foundUsers) {
-        return Customer().insert({login_type: platformType, login_id: user.loginId}, 'login_id');
+        console.log('>>>>Customer.findOrCreate() >> User Not FOund');
+        return Customer().insert({login_type: platformType, login_id: user.loginId}, 'login_id as loginId');
       }
+      console.log('>>>>Customer.findOrCreate() >> User FOund');
       return Customer()
         .where('login_id', user.loginId)
-        .update(user, 'login_id');
+        .update(user, 'login_id as loginId');
     })
-    .then((userFbId) => {
+    .then((loginId) => {
+      console.log('>>>>Customer.findOrCreate() >> Get User['+loginId+']', user);
       return Customer()
-        .where('login_id', user.loginId)
+        .where('login_id', loginId)
         .first()
         .then(camelCaseKeys);
     });

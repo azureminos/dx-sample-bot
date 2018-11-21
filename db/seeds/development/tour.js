@@ -5,19 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const {COUNTRY, CITY, ATTRACTION, ATTRACTION_IMAGE, PACKAGE, PACKAGE_IMAGE, PACKAGE_ITEM} =
-  require('../sample-seed-helpers');
-
-/**
- * Dev ENV Seed File - When run with `knex seed:run`,
- * populates database with placeholder data.
- * @param {string} knex - Knex dependency
- * @param {Promise} Promise - Promise dependency
- * @returns {Promise} A single Promise that resolves when
- * user and list items have been inserted into the database.
- */
-exports.seed = (knex, Promise) =>
-  Promise.all([
+exports.up = (knex, Promise) => {
+  return Promise.all([
     knex.schema.createTable('country', (table) => {
       table.increments();
       table.string('name').notNullable();
@@ -191,7 +180,7 @@ exports.seed = (knex, Promise) =>
     knex.schema.createTable('package_inst_participant', (table) => {
       table.increments();
       table.integer('pkg_inst_id').references('package_inst.id').notNullable();
-      table.integer('user_id').references('all_user.id').notNullable();
+      table.string('login_id').notNullable();
       table.boolean('is_owner').defaultTo(false);
       table.string('liked_attractions'); // comma separated attraction id
       table.string('additional_field');
@@ -224,25 +213,16 @@ exports.seed = (knex, Promise) =>
     }),
     knex.schema.createTable('change_log', (table) => {
       table.increments();
-      table.integer('user_id');
+      table.string('login_id');
       table.string('pkg_inst_id');
       table.string('action');
       table.string('additional_field');
       table.timestamp('created_ts').defaultTo(knex.fn.now());
       table.timestamp('updated_ts').defaultTo(knex.fn.now());
-    })])
-    .then(() => {
-      knex('country').insert(COUNTRY);
-      knex('city').insert(CITY);
-      //knex('hotel').insert();
-      //knex('hotel_image').insert();
-      knex('attraction').insert(ATTRACTION);
-      knex('attraction_image').insert(ATTRACTION_IMAGE);
-      knex('package').insert(PACKAGE);
-      knex('package_item').insert(PACKAGE_ITEM);
-      knex('package_image').insert(PACKAGE_IMAGE);
-      //knex('package_depart_date').insert();
-      //knex('package_rate').insert();
-      //knex('car_rate').insert();
-      //knex('flight_rate').insert();
-    });
+    }),
+  ]);
+};
+
+exports.down = (knex, Promise) => {
+  return Promise.all([]);
+};
