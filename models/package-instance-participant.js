@@ -30,6 +30,7 @@ const addParticipant = (instId, loginId) => {
     )
     .then(({hasOwner, alreadyAdded}) => {
       if (alreadyAdded && !hasOwner) {
+        //M=Need Fix
         return PackageParticipant()
           .where({pkg_inst_id: instId, login_id: loginId})
           .first()

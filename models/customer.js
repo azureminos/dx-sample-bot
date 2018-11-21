@@ -28,17 +28,17 @@ export const findOrCreate = (user = {}) => {
     .then((foundUsers) => {
       if (!foundUsers) {
         console.log('>>>>Customer.findOrCreate() >> User Not FOund');
-        return Customer().insert({login_type: platformType, login_id: user.loginId}, 'login_id as loginId');
+        return Customer().insert({login_type: platformType, login_id: user.loginId}, 'login_id');
       }
-      console.log('>>>>Customer.findOrCreate() >> User FOund');
+      console.log('>>>>Customer.findOrCreate() >> User Found');
       return Customer()
         .where('login_id', user.loginId)
-        .update({login_id: user.loginId}, 'login_id as loginId');
+        .update({login_id: user.loginId}, 'login_id');
     })
     .then((loginId) => {
       console.log('>>>>Customer.findOrCreate() >> Get User['+loginId+']', user);
       return Customer()
-        .where('login_id', loginId)
+        .where('login_id', user.loginId)
         .first()
         .then(camelCaseKeys);
     });
