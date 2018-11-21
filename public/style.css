@@ -912,3 +912,9 @@ button.swiper-pagination-bullet {
   opacity: 1;
   background-color: $white;
 }
+
+#auto-slides-per-view {
+  .swiper-slide {
+    width: 80%;
+  }
+}

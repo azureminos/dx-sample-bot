@@ -16,7 +16,7 @@ const SuperSlider = ({items, buttonName, buttonAction, apiUri}) => {
   const itemList = items.map((item) => {
     const imageUrl = apiUri + '/' + item.imageUrl;
     return (
-        <div key={item.id}>
+        <div className="demo-slide" key={item.id}>
           <img src={imageUrl} alt={item.name} width="300"></img>
           <p>{item.desc}</p>
           <button onClick={() => buttonAction(item.id)} >{buttonName}</button>
@@ -27,7 +27,7 @@ const SuperSlider = ({items, buttonName, buttonAction, apiUri}) => {
   console.log('>>>>SuperSlider items', itemList);
 
   return (
-    <div>
+    <div id="auto-slides-per-view">
       <Swiper {...params}>
         {itemList}
       </Swiper>
