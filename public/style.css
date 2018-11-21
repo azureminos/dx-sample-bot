@@ -879,22 +879,10 @@ button.swiper-pagination-bullet {
 .demo-slide {
   height: 300px !important;
   line-height: 300px;
-  align-items: center;
   font-size: 2em;
   background-color: $background-color;
   color: $white;
-  text-align: center;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  -webkit-justify-content: center;
-  justify-content: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  -webkit-align-items: center;
+  text-align: left;
 }
 
 .swiper-container {
