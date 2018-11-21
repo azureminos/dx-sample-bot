@@ -8,7 +8,7 @@ const platformType = AppConfig.getPlatformType();
 // ===== Package ======================================================
 const getParticipantByInstId = (instId) =>
   PackageParticipant()
-    .select('user_id as userId', 'is_owner as isOwner', 'liked_attractions as likedAttractions', 'login_id as loginId')
+    .select('id', 'is_owner as isOwner', 'liked_attractions as likedAttractions', 'login_id as loginId')
     .where('pkg_inst_id', instId);
 
 const getOwnerByInstId = (instId) => {
