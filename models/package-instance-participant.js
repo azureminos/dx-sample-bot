@@ -34,7 +34,7 @@ const addParticipant = (instId, loginId) => {
         return PackageParticipant()
           .where({pkg_inst_id: instId, login_id: loginId})
           .first()
-          .update({is_owner: true}, ['id', 'login_id as loginId', 'is_owner as isOwner', 'pkg_inst_id as instId']);
+          .update({is_owner: true}, ['id', 'login_id', 'is_owner', 'pkg_inst_id']);
       } else if (alreadyAdded) {
         return PackageParticipant()
           .where({pkg_inst_id: instId, login_id: loginId})
@@ -44,7 +44,7 @@ const addParticipant = (instId, loginId) => {
       return PackageParticipant()
         .insert(
           {is_owner: !hasOwner, pkg_inst_id: instId, login_id: loginId},
-          ['id', 'login_id as loginId', 'is_owner as isOwner', 'pkg_inst_id as instId']
+          ['id', 'login_id', 'is_owner', 'pkg_inst_id']
         );
     });
 };

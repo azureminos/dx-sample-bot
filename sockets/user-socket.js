@@ -49,7 +49,7 @@ const getUserDetails = (senderId) => {
 };
 
 const getFacebookProfileInfoForUsers = (users = [], instId, socketUsers) =>
-  Promise.all(users.map((user) => getUserDetails(user.fbId)))
+  Promise.all(users.map((user) => getUserDetails(user.loginId)))
     .then((res) => res.map((resUser = {}) => {
       // Detect online status via socketUser with matching list & FB IDs.
       const isOnline = [...socketUsers.values()].find((socketUser) =>
