@@ -7,7 +7,7 @@ const SuperSlider = ({items, buttonName, buttonAction, apiUri}) => {
   const params = {
     slidesPerView: 2,
     centeredSlides: true,
-    spaceBetween: 5,
+    spaceBetween: 10,
     pagination: {
       el: '.swiper-pagination',
       clickable: true,
@@ -18,7 +18,7 @@ const SuperSlider = ({items, buttonName, buttonAction, apiUri}) => {
     const imageUrl = apiUri + '/' + item.imageUrl;
     return (
         <div key={item.id}>
-          <img src={imageUrl} alt={item.name} width="300"></img>
+          <img src={imageUrl} alt={item.name} width="400"></img>
           <p>{item.desc}</p>
           <button onClick={() => buttonAction(item.id)} >{buttonName}</button>
         </div>
