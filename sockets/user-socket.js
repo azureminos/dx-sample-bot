@@ -101,15 +101,15 @@ const join = ({
               console.log('>>>>print users', users);
               console.log('>>>>print fbUsers', fbUsers);
               const ngUsers = fbUsers.map((u) => {
-                var m = _.filter(users, (user) => {return user.loginId == u.fbId});
+                var m = _.filter(users, (user) => {return user.loginId === u.fbId});
                 if(m) {
                   u.likedAttractions = m[0].likedAttractions;
                 }
                   return u;
               });
-
-              const viewerUser =
-                fbUsers.find((fbUser) => fbUser.fbId === user.loginId);
+              console.log('>>>>print ngUsers', ngUsers);
+              const viewerUser = fbUsers.find((fbUser) => fbUser.fbId === user.loginId);
+              console.log('>>>>print viewerUser', viewerUser);
               socket.join(packageInst.id);
               socket.in(packageInst.id).emit('user:join', viewerUser);
 
