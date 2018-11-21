@@ -878,15 +878,13 @@ button.swiper-pagination-bullet {
 
 .demo-slide {
   height: 300px !important;
-  line-height: 300px;
-  font-size: 2em;
   background-color: $background-color;
   color: $white;
   text-align: left;
 }
 
 .swiper-container {
-  width: 100%;
+  width: 80%;
   height: $box-size;
   background: $white;
 }
@@ -899,10 +897,4 @@ button.swiper-pagination-bullet {
 .swiper-pagination-bullet {
   opacity: 1;
   background-color: $white;
-}
-
-#auto-slides-per-view {
-  .swiper-slide {
-    width: 80%;
-  }
 }
