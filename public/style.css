@@ -369,7 +369,7 @@ div.ReactTags__selected a.ReactTags__remove {
   -webkit-flex-shrink: 0;
   -ms-flex: 0 0 auto;
   flex-shrink: 0;
-  width: 100%;
+  width: 80%;
   height: 100%;
   position: relative;
 }
@@ -884,7 +884,7 @@ button.swiper-pagination-bullet {
 }
 
 .swiper-container {
-  width: 80%;
+  width: 100%;
   height: $box-size;
   background: $white;
 }
