@@ -5,9 +5,9 @@ const SuperSlider = ({items, buttonName, buttonAction, apiUri}) => {
   console.log('>>>>SuperSlider', {items: items, buttonName: buttonName, apiUri: apiUri});
 
   const params = {
-    slidesPerView: 2,
-    //centeredSlides: true,
-    //spaceBetween: 10,
+    slidesPerView: 1,
+    centeredSlides: true,
+    spaceBetween: 5,
     pagination: {
       el: '.swiper-pagination',
       clickable: true,
