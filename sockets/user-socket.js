@@ -112,9 +112,18 @@ const join = ({
               console.log('>>>>print ngUsers', ngUsers);
               const viewerUser = fbUsers.find((fbUser) => fbUser.fbId === user.loginId);
               console.log('>>>>print viewerUser', viewerUser);
+              console.log('>>>>socket.join(instPackage.id)', instPackage);
               socket.join(instPackage.id);
+              console.log('>>>>socket.in(instPackage.id).emit(user:join, viewerUser)', viewerUser);
               socket.in(instPackage.id).emit('user:join', viewerUser);
-
+              console.log('>>>>userSocket.emit(init)' {
+                instPackage,
+                instItems,
+                cityAttractions,
+                users: ngUsers,
+                packages: [],
+                ownerId: instOwner ? instOwner.loginId : user.loginId,
+              });              
               userSocket.emit('init', {
                 instPackage,
                 instItems,
@@ -123,7 +132,7 @@ const join = ({
                 packages: [],
                 ownerId: instOwner ? instOwner.loginId : user.loginId,
               });
-
+              console.log('>>>>Status OK');
               sendStatus('ok');
             });
         });
