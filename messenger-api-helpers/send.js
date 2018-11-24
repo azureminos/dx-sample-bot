@@ -124,14 +124,14 @@ const sendLists = (recipientId, action, lists, offset) => {
 };
 
 // Send a message notifying the user their list has been created.
-const sendListCreated = (recipientId, packageInst) => {
-  console.log('>>>>sendListCreated, recipientId['+recipientId+'', packageInst);
+const sendListCreated = (recipientId, instPackage) => {
+  console.log('>>>>sendListCreated, recipientId['+recipientId+'', instPackage);
   sendMessage(
     recipientId,
     [
       messages.listCreatedMessage,
-      messages.shareListMessage(APP_URL, packageInst.id, packageInst.title, packageInst.desc,
-        packageInst.imageUrl, 'View Package'),
+      messages.shareListMessage(APP_URL, instPackage.id, instPackage.title, instPackage.desc,
+        instPackage.imageUrl, 'View Package'),
     ]);
 };
 

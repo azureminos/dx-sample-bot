@@ -29,7 +29,7 @@ const setHomeUrl = () => {
       home_url: {
         url: [APP_URL]+'instance/home',
         webview_height_ratio: 'tall',
-        webview_share_button: 'show',
+        webview_share_button: 'hide',
         in_test:true
       },
     }

@@ -14,7 +14,7 @@ import {filter} from 'lodash';
 const listUrl = (apiUri, listId) => `${apiUri}/lists/${listId}`;
 const homeUrl = (apiUri) => `${apiUri}/`;
 const packageUrl = (apiUri, packageId) => `${apiUri}/instance/new/${packageId}`;
-const packageInstUrl = (apiUri, instId) => `${apiUri}/instance/${instId}`;
+const instPackageUrl = (apiUri, instId) => `${apiUri}/instance/${instId}`;
 /*
  * BUTTONS
  *
@@ -30,7 +30,7 @@ const packageInstUrl = (apiUri, instId) => `${apiUri}/instance/${instId}`;
  * @returns {object} -
  *   Message to create a button pointing to the list in a webview.
  */
-const openExistingListButton = (listUrl, buttonText = 'Edit List') => {
+const openExistingPackageButton = (listUrl, buttonText = 'View Package') => {
   return {
     type: 'web_url',
     title: buttonText,
@@ -94,7 +94,7 @@ const packageMessage = (apiUri, packages) => {
         url: urlToPackage,
         messenger_extensions: true,
       },
-      buttons: [openExistingListButton(urlToPackage, 'View Package')],
+      buttons: [openExistingPackageButton(urlToPackage, 'View Package')],
     };
   });
 
@@ -216,8 +216,8 @@ const listCreatedMessage = {
  * @param {string} buttonText - Text for the action button.
  * @returns {object} - Message to configure the customized sharing menu.
  */
-const shareListMessage = (apiUri, instId, title, desc, imageUrl, buttonText) => {
-  const urlToPackageInst = listUrl(apiUri, instId);
+const sharePackageMessage = (apiUri, instId, title, description, imageUrl, buttonText) => {
+  const urlToInstPackage = listUrl(apiUri, instId);
   return {
     attachment: {
       type: 'template',
@@ -226,13 +226,13 @@ const shareListMessage = (apiUri, instId, title, desc, imageUrl, buttonText) => 
         elements: [{
           title: title,
           image_url: `${apiUri}/${imageUrl}`,
-          subtitle: desc,
+          subtitle: description,
           default_action: {
             type: 'web_url',
-            url: urlToPackageInst,
+            url: urlToInstPackage,
             messenger_extensions: true,
           },
-          buttons: [openExistingListButton(urlToPackageInst, buttonText)],
+          buttons: [openExistingPackageButton(urlToInstPackage, buttonText)],
         }],
       },
     },
@@ -246,5 +246,5 @@ export default {
   paginatedListsMessage,
   createListButton,
   noListsMessage,
-  shareListMessage,
+  sharePackageMessage,
 };

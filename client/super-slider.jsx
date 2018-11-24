@@ -18,7 +18,7 @@ const SuperSlider = ({items, buttonName, buttonAction, apiUri}) => {
     return (
         <div className="demo-slide" key={item.id}>
           <img src={imageUrl} alt={item.name} width="300"></img>
-          <p>{item.desc}</p>
+          <p>{item.description}</p>
           <button onClick={() => buttonAction(item.id)} >{buttonName}</button>
         </div>
     );

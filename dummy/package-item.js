@@ -7,8 +7,8 @@ const getAllItems = () => {
     dayNo: 1,
     daySeq: 1,
     attractionId: 1,
-    attractionName: 'The Forbidden Palace',
-    attractionImageUrl: 'media/Beijing_ForbiddenPalace.jpg',
+    name: 'The Forbidden Palace',
+    imageUrl: 'media/Beijing_ForbiddenPalace.jpg',
     description: 'Day tour at The Forbidden Palace',
   },
   {
@@ -17,8 +17,8 @@ const getAllItems = () => {
     dayNo: 2,
     daySeq: 1,
     attractionId: 2,
-    attractionName: 'Tian An Men',
-    attractionImageUrl: 'media/Beijing_TianAnMen.jpg',
+    name: 'Tian An Men',
+    imageUrl: 'media/Beijing_TianAnMen.jpg',
     description: 'Day tour at Tian An Men',
   },
   {
@@ -27,8 +27,8 @@ const getAllItems = () => {
     dayNo: 3,
     daySeq: 1,
     attractionId: 3,
-    attractionName: 'Longhua Temple',
-    attractionImageUrl: 'media/Shanghai_LonghuaTemple.jpg',
+    name: 'Longhua Temple',
+    imageUrl: 'media/Shanghai_LonghuaTemple.jpg',
     description: 'Day tour at Shanghai Longhua Temple',
   },
   {
@@ -37,8 +37,8 @@ const getAllItems = () => {
     dayNo: 4,
     daySeq: 1,
     attractionId: 4,
-    attractionName: 'Yu Garden',
-    attractionImageUrl: 'media/Shanghai_YuGarden.jpg',
+    name: 'Yu Garden',
+    imageUrl: 'media/Shanghai_YuGarden.jpg',
     description: 'Day tour at the Yu Garden',
   },
   {
@@ -47,8 +47,8 @@ const getAllItems = () => {
     dayNo: 1,
     daySeq: 1,
     attractionId: 1,
-    attractionName: 'The Forbidden Palace',
-    attractionImageUrl: 'media/Beijing_ForbiddenPalace.jpg',
+    name: 'The Forbidden Palace',
+    imageUrl: 'media/Beijing_ForbiddenPalace.jpg',
     description: 'Day tour at The Forbidden Palace',
   },
   {
@@ -57,8 +57,8 @@ const getAllItems = () => {
     dayNo: 2,
     daySeq: 1,
     attractionId: 2,
-    attractionName: 'Tian An Men',
-    attractionImageUrl: 'media/Beijing_TianAnMen.jpg',
+    name: 'Tian An Men',
+    imageUrl: 'media/Beijing_TianAnMen.jpg',
     description: 'Day tour at Tian An Men',
   },
   {
@@ -67,8 +67,8 @@ const getAllItems = () => {
     dayNo: 3,
     daySeq: 1,
     attractionId: 3,
-    attractionName: 'Longhua Temple',
-    attractionImageUrl: 'media/Shanghai_LonghuaTemple.jpg',
+    name: 'Longhua Temple',
+    imageUrl: 'media/Shanghai_LonghuaTemple.jpg',
     description: 'Day tour at Shanghai Longhua Temple',
   },
   {
@@ -77,8 +77,8 @@ const getAllItems = () => {
     dayNo: 3,
     daySeq: 2,
     attractionId: 4,
-    attractionName: 'Yu Garden',
-    attractionImageUrl: 'media/Shanghai_YuGarden.jpg',
+    name: 'Yu Garden',
+    imageUrl: 'media/Shanghai_YuGarden.jpg',
     description: 'Day tour at the Yu Garden',
   }];
 };

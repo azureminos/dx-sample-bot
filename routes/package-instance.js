@@ -1,5 +1,5 @@
 import express from 'express';
-import PackageInstances from '../models/package-instance';
+import InstPackage from '../models/package-instance';
 
 const router = express.Router();
 
@@ -51,7 +51,7 @@ router.put('/', function(req, res) {
   console.log('>>>>Insert package-instance item', req.body);
   const {packageId} = req.body;
 
-  PackageInstances.addPackageInstance(packageId)
+  InstPackage.addInstPackage(packageId)
     .then((result) => {
       console.log('>>>>Inserted package-instance item', result);
       res.send(result);
@@ -61,11 +61,11 @@ router.put('/', function(req, res) {
 
 router.delete('/', function(req, res) {
   console.log('>>>>Delete package-instance item', req.body);
-  const {packageInstId} = req.body;
+  const {instId} = req.body;
 
-  PackageInstances.delPackageInstance(packageInstId)
+  InstPackage.delInstPackage(instId)
     .then(() => {
-      console.log('>>>>Deleted package-instance item', packageInstId);
+      console.log('>>>>Deleted package-instance item', instId);
       res.send('ok');
     })
 });

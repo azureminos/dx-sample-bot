@@ -31,9 +31,9 @@ import attraction from './routes/attraction';
 import pkg from './routes/package';
 import pkgItem from './routes/package-item';
 import ratePlan from './routes/rate-plan';
-import packageInstance from './routes/package-instance';
+import instancePackage from './routes/package-instance';
 import instanceParticipant from './routes/package-instance-participant';
-import instRoute from './routes/instance';
+import instanceRoute from './routes/instance';
 import seedRoute from './routes/seed';
 
 // ===== SOCKETS ===============================================================
@@ -108,9 +108,9 @@ app.use('/attraction', attraction);
 app.use('/package', pkg);
 app.use('/packageItem', pkgItem);
 app.use('/ratePlan', ratePlan);
-app.use('/packageInstance', packageInstance);
+app.use('/instancePackage', instancePackage);
 app.use('/instanceParticipant', instanceParticipant);
-app.use('/instance', instRoute);
+app.use('/instance', instanceRoute);
 app.use('/seed', seedRoute);
 
 /* ----------  Errors  ---------- */

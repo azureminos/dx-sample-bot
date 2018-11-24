@@ -82,7 +82,7 @@ router.delete('/', function(req, res) {
 router.get('/image/:attractionId', function(req, res) {
   const attractionId = req.params.attractionId;
   console.log('>>>>Retrieve image url by attractionId['+attractionId+']');
-  Attraction.getAttractionImageUrl(attractionId)
+  Attraction.getImageUrl(attractionId)
     .then((result) => {
       console.log('>>>>Retrieve image url by attractionId['+attractionId+']', result);
       res.send(result);

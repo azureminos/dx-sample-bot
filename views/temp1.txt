@@ -1,5 +1,0 @@
-1. add activity (isPremium, Cost) between attraction and package_item
-2. add car rental (size, type[basic/lux], cost)
-3. add flight (date, peak/off peak, type[eco,biz], cost)
-4. fit in extend package_item
-5. add hotel (based on city)

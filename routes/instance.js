@@ -9,7 +9,7 @@
 import express from 'express';
 
 // ===== DB ====================================================================
-import PackageInstance from '../models/package-instance';
+import InstPackage from '../models/package-instance';
 
 const router = express.Router();
 
@@ -25,10 +25,10 @@ const handleInstanceCreation = (req, res) => {
   console.log('>>>>Printing input params', {packageId: packageId, instId: instId, socketAddress: socketAddress, demo: DEMO});
 
   if (instId === 'new') {
-    PackageInstance
-      .addPackageInstance(packageId)
-      .then((packageInst) =>
-        res.render('./index', {instId: packageInst.id, socketAddress, demo: DEMO})
+    InstPackage
+      .addInstPackage(packageId)
+      .then((inst) =>
+        res.render('./index', {instId: inst.id, socketAddress, demo: DEMO})
       )
   } else if (instId === 'home') {
     res.render('./index', {instId: "", socketAddress, demo: DEMO});

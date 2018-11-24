@@ -21,6 +21,7 @@ import Updating from './updating.jsx';
 import Viewers from './viewers.jsx';
 import CenterSlider from './slider.jsx';
 import PackageSummary from './package-summary.jsx';
+import SuperSlider from './super-slider.jsx';
 
 let socket;
 
@@ -32,11 +33,12 @@ export default class App2 extends React.Component {
   constructor(props) {
     super(props);
 
-    this.pushCreatePackageInst = this.pushCreatePackageInst.bind(this);
+    this.pushCreateInstPackage = this.pushCreateInstPackage.bind(this);
     this.setLikedAttraction = this.setLikedAttraction.bind(this);
     
     this.state = {
-      packageInst: null,
+      instPackage: null,
+      instItems: null,
       packages: [],
       ownerId: null,
       cityAttractions: null,
@@ -111,10 +113,10 @@ export default class App2 extends React.Component {
      ============================================= */
 
   /* ----------  Package  ------- */
-  pushCreatePackageInst(packageId) {
+  pushCreateInstPackage(packageId) {
     const ownerId = this.props.viewerId;
     console.log('>>>>Send event to create package instance with input', {packageId: packageId, ownerId: ownerId});
-    this.pushToRemote('packageInst:create', {packageId, ownerId});
+    this.pushToRemote('instPackage:create', {packageId, ownerId});
   }
 
   /* ----------  Attractions  ---------- */
@@ -206,9 +208,9 @@ export default class App2 extends React.Component {
       this.setState({packages});
     });
 
-    socket.on('init', ({packageInst, packages=[], cityAttractions, users, ownerId} = {}) => {
+    socket.on('init', ({instPackage, packages=[], cityAttractions, users, ownerId} = {}) => {
       console.log('>>>>Result coming back from socket [init]',
-        {packageInst:packageInst, packages:packages, cityAttractions:cityAttractions, users:users, ownerId:ownerId});
+        {instPackage:instPackage, packages:packages, cityAttractions:cityAttractions, users:users, ownerId:ownerId});
       const u = _.filter(users, (user) => {return user.fbId == ownerId});
       console.log('>>>>Matched User['+ownerId+']', u);
       if(u && u[0].likedAttractions) {
@@ -220,7 +222,7 @@ export default class App2 extends React.Component {
         });
       }
       console.log('>>>>After update liked attractions', cityAttractions);
-      this.setState({packageInst, packages, cityAttractions, users, ownerId});
+      this.setState({instPackage, packages, cityAttractions, users, ownerId});
     });
 
     //socket.on('item:add', this.addItem);
@@ -260,60 +262,84 @@ export default class App2 extends React.Component {
   render() {
     const {
       ownerId,
-      packageInst,
+      instPackage,
       packages,
       cityAttractions,
       users,
-      title,
-      resetting,
-      newItemText,
       updating,
       socketStatus,
     } = this.state;
 
     let page;
 
-    if(!packageInst) {
+    if(!instPackage) {
       console.log('>>>>No package instance found, let user select a package');
-      const {apiUri, instId, viewerId, threadType} = this.props;
+      const {apiUri} = this.props;
       page = (
         <section>
-          <CenterSlider
+          <SuperSlider
             items={packages}
-            buttonName="Book Now"
-            buttonAction={this.pushCreatePackageInst}
+            buttonName='Book Now'
+            buttonAction={this.pushCreateInstPackage}
             apiUri={apiUri}
-          >
-          </CenterSlider>
+          />
         </section>
       );
     } else if (users.length > 0) {
       // Skip and show loading spinner if we don't have data yet
-      /* ----------  Setup Sections (anything dynamic or repeated) ---------- */
-      console.log('>>>>Package instance and user found', {props: this.props, state: this.state});
-      const {apiUri, instId, viewerId, threadType} = this.props;
+      /* -------  Setup Sections (anything dynamic or repeated) ------- */
+      console.log('>>>>Package instance and user found',
+        {props: this.props, state: this.state});
+      const {apiUri, viewerId, threadType} = this.props;
+
+      // Setup module "Invite"
+      let invite;
+      const isOwner = viewerId === ownerId;
+      if (isOwner || threadType !== 'USER_TO_PAGE') {
+        // only owners are able to share their lists and other
+        // participants are able to post back to groups.
+        let sharingMode;
+        let buttonText;
+
+        if (threadType === 'USER_TO_PAGE') {
+          sharingMode = 'broadcast';
+          buttonText = 'Invite your friends to this list';
+        } else {
+          sharingMode = 'current_thread';
+          buttonText = 'Send to conversation';
+        }
+
+        invite = (
+          <Invite
+            instPackage={instPackage}
+            apiUri={apiUri}
+            sharingMode={sharingMode}
+            buttonText={buttonText}
+          />
+        );
+      }
+
       page = (
         <section>
-        <Tab type="navbar">
-          <NavBarItem label="Summary">
+        <Tab type='navbar'>
+          <NavBarItem label='Summary'>
             <section id='package'>
               <PackageSummary
-                packageInst={packageInst}
+                instPackage={instPackage}
                 apiUri={apiUri}
                 cityAttractions={cityAttractions}
                 likeAttraction={this.setLikedAttraction}
-              >
-              </PackageSummary>
+              />
               <Updating updating={updating} />
             </section>
           </NavBarItem>
-          <NavBarItem label="Itinerary">
+          <NavBarItem label='Itinerary'>
             <p>Your Itinerary</p>
           </NavBarItem>
         </Tab>
+        {invite}
         </section>
       );
-
     } else if (socketStatus === 'noList') {
       // We were unable to find a matching list in our system.
       page = <ListNotFound/>;

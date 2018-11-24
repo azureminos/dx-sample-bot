@@ -11,7 +11,8 @@ import _ from 'lodash';
 // ===== DB ====================================================================
 import Customer from '../models/customer';
 import Packages from '../models/package';
-import PackageInst from '../models/package-instance';
+import InstPackage from '../models/package-instance';
+import InstItem from '../models/package-instance-item';
 import PackageParticipant from '../models/package-instance-participant';
 
 // ===== MESSENGER =============================================================
@@ -70,24 +71,25 @@ const join = ({
   console.log('>>>>Start to process User Join event with Input['+senderId+', '+instId+']');
   if(instId) {
     Promise.all([
-      PackageInst.getPackageInstanceDetails(instId),
-      PackageInst.getAttractionsByInstId(instId),
+      InstPackage.getInstPackageDetails(instId),
+      InstItem.getInstItem(instId),
+      InstPackage.getAttractionsByInstId(instId),
       PackageParticipant.getOwnerByInstId(instId),
       getUser(senderId),
-    ]).then(([packageInst, cityAttractions, instOwner, user]) => {
-      if (!packageInst) {
+    ]).then(([instPackage, instItems, cityAttractions, instOwner, user]) => {
+      if (!instPackage) {
         console.error("Package instance doesn't exist!");
-        sendStatus('noPackageInst');
+        sendStatus('noInstPackage');
       }
-      console.log('>>>>Print package instance before addUser', packageInst);
-      PackageParticipant.addParticipant(packageInst.id, user.loginId)
+      console.log('>>>>Print package instance before addUser', instPackage);
+      PackageParticipant.addParticipant(instPackage.id, user.loginId)
         .then((usersInst) => {
           if (!instOwner) {
-            allInRoom(packageInst.id).emit('packageInst:setOwnerId', usersInst.loginId);
+            allInRoom(instPackage.id).emit('instPackage:setOwnerId', usersInst.loginId);
           }
         })
         .then(() => {
-          socketUsers.set(socket.id, {instId: packageInst.id, userId: user.loginId});
+          socketUsers.set(socket.id, {instId: instPackage.id, userId: user.loginId});
 
           PackageParticipant.getParticipantByInstId(instId)
             .then((users) => {
@@ -110,11 +112,12 @@ const join = ({
               console.log('>>>>print ngUsers', ngUsers);
               const viewerUser = fbUsers.find((fbUser) => fbUser.fbId === user.loginId);
               console.log('>>>>print viewerUser', viewerUser);
-              socket.join(packageInst.id);
-              socket.in(packageInst.id).emit('user:join', viewerUser);
+              socket.join(instPackage.id);
+              socket.in(instPackage.id).emit('user:join', viewerUser);
 
               userSocket.emit('init', {
-                packageInst,
+                instPackage,
+                instItems,
                 cityAttractions,
                 users: ngUsers,
                 packages: [],

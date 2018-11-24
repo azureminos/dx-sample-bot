@@ -20,13 +20,10 @@ import messages from '../messenger-api-helpers/messages';
  * Button to invite firends by invoking the share menu
  */
 const Invite = ({
-  title,
-  listId,
-  promoId,
+  instPackage,
   apiUri,
   sharingMode,
   buttonText,
-  imgSource,
 }) => {
   const shareList = () => {
     window.MessengerExtensions.beginShareFlow(
@@ -37,7 +34,7 @@ const Invite = ({
       }, function error(errorCode, errorMessage) {
         console.error({errorCode, errorMessage});
       },
-      messages.shareListMessage(apiUri, listId, title, promoId),
+      messages.sharePackageMessage(apiUri, instPackage.id, instPackage.name, instPackage.description, instPackage.imageUrl),
       sharingMode);
   };
 
