@@ -25,16 +25,16 @@ const instPackageUrl = (apiUri, instId) => `${apiUri}/instance/${instId}`;
 /**
  * Button for opening a specific list in a webview
  *
- * @param {string} listUrl - URL for a specific list.
+ * @param {string} instPackageUrl - URL for a specific package instance.
  * @param {string} buttonText - Text for the action button.
  * @returns {object} -
  *   Message to create a button pointing to the list in a webview.
  */
-const openExistingPackageButton = (listUrl, buttonText = 'View Package') => {
+const openExistingPackageButton = (instPackageUrl, buttonText = 'View Package') => {
   return {
     type: 'web_url',
     title: buttonText,
-    url: listUrl,
+    url: instPackageUrl,
     messenger_extensions: true,
     webview_height_ratio: 'full',
     webview_share_button: 'hide',
@@ -79,25 +79,25 @@ const packageMessage = (apiUri, packages) => {
       title: pkg.name,
       image_url: `${apiUri}/${pkg.imageUrl || defaultImageUrl}`,
       subtitle: pkg.desc,
-      default_action: {
+      /*default_action: {
         type: 'web_url',
         url: urlToPackage,
         messenger_extensions: true,
         webview_share_button: 'hide',
-      },
+      },*/
       buttons: [openExistingPackageButton(urlToPackage, 'View Package')],
     };
   });
 
   return {
-     attachment: {
-       type: 'template',
-       payload: {
-         template_type: 'generic',
-         elements: items,
-       },
-     },
-   };
+    attachment: {
+      type: 'template',
+      payload: {
+        template_type: 'generic',
+        elements: items,
+      },
+    },
+  };
 };
 
 /**
@@ -209,7 +209,7 @@ const listCreatedMessage = {
  * @returns {object} - Message to configure the customized sharing menu.
  */
 const sharePackageMessage = (apiUri, instId, title, description, imageUrl, buttonText) => {
-  const urlToInstPackage = listUrl(apiUri, instId);
+  const urlToInstPackage = instPackageUrl(apiUri, instId);
   return {
     attachment: {
       type: 'template',
@@ -219,12 +219,12 @@ const sharePackageMessage = (apiUri, instId, title, description, imageUrl, butto
           title: title,
           image_url: `${apiUri}/${imageUrl}`,
           subtitle: description,
-          default_action: {
+          /*default_action: {
             type: 'web_url',
             url: urlToInstPackage,
             messenger_extensions: true,
             webview_share_button: 'hide',
-          },
+          },*/
           buttons: [openExistingPackageButton(urlToInstPackage, buttonText)],
         }],
       },

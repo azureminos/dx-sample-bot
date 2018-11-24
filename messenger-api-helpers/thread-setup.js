@@ -50,16 +50,19 @@ const persistentMenu = () => {
           url: `${APP_URL}/lists/new`,
           webview_height_ratio: 'tall',
           messenger_extensions: true,
+          webview_share_button: 'hide',
         },
         {
           type: 'postback',
           title: 'My Lists',
           payload: 'owned_lists',
+          webview_share_button: 'hide',
         },
         {
           type: 'postback',
           title: 'Shared With Me',
           payload: 'subscribed_lists',
+          webview_share_button: 'hide',
         },
       ],
     }
