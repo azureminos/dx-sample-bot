@@ -38,8 +38,8 @@ const getAttractionsByInstId = (instId) => {
       'attraction_image.attraction_id': 'package_inst_item.attraction_id',
       'attraction_image.is_cover_page': Knex.raw('?', [true])})
     .join('city', {'city.id': 'attraction.city_id'})
-    .select('city.name as cityName', 'attraction.id as id', 'attraction.name as name', 'attraction.description as description',
-    'attraction_image.image_url')
+    .select('city.name as cityName', 'attraction.id as id', 'attraction.name as name',
+      'attraction.description as description', 'attraction_image.image_url as imageUrl')
     .where('package_inst_item.pkg_inst_id', instId)
     .then((result) => {
       console.log('>>>>InstPackage.getAttractionsByInstId[' + instId + ']', result);
