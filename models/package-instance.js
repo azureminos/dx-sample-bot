@@ -66,7 +66,7 @@ const addInstPackage = (packageId) =>
     dsInstPackage().insert({pkg_id: packageId}, ['id', 'pkg_id as packageId']),
   ])
   .then(([pkg, [instPackage]]) =>
-    dsInstItem().addInstItem(instPackage.id, pkg.items)
+    instItem.addInstItem(instPackage.id, pkg.items)
     .then(() =>
       getInstPackageDetails(instPackage.id)
     )
@@ -74,7 +74,7 @@ const addInstPackage = (packageId) =>
 
 const delInstPackage = (instId) =>
   Promise.all([
-    dsInstItem().delInstItem(instId),
+    instItem.delInstItem(instId),
     instParticipant.delParticipantByInstId(instId),
   ]).then(() => dsInstPackage().where('id', instId).del());
 
