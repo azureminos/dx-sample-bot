@@ -22,8 +22,6 @@ import Oops from './oops.jsx';
 
 import 'weui';
 import 'react-weui/build/packages/react-weui.css';
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import '../public/style.css';
 
 /*
