@@ -25,6 +25,7 @@ const Invite = ({
   sharingMode,
   buttonText,
 }) => {
+  console.log('>>>>Start Invite', {instPackage: instPackage, apiUri: apiUri});
   const shareList = () => {
     window.MessengerExtensions.beginShareFlow(
       function success(response) {
@@ -34,7 +35,8 @@ const Invite = ({
       }, function error(errorCode, errorMessage) {
         console.error({errorCode, errorMessage});
       },
-      messages.sharePackageMessage(apiUri, instPackage.id, instPackage.name, instPackage.description, instPackage.imageUrl),
+      messages.sharePackageMessage(apiUri, instPackage.id, instPackage.name,
+        instPackage.description, instPackage.imageUrl),
       sharingMode);
   };
 

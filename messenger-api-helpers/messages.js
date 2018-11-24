@@ -209,6 +209,8 @@ const listCreatedMessage = {
  * @returns {object} - Message to configure the customized sharing menu.
  */
 const sharePackageMessage = (apiUri, instId, title, description, imageUrl, buttonText) => {
+  console.log('>>>>start sharePackageMessage', {apiUri: apiUri, instId: instId,
+    title: title, description: description, imageUrl: imageUrl});
   const urlToInstPackage = instPackageUrl(apiUri, instId);
   return {
     attachment: {
