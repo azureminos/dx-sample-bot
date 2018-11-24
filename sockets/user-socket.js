@@ -116,7 +116,7 @@ const join = ({
               socket.join(instPackage.id);
               console.log('>>>>socket.in(instPackage.id).emit(user:join, viewerUser)', viewerUser);
               socket.in(instPackage.id).emit('user:join', viewerUser);
-              console.log('>>>>userSocket.emit(init)' {
+              console.log('>>>>userSocket.emit(init)', {
                 instPackage,
                 instItems,
                 cityAttractions,
