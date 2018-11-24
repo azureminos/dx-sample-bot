@@ -16,12 +16,9 @@ import {Tab, NavBarItem} from 'react-weui';
 import Invite from './invite.jsx';
 import ListNotFound from './list_not_found.jsx';
 import LoadingScreen from './loading_screen.jsx';
-import Title from './title.jsx';
 import Updating from './updating.jsx';
-import Viewers from './viewers.jsx';
-import CenterSlider from './slider.jsx';
 import PackageSummary from './package-summary.jsx';
-import SuperSlider from './super-slider.jsx';
+import PackageSelector from './package-selector.jsx';
 
 let socket;
 
@@ -277,10 +274,9 @@ export default class App2 extends React.Component {
       const {apiUri} = this.props;
       page = (
         <section>
-          <SuperSlider
-            items={packages}
-            buttonName='Book Now'
-            buttonAction={this.pushCreateInstPackage}
+          <PackageSelector
+            packages={packages}
+            bookPackage={this.pushCreateInstPackage}
             apiUri={apiUri}
           />
         </section>
