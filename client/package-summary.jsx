@@ -7,8 +7,7 @@ import TagList from './tag-list.js';
 
 const PackageSummary = ({instPackage, apiUri, cityAttractions, likeAttraction}) => {
   console.log('>>>>PackageSummary', {instPackage: instPackage, apiUri: apiUri, cityAttractions: cityAttractions});
-  const pkgCoverPage = _.filter(instPackage.items, {isCoverPage: true});
-  const packageImageUrl = pkgCoverPage.length ? (apiUri + '/' + pkgCoverPage[0].imageUrl) : '';
+  const packageImageUrl = apiUri + '/' + instPackage.imageUrl;
   console.log('>>>>packageImageUrl', packageImageUrl);
 
   const cityCollapsible = _.keys(cityAttractions).map((city, idx) => {
