@@ -69,11 +69,6 @@ const sendReadReceipt = (recipientId) => {
   api.callMessagesAPI(messageData);
 };
 
-// Send the intro message welcoming & describing the bot.
-const sendIntroMessage = (recipientId) => {
-  sendMessage(recipientId, messages.introMessage(APP_URL));
-};
-
 // Send the initial message welcoming & describing the bot.
 const sendPackageMessage = (recipientId) => {
   Package.getAllPackage()
@@ -141,6 +136,5 @@ export default {
   sendMessage,
   sendNoListsYet,
   sendReadReceipt,
-  sendIntroMessage,
   sendPackageMessage,
 };

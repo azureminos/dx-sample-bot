@@ -62,7 +62,6 @@ const handleReceivePostback = (event) => {
   } else if (type.substring(0, 16) === 'subscribed_lists') {
     sendSharedLists(senderId, type);
   } else if (type.substring(0, 11) === 'get_started') {
-    //sendApi.sendIntroMessage(senderId);
     sendApi.sendPackageMessage(senderId);
     return;
   }
@@ -89,7 +88,6 @@ const handleReceiveMessage = (event) => {
   sendApi.sendReadReceipt(senderId);
 
   if (message.text) {
-    //sendApi.sendIntroMessage(senderId);
     sendApi.sendPackageMessage(senderId);
   }
 };

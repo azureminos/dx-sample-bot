@@ -37,6 +37,7 @@ const openExistingPackageButton = (listUrl, buttonText = 'View Package') => {
     url: listUrl,
     messenger_extensions: true,
     webview_height_ratio: 'full',
+    webview_share_button: 'hide',
   };
 };
 
@@ -55,6 +56,7 @@ const createListButton = (apiUri) => {
     title: 'View All Packages',
     webview_height_ratio: 'full',
     messenger_extensions: true,
+    webview_share_button: 'hide',
   };
 };
 
@@ -64,18 +66,6 @@ const createListButton = (apiUri) => {
  * Objects and methods that create objects that represent
  * messages sent to Messenger users.
  */
-
-/**
- * Message that welcomes the user to the bot
- *
- * @param {string} apiUri - Hostname of the server.
- * @returns {object} - Message with welcome text and self-intro.
- */
-const introMessage = (apiUri) => {
-  return {
-    text: "Hi there. Please allow me to introduce myself first. I'm Bot, your personal travel assistant."
-  };
-};
 
 const packageMessage = (apiUri, packages) => {
   let items = packages.map((pkg) => {
@@ -93,6 +83,7 @@ const packageMessage = (apiUri, packages) => {
         type: 'web_url',
         url: urlToPackage,
         messenger_extensions: true,
+        webview_share_button: 'hide',
       },
       buttons: [openExistingPackageButton(urlToPackage, 'View Package')],
     };
@@ -159,6 +150,7 @@ const listElement = ({id, subscriberIds, title}, apiUri) => {
       url: listUrl(apiUri, id),
       messenger_extensions: true,
       webview_height_ratio: 'full',
+      webview_share_button: 'hide',
     },
   };
 };
@@ -231,6 +223,7 @@ const sharePackageMessage = (apiUri, instId, title, description, imageUrl, butto
             type: 'web_url',
             url: urlToInstPackage,
             messenger_extensions: true,
+            webview_share_button: 'hide',
           },
           buttons: [openExistingPackageButton(urlToInstPackage, buttonText)],
         }],
@@ -240,7 +233,6 @@ const sharePackageMessage = (apiUri, instId, title, description, imageUrl, butto
 };
 
 export default {
-  introMessage,
   packageMessage,
   listCreatedMessage,
   paginatedListsMessage,
