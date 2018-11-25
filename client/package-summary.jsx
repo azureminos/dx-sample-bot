@@ -10,9 +10,8 @@ const PackageSummary = ({instPackage, apiUri, cityAttractions, likeAttraction}) 
   const packageImageUrl = apiUri + '/' + instPackage.imageUrl;
   console.log('>>>>packageImageUrl', packageImageUrl);
 
-  const cityCollapsible = _.keys(cityAttractions).map((city, idx) => {
+  const cityCollapsible = _.keys(cityAttractions).map((city) => {
     const setting = {
-      key: idx,
       trigger: city,
       open: true,
     };
@@ -24,8 +23,7 @@ const PackageSummary = ({instPackage, apiUri, cityAttractions, likeAttraction}) 
           buttonName='Like'
           buttonAction={likeAttraction}
           apiUri={apiUri}
-        >
-        </SuperSlider>
+        />
       </Collapsible>
     );
   });
