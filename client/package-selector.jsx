@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {createElement} from 'react';
 import {Panel} from 'react-weui';
 import Collapsible from 'react-collapsible';
 import SuperSlider from './super-slider.jsx';
@@ -21,8 +21,7 @@ const PackageSelector = ({packages, bookPackage, apiUri}) => {
             buttonName='View Details'
             buttonAction={bookPackage}
             apiUri={apiUri}
-          >
-          </SuperSlider>
+          />
         </Collapsible>
       </Panel>
     </div>

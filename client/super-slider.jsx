@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {createElement} from 'react';
 import Swiper from 'react-id-swiper';
 
 const SuperSlider = ({items, buttonName, buttonAction, apiUri}) => {

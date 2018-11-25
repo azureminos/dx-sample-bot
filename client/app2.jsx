@@ -11,7 +11,6 @@ import React, {createElement} from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import {Tab, NavBarItem} from 'react-weui';
 
-
 // ===== COMPONENTS ============================================================
 import Invite from './invite.jsx';
 import ListNotFound from './list_not_found.jsx';
