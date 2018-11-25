@@ -273,7 +273,7 @@ export default class App2 extends React.Component {
       console.log('>>>>No package instance found, let user select a package');
       const {apiUri} = this.props;
       page = (
-        <section>
+        <section id='package-selector'>
           <PackageSelector
             packages={packages}
             bookPackage={this.pushCreateInstPackage}
@@ -319,7 +319,7 @@ export default class App2 extends React.Component {
         <section>
         <Tab type='navbar'>
           <NavBarItem label='Summary'>
-            <section id='package'>
+            <section id='package-summary'>
               <PackageSummary
                 instPackage={instPackage}
                 apiUri={apiUri}
