@@ -2,7 +2,8 @@ import React, {createElement} from 'react';
 import Swiper from 'react-id-swiper';
 
 const SuperSlider = ({items, buttonName, buttonAction, apiUri}) => {
-  console.log('>>>>SuperSlider', {items: items, buttonName: buttonName, apiUri: apiUri});
+  console.log('>>>>SuperSlider',
+    {items: items, buttonName: buttonName, apiUri: apiUri});
 
   const params = {
     slidesPerView: 'auto',
@@ -10,14 +11,14 @@ const SuperSlider = ({items, buttonName, buttonAction, apiUri}) => {
     pagination: {
       el: '.swiper-pagination',
       clickable: true,
-    }
+    },
   };
 
   const itemList = items.map((item) => {
     const imageUrl = apiUri + '/' + item.imageUrl;
     return (
         <div className='demo-slide' key={item.id}>
-          <img src={imageUrl} alt={item.name} width='300'></img>
+          <img src={imageUrl} alt={item.name} width='300'/>
           <p>{item.description}</p>
           <button onClick={() => buttonAction(item.id)} >{buttonName}</button>
         </div>
@@ -27,7 +28,7 @@ const SuperSlider = ({items, buttonName, buttonAction, apiUri}) => {
   console.log('>>>>SuperSlider items', itemList);
 
   return (
-    <div id='auto-slides-per-view'>
+    <div>
       <Swiper {...params}>
         {itemList}
       </Swiper>

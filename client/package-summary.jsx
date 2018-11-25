@@ -6,7 +6,8 @@ import SuperSlider from './super-slider.jsx';
 import TagList from './tag-list.js';
 
 const PackageSummary = ({instPackage, apiUri, cityAttractions, likeAttraction}) => {
-  console.log('>>>>PackageSummary', {instPackage: instPackage, apiUri: apiUri, cityAttractions: cityAttractions});
+  console.log('>>>>PackageSummary',
+    {inst: instPackage, apiUri: apiUri, cityAttractions: cityAttractions});
   const packageImageUrl = apiUri + '/' + instPackage.imageUrl;
   console.log('>>>>packageImageUrl', packageImageUrl);
 
