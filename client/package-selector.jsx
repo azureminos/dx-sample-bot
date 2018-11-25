@@ -1,3 +1,4 @@
+import React from 'react';
 import {Panel} from 'react-weui';
 import Collapsible from 'react-collapsible';
 import SuperSlider from './super-slider.jsx';
