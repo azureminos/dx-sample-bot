@@ -272,15 +272,17 @@ export default class App2 extends React.Component {
     if(!instPackage) {
       console.log('>>>>No package instance found, let user select a package');
       const {apiUri} = this.props;
-      page = (
-        <section id='package-selector'>
-          <PackageSelector
-            packages={packages}
-            bookPackage={this.pushCreateInstPackage}
-            apiUri={apiUri}
-          />
-        </section>
-      );
+      if(packages && packages.length>0) {
+        page = (
+          <section id='package-selector'>
+            <PackageSelector
+              packages={packages}
+              bookPackage={this.pushCreateInstPackage}
+              apiUri={apiUri}
+            />
+          </section>
+        );
+      }
     } else if (users.length > 0) {
       // Skip and show loading spinner if we don't have data yet
       /* -------  Setup Sections (anything dynamic or repeated) ------- */
