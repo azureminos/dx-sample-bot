@@ -1,4 +1,3 @@
-import React, { Component } from "react";
 import {Panel} from 'react-weui';
 import Collapsible from 'react-collapsible';
 import _ from 'lodash';

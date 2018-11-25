@@ -6,7 +6,7 @@ const SuperSlider = ({items, buttonName, buttonAction, apiUri}) => {
 
   const params = {
     slidesPerView: 'auto',
-    spaceBetween: 0,
+    spaceBetween: 5,
     pagination: {
       el: '.swiper-pagination',
       clickable: true,

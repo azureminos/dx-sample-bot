@@ -1,4 +1,3 @@
-import React, { Component } from "react";
 import {Panel} from 'react-weui';
 import Collapsible from 'react-collapsible';
 import SuperSlider from './super-slider.jsx';
@@ -27,7 +26,6 @@ const PackageSelector = ({packages, bookPackage, apiUri}) => {
       </Panel>
     </div>
   );
-
 };
 
 export default PackageSelector;

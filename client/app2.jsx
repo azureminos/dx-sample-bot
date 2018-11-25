@@ -112,8 +112,9 @@ export default class App2 extends React.Component {
   /* ----------  Package  ------- */
   pushCreateInstPackage(packageId) {
     const ownerId = this.props.viewerId;
-    console.log('>>>>Send event to create package instance with input', {packageId: packageId, ownerId: ownerId});
-    this.pushToRemote('instPackage:create', {packageId, ownerId});
+    console.log('>>>>Send event to create package instance with input',
+      {packageId: packageId, ownerId: ownerId});
+    //this.pushToRemote('instPackage:create', {packageId, ownerId});
   }
 
   /* ----------  Attractions  ---------- */
