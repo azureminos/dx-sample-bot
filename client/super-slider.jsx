@@ -6,7 +6,7 @@ const SuperSlider = ({items, buttonName, buttonAction, apiUri}) => {
 
   const params = {
     slidesPerView: 'auto',
-    spaceBetween: 5,
+    spaceBetween: 0,
     pagination: {
       el: '.swiper-pagination',
       clickable: true,
@@ -16,8 +16,8 @@ const SuperSlider = ({items, buttonName, buttonAction, apiUri}) => {
   const itemList = items.map((item) => {
     const imageUrl = apiUri + '/' + item.imageUrl;
     return (
-        <div className="demo-slide" key={item.id}>
-          <img src={imageUrl} alt={item.name} width="300"></img>
+        <div className='demo-slide' key={item.id}>
+          <img src={imageUrl} alt={item.name} width='300'></img>
           <p>{item.description}</p>
           <button onClick={() => buttonAction(item.id)} >{buttonName}</button>
         </div>
@@ -27,7 +27,7 @@ const SuperSlider = ({items, buttonName, buttonAction, apiUri}) => {
   console.log('>>>>SuperSlider items', itemList);
 
   return (
-    <div id="auto-slides-per-view">
+    <div id='auto-slides-per-view'>
       <Swiper {...params}>
         {itemList}
       </Swiper>
