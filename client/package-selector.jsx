@@ -6,7 +6,7 @@ import SuperSlider from './super-slider.jsx';
 const PackageSelector = ({packages, bookPackage, apiUri}) => {
   console.log('>>>>PackageSelector', {packages: packages, apiUri: apiUri});
 
-  const setting = {
+  /*const setting = {
     key: 1,
     trigger: 'Featured Packages',
     open: true,
@@ -25,6 +25,15 @@ const PackageSelector = ({packages, bookPackage, apiUri}) => {
         </Collapsible>
       </Panel>
     </div>
+  );*/
+
+  return (
+    <SuperSlider
+      items={packages}
+      buttonName='View Details'
+      buttonAction={bookPackage}
+      apiUri={apiUri}
+    />
   );
 };
 
