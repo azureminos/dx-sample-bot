@@ -48,8 +48,8 @@ const setCity = (city) =>
         alias: city.alias,
         additional_field: city.additionalField,
       },
-      ['id', 'name', 'country_id as countryId', 'desc', 'alias', 'tag',
-        'additional_field as additionalField']
+      ['id', 'name', 'country_id as countryId', 'description', 'alias',
+        'tag', 'additional_field as additionalField']
     );
 
 const addCity = (city) =>
@@ -63,8 +63,8 @@ const addCity = (city) =>
         alias: city.alias,
         additional_field: city.additionalField,
       },
-      ['id', 'name', 'country_id as countryId', 'desc', 'alias', 'tag',
-        'additional_field as additionalField']
+      ['id', 'name', 'country_id as countryId', 'description', 'alias',
+        'tag', 'additional_field as additionalField']
     );
 
 const delCity = (cityId) =>
