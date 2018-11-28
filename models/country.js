@@ -11,18 +11,21 @@ const getAllRegion = () =>
 
 const getAllCountry = () =>
   Country()
-    .select('id', 'name', 'region', 'description', 'alias', 'tag', 'additional_field');
+    .select('id', 'name', 'region', 'description', 'alias', 'tag',
+      'additional_field as additionalField');
 
 const getCountryByRegion = (region) =>
   Country()
-    .select('id', 'name', 'region', 'description', 'alias', 'tag', 'additional_field')
+    .select('id', 'name', 'region', 'description', 'alias', 'tag',
+      'additional_field as additionalField')
     .where('region', region)
     .orWhere('alias', 'like', '%'+region+'%')
     .orWhere('tag', 'like', '%'+region+'%');
 
 const getCountry = (countryId) =>
   Country()
-    .select('id', 'name', 'region', 'description', 'alias', 'tag', 'additional_field')
+    .select('id', 'name', 'region', 'description', 'alias', 'tag',
+      'additional_field as additionalField')
     .where('id', countryId)
     .fist();
 
@@ -36,13 +39,40 @@ const setCountry = (country) =>
         description: country.description,
         tag: country.tag,
         alias: country.alias,
+        additional_field: country.additionalField,
       },
-      ['id', 'name', 'region', 'description', 'alias', 'tag', 'additional_field']
-    );
+      ['id', 'name', 'region', 'description', 'alias', 'tag', 'additional_field'])
+    .then((items) => {
+      return items.map((item) => {
+        return {
+          id: item.id,
+          name: item.name,
+          region: item.region,
+          description: item.description,
+          alias: item.alias,
+          tag: item.tag,
+          additionalField: item.additional_field,
+        };
+      });
+    });
 
 const addCountry = (country) =>
   Country()
-    .insert(country, ['id', 'name', 'region', 'description', 'alias', 'tag', 'additional_field']);
+    .insert(country, ['id', 'name', 'region', 'description', 'alias', 'tag',
+      'additional_field'])
+    .then((items) => {
+      return items.map((item) => {
+        return {
+          id: item.id,
+          name: item.name,
+          region: item.region,
+          description: item.description,
+          alias: item.alias,
+          tag: item.tag,
+          additionalField: item.additional_field,
+        };
+      });
+    });
 
 const delCountry = (countryId) =>
   Country()
