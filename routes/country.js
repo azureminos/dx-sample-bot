@@ -41,7 +41,7 @@ router.post('/', function(req, res) {
     .then(([result]) => {
       console.log('>>>>Updated country item', result);
       res.send(result);
-    })
+    });
 });
 
 router.delete('/', function(req, res) {
