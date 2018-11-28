@@ -61,7 +61,8 @@ const addCountry = (country) =>
     .insert(country, ['id', 'name', 'region', 'description', 'alias', 'tag',
       'additional_field'])
     .then((items) => {
-      return items.map((item) => {
+      console.log('>>>>Newly inserted country before re-format', items);
+      const nItems = items.map((item) => {
         return {
           id: item.id,
           name: item.name,
@@ -72,6 +73,8 @@ const addCountry = (country) =>
           additionalField: item.additional_field,
         };
       });
+      console.log('>>>>Newly inserted country after re-format', nItems);
+      return nItems;
     });
 
 const delCountry = (countryId) =>
