@@ -41,20 +41,8 @@ const setCountry = (country) =>
         alias: country.alias,
         additional_field: country.additionalField,
       },
-      ['id', 'name', 'region', 'description', 'alias', 'tag', 'additional_field as additionalField']);
-    /*.then((items) => {
-      return items.map((item) => {
-        return {
-          id: item.id,
-          name: item.name,
-          region: item.region,
-          description: item.description,
-          alias: item.alias,
-          tag: item.tag,
-          additionalField: item.additional_field,
-        };
-      });
-    });*/
+      ['id', 'name', 'region', 'description', 'alias', 'tag',
+        'additional_field as additionalField']);
 
 const addCountry = (country) =>
   Country()
@@ -68,22 +56,6 @@ const addCountry = (country) =>
         additional_field: country.additionalField,
       }, ['id', 'name', 'region', 'description', 'alias', 'tag',
         'additional_field as additionalField']);
-    /*.then((items) => {
-      console.log('>>>>Newly inserted country before re-format', items);
-      const nItems = items.map((item) => {
-        return {
-          id: item.id,
-          name: item.name,
-          region: item.region,
-          description: item.description,
-          alias: item.alias,
-          tag: item.tag,
-          additionalField: item.additional_field,
-        };
-      });
-      console.log('>>>>Newly inserted country after re-format', nItems);
-      return nItems;
-    });*/
 
 const delCountry = (countryId) =>
   Country()
