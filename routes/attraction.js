@@ -7,14 +7,14 @@ router.get('/', function(req, res) {
   const query = req.body;
   console.log('>>>>Retrieve attraction', query);
 
-  if(query) {
-    if(query.cityId) {
+  if (query) {
+    if (query.cityId) {
       Attraction.getAttractionByCityId()
         .then((result) => {
           console.log('>>>>Retrieved all attraction items by city id['+query.cityId+']', result);
           res.send(result);
         });
-    } else if(query.cityName) {
+    } else if (query.cityName) {
       Attraction.getAttractionByCityName()
         .then((result) => {
           console.log('>>>>Retrieved all attraction items by city name['+query.cityName+']', result);
@@ -43,7 +43,7 @@ router.get('/:attractionId', function(req, res) {
     .then((result) => {
       console.log('>>>>Retrieved attraction item', result);
       res.send(result);
-    })
+    });
 });
 
 router.put('/', function(req, res) {
@@ -54,7 +54,7 @@ router.put('/', function(req, res) {
     .then(([result]) => {
       console.log('>>>>Inserted attraction item', result);
       res.send(result);
-    })
+    });
 });
 
 router.post('/', function(req, res) {
@@ -65,7 +65,7 @@ router.post('/', function(req, res) {
     .then(([result]) => {
       console.log('>>>>Updated attraction item', result);
       res.send(result);
-    })
+    });
 });
 
 router.delete('/', function(req, res) {
@@ -74,9 +74,9 @@ router.delete('/', function(req, res) {
 
   Attraction.delAttraction(attraction.id)
     .then(() => {
-      console.log('>>>>Deleted city item', city);
+      console.log('>>>>Deleted city item', attraction);
       res.send('ok');
-    })
+    });
 });
 
 router.get('/image/:attractionId', function(req, res) {
@@ -86,17 +86,7 @@ router.get('/image/:attractionId', function(req, res) {
     .then((result) => {
       console.log('>>>>Retrieve image url by attractionId['+attractionId+']', result);
       res.send(result);
-    })
+    });
 });
 
-router.post('/image/:attractionId', function(req, res) {
-  const attractionId = req.params.attractionId;
-  const imageUrl = req.body.imageUrl;
-  console.log('>>>>update image url by attractionId['+attractionId+']', imageUrl);
-  /*Attraction.getAttraction(attractionId)
-    .then((result) => {
-      console.log('>>>>Retrieved attraction item', result);
-      res.send(result);
-    })*/
-});
 export default router;
