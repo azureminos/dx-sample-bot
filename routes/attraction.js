@@ -51,7 +51,7 @@ router.put('/', function(req, res) {
   console.log('>>>>Insert attraction item', attraction);
 
   Attraction.addAttraction(attraction)
-    .then(([result]) => {
+    .then((result) => {
       console.log('>>>>Inserted attraction item', result);
       res.send(result);
     });
@@ -62,7 +62,7 @@ router.post('/', function(req, res) {
   console.log('>>>>Update attraction item', attraction);
 
   Attraction.setAttraction(attraction)
-    .then(([result]) => {
+    .then((result) => {
       console.log('>>>>Updated attraction item', result);
       res.send(result);
     });
