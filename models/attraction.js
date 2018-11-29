@@ -69,9 +69,11 @@ const updateAttraction = (item) =>
       additional_field: item.additionalField,
       city_id: item.cityId,
     },
-    ['id', 'name', 'description', 'visit_hours as visitHours', 'city_id as cityId',
-      'tag', 'alias', 'traffic_hours as trafficHours', 'nearby_attractions as nearbyAttractions']
-  ).then(([result]) => {return result;});
+    ['id', 'name', 'description', 'visit_hours as visitHours', 'notes', 'tag',
+      'additional_field as additionalField', 'traffic_hours as trafficHours',
+      'nearby_attractions as nearbyAttractions', 'alias', 'city_id as cityId']
+  )
+  .then(([result]) => {return result;});
 
 const updateAttractionImage = (item) =>
   AttractionImage()
@@ -107,10 +109,11 @@ const insertAttraction = (item) => {
         additional_field: item.additionalField,
         city_id: item.cityId,
       },
-      ['id', 'name', 'description', 'visit_hours as visitHours',
-        'city_id as cityId', 'traffic_hours as trafficHours', 'tag',
-        'alias', 'nearby_attractions as nearbyAttractions']
-    ).then(([result]) => {return result;}),
+      ['id', 'name', 'description', 'visit_hours as visitHours', 'notes', 'tag',
+        'additional_field as additionalField', 'traffic_hours as trafficHours',
+        'nearby_attractions as nearbyAttractions', 'alias', 'city_id as cityId']
+    )
+    .then(([result]) => {return result;}),
   ])
   .then(([item, attraction]) => {
     attraction.imageUrl = item.imageUrl;
