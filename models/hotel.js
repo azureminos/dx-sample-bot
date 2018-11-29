@@ -7,9 +7,11 @@ const Hotel = () => Knex('hotel');
 const getAllHotel = () =>
     Hotel()
     .join('city', {'city.id': 'hotel.city_id'})
-    .select('hotel.id', 'hotel.name', 'hotel.description', 'hotel.alias',
-      'hotel.tag', 'hotel.additional_field as additionalField',
-      'hotel.country_id as countryId', 'country.name as countryName');
+    .select('hotel.id', 'hotel.name', 'hotel.description', 'hotel.stars',
+      'hotel.type_name as typeName', 'hotel.type_value as typeValue',
+      'hotel.room_type as roomType', 'hotel.cost', 'hotel.notes',
+      'hotel.additional_field as additionalField', 'hotel.city_id as cityId',
+      'city.name as cityName');
 
 const getHotelByCityName = (cityName) =>
 Hotel()
