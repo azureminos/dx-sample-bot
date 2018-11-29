@@ -147,9 +147,14 @@ const addAttraction = (item) => {
 };
 
 const delAttraction = (attractionId) =>
-  Attraction()
-    .where('id', attractionId)
-    .del();
+  AttractionImage()
+    .where('attraction_id', attractionId)
+    .del()
+    .then(() =>
+      Attraction()
+        .where('id', attractionId)
+        .del()
+    );
 
 export default {
   getAllAttraction,
