@@ -61,7 +61,10 @@ const setHotel = (hotel) =>
       ['id', 'id', 'name', 'description', 'stars', 'type_name as typeName',
         'type_value as typeValue', 'room_type as roomType', 'cost', 'notes',
         'additional_field as additionalField', 'city_id as cityId']
-    );
+    )
+    .then(([item]) => {
+      return item;
+    });
 
 const addHotel = (hotel) =>
   Hotel()
@@ -81,7 +84,10 @@ const addHotel = (hotel) =>
       ['id', 'id', 'name', 'description', 'stars', 'type_name as typeName',
         'type_value as typeValue', 'room_type as roomType', 'cost', 'notes',
         'additional_field as additionalField', 'city_id as cityId']
-    );
+    )
+    .then(([item]) => {
+      return item;
+    });
 
 const delHotel = (id) =>
   Hotel()
