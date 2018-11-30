@@ -9,12 +9,15 @@ const triggerText = (dayNo, city) => `Day ${dayNo}, ${city}`;
 
 export default class PackageItinerary extends React.Component {
   render() {
+    console.log('>>>>PackageItinerary, Start render with props', this.props);
     const {instPackage, cityAttractions} = this.props;
     const itineraries = _.groupBy(instPackage.items, (item)=>{
       return item.dayNo;
     });
+    console.log('>>>>PackageItinerary, Get itineraries', itineraries);
     // Generate itinerary accordion
     const elItineraries = _.mapKeys(itineraries, (lAttractions, dayNo) => {
+      console.log('>>>>PackageItinerary, Get Day '+dayNo, lAttractions);
       const itinerary = {
         dayNo: dayNo,
         city: lAttractions[0].city,
