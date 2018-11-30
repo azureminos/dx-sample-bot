@@ -17,7 +17,7 @@ import ListNotFound from './list_not_found.jsx';
 import LoadingScreen from './loading_screen.jsx';
 import Updating from './updating.jsx';
 import PackageSummary from './package-summary.jsx';
-import PackageItinerary from './package-itinerary.js';
+//import PackageItinerary from './package-itinerary.js';
 import PackageSelector from './package-selector.jsx';
 
 let socket;
@@ -334,10 +334,7 @@ export default class App2 extends React.Component {
             </NavBarItem>
             <NavBarItem label='Itinerary'>
               <section id='package-itinerary'>
-                <PackageItinerary
-                  instPackage={instPackage}
-                  cityAttractions={cityAttractions}
-                />
+                <div>Test</div>
               </section>
             </NavBarItem>
           </Tab>
