@@ -43,6 +43,9 @@ export default class PackageItinerary extends React.Component {
         <Panel>
           <div>Package Cost: $500</div>
         </Panel>
+        <Panel>
+          {elItineraries}
+        </Panel>
       </div>
     );
   }
