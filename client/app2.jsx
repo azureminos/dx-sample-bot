@@ -17,7 +17,6 @@ import ListNotFound from './list_not_found.jsx';
 import LoadingScreen from './loading_screen.jsx';
 import Updating from './updating.jsx';
 import PackageSummary from './package-summary.jsx';
-//import PackageItinerary from './package-itinerary.js';
 import PackageSelector from './package-selector.jsx';
 
 let socket;
@@ -320,25 +319,23 @@ export default class App2 extends React.Component {
 
       page = (
         <section>
-          <Tab type='navbar'>
-            <NavBarItem label='Summary'>
-              <section id='package-summary'>
-                <PackageSummary
-                  instPackage={instPackage}
-                  apiUri={apiUri}
-                  cityAttractions={cityAttractions}
-                  likeAttraction={this.setLikedAttraction}
-                />
-                <Updating updating={updating} />
-              </section>
-            </NavBarItem>
-            <NavBarItem label='Itinerary'>
-              <section id='package-itinerary'>
-                <div>Test</div>
-              </section>
-            </NavBarItem>
-          </Tab>
-          {invite}
+        <Tab type='navbar'>
+          <NavBarItem label='Summary'>
+            <section id='package-summary'>
+              <PackageSummary
+                instPackage={instPackage}
+                apiUri={apiUri}
+                cityAttractions={cityAttractions}
+                likeAttraction={this.setLikedAttraction}
+              />
+              <Updating updating={updating} />
+            </section>
+          </NavBarItem>
+          <NavBarItem label='Itinerary'>
+            <p>Your Itinerary</p>
+          </NavBarItem>
+        </Tab>
+        {invite}
         </section>
       );
     } else if (socketStatus === 'noList') {
