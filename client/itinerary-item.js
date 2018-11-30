@@ -11,18 +11,20 @@ const getUnselected = (items, selected) => {
 
 export default class ItineraryItem extends React.Component {
   render() {
+    console.log('>>>>ItineraryItem, Start render with props', this.props);
     // Get data from props
     const {itinerary, attractions, isCustom} = this.props;
     if (isCustom) {
       // Generate html for unselected items
-      const elUnselected = getUnselected(attractions, itinerary.attractions)
-        .map((item) => {
-          return (
-            <div className='dnd-item' key={item.id}>
-            {item.name}
-            </div>
-          );
-        });
+      const unselected = getUnselected(attractions, itinerary.attractions);
+      console.log('>>>>ItineraryItem, unselected list calculated', unselected);
+      const elUnselected = unselected.map((item) => {
+        return (
+          <div className='dnd-item' key={item.id}>
+          {item.name}
+          </div>
+        );
+      });
       // Generate html for selected items
       const elSelected = itinerary.attractions
         .map((item) => {

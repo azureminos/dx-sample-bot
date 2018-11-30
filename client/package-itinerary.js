@@ -17,12 +17,12 @@ export default class PackageItinerary extends React.Component {
     console.log('>>>>PackageItinerary, Get itineraries', itineraries);
     // Generate itinerary accordion
     const elItineraries = _.mapKeys(itineraries, (lAttractions, dayNo) => {
-      console.log('>>>>PackageItinerary, Get Day '+dayNo, lAttractions);
       const itinerary = {
         dayNo: dayNo,
         city: lAttractions[0].city,
         attractions: lAttractions,
       };
+      console.log('>>>>PackageItinerary, after format itinerary', itinerary);
       const city = itinerary.city;
       const attractions = cityAttractions[city];
       const setting = {
@@ -40,7 +40,7 @@ export default class PackageItinerary extends React.Component {
         </Collapsible>
       );
     });
-    console.log('>>>>PackageItinerary, after format itineraries', itineraries);
+
     return (
       <div>
         <Panel>
