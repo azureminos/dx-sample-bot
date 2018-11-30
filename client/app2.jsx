@@ -333,7 +333,7 @@ export default class App2 extends React.Component {
               </section>
             </NavBarItem>
             <NavBarItem label='Itinerary'>
-            <section id='package-summary'>
+              <section id='package-itinerary'>
                 <PackageItinerary
                   instPackage={instPackage}
                   cityAttractions={cityAttractions}
