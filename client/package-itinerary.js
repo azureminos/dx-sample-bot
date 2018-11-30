@@ -16,11 +16,12 @@ export default class PackageItinerary extends React.Component {
     });
     console.log('>>>>PackageItinerary, Get itineraries', itineraries);
     // Generate itinerary accordion
-    const elItineraries = _.mapKeys(itineraries, (lAttractions, dayNo) => {
+    const elItineraries = [];
+    _.forEach(_.keys(itineraries), (dayNo) => {
       const itinerary = {
         dayNo: dayNo,
-        city: lAttractions[0].city,
-        attractions: lAttractions,
+        city: itineraries[dayNo][0].city,
+        attractions: itineraries[dayNo],
       };
       console.log('>>>>PackageItinerary, after format itinerary', itinerary);
       const city = itinerary.city;
@@ -29,10 +30,14 @@ export default class PackageItinerary extends React.Component {
         trigger: triggerText(dayNo, city),
         open: true,
       };
-
-      return (
+      console.log('>>>>PackageItinerary, accordion setting', setting);
+      elItineraries.push(
         <Collapsible {...setting} key={dayNo} >
-          <div>Test</div>
+          <ItineraryItem
+            itinerary={itinerary}
+            attractions={attractions}
+            isCustom={instPackage.isCustom}
+          />
         </Collapsible>
       );
     });
