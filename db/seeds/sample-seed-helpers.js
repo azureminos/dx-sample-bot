@@ -17,15 +17,27 @@ const CITY = [
 const ATTRACTION = [
   {city_id: 1, name: 'The Forbidden Palace', description: 'Forbiden Palace', visit_hours: 2, traffic_hours: 1, nearby_attractions: 2},
   {city_id: 1, name: 'Tian An Men', description: 'Tian An Men', visit_hours: 2, traffic_hours: 1, nearby_attractions: 1},
+  {city_id: 1, name: 'The Great Wall', description: 'The Great Wall', visit_hours: 2, traffic_hours: 2, nearby_attractions: 1},
+  {city_id: 1, name: 'Olympic Park', description: 'Olympic Park', visit_hours: 1, traffic_hours: 1, nearby_attractions: 1},
   {city_id: 2, name: 'Longhua Temple', description: 'Longhua Temple', visit_hours: 2, traffic_hours: 1},
   {city_id: 2, name: 'Yu Garden', description: 'Yu Garden', visit_hours: 2, traffic_hours: 1},
+  {city_id: 2, name: 'Disneyland', description: 'Disneyland', visit_hours: 2, traffic_hours: 1},
+  {city_id: 2, name: 'Huai Hai Road', description: 'Huai Hai Road', visit_hours: 2, traffic_hours: 1},
+  {city_id: 2, name: 'The Bund', description: 'The Bund', visit_hours: 2, traffic_hours: 1},
+  {city_id: 2, name: 'Nan Jing Road', description: 'Nan Jing Road', visit_hours: 2, traffic_hours: 1},
 ];
 
 const ATTRACTION_IMAGE = [
   {attraction_id: 1, image_url: 'media/Beijing_ForbiddenPalace.jpg', is_cover_page: true},
   {attraction_id: 2, image_url: 'media/Beijing_TianAnMen.jpg', is_cover_page: true},
-  {attraction_id: 3, image_url: 'media/Shanghai_LonghuaTemple.jpg', is_cover_page: true},
-  {attraction_id: 4, image_url: 'media/Shanghai_YuGarden.jpg', is_cover_page: true},
+  {attraction_id: 3, image_url: 'media/Beijing_GreatWall.jpg', is_cover_page: true},
+  {attraction_id: 4, image_url: 'media/Beijing_OlympicPark.jpg', is_cover_page: true},
+  {attraction_id: 5, image_url: 'media/Shanghai_LonghuaTemple.jpg', is_cover_page: true},
+  {attraction_id: 6, image_url: 'media/Shanghai_YuGarden.jpg', is_cover_page: true},
+  {attraction_id: 7, image_url: 'media/Shanghai_Disney.jpg', is_cover_page: true},
+  {attraction_id: 8, image_url: 'media/Shanghai_HuaihaiRoad.jpg', is_cover_page: true},
+  {attraction_id: 9, image_url: 'media/Shanghai_TheBund.jpg', is_cover_page: true},
+  {attraction_id: 10, image_url: 'media/Shanghai_NanjingRoad.jpg', is_cover_page: true},
 ];
 
 const PACKAGE = [{
@@ -63,13 +75,15 @@ const PACKAGE_IMAGE = [
 
 const PACKAGE_ITEM = [
   {pkg_id: 1, day_no: 1, day_seq: 1, attraction_id: 1, description: 'Day tour at The Forbidden Palace'},
-  {pkg_id: 1, day_no: 2, day_seq: 1, attraction_id: 2, description: 'Day tour at Tian An Men'},
-  {pkg_id: 1, day_no: 3, day_seq: 1, attraction_id: 3, description: 'Day tour at Shanghai Longhua Temple'},
-  {pkg_id: 1, day_no: 4, day_seq: 1, attraction_id: 4, description: 'Day tour at the Yu Garden'},
+  {pkg_id: 1, day_no: 1, day_seq: 2, attraction_id: 2, description: 'Day tour at Tian An Men'},
+  {pkg_id: 1, day_no: 2, day_seq: 1, attraction_id: 3, description: 'Day tour at The Great Wall'},
+  {pkg_id: 1, day_no: 3, day_seq: 1, attraction_id: 5, description: 'Day tour at Shanghai Longhua Temple'},
+  {pkg_id: 1, day_no: 3, day_seq: 2, attraction_id: 6, description: 'Day tour at the Yu Garden'},
+  {pkg_id: 1, day_no: 4, day_seq: 1, attraction_id: 7, description: 'Day tour at Disneyland'},
   {pkg_id: 2, day_no: 1, day_seq: 1, attraction_id: 1, description: 'Day tour at The Forbidden Palace'},
   {pkg_id: 2, day_no: 2, day_seq: 1, attraction_id: 2, description: 'Day tour at Tian An Men'},
-  {pkg_id: 2, day_no: 3, day_seq: 1, attraction_id: 3, description: 'Day tour at Shanghai Longhua Temple'},
-  {pkg_id: 2, day_no: 3, day_seq: 2, attraction_id: 4, description: 'Day tour at the Yu Garden'},
+  {pkg_id: 2, day_no: 3, day_seq: 1, attraction_id: 5, description: 'Day tour at Shanghai Longhua Temple'},
+  {pkg_id: 2, day_no: 3, day_seq: 2, attraction_id: 6, description: 'Day tour at the Yu Garden'},
 ];
 
 module.exports = {COUNTRY, CITY, ATTRACTION, ATTRACTION_IMAGE, PACKAGE, PACKAGE_IMAGE, PACKAGE_ITEM};
