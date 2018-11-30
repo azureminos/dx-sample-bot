@@ -18,7 +18,7 @@ const PackageSummary = ({instPackage, apiUri, cityAttractions, likeAttraction}) 
     };
 
     return (
-      <Collapsible {...setting} key={cityAttractions[city].id} >
+      <Collapsible {...setting} key={city} >
         <SuperSlider
           items={cityAttractions[city]}
           buttonName='Like'
