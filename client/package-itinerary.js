@@ -32,11 +32,7 @@ export default class PackageItinerary extends React.Component {
 
       return (
         <Collapsible {...setting} key={dayNo} >
-          <ItineraryItem
-            itinerary={itinerary}
-            attractions={attractions}
-            isCustom={instPackage.isCustom}
-          />
+          <div>Test</div>
         </Collapsible>
       );
     });
