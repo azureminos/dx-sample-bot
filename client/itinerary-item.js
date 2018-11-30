@@ -27,34 +27,24 @@ export default class ItineraryItem extends React.Component {
     console.log('>>>>ItineraryItem, Start render with props', this.props);
     // Get data from props
     const {itinerary, attractions, isCustom} = this.props;
-    if (isCustom) {
+    const allAttraction = attractions.map((a) => {
+      a.attractionId = a.id;
+      return a;
+    });
+
+    if (true) {
       // Generate html for unselected items
-      const unselected = getUnselected(attractions, itinerary.attractions);
+      const unselected = getUnselected(allAttraction, itinerary.attractions);
       console.log('>>>>ItineraryItem, unselected list calculated', unselected);
-      const elUnselected = unselected.map((item) => {
-        return (
-          <div className='dnd-item' key={item.id}>
-          {item.name}
-          </div>
-        );
-      });
-      // Generate html for selected items
-      const elSelected = itinerary.attractions
-        .map((item) => {
-          return (
-            <div className='demo-slide' key={item.id}>
-            {item.name}
-            </div>
-          );
-        });
 
       return (
         <div>
           <div className='dnd-container'>
-            {elUnselected}
+            <TagList {...getTagSetting(itinerary.attractions)} />
           </div>
           <div className='dnd-container'>
-            {elSelected}
+            <label>Other Attractions: </label>
+            <TagList {...getTagSetting(unselected)} />
           </div>
         </div>
       );

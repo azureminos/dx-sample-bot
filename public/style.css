@@ -890,3 +890,9 @@ button.swiper-pagination-bullet {
   opacity: 1;
   background-color: #fff;
 }
+
+.dnd-container {
+  margin: 8px;
+  border: 1px solid lightgrey;
+  border-radius: 2px;
+}
