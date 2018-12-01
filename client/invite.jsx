@@ -11,7 +11,7 @@
 
 import React from 'react';
 import {Button} from 'react-weui';
-
+import _ from 'lodash';
 /* ----------  Messenger Helpers  ---------- */
 
 import messages from '../messenger-api-helpers/messages';
@@ -26,6 +26,25 @@ const Invite = ({
   buttonText,
 }) => {
   console.log('>>>>Start Invite', {instPackage: instPackage, apiUri: apiUri});
+  const dayText = (dayNo, city) => `Day ${dayNo}, ${city}`;
+  const formatItinerary = (instPackage) => {
+    let result = instPackage.description;
+
+    const itineraries = _.groupBy(instPackage.items, (item)=>{
+      return item.dayNo;
+    });
+
+    _.forEach(_.keys(itineraries), (dayNo) => {
+      result += ' ' + dayText(dayNo, itineraries[dayNo][0].city) + '(';
+      _.forEach(itineraries[dayNo], (it) => {
+        result += (it.name + ', ');
+      });
+      result += ').';
+    });
+    console.log('>>>>Invite, formatItinerary', result);
+    return result;
+  };
+
   const shareList = () => {
     window.MessengerExtensions.beginShareFlow(
       function success(response) {
@@ -36,7 +55,7 @@ const Invite = ({
         console.error({errorCode, errorMessage});
       },
       messages.sharePackageMessage(apiUri, instPackage.id, instPackage.name,
-        instPackage.description, instPackage.imageUrl),
+        formatItinerary(instPackage), instPackage.imageUrl),
       sharingMode);
   };
 
