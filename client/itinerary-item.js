@@ -38,7 +38,7 @@ export default class ItineraryItem extends React.Component {
       console.log('>>>>ItineraryItem, unselected list calculated', unselected);
 
       return (
-        <div>
+        <div className='itinerary-day-item'>
           <div className='dnd-container'>
             <TagList {...getTagSetting(itinerary.attractions)} />
           </div>
@@ -51,7 +51,7 @@ export default class ItineraryItem extends React.Component {
     }
 
     return (
-      <div>
+      <div className='itinerary-day-item'>
         <div className='dnd-container'>
           <TagList {...getTagSetting(itinerary.attractions)} />
         </div>
