@@ -44,7 +44,7 @@ const getCityAttractionsByInstId = (instId) => {
     .where('package_inst_item.pkg_inst_id', instId)
     .then((cities) => {
       console.log('>>>>getCityAttractionsByInstId 1, all city ids', cities);
-      const vCities = _.values(cities);
+      const vCities = cities.map((city) => {return city.city_id;});
       console.log('>>>>getCityAttractionsByInstId 2, all city ids', vCities);
       return dsAttraction()
         .join('attraction_image', {
