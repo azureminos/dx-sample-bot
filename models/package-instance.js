@@ -44,6 +44,7 @@ const getCityAttractionsByInstId = (instId) => {
     .where('package_inst_item.pkg_inst_id', instId)
     .then((cities) => {
       console.log('>>>>getCityAttractionsByInstId, all city ids', cities);
+      const vCities = _.values(cities);
       return dsAttraction()
         .join('attraction_image', {
           'attraction_image.attraction_id': 'attraction.id',
@@ -51,7 +52,7 @@ const getCityAttractionsByInstId = (instId) => {
         .join('city', {'city.id': 'attraction.city_id'})
         .select('city.name as cityName', 'attraction.id as id', 'attraction.name as name',
           'attraction.description as description', 'attraction_image.image_url as imageUrl')
-        .whereIn('attraction.city_id', _.values(cities));
+        .whereIn('attraction.city_id', vCities);
     });
 };
 
