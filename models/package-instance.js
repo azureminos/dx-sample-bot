@@ -51,7 +51,7 @@ const getCityAttractionsByInstId = (instId) => {
         .join('city', {'city.id': 'attraction.city_id'})
         .select('city.name as cityName', 'attraction.id as id', 'attraction.name as name',
           'attraction.description as description', 'attraction_image.image_url as imageUrl')
-        .havingIn('id', cities);
+        .havingIn('attraction.city_id', cities);
     });
 };
 
