@@ -11,6 +11,7 @@ import instParticipant from '../models/package-instance-participant';
 
 const dsInstPackage = () => Knex('package_inst');
 const dsInstItem = () => Knex('package_inst_item');
+const dsAttraction = () => Knex('attraction');
 // ===== Package ======================================================
 const getInstPackage = (instId) =>
   dsInstPackage()
@@ -34,6 +35,25 @@ const getInstPackage = (instId) =>
         return inst;
       });
     });
+
+const getCityAttractionsByInstId = (instId) => {
+  return dsInstItem()
+    .join('attraction', {'attraction.id': 'package_inst_item.attraction_id'})
+    .distinct('attraction.city_id')
+    .select()
+    .where('package_inst_item.pkg_inst_id', instId)
+    .then((cities) => {
+      console.log('>>>>getCityAttractionsByInstId, all city ids', cities);
+      return dsAttraction()
+        .join('attraction_image', {
+          'attraction_image.attraction_id': 'package_inst_item.attraction_id',
+          'attraction_image.is_cover_page': Knex.raw('?', [true])})
+        .join('city', {'city.id': 'attraction.city_id'})
+        .select('city.name as cityName', 'attraction.id as id', 'attraction.name as name',
+          'attraction.description as description', 'attraction_image.image_url as imageUrl')
+        .havingIn('id', cities);
+    });
+};
 
 const getAttractionsByInstId = (instId) => {
   return dsInstItem()
@@ -88,4 +108,5 @@ export default {
   addInstPackage,
   delInstPackage,
   getAttractionsByInstId,
+  getCityAttractionsByInstId,
 };

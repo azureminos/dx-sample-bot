@@ -69,11 +69,11 @@ const join = ({
   userSocket,
 }) => {
   console.log('>>>>Start to process User Join event with Input['+senderId+', '+instId+']');
-  if(instId) {
+  if (instId) {
     Promise.all([
       InstPackage.getInstPackageDetails(instId),
       InstItem.getInstItem(instId),
-      InstPackage.getAttractionsByInstId(instId),
+      InstPackage.getCityAttractionsByInstId(instId),
       PackageParticipant.getOwnerByInstId(instId),
       getUser(senderId),
     ]).then(([instPackage, instItems, cityAttractions, instOwner, user]) => {

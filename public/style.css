@@ -896,3 +896,6 @@ button.swiper-pagination-bullet {
   border: 1px solid lightgrey;
   border-radius: 2px;
 }
+.dnd-container {
+  padding: 4px;
+}
