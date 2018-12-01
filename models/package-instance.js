@@ -46,7 +46,7 @@ const getCityAttractionsByInstId = (instId) => {
       console.log('>>>>getCityAttractionsByInstId, all city ids', cities);
       return dsAttraction()
         .join('attraction_image', {
-          'attraction_image.attraction_id': 'package_inst_item.attraction_id',
+          'attraction_image.attraction_id': 'attraction.id',
           'attraction_image.is_cover_page': Knex.raw('?', [true])})
         .join('city', {'city.id': 'attraction.city_id'})
         .select('city.name as cityName', 'attraction.id as id', 'attraction.name as name',
