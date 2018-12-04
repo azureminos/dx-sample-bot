@@ -40,13 +40,18 @@ const setPackage = (pkg) =>
     .update(
       {
         name: pkg.name,
-        desc: pkg.desc,
+        description: pkg.description,
+        fine_print: pkg.finePrint,
+        notes: pkg.notes,
         days: pkg.days,
-        is_promoted: pkg.isPromoted,
+        max_participant: pkg.maxParticipant,
+        i_pPromoted: pkg.isPromoted,
+        is_extention: pkg.isExtention,
         is_active: pkg.isActive,
-        image_url: pkg.imageUrl,
       },
-      ['id', 'name', 'desc', 'days', 'is_promoted as isPromoted', 'is_active as isActive', 'image_url as imageUrl']
+      ['id', 'name', 'description', 'fine_print as finePrint', 'notes',
+      'days', 'max_participant as maxParticipant', 'is_promoted as isPromoted',
+      'is_active as isActive', 'is_extention as isExtention']
     );
 
 const addPackage = (pkg) =>
@@ -54,13 +59,18 @@ const addPackage = (pkg) =>
     .insert(
       {
         name: pkg.name,
-        desc: pkg.desc,
+        description: pkg.description,
+        fine_print: pkg.finePrint,
+        notes: pkg.notes,
         days: pkg.days,
-        is_promoted: pkg.isPromoted,
+        max_participant: pkg.maxParticipant,
+        i_pPromoted: pkg.isPromoted,
+        is_extention: pkg.isExtention,
         is_active: pkg.isActive,
-        image_url: pkg.imageUrl,
       },
-      ['id', 'name', 'desc', 'days', 'is_promoted as isPromoted', 'is_active as isActive', 'image_url as imageUrl']
+      ['id', 'name', 'description', 'fine_print as finePrint', 'notes',
+      'days', 'max_participant as maxParticipant', 'is_promoted as isPromoted',
+      'is_active as isActive', 'is_extention as isExtention']
     );
 
 const delPackage = (packageId) =>
