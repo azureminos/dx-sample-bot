@@ -16,11 +16,10 @@ const PackageSummary = ({instPackage, apiUri, cityAttractions, likeAttraction}) 
       open: true,
     };
 
-    /*=====Prepare settings of TagList======*/
+    // Prepare settings of TagList
     let tags = _.filter(cityAttractions[city], {isLiked: true});
     console.log('>>>>Show tags', tags);
     tags = tags.map((item) => {return {id: item.id, text: item.name};});
-    console.log('>>>>After format tags', tags);
 
     const tagSetting = {
       tags: tags,

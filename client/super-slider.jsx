@@ -25,9 +25,6 @@ const SuperSlider = ({items, buttonName, buttonAction, apiUri}) => {
     );
   });
 
-  console.log('>>>>SuperSlider items', itemList);
-  console.log('>>>>SuperSlider params', params);
-
   return (
     <Swiper {...params}>
       {itemList}

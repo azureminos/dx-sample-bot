@@ -318,7 +318,6 @@ export default class App2 extends React.Component {
       }
 
       page = (
-        <section>
         <Tab type='navbar'>
           <NavBarItem label='Summary'>
             <section id='package-summary'>
@@ -330,18 +329,18 @@ export default class App2 extends React.Component {
               />
               <Updating updating={updating} />
             </section>
+            {invite}
           </NavBarItem>
           <NavBarItem label='Itinerary'>
-          <section id='package-itinerary'>
+            <section id='package-itinerary'>
               <PackageItinerary
                 instPackage={instPackage}
                 cityAttractions={cityAttractions}
               />
             </section>
+            {invite}
           </NavBarItem>
         </Tab>
-        {invite}
-        </section>
       );
     } else if (socketStatus === 'noList') {
       // We were unable to find a matching list in our system.
