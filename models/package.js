@@ -35,7 +35,7 @@ const getPackage = (packageId) =>
       'is_active as isActive', 'is_extention as isExtention',
       'package_image.image_url as imageUrl');
 
-const setPackage = (pkg) =>
+const updatePackage = (pkg) =>
   Package()
     .where({id: pkg.id})
     .update(
@@ -49,12 +49,25 @@ const setPackage = (pkg) =>
         is_promoted: pkg.isPromoted,
         is_extention: pkg.isExtention,
         is_active: pkg.isActive,
-      }, 'id')
-    .then(([id]) => {
-      return getPackage(id);
-    });
+      },
+      ['package.id', 'name', 'description', 'fine_print as finePrint', 'notes',
+      'days', 'max_participant as maxParticipant', 'is_promoted as isPromoted',
+      'is_active as isActive', 'is_extention as isExtention']
+    )
+    .then(([result]) => {return result;});
 
-const addPackage = (pkg) =>
+const setPackage = (p) => {
+  return Promise.all([
+    updatePackage(p),
+    PackageImage.updatePackageImage(p),
+  ])
+  .then(([pkg, image]) => {
+    pkg.imageUrl = image.imageUrl;
+    return pkg;
+  });
+};
+
+const insertPackage = (pkg) =>
   Package()
     .insert(
       {
@@ -67,10 +80,26 @@ const addPackage = (pkg) =>
         is_promoted: pkg.isPromoted,
         is_extention: pkg.isExtention,
         is_active: pkg.isActive,
-      }, 'id')
-    .then(([id]) => {
-      return getPackage(id);
+      },
+      ['package.id', 'name', 'description', 'fine_print as finePrint', 'notes',
+      'days', 'max_participant as maxParticipant', 'is_promoted as isPromoted',
+      'is_active as isActive', 'is_extention as isExtention']
+    )
+    .then(([result]) => {return result;});
+
+const addPackage = (item) => {
+  return insertPackage(item)
+    .then((pkg) => {
+      return Promise.all([
+        pkg,
+        PackageImage.insertPackageImage(pkg),
+      ])
+      .then(([pkg, image]) => {
+        pkg.imageUrl = image.imageUrl;
+        return pkg;
+      });
     });
+};
 
 const delPackage = (packageId) =>
   Package()
