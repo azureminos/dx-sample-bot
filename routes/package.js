@@ -57,7 +57,7 @@ router.put('/', function(req, res) {
   console.log('>>>>Insert package item', pkg);
 
   Pkg.addPackage(pkg)
-    .then(([result]) => {
+    .then((result) => {
       console.log('>>>>Inserted package item', result);
       res.send(result);
     })
@@ -68,7 +68,7 @@ router.post('/', function(req, res) {
   console.log('>>>>Update package item', pkg);
 
   Pkg.setPackage(pkg)
-    .then(([result]) => {
+    .then((result) => {
       console.log('>>>>Updated package item', result);
       res.send(result);
     })
