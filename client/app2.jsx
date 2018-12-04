@@ -124,12 +124,13 @@ export default class App2 extends React.Component {
     console.log('>>>>setLikedAttraction['+attractionId+']', cityAttractions);
     _.forEach(_.values(cityAttractions), (attractions) => {
       _.forEach(attractions, (a) => {
-        if(a.id == attractionId) {
+        console.log('>>>>setLikedAttraction, comparing ['+attractionId+'] with', a);
+        if(a.id === attractionId) {
           a.isLiked = !a.isLiked;
         }
 
         if(a.isLiked) {
-          likedAttraction.push(a.name);
+          likedAttraction.push(a.id);
         }
       })
     });
