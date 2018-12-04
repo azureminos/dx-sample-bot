@@ -27,12 +27,13 @@ const getAllPromotedPackage = () =>
 
 const getPackage = (packageId) =>
   Package()
-    .where('id', packageId)
-    .where('is_active', true)
-    .select('id', 'name', 'description', 'fine_print as finePrint', 'notes',
+    .where('package.id', packageId)
+    .where('package.is_active', true)
+    .join('package_image', {'package_image.pkg_id': 'package.id', 'package_image.is_cover_page': Knex.raw('?', [true])})
+    .select('package.id', 'name', 'description', 'fine_print as finePrint', 'notes',
       'days', 'max_participant as maxParticipant', 'is_promoted as isPromoted',
-      'is_active as isActive', 'is_extention as isExtention')
-    .first();
+      'is_active as isActive', 'is_extention as isExtention',
+      'package_image.image_url as imageUrl');
 
 const setPackage = (pkg) =>
   Package()
@@ -48,11 +49,10 @@ const setPackage = (pkg) =>
         is_promoted: pkg.isPromoted,
         is_extention: pkg.isExtention,
         is_active: pkg.isActive,
-      },
-      ['id', 'name', 'description', 'fine_print as finePrint', 'notes',
-      'days', 'max_participant as maxParticipant', 'is_promoted as isPromoted',
-      'is_active as isActive', 'is_extention as isExtention']
-    );
+      }, 'id')
+    .then(([id]) => {
+      return getPackage(id);
+    });
 
 const addPackage = (pkg) =>
   Package()
@@ -67,11 +67,10 @@ const addPackage = (pkg) =>
         is_promoted: pkg.isPromoted,
         is_extention: pkg.isExtention,
         is_active: pkg.isActive,
-      },
-      ['id', 'name', 'description', 'fine_print as finePrint', 'notes',
-      'days', 'max_participant as maxParticipant', 'is_promoted as isPromoted',
-      'is_active as isActive', 'is_extention as isExtention']
-    );
+      }, 'id')
+    .then(([id]) => {
+      return getPackage(id);
+    });
 
 const delPackage = (packageId) =>
   Package()
