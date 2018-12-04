@@ -32,18 +32,16 @@ export default class App2 extends React.Component {
 
     this.pushCreateInstPackage = this.pushCreateInstPackage.bind(this);
     this.setLikedAttraction = this.setLikedAttraction.bind(this);
-    
+
     this.state = {
-      instPackage: null,
-      instItems: null,
       packages: [],
+      users: [],
+      instPackage: null,
       ownerId: null,
       cityAttractions: null,
       isCustomisable: false,
       updating: false,
-      users: [],
     };
-
   }
 
   static propTypes = {
