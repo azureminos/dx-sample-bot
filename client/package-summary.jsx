@@ -28,7 +28,7 @@ const PackageSummary = ({instPackage, apiUri, cityAttractions, likeAttraction}) 
     };
     
     return (
-      <Collapsible {...setting} key={cityAttractions[city].id} >
+      <div {...setting} key={cityAttractions[city].id} >
         <div>
           <SuperSlider
             items={cityAttractions[city]}
@@ -38,7 +38,7 @@ const PackageSummary = ({instPackage, apiUri, cityAttractions, likeAttraction}) 
           />
           <TagList {...tagSetting} />
         </div>
-      </Collapsible>
+      </div>
     );
   });
 

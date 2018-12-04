@@ -9,7 +9,7 @@
 import io from 'socket.io-client';
 import React, {createElement} from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import {Tab, TabBody, NavBar, NavBarItem,} from 'react-weui';
+import {Tab, NavBarItem} from 'react-weui';
 
 // ===== COMPONENTS ============================================================
 import Invite from './invite.jsx';
@@ -318,30 +318,28 @@ export default class App2 extends React.Component {
       }
 
       page = (
-        <Tab>
-          <NavBar>
-            <NavBarItem label='Summary'>
-              <section id='package-summary'>
-                <PackageSummary
-                  instPackage={instPackage}
-                  apiUri={apiUri}
-                  cityAttractions={cityAttractions}
-                  likeAttraction={this.setLikedAttraction}
-                />
-                <Updating updating={updating} />
-              </section>
-              {invite}
-            </NavBarItem>
-            <NavBarItem label='Itinerary'>
-              <section id='package-itinerary'>
-                <PackageItinerary
-                  instPackage={instPackage}
-                  cityAttractions={cityAttractions}
-                />
-              </section>
-              {invite}
-            </NavBarItem>
-          </NavBar>
+        <Tab type='navbar'>
+          <NavBarItem label='Summary'>
+            <section id='package-summary'>
+              <PackageSummary
+                instPackage={instPackage}
+                apiUri={apiUri}
+                cityAttractions={cityAttractions}
+                likeAttraction={this.setLikedAttraction}
+              />
+              <Updating updating={updating} />
+            </section>
+            {invite}
+          </NavBarItem>
+          <NavBarItem label='Itinerary'>
+            <section id='package-itinerary'>
+              <PackageItinerary
+                instPackage={instPackage}
+                cityAttractions={cityAttractions}
+              />
+            </section>
+            {invite}
+          </NavBarItem>
         </Tab>
       );
     } else if (socketStatus === 'noList') {
