@@ -17,10 +17,7 @@ const PackageSummary = ({instPackage, apiUri, cityAttractions, likeAttraction}) 
     };
 
     /*=====Prepare settings of TagList======*/
-    let tags = [];
-    _.forEach(cityAttractions[city], function(item) {
-      tags = _.concat(tags, _.filter(item, {isLiked: true}));
-    });
+    let tags = _.filter(cityAttractions[city], {isLiked: true});
     console.log('>>>>Show tags', tags);
     tags = tags.map((item) => {return {id: item.id, text: item.name};});
     console.log('>>>>After format tags', tags);
@@ -33,13 +30,15 @@ const PackageSummary = ({instPackage, apiUri, cityAttractions, likeAttraction}) 
     
     return (
       <Collapsible {...setting} key={cityAttractions[city].id} >
-        <SuperSlider
-          items={cityAttractions[city]}
-          buttonName='Like'
-          buttonAction={likeAttraction}
-          apiUri={apiUri}
-        />
-        <TagList {...tagSetting} />
+        <div>
+          <SuperSlider
+            items={cityAttractions[city]}
+            buttonName='Like'
+            buttonAction={likeAttraction}
+            apiUri={apiUri}
+          />
+          <TagList {...tagSetting} />
+        </div>
       </Collapsible>
     );
   });
