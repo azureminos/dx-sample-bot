@@ -1,7 +1,6 @@
 // ===== DB ====================================================================
 import Knex  from '../db/knex';
 import PackageItem from '../models/package-item';
-import RatePlan from '../models/rate-plan';
 import PackageImage from '../models/package-image';
 
 const Package = () => Knex('package');
