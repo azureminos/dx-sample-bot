@@ -222,7 +222,7 @@ export default class App2 extends React.Component {
         const liked = u[0].likedAttractions.split(',');
         _.forEach(_.values(cityAttractions), (attrs) => {
           _.forEach(attrs, (attr) => {
-            attr.isLiked = _.find(liked, (likedId) => { return likedId==attr.id});
+            attr.isLiked = !!_.find(liked, (likedId) => { return likedId==attr.id});
           })
         });
       }
