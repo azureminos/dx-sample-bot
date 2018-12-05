@@ -4,7 +4,7 @@ import _ from 'lodash';
 import SuperSlider from './super-slider.jsx';
 import TagList from './tag-list.js';
 
-const PackageSummary = ({instPackage, apiUri, cityAttractions, likeAttraction}) => {
+const PackageSummary = ({instPackage, apiUri, cityAttractions, likeAttractions}) => {
   console.log('>>>>PackageSummary', {inst: instPackage, apiUri: apiUri, cityAttractions: cityAttractions});
   const packageImageUrl = apiUri + '/' + instPackage.imageUrl;
   //console.log('>>>>packageImageUrl', packageImageUrl);
@@ -32,7 +32,7 @@ const PackageSummary = ({instPackage, apiUri, cityAttractions, likeAttraction}) 
           <SuperSlider
             items={cityAttractions[city]}
             buttonName='Like'
-            buttonAction={likeAttraction}
+            buttonAction={likeAttractions}
             apiUri={apiUri}
           />
           <TagList {...tagSetting} />
