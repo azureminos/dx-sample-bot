@@ -152,54 +152,58 @@ export default class App2 extends React.Component {
       });
       console.log('>>>>updateItinerary.delete - result', inst.items);
     } else if (action == 'ADD') {
-      console.log('>>>>updateItinerary.add', attraction);
-      let firstMatch = -1;
-      _.forEach(inst.items, (item, idx) => {
-        if (item.city == attraction.cityName) {
-          console.log('>>>>updateItinerary.add - find city match', item);
-          const nearbyAttractions = item.nearbyAttractions || '';
-          firstMatch = (firstMatch == -1) ? idx : firstMatch;
-          if (!!_.find(nearbyAttractions.split(','), (nba) => {return nba == attraction.id;})) {
-            console.log('>>>>updateItinerary.add - find attraction nearby', item);
-            // Insert next to the item
-            const iNew = {
-              attractionId: attraction.id,
-              city: attraction.cityName,
-              dayNo: item.dayNo,
-              daySeq: item.daySeq,
-              description: attraction.description,
-              id: -1,
-              imageUrl: attraction.imageUrl,
-              name: attraction.name,
-            };
-            if (firstMatch == inst.items.length) {
-              inst.items = _.concat(_.slice(inst.items, 0, firstMatch + 1), iNew);
-            } else {
-              inst.items = _.concat(_.slice(inst.items, 0, firstMatch + 1), iNew, _.slice(inst.items, firstMatch + 1, inst.items.length));
+      if (!_.find(inst.items, (i) => {return i.attractionId == attraction.id;})) {
+        console.log('>>>>updateItinerary.add', attraction);
+        let firstMatch = -1;
+        _.forEach(inst.items, (item, idx) => {
+          if (item.city == attraction.cityName) {
+            console.log('>>>>updateItinerary.add - find city match', item);
+            const nearbyAttractions = item.nearbyAttractions || '';
+            firstMatch = (firstMatch == -1) ? idx : firstMatch;
+            if (!!_.find(nearbyAttractions.split(','), (nba) => {return nba == attraction.id;})) {
+              console.log('>>>>updateItinerary.add - find attraction nearby', item);
+              // Insert next to the item
+              const iNew = {
+                attractionId: attraction.id,
+                city: attraction.cityName,
+                dayNo: item.dayNo,
+                daySeq: item.daySeq,
+                description: attraction.description,
+                id: -1,
+                imageUrl: attraction.imageUrl,
+                name: attraction.name,
+              };
+              if (firstMatch == inst.items.length) {
+                inst.items = _.concat(_.slice(inst.items, 0, firstMatch + 1), iNew);
+              } else {
+                inst.items = _.concat(_.slice(inst.items, 0, firstMatch + 1), iNew, _.slice(inst.items, firstMatch + 1, inst.items.length));
+              }
+              firstMatch = -1;
+              return false;
             }
-            firstMatch = -1;
-            return false;
+          }
+        });
+
+        if (firstMatch !== -1) {
+          // Insert next to the first matchitem
+          const iNew = {
+            attractionId: attraction.id,
+            city: attraction.cityName,
+            dayNo: inst.items[firstMatch].dayNo,
+            daySeq: inst.items[firstMatch].daySeq,
+            description: attraction.description,
+            id: -1,
+            imageUrl: attraction.imageUrl,
+            name: attraction.name,
+          };
+          if (firstMatch == inst.items.length) {
+            inst.items = _.concat(_.slice(inst.items, 0, firstMatch + 1), iNew);
+          } else {
+            inst.items = _.concat(_.slice(inst.items, 0, firstMatch + 1), iNew, _.slice(inst.items, firstMatch + 1, inst.items.length));
           }
         }
-      });
-
-      if (firstMatch !== -1) {
-        // Insert next to the first matchitem
-        const iNew = {
-          attractionId: attraction.id,
-          city: attraction.cityName,
-          dayNo: inst.items[firstMatch].dayNo,
-          daySeq: inst.items[firstMatch].daySeq,
-          description: attraction.description,
-          id: -1,
-          imageUrl: attraction.imageUrl,
-          name: attraction.name,
-        };
-        if (firstMatch == inst.items.length) {
-          inst.items = _.concat(_.slice(inst.items, 0, firstMatch + 1), iNew);
-        } else {
-          inst.items = _.concat(_.slice(inst.items, 0, firstMatch + 1), iNew, _.slice(inst.items, firstMatch + 1, inst.items.length));
-        }
+      } else {
+        console.log('>>>>updateItinerary.add - bypass item already in the itinerary', attraction);
       }
     }
   }
