@@ -172,13 +172,13 @@ const leave = ({userId, instId, allInRoom, socket, socketUsers}) => {
   allInRoom(instId).emit('users:setOnline', onlineUsers);
 };
 
-const updateLikedAttraction = ({request: {likedAttraction, instId}, sendStatus, socket, userId}) => {
-  console.log('>>>>Received event to setLikedAttraction', {instId: instId, likedAttraction: likedAttraction, userId: userId});
+const updateLikedAttractions = ({request: {likedAttractions, instId}, sendStatus, socket, userId}) => {
+  console.log('>>>>Received event to setLikedAttraction', {instId: instId, likedAttractions: likedAttractions, userId: userId});
   // Update user liked attractions
-  PackageParticipant.updateLikedAttractions(instId, userId, likedAttraction);
+  PackageParticipant.updateLikedAttractions(instId, userId, likedAttractions);
   // Add/Delete attraction to vist in the package instance
 
   sendStatus('ok');
 };
 
-export default {join, leave, updateLikedAttraction};
+export default {join, leave, updateLikedAttractions};

@@ -31,7 +31,7 @@ export default class App2 extends React.Component {
     super(props);
 
     this.pushCreateInstPackage = this.pushCreateInstPackage.bind(this);
-    this.setLikedAttraction = this.setLikedAttraction.bind(this);
+    this.setLikedAttractions = this.setLikedAttractions.bind(this);
 
     this.state = {
       packages: [],
@@ -116,34 +116,34 @@ export default class App2 extends React.Component {
   }
 
   /* ----------  Attractions  ---------- */
-  setLikedAttraction(attraction) {
+  setLikedAttractions(attraction) {
     const cityAttractions = this.state.cityAttractions;
     const instId = this.state.instPackage.id;
     //const userId = this.props.viewerId;
-    let likedAttraction = [];
+    let likedAttractions = [];
 
-    console.log('>>>>setLikedAttraction['+attraction.id+'] of Inst['+instId+']', cityAttractions);
+    console.log('>>>>setLikedAttractions['+attraction.id+'] of Inst['+instId+']', cityAttractions);
     _.forEach(_.values(cityAttractions), (attractions) => {
       _.forEach(attractions, (a) => {
-        //console.log('>>>>setLikedAttraction, comparing ['+attraction.id+'] with', a);
+        //console.log('>>>>setLikedAttractions, comparing ['+attraction.id+'] with', a);
         if (a.id === attraction.id) {
           a.isLiked = !a.isLiked;
         }
 
         if (a.isLiked) {
-          likedAttraction.push(a.id);
+          likedAttractions.push(a.id);
         }
       });
     });
 
     const params = {
       instId: instId,
-      likedAttractions: likedAttraction.toString(),
+      likedAttractions: likedAttractions.toString(),
       action: attraction.isLiked ? 'Delete' : 'Add',
       actionItemId: attraction.id,
     };
     console.log('>>>>Send event to update user liked attraction', params);
-    this.pushToRemote('likedAttraction:update', params);
+    this.pushToRemote('likedAttractions:update', params);
   }
 
   /* ----------  List  ---------- */
@@ -333,7 +333,7 @@ export default class App2 extends React.Component {
                 instPackage={instPackage}
                 apiUri={apiUri}
                 cityAttractions={cityAttractions}
-                likeAttraction={this.setLikedAttraction}
+                likeAttractions={this.setLikedAttractions}
               />
               <Updating updating={updating} />
             </section>

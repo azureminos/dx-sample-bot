@@ -40,6 +40,6 @@ export default function attachSockets(io) {
     channel('push:item:update', ListSocket.updateItem);
     channel('push:title:update', ListSocket.updateTitle);
     channel('push:user:join', UserSocket.join);
-    channel('push:likedAttraction:update', UserSocket.updateLikedAttraction);
+    channel('push:likedAttractions:update', UserSocket.updateLikedAttractions);
   });
 }
