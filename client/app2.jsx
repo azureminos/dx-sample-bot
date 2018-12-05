@@ -233,7 +233,7 @@ export default class App2 extends React.Component {
 
     // action is delete, find the item in package instance and delete
     // action is add, find the nearby item and add next to it
-    this.updateItinerary(attraction, params.action);
+    //this.updateItinerary(attraction, params.action);
   }
 
   /* ----------  List  ---------- */
