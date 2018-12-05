@@ -19,6 +19,7 @@ import Updating from './updating.jsx';
 import PackageSummary from './package-summary.jsx';
 import PackageItinerary from './package-itinerary.js';
 import PackageSelector from './package-selector.jsx';
+import _ from 'lodash';
 
 let socket;
 
@@ -32,6 +33,7 @@ export default class App2 extends React.Component {
 
     this.pushCreateInstPackage = this.pushCreateInstPackage.bind(this);
     this.setLikedAttractions = this.setLikedAttractions.bind(this);
+    this.updateItinerary = this.updateItinerary.bind(this);
 
     this.state = {
       packages: [],
@@ -108,6 +110,11 @@ export default class App2 extends React.Component {
      ============================================= */
 
   /* ----------  Package  ------- */
+  preInit(packages) {
+    console.log('>>>>Result coming back from socket [pre-init]', packages);
+    this.setState({packages});
+  }
+
   pushCreateInstPackage(packageId) {
     const ownerId = this.props.viewerId;
     console.log('>>>>Send event to create package instance with input',
@@ -115,17 +122,92 @@ export default class App2 extends React.Component {
     //this.pushToRemote('instPackage:create', {packageId, ownerId});
   }
 
+  /* ----------  Package Instance ------- */
+  init(instPackage, cityAttractions, users, ownerId) {
+    console.log('>>>>Result coming back from socket [init]', {instPackage:instPackage, cityAttractions:cityAttractions, users:users, ownerId:ownerId});
+    const u = _.filter(users, (user) => {return user.fbId === ownerId;});
+    console.log('>>>>Matched User['+ownerId+']', u);
+    if (u && u[0].likedAttractions) {
+      const liked = u[0].likedAttractions.split(',');
+      _.forEach(_.values(cityAttractions), (attrs) => {
+        _.forEach(attrs, (attr) => {
+          attr.isLiked = !!_.find(liked, (likedId) => { return likedId===attr.id});
+        });
+      });
+    }
+    console.log('>>>>After update liked attractions', cityAttractions);
+    this.setState({instPackage, packages: [], cityAttractions, users, ownerId});
+  }
+
+  /* ----------  Package Instance Items------- */
+  updateItinerary(attraction, action) {
+    const inst = this.state.instPackage;
+    if (action === 'DELETE') {
+      console.log('>>>>updateItinerary.delete', attraction);
+      inst.items = _.filter(inst.items, (item) => {
+        return item.attractionId !== attraction.id;
+      });
+      console.log('>>>>updateItinerary.delete - result', inst.items);
+    } else if (action === 'ADD') {
+      console.log('>>>>updateItinerary.add', attraction);
+      let firstMatch = -1;
+      _.forEach(inst.items, (item, idx) => {
+        if (item.city === attraction.cityName) {
+          console.log('>>>>updateItinerary.add - find city match', item);
+          firstMatch = (firstMatch === -1) ? idx : firstMatch;
+          if (!!_.find(item.nearbyAttractions.split(','), (nba) => {return nba === attraction.id;})) {
+            console.log('>>>>updateItinerary.add - find attraction nearby', item);
+            // Insert next to the item
+            const iNew = {
+              attractionId: attraction.id,
+              city: attraction.cityName,
+              dayNo: item.dayNo,
+              daySeq: item.daySeq,
+              description: attraction.description,
+              id: -1,
+              imageUrl: attraction.imageUrl,
+              name: attraction.name,
+            };
+            if (firstMatch === inst.items.length) {
+              inst.items = _.concat(_.slice(inst.items, 0, firstMatch + 1), iNew);
+            } else {
+              inst.items = _.concat(_.slice(inst.items, 0, firstMatch + 1), iNew, _.slice(inst.items, firstMatch + 1, inst.items.length));
+            }
+            firstMatch = -1;
+            return false;
+          }
+        }
+      });
+
+      if (firstMatch !== -1) {
+        // Insert next to the first matchitem
+        const iNew = {
+          attractionId: attraction.id,
+          city: attraction.cityName,
+          dayNo: inst.items[firstMatch].dayNo,
+          daySeq: inst.items[firstMatch].daySeq,
+          description: attraction.description,
+          id: -1,
+          imageUrl: attraction.imageUrl,
+          name: attraction.name,
+        };
+        if (firstMatch === inst.items.length) {
+          inst.items = _.concat(_.slice(inst.items, 0, firstMatch + 1), iNew);
+        } else {
+          inst.items = _.concat(_.slice(inst.items, 0, firstMatch + 1), iNew, _.slice(inst.items, firstMatch + 1, inst.items.length));
+        }
+      }
+    }
+  }
   /* ----------  Attractions  ---------- */
   setLikedAttractions(attraction) {
     const cityAttractions = this.state.cityAttractions;
     const instId = this.state.instPackage.id;
-    //const userId = this.props.viewerId;
-    let likedAttractions = [];
+    const likedAttractions = [];
 
     console.log('>>>>setLikedAttractions['+attraction.id+'] of Inst['+instId+']', cityAttractions);
     _.forEach(_.values(cityAttractions), (attractions) => {
       _.forEach(attractions, (a) => {
-        //console.log('>>>>setLikedAttractions, comparing ['+attraction.id+'] with', a);
         if (a.id === attraction.id) {
           a.isLiked = !a.isLiked;
         }
@@ -139,11 +221,15 @@ export default class App2 extends React.Component {
     const params = {
       instId: instId,
       likedAttractions: likedAttractions.toString(),
-      action: attraction.isLiked ? 'Delete' : 'Add',
+      action: attraction.isLiked ? 'DELETE' : 'ADD',
       actionItemId: attraction.id,
     };
     console.log('>>>>Send event to update user liked attraction', params);
     this.pushToRemote('likedAttractions:update', params);
+
+    // action is delete, find the item in package instance and delete
+    // action is add, find the nearby item and add next to it
+    this.updateItinerary(attraction, params.action);
   }
 
   /* ----------  List  ---------- */
@@ -184,10 +270,7 @@ export default class App2 extends React.Component {
     let users;
     if (existing) {
       users = oldUsers.map((user) =>
-        (user.fbId === newUser.fbId)
-        ? newUser
-        : user
-      );
+        (user.fbId === newUser.fbId) ? newUser : user);
     } else {
       oldUsers.push(newUser);
       users = oldUsers;
@@ -208,33 +291,14 @@ export default class App2 extends React.Component {
     );
 
     // Add socket event handlers.
-    socket.on('pre-init', ({packages=[]} = {}) => {
-      console.log('>>>>Result coming back from socket [pre-init]', {packages:packages});
-      this.setState({packages});
-    });
-
-    socket.on('init', ({instPackage, packages=[], cityAttractions, users, ownerId} = {}) => {
-      console.log('>>>>Result coming back from socket [init]',
-        {instPackage:instPackage, packages:packages, cityAttractions:cityAttractions, users:users, ownerId:ownerId});
-      const u = _.filter(users, (user) => {return user.fbId == ownerId});
-      console.log('>>>>Matched User['+ownerId+']', u);
-      if(u && u[0].likedAttractions) {
-        const liked = u[0].likedAttractions.split(',');
-        _.forEach(_.values(cityAttractions), (attrs) => {
-          _.forEach(attrs, (attr) => {
-            attr.isLiked = !!_.find(liked, (likedId) => { return likedId==attr.id});
-          })
-        });
-      }
-      console.log('>>>>After update liked attractions', cityAttractions);
-      this.setState({instPackage, packages, cityAttractions, users, ownerId});
-    });
+    socket.on('pre-init', this.preInit);
+    socket.on('init', this.init);
+    socket.on('user:join', this.userJoin);
 
     //socket.on('item:add', this.addItem);
     //socket.on('item:update', this.setItem);
     //socket.on('list:setOwnerId', this.setOwnerId);
     //socket.on('title:update', this.setDocumentTitle);
-    socket.on('user:join', this.userJoin);
     //socket.on('users:setOnline', this.setOnlineUsers);
 
     const self = this;
@@ -277,10 +341,10 @@ export default class App2 extends React.Component {
 
     let page;
 
-    if(!instPackage) {
+    if (!instPackage) {
       console.log('>>>>No package instance found, let user select a package');
       const {apiUri} = this.props;
-      if(packages && packages.length>0) {
+      if (packages && packages.length > 0) {
         page = (
           <section id='package-selector'>
             <PackageSelector
