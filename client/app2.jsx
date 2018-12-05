@@ -209,7 +209,7 @@ export default class App2 extends React.Component {
     const instId = this.state.instPackage.id;
     const likedAttractions = [];
 
-    console.log('>>>>setLikedAttractions['+attraction.id+'] of Inst['+instId+']', cityAttractions);
+    console.log('>>>>setLikedAttractions['+attraction.id+'] of Inst['+instId+']', {attraction: attraction, cityAttractions: cityAttractions});
     _.forEach(_.values(cityAttractions), (attractions) => {
       _.forEach(attractions, (a) => {
         if (a.id == attraction.id) {
@@ -225,7 +225,7 @@ export default class App2 extends React.Component {
     const params = {
       instId: instId,
       likedAttractions: likedAttractions.toString(),
-      action: attraction.isLiked ? 'DELETE' : 'ADD',
+      action: attraction.isLiked ? 'ADD' : 'DELETE',
       actionItemId: attraction.id,
     };
     console.log('>>>>Send event to update user liked attraction', params);
