@@ -5,13 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// ===== MODULES ===============================================================
+// ==== MODULES ==========================================
 import io from 'socket.io-client';
 import React, {createElement} from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import {Tab, NavBarItem} from 'react-weui';
 
-// ===== COMPONENTS ============================================================
+// ==== COMPONENTS ========================================
 import Invite from './invite.jsx';
 import ListNotFound from './list_not_found.jsx';
 import LoadingScreen from './loading_screen.jsx';
@@ -23,9 +23,9 @@ import _ from 'lodash';
 
 let socket;
 
-/* =============================================
+/* ==============================
    =            React Application              =
-   ============================================= */
+   ============================== */
 
 export default class App2 extends React.Component {
   constructor(props) {
@@ -56,9 +56,9 @@ export default class App2 extends React.Component {
     threadType: React.PropTypes.string.isRequired,
   }
 
-  /* =============================================
+  /* ==============================
      =               Helper Methods              =
-     ============================================= */
+     ============================== */
 
   /* ----------  Communicate with Server  ---------- */
 
@@ -107,9 +107,9 @@ export default class App2 extends React.Component {
     document.title = title;
   }
 
-  /* =============================================
+  /* ==============================
      =           State & Event Handlers          =
-     ============================================= */
+     ============================== */
 
   /* ----------  Package  ------- */
   preInit({packages}) {
@@ -127,14 +127,14 @@ export default class App2 extends React.Component {
   /* ----------  Package Instance ------- */
   init({instPackage, cityAttractions, users, ownerId}) {
     console.log('>>>>Result coming back from socket [init]', {instPackage: instPackage, cityAttractions: cityAttractions, users: users, ownerId: ownerId});
-    const u = _.filter(users, (user) => {return user.fbId === ownerId;});
+    const u = _.filter(users, (user) => {return user.fbId == ownerId;});
     console.log('>>>>Matched User['+ownerId+']', u);
     if (u && u[0].likedAttractions) {
       const liked = u[0].likedAttractions.split(',');
       _.forEach(_.values(cityAttractions), (attrs) => {
         _.forEach(attrs, (attr) => {
           console.log('>>>>check liked', {liked: liked, attr: attr});
-          attr.isLiked = !!_.find(liked, (likedId) => { return likedId === attr.id;});
+          attr.isLiked = !!_.find(liked, (likedId) => { return likedId == attr.id;});
         });
       });
     }
@@ -145,21 +145,21 @@ export default class App2 extends React.Component {
   /* ----------  Package Instance Items------- */
   updateItinerary(attraction, action) {
     const inst = this.state.instPackage;
-    if (action === 'DELETE') {
+    if (action == 'DELETE') {
       console.log('>>>>updateItinerary.delete', attraction);
       inst.items = _.filter(inst.items, (item) => {
         return item.attractionId !== attraction.id;
       });
       console.log('>>>>updateItinerary.delete - result', inst.items);
-    } else if (action === 'ADD') {
+    } else if (action == 'ADD') {
       console.log('>>>>updateItinerary.add', attraction);
       let firstMatch = -1;
       _.forEach(inst.items, (item, idx) => {
-        if (item.city === attraction.cityName) {
+        if (item.city == attraction.cityName) {
           console.log('>>>>updateItinerary.add - find city match', item);
           const nearbyAttractions = item.nearbyAttractions || '';
-          firstMatch = (firstMatch === -1) ? idx : firstMatch;
-          if (!!_.find(nearbyAttractions.split(','), (nba) => {return nba === attraction.id;})) {
+          firstMatch = (firstMatch == -1) ? idx : firstMatch;
+          if (!!_.find(nearbyAttractions.split(','), (nba) => {return nba == attraction.id;})) {
             console.log('>>>>updateItinerary.add - find attraction nearby', item);
             // Insert next to the item
             const iNew = {
@@ -172,7 +172,7 @@ export default class App2 extends React.Component {
               imageUrl: attraction.imageUrl,
               name: attraction.name,
             };
-            if (firstMatch === inst.items.length) {
+            if (firstMatch == inst.items.length) {
               inst.items = _.concat(_.slice(inst.items, 0, firstMatch + 1), iNew);
             } else {
               inst.items = _.concat(_.slice(inst.items, 0, firstMatch + 1), iNew, _.slice(inst.items, firstMatch + 1, inst.items.length));
@@ -195,7 +195,7 @@ export default class App2 extends React.Component {
           imageUrl: attraction.imageUrl,
           name: attraction.name,
         };
-        if (firstMatch === inst.items.length) {
+        if (firstMatch == inst.items.length) {
           inst.items = _.concat(_.slice(inst.items, 0, firstMatch + 1), iNew);
         } else {
           inst.items = _.concat(_.slice(inst.items, 0, firstMatch + 1), iNew, _.slice(inst.items, firstMatch + 1, inst.items.length));
@@ -212,7 +212,7 @@ export default class App2 extends React.Component {
     console.log('>>>>setLikedAttractions['+attraction.id+'] of Inst['+instId+']', cityAttractions);
     _.forEach(_.values(cityAttractions), (attractions) => {
       _.forEach(attractions, (a) => {
-        if (a.id === attraction.id) {
+        if (a.id == attraction.id) {
           a.isLiked = !a.isLiked;
         }
 
@@ -233,7 +233,7 @@ export default class App2 extends React.Component {
 
     // action is delete, find the item in package instance and delete
     // action is add, find the nearby item and add next to it
-    //this.updateItinerary(attraction, params.action);
+    this.updateItinerary(attraction, params.action);
   }
 
   /* ----------  List  ---------- */
@@ -257,7 +257,7 @@ export default class App2 extends React.Component {
   setOnlineUsers(onlineUserFbIds = []) {
     const users = this.state.users.map((user) => {
       const isOnline =
-        onlineUserFbIds.find((onlineUserFbId) => onlineUserFbId === user.fbId);
+        onlineUserFbIds.find((onlineUserFbId) => onlineUserFbId == user.fbId);
 
       return Object.assign({}, user, {online: isOnline});
     });
@@ -269,12 +269,12 @@ export default class App2 extends React.Component {
   userJoin(newUser) {
     console.log('>>>>Result coming back from socket [user:join]', newUser);
     const oldUsers = this.state.users.slice();
-    const existing = oldUsers.find((user) => user.fbId === newUser.fbId);
+    const existing = oldUsers.find((user) => user.fbId == newUser.fbId);
 
     let users;
     if (existing) {
       users = oldUsers.map((user) =>
-        (user.fbId === newUser.fbId) ? newUser : user);
+        (user.fbId == newUser.fbId) ? newUser : user);
     } else {
       oldUsers.push(newUser);
       users = oldUsers;
@@ -283,9 +283,9 @@ export default class App2 extends React.Component {
     this.setState({users});
   }
 
-  /* =============================================
+  /* ==============================
      =              React Lifecycle              =
-     ============================================= */
+     ============================== */
 
   componentWillMount() {
     // Connect to socket.
@@ -368,14 +368,14 @@ export default class App2 extends React.Component {
 
       // Setup module "Invite"
       let invite;
-      const isOwner = viewerId === ownerId;
+      const isOwner = viewerId == ownerId;
       if (isOwner || threadType !== 'USER_TO_PAGE') {
         // only owners are able to share their lists and other
         // participants are able to post back to groups.
         let sharingMode;
         let buttonText;
 
-        if (threadType === 'USER_TO_PAGE') {
+        if (threadType == 'USER_TO_PAGE') {
           sharingMode = 'broadcast';
           buttonText = 'Invite your friends to this list';
         } else {
@@ -418,7 +418,7 @@ export default class App2 extends React.Component {
           </NavBarItem>
         </Tab>
       );
-    } else if (socketStatus === 'noList') {
+    } else if (socketStatus == 'noList') {
       // We were unable to find a matching list in our system.
       page = <ListNotFound/>;
     } else {
