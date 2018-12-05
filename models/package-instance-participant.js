@@ -57,7 +57,7 @@ const delParticipantByInstId = (instId) =>
 const updateLikedAttractions = (instId, userId, likedAttractions) =>
   PackageParticipant()
     .where({pkg_inst_id: instId, login_id: userId})
-    .update(liked_attractions: likedAttractions);
+    .update({liked_attractions: likedAttractions});
 
 export default {
   getParticipantByInstId,
