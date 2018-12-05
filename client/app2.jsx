@@ -31,6 +31,8 @@ export default class App2 extends React.Component {
   constructor(props) {
     super(props);
 
+    this.preInit = this.preInit.bind(this);
+    this.init = this.init.bind(this);
     this.pushCreateInstPackage = this.pushCreateInstPackage.bind(this);
     this.setLikedAttractions = this.setLikedAttractions.bind(this);
     this.updateItinerary = this.updateItinerary.bind(this);
