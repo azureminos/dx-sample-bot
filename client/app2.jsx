@@ -157,8 +157,9 @@ export default class App2 extends React.Component {
       _.forEach(inst.items, (item, idx) => {
         if (item.city === attraction.cityName) {
           console.log('>>>>updateItinerary.add - find city match', item);
+          const nearbyAttractions = item.nearbyAttractions || '';
           firstMatch = (firstMatch === -1) ? idx : firstMatch;
-          if (!!_.find(item.nearbyAttractions.split(','), (nba) => {return nba === attraction.id;})) {
+          if (!!_.find(nearbyAttractions.split(','), (nba) => {return nba === attraction.id;})) {
             console.log('>>>>updateItinerary.add - find attraction nearby', item);
             // Insert next to the item
             const iNew = {
