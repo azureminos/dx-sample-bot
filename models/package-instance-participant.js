@@ -54,9 +54,15 @@ const delParticipantByInstId = (instId) =>
     .where('pkg_inst_id', instId)
     .del();
 
+const updateLikedAttractions = (instId, userId, likedAttractions) =>
+  PackageParticipant()
+    .where({pkg_inst_id: instId, login_id: userId})
+    .update(liked_attractions: likedAttractions);
+
 export default {
   getParticipantByInstId,
   getOwnerByInstId,
   addParticipant,
   delParticipantByInstId,
+  updateLikedAttractions,
 };

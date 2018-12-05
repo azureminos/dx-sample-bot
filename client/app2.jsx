@@ -116,26 +116,34 @@ export default class App2 extends React.Component {
   }
 
   /* ----------  Attractions  ---------- */
-  setLikedAttraction(attractionId) {
+  setLikedAttraction(attraction) {
     const cityAttractions = this.state.cityAttractions;
+    const instId = this.state.instPackage.id;
     //const userId = this.props.viewerId;
     let likedAttraction = [];
 
-    console.log('>>>>setLikedAttraction['+attractionId+']', cityAttractions);
+    console.log('>>>>setLikedAttraction['+attraction.id+'] of Inst['+instId+']', cityAttractions);
     _.forEach(_.values(cityAttractions), (attractions) => {
       _.forEach(attractions, (a) => {
-        console.log('>>>>setLikedAttraction, comparing ['+attractionId+'] with', a);
-        if(a.id === attractionId) {
+        //console.log('>>>>setLikedAttraction, comparing ['+attraction.id+'] with', a);
+        if (a.id === attraction.id) {
           a.isLiked = !a.isLiked;
         }
 
-        if(a.isLiked) {
+        if (a.isLiked) {
           likedAttraction.push(a.id);
         }
-      })
+      });
     });
-    console.log('>>>>Send event to update user liked attraction', likedAttraction.toString());
-    this.pushToRemote('likedAttraction:set', {likedAttraction: likedAttraction.toString()});
+
+    const params = {
+      instId: instId,
+      likedAttractions: likedAttraction.toString(),
+      action: attraction.isLiked ? 'Delete' : 'Add',
+      actionItemId: attraction.id,
+    };
+    console.log('>>>>Send event to update user liked attraction', params);
+    this.pushToRemote('likedAttraction:update', params);
   }
 
   /* ----------  List  ---------- */

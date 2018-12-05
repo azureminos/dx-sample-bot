@@ -72,11 +72,10 @@ const join = ({
   if (instId) {
     Promise.all([
       InstPackage.getInstPackageDetails(instId),
-      InstItem.getInstItem(instId),
       InstPackage.getCityAttractionsByInstId(instId),
       PackageParticipant.getOwnerByInstId(instId),
       getUser(senderId),
-    ]).then(([instPackage, instItems, cityAttractions, instOwner, user]) => {
+    ]).then(([instPackage, cityAttractions, instOwner, user]) => {
       if (!instPackage) {
         console.error("Package instance doesn't exist!");
         sendStatus('noInstPackage');
@@ -118,7 +117,6 @@ const join = ({
               socket.in(instPackage.id).emit('user:join', viewerUser);
               console.log('>>>>userSocket.emit(init)', {
                 instPackage,
-                instItems,
                 cityAttractions,
                 users: ngUsers,
                 packages: [],
@@ -126,7 +124,6 @@ const join = ({
               });
               userSocket.emit('init', {
                 instPackage,
-                instItems,
                 cityAttractions,
                 users: ngUsers,
                 packages: [],
@@ -175,9 +172,13 @@ const leave = ({userId, instId, allInRoom, socket, socketUsers}) => {
   allInRoom(instId).emit('users:setOnline', onlineUsers);
 };
 
-const setLikedAttraction = ({request: {likedAttraction}, sendStatus, socket, userId}) => {
-  console.log('>>>>Received event to setLikedAttraction', {likedAttraction: likedAttraction, userId: userId});
+const updateLikedAttraction = ({request: {likedAttraction, instId}, sendStatus, socket, userId}) => {
+  console.log('>>>>Received event to setLikedAttraction', {instId: instId, likedAttraction: likedAttraction, userId: userId});
+  // Update user liked attractions
+  PackageParticipant.updateLikedAttractions(instId, userId, likedAttraction);
+  // Add/Delete attraction to vist in the package instance
+
   sendStatus('ok');
 };
 
-export default {join, leave, setLikedAttraction};
+export default {join, leave, updateLikedAttraction};

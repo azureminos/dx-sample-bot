@@ -5,10 +5,9 @@ import SuperSlider from './super-slider.jsx';
 import TagList from './tag-list.js';
 
 const PackageSummary = ({instPackage, apiUri, cityAttractions, likeAttraction}) => {
-  console.log('>>>>PackageSummary',
-    {inst: instPackage, apiUri: apiUri, cityAttractions: cityAttractions});
+  console.log('>>>>PackageSummary', {inst: instPackage, apiUri: apiUri, cityAttractions: cityAttractions});
   const packageImageUrl = apiUri + '/' + instPackage.imageUrl;
-  console.log('>>>>packageImageUrl', packageImageUrl);
+  //console.log('>>>>packageImageUrl', packageImageUrl);
 
   const cityCollapsible = _.keys(cityAttractions).map((city) => {
     const setting = {
@@ -18,7 +17,7 @@ const PackageSummary = ({instPackage, apiUri, cityAttractions, likeAttraction}) 
 
     // Prepare settings of TagList
     let tags = _.filter(cityAttractions[city], {isLiked: true});
-    console.log('>>>>Show tags', tags);
+    console.log('>>>>Show tags for city['+city+']', tags);
     tags = tags.map((item) => {return {id: item.id, text: item.name};});
 
     const tagSetting = {

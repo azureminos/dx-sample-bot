@@ -23,14 +23,14 @@ export default class PackageItinerary extends React.Component {
         city: itineraries[dayNo][0].city,
         attractions: itineraries[dayNo],
       };
-      console.log('>>>>PackageItinerary, after format itinerary', itinerary);
+      //console.log('>>>>PackageItinerary, formatted itinerary', itinerary);
       const city = itinerary.city;
       const attractions = cityAttractions[city];
       const setting = {
         trigger: triggerText(dayNo, city),
         open: true,
       };
-      console.log('>>>>PackageItinerary, accordion setting', setting);
+      //console.log('>>>>PackageItinerary, accordion setting', setting);
       elItineraries.push(
         <Collapsible {...setting} key={dayNo} >
           <ItineraryItem

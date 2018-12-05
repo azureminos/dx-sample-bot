@@ -20,7 +20,7 @@ const SuperSlider = ({items, buttonName, buttonAction, apiUri}) => {
         <div className='demo-slide' key={item.id}>
           <img src={imageUrl} alt={item.name} width='300'/>
           <p>{item.description}</p>
-          <button onClick={() => buttonAction(item.id)} >{buttonName}</button>
+          <button onClick={() => buttonAction(item)} >{buttonName}</button>
         </div>
     );
   });

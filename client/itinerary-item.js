@@ -32,28 +32,20 @@ export default class ItineraryItem extends React.Component {
       return a;
     });
 
-    if (true) {
-      // Generate html for unselected items
-      const unselected = getUnselected(allAttraction, itinerary.attractions);
-      console.log('>>>>ItineraryItem, unselected list calculated', unselected);
+    // Generate html for unselected items
+    const unselected = getUnselected(allAttraction, itinerary.attractions);
+    console.log('>>>>ItineraryItem, unselected list calculated', unselected);
 
-      return (
-        <div className='itinerary-day-item'>
-          <div className='dnd-container'>
-            <TagList {...getTagSetting(itinerary.attractions)} />
-          </div>
-          <div className='dnd-container'>
-            <label>Other Attractions: </label>
-            <TagList {...getTagSetting(unselected)} />
-          </div>
-        </div>
-      );
-    }
+    const styleItitenary = {display: isCustom ? 'block' : 'none'};
 
     return (
       <div className='itinerary-day-item'>
         <div className='dnd-container'>
           <TagList {...getTagSetting(itinerary.attractions)} />
+        </div>
+        <div style={styleItitenary} className='dnd-container'>
+          <label>Other Attractions: </label>
+          <TagList {...getTagSetting(unselected)} />
         </div>
       </div>
     );
