@@ -13,48 +13,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 /* ----------  Internal Components  ---------- */
-
-import App from './app.jsx';
-import App2 from './app2.jsx';
+import App from './app2.jsx';
 import Oops from './oops.jsx';
 
 /* ----------  Stylesheets  ---------- */
-
-import 'weui';
-import 'react-weui/build/packages/react-weui.css';
 import '../public/style.css';
 
-/*
- * Function for attaching the application when MessengerExtensions has loaded
- */
-window.attachApp2 = (viewerId, listId, promoId, socketAddress, threadType) => {
-  console.log('>>>>window.attachApp2',
-    {viewerId:viewerId, listId:listId, promoId:promoId, socketAddress:socketAddress, threadType:threadType});
-
-  const apiUri = `https://${window.location.hostname}`;
-  let app;
-  if (viewerId) {
-    app = (
-      // The main show
-      <App
-        viewerId={viewerId}
-        listId={listId}
-        promoId={promoId}
-        apiUri={apiUri}
-        socketAddress={socketAddress}
-        threadType={threadType}
-      />
-    );
-  } else {
-    /**
-     * MessengerExtensions are only available on iOS and Android,
-     * so show an error page if MessengerExtensions was unable to start
-     */
-    app = <Oops />;
-  }
-
-  ReactDOM.render(app, document.getElementById('content'));
-};
 
 window.attachApp = (viewerId, instId, socketAddress, threadType) => {
   console.log('>>>>window.attachApp', {viewerId:viewerId, instId:instId, socketAddress:socketAddress, threadType:threadType});
@@ -66,7 +30,7 @@ window.attachApp = (viewerId, instId, socketAddress, threadType) => {
   if (viewerId) {
     app = (
       // The main show
-      <App2
+      <App
         viewerId={viewerId}
         instId={instId}
         apiUri={apiUri}

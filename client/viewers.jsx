@@ -7,7 +7,7 @@
 
 // ===== MODULES ===============================================================
 import React, {createElement} from 'react';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import {CSSTransitionGroup} from 'react-transition-group';
 import {Footer, FooterText} from 'react-weui';
 
 // Viewers Component — Who has joined the list, and who is viewing it.
@@ -38,14 +38,14 @@ const Viewers = ({viewerId, users}) => {
 
   return (
     <section id='viewers'>
-      <ReactCSSTransitionGroup
+      <CSSTransitionGroup
         className='viewers-list-cntnr'
         transitionName='viewer'
         transitionEnterTimeout={300}
         transitionLeaveTimeout={300}
       >
         {viewers}
-      </ReactCSSTransitionGroup>
+      </CSSTransitionGroup>
 
       <Footer id='viewer-count'>
         <FooterText>

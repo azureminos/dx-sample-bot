@@ -9,9 +9,9 @@
 
 /* ----------  External Libraries  ---------- */
 import React from 'react';
-import {Toast} from 'react-weui';
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 // Simple loading spinner
 export default function LoadingScreen() {
-  return <Toast icon='loading' show>Loading...</Toast>;
+  return <div><CircularProgress />Loading...</div>;
 }

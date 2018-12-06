@@ -8,14 +8,15 @@
 // ==== MODULES ==========================================
 import io from 'socket.io-client';
 import React, {createElement} from 'react';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import {Tab, NavBarItem} from 'react-weui';
+import {CSSTransitionGroup} from 'react-transition-group';
+
 
 // ==== COMPONENTS ========================================
 import Invite from './invite.jsx';
 import ListNotFound from './list_not_found.jsx';
 import LoadingScreen from './loading_screen.jsx';
 import Updating from './updating.jsx';
+import FixedTab from './fixed-tab.js';
 import PackageSummary from './package-summary.jsx';
 import PackageItinerary from './package-itinerary.js';
 import PackageSelector from './package-selector.jsx';
@@ -397,30 +398,31 @@ export default class App2 extends React.Component {
         );
       }
 
+      const tabs = {
+        Summary: (
+          <section id='package-summary'>
+            <PackageSummary
+              instPackage={instPackage}
+              apiUri={apiUri}
+              cityAttractions={cityAttractions}
+              likeAttractions={this.setLikedAttractions}
+            />
+            <Updating updating={updating} />
+          </section>
+        ),
+        Itinerary: (
+          <section id='package-itinerary'>
+            <PackageItinerary
+              instPackage={instPackage}
+              cityAttractions={cityAttractions}
+            />
+            <Updating updating={updating} />
+          </section>
+        ),
+      };
+
       page = (
-        <Tab type='navbar'>
-          <NavBarItem label='Summary'>
-            <section id='package-summary'>
-              <PackageSummary
-                instPackage={instPackage}
-                apiUri={apiUri}
-                cityAttractions={cityAttractions}
-                likeAttractions={this.setLikedAttractions}
-              />
-              <Updating updating={updating} />
-            </section>
-            {invite}
-          </NavBarItem>
-          <NavBarItem label='Itinerary'>
-            <section id='package-itinerary'>
-              <PackageItinerary
-                instPackage={instPackage}
-                cityAttractions={cityAttractions}
-              />
-            </section>
-            {invite}
-          </NavBarItem>
-        </Tab>
+        <FixedTab tabs={tabs} />
       );
     } else if (socketStatus == 'noList') {
       // We were unable to find a matching list in our system.
@@ -434,13 +436,13 @@ export default class App2 extends React.Component {
 
     return (
       <div id='app'>
-        <ReactCSSTransitionGroup
+        <CSSTransitionGroup
           transitionName='page'
           transitionEnterTimeout={500}
           transitionLeaveTimeout={500}
         >
           {page}
-        </ReactCSSTransitionGroup>
+        </CSSTransitionGroup>
       </div>
     );
   }
