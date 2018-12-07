@@ -23,7 +23,7 @@ const SuperSlider = ({items, btnActionMap, apiUri}) => {
       <div className='demo-slide' key={btnItem.id}>
         <MediaCard
           item={btnItem}
-          actions={btnActionMap}
+          btnActionMap={btnActionMap}
         />
       </div>
     );
