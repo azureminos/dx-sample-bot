@@ -37,6 +37,7 @@ export default class App2 extends React.Component {
     this.init = this.init.bind(this);
     this.pushCreateInstPackage = this.pushCreateInstPackage.bind(this);
     this.setLikedAttractions = this.setLikedAttractions.bind(this);
+    this.setSelectedHotel = this.setSelectedHotel.bind(this);
     this.updateItinerary = this.updateItinerary.bind(this);
 
     this.state = {
@@ -143,6 +144,21 @@ export default class App2 extends React.Component {
       });
     }
     console.log('>>>>After update liked attractions', cityAttractions);
+
+    _.forEach(cityHotels, (cHotels) => {
+      _.forEach(cHotels, (hotel) => {
+        if (hotel.id == 1) {
+          hotel.imageUrl = 'media/Hotel_Beijing_BeijingHotel.jpg';
+        } else if (hotel.id == 2) {
+          hotel.imageUrl = 'media/Hotel_Beijing_BeijingHolidayInn.jpg';
+        } else if (hotel.id == 3) {
+          hotel.imageUrl = 'media/Hotel_Shanghai_PenisulaShanghai.jpg';
+        } else if (hotel.id == 4) {
+          hotel.imageUrl = 'media/Hotel_Shanghai_ShanghaiHotel.jpg';
+        }
+      });
+    });
+
     this.setState({instPackage, packages: [], cityAttractions, cityHotels, users, ownerId});
   }
 
@@ -242,6 +258,13 @@ export default class App2 extends React.Component {
     // action is delete, find the item in package instance and delete
     // action is add, find the nearby item and add next to it
     this.updateItinerary(attraction, params.action);
+  }
+
+  /* ---------- Hotels ---------- */
+  setSelectedHotel(hotel) {
+    const cityHotels = this.state.cityHotels;
+    const instId = this.state.instPackage.id;
+    console.log('>>>>setSelectedHotel of Inst['+instId+']', {cityHotels: cityHotels, hotel: hotel});
   }
 
   /* ----------  List  ---------- */
@@ -346,6 +369,7 @@ export default class App2 extends React.Component {
       instPackage,
       packages,
       cityAttractions,
+      cityHotels,
       users,
       updating,
       socketStatus,
@@ -418,6 +442,9 @@ export default class App2 extends React.Component {
             <PackageItinerary
               instPackage={instPackage}
               cityAttractions={cityAttractions}
+              cityHotels={cityHotels}
+              apiUri={apiUri}
+              selectHotel={this.setSelectedHotel}
             />
             {invite}
           </Typography>

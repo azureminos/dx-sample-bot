@@ -1,8 +1,9 @@
 import React, {createElement} from 'react';
 //import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
 import Collapsible from 'react-collapsible';
-import {Paper, Typography} from '@material-ui/core';
+import {Paper, Typography, Divider} from '@material-ui/core';
 import _ from 'lodash';
+import SuperSlider from './super-slider.jsx';
 import ItineraryItem from './itinerary-item.js';
 
 const triggerText = (dayNo, city) => `Day ${dayNo}, ${city}`;
@@ -10,7 +11,7 @@ const triggerText = (dayNo, city) => `Day ${dayNo}, ${city}`;
 export default class PackageItinerary extends React.Component {
   render() {
     console.log('>>>>PackageItinerary, Start render with props', this.props);
-    const {instPackage, cityAttractions} = this.props;
+    const {instPackage, cityAttractions, cityHotels, apiUri, selectHotel} = this.props;
     const itineraries = _.groupBy(instPackage.items, (item)=>{
       return item.dayNo;
     });
@@ -26,19 +27,26 @@ export default class PackageItinerary extends React.Component {
       //console.log('>>>>PackageItinerary, formatted itinerary', itinerary);
       const city = itinerary.city;
       const attractions = cityAttractions[city];
-      const setting = {
-        trigger: triggerText(dayNo, city),
-        open: true,
-      };
+      const hotels = cityHotels[city];
+      const btnActionMap = {'Select Hotel': selectHotel};
       //console.log('>>>>PackageItinerary, accordion setting', setting);
       elItineraries.push(
-        <Collapsible {...setting} key={dayNo} >
+        <Paper>
+          <Typography variant='h5' gutterBottom >
+            {triggerText(dayNo, city)}
+          </Typography>
           <ItineraryItem
             itinerary={itinerary}
             attractions={attractions}
             isCustom={instPackage.isCustom}
           />
-        </Collapsible>
+          <SuperSlider
+            items={hotels}
+            btnActionMap={btnActionMap}
+            apiUri={apiUri}
+          />
+          <Divider/>
+        </Paper>
       );
     });
 
