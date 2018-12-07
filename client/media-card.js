@@ -1,6 +1,8 @@
 import React, {createElement} from 'react';
+import _ from 'lodash';
 import PropTypes from 'prop-types';
-import {Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Typography, withStyles} from '@material-ui/core';
+import {Button, Card, CardActionArea, CardActions,
+  CardContent, CardMedia, Typography, withStyles} from '@material-ui/core';
 
 const styles = {
   card: {
@@ -13,33 +15,34 @@ const styles = {
 
 class MediaCard extends React.Component {
   render() {
-    const {classes} = this.props;
+    const {classes, item, actions} = this.props;
+    const buttons = [];
+    _.forEach(actions, (btnAction, btnName) => {
+      buttons.push(
+        (<Button key={btnName} size='small' color='primary' onClick={() => btnAction(item)} >
+          {btnName}
+        </Button>)
+      );
+    });
+
     return (
       <Card className={classes.card}>
         <CardActionArea>
           <CardMedia
             className={classes.media}
-            image="https://dx-sample-bot.herokuapp.com/media/Beijing_ForbiddenPalace.jpg"
-            title="Contemplative Reptile"
+            image={item.imageUrl}
+            title={item.name}
           />
           <CardContent>
-            <Typography gutterBottom variant="h5" component="h2">
-              Lizard
+            <Typography gutterBottom variant='h5' component='h2'>
+              {item.name}
             </Typography>
-            <Typography component="p">
-              Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-              across all continents except Antarctica
+            <Typography component='p'>
+              {item.description}
             </Typography>
           </CardContent>
         </CardActionArea>
-        <CardActions>
-          <Button size="small" color="primary">
-            Share
-          </Button>
-          <Button size="small" color="primary">
-            Learn More
-          </Button>
-        </CardActions>
+        <CardActions>{buttons}</CardActions>
       </Card>
     );
   }

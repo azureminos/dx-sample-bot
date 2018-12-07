@@ -808,6 +808,8 @@ button.swiper-pagination-bullet {
 .demo-slide {
   background-color: #fafafa;
   text-align: left;
+  margin-bottom: 8px;
+  border: 1px solid lightgrey;
 }
 
 .swiper-container {

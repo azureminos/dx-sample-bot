@@ -25,13 +25,14 @@ const PackageSummary = ({instPackage, apiUri, cityAttractions, likeAttractions})
       isReadonly: true,
     };
 
+    const btnActions = [{'Like': likeAttractions}];
+
     return (
       <div {...setting} key={cityAttractions[city].id} >
         <div>
           <SuperSlider
             items={cityAttractions[city]}
-            buttonName='Like'
-            buttonAction={likeAttractions}
+            btnActions={btnActions}
             apiUri={apiUri}
           />
           <TagList {...tagSetting} />

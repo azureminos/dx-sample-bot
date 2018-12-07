@@ -2,27 +2,30 @@ import React, {createElement} from 'react';
 import Swiper from 'react-id-swiper';
 import MediaCard from './media-card.js';
 
-const SuperSlider = ({items, buttonName, buttonAction, apiUri}) => {
+const SuperSlider = ({items, btnActions, apiUri}) => {
   console.log('>>>>SuperSlider',
-    {items: items, buttonName: buttonName, apiUri: apiUri});
+    {items: items, btnActions: btnActions, apiUri: apiUri});
 
   const params = {
     slidesPerView: 'auto',
-    spaceBetween: 5,
+    spaceBetween: 8,
   };
 
   const itemList = items.map((item) => {
-    const imageUrl = apiUri + '/' + item.imageUrl;
+    const btnItem = {
+      id: item.id,
+      name: item.name,
+      description: item.description,
+      imageUrl: apiUri + '/' + item.imageUrl,
+    };
+
     return (
-      <div className='demo-slide' key={item.id}>
-        <MediaCard key={item.id} />
+      <div className='demo-slide' key={btnItem.id}>
+        <MediaCard
+          item={btnItem}
+          actions={btnActions}
+        />
       </div>
-      
-      /*<div className='demo-slide' key={item.id}>
-        <img src={imageUrl} alt={item.name} width='300'/>
-        <p>{item.description}</p>
-        <button onClick={() => buttonAction(item)} >{buttonName}</button>
-      </div>*/
     );
   });
 
