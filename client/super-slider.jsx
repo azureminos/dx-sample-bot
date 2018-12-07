@@ -1,5 +1,6 @@
 import React, {createElement} from 'react';
 import Swiper from 'react-id-swiper';
+import MediaCard from './media-card.js';
 
 const SuperSlider = ({items, buttonName, buttonAction, apiUri}) => {
   console.log('>>>>SuperSlider',
@@ -17,11 +18,12 @@ const SuperSlider = ({items, buttonName, buttonAction, apiUri}) => {
   const itemList = items.map((item) => {
     const imageUrl = apiUri + '/' + item.imageUrl;
     return (
-        <div className='demo-slide' key={item.id}>
-          <img src={imageUrl} alt={item.name} width='300'/>
-          <p>{item.description}</p>
-          <button onClick={() => buttonAction(item)} >{buttonName}</button>
-        </div>
+      <MediaCard key={item.id} />
+      /*<div className='demo-slide' key={item.id}>
+        <img src={imageUrl} alt={item.name} width='300'/>
+        <p>{item.description}</p>
+        <button onClick={() => buttonAction(item)} >{buttonName}</button>
+      </div>*/
     );
   });
 
