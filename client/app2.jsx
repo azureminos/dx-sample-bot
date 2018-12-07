@@ -17,7 +17,6 @@ import ListNotFound from './list_not_found.jsx';
 import LoadingScreen from './loading_screen.jsx';
 import Updating from './updating.jsx';
 import FixedTab from './fixed-tab.js';
-import MediaCard from './media-card.js';
 import PackageSummary from './package-summary.jsx';
 import PackageItinerary from './package-itinerary.js';
 import PackageSelector from './package-selector.jsx';

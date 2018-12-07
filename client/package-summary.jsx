@@ -30,7 +30,7 @@ const PackageSummary = ({instPackage, apiUri, cityAttractions, likeAttractions})
 
     return (
       <div {...setting} key={cityAttractions[city].id} >
-        <Typography variant='h3' gutterBottom>
+        <Typography variant='h5' style={{padding: 8}} gutterBottom>
           {city}
         </Typography>
         <SuperSlider
