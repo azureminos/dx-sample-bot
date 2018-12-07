@@ -1,11 +1,18 @@
-import React from 'react';
+import React, {createElement} from 'react';
 import PropTypes from 'prop-types';
 import {Button, withStyles} from '@material-ui/core';
+import styled from 'styled-components';
 import SendIcon from '@material-ui/icons/Send';
 import _ from 'lodash';
-/* ----------  Messenger Helpers  ---------- */
 
+/* ----------  Messenger Helpers  ---------- */
 import messages from '../messenger-api-helpers/messages';
+
+const InviteContainer = styled.div`
+display: flex;
+flex-direction: column;
+background: lightgrey;
+`;
 
 const styles = theme => ({
   button: {
@@ -69,15 +76,18 @@ const Invite = ({
   // const iconClassName = sharingMode === 'broadcast' ? 'share' : 'send';
 
   return (
-    <Button
-      onClick={shareList}
-      variant='contained'
-      color='default'
-      className={classes.button}
-    >
-      {buttonText}
-      <SendIcon className={classes.leftIcon} />
-    </Button>
+    <InviteContainer>
+      <Button
+        onClick={shareList}
+        variant='contained'
+        color='default'
+        fullWidth='true'
+        className={classes.button}
+      >
+        {buttonText}
+        <SendIcon className={classes.leftIcon} />
+      </Button>
+    </InviteContainer>
   );
 };
 

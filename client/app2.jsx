@@ -401,6 +401,7 @@ export default class App2 extends React.Component {
               likeAttractions={this.setLikedAttractions}
             />
             <Updating updating={updating} />
+            {invite}
           </section>
         ),
         Itinerary: (
@@ -409,7 +410,7 @@ export default class App2 extends React.Component {
               instPackage={instPackage}
               cityAttractions={cityAttractions}
             />
-            <Updating updating={updating} />
+            {invite}
           </section>
         ),
       };
