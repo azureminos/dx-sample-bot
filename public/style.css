@@ -6,6 +6,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
   color: #4A4A4A;
   background-color: #FAFAFA;
+  margin: 0px;
 }
 
 #list {
