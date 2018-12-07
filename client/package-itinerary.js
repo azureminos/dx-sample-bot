@@ -31,7 +31,7 @@ export default class PackageItinerary extends React.Component {
       const btnActionMap = {'Select Hotel': selectHotel};
       //console.log('>>>>PackageItinerary, accordion setting', setting);
       elItineraries.push(
-        <Paper>
+        <div key={dayNo}>
           <Typography variant='h5' gutterBottom >
             {triggerText(dayNo, city)}
           </Typography>
@@ -46,7 +46,7 @@ export default class PackageItinerary extends React.Component {
             apiUri={apiUri}
           />
           <Divider/>
-        </Paper>
+        </div>
       );
     });
 
