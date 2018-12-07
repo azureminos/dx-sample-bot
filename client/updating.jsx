@@ -10,14 +10,7 @@
 /* ----------  External Libraries  ---------- */
 
 import React from 'react';
-import styled from "styled-components";
-import Typography from '@material-ui/core/Typography';
-
-const FooterContainer = styled.div`
-display: flex;
-flex-direction: column;
-background: lightgrey;
-`;
+import Footer from './footer';
 
 // Updating status indicator
 const Updating = ({updating}) => {
@@ -27,9 +20,9 @@ const Updating = ({updating}) => {
   }
 
   return (
-    <FooterContainer>
-      <Typography variant="caption">{updatingStatus}</Typography>
-    </FooterContainer>
+    <Footer>
+      {updatingStatus}
+    </Footer>
   );
 };
 

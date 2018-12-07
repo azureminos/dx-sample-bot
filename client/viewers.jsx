@@ -8,7 +8,7 @@
 // ===== MODULES ===============================================================
 import React, {createElement} from 'react';
 import {CSSTransitionGroup} from 'react-transition-group';
-import {Footer, FooterText} from 'react-weui';
+import Footer from './footer';
 
 // Viewers Component — Who has joined the list, and who is viewing it.
 const Viewers = ({viewerId, users}) => {
@@ -48,9 +48,7 @@ const Viewers = ({viewerId, users}) => {
       </CSSTransitionGroup>
 
       <Footer id='viewer-count'>
-        <FooterText>
-          {activeCount}/{viewers.length} people are viewing this list right now
-        </FooterText>
+        {activeCount}/{viewers.length} people are viewing this list right now
       </Footer>
     </section>
   );

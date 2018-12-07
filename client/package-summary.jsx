@@ -1,5 +1,4 @@
 import React, {createElement} from 'react';
-import Collapsible from 'react-collapsible';
 import _ from 'lodash';
 import SuperSlider from './super-slider.jsx';
 import TagList from './tag-list.js';
@@ -25,7 +24,7 @@ const PackageSummary = ({instPackage, apiUri, cityAttractions, likeAttractions})
       title: null,
       isReadonly: true,
     };
-    
+
     return (
       <div {...setting} key={cityAttractions[city].id} >
         <div>

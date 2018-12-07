@@ -1,7 +1,7 @@
 import React, {createElement} from 'react';
 //import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
 import Collapsible from 'react-collapsible';
-import {Panel} from 'react-weui';
+import {Paper, Typography} from '@material-ui/core';
 import _ from 'lodash';
 import ItineraryItem from './itinerary-item.js';
 
@@ -43,14 +43,14 @@ export default class PackageItinerary extends React.Component {
     });
 
     return (
-      <div>
-        <Panel>
+      <Paper>
+        <Typography>
           <div>Package Cost: $500</div>
-        </Panel>
-        <Panel>
+        </Typography>
+        <Typography>
           {elItineraries}
-        </Panel>
-      </div>
+        </Typography>
+      </Paper>
     );
   }
 }

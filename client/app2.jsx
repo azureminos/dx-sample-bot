@@ -10,7 +10,6 @@ import io from 'socket.io-client';
 import React, {createElement} from 'react';
 import {CSSTransitionGroup} from 'react-transition-group';
 
-
 // ==== COMPONENTS ========================================
 import Invite from './invite.jsx';
 import ListNotFound from './list_not_found.jsx';
@@ -58,7 +57,7 @@ export default class App2 extends React.Component {
   }
 
   /* ==============================
-     =               Helper Methods              =
+     = Helper Methods             =
      ============================== */
 
   /* ----------  Communicate with Server  ---------- */
@@ -101,15 +100,8 @@ export default class App2 extends React.Component {
     );
   }
 
-  /* ----------  Update Document Attributes  ---------- */
-
-  setDocumentTitle(title = 'Shopping List') {
-    console.log('Updating document title (above page):', title);
-    document.title = title;
-  }
-
   /* ==============================
-     =           State & Event Handlers          =
+     = State & Event Handlers     =
      ============================== */
 
   /* ----------  Package  ------- */
@@ -289,7 +281,7 @@ export default class App2 extends React.Component {
   }
 
   /* ==============================
-     =              React Lifecycle              =
+     = React Lifecycle            =
      ============================== */
 
   componentWillMount() {

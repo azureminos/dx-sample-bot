@@ -11,7 +11,7 @@
 
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import { withStyles } from '@material-ui/core/styles';
+import {withStyles} from '@material-ui/core/styles';
 import SendIcon from '@material-ui/icons/Send';
 import _ from 'lodash';
 /* ----------  Messenger Helpers  ---------- */
@@ -80,10 +80,12 @@ const Invite = ({
   //const iconClassName = sharingMode === 'broadcast' ? 'share' : 'send';
 
   return (
-    <Button onClick={shareList}
-      variant="contained"
-      color="default" 
-      className={classes.button}>
+    <Button
+      onClick={shareList}
+      variant='contained'
+      color='default'
+      className={classes.button}
+    >
       {buttonText}
       <SendIcon className={classes.leftIcon} />
     </Button>
