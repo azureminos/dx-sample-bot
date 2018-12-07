@@ -1,17 +1,6 @@
-/**
- * Copyright 2017-present, Facebook, Inc. All rights reserved.
- *
- * This source code is licensed under the license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-/* eslint-disable react/react-in-jsx-scope */
-
-/* ----------  External Libraries  ---------- */
-
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import {withStyles} from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
+import {Button, withStyles} from '@material-ui/core';
 import SendIcon from '@material-ui/icons/Send';
 import _ from 'lodash';
 /* ----------  Messenger Helpers  ---------- */
@@ -77,7 +66,7 @@ const Invite = ({
       sharingMode);
   };
 
-  //const iconClassName = sharingMode === 'broadcast' ? 'share' : 'send';
+  // const iconClassName = sharingMode === 'broadcast' ? 'share' : 'send';
 
   return (
     <Button
@@ -93,7 +82,7 @@ const Invite = ({
 };
 
 Invite.PropTypes = {
-  shareList: React.PropTypes.func.isRequired,
+  shareList: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(Invite);

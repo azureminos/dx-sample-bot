@@ -7,6 +7,7 @@
 
 // ===== MODULES ===============================================================
 import React, {createElement} from 'react';
+import PropTypes from 'prop-types';
 import {CSSTransitionGroup} from 'react-transition-group';
 import Footer from './footer';
 
@@ -55,14 +56,14 @@ const Viewers = ({viewerId, users}) => {
 };
 
 Viewers.propTypes = {
-  users: React.PropTypes.arrayOf(
-    React.PropTypes.shape({
-      fbId: React.PropTypes.string.isRequired,
-      online: React.PropTypes.bool.isRequired,
-      profilePic: React.PropTypes.string,
+  users: PropTypes.arrayOf(
+    PropTypes.shape({
+      fbId: PropTypes.string.isRequired,
+      online: PropTypes.bool.isRequired,
+      profilePic: PropTypes.string,
     })
   ).isRequired,
-  viewerId: React.PropTypes.string.isRequired,
+  viewerId: PropTypes.string.isRequired,
 };
 
 export default Viewers;

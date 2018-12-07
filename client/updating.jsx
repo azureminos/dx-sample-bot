@@ -10,6 +10,7 @@
 /* ----------  External Libraries  ---------- */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import Footer from './footer';
 
 // Updating status indicator
@@ -27,7 +28,7 @@ const Updating = ({updating}) => {
 };
 
 Updating.propTypes = {
-  updating: React.PropTypes.bool.isRequired,
+  updating: PropTypes.bool.isRequired,
 };
 
 export default Updating;

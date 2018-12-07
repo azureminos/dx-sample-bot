@@ -8,6 +8,7 @@
 // ==== MODULES ==========================================
 import io from 'socket.io-client';
 import React, {createElement} from 'react';
+import PropTypes from 'prop-types';
 import {CSSTransitionGroup} from 'react-transition-group';
 
 // ==== COMPONENTS ========================================
@@ -49,11 +50,11 @@ export default class App2 extends React.Component {
   }
 
   static propTypes = {
-    apiUri: React.PropTypes.string.isRequired,
-    instId: React.PropTypes.number.isRequired,
-    socketAddress: React.PropTypes.string.isRequired,
-    viewerId: React.PropTypes.number.isRequired,
-    threadType: React.PropTypes.string.isRequired,
+    apiUri: PropTypes.string.isRequired,
+    instId: PropTypes.number.isRequired,
+    socketAddress: PropTypes.string.isRequired,
+    viewerId: PropTypes.number.isRequired,
+    threadType: PropTypes.string.isRequired,
   }
 
   /* ==============================
