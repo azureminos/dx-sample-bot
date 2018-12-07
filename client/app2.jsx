@@ -10,6 +10,7 @@ import io from 'socket.io-client';
 import React, {createElement} from 'react';
 import PropTypes from 'prop-types';
 import {CSSTransitionGroup} from 'react-transition-group';
+import {Paper, Typography} from '@material-ui/core';
 
 // ==== COMPONENTS ========================================
 import Invite from './invite.jsx';
@@ -393,7 +394,7 @@ export default class App2 extends React.Component {
 
       const tabs = {
         Summary: (
-          <section id='package-summary'>
+          <Typography id='package-summary'>
             <PackageSummary
               instPackage={instPackage}
               apiUri={apiUri}
@@ -401,24 +402,24 @@ export default class App2 extends React.Component {
               likeAttractions={this.setLikedAttractions}
             />
             <Updating updating={updating} />
-          </section>
+          </Typography>
         ),
         Itinerary: (
-          <section id='package-itinerary'>
+          <Typography id='package-itinerary'>
             <PackageItinerary
               instPackage={instPackage}
               cityAttractions={cityAttractions}
             />
             {invite}
-          </section>
+          </Typography>
         ),
       };
 
       page = (
-        <div>
+        <Paper>
           <FixedTab tabs={tabs} />
           {invite}
-        </div>
+        </Paper>
       );
     } else if (socketStatus == 'noList') {
       // We were unable to find a matching list in our system.

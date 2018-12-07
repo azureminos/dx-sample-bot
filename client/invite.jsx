@@ -1,6 +1,6 @@
 import React, {createElement} from 'react';
 import PropTypes from 'prop-types';
-import {Button, withStyles} from '@material-ui/core';
+import {AppBar, Button, Toolbar, withStyles} from '@material-ui/core';
 import styled from 'styled-components';
 import SendIcon from '@material-ui/icons/Send';
 import _ from 'lodash';
@@ -20,11 +20,13 @@ const styles = theme => ({
   leftIcon: {
     marginRight: theme.spacing.unit,
   },
-  rightIcon: {
-    marginLeft: theme.spacing.unit,
+  appBar: {
+    top: 'auto',
+    bottom: 0,
   },
-  iconSmall: {
-    fontSize: 20,
+  toolbar: {
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 });
 
@@ -75,7 +77,8 @@ const Invite = ({
   // const iconClassName = sharingMode === 'broadcast' ? 'share' : 'send';
 
   return (
-    <InviteContainer>
+    <AppBar position='fixed' color='default' className={classes.appBar}>
+    <Toolbar className={classes.toolbar}>
       <Button
         onClick={shareList}
         variant='contained'
@@ -83,10 +86,11 @@ const Invite = ({
         fullWidth='true'
         className={classes.button}
       >
-        {buttonText}
+          {buttonText}
         <SendIcon className={classes.leftIcon} />
       </Button>
-    </InviteContainer>
+    </Toolbar>
+    </AppBar>
   );
 };
 
