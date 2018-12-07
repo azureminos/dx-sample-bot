@@ -18,7 +18,10 @@ const SuperSlider = ({items, buttonName, buttonAction, apiUri}) => {
   const itemList = items.map((item) => {
     const imageUrl = apiUri + '/' + item.imageUrl;
     return (
-      <MediaCard key={item.id} />
+      <div className='demo-slide' key={item.id}>
+        <MediaCard key={item.id} />
+      </div>
+      
       /*<div className='demo-slide' key={item.id}>
         <img src={imageUrl} alt={item.name} width='300'/>
         <p>{item.description}</p>
