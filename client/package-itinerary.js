@@ -51,14 +51,9 @@ export default class PackageItinerary extends React.Component {
     });
 
     return (
-      <Paper>
-        <Typography>
-          <div>Package Cost: $500</div>
-        </Typography>
-        <Typography>
-          {elItineraries}
-        </Typography>
-      </Paper>
+      <section>
+        {elItineraries}
+      </section>
     );
   }
 }
