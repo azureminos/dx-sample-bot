@@ -73,9 +73,10 @@ const join = ({
     Promise.all([
       InstPackage.getInstPackageDetails(instId),
       InstPackage.getCityAttractionsByInstId(instId),
+      InstPackage.getCityHotelsByInstId(instId),
       PackageParticipant.getOwnerByInstId(instId),
       getUser(senderId),
-    ]).then(([instPackage, cityAttractions, instOwner, user]) => {
+    ]).then(([instPackage, cityAttractions, cityHotels, instOwner, user]) => {
       if (!instPackage) {
         console.error("Package instance doesn't exist!");
         sendStatus('noInstPackage');
@@ -118,6 +119,7 @@ const join = ({
               console.log('>>>>userSocket.emit(init)', {
                 instPackage,
                 cityAttractions,
+                cityHotels,
                 users: ngUsers,
                 packages: [],
                 ownerId: instOwner ? instOwner.loginId : user.loginId,
@@ -125,6 +127,7 @@ const join = ({
               userSocket.emit('init', {
                 instPackage,
                 cityAttractions,
+                cityHotels,
                 users: ngUsers,
                 packages: [],
                 ownerId: instOwner ? instOwner.loginId : user.loginId,

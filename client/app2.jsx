@@ -45,6 +45,7 @@ export default class App2 extends React.Component {
       instPackage: null,
       ownerId: null,
       cityAttractions: null,
+      cityHotels: null,
       isCustomisable: false,
       updating: false,
     };
@@ -120,8 +121,16 @@ export default class App2 extends React.Component {
   }
 
   /* ----------  Package Instance ------- */
-  init({instPackage, cityAttractions, users, ownerId}) {
-    console.log('>>>>Result coming back from socket [init]', {instPackage: instPackage, cityAttractions: cityAttractions, users: users, ownerId: ownerId});
+  init({instPackage, cityAttractions, cityHotels, users, ownerId}) {
+    console.log('>>>>Result coming back from socket [init]',
+      {
+        instPackage: instPackage,
+        cityAttractions: cityAttractions,
+        cityHotels: cityHotels,
+        users: users,
+        ownerId: ownerId,
+      }
+    );
     const u = _.filter(users, (user) => {return user.fbId == ownerId;});
     console.log('>>>>Matched User['+ownerId+']', u);
     if (u && u[0].likedAttractions) {
@@ -134,7 +143,7 @@ export default class App2 extends React.Component {
       });
     }
     console.log('>>>>After update liked attractions', cityAttractions);
-    this.setState({instPackage, packages: [], cityAttractions, users, ownerId});
+    this.setState({instPackage, packages: [], cityAttractions, cityHotels, users, ownerId});
   }
 
   /* ----------  Package Instance Items------- */

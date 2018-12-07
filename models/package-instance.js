@@ -12,6 +12,8 @@ import instParticipant from '../models/package-instance-participant';
 const dsInstPackage = () => Knex('package_inst');
 const dsInstItem = () => Knex('package_inst_item');
 const dsAttraction = () => Knex('attraction');
+const dsHotel = () => Knex('hotel');
+
 // ===== Package ======================================================
 const getInstPackage = (instId) =>
   dsInstPackage()
@@ -56,6 +58,29 @@ const getCityAttractionsByInstId = (instId) => {
         .whereIn('attraction.city_id', vCities)
         .then((result) => {
           console.log('>>>>InstPackage.getCityAttractionsByInstId', result);
+          return _.groupBy(result, (item) => item.cityName);
+        });
+    });
+};
+
+const getCityHotelsByInstId = (instId) => {
+  return dsInstItem()
+    .join('attraction', {'attraction.id': 'package_inst_item.attraction_id'})
+    .distinct('attraction.city_id')
+    .select()
+    .where('package_inst_item.pkg_inst_id', instId)
+    .then((cities) => {
+      const vCities = cities.map((city) => {return city.city_id;});
+      return dsHotel()
+        .join('hotel_image', {
+          'hotel_image.hotel_id': 'hotel.id',
+          'hotel_image.is_cover_page': Knex.raw('?', [true])})
+        .join('city', {'city.id': 'hotel.city_id'})
+        .select('city.name as cityName', 'hotel.id as id', 'hotel.name as name',
+          'hotel.description as description', 'hotel_image.image_url as imageUrl')
+        .whereIn('hotel.city_id', vCities)
+        .then((result) => {
+          console.log('>>>>InstPackage.getCityHotelsByInstId', result);
           return _.groupBy(result, (item) => item.cityName);
         });
     });
@@ -115,4 +140,5 @@ export default {
   delInstPackage,
   getAttractionsByInstId,
   getCityAttractionsByInstId,
+  getCityHotelsByInstId,
 };
