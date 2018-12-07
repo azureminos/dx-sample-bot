@@ -17,7 +17,8 @@ import Footer from './footer';
 const Updating = ({updating}) => {
   let updatingStatus = 'Changes saved';
   if (updating) {
-    updatingStatus = <span><i className='weui-loading' /> Saving...</span>;
+    //updatingStatus = <span><i className='weui-loading' /> Saving...</span>;
+    updatingStatus = 'Saving...';
   }
 
   return (
