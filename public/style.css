@@ -806,14 +806,12 @@ button.swiper-pagination-bullet {
 }
 
 .demo-slide {
-  height: 300px !important;
   background-color: #fafafa;
   text-align: left;
 }
 
 .swiper-container {
   width: 100%;
-  height: 300px;
   background: #fafafa;
 }
 
