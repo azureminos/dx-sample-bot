@@ -7,13 +7,8 @@ const SuperSlider = ({items, buttonName, buttonAction, apiUri}) => {
     {items: items, buttonName: buttonName, apiUri: apiUri});
 
   const params = {
-    direction: 'vertical',
     slidesPerView: 'auto',
     spaceBetween: 5,
-    pagination: {
-      el: '.swiper-pagination',
-      clickable: true,
-    }
   };
 
   const itemList = items.map((item) => {
