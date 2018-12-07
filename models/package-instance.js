@@ -72,12 +72,12 @@ const getCityHotelsByInstId = (instId) => {
     .then((cities) => {
       const vCities = cities.map((city) => {return city.city_id;});
       return dsHotel()
-        .join('hotel_image', {
+        /*.join('hotel_image', {
           'hotel_image.hotel_id': 'hotel.id',
-          'hotel_image.is_cover_page': Knex.raw('?', [true])})
+          'hotel_image.is_cover_page': Knex.raw('?', [true])})*/
         .join('city', {'city.id': 'hotel.city_id'})
         .select('city.name as cityName', 'hotel.id as id', 'hotel.name as name',
-          'hotel.description as description', 'hotel_image.image_url as imageUrl')
+          'hotel.description as description'/*, 'hotel_image.image_url as imageUrl'*/)
         .whereIn('hotel.city_id', vCities)
         .then((result) => {
           console.log('>>>>InstPackage.getCityHotelsByInstId', result);
