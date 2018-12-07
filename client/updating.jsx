@@ -10,7 +10,14 @@
 /* ----------  External Libraries  ---------- */
 
 import React from 'react';
-import {Footer, FooterText} from 'react-weui';
+import styled from "styled-components";
+import Typography from '@material-ui/core/Typography';
+
+const FooterContainer = styled.div`
+display: flex;
+flex-direction: column;
+background: lightgrey;
+`;
 
 // Updating status indicator
 const Updating = ({updating}) => {
@@ -20,11 +27,9 @@ const Updating = ({updating}) => {
   }
 
   return (
-    <Footer id='updating'>
-      <FooterText>
-        {updatingStatus}
-      </FooterText>
-    </Footer>
+    <FooterContainer>
+      <Typography variant="caption">{updatingStatus}</Typography>
+    </FooterContainer>
   );
 };
 
