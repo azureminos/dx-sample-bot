@@ -10,12 +10,12 @@ const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
 class TagList extends React.Component {
   render() {
-    const {tags, suggestions, title='My Tags', isReadonly=false, handleDelete, handleAddition, handleDrag} = this.props;
+    const {tags, suggestions, title, isReadonly, handleDelete, handleAddition, handleDrag} = this.props;
 
     const settings = {
       tags: tags,
       delimiters: delimiters,
-      readOnly: isReadonly,
+      readOnly: isReadonly || false,
     };
 
     if (!isReadonly) {
@@ -26,8 +26,8 @@ class TagList extends React.Component {
     }
 
     return (
-        <div>
-            <span>{title}</span>
+        <div style={{'margin-bottom': 8}}>
+            <span>{title || ''}</span>
             <ReactTags{...settings} />
         </div>
     )
