@@ -10,11 +10,28 @@
 /* ----------  External Libraries  ---------- */
 
 import React from 'react';
-import {Button} from 'react-weui';
+import Button from '@material-ui/core/Button';
+import { withStyles } from '@material-ui/core/styles';
+import SendIcon from '@material-ui/icons/Send';
 import _ from 'lodash';
 /* ----------  Messenger Helpers  ---------- */
 
 import messages from '../messenger-api-helpers/messages';
+
+const styles = theme => ({
+  button: {
+    margin: theme.spacing.unit,
+  },
+  leftIcon: {
+    marginRight: theme.spacing.unit,
+  },
+  rightIcon: {
+    marginLeft: theme.spacing.unit,
+  },
+  iconSmall: {
+    fontSize: 20,
+  },
+});
 
 /*
  * Button to invite firends by invoking the share menu
@@ -24,6 +41,7 @@ const Invite = ({
   apiUri,
   sharingMode,
   buttonText,
+  classes,
 }) => {
   console.log('>>>>Start Invite', {instPackage: instPackage, apiUri: apiUri});
   const dayText = (dayNo, city) => `Day ${dayNo}, ${city}`;
@@ -59,15 +77,16 @@ const Invite = ({
       sharingMode);
   };
 
-  const iconClassName = sharingMode === 'broadcast' ? 'share' : 'send';
+  //const iconClassName = sharingMode === 'broadcast' ? 'share' : 'send';
 
   return (
-    <div id='invite'>
-      <Button onClick={shareList}>
-        <span className={`invite-icon ${iconClassName}`} />
-        {buttonText}
-      </Button>
-    </div>
+    <Button onClick={shareList}
+      variant="contained"
+      color="default" 
+      className={classes.button}>
+      {buttonText}
+      <SendIcon className={classes.leftIcon} />
+    </Button>
   );
 };
 
@@ -75,4 +94,4 @@ Invite.PropTypes = {
   shareList: React.PropTypes.func.isRequired,
 };
 
-export default Invite;
+export default withStyles(styles)(Invite);
