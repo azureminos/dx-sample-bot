@@ -8,32 +8,6 @@ body {
   background-color: #FAFAFA;
 }
 
-body,
-.weui-input,
-.weui-cells {
-  font-size: 14px;
-}
-
-.weui-btn {
-  font-size: 1rem;
-}
-
-.weui-cells::after {
-  border-bottom: none;
-}
-
-.weui-panel {
-  overflow: initial;
-}
-
-.weui-cell {
-  padding: 1rem 1rem 1rem 0.75rem;
-}
-
-.weui-cell:before {
-  left: 0;
-}
-
 #list {
   margin-bottom: 4rem;
 }
@@ -172,24 +146,6 @@ a {
   padding-bottom: 0.75rem;
 }
 
-.weui-uploader__input-box {
-  width: 2rem;
-  height: 2rem;
-  padding: 0;
-  margin: 0;
-  border: none;
-}
-
-.weui-uploader__input-box:before {
-  width: 1rem;
-  height: 1px;
-}
-
-.weui-uploader__input-box:after {
-  width: 1px;
-  height: 1rem;
-}
-
 .complete {
   text-decoration: line-through;
 }
@@ -232,26 +188,6 @@ a {
 .hide {
   opacity: 0;
 }
-
-.weui-loading {
-  width: 1.5rem;
-  height: 1.5rem;
-}
-
-.weui-cells_checkbox .weui-check:checked + .weui-icon-checked:before {
-  color: #0083FF;
-}
-
-.weui-uploader__input-box:before,
-.weui-uploader__input-box:after,
-::-webkit-input-placeholder,
-.complete,
-.weui-footer,
-.weui-cell__hd,
-.weui-cell__ft {
-  color: #7F7F7F;
-}
-
 
 #oops {
   display: flex;
