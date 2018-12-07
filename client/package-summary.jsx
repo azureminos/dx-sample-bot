@@ -1,5 +1,6 @@
 import React, {createElement} from 'react';
 import _ from 'lodash';
+import {Divider, Typography} from '@material-ui/core';
 import SuperSlider from './super-slider.jsx';
 import TagList from './tag-list.js';
 
@@ -29,14 +30,16 @@ const PackageSummary = ({instPackage, apiUri, cityAttractions, likeAttractions})
 
     return (
       <div {...setting} key={cityAttractions[city].id} >
-        <div>
-          <SuperSlider
-            items={cityAttractions[city]}
-            btnActionMap={btnActionMap}
-            apiUri={apiUri}
-          />
-          <TagList {...tagSetting} />
-        </div>
+        <Typography variant='h3' gutterBottom>
+          {city}
+        </Typography>
+        <SuperSlider
+          items={cityAttractions[city]}
+          btnActionMap={btnActionMap}
+          apiUri={apiUri}
+        />
+        <TagList {...tagSetting} />
+        <Divider />
       </div>
     );
   });
