@@ -10,10 +10,10 @@ background: lightgrey;
 
 class Footer extends React.Component {
   render() {
-    const txtFooter = this.props;
+    const text = this.props;
     return (
       <FooterContainer>
-        <Typography variant='caption'>{txtFooter}</Typography>
+        <Typography variant='caption'>{text}</Typography>
       </FooterContainer>
     );
   }

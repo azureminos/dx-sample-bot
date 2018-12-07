@@ -21,9 +21,7 @@ const Updating = ({updating}) => {
   }
 
   return (
-    <Footer>
-      {updatingStatus}
-    </Footer>
+    <Footer text={updatingStatus} />
   );
 };
 
