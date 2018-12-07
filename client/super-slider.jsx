@@ -10,6 +10,10 @@ const SuperSlider = ({items, buttonName, buttonAction, apiUri}) => {
     direction: 'vertical',
     slidesPerView: 'auto',
     spaceBetween: 5,
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    }
   };
 
   const itemList = items.map((item) => {
