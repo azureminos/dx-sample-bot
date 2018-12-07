@@ -2,9 +2,9 @@ import React, {createElement} from 'react';
 import Swiper from 'react-id-swiper';
 import MediaCard from './media-card.js';
 
-const SuperSlider = ({items, btnActions, apiUri}) => {
+const SuperSlider = ({items, btnActionMap, apiUri}) => {
   console.log('>>>>SuperSlider',
-    {items: items, btnActions: btnActions, apiUri: apiUri});
+    {items: items, btnActionMap: btnActionMap, apiUri: apiUri});
 
   const params = {
     slidesPerView: 'auto',
@@ -23,7 +23,7 @@ const SuperSlider = ({items, btnActions, apiUri}) => {
       <div className='demo-slide' key={btnItem.id}>
         <MediaCard
           item={btnItem}
-          actions={btnActions}
+          actions={btnActionMap}
         />
       </div>
     );

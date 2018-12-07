@@ -3,11 +3,11 @@ import SuperSlider from './super-slider.jsx';
 
 const PackageSelector = ({packages, bookPackage, apiUri}) => {
   console.log('>>>>PackageSelector', {packages: packages, apiUri: apiUri});
-  const btnActions = [{'View Details': bookPackage}];
+  const btnActionMap = {'View Details': bookPackage};
   return (
     <SuperSlider
       items={packages}
-      btnActions={btnActions}
+      btnActionMap={btnActionMap}
       apiUri={apiUri}
     />
   );

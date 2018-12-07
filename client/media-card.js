@@ -15,9 +15,9 @@ const styles = {
 
 class MediaCard extends React.Component {
   render() {
-    const {classes, item, actions} = this.props;
+    const {classes, item, btnActionMap} = this.props;
     const buttons = [];
-    _.forEach(actions, (btnAction, btnName) => {
+    _.forEach(btnActionMap, (btnAction, btnName) => {
       buttons.push(
         (<Button key={btnName} size='small' color='primary' onClick={() => btnAction(item)} >
           {btnName}
