@@ -9,10 +9,8 @@ import _ from 'lodash';
 import messages from '../messenger-api-helpers/messages';
 
 const InviteContainer = styled.div`
-text-align: center;
-position: absolute;
-bottom: 0;
-width: 100% !important;
+  display: flex;
+  flex-direction: column;
 `;
 
 const styles = theme => ({
@@ -81,7 +79,7 @@ const Invite = ({
       <Button
         onClick={shareList}
         variant='contained'
-        color='default'
+        color='primary'
         fullWidth='true'
         className={classes.button}
       >
