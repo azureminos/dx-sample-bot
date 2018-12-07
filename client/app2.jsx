@@ -401,7 +401,6 @@ export default class App2 extends React.Component {
               likeAttractions={this.setLikedAttractions}
             />
             <Updating updating={updating} />
-            {invite}
           </section>
         ),
         Itinerary: (
@@ -416,7 +415,10 @@ export default class App2 extends React.Component {
       };
 
       page = (
-        <FixedTab tabs={tabs} />
+        <div>
+          <FixedTab tabs={tabs} />
+          {invite}
+        </div>
       );
     } else if (socketStatus == 'noList') {
       // We were unable to find a matching list in our system.

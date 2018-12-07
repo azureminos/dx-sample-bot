@@ -9,9 +9,10 @@ import _ from 'lodash';
 import messages from '../messenger-api-helpers/messages';
 
 const InviteContainer = styled.div`
-display: flex;
-flex-direction: column;
-background: lightgrey;
+text-align: center;
+position: absolute;
+bottom: 0;
+width: 100% !important;
 `;
 
 const styles = theme => ({
