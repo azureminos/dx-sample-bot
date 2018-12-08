@@ -78,7 +78,7 @@ const packageMessage = (apiUri, packages) => {
     return {
       title: pkg.name,
       image_url: `${apiUri}/${pkg.imageUrl || defaultImageUrl}`,
-      subtitle: pkg.desc,
+      subtitle: pkg.description,
       /*default_action: {
         type: 'web_url',
         url: urlToPackage,
