@@ -51,9 +51,9 @@ export default class PackageItinerary extends React.Component {
     });
 
     return (
-      <section>
+      <Paper>
         {elItineraries}
-      </section>
+      </Paper>
     );
   }
 }
