@@ -238,6 +238,7 @@ export default class App2 extends React.Component {
       _.forEach(attractions, (a) => {
         if (a.id == attraction.id) {
           a.isLiked = !a.isLiked;
+          attraction.isLiked = a.isLiked;
         }
 
         if (a.isLiked) {
