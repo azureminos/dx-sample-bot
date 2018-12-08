@@ -12,8 +12,10 @@ const SuperSlider = ({items, btnActionMap, apiUri}) => {
   };
 
   const itemList = items.map((item) => {
-    let btnItem = item;
-    btnItem.imageUrl = apiUri + '/' + item.imageUrl
+    const btnItem = {
+      ...item,
+      imageUrl: apiUri + '/' + item.imageUrl,
+    };
 
     return (
       <div className='demo-slide' key={btnItem.id}>
