@@ -132,12 +132,15 @@ export default class App2 extends React.Component {
         ownerId: ownerId,
       }
     );
+
+    const {apiUri} = this.props;
     const u = _.filter(users, (user) => {return user.fbId == ownerId;});
     console.log('>>>>Matched User['+ownerId+']', u);
     if (u && u[0].likedAttractions) {
       const liked = u[0].likedAttractions.split(',');
       _.forEach(_.values(cityAttractions), (attrs) => {
         _.forEach(attrs, (attr) => {
+          attr.imageUrl = apiUri + '/' + attr.imageUrl;
           console.log('>>>>check liked', {liked: liked, attr: attr});
           attr.isLiked = !!_.find(liked, (likedId) => { return likedId == attr.id;});
         });
@@ -429,16 +432,13 @@ export default class App2 extends React.Component {
       const tabs = {
         Attraction: (
           <Typography id='package-attraction'>
-            <div>
-              <PackageAttraction
-                instPackage={instPackage}
-                apiUri={apiUri}
-                cityAttractions={cityAttractions}
-                likeAttractions={this.setLikedAttractions}
-              />
-              <Updating updating={updating} />
-            </div>
-            {invite}
+            <PackageAttraction
+              instPackage={instPackage}
+              apiUri={apiUri}
+              cityAttractions={cityAttractions}
+              likeAttractions={this.setLikedAttractions}
+            />
+            <Updating updating={updating} />
           </Typography>
         ),
         Itinerary: (
@@ -450,7 +450,6 @@ export default class App2 extends React.Component {
               apiUri={apiUri}
               selectHotel={this.setSelectedHotel}
             />
-            {invite}
           </Typography>
         ),
       };
@@ -458,6 +457,7 @@ export default class App2 extends React.Component {
       page = (
         <Paper>
           <FixedTab tabs={tabs} />
+          {invite}
         </Paper>
       );
     } else if (socketStatus == 'noList') {

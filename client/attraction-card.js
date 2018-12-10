@@ -28,8 +28,8 @@ class AttractionCard extends React.Component {
         <CardHeader
           action={
             <IconButton onClick={() => handleAttractionClick(item)}>
-              <StarIcon style={{display: item.isLiked ? 'block' : 'none', backgroundColor: yellow[500]}}/>
-              <StarBorderIcon style={{display: item.isLiked ? 'none' : 'block', backgroundColor: yellow[500]}}/>
+              <StarIcon style={{display: item.isLiked ? 'block' : 'none', color: yellow[500]}}/>
+              <StarBorderIcon style={{display: item.isLiked ? 'none' : 'block', color: yellow[500]}}/>
             </IconButton>
           }
           title={item.name}
