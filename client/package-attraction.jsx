@@ -1,13 +1,12 @@
 import React, {createElement} from 'react';
 import _ from 'lodash';
 import {Divider, Typography} from '@material-ui/core';
-import SuperSlider from './super-slider.jsx';
+import AttractionCard from './attraction-card.js';
+import CardSlider from './card-slider.jsx';
 import TagList from './tag-list.js';
 
 const PackageSummary = ({instPackage, apiUri, cityAttractions, likeAttractions}) => {
   console.log('>>>>PackageSummary', {inst: instPackage, apiUri: apiUri, cityAttractions: cityAttractions});
-  const packageImageUrl = apiUri + '/' + instPackage.imageUrl;
-  //console.log('>>>>packageImageUrl', packageImageUrl);
 
   const cityCollapsible = _.keys(cityAttractions).map((city) => {
     const setting = {
@@ -26,17 +25,24 @@ const PackageSummary = ({instPackage, apiUri, cityAttractions, likeAttractions})
       isReadonly: true,
     };
 
-    const btnActionMap = {'Like': likeAttractions};
+    // Prepare attraction card list
+    const attractionCards = cityAttractions[city].map((a) => {
+      return (
+        <AttractionCard
+          key={a.id}
+          item={a}
+          handleAttractionClick={likeAttractions}
+        />
+      );
+    });
 
     return (
       <div {...setting} key={cityAttractions[city].id} >
         <Typography variant='h5' style={{padding: 8}} gutterBottom>
           {city}
         </Typography>
-        <SuperSlider
-          items={cityAttractions[city]}
-          btnActionMap={btnActionMap}
-          apiUri={apiUri}
+        <CardSlider
+          children={attractionCards}
         />
         <TagList {...tagSetting} />
         <Divider />
