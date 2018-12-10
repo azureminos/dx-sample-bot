@@ -21,7 +21,7 @@ const styles = theme => ({
 
 class AttractionCard extends React.Component {
   render() {
-    const {classes, item, handleAttractionClick} = this.props;
+    const {classes, item, apiUri, handleAttractionClick} = this.props;
 
     return (
       <Card className={classes.card}>
@@ -37,7 +37,7 @@ class AttractionCard extends React.Component {
         <CardActionArea onClick={() => handleAttractionClick(item)}>
           <CardMedia
             className={classes.media}
-            image={item.imageUrl}
+            image={apiUri + '/' + item.imageUrl}
             title={item.name}
           />
         </CardActionArea>

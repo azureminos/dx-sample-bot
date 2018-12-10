@@ -9,11 +9,6 @@ const PackageSummary = ({instPackage, apiUri, cityAttractions, likeAttractions})
   console.log('>>>>PackageSummary', {inst: instPackage, apiUri: apiUri, cityAttractions: cityAttractions});
 
   const cityCollapsible = _.keys(cityAttractions).map((city) => {
-    const setting = {
-      trigger: city,
-      open: true,
-    };
-
     // Prepare settings of TagList
     let tags = _.filter(cityAttractions[city], {isLiked: true});
     console.log('>>>>Show tags for city['+city+']', tags);
@@ -31,13 +26,14 @@ const PackageSummary = ({instPackage, apiUri, cityAttractions, likeAttractions})
         <AttractionCard
           key={a.id}
           item={a}
+          apiUri={apiUri}
           handleAttractionClick={likeAttractions}
         />
       );
     });
 
     return (
-      <div {...setting} key={cityAttractions[city].id} >
+      <div key={cityAttractions[city].id} >
         <Typography variant='h5' style={{padding: 8}} gutterBottom>
           {city}
         </Typography>

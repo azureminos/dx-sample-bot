@@ -141,7 +141,6 @@ export default class App2 extends React.Component {
       _.forEach(_.values(cityAttractions), (attrs) => {
         _.forEach(attrs, (attr) => {
           attr.imageUrl = apiUri + '/' + attr.imageUrl;
-          console.log('>>>>check liked', {liked: liked, attr: attr});
           attr.isLiked = !!_.find(liked, (likedId) => { return likedId == attr.id;});
         });
       });
