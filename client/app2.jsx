@@ -18,7 +18,7 @@ import ListNotFound from './list_not_found.jsx';
 import LoadingScreen from './loading_screen.jsx';
 import Updating from './updating.jsx';
 import FixedTab from './fixed-tab.js';
-import PackageSummary from './package-summary.jsx';
+import PackageAttraction from './package-attraction.jsx';
 import PackageItinerary from './package-itinerary.js';
 import PackageSelector from './package-selector.jsx';
 import _ from 'lodash';
@@ -427,9 +427,9 @@ export default class App2 extends React.Component {
       }
 
       const tabs = {
-        Summary: (
-          <Typography id='package-summary'>
-            <PackageSummary
+        Attraction: (
+          <Typography id='package-attraction'>
+            <PackageAttraction
               instPackage={instPackage}
               apiUri={apiUri}
               cityAttractions={cityAttractions}
