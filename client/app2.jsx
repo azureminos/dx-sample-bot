@@ -429,13 +429,16 @@ export default class App2 extends React.Component {
       const tabs = {
         Attraction: (
           <Typography id='package-attraction'>
-            <PackageAttraction
-              instPackage={instPackage}
-              apiUri={apiUri}
-              cityAttractions={cityAttractions}
-              likeAttractions={this.setLikedAttractions}
-            />
-            <Updating updating={updating} />
+            <div>
+              <PackageAttraction
+                instPackage={instPackage}
+                apiUri={apiUri}
+                cityAttractions={cityAttractions}
+                likeAttractions={this.setLikedAttractions}
+              />
+              <Updating updating={updating} />
+            </div>
+            {invite}
           </Typography>
         ),
         Itinerary: (
@@ -455,7 +458,6 @@ export default class App2 extends React.Component {
       page = (
         <Paper>
           <FixedTab tabs={tabs} />
-          {invite}
         </Paper>
       );
     } else if (socketStatus == 'noList') {

@@ -42,7 +42,7 @@ const PackageSummary = ({instPackage, apiUri, cityAttractions, likeAttractions})
           {city}
         </Typography>
         <CardSlider
-          children={attractionCards}
+          cards={attractionCards}
         />
         <TagList {...tagSetting} />
         <Divider />
