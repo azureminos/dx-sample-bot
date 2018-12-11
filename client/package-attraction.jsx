@@ -16,7 +16,7 @@ const PackageSummary = ({instPackage, apiUri, cities, cityAttractions, likeAttra
     console.log('>>>>PackageSummary format citie['+city+']', cities);
     const tmpCity = _.find(cities, (c) => {return c.name == city;});
     console.log('>>>>PackageSummary tmpCity', tmpCity);
-    const cityDesc = tmpCity.length > 0 ? tmpCity[0].description : '';
+    const cityDesc = !!tmpCity ? tmpCity.description : '';
     console.log('>>>>PackageSummary cityDesc', cityDesc);
     // Prepare settings of TagList
     const tags = _.filter(cityAttractions[city], {isLiked: true});
