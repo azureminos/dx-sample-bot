@@ -41,6 +41,7 @@ const PackageSummary = ({instPackage, apiUri, cities, cityAttractions, likeAttra
       );
     });
 
+    console.log('>>>>Start rendering');
     return (
       <div key={cityAttractions[city].id} >
         <Typography variant='h5' style={{padding: 8}} gutterBottom>
@@ -48,10 +49,13 @@ const PackageSummary = ({instPackage, apiUri, cities, cityAttractions, likeAttra
         </Typography>
         <ExpansionPanel>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography >{cityDescShort}</Typography>
+            <Typography >Expansion Panel 1</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <Typography>{cityDesc}</Typography>
+            <Typography>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
+              sit amet blandit leo lobortis eget.
+            </Typography>
           </ExpansionPanelDetails>
         </ExpansionPanel>
         <CardSlider
