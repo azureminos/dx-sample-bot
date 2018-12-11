@@ -11,8 +11,9 @@ import CardSlider from './card-slider.jsx';
 import TagList from './tag-list.js';
 
 const PackageSummary = ({instPackage, apiUri, cities, cityAttractions, likeAttractions}) => {
-  console.log('>>>>PackageSummary', {inst: instPackage, apiUri: apiUri, cityAttractions: cityAttractions});
+  console.log('>>>>PackageSummary props', {cities: cities, inst: instPackage, apiUri: apiUri, cityAttractions: cityAttractions});
   const allCities = _.groupBy(cities, (c) => {return c.name;});
+  console.log('>>>>PackageSummary allCities', allCities);
   const citySections = _.keys(cityAttractions).map((city) => {
     const cityDesc = allCities[city].description;
     // Prepare settings of TagList
