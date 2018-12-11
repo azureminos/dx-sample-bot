@@ -47,17 +47,6 @@ const PackageSummary = ({instPackage, apiUri, cities, cityAttractions, likeAttra
         <Typography variant='h5' style={{padding: 8}} gutterBottom>
           {city}
         </Typography>
-        <ExpansionPanel>
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <div>Expansion Panel 1</div>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
-            <div>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-              sit amet blandit leo lobortis eget.
-            </div>
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
         <CardSlider
           cards={attractionCards}
         />
