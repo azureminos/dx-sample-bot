@@ -74,7 +74,7 @@ const join = ({
       InstPackage.getInstPackageDetails(instId),
       InstPackage.getCityAttractionsByInstId(instId),
       InstPackage.getCityHotelsByInstId(instId),
-      InstPackage.getCityiesByInstId(instId),
+      InstPackage.getCitiesByInstId(instId),
       PackageParticipant.getOwnerByInstId(instId),
       getUser(senderId),
     ]).then(([instPackage, cityAttractions, cityHotels, cities, instOwner, user]) => {
