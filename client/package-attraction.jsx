@@ -1,6 +1,6 @@
 import React, {createElement} from 'react';
 import _ from 'lodash';
-import Divider from '@material-ui/core';
+import Divider from '@material-ui/core/Divider';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
@@ -41,12 +41,19 @@ const PackageSummary = ({instPackage, apiUri, cities, cityAttractions, likeAttra
       );
     });
 
-    console.log('>>>>Start rendering');
     return (
       <div key={cityAttractions[city].id} >
         <Typography variant='h5' style={{padding: 8}} gutterBottom>
           {city}
         </Typography>
+        <ExpansionPanel>
+          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography>{cityDescShort}</Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <Typography>{cityDesc}</Typography>
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
         <CardSlider
           cards={attractionCards}
         />
