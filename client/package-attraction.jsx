@@ -12,10 +12,10 @@ import TagList from './tag-list.js';
 
 const PackageSummary = ({instPackage, apiUri, cities, cityAttractions, likeAttractions}) => {
   console.log('>>>>PackageSummary props', {cities: cities, inst: instPackage, apiUri: apiUri, cityAttractions: cityAttractions});
-  const allCities = _.groupBy(cities, (c) => {return c.name;});
-  console.log('>>>>PackageSummary allCities', allCities);
   const citySections = _.keys(cityAttractions).map((city) => {
-    const cityDesc = allCities[city][0].description;
+    const tmpCity = _.find(cities, (c) => {return c.name == city;});
+    const cityDesc = tmpCity.length > 0 ? tmpCity[0].description : '';
+    console.log('>>>>PackageSummary cityDesc', cityDesc);
     // Prepare settings of TagList
     const tags = _.filter(cityAttractions[city], {isLiked: true});
     console.log('>>>>Show tags for city['+city+']', tags);
