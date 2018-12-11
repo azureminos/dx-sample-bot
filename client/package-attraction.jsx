@@ -18,7 +18,7 @@ const PackageSummary = ({instPackage, apiUri, cities, cityAttractions, likeAttra
     console.log('>>>>PackageSummary tmpCity', tmpCity);
     const cityDesc = !!tmpCity ? tmpCity.description : '';
     const cityDescShort = cityDesc.substring(0, (cityDesc.lengh > 40 ? 40 : cityDesc.lengh)) + '...';
-    console.log('>>>>PackageSummary cityDesc', cityDesc);
+    console.log('>>>>PackageSummary cityDesc', {cityDesc: cityDesc, cityDescShort: cityDescShort});
     // Prepare settings of TagList
     const tags = _.filter(cityAttractions[city], {isLiked: true});
     console.log('>>>>Show tags for city['+city+']', tags);
@@ -46,7 +46,7 @@ const PackageSummary = ({instPackage, apiUri, cities, cityAttractions, likeAttra
         <Typography variant='h5' style={{padding: 8}} gutterBottom>
           {city}
         </Typography>
-        <ExpansionPanel>
+        <ExpansionPanel style={{padding: 8}}>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
             <Typography>{cityDescShort}</Typography>
           </ExpansionPanelSummary>
