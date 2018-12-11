@@ -13,7 +13,9 @@ import TagList from './tag-list.js';
 const PackageSummary = ({instPackage, apiUri, cities, cityAttractions, likeAttractions}) => {
   console.log('>>>>PackageSummary props', {cities: cities, inst: instPackage, apiUri: apiUri, cityAttractions: cityAttractions});
   const citySections = _.keys(cityAttractions).map((city) => {
+    console.log('>>>>PackageSummary format citie['+city+']', cities);
     const tmpCity = _.find(cities, (c) => {return c.name == city;});
+    console.log('>>>>PackageSummary tmpCity', tmpCity);
     const cityDesc = tmpCity.length > 0 ? tmpCity[0].description : '';
     console.log('>>>>PackageSummary cityDesc', cityDesc);
     // Prepare settings of TagList
