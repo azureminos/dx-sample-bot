@@ -74,9 +74,10 @@ const join = ({
       InstPackage.getInstPackageDetails(instId),
       InstPackage.getCityAttractionsByInstId(instId),
       InstPackage.getCityHotelsByInstId(instId),
+      InstPackage.getCityiesByInstId(instId),
       PackageParticipant.getOwnerByInstId(instId),
       getUser(senderId),
-    ]).then(([instPackage, cityAttractions, cityHotels, instOwner, user]) => {
+    ]).then(([instPackage, cityAttractions, cityHotels, cities, instOwner, user]) => {
       if (!instPackage) {
         console.error("Package instance doesn't exist!");
         sendStatus('noInstPackage');
@@ -120,6 +121,7 @@ const join = ({
                 instPackage,
                 cityAttractions,
                 cityHotels,
+                cities,
                 users: ngUsers,
                 packages: [],
                 ownerId: instOwner ? instOwner.loginId : user.loginId,
@@ -128,6 +130,7 @@ const join = ({
                 instPackage,
                 cityAttractions,
                 cityHotels,
+                cities,
                 users: ngUsers,
                 packages: [],
                 ownerId: instOwner ? instOwner.loginId : user.loginId,

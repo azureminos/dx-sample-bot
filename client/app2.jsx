@@ -47,6 +47,7 @@ export default class App2 extends React.Component {
       ownerId: null,
       cityAttractions: null,
       cityHotels: null,
+      cities: null,
       isCustomisable: false,
       updating: false,
     };
@@ -122,12 +123,13 @@ export default class App2 extends React.Component {
   }
 
   /* ----------  Package Instance ------- */
-  init({instPackage, cityAttractions, cityHotels, users, ownerId}) {
+  init({instPackage, cityAttractions, cityHotels, cities, users, ownerId}) {
     console.log('>>>>Result coming back from socket [init]',
       {
         instPackage: instPackage,
         cityAttractions: cityAttractions,
         cityHotels: cityHotels,
+        cities: cities,
         users: users,
         ownerId: ownerId,
       }
@@ -165,7 +167,7 @@ export default class App2 extends React.Component {
       });
     });
 
-    this.setState({instPackage, packages: [], cityAttractions, cityHotels, users, ownerId});
+    this.setState({instPackage, packages: [], cityAttractions, cityHotels, cities, users, ownerId});
   }
 
   /* ----------  Package Instance Items------- */
@@ -377,6 +379,7 @@ export default class App2 extends React.Component {
       packages,
       cityAttractions,
       cityHotels,
+      cities,
       users,
       updating,
       socketStatus,
@@ -438,6 +441,7 @@ export default class App2 extends React.Component {
             <PackageAttraction
               instPackage={instPackage}
               apiUri={apiUri}
+              cities={cities}
               cityAttractions={cityAttractions}
               likeAttractions={this.setLikedAttractions}
             />
