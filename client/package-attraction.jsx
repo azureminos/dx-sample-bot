@@ -8,7 +8,7 @@ import TagList from './tag-list.js';
 const PackageSummary = ({instPackage, apiUri, cityAttractions, likeAttractions}) => {
   console.log('>>>>PackageSummary', {inst: instPackage, apiUri: apiUri, cityAttractions: cityAttractions});
 
-  const cityCollapsible = _.keys(cityAttractions).map((city) => {
+  const citySections = _.keys(cityAttractions).map((city) => {
     // Prepare settings of TagList
     let tags = _.filter(cityAttractions[city], {isLiked: true});
     console.log('>>>>Show tags for city['+city+']', tags);
@@ -48,7 +48,7 @@ const PackageSummary = ({instPackage, apiUri, cityAttractions, likeAttractions})
 
   return (
     <section>
-      {cityCollapsible}
+      {citySections}
     </section>
   );
 };

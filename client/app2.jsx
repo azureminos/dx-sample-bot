@@ -133,15 +133,19 @@ export default class App2 extends React.Component {
       }
     );
 
-    const {apiUri} = this.props;
     const u = _.filter(users, (user) => {return user.fbId == ownerId;});
     console.log('>>>>Matched User['+ownerId+']', u);
     if (u && u[0].likedAttractions) {
       const liked = u[0].likedAttractions.split(',');
-      _.forEach(_.values(cityAttractions), (attrs) => {
-        _.forEach(attrs, (attr) => {
-          attr.imageUrl = apiUri + '/' + attr.imageUrl;
-          attr.isLiked = !!_.find(liked, (likedId) => { return likedId == attr.id;});
+      _.forEach(_.values(cityAttractions), (attractions) => {
+        _.forEach(attractions, (a) => {
+          a.isLiked = !!_.find(liked, (likedId) => { return likedId == a.id;});
+        });
+      });
+    } else {
+      _.forEach(_.values(cityAttractions), (attractions) => {
+        _.forEach(attractions, (a) => {
+          a.isLiked = !!_.find(instPackage.items, (item) => { return item.attractionId == a.id;});
         });
       });
     }
