@@ -49,13 +49,13 @@ const PackageSummary = ({instPackage, apiUri, cities, cityAttractions, likeAttra
         </Typography>
         <ExpansionPanel>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography >Expansion Panel 1</Typography>
+            <div>Expansion Panel 1</div>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <Typography>
+            <div>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
               sit amet blandit leo lobortis eget.
-            </Typography>
+            </div>
           </ExpansionPanelDetails>
         </ExpansionPanel>
         <CardSlider
