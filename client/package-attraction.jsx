@@ -15,7 +15,7 @@ const PackageSummary = ({instPackage, apiUri, cities, cityAttractions, likeAttra
   const allCities = _.groupBy(cities, (c) => {return c.name;});
   console.log('>>>>PackageSummary allCities', allCities);
   const citySections = _.keys(cityAttractions).map((city) => {
-    const cityDesc = allCities[city].description;
+    const cityDesc = allCities[city][0].description;
     // Prepare settings of TagList
     const tags = _.filter(cityAttractions[city], {isLiked: true});
     console.log('>>>>Show tags for city['+city+']', tags);
