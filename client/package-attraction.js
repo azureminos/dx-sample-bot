@@ -10,7 +10,6 @@ import DescPanel from './components/description-panel';
 
 const styles = (theme) => ({
   root: {
-    backgroundColor: theme.palette.background.paper,
     border: '1px solid',
     borderColor: 'lightgrey',
     padding: '4px',
@@ -69,4 +68,4 @@ class PackageSummary extends React.Component {
   }
 }
 
-export default withStyles(styles, {withTheme: true})(PackageSummary);
+export default withStyles(styles)(PackageSummary);
