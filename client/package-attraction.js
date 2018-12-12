@@ -8,14 +8,14 @@ import CardSlider from './card-slider.jsx';
 import TagList from './tag-list.js';
 import DescPanel from './components/description-panel';
 
-const styles = (theme) => ({
+const styles = {
   root: {
     border: '1px solid',
     borderColor: 'lightgrey',
     padding: '4px',
     margin: '4px',
   },
-});
+};
 
 class PackageSummary extends React.Component {
   render() {

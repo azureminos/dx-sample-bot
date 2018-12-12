@@ -9,7 +9,7 @@ import yellow from '@material-ui/core/colors/yellow';
 import StarIcon from '@material-ui/icons/Star';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 
-const styles = (theme) => ({
+const styles = {
   card: {
     maxWidth: 345,
   },
@@ -17,7 +17,7 @@ const styles = (theme) => ({
     height: 0,
     paddingTop: '56.25%', // 16:9
   },
-});
+};
 
 class AttractionCard extends React.Component {
   render() {
