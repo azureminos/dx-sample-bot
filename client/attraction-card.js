@@ -9,7 +9,7 @@ import yellow from '@material-ui/core/colors/yellow';
 import StarIcon from '@material-ui/icons/Star';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 
-const styles = theme => ({
+const styles = (theme) => ({
   card: {
     maxWidth: 345,
   },

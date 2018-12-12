@@ -17,9 +17,9 @@ import Invite from './invite.jsx';
 import ListNotFound from './list_not_found.jsx';
 import LoadingScreen from './loading_screen.jsx';
 import Updating from './updating.jsx';
-import FixedTab from './fixed-tab.js';
-import PackageAttraction from './package-attraction.jsx';
-import PackageItinerary from './package-itinerary.js';
+import FixedTab from './fixed-tab';
+import PackageAttraction from './package-attraction';
+import PackageItinerary from './package-itinerary';
 import PackageSelector from './package-selector.jsx';
 import _ from 'lodash';
 
