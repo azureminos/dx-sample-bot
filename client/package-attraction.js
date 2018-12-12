@@ -8,19 +8,19 @@ import CardSlider from './card-slider.jsx';
 import TagList from './tag-list.js';
 import DescPanel from './components/description-panel';
 
-/*const styles = {
+const styles = {
   root: {
     border: '1px solid',
     borderColor: 'lightgrey',
     padding: '4px',
     margin: '4px',
   },
-};*/
+};
 
 class PackageAttraction extends React.Component {
   render() {
     console.log('>>>>PackageAttraction props', this.props);
-    const {apiUri, cities, cityAttractions, likeAttractions} = this.props;
+    const {classes, apiUri, cities, cityAttractions, likeAttractions} = this.props;
     const citySections = _.keys(cityAttractions).map((city) => {
       const tmpCity = _.find(cities, (c) => {return c.name == city;});
       const cityDesc = !!tmpCity ? tmpCity.description : '';
@@ -49,7 +49,7 @@ class PackageAttraction extends React.Component {
       });
 
       return (
-        <div key={cityAttractions[city].id}>
+        <div key={cityAttractions[city].id} className={classes.root}>
           <Typography variant='h5' gutterBottom>
             {city}
           </Typography>
@@ -68,4 +68,4 @@ class PackageAttraction extends React.Component {
   }
 }
 
-export default PackageAttraction;
+export default withStyles(styles)(PackageAttraction);

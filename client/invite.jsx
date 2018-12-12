@@ -1,17 +1,14 @@
 import React, {createElement} from 'react';
 import PropTypes from 'prop-types';
-import {AppBar, Button, Toolbar, withStyles} from '@material-ui/core';
-import styled from 'styled-components';
+import {withStyles} from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Button from '@material-ui/core/Button';
+import Toolbar from '@material-ui/core/Toolbar';
 import SendIcon from '@material-ui/icons/Send';
 import _ from 'lodash';
 
 /* ----------  Messenger Helpers  ---------- */
 import messages from '../messenger-api-helpers/messages';
-
-const InviteContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
 
 const styles = theme => ({
   button: {

@@ -1,6 +1,10 @@
 import React, {createElement} from 'react';
 import PropTypes from 'prop-types';
-import {AppBar, Tab, Tabs, Typography, withStyles} from '@material-ui/core';
+import {withStyles} from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Tab from '@material-ui/core/Tab';
+import Tabs from '@material-ui/core/Tabs';
+import Typography from '@material-ui/core/Typography';
 import SwipeableViews from 'react-swipeable-views';
 import _ from 'lodash';
 
