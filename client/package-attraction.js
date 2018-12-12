@@ -1,6 +1,6 @@
 import React, {createElement} from 'react';
 import _ from 'lodash';
-import withStyles from '@material-ui/core/styles';
+import {withStyles} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
 import AttractionCard from './attraction-card.js';
