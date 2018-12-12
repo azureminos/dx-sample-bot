@@ -48,7 +48,7 @@ class PackageAttraction extends React.Component {
         );
       });
 
-      const days = cityDays[city].length;
+      const days = Object.keys(_.groupBy(cityDays[city], (c) => {return c.dayNo;})).length;
       return (
         <div key={cityAttractions[city].id} className={classes.root}>
           <Typography variant='h5' gutterBottom>
