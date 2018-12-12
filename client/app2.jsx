@@ -26,7 +26,7 @@ import _ from 'lodash';
 let socket;
 
 /* ==============================
-   =            React Application              =
+   = React Application          =
    ============================== */
 
 export default class App2 extends React.Component {
