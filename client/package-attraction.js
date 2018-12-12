@@ -21,7 +21,7 @@ class PackageAttraction extends React.Component {
   render() {
     console.log('>>>>PackageAttraction props', this.props);
     const {classes, instPackage, apiUri, cities, cityAttractions, likeAttractions} = this.props;
-    const cityDays = _.groupBy(cities, (c) => {return c.name;});
+    const cityDays = _.groupBy(instPackage.items, (c) => {return c.name;});
     const citySections = _.keys(cityAttractions).map((city) => {
       const tmpCity = _.find(cities, (c) => {return c.name == city;});
       const cityDesc = !!tmpCity ? tmpCity.description : '';
@@ -48,10 +48,11 @@ class PackageAttraction extends React.Component {
         );
       });
 
+      const days = cityDays[city].length;
       return (
         <div key={cityAttractions[city].id} className={classes.root}>
           <Typography variant='h5' gutterBottom>
-            {city+' - '+cityDays[city].length+' Days'}
+            {city+' - '+days+' Day'+(days==1?'':'s')}
           </Typography>
           <DescPanel descShort={cityDescShort} descFull={cityDesc} />
           <CardSlider cards={attractionCards} />
