@@ -21,12 +21,11 @@ class PackageAttraction extends React.Component {
   render() {
     console.log('>>>>PackageAttraction props', this.props);
     const {classes, instPackage, apiUri, cities, cityAttractions, likeAttractions} = this.props;
-    const cityDays = _.groupBy(cities, (c) => {return c.name == city;});
+    const cityDays = _.groupBy(cities, (c) => {return c.name;});
     const citySections = _.keys(cityAttractions).map((city) => {
-      const dayItems = _.find(instPackage.items, (item) => {return city==item.city;});
+      const tmpCity = _.find(cities, (c) => {return c.name == city;});
       const cityDesc = !!tmpCity ? tmpCity.description : '';
       const cityDescShort = cityDesc.substring(0, (cityDesc.length > 80 ? 80 : cityDesc.length)) + '...';
-
       // Prepare settings of TagList
       const tags = _.filter(cityAttractions[city], {isLiked: true});
       console.log('>>>>Show tags for city['+city+']', tags);
