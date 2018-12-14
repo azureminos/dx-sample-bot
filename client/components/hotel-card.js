@@ -21,6 +21,7 @@ const styles = {
 
 class HotelCard extends React.Component {
   render() {
+    console.log('>>>>HotelCard render()', this.props);
     const {classes, hotel, apiUri, handleClick} = this.props;
     return (
       <Card className={classes.card}>
