@@ -101,4 +101,4 @@ ControlledAccordion.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(ControlledAccordion);
+export default withStyles(styles, {withTheme: true})(ControlledAccordion);

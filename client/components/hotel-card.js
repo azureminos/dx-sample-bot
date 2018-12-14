@@ -63,4 +63,4 @@ class HotelCard extends React.Component {
   }
 }
 
-export default withStyles(styles)(HotelCard);
+export default withStyles(styles, {withTheme: true})(HotelCard);

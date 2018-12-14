@@ -95,4 +95,4 @@ Invite.PropTypes = {
   shareList: PropTypes.func.isRequired,
 };
 
-export default withStyles(styles)(Invite);
+export default withStyles(styles, {withTheme: true})(Invite);

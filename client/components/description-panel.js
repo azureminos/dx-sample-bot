@@ -53,4 +53,4 @@ class DescPanel extends React.Component {
   }
 }
 
-export default withStyles(styles)(DescPanel);
+export default withStyles(styles, {withTheme: true})(DescPanel);

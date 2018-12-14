@@ -43,15 +43,6 @@ export default class PackageItinerary extends React.Component {
         );
       });
 
-      const pCardSlider = {
-        slidesPerView: 3,
-        spaceBetween: 30,
-        pagination: {
-          el: '.swiper-pagination',
-          clickable: true,
-        },
-      };
-
       elItineraries[title] = (
         <div>
           <ItineraryItem
