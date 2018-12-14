@@ -20,24 +20,37 @@ const styles = {
 };
 
 class HotelCard extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isSelected: false,
+    };
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange = (item) => {
+    console.log('>>>>HotelCard, handleChange()', item);
+    this.setState({isSelected: !this.state.isSelected});
+  };
+
   render() {
     console.log('>>>>HotelCard render()', this.props);
-    const {classes, hotel, apiUri, handleClick} = this.props;
+    const {classes, item, apiUri, handleClick} = this.props;
     return (
       <Card className={classes.card}>
         <CardHeader
           action={
-            <IconButton onClick={() => handleClick(hotel)}>
-              <CheckIcon style={{color: (true) ? green[500] : grey[500]}}/>
+            <IconButton onClick={(event) => this.handleChange(item)}>
+              <CheckIcon style={{color: (false) ? green[500] : grey[500]}}/>
             </IconButton>
           }
-          title={hotel.name}
+          title={item.name}
         />
-        <CardActionArea onClick={() => handleClick(hotel)}>
+        <CardActionArea onClick={(event) => this.handleChange(item)}>
           <CardMedia
             className={classes.media}
-            image={apiUri + '/' + hotel.imageUrl}
-            title={hotel.name}
+            image={apiUri + '/' + item.imageUrl}
+            title={item.name}
           />
         </CardActionArea>
       </Card>
