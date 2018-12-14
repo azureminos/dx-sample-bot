@@ -24,7 +24,7 @@ class ContentPanel extends React.Component {
       <div className={classes.root} key={title}>
         <ExpansionPanel>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}>{title}</Typography>
+            <Typography className={classes.heading} variant='h5'>{title}</Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             <Typography>{children}</Typography>

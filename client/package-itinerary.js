@@ -34,10 +34,7 @@ export default class PackageItinerary extends React.Component {
       //console.log('>>>>PackageItinerary, accordion setting', setting);
 
       elItineraries.push(
-        <ContentPanel title={city}>
-          <Typography variant='h5' gutterBottom >
-            {triggerText(dayNo, city)}
-          </Typography>
+        <ContentPanel title={triggerText(dayNo, city)}>
           <ItineraryItem
             itinerary={itinerary}
             attractions={attractions}
