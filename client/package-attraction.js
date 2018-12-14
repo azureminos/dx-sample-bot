@@ -48,6 +48,11 @@ class PackageAttraction extends React.Component {
         );
       });
 
+      const pCardSlider = {
+        slidesPerView: 'auto',
+        spaceBetween: 8,
+      };
+
       const days = Object.keys(_.groupBy(cityDays[city], (c) => {return c.dayNo;})).length;
       return (
         <div key={cityAttractions[city].id} className={classes.city}>
@@ -55,7 +60,7 @@ class PackageAttraction extends React.Component {
             {city+' - '+days+' Day'+(days==1?'':'s')}
           </Typography>
           <DescPanel descShort={cityDescShort} descFull={cityDesc} />
-          <CardSlider cards={attractionCards} />
+          <CardSlider cards={attractionCards} params={pCardSlider}/>
           <TagList {...tagSetting} />
         </div>
       );

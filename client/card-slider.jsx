@@ -1,13 +1,13 @@
 import React, {createElement} from 'react';
 import Swiper from 'react-id-swiper';
 
-const CardSlider = ({cards}) => {
-  console.log('>>>>CardSlider', cards);
+const CardSlider = ({cards, params}) => {
+  console.log('>>>>CardSlider', {cards: cards, params: params});
 
-  const params = {
+  /*const params = {
     slidesPerView: 'auto',
     spaceBetween: 8,
-  };
+  };*/
 
   const items = cards.map((card, idx) => {
     return (

@@ -43,6 +43,15 @@ export default class PackageItinerary extends React.Component {
         );
       });
 
+      const pCardSlider = {
+        slidesPerView: 3,
+        spaceBetween: 30,
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+        },
+      };
+
       elItineraries[title] = (
         <div>
           <ItineraryItem
@@ -50,7 +59,7 @@ export default class PackageItinerary extends React.Component {
             attractions={cityAttractions[city]}
             isCustom={instPackage.isCustom}
           />
-          <CardSlider cards={hotelCards} />
+          <CardSlider cards={hotelCards} params={pCardSlider} />
         </div>
       );
     });

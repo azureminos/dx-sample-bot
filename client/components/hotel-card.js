@@ -9,15 +9,19 @@ import grey from '@material-ui/core/colors/grey';
 import green from '@material-ui/core/colors/green';
 import CheckIcon from '@material-ui/icons/CheckCircleOutline';
 
-const styles = {
+const styles = theme => ({
   card: {
-    maxWidth: 200,
+    maxWidth: 345,
   },
   media: {
     height: 0,
     paddingTop: '56.25%', // 16:9
   },
-};
+  heading: {
+    fontSize: theme.typography.pxToRem(20),
+    fontWeight: theme.typography.fontWeightRegular,
+  },
+});
 
 class HotelCard extends React.Component {
   constructor(props) {
@@ -39,9 +43,10 @@ class HotelCard extends React.Component {
     return (
       <Card className={classes.card}>
         <CardHeader
+          className={classes.heading}
           action={
             <IconButton onClick={(event) => this.handleChange(item)}>
-              <CheckIcon style={{color: (false) ? green[500] : grey[500]}}/>
+              <CheckIcon style={{color: (this.state.isSelected) ? green[500] : grey[500]}}/>
             </IconButton>
           }
           title={item.name}
