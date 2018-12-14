@@ -56,7 +56,7 @@ class ControlledAccordion extends React.Component {
     if (expanded) {
       setTimeout(
         function() {
-          this.handleScroll(panel);
+          this.scrollToContent(panel);
         }.bind(that),
         500
       );
