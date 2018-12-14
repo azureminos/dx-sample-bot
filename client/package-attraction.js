@@ -9,7 +9,7 @@ import TagList from './tag-list.js';
 import DescPanel from './components/description-panel';
 
 const styles = {
-  root: {
+  city: {
     border: '1px solid',
     borderColor: 'lightgrey',
     padding: '4px',
@@ -50,7 +50,7 @@ class PackageAttraction extends React.Component {
 
       const days = Object.keys(_.groupBy(cityDays[city], (c) => {return c.dayNo;})).length;
       return (
-        <div key={cityAttractions[city].id} className={classes.root}>
+        <div key={cityAttractions[city].id} className={classes.city}>
           <Typography variant='h5' gutterBottom>
             {city+' - '+days+' Day'+(days==1?'':'s')}
           </Typography>

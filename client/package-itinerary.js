@@ -1,10 +1,12 @@
 import React, {createElement} from 'react';
 //import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
-import Collapsible from 'react-collapsible';
-import {Paper, Typography, Divider} from '@material-ui/core';
+import {withStyles} from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
 import _ from 'lodash';
+import ContentPanel from './components/content-panel';
 import SuperSlider from './super-slider.jsx';
-import ItineraryItem from './itinerary-item.js';
+import ItineraryItem from './itinerary-item';
+
 
 const triggerText = (dayNo, city) => `Day ${dayNo}, ${city}`;
 
@@ -30,8 +32,9 @@ export default class PackageItinerary extends React.Component {
       const hotels = cityHotels[city];
       const btnActionMap = {'Select Hotel': selectHotel};
       //console.log('>>>>PackageItinerary, accordion setting', setting);
+
       elItineraries.push(
-        <div key={dayNo}>
+        <ContentPanel title={city}>
           <Typography variant='h5' gutterBottom >
             {triggerText(dayNo, city)}
           </Typography>
@@ -45,15 +48,14 @@ export default class PackageItinerary extends React.Component {
             btnActionMap={btnActionMap}
             apiUri={apiUri}
           />
-          <Divider/>
-        </div>
+        </ContentPanel>
       );
     });
 
     return (
-      <Paper>
+      <section>
         {elItineraries}
-      </Paper>
+      </section>
     );
   }
 }
