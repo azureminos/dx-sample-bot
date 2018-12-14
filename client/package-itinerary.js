@@ -19,7 +19,7 @@ export default class PackageItinerary extends React.Component {
     });
     console.log('>>>>PackageItinerary, Get itineraries', itineraries);
     // Generate itinerary accordion
-    let elItineraries = null;
+    const elItineraries = {};
     _.forEach(_.keys(itineraries), (dayNo) => {
       const itinerary = {
         dayNo: dayNo,
