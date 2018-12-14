@@ -38,13 +38,29 @@ class ControlledAccordion extends React.Component {
     this.state = {
       expanded: titles ? titles[0] : false,
     };
+
+    this.scrollToContent.bind(this);
   }
 
+  scrollToContent = (panel) => {
+    this.scrollMap[panel].current.scrollIntoView({block: 'start', behavior: 'smooth'});
+  };
+
   handleChange = (panel) => (event, expanded) => {
-    this.setState({
+    console.log('>>>>ControlledAccordion, handleChange()', {panel: panel, expanded: expanded});
+    const that = this;
+    that.setState({
       expanded: expanded ? panel : false,
     });
-    this.scrollMap[panel].current.scrollIntoView({behavior: 'smooth'});
+
+    if (expanded) {
+      setTimeout(
+        function() {
+          this.handleScroll(panel);
+        }.bind(that),
+        500
+      );
+    }
   };
 
   render() {
