@@ -1,10 +1,10 @@
 import React, {createElement} from 'react';
 //import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
 import {withStyles} from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
 import _ from 'lodash';
 import ControlledAccordion from './components/accordion';
-import SuperSlider from './super-slider.jsx';
+import HotelCard from './components/hotel-card.js';
+import CardSlider from './card-slider.jsx';
 import ItineraryItem from './itinerary-item';
 
 
@@ -28,24 +28,29 @@ export default class PackageItinerary extends React.Component {
       };
       //console.log('>>>>PackageItinerary, formatted itinerary', itinerary);
       const city = itinerary.city;
-      const attractions = cityAttractions[city];
-      const hotels = cityHotels[city];
-      const btnActionMap = {'Select Hotel': selectHotel};
       const title = triggerText(dayNo, city);
       //console.log('>>>>PackageItinerary, accordion setting', setting);
+
+      // Prepare attraction card list
+      const hotelCards = cityHotels[city].map((h) => {
+        return (
+          <HotelCard
+            key={h.id}
+            item={h}
+            apiUri={apiUri}
+            handleClick={(item) => {console.log('>>>>HotelCard, handleClick()', item);}}
+          />
+        );
+      });
 
       elItineraries[title] = (
         <div>
           <ItineraryItem
             itinerary={itinerary}
-            attractions={attractions}
+            attractions={cityAttractions[city]}
             isCustom={instPackage.isCustom}
           />
-          <SuperSlider
-            items={hotels}
-            btnActionMap={btnActionMap}
-            apiUri={apiUri}
-          />
+          <CardSlider cards={hotelCards} />
         </div>
       );
     });

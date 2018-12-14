@@ -3,7 +3,7 @@ import _ from 'lodash';
 import {withStyles} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
-import AttractionCard from './attraction-card.js';
+import AttractionCard from './components/attraction-card.js';
 import CardSlider from './card-slider.jsx';
 import TagList from './tag-list.js';
 import DescPanel from './components/description-panel';
@@ -43,7 +43,7 @@ class PackageAttraction extends React.Component {
             key={a.id}
             item={a}
             apiUri={apiUri}
-            handleAttractionClick={likeAttractions}
+            handleClick={likeAttractions}
           />
         );
       });

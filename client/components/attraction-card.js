@@ -23,20 +23,20 @@ const styles = {
 
 class AttractionCard extends React.Component {
   render() {
-    const {classes, item, apiUri, handleAttractionClick} = this.props;
-    const cardContent = !item.description ? '' : (<CardContent><Typography component='p'>{item.description}}</Typography></CardContent>);
+    const {classes, item, apiUri, handleClick} = this.props;
+    const cardContent = !item.description ? '' : (<CardContent><Typography component='p'>{item.description}</Typography></CardContent>);
     return (
       <Card className={classes.card}>
         <CardHeader
           action={
-            <IconButton onClick={() => handleAttractionClick(item)}>
+            <IconButton onClick={() => handleClick(item)}>
               <StarIcon style={{display: item.isLiked ? 'block' : 'none', color: yellow[500]}}/>
               <StarBorderIcon style={{display: item.isLiked ? 'none' : 'block', color: yellow[500]}}/>
             </IconButton>
           }
           title={item.name}
         />
-        <CardActionArea onClick={() => handleAttractionClick(item)}>
+        <CardActionArea onClick={() => handleClick(item)}>
           <CardMedia
             className={classes.media}
             image={apiUri + '/' + item.imageUrl}
