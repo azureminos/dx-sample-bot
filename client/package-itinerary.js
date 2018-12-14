@@ -3,7 +3,7 @@ import React, {createElement} from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import _ from 'lodash';
-import ContentPanel from './components/content-panel';
+import ControlledAccordion from './components/accordion';
 import SuperSlider from './super-slider.jsx';
 import ItineraryItem from './itinerary-item';
 
@@ -19,7 +19,7 @@ export default class PackageItinerary extends React.Component {
     });
     console.log('>>>>PackageItinerary, Get itineraries', itineraries);
     // Generate itinerary accordion
-    const elItineraries = [];
+    let elItineraries = null;
     _.forEach(_.keys(itineraries), (dayNo) => {
       const itinerary = {
         dayNo: dayNo,
@@ -31,10 +31,11 @@ export default class PackageItinerary extends React.Component {
       const attractions = cityAttractions[city];
       const hotels = cityHotels[city];
       const btnActionMap = {'Select Hotel': selectHotel};
+      const title = triggerText(dayNo, city);
       //console.log('>>>>PackageItinerary, accordion setting', setting);
 
-      elItineraries.push(
-        <ContentPanel title={triggerText(dayNo, city)}>
+      elItineraries[title] = (
+        <div>
           <ItineraryItem
             itinerary={itinerary}
             attractions={attractions}
@@ -45,13 +46,13 @@ export default class PackageItinerary extends React.Component {
             btnActionMap={btnActionMap}
             apiUri={apiUri}
           />
-        </ContentPanel>
+        </div>
       );
     });
 
     return (
       <section>
-        {elItineraries}
+        <ControlledAccordion mapContents={elItineraries} />
       </section>
     );
   }
