@@ -27,7 +27,7 @@ class HotelCard extends React.Component {
         <CardHeader
           action={
             <IconButton onClick={() => handleClick(hotel)}>
-              <CheckIcon style={{color: hotel.isSelected ? green[500] : grey[500]}}/>
+              <CheckIcon style={{color: (true) ? green[500] : grey[500]}}/>
             </IconButton>
           }
           title={hotel.name}
