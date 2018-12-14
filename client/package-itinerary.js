@@ -50,7 +50,7 @@ export default class PackageItinerary extends React.Component {
             attractions={cityAttractions[city]}
             isCustom={instPackage.isCustom}
           />
-          <CardSlider cards={hotelCards} params={pCardSlider} />
+          <CardSlider cards={hotelCards}/>
         </div>
       );
     });

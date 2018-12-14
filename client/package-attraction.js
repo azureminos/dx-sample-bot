@@ -55,7 +55,7 @@ class PackageAttraction extends React.Component {
             {city+' - '+days+' Day'+(days==1?'':'s')}
           </Typography>
           <DescPanel descShort={cityDescShort} descFull={cityDesc} />
-          <CardSlider cards={attractionCards} params={pCardSlider}/>
+          <CardSlider cards={attractionCards}/>
           <TagList {...tagSetting} />
         </div>
       );
