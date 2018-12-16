@@ -55,6 +55,8 @@ class HotelCard extends React.Component {
           <CardMedia
             className={classes.media}
             image={apiUri + '/' + item.imageUrl}
+            height='180'
+            width='180'
             title={item.name}
           />
         </CardActionArea>
