@@ -6,7 +6,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import IconButton from '@material-ui/core/IconButton';
 import grey from '@material-ui/core/colors/grey';
-import green from '@material-ui/core/colors/green';
+import blue from '@material-ui/core/colors/blue';
 import CheckIcon from '@material-ui/icons/CheckCircleOutline';
 import SolidCheckIcon from '@material-ui/icons/CheckCircle';
 
@@ -34,7 +34,7 @@ class HotelCard extends React.Component {
   }
 
   handleChange = (item) => {
-    console.log('>>>>HotelCard, handleChange()', item);
+    console.log('>>>>HotelCard, handleChange()', {item: item, state: this.state});
     this.setState({isSelected: !this.state.isSelected});
   };
 
@@ -47,8 +47,8 @@ class HotelCard extends React.Component {
           className={classes.heading}
           action={
             <IconButton onClick={(event) => this.handleChange(item)}>
-              <CheckIcon style={{display: item.isSelected ? 'none' : 'block', color: grey[500]}}/>
-              <SolidCheckIcon style={{display: item.isSelected ? 'block' : 'none', color: green[500]}}/>
+              <CheckIcon style={{display: this.state.isSelected ? 'none' : 'block', color: grey[500]}}/>
+              <SolidCheckIcon style={{display: this.state.isSelected ? 'block' : 'none', color: blue[500]}}/>
             </IconButton>
           }
           title={item.name}
