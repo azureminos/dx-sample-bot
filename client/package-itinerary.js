@@ -3,7 +3,7 @@ import React, {createElement} from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import _ from 'lodash';
 import ControlledAccordion from './components/accordion';
-import HotelSelector from './components/hotel-selector';
+import HotelSlider from './components/hotel-slider';
 import CardSlider from './components/card-slider.jsx';
 import ItineraryItem from './itinerary-item';
 
@@ -33,7 +33,7 @@ export default class PackageItinerary extends React.Component {
 
       // Prepare attraction card list
       const hotelSelector = (
-        <HotelSelector
+        <HotelSlider
           dayNo={dayNo}
           instPackage={instPackage}
           hotels={cityHotels[city]}
@@ -48,7 +48,7 @@ export default class PackageItinerary extends React.Component {
             attractions={cityAttractions[city]}
             isCustom={instPackage.isCustom}
           />
-          <CardSlider cards={hotelSelector}/>
+          {hotelSelector}
         </div>
       );
     });
