@@ -3,7 +3,7 @@ import React, {createElement} from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import _ from 'lodash';
 import ControlledAccordion from './components/accordion';
-import HotelCard from './components/hotel-card.js';
+import HotelSelector from './components/hotel-selector';
 import CardSlider from './components/card-slider.jsx';
 import ItineraryItem from './itinerary-item';
 
@@ -32,16 +32,14 @@ export default class PackageItinerary extends React.Component {
       //console.log('>>>>PackageItinerary, accordion setting', setting);
 
       // Prepare attraction card list
-      const hotelCards = cityHotels[city].map((h) => {
-        return (
-          <HotelCard
-            key={h.id}
-            item={h}
-            apiUri={apiUri}
-            handleClick={(item) => {console.log('>>>>HotelCard, handleClick()', item);}}
-          />
-        );
-      });
+      const hotelSelector = (
+        <HotelSelector
+          dayNo={dayNo}
+          instPackage={instPackage}
+          hotels={cityHotels[city]}
+          apiUri={apiUri}
+        />
+      );
 
       elItineraries[title] = (
         <div>
@@ -50,7 +48,7 @@ export default class PackageItinerary extends React.Component {
             attractions={cityAttractions[city]}
             isCustom={instPackage.isCustom}
           />
-          <CardSlider cards={hotelCards}/>
+          <CardSlider cards={hotelSelector}/>
         </div>
       );
     });

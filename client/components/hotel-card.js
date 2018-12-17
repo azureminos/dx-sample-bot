@@ -34,13 +34,15 @@ class HotelCard extends React.Component {
   }
 
   handleChange = (item) => {
-    console.log('>>>>HotelCard, handleChange()', {item: item, state: this.state});
+    console.log('>>>>HotelCard, handleChange()', {item: item, state: this.state, props: this.props});
+    const {handleSelectHotel} = this.props;
+    handleSelectHotel(item);
     this.setState({isSelected: !this.state.isSelected});
   };
 
   render() {
     console.log('>>>>HotelCard render()', this.props);
-    const {classes, item, apiUri, handleClick} = this.props;
+    const {classes, item, apiUri} = this.props;
     return (
       <Card className={classes.card}>
         <CardHeader
