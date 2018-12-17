@@ -4,8 +4,8 @@ import {withStyles} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
 import AttractionCard from './components/attraction-card.js';
-import CardSlider from './card-slider.jsx';
-import TagList from './tag-list.js';
+import CardSlider from './components/card-slider.jsx';
+import TagList from './components/tag-list.js';
 import DescPanel from './components/description-panel';
 
 const styles = {

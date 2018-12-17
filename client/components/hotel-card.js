@@ -8,6 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import grey from '@material-ui/core/colors/grey';
 import green from '@material-ui/core/colors/green';
 import CheckIcon from '@material-ui/icons/CheckCircleOutline';
+import SolidCheckIcon from '@material-ui/icons/CheckCircle';
 
 const styles = theme => ({
   card: {
@@ -46,7 +47,8 @@ class HotelCard extends React.Component {
           className={classes.heading}
           action={
             <IconButton onClick={(event) => this.handleChange(item)}>
-              <CheckIcon style={{color: (this.state.isSelected) ? green[500] : grey[500]}}/>
+              <CheckIcon style={{display: item.isSelected ? 'none' : 'block', color: grey[500]}}/>
+              <SolidCheckIcon style={{display: item.isSelected ? 'block' : 'none', color: green[500]}}/>
             </IconButton>
           }
           title={item.name}
@@ -55,8 +57,6 @@ class HotelCard extends React.Component {
           <CardMedia
             className={classes.media}
             image={apiUri + '/' + item.imageUrl}
-            height='180'
-            width='180'
             title={item.name}
           />
         </CardActionArea>

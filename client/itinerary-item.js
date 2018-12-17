@@ -1,7 +1,7 @@
 import React, {createElement} from 'react';
 //import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
 import _ from 'lodash';
-import TagList from './tag-list.js';
+import TagList from './components/tag-list';
 
 // Filter out selected attractions
 const getUnselected = (items, selected) => {
