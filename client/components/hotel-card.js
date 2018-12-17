@@ -28,17 +28,12 @@ class HotelCard extends React.Component {
   constructor(props) {
     console.log('>>>>HotelCard, constructor()', props);
     super(props);
-    this.state = {
-      isSelected: props.item.isSelected,
-    };
     this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange = (item) => {
-    console.log('>>>>HotelCard, handleChange()', {item: item, state: this.state, props: this.props});
-    const {handleSelectHotel} = this.props;
-    handleSelectHotel(item);
-    this.setState({isSelected: !this.state.isSelected});
+    console.log('>>>>HotelCard, handleChange()', {item: item, props: this.props});
+    this.props.handleSelectHotel(item);
   };
 
   render() {
@@ -50,8 +45,8 @@ class HotelCard extends React.Component {
           className={classes.heading}
           action={
             <IconButton onClick={(event) => this.handleChange(item)}>
-              <CheckIcon style={{display: this.state.isSelected ? 'none' : 'block', color: grey[500]}}/>
-              <SolidCheckIcon style={{display: this.state.isSelected ? 'block' : 'none', color: blue[500]}}/>
+              <CheckIcon style={{display: this.props.item.isSelected ? 'none' : 'block', color: grey[500]}}/>
+              <SolidCheckIcon style={{display: this.props.item.isSelected ? 'block' : 'none', color: blue[500]}}/>
             </IconButton>
           }
           title={item.name}
