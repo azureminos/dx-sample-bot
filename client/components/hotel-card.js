@@ -28,7 +28,7 @@ class HotelCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isSelected: props.isSelected,
+      isSelected: props.item.isSelected,
     };
     this.handleChange = this.handleChange.bind(this);
   }
