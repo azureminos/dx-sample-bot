@@ -126,6 +126,13 @@ const join = ({
                 packages: [],
                 ownerId: instOwner ? instOwner.loginId : user.loginId,
               });
+              // Dummy Hotels
+              if (!instPackage.hotels) {
+                instPackage.hotels = _.uniqBy(instPackage.items, 'dayNo').map((day) => {
+                  return cityHotels[day.city][0].id;
+                });
+              }
+
               userSocket.emit('init', {
                 instPackage,
                 cityAttractions,
