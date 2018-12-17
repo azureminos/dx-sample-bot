@@ -26,6 +26,7 @@ const styles = theme => ({
 
 class HotelCard extends React.Component {
   constructor(props) {
+    console.log('>>>>HotelCard, constructor()', props);
     super(props);
     this.state = {
       isSelected: props.item.isSelected,
