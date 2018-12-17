@@ -34,7 +34,7 @@ export default class PackageItinerary extends React.Component {
       // Prepare attraction card list
       const hotelSelector = (
         <HotelSlider
-          dayNo={dayNo}
+          dayNo={Number(dayNo)}
           instPackage={instPackage}
           hotels={cityHotels[city]}
           apiUri={apiUri}
