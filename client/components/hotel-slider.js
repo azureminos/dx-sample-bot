@@ -14,6 +14,8 @@ class HotelSlider extends React.Component {
 
   handleSelectHotel = (hotel) => {
     console.log('>>>>HotelSlider, handleChange()', {hotel: hotel, state: this.state, props: this.props});
+    this.props.instPackage.hotels[dayNo-1] = hotel.id;
+    this.setState({idxSelected: hotel.id});
   };
 
   render() {
