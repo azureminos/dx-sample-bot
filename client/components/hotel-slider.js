@@ -26,14 +26,15 @@ class HotelSlider extends React.Component {
     const {idxSelected} = this.state;
     const {dayNo, instPackage, hotels, apiUri} = this.props;
     const hotelSlider = hotels.map((h, idx) => {
-      h.isSelected = instPackage.hotels[dayNo] === idxSelected;
+      console.log('>>>>HotelSlider, checkSeelcted', {hotel: h, comparator: instPackage.hotels[dayNo]});
+      h.isSelected = (instPackage.hotels[dayNo] == idxSelected);
       return (
         <div className='demo-slide' key={idx}>
           <HotelCard
             key={h.id}
             item={h}
             apiUri={apiUri}
-            handleClick={this.handleSelectHotel}
+            handleSelectHotel={this.handleSelectHotel}
           />
         </div>
       );
