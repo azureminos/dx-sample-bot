@@ -459,6 +459,12 @@ export default class App2 extends React.Component {
             />
           </Typography>
         ),
+        Notes: (
+          <Typography id='package-notes'>
+            This is notes board.
+            Function to be implemented.
+          </Typography>
+        ),
       };
 
       page = (
