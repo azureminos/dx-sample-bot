@@ -41,19 +41,19 @@ class BotHeader extends React.Component {
     return (
       <Table className={classes.table}>
         <TableHead>
-          <TableRow>
-            <TableCell style={{width: '25%', padding: '0px'}}>Total People</TableCell>
-            <TableCell style={{width: '25%', padding: '0px'}}>Package Fee</TableCell>
-            <TableCell style={{width: '25%', padding: '0px'}}>Discount</TableCell>
-            <TableCell style={{width: '25%', padding: '0px'}}>I'm in</TableCell>
+          <TableRow style={{height: '32px'}}>
+            <TableCell style={{width: '25%', padding: '4px'}}>Total People</TableCell>
+            <TableCell style={{width: '25%', padding: '4px'}}>Package Fee</TableCell>
+            <TableCell style={{width: '25%', padding: '4px'}}>Discount</TableCell>
+            <TableCell style={{width: '25%', padding: '4px'}}>I'm in</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           <TableRow>
-            <TableCell style={{width: '25%', padding: '0px'}}>5 Adults<br/>3 Kids</TableCell>
-            <TableCell style={{width: '25%', padding: '0px'}}>$1500</TableCell>
-            <TableCell style={{width: '25%', padding: '0px'}}>2 More People<br/>$200 Off</TableCell>
-            <TableCell style={{width: '25%', padding: '0px'}}>
+            <TableCell style={{width: '25%', padding: '4px'}}>5 Adults<br/>3 Kids</TableCell>
+            <TableCell style={{width: '25%', padding: '4px'}}>$1500</TableCell>
+            <TableCell style={{width: '25%', padding: '4px'}}>2 More People<br/>$200 Off</TableCell>
+            <TableCell style={{width: '25%', padding: '4px'}}>
               <FormControl className={classes.formControl}>
                 <Select
                   value={this.state.adults}
