@@ -17,10 +17,10 @@ const styles = theme => ({
   },
   formControl: {
     margin: theme.spacing.unit,
-    minWidth: 120,
+    minWidth: 80,
   },
   selectEmpty: {
-    marginTop: theme.spacing.unit * 2,
+    fontSize: 'small',
   },
 });
 
@@ -50,7 +50,7 @@ class BotHeader extends React.Component {
         </TableHead>
         <TableBody>
           <TableRow>
-            <TableCell style={{width: '25%', padding: '0px'}}>5 Adults<br/>3Kids</TableCell>
+            <TableCell style={{width: '25%', padding: '0px'}}>5 Adults<br/>3 Kids</TableCell>
             <TableCell style={{width: '25%', padding: '0px'}}>$1500</TableCell>
             <TableCell style={{width: '25%', padding: '0px'}}>2 More People<br/>$200 Off</TableCell>
             <TableCell style={{width: '25%', padding: '0px'}}>
