@@ -31,6 +31,12 @@ class BotHeader extends React.Component {
     this.state = {
       adults: 0,
       kids: 0,
+      totalAdults: 7,
+      totalKids: 4,
+      packageFee: 1500,
+      tier: 15,
+      discount: 200,
+      maxTotal: 30,
     };
     
     this.handleAdultdsChange = this.handleAdultdsChange.bind(this);
@@ -49,6 +55,17 @@ class BotHeader extends React.Component {
 
   render() {
     const {classes} = this.props;
+    const {adults, kids, totalAdults, totalKids, packageFee, tier, discount, maxTotal} = this.state;
+    let promo = '';
+    let finalFee = 0;
+    if (tier > totalAdults + adults + totalKids + kids) {
+      promo = (tier - totalAdults - adults - totalKids - kids)+' more people<br/>$'+discount+' off';
+      finalFee = packageFee;
+    } else {
+      promo = 'Max group size is ' + maxTotal;
+      finalFee = packageFee - discount;
+    }
+
     return (
       <Table className={classes.table}>
         <TableHead>
@@ -61,13 +78,13 @@ class BotHeader extends React.Component {
         </TableHead>
         <TableBody>
           <TableRow>
-            <TableCell style={{width: '25%', padding: '4px'}}>5 Adults<br/>3 Kids</TableCell>
-            <TableCell style={{width: '25%', padding: '4px'}}>$1500</TableCell>
-            <TableCell style={{width: '25%', padding: '4px'}}>2 More People<br/>$200 Off</TableCell>
+            <TableCell style={{width: '25%', padding: '4px'}}>{totalAdults + adults} Adults<br/>{totalKids + kids} Kids</TableCell>
+            <TableCell style={{width: '25%', padding: '4px'}}>${finalFee}</TableCell>
+            <TableCell style={{width: '25%', padding: '4px'}}>{promo}}</TableCell>
             <TableCell style={{width: '25%', padding: '4px'}}>
               <FormControl className={classes.formControl}>
                 <Select
-                  value={this.state.adults}
+                  value={adults}
                   onChange={this.handleAdultdsChange}
                   input={<Input name='adults' id='adults-label-placeholder' />}
                   displayEmpty
@@ -84,7 +101,7 @@ class BotHeader extends React.Component {
               </FormControl>
               <FormControl className={classes.formControl}>
                 <Select
-                  value={this.state.kids}
+                  value={kids}
                   onChange={this.handleKidsChange}
                   input={<Input name='kids' id='kids-label-placeholder' />}
                   displayEmpty
