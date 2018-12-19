@@ -24,8 +24,7 @@ const styles = theme => ({
     minWidth: 120
   },
   list: {
-    width: "100%",
-    maxWidth: 360,
+    width: '100%',
     backgroundColor: theme.palette.background.paper
   },
   selectEmpty: {
@@ -54,7 +53,7 @@ class FlightCar extends React.Component {
       <List className={classes.list}>
         <ListItem>
           <ListItemIcon>
-            <FlightTakeoff />
+            <FlightTakeoff color='primary'/>
           </ListItemIcon>
           <ListItemText primary="Departure" />
           <ListItemSecondaryAction>
@@ -82,7 +81,7 @@ class FlightCar extends React.Component {
         <Divider />
         <ListItem>
           <ListItemIcon>
-            <FlightLand />
+            <FlightLand color='primary'/>
           </ListItemIcon>
           <ListItemText primary="Return" />
           <ListItemSecondaryAction>
@@ -102,9 +101,9 @@ class FlightCar extends React.Component {
         <Divider />
         <ListItem>
           <ListItemIcon>
-            <DirectionsCar />
+            <DirectionsCar color='primary'/>
           </ListItemIcon>
-          <ListItemText primary="Car Rental, 4 Days" />
+          <ListItemText primary="Car Rental" />
           <ListItemSecondaryAction>
             <FormControl className={classes.formControl}>
               <Select
