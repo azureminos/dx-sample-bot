@@ -5,6 +5,7 @@ import _ from 'lodash';
 import ControlledAccordion from './components/accordion';
 import HotelSlider from './components/hotel-slider';
 import CardSlider from './components/card-slider.jsx';
+import FlightCar from './components/flight-car';
 import ItineraryItem from './itinerary-item';
 
 
@@ -20,6 +21,14 @@ export default class PackageItinerary extends React.Component {
     console.log('>>>>PackageItinerary, Get itineraries', itineraries);
     // Generate itinerary accordion
     const elItineraries = {};
+    // Add Flight and Cars
+    elItineraries['Flight and Car'] = (
+      <div>
+        <FlightCar />
+      </div>
+    );
+
+    // Add itinerary for each days
     _.forEach(_.keys(itineraries), (dayNo) => {
       const itinerary = {
         dayNo: dayNo,
