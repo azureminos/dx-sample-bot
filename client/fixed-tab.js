@@ -53,6 +53,48 @@ class FullWidthTabs extends React.Component {
     return (
       <div className={classes.root}>
         <AppBar position='sticky' color='default'>
+          <table
+            style={{ borderCollapse: "collapse", border: "1px solid black" }}
+          >
+            <tr style={{ textAlign: "center", border: "1px solid black" }}>
+              <th style={{ width: "25%", border: "1px solid black" }}>
+                Total People
+              </th>
+              <th style={{ width: "25%", border: "1px solid black" }}>
+                Package Fee
+              </th>
+              <th style={{ width: "25%", border: "1px solid black" }}>
+                Discount
+              </th>
+              <th style={{ width: "25%", border: "1px solid black" }}>
+                I'm in
+              </th>
+            </tr>
+            <tr style={{ textAlign: "center", border: "1px solid black" }}>
+              <td style={{ width: "25%", border: "1px solid black" }}>
+                5 Adults
+                <br />3 Kids
+              </td>
+              <td style={{ width: "25%", border: "1px solid black" }}>$1500</td>
+              <td style={{ width: "25%", border: "1px solid black" }}>
+                2 more people
+                <br />
+                $200 less package fee
+              </td>
+              <td style={{ width: "25%", border: "1px solid black" }}>
+                <div>
+                  <button>Add</button>
+                  <span>Adult</span>
+                  <button>Remove</button>
+                </div>
+                <div>
+                  <button>Add</button>
+                  <span>Kid</span>
+                  <button>Remove</button>
+                </div>
+              </td>
+            </tr>
+          </table>
           <Tabs
             value={this.state.value}
             onChange={this.handleChange}
