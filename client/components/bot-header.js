@@ -42,22 +42,19 @@ class BotHeader extends React.Component {
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
-            <TableCell>Total People</TableCell>
-            <TableCell>Package Fee</TableCell>
-            <TableCell>Discount</TableCell>
-            <TableCell>I'm in</TableCell>
+            <TableCell style={{width: '25%', padding: '0px'}}>Total People</TableCell>
+            <TableCell style={{width: '25%', padding: '0px'}}>Package Fee</TableCell>
+            <TableCell style={{width: '25%', padding: '0px'}}>Discount</TableCell>
+            <TableCell style={{width: '25%', padding: '0px'}}>I'm in</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           <TableRow>
-            <TableCell>5 Adults<br/>3Kids</TableCell>
-            <TableCell>$1500</TableCell>
-            <TableCell>2 More People<br/>$200 Off</TableCell>
-            <TableCell>
+            <TableCell style={{width: '25%', padding: '0px'}}>5 Adults<br/>3Kids</TableCell>
+            <TableCell style={{width: '25%', padding: '0px'}}>$1500</TableCell>
+            <TableCell style={{width: '25%', padding: '0px'}}>2 More People<br/>$200 Off</TableCell>
+            <TableCell style={{width: '25%', padding: '0px'}}>
               <FormControl className={classes.formControl}>
-                <InputLabel shrink htmlFor='adults-label-placeholder'>
-                  Adults
-                </InputLabel>
                 <Select
                   value={this.state.adults}
                   // onChange={this.handleChange}
@@ -75,9 +72,6 @@ class BotHeader extends React.Component {
                 </Select>
               </FormControl>
               <FormControl className={classes.formControl}>
-                <InputLabel shrink htmlFor='kids-label-placeholder'>
-                  Kids
-                </InputLabel>
                 <Select
                   value={this.state.kids}
                   // onChange={this.handleChange}
