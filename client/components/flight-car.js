@@ -25,6 +25,7 @@ const styles = theme => ({
   },
   list: {
     width: '100%',
+    minWidth: '330px',
     backgroundColor: theme.palette.background.paper
   },
   selectEmpty: {
