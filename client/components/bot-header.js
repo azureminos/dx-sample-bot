@@ -8,7 +8,6 @@ import TableRow from '@material-ui/core/TableRow';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 
 const styles = theme => ({
@@ -33,7 +32,17 @@ class BotHeader extends React.Component {
       adults: 0,
       kids: 0,
     };
-    // this.handleChange = this.handleChange.bind(this);
+    
+    this.handleAdultdsChange = this.handleAdultdsChange.bind(this);
+    this.handleKidsChange = this.handleKidsChange.bind(this);
+  }
+
+  handleAdultdsChange(e) {
+    console.log('>>>>BotHeader, handleAdultdsChange()', e);
+  }
+
+  handleKidsChange(e) {
+    console.log('>>>>BotHeader, handleKidsChange()', e);
   }
 
   render() {
@@ -57,7 +66,7 @@ class BotHeader extends React.Component {
               <FormControl className={classes.formControl}>
                 <Select
                   value={this.state.adults}
-                  // onChange={this.handleChange}
+                  onChange={this.handleAdultdsChange}
                   input={<Input name='adults' id='adults-label-placeholder' />}
                   displayEmpty
                   name='adults'
@@ -74,7 +83,7 @@ class BotHeader extends React.Component {
               <FormControl className={classes.formControl}>
                 <Select
                   value={this.state.kids}
-                  // onChange={this.handleChange}
+                  onChange={this.handleKidsChange}
                   input={<Input name='kids' id='kids-label-placeholder' />}
                   displayEmpty
                   name='kids'
