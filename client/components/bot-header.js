@@ -33,7 +33,7 @@ class BotHeader extends React.Component {
       kids: 0,
       totalAdults: 7,
       totalKids: 4,
-      packageFee: 1500,
+      cost: 1500,
       tier: 15,
       discount: 200,
       maxTotal: 30,
@@ -55,17 +55,17 @@ class BotHeader extends React.Component {
 
   render() {
     const {classes} = this.props;
-    const {adults, kids, totalAdults, totalKids, packageFee, tier, discount, maxTotal} = this.state;
+    const {adults, kids, totalAdults, totalKids, cost, tier, discount, maxTotal} = this.state;
     let promo1 = '';
     let promo2 = '';
-    let finalFee = 0;
+    let finalCost = 0;
     if (tier > totalAdults + adults + totalKids + kids) {
       promo1 = (tier - totalAdults - adults - totalKids - kids)+' more people';
       promo2 = '$'+discount+' off';
-      finalFee = packageFee;
+      finalCost = cost;
     } else {
       promo1 = 'Max group size is ' + maxTotal;
-      finalFee = packageFee - discount;
+      finalCost = cost - discount;
     }
 
     return (
@@ -73,7 +73,7 @@ class BotHeader extends React.Component {
         <TableHead>
           <TableRow style={{height: '32px'}}>
             <TableCell style={{width: '25%', padding: '4px'}}>Total People</TableCell>
-            <TableCell style={{width: '25%', padding: '4px'}}>Package Fee</TableCell>
+            <TableCell style={{width: '25%', padding: '4px'}}>Package Cost</TableCell>
             <TableCell style={{width: '25%', padding: '4px'}}>Discount</TableCell>
             <TableCell style={{width: '25%', padding: '4px'}}>I'm in</TableCell>
           </TableRow>
@@ -81,7 +81,7 @@ class BotHeader extends React.Component {
         <TableBody>
           <TableRow>
             <TableCell style={{width: '25%', padding: '4px'}}>{totalAdults + adults} Adults<br/>{totalKids + kids} Kids</TableCell>
-            <TableCell style={{width: '25%', padding: '4px'}}>${finalFee}</TableCell>
+            <TableCell style={{width: '25%', padding: '4px'}}>${finalCost}</TableCell>
             <TableCell style={{width: '25%', padding: '4px'}}>{promo1}<br/>{promo2}</TableCell>
             <TableCell style={{width: '25%', padding: '4px'}}>
               <FormControl className={classes.formControl}>

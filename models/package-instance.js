@@ -21,7 +21,7 @@ const getInstPackage = (instId) =>
     .select('package_inst.id', 'package.id as packageId', 'package.name as name',
       'package.description as description', 'package_inst.start_date as startDate',
       'package_inst.end_date as endDate', 'package_inst.is_premium as isPremium',
-      'package_inst.is_custom as isCustom', 'package_inst.pkg_fee as fee')
+      'package_inst.is_custom as isCustom', 'package_inst.cost as cost')
     .where('package_inst.id', instId)
     .first()
     .then((inst) => {

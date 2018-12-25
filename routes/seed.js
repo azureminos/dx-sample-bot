@@ -1,6 +1,8 @@
 import knex  from '../db/knex';
 import express from 'express';
-import {COUNTRY, CITY, ATTRACTION, ATTRACTION_IMAGE, PACKAGE, PACKAGE_IMAGE, PACKAGE_ITEM} from '../db/seeds/sample-seed-helpers';
+import {COUNTRY, CITY, ATTRACTION, ATTRACTION_IMAGE, PACKAGE,
+  PACKAGE_IMAGE, PACKAGE_ITEM, HOTEL, HOTEL_IMAGE}
+  from '../db/seeds/sample-seed-helpers';
 
 const router = express.Router();
 
@@ -14,7 +16,8 @@ router.get('/', function(req, res) {
       .insert(CITY, 'id')
       .then((ids) => {
         console.log('>>>>City IDs', ids);
-        knex('attraction')
+        Promise.all([
+          knex('attraction')
           .insert(ATTRACTION, 'id')
           .then((ids) => {
             console.log('>>>>Attraction IDs', ids);
@@ -22,21 +25,34 @@ router.get('/', function(req, res) {
               .insert(ATTRACTION_IMAGE, 'id')
               .then((ids) => {
                 console.log('>>>>Attraction Image IDs', ids);
-                knex('package')
-                  .insert(PACKAGE, 'id')
-                  .then((ids) => {
-                    console.log('>>>>Package IDs', ids);
-                    knex('package_item')
-                      .insert(PACKAGE_ITEM, 'id')
-                      .then((ids) => {
-                        console.log('>>>>Package Item IDs', ids);
-                        knex('package_image')
-                          .insert(PACKAGE_IMAGE, 'id')
-                          .then((ids) => console.log('>>>>Package IMage IDs', ids));
-                      });
-                  });
+              });
+          }),
+          knex('hotel')
+          .insert(HOTEL, 'id')
+          .then((ids) => {
+            console.log('>>>>Hotel IDs', ids);
+            knex('hotel_image')
+              .insert(HOTEL_IMAGE, 'id')
+              .then((ids) => {
+                console.log('>>>>Hotel Image IDs', ids);
+              });
+          }),
+        ])
+        .then(() => {
+          knex('package')
+          .insert(PACKAGE, 'id')
+          .then((ids) => {
+            console.log('>>>>Package IDs', ids);
+            knex('package_item')
+              .insert(PACKAGE_ITEM, 'id')
+              .then((ids) => {
+                console.log('>>>>Package Item IDs', ids);
+                knex('package_image')
+                  .insert(PACKAGE_IMAGE, 'id')
+                  .then((ids) => console.log('>>>>Package IMage IDs', ids));
               });
           });
+        });
       });
   });
   res.send('ok');

@@ -8,39 +8,35 @@ const getAllHotel = () =>
     Hotel()
     .join('city', {'city.id': 'hotel.city_id'})
     .select('hotel.id', 'hotel.name', 'hotel.description', 'hotel.stars',
-      'hotel.type_name as typeName', 'hotel.type_value as typeValue',
-      'hotel.room_type as roomType', 'hotel.cost', 'hotel.notes',
+      'hotel.type as type', 'hotel.room_type as roomType', 'hotel.cost',
       'hotel.additional_field as additionalField', 'hotel.city_id as cityId',
-      'city.name as cityName');
+      'hotel.notes', 'city.name as cityName');
 
 const getHotelByCityName = (cityName) =>
 Hotel()
     .join('city', {'city.id': 'hotel.city_id'})
     .select('hotel.id', 'hotel.name', 'hotel.description', 'hotel.stars',
-      'hotel.type_name as typeName', 'hotel.type_value as typeValue',
-      'hotel.room_type as roomType', 'hotel.cost', 'hotel.notes',
+      'hotel.type as type', 'hotel.room_type as roomType', 'hotel.cost',
       'hotel.additional_field as additionalField', 'hotel.city_id as cityId',
-      'city.name as cityName')
+      'hotel.notes', 'city.name as cityName')
     .where('city.name', cityName);
 
 const getHotelByCityId = (cityId) =>
 Hotel()
   .join('city', {'city.id': 'hotel.city_id'})
   .select('hotel.id', 'hotel.name', 'hotel.description', 'hotel.stars',
-    'hotel.type_name as typeName', 'hotel.type_value as typeValue',
-    'hotel.room_type as roomType', 'hotel.cost', 'hotel.notes',
+    'hotel.type as type', 'hotel.room_type as roomType', 'hotel.cost',
     'hotel.additional_field as additionalField', 'hotel.city_id as cityId',
-    'city.name as cityName')
+    'hotel.notes', 'city.name as cityName')
   .where('city.id', cityId);
 
 const getHotel = (id) =>
   Hotel()
     .join('city', {'city.id': 'hotel.city_id'})
     .select('hotel.id', 'hotel.name', 'hotel.description', 'hotel.stars',
-      'hotel.type_name as typeName', 'hotel.type_value as typeValue',
-      'hotel.room_type as roomType', 'hotel.cost', 'hotel.notes',
+      'hotel.type as type', 'hotel.room_type as roomType', 'hotel.cost',
       'hotel.additional_field as additionalField', 'hotel.city_id as cityId',
-      'city.name as cityName')
+      'hotel.notes', 'city.name as cityName')
     .where('hotel.id', id)
     .first();
 
@@ -52,17 +48,16 @@ const setHotel = (hotel) =>
         name: hotel.name,
         description: hotel.description,
         stars: hotel.stars,
-        type_name: hotel.typeName,
-        type_value: hotel.typeValue,
+        type: hotel.type,
         room_type: hotel.roomType,
         cost: hotel.cost,
         notes: hotel.notes,
         additional_field: hotel.additionalField,
         city_id: hotel.cityId,
       },
-      ['id', 'id', 'name', 'description', 'stars', 'type_name as typeName',
-        'type_value as typeValue', 'room_type as roomType', 'cost', 'notes',
-        'additional_field as additionalField', 'city_id as cityId']
+      ['id', 'id', 'name', 'description', 'stars', 'type',
+        'room_type as roomType', 'cost', 'city_id as cityId',
+        'additional_field as additionalField', 'notes']
     )
     .then(([item]) => {
       return item;
@@ -75,17 +70,16 @@ const addHotel = (hotel) =>
         name: hotel.name,
         description: hotel.description,
         stars: hotel.stars,
-        type_name: hotel.typeName,
-        type_value: hotel.typeValue,
+        type: hotel.type,
         room_type: hotel.roomType,
         cost: hotel.cost,
         notes: hotel.notes,
         additional_field: hotel.additionalField,
         city_id: hotel.cityId,
       },
-      ['id', 'id', 'name', 'description', 'stars', 'type_name as typeName',
-        'type_value as typeValue', 'room_type as roomType', 'cost', 'notes',
-        'additional_field as additionalField', 'city_id as cityId']
+      ['id', 'id', 'name', 'description', 'stars', 'type',
+        'room_type as roomType', 'cost', 'city_id as cityId',
+        'additional_field as additionalField', 'notes']
     )
     .then(([item]) => {
       return item;
