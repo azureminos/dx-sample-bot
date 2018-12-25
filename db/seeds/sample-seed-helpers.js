@@ -15,16 +15,26 @@ const CITY = [
 ];
 
 const ATTRACTION = [
-  {city_id: 1, name: 'The Forbidden Palace', description: 'Forbiden Palace', visit_hours: 2, traffic_hours: 1, nearby_attractions: 2},
-  {city_id: 1, name: 'Tian An Men', description: 'Tian An Men', visit_hours: 2, traffic_hours: 1, nearby_attractions: 1},
-  {city_id: 1, name: 'The Great Wall', description: 'The Great Wall', visit_hours: 2, traffic_hours: 2, nearby_attractions: 1},
-  {city_id: 1, name: 'Olympic Park', description: 'Olympic Park', visit_hours: 1, traffic_hours: 1, nearby_attractions: 1},
-  {city_id: 2, name: 'Longhua Temple', description: 'Longhua Temple', visit_hours: 2, traffic_hours: 1},
-  {city_id: 2, name: 'Yu Garden', description: 'Yu Garden', visit_hours: 2, traffic_hours: 1},
-  {city_id: 2, name: 'Disneyland', description: 'Disneyland', visit_hours: 2, traffic_hours: 1},
-  {city_id: 2, name: 'Huai Hai Road', description: 'Huai Hai Road', visit_hours: 2, traffic_hours: 1},
-  {city_id: 2, name: 'The Bund', description: 'The Bund', visit_hours: 2, traffic_hours: 1},
-  {city_id: 2, name: 'Nan Jing Road', description: 'Nan Jing Road', visit_hours: 2, traffic_hours: 1},
+  {city_id: 1, name: 'The Forbidden Palace', description: 'Forbiden Palace',visit_hours: 2,
+    traffic_hours: 1, nearby_attractions: 2, cost: 20, rate: 30},
+  {city_id: 1, name: 'Tian An Men', description: 'Tian An Men', visit_hours: 2,
+    traffic_hours: 1, nearby_attractions: 1, cost: 20, rate: 30},
+  {city_id: 1, name: 'The Great Wall', description: 'The Great Wall', visit_hours: 2,
+    traffic_hours: 2, nearby_attractions: 1, cost: 20, rate: 30},
+  {city_id: 1, name: 'Olympic Park', description: 'Olympic Park', visit_hours: 1,
+    traffic_hours: 1, nearby_attractions: 1, cost: 20, rate: 30},
+  {city_id: 2, name: 'Longhua Temple', description: 'Longhua Temple', visit_hours: 2,
+    traffic_hours: 1, cost: 20, rate: 30},
+  {city_id: 2, name: 'Yu Garden', description: 'Yu Garden', visit_hours: 2,
+    traffic_hours: 1, cost: 20, rate: 30},
+  {city_id: 2, name: 'Disneyland', description: 'Disneyland', visit_hours: 2,
+    traffic_hours: 1, cost: 20, rate: 30},
+  {city_id: 2, name: 'Huai Hai Road', description: 'Huai Hai Road', visit_hours: 2,
+    traffic_hours: 1, cost: 20, rate: 30},
+  {city_id: 2, name: 'The Bund', description: 'The Bund', visit_hours: 2,
+    traffic_hours: 1, cost: 20, rate: 30},
+  {city_id: 2, name: 'Nan Jing Road', description: 'Nan Jing Road', visit_hours: 2,
+    traffic_hours: 1, cost: 20, rate: 30},
 ];
 
 const ATTRACTION_IMAGE = [
@@ -87,10 +97,14 @@ const PACKAGE_ITEM = [
 ];
 
 const HOTEL = [
-  {city_id: 1, name: 'Holiday Inn Beijing', description: 'International 4 stars', stars: 4, type: 'Regular', room_type: 'Twin Share', cost: 400},
-  {city_id: 1, name: 'The Beijing Hotel', description: 'Domestic 5 stars', stars: 5, type: 'Regular', room_type: 'Twin Share', cost: 600},
-  {city_id: 2, name: 'Peninsula Shanghai', description: 'International 5 stars', stars: 5, type: 'Luxury', room_type: 'Twin Share', cost: 800},
-  {city_id: 2, name: 'The Shanghai Hotel', description: 'Domestic 4 stars', stars: 4, type: 'Regular', room_type: 'Twin Share', cost: 400},
+  {city_id: 1, name: 'Holiday Inn Beijing', description: 'International 4 stars', stars: 4,
+    type: 'Regular', room_type: 'Twin Share', cost: 70, rate: 80},
+  {city_id: 1, name: 'The Beijing Hotel', description: 'Domestic 5 stars', stars: 5,
+    type: 'Regular', room_type: 'Twin Share', cost: 70, rate: 80},
+  {city_id: 2, name: 'Peninsula Shanghai', description: 'International 5 stars', stars: 5,
+    type: 'Luxury', room_type: 'Twin Share', cost: 70, rate: 80},
+  {city_id: 2, name: 'The Shanghai Hotel', description: 'Domestic 4 stars', stars: 4,
+    type: 'Regular', room_type: 'Twin Share', cost: 70, rate: 80},
 ];
 
 const HOTEL_IMAGE = [
@@ -108,14 +122,22 @@ const PACKAGE_RATE = [
 ];
 
 const CAR_RATE = [
-  {pkg_id: 1, min_participant: 1, max_participant: 15, type: 'Regular', description: 'Small Bus', hour_rate: 20, hour_cost: 15},
-  {pkg_id: 1, min_participant: 16, max_participant: 30, type: 'Regular', description: 'Bus', hour_rate: 15, hour_cost: 12},
-  {pkg_id: 1, min_participant: 1, max_participant: 15, type: 'Luxury', description: 'Luxury Small Bus', hour_rate: 40, hour_cost: 30},
-  {pkg_id: 1, min_participant: 16, max_participant: 30, type: 'Luxury', description: 'Luxury Bus', hour_rate: 35, hour_cost: 26},
-  {pkg_id: 2, min_participant: 1, max_participant: 15, type: 'Regular', description: 'Small Bus', hour_rate: 20, hour_cost: 14},
-  {pkg_id: 2, min_participant: 16, max_participant: 30, type: 'Regular', description: 'Bus', hour_rate: 15, hour_cost: 10},
-  {pkg_id: 2, min_participant: 1, max_participant: 15, type: 'Luxury', description: 'Small Small Bus', hour_rate: 30, hour_cost: 25},
-  {pkg_id: 2, min_participant: 16, max_participant: 30, type: 'Luxury', description: 'Luxury Bus', hour_rate: 25, hour_cost: 18},
+  {pkg_id: 1, min_participant: 1, max_participant: 15, type: 'Regular', description: 'Small Bus',
+    hour_rate: 20, hour_cost: 15, min_day_rate: 50, min_day_cost: 35},
+  {pkg_id: 1, min_participant: 16, max_participant: 30, type: 'Regular', description: 'Bus',
+    hour_rate: 15, hour_cost: 12, min_day_rate: 50, min_day_cost: 35},
+  {pkg_id: 1, min_participant: 1, max_participant: 15, type: 'Luxury', description: 'Luxury Small Bus',
+    hour_rate: 40, hour_cost: 30, min_day_rate: 50, min_day_cost: 35},
+  {pkg_id: 1, min_participant: 16, max_participant: 30, type: 'Luxury', description: 'Luxury Bus',
+    hour_rate: 35, hour_cost: 26, min_day_rate: 50, min_day_cost: 35},
+  {pkg_id: 2, min_participant: 1, max_participant: 15, type: 'Regular', description: 'Small Bus',
+    hour_rate: 20, hour_cost: 14, min_day_rate: 50, min_day_cost: 35},
+  {pkg_id: 2, min_participant: 16, max_participant: 30, type: 'Regular', description: 'Bus',
+    hour_rate: 15, hour_cost: 10, min_day_rate: 50, min_day_cost: 35},
+  {pkg_id: 2, min_participant: 1, max_participant: 15, type: 'Luxury', description: 'Small Small Bus',
+    hour_rate: 30, hour_cost: 25, min_day_rate: 50, min_day_cost: 35},
+  {pkg_id: 2, min_participant: 16, max_participant: 30, type: 'Luxury', description: 'Luxury Bus',
+    hour_rate: 25, hour_cost: 18, min_day_rate: 50, min_day_cost: 35},
 ];
 
 const FLIGHT_RATE = [

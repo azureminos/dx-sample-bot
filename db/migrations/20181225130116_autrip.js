@@ -147,8 +147,8 @@ exports.up = (knex, Promise) => {
       table.string('description', 2048);
       table.decimal('hour_cost', 10, 2);
       table.decimal('hour_rate', 10, 2);
-      table.decimal('min_cost', 10, 2);
-      table.decimal('min_rate', 10, 2);
+      table.decimal('min_day_cost', 10, 2);
+      table.decimal('min_day_rate', 10, 2);
       table.string('additional_field', 2048);
       table.timestamp('created_ts').defaultTo(knex.fn.now());
       table.timestamp('updated_ts').defaultTo(knex.fn.now());
