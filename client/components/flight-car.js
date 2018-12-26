@@ -24,8 +24,8 @@ const styles = theme => ({
     minWidth: 120
   },
   list: {
-    width: '100%',
-    minWidth: '330px',
+    width: "100%",
+    minWidth: "330px",
     backgroundColor: theme.palette.background.paper
   },
   selectEmpty: {
@@ -54,57 +54,50 @@ class FlightCar extends React.Component {
       <List className={classes.list}>
         <ListItem>
           <ListItemIcon>
-            <FlightTakeoff color='primary'/>
+            <FlightTakeoff color="primary" />
           </ListItemIcon>
-          <ListItemText primary="Departure" />
+          <ListItemText primary="Flight" />
           <ListItemSecondaryAction>
-            <FormControl className={classes.formControl}>
-              <Select
-                value={this.state.departDate}
-                onChange={this.handleFlightChange}
-                displayEmpty
-                inputProps={{
-                  name: "departDate",
-                  id: "depart-date"
-                }}
-              >
-                <MenuItem value="" disabled>
-                  <em>Select Date</em>
-                </MenuItem>
-                <MenuItem value={10}>03 Feb 2019</MenuItem>
-                <MenuItem value={20}>08 Feb 2019</MenuItem>
-                <MenuItem value={30}>10 Mar 2019</MenuItem>
-                <MenuItem value={40}>03 April 2019</MenuItem>
-              </Select>
-            </FormControl>
+            <div>
+              <FormControl className={classes.formControl}>
+                <Select
+                  value={this.state.departDate}
+                  onChange={this.handleFlightChange}
+                  displayEmpty
+                  inputProps={{
+                    name: "departDate",
+                    id: "depart-date"
+                  }}
+                >
+                  <MenuItem value="" disabled>
+                    <em>Depart</em>
+                  </MenuItem>
+                  <MenuItem value={10}>03 Feb 2019</MenuItem>
+                  <MenuItem value={20}>08 Feb 2019</MenuItem>
+                  <MenuItem value={30}>10 Mar 2019</MenuItem>
+                  <MenuItem value={40}>03 April 2019</MenuItem>
+                </Select>
+              </FormControl>
+              <FormControl className={classes.formControl} disabled>
+                <Select value={this.state.departDate} displayEmpty>
+                  <MenuItem value="">
+                    <em>Arrive</em>
+                  </MenuItem>
+                  <MenuItem value={10}>07 Feb 2019</MenuItem>
+                  <MenuItem value={20}>14 Feb 2019</MenuItem>
+                  <MenuItem value={30}>16 Mar 2019</MenuItem>
+                  <MenuItem value={40}>09 April 2019</MenuItem>
+                </Select>
+              </FormControl>
+            </div>
           </ListItemSecondaryAction>
         </ListItem>
         <Divider />
         <ListItem>
           <ListItemIcon>
-            <FlightLand color='primary'/>
+            <DirectionsCar color="primary" />
           </ListItemIcon>
-          <ListItemText primary="Return" />
-          <ListItemSecondaryAction>
-            <FormControl className={classes.formControl} disabled>
-              <Select value={this.state.departDate} displayEmpty>
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value={10}>07 Feb 2019</MenuItem>
-                <MenuItem value={20}>14 Feb 2019</MenuItem>
-                <MenuItem value={30}>16 Mar 2019</MenuItem>
-                <MenuItem value={40}>09 April 2019</MenuItem>
-              </Select>
-            </FormControl>
-          </ListItemSecondaryAction>
-        </ListItem>
-        <Divider />
-        <ListItem>
-          <ListItemIcon>
-            <DirectionsCar color='primary'/>
-          </ListItemIcon>
-          <ListItemText primary='Ground Transport' />
+          <ListItemText primary="Ground Transport" />
           <ListItemSecondaryAction>
             <FormControl className={classes.formControl}>
               <Select
@@ -112,15 +105,15 @@ class FlightCar extends React.Component {
                 onChange={this.handleCarChange}
                 displayEmpty
                 inputProps={{
-                  name: 'typeGroundTransport',
-                  id: 'typeGroundTransport-simple',
+                  name: "typeGroundTransport",
+                  id: "typeGroundTransport-simple"
                 }}
               >
-                <MenuItem value='' disabled>
+                <MenuItem value="" disabled>
                   <em>Type</em>
                 </MenuItem>
-                <MenuItem value='Basic' >Basic</MenuItem>
-                <MenuItem value='Luxury' >Luxury</MenuItem>
+                <MenuItem value="Basic">Basic</MenuItem>
+                <MenuItem value="Luxury">Luxury</MenuItem>
               </Select>
             </FormControl>
           </ListItemSecondaryAction>
@@ -131,7 +124,7 @@ class FlightCar extends React.Component {
 }
 
 FlightCar.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(FlightCar);
