@@ -37,7 +37,7 @@ class FlightCar extends React.Component {
   state = {
     departDate: "",
     returnDate: "",
-    typeGroundTransport: "Basic"
+    typeGroundTransport: ""
   };
 
   handleCarChange = event => {
@@ -56,7 +56,6 @@ class FlightCar extends React.Component {
           <ListItemIcon>
             <FlightTakeoff color="primary" />
           </ListItemIcon>
-          <ListItemText primary="Flight" />
           <ListItemSecondaryAction>
             <div>
               <FormControl className={classes.formControl}>
@@ -97,7 +96,6 @@ class FlightCar extends React.Component {
           <ListItemIcon>
             <DirectionsCar color="primary" />
           </ListItemIcon>
-          <ListItemText primary="Ground Transport" />
           <ListItemSecondaryAction>
             <FormControl className={classes.formControl}>
               <Select
@@ -110,7 +108,7 @@ class FlightCar extends React.Component {
                 }}
               >
                 <MenuItem value="" disabled>
-                  <em>Type</em>
+                  <em>Ground Transport</em>
                 </MenuItem>
                 <MenuItem value="Basic">Basic</MenuItem>
                 <MenuItem value="Luxury">Luxury</MenuItem>
