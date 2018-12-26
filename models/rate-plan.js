@@ -16,7 +16,7 @@ const getAllPackageRate = () =>
 const getPackageRateByInstId = (instId) =>
   PackageRate()
     .join('package_inst', 'package_inst.pkg_id', 'package_rate.pkg_id')
-    .select('id', 'tier', 'premium_fee as premiumFee', 'package_rate.cost', 'rate',
+    .select('package_rate.id', 'tier', 'premium_fee as premiumFee', 'package_rate.cost', 'rate',
       'max_participant as maxParticipant', 'min_participant as minParticipant')
     .where('package_inst.id', instId)
     .orderBy('tier');
