@@ -33,7 +33,7 @@ const getPackageRate = (id) =>
     .select('id', 'tier', 'premium_fee as premiumFee', 'cost', 'rate',
       'max_participant as maxParticipant', 'min_participant as minParticipant')
     .where('id', id)
-    .fist();
+    .first();
 
 /*const setPackageRate = (item) =>
   PackageRate()
