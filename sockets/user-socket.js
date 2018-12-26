@@ -14,6 +14,7 @@ import Packages from '../models/package';
 import InstPackage from '../models/package-instance';
 import InstItem from '../models/package-instance-item';
 import PackageParticipant from '../models/package-instance-participant';
+import RatePlan from '../models/rate-plan';
 
 // ===== MESSENGER =============================================================
 import userApi from '../messenger-api-helpers/user';
@@ -76,8 +77,9 @@ const join = ({
       InstPackage.getCityHotelsByInstId(instId),
       InstPackage.getCitiesByInstId(instId),
       PackageParticipant.getOwnerByInstId(instId),
+      RatePlan.getRateByInstId(instId),
       getUser(senderId),
-    ]).then(([instPackage, cityAttractions, cityHotels, cities, instOwner, user]) => {
+    ]).then(([instPackage, cityAttractions, cityHotels, cities, instOwner, rates, user]) => {
       if (!instPackage) {
         console.error("Package instance doesn't exist!");
         sendStatus('noInstPackage');
@@ -122,6 +124,7 @@ const join = ({
                 cityAttractions,
                 cityHotels,
                 cities,
+                rates,
                 users: ngUsers,
                 packages: [],
                 ownerId: instOwner ? instOwner.loginId : user.loginId,
