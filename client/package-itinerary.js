@@ -4,7 +4,6 @@ import {withStyles} from '@material-ui/core/styles';
 import _ from 'lodash';
 import ControlledAccordion from './components/accordion';
 import HotelSlider from './components/hotel-slider';
-import CardSlider from './components/card-slider.jsx';
 import FlightCar from './components/flight-car';
 import ItineraryItem from './itinerary-item';
 

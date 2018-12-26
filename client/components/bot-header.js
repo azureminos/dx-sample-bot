@@ -70,14 +70,6 @@ class BotHeader extends React.Component {
 
     return (
       <Table className={classes.table}>
-        <TableHead>
-          <TableRow style={{height: '32px'}}>
-            <TableCell style={{width: '25%', padding: '4px'}}>Total People</TableCell>
-            <TableCell style={{width: '25%', padding: '4px'}}>Package Cost</TableCell>
-            <TableCell style={{width: '25%', padding: '4px'}}>Discount</TableCell>
-            <TableCell style={{width: '25%', padding: '4px'}}>I'm in</TableCell>
-          </TableRow>
-        </TableHead>
         <TableBody>
           <TableRow>
             <TableCell style={{width: '25%', padding: '4px'}}>{totalAdults + adults} Adults<br/>{totalKids + kids} Kids</TableCell>

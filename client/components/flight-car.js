@@ -37,7 +37,7 @@ class FlightCar extends React.Component {
   state = {
     departDate: "",
     returnDate: "",
-    typeCarRental: "Basic"
+    typeGroundTransport: "Basic"
   };
 
   handleCarChange = event => {
@@ -104,23 +104,23 @@ class FlightCar extends React.Component {
           <ListItemIcon>
             <DirectionsCar color='primary'/>
           </ListItemIcon>
-          <ListItemText primary="Car Rental" />
+          <ListItemText primary='Ground Transport' />
           <ListItemSecondaryAction>
             <FormControl className={classes.formControl}>
               <Select
-                value={this.state.typeCarRental}
+                value={this.state.typeGroundTransport}
                 onChange={this.handleCarChange}
                 displayEmpty
                 inputProps={{
-                  name: "typeCarRental",
-                  id: "typeCarRental-simple"
+                  name: 'typeGroundTransport',
+                  id: 'typeGroundTransport-simple',
                 }}
               >
-                <MenuItem value="" disabled>
-                  <em>Car Type</em>
+                <MenuItem value='' disabled>
+                  <em>Type</em>
                 </MenuItem>
-                <MenuItem value="Basic">Basic</MenuItem>
-                <MenuItem value="Luxury">Luxury</MenuItem>
+                <MenuItem value='Basic' >Basic</MenuItem>
+                <MenuItem value='Luxury' >Luxury</MenuItem>
               </Select>
             </FormControl>
           </ListItemSecondaryAction>
@@ -131,7 +131,7 @@ class FlightCar extends React.Component {
 }
 
 FlightCar.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(FlightCar);

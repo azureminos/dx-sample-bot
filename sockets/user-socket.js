@@ -141,6 +141,7 @@ const join = ({
                 cityAttractions,
                 cityHotels,
                 cities,
+                rates,
                 users: ngUsers,
                 packages: [],
                 ownerId: instOwner ? instOwner.loginId : user.loginId,
