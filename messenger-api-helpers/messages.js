@@ -214,11 +214,10 @@ const createDayItinery = (its) => {
  * @param {string} buttonText - Text for the action button.
  * @returns {object} - Message to configure the customized sharing menu.
  */
-const sharePackageMessage = (apiUri, instId, title) => {
-  console.log('>>>>start sharePackageMessage', {apiUri: apiUri, instId: instId, title: title});
+const sharePackageMessage = (apiUri, instId, items) => {
+  console.log('>>>>start sharePackageMessage', {apiUri: apiUri, instId: instId, items: items});
   const urlToInstPackage = instPackageUrl(apiUri, instId);
-  console.log('>>>>sharePackageMessage(), items before format', InstPackageItem.getInstItem(instId));
-  const dayItems = _.groupBy(InstPackageItem.getInstItem(instId), (i) => {return i.dayNo;});
+  const dayItems = _.groupBy(items, (i) => {return i.dayNo;});
   console.log('>>>>sharePackageMessage(), items grouped by day', dayItems);
   const itinerary = dayItems.map((it) => {
     return {
