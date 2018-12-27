@@ -16,7 +16,7 @@ const styles = theme => ({
     margin: theme.spacing.unit,
   },
   leftIcon: {
-    marginRight: theme.spacing.unit,
+    paddingRight: theme.spacing.unit,
   },
   appBar: {
     top: 'auto',
@@ -84,8 +84,8 @@ const Invite = ({
           fullWidth='true'
           className={classes.button}
         >
-          {buttonText}
-          <SendIcon className={classes.leftIcon} />
+          <div className={classes.leftIcon}>{buttonText}</div>
+          <SendIcon/>
         </Button>
         <Button
           variant='contained'
@@ -93,8 +93,8 @@ const Invite = ({
           fullWidth='true'
           className={classes.button}
         >
-          Pay Deposit
-          <PaymentIcon className={classes.leftIcon} />
+          <div className={classes.leftIcon}>Pay Deposit</div>
+          <PaymentIcon/>
         </Button>
       </Toolbar>
     </AppBar>
