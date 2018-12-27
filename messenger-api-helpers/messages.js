@@ -198,6 +198,12 @@ const listCreatedMessage = {
   text: 'Your list was created.',
 };
 
+const createDayItinery = (its) => {
+  return its.map((i) => {
+    return i.name;
+  }).toString();
+};
+
 /**
  * Message to configure the customized sharing menu in the webview
  *
@@ -207,32 +213,46 @@ const listCreatedMessage = {
  * @param {string} buttonText - Text for the action button.
  * @returns {object} - Message to configure the customized sharing menu.
  */
-const sharePackageMessage = (apiUri, instId, title, description, imageUrl) => {
-  console.log('>>>>sharePackageMessage(), start', {apiUri: apiUri, instId: instId,
-    title: title, description: description, imageUrl: imageUrl});
+const sharePackageMessage = (apiUri, instId, items) => {
+  console.log('>>>>start sharePackageMessage', {apiUri: apiUri, instId: instId, items: items});
   const urlToInstPackage = instPackageUrl(apiUri, instId);
-  const result = {
+  const dayItems = _.groupBy(items, (i) => {return `Day ${i.dayNo}, ${i.city}`;});
+  console.log('>>>>sharePackageMessage(), items grouped by day', dayItems);
+  const itinerary = [];
+  _.forEach(Object.keys(dayItems), (key) => {
+    if (itinerary.length !== -1) {
+      console.log('>>>>sharePackageMessage(), looping through every day', key);
+      const it = dayItems[key];
+      itinerary.push(
+        {
+          title: key,
+          image_url: `${apiUri}/${it[0].imageUrl}`,
+          subtitle: createDayItinery(it),
+          buttons: [openExistingPackageButton(urlToInstPackage)],
+        }
+      );
+    }
+  });
+
+  console.log('>>>>sharePackageMessage(), result', {
     attachment: {
       type: 'template',
       payload: {
         template_type: 'generic',
-        elements: [{
-          title: title,
-          image_url: `${apiUri}/${imageUrl}`,
-          subtitle: description,
-          /*default_action: {
-            type: 'web_url',
-            url: urlToInstPackage,
-            messenger_extensions: true,
-            webview_share_button: 'hide',
-          },*/
-          buttons: [openExistingPackageButton(urlToInstPackage)],
-        }],
+        elements: itinerary,
+      },
+    },
+  });
+
+  return {
+    attachment: {
+      type: 'template',
+      payload: {
+        template_type: 'generic',
+        elements: itinerary,
       },
     },
   };
-  console.log('>>>>sharePackageMessage(), complete', result);
-  return result;
 };
 
 export default {
