@@ -201,7 +201,7 @@ const listCreatedMessage = {
 
 const createDayItinery = (its) => {
   return its.map((i) => {
-    return `${i.name}, `;
+    return i.name;
   }).toString();
 };
 
@@ -221,22 +221,24 @@ const sharePackageMessage = (apiUri, instId, items) => {
   console.log('>>>>sharePackageMessage(), items grouped by day', dayItems);
   const itinerary = [];
   _.forEach(Object.keys(dayItems), (key) => {
-    console.log('>>>>sharePackageMessage(), looping through every day', key);
-    const it = dayItems[key];
-    itinerary.push(
-      {
-        title: key,
-        image_url: `${apiUri}/${it[0].imageUrl}`,
-        subtitle: createDayItinery(it),
-        /*default_action: {
-          type: 'web_url',
-          url: urlToPackage,
-          messenger_extensions: true,
-          webview_share_button: 'hide',
-        },*/
-        buttons: [openExistingPackageButton(urlToInstPackage)],
-      }
-    );
+    if(itinerary.length == 0) {
+      console.log('>>>>sharePackageMessage(), looping through every day', key);
+      const it = dayItems[key];
+      itinerary.push(
+        {
+          title: key,
+          image_url: `${apiUri}/${it[0].imageUrl}`,
+          subtitle: createDayItinery(it),
+          /*default_action: {
+            type: 'web_url',
+            url: urlToPackage,
+            messenger_extensions: true,
+            webview_share_button: 'hide',
+          },*/
+          buttons: [openExistingPackageButton(urlToInstPackage)],
+        }
+      );
+    }
   });
 
   console.log('>>>>sharePackageMessage(), result', {

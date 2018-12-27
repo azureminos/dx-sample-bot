@@ -7,9 +7,10 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import yellow from '@material-ui/core/colors/yellow';
-import StarIcon from '@material-ui/icons/Star';
-import StarBorderIcon from '@material-ui/icons/StarBorder';
+import grey from '@material-ui/core/colors/grey';
+import blue from '@material-ui/core/colors/blue';
+import CheckIcon from '@material-ui/icons/CheckCircleOutline';
+import SolidCheckIcon from '@material-ui/icons/CheckCircle';
 
 const styles = {
   card: {
@@ -30,8 +31,8 @@ class AttractionCard extends React.Component {
         <CardHeader
           action={
             <IconButton onClick={() => handleClick(item)}>
-              <StarIcon style={{display: item.isLiked ? 'block' : 'none', color: yellow[500]}}/>
-              <StarBorderIcon style={{display: item.isLiked ? 'none' : 'block', color: yellow[500]}}/>
+              <SolidCheckIcon style={{display: item.isLiked ? 'block' : 'none', color: blue[500]}}/>
+              <CheckIcon style={{display: item.isLiked ? 'none' : 'block', color: grey[500]}}/>
             </IconButton>
           }
           title={item.name}
