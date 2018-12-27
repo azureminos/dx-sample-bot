@@ -1,4 +1,4 @@
-import React, { createElement } from 'react';
+import React, {createElement} from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -38,7 +38,7 @@ const Invite = ({
   buttonText,
   classes,
 }) => {
-  console.log('>>>>Start Invite', { instPackage: instPackage, apiUri: apiUri });
+  console.log('>>>>Start Invite', {instPackage: instPackage, apiUri: apiUri});
   const dayText = (dayNo, city) => `Day ${dayNo}, ${city}`;
   const formatItinerary = (instPackage) => {
     let result = instPackage.description;
@@ -65,7 +65,7 @@ const Invite = ({
           window.MessengerExtensions.requestCloseBrowser(null, null);
         }
       }, function error(errorCode, errorMessage) {
-        console.error({ errorCode, errorMessage });
+        console.error({errorCode, errorMessage});
       },
       messages.sharePackageMessage(apiUri, instPackage.id, instPackage.name,
         formatItinerary(instPackage), instPackage.imageUrl),

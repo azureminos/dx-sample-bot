@@ -419,10 +419,10 @@ export default class App2 extends React.Component {
 
         if (threadType == 'USER_TO_PAGE') {
           sharingMode = 'broadcast';
-          buttonText = 'Invite your friends to this list';
+          buttonText = 'Invite';
         } else {
           sharingMode = 'current_thread';
-          buttonText = 'Send to conversation';
+          buttonText = 'Send';
         }
 
         invite = (
