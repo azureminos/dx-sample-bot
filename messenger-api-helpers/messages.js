@@ -217,10 +217,11 @@ const createDayItinery = (its) => {
 const sharePackageMessage = (apiUri, instId, items) => {
   console.log('>>>>start sharePackageMessage', {apiUri: apiUri, instId: instId, items: items});
   const urlToInstPackage = instPackageUrl(apiUri, instId);
-  const dayItems = _.groupBy(items, (i) => {return i.dayNo;});
+  const dayItems = _.groupBy(items, (i) => {return `Day ${i.dayNo}, ${i.city}`;});
   console.log('>>>>sharePackageMessage(), items grouped by day', dayItems);
-  const itinerary = Object.values(dayItems).map((it) => {
-    console.log('>>>>sharePackageMessage(), looping through every day', it);
+  const itinerary = Object.keys(dayItems).map((key) => {
+    console.log('>>>>sharePackageMessage(), looping through every day', key);
+    const it = dayItems[key];
     return {
       title: `Day ${it[0].dayNo}, ${it[0].city}`,
       image_url: `${apiUri}/${it[0].imageUrl}`,
