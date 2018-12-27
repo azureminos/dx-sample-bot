@@ -90,7 +90,7 @@ class FullWidthTabs extends React.Component {
           className={classes.drawer}
           variant='persistent'
           anchor='left'
-          open={open}
+          open={this.state.openNotes}
           classes={{
             paper: classes.drawerPaper,
           }}

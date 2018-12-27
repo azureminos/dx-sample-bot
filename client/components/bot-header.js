@@ -73,10 +73,10 @@ class BotHeader extends React.Component {
       <Table className={classes.table}>
         <TableBody>
           <TableRow>
-            <TableCell style={{width: '25%', padding: '4px'}}>{totalAdults + adults} Adults<br/>{totalKids + kids} Kids</TableCell>
-            <TableCell style={{width: '25%', padding: '4px'}}>${finalCost}</TableCell>
-            <TableCell style={{width: '25%', padding: '4px'}}>{promo1}<br/>{promo2}</TableCell>
-            <TableCell style={{width: '25%', padding: '4px'}}>
+            <TableCell style={{padding: '4px'}}>{totalAdults + adults} Adults<br/>{totalKids + kids} Kids</TableCell>
+            <TableCell style={{padding: '4px'}}>${finalCost}</TableCell>
+            <TableCell style={{padding: '4px'}}>{promo1}<br/>{promo2}</TableCell>
+            <TableCell style={{padding: '4px'}}>
               <FormControl className={classes.formControl}>
                 <Select
                   value={adults}
@@ -112,7 +112,7 @@ class BotHeader extends React.Component {
                 </Select>
               </FormControl>
             </TableCell>
-            <TableCell>
+            <TableCell style={{padding: '0px'}}>
               <IconButton
                 color='inherit'
                 aria-label='Open Notes'
