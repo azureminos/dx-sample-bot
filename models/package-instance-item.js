@@ -12,7 +12,8 @@ const getInstItem = (instId) =>
     .select('package_inst_item.id', 'package_inst_item.day_no as dayNo', 'package_inst_item.day_seq as daySeq',
       'city.name as city', 'attraction.description as description', 'attraction_image.image_url as imageUrl',
       'attraction.id as attractionId', 'attraction.name as name')
-    .where('package_inst_item.pkg_inst_id', instId);
+    .where('package_inst_item.pkg_inst_id', instId)
+    .orderBy('package_inst_item.day_no', 'package_inst_item.day_seq');
 
 const addInstItem = (instId, pkgItems) => {
   //console.log('>>>>Add package instance items, instId['+instId+']', pkgItems);

@@ -64,11 +64,11 @@ const Invite = ({
         if (response.is_sent) {
           window.MessengerExtensions.requestCloseBrowser(null, null);
         }
-      }, function error(errorCode, errorMessage) {
+      },
+      function error(errorCode, errorMessage) {
         console.error({errorCode, errorMessage});
       },
-      messages.sharePackageMessage(apiUri, instPackage.id, instPackage.name,
-        formatItinerary(instPackage), instPackage.imageUrl),
+      messages.sharePackageMessage(apiUri, instPackage.id, instPackage.name),
       sharingMode);
   };
 

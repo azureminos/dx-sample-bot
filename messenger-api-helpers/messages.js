@@ -7,8 +7,8 @@
 
 /* eslint-disable camelcase */
 /* eslint-disable max-len */
-
-import {filter} from 'lodash';
+import _ from 'lodash';
+import InstPackageItem from '../models/package-instance-item';
 
 /*============URL=============*/
 const listUrl = (apiUri, listId) => `${apiUri}/lists/${listId}`;
@@ -85,7 +85,7 @@ const packageMessage = (apiUri, packages) => {
         messenger_extensions: true,
         webview_share_button: 'hide',
       },*/
-      buttons: [openExistingPackageButton(urlToPackage, 'View Package')],
+      buttons: [openExistingPackageButton(urlToPackage)],
     };
   });
 
@@ -199,6 +199,12 @@ const listCreatedMessage = {
   text: 'Your list was created.',
 };
 
+const createDayItinery = (its) => {
+  return its.map((i) => {
+    return `${i.name}, `;
+  });
+};
+
 /**
  * Message to configure the customized sharing menu in the webview
  *
@@ -208,27 +214,33 @@ const listCreatedMessage = {
  * @param {string} buttonText - Text for the action button.
  * @returns {object} - Message to configure the customized sharing menu.
  */
-const sharePackageMessage = (apiUri, instId, title, description, imageUrl, buttonText) => {
-  console.log('>>>>start sharePackageMessage', {apiUri: apiUri, instId: instId,
-    title: title, description: description, imageUrl: imageUrl});
+const sharePackageMessage = (apiUri, instId, title) => {
+  console.log('>>>>start sharePackageMessage', {apiUri: apiUri, instId: instId, title: title});
   const urlToInstPackage = instPackageUrl(apiUri, instId);
+
+  const dayItems = _.groupBy(InstPackageItem.getInstItem(instId), (i) => {return i.dayNo;});
+  console.log('>>>>sharePackageMessage(), items grouped by day', dayItems);
+  const itinerary = dayItems.map((it) => {
+    return {
+      title: `Day ${it[0].dayNo}, ${it[0].city}`,
+      image_url: `${apiUri}/${it[0].imageUrl}`,
+      subtitle: createDayItinery(it),
+      /*default_action: {
+        type: 'web_url',
+        url: urlToPackage,
+        messenger_extensions: true,
+        webview_share_button: 'hide',
+      },*/
+      buttons: [openExistingPackageButton(urlToInstPackage)],
+    };
+  });
+
   return {
     attachment: {
       type: 'template',
       payload: {
         template_type: 'generic',
-        elements: [{
-          title: title,
-          image_url: `${apiUri}/${imageUrl}`,
-          subtitle: description,
-          /*default_action: {
-            type: 'web_url',
-            url: urlToInstPackage,
-            messenger_extensions: true,
-            webview_share_button: 'hide',
-          },*/
-          buttons: [openExistingPackageButton(urlToInstPackage, buttonText)],
-        }],
+        elements: itinerary,
       },
     },
   };
