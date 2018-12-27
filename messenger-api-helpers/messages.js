@@ -219,21 +219,24 @@ const sharePackageMessage = (apiUri, instId, items) => {
   const urlToInstPackage = instPackageUrl(apiUri, instId);
   const dayItems = _.groupBy(items, (i) => {return `Day ${i.dayNo}, ${i.city}`;});
   console.log('>>>>sharePackageMessage(), items grouped by day', dayItems);
-  const itinerary = Object.keys(dayItems).map((key) => {
+  const itinerary = [];
+  _.forEach(Object.keys(dayItems), (key) => {
     console.log('>>>>sharePackageMessage(), looping through every day', key);
     const it = dayItems[key];
-    return {
-      title: `Day ${it[0].dayNo}, ${it[0].city}`,
-      image_url: `${apiUri}/${it[0].imageUrl}`,
-      subtitle: createDayItinery(it),
-      /*default_action: {
-        type: 'web_url',
-        url: urlToPackage,
-        messenger_extensions: true,
-        webview_share_button: 'hide',
-      },*/
-      buttons: [openExistingPackageButton(urlToInstPackage)],
-    };
+    itinerary.push(
+      {
+        title: key,
+        image_url: `${apiUri}/${it[0].imageUrl}`,
+        subtitle: createDayItinery(it),
+        /*default_action: {
+          type: 'web_url',
+          url: urlToPackage,
+          messenger_extensions: true,
+          webview_share_button: 'hide',
+        },*/
+        buttons: [openExistingPackageButton(urlToInstPackage)],
+      }
+    );
   });
 
   return {
