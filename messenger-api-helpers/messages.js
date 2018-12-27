@@ -221,7 +221,7 @@ const sharePackageMessage = (apiUri, instId, items) => {
   console.log('>>>>sharePackageMessage(), items grouped by day', dayItems);
   const itinerary = [];
   _.forEach(Object.keys(dayItems), (key) => {
-    if(itinerary.length == 0) {
+    if (itinerary.length !== -1) {
       console.log('>>>>sharePackageMessage(), looping through every day', key);
       const it = dayItems[key];
       itinerary.push(
