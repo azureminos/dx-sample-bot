@@ -200,10 +200,9 @@ const listCreatedMessage = {
 };
 
 const createDayItinery = (its) => {
-
   return its.map((i) => {
     return `${i.name}, `;
-  });
+  }).toString();
 };
 
 /**
@@ -228,7 +227,7 @@ const sharePackageMessage = (apiUri, instId, items) => {
       {
         title: key,
         image_url: `${apiUri}/${it[0].imageUrl}`,
-        subtitle: createDayItinery(it).toString(),
+        subtitle: createDayItinery(it),
         /*default_action: {
           type: 'web_url',
           url: urlToPackage,
