@@ -219,8 +219,8 @@ const sharePackageMessage = (apiUri, instId, items) => {
   const urlToInstPackage = instPackageUrl(apiUri, instId);
   const dayItems = _.groupBy(items, (i) => {return i.dayNo;});
   console.log('>>>>sharePackageMessage(), items grouped by day', dayItems);
-  const itinerary = Object.keys(dayItems).map((d) => {
-    const it = dayItems[d];
+  const itinerary = Object.values(dayItems).map((it) => {
+    console.log('>>>>sharePackageMessage(), looping through every day', it);
     return {
       title: `Day ${it[0].dayNo}, ${it[0].city}`,
       image_url: `${apiUri}/${it[0].imageUrl}`,
