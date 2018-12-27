@@ -57,10 +57,10 @@ class ControlledAccordion extends React.Component {
     }
   };
 
-  componentDidMount() {
+  /*componentDidMount() {
     scrollToComponent(
       this.scrollMap[Object.keys(this.scrollMap)[0]]);
-  }
+  }*/
 
   render() {
     console.log('>>>>ControlledAccordion, start render()', {props: this.props, state: this.state});

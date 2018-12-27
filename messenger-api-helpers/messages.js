@@ -217,7 +217,7 @@ const createDayItinery = (its) => {
 const sharePackageMessage = (apiUri, instId, title) => {
   console.log('>>>>start sharePackageMessage', {apiUri: apiUri, instId: instId, title: title});
   const urlToInstPackage = instPackageUrl(apiUri, instId);
-
+  console.log('>>>>sharePackageMessage(), items before format', InstPackageItem.getInstItem(instId));
   const dayItems = _.groupBy(InstPackageItem.getInstItem(instId), (i) => {return i.dayNo;});
   console.log('>>>>sharePackageMessage(), items grouped by day', dayItems);
   const itinerary = dayItems.map((it) => {
