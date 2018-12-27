@@ -68,7 +68,8 @@ const Invite = ({
       function error(errorCode, errorMessage) {
         console.error({errorCode, errorMessage});
       },
-      messages.sharePackageMessage(apiUri, instPackage.id, instPackage.items),
+      messages.sharePackageMessage(apiUri, instPackage.id, instPackage.name,
+        formatItinerary(instPackage), instPackage.imageUrl),
       sharingMode);
   };
 
