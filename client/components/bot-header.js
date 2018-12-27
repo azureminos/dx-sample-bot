@@ -3,12 +3,13 @@ import {withStyles} from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import Input from '@material-ui/core/Input';
 import MenuItem from '@material-ui/core/MenuItem';
+import IconButton from '@material-ui/core/IconButton';
+import NotesIcon from '@material-ui/icons/Description';
 
 const styles = theme => ({
   table: {
@@ -38,14 +39,9 @@ class BotHeader extends React.Component {
       discount: 200,
       maxTotal: 30,
     };
-    
+
     this.handleAdultdsChange = this.handleAdultdsChange.bind(this);
     this.handleKidsChange = this.handleKidsChange.bind(this);
-  }
-
-  handleAdultdsChange(e) {
-    console.log('>>>>BotHeader, handleAdultdsChange()', e);
-    this.setState({adults: e.target.value});
   }
 
   handleKidsChange(e) {
@@ -54,7 +50,7 @@ class BotHeader extends React.Component {
   }
 
   render() {
-    const {classes} = this.props;
+    const {classes, drawerHandler} = this.props;
     const {adults, kids, totalAdults, totalKids, cost, tier, discount, maxTotal} = this.state;
     let promo1 = '';
     let promo2 = '';
@@ -110,6 +106,15 @@ class BotHeader extends React.Component {
                   <MenuItem value={5}>5 kids</MenuItem>
                 </Select>
               </FormControl>
+            </TableCell>
+            <TableCell>
+              <IconButton
+                color='inherit'
+                aria-label='Open Notes'
+                onClick={drawerHandler}
+              >
+                <NotesIcon />
+              </IconButton>
             </TableCell>
           </TableRow>
         </TableBody>

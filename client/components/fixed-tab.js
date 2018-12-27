@@ -6,8 +6,13 @@ import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import Typography from '@material-ui/core/Typography';
 import SwipeableViews from 'react-swipeable-views';
+import Drawer from '@material-ui/core/Drawer';
+import Divider from '@material-ui/core/Divider';
+import IconButton from '@material-ui/core/IconButton';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import _ from 'lodash';
-import BotHeader from './bot-header'
+import BotHeader from './bot-header';
 
 function TabContainer({children, dir}) {
   return (
@@ -26,12 +31,28 @@ const styles = theme => ({
   root: {
     backgroundColor: theme.palette.background.paper,
   },
+  drawer: {
+    width: 150,
+    flexShrink: 0,
+  },
+  drawerPaper: {
+    width: 150,
+  },
 });
 
 class FullWidthTabs extends React.Component {
   state = {
     value: 0,
+    openNotes: false,
   };
+
+  handleDrawerOpen = () => {
+    this.setState({openNotes: true});
+  }
+
+  handleDrawerClose = () => {
+    this.setState({openNotes: false});
+  }
 
   handleChange = (event, value) => {
     this.setState({value});
@@ -54,7 +75,7 @@ class FullWidthTabs extends React.Component {
     return (
       <div className={classes.root}>
         <AppBar position='sticky' color='default'>
-          <BotHeader/>
+          <BotHeader drawerHandler={this.handleDrawerOpen} />
           <Tabs
             value={this.state.value}
             onChange={this.handleChange}
@@ -65,6 +86,27 @@ class FullWidthTabs extends React.Component {
             {tabItems}
           </Tabs>
         </AppBar>
+        <Drawer
+          className={classes.drawer}
+          variant='persistent'
+          anchor='left'
+          open={open}
+          classes={{
+            paper: classes.drawerPaper,
+          }}
+        >
+          <div className={classes.drawerHeader}>
+            <IconButton onClick={this.handleDrawerClose}>
+              {theme.direction === 'ltr' ? (
+                <ChevronLeftIcon />
+              ) : (
+                <ChevronRightIcon />
+              )}
+            </IconButton>
+          </div>
+          <Divider />
+          <div>Hello</div>
+        </Drawer>
         <SwipeableViews
           disabled={'true'}
           axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
