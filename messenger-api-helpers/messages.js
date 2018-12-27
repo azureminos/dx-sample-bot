@@ -213,46 +213,26 @@ const createDayItinery = (its) => {
  * @param {string} buttonText - Text for the action button.
  * @returns {object} - Message to configure the customized sharing menu.
  */
-const sharePackageMessage = (apiUri, instId, items) => {
-  console.log('>>>>start sharePackageMessage', {apiUri: apiUri, instId: instId, items: items});
+const sharePackageMessage = (apiUri, instId, title, description, imageUrl) => {
+  console.log('>>>>sharePackageMessage(), start', {apiUri: apiUri, instId: instId,
+    title: title, description: description, imageUrl: imageUrl});
   const urlToInstPackage = instPackageUrl(apiUri, instId);
-  const dayItems = _.groupBy(items, (i) => {return `Day ${i.dayNo}, ${i.city}`;});
-  console.log('>>>>sharePackageMessage(), items grouped by day', dayItems);
-  const itinerary = [];
-  _.forEach(Object.keys(dayItems), (key) => {
-    if (itinerary.length === 0) {
-      console.log('>>>>sharePackageMessage(), looping through every day', key);
-      const it = dayItems[key];
-      itinerary.push(
-        {
-          title: key,
-          image_url: `${apiUri}/${it[0].imageUrl}`,
-          subtitle: createDayItinery(it),
+  const result = {
+    attachment: {
+      type: 'template',
+      payload: {
+        template_type: 'generic',
+        elements: [{
+          title: title,
+          image_url: `${apiUri}/${imageUrl}`,
+          subtitle: description,
           buttons: [openExistingPackageButton(urlToInstPackage)],
-        }
-      );
-    }
-  });
-
-  console.log('>>>>sharePackageMessage(), result', {
-    attachment: {
-      type: 'template',
-      payload: {
-        template_type: 'generic',
-        elements: itinerary,
-      },
-    },
-  });
-
-  return {
-    attachment: {
-      type: 'template',
-      payload: {
-        template_type: 'generic',
-        elements: itinerary,
+        }],
       },
     },
   };
+  console.log('>>>>sharePackageMessage(), complete', result);
+  return result;
 };
 
 export default {
