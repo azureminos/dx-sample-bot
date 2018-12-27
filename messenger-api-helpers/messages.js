@@ -239,6 +239,16 @@ const sharePackageMessage = (apiUri, instId, items) => {
     );
   });
 
+  console.log('>>>>sharePackageMessage(), result', {
+    attachment: {
+      type: 'template',
+      payload: {
+        template_type: 'generic',
+        elements: itinerary,
+      },
+    },
+  });
+
   return {
     attachment: {
       type: 'template',
