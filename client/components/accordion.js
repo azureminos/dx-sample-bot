@@ -2,6 +2,7 @@ import React, {createElement} from 'react';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
+import scrollToComponent from 'react-scroll-to-component';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
@@ -16,14 +17,6 @@ const styles = theme => ({
     fontSize: theme.typography.pxToRem(20),
     fontWeight: theme.typography.fontWeightRegular,
   },
-});
-
-const RefSection = React.forwardRef((props, ref)=>{
-  return (
-    <div ref={ref}>
-      {props.children}
-    </div>
-  );
 });
 
 class ControlledAccordion extends React.Component {
@@ -43,7 +36,8 @@ class ControlledAccordion extends React.Component {
   }
 
   scrollToContent = (panel) => {
-    this.scrollMap[panel].current.scrollIntoView({block: 'start', behavior: 'smooth'});
+    //this.scrollMap[panel].current.scrollIntoView({block: 'start', behavior: 'smooth'});
+    scrollToComponent(this.scrollMap[panel]);
   };
 
   handleChange = (panel) => (event, expanded) => {
@@ -72,18 +66,16 @@ class ControlledAccordion extends React.Component {
 
     _.forEach(_.keys(mapContents), (title) => {
       const panel = (
-        <RefSection ref={scrollMap[title]}>
-          <div className={classes.root} key={title}>
-            <ExpansionPanel expanded={expanded === title} onChange={this.handleChange(title)}>
-              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography className={classes.heading} variant='h5'>{title}</Typography>
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
-                <Typography>{mapContents[title]}</Typography>
-              </ExpansionPanelDetails>
-            </ExpansionPanel>
-          </div>
-        </RefSection>
+        <div key={title} ref={(section) => {this.scrollMap[title] = section;}} className={classes.root} >
+          <ExpansionPanel expanded={expanded === title} onChange={this.handleChange(title)}>
+            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography className={classes.heading} variant='h5'>{title}</Typography>
+            </ExpansionPanelSummary>
+            <ExpansionPanelDetails>
+              <Typography>{mapContents[title]}</Typography>
+            </ExpansionPanelDetails>
+          </ExpansionPanel>
+        </div>
       );
       accordions.push(panel);
     });

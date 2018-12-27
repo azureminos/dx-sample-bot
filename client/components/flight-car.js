@@ -35,26 +35,26 @@ const styles = theme => ({
 
 class FlightCar extends React.Component {
   state = {
-    departDate: "",
-    returnDate: "",
-    typeGroundTransport: ""
+    departDate: '',
+    returnDate: '',
+    typeGroundTransport: '',
   };
 
   handleCarChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
+    this.setState({[event.target.name]: event.target.value});
   };
 
   handleFlightChange = event => {
-    this.setState({ departDate: event.target.value });
+    this.setState({departDate: event.target.value});
   };
   render() {
-    const { classes } = this.props;
+    const {classes} = this.props;
 
     return (
       <List className={classes.list}>
         <ListItem>
           <ListItemIcon>
-            <FlightTakeoff color="primary" />
+            <FlightTakeoff color='primary' />
           </ListItemIcon>
           <ListItemSecondaryAction>
             <div>
@@ -64,11 +64,11 @@ class FlightCar extends React.Component {
                   onChange={this.handleFlightChange}
                   displayEmpty
                   inputProps={{
-                    name: "departDate",
-                    id: "depart-date"
+                    name: 'departDate',
+                    id: 'depart-date',
                   }}
                 >
-                  <MenuItem value="" disabled>
+                  <MenuItem value='' disabled>
                     <em>Depart</em>
                   </MenuItem>
                   <MenuItem value={10}>03 Feb 2019</MenuItem>
@@ -79,7 +79,7 @@ class FlightCar extends React.Component {
               </FormControl>
               <FormControl className={classes.formControl} disabled>
                 <Select value={this.state.departDate} displayEmpty>
-                  <MenuItem value="">
+                  <MenuItem value=''>
                     <em>Arrive</em>
                   </MenuItem>
                   <MenuItem value={10}>07 Feb 2019</MenuItem>
@@ -94,7 +94,7 @@ class FlightCar extends React.Component {
         <Divider />
         <ListItem>
           <ListItemIcon>
-            <DirectionsCar color="primary" />
+            <DirectionsCar color='primary' />
           </ListItemIcon>
           <ListItemSecondaryAction>
             <FormControl className={classes.formControl}>
@@ -103,15 +103,15 @@ class FlightCar extends React.Component {
                 onChange={this.handleCarChange}
                 displayEmpty
                 inputProps={{
-                  name: "typeGroundTransport",
-                  id: "typeGroundTransport-simple"
+                  name: 'typeGroundTransport',
+                  id: 'typeGroundTransport-simple',
                 }}
               >
-                <MenuItem value="" disabled>
+                <MenuItem value='' disabled>
                   <em>Ground Transport</em>
                 </MenuItem>
-                <MenuItem value="Basic">Basic</MenuItem>
-                <MenuItem value="Luxury">Luxury</MenuItem>
+                <MenuItem value='Basic'>Basic</MenuItem>
+                <MenuItem value='Luxury'>Luxury</MenuItem>
               </Select>
             </FormControl>
           </ListItemSecondaryAction>
@@ -122,7 +122,7 @@ class FlightCar extends React.Component {
 }
 
 FlightCar.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(FlightCar);
