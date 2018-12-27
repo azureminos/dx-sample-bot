@@ -44,6 +44,11 @@ class BotHeader extends React.Component {
     this.handleKidsChange = this.handleKidsChange.bind(this);
   }
 
+  handleAdultdsChange(e) {
+    console.log('>>>>BotHeader, handleAdultdsChange()', e);
+    this.setState({adults: e.target.value});
+  }
+
   handleKidsChange(e) {
     console.log('>>>>BotHeader, handleKidsChange()', e);
     this.setState({kids: e.target.value});
