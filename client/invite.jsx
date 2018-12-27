@@ -54,7 +54,7 @@ const Invite = ({
       });
       result += ').';
     });
-    console.log('>>>>Invite, formatItinerary', result);
+    console.log('>>>>Invite, formatItinerary()', result);
     return result;
   };
 

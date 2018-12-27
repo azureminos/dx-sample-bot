@@ -8,7 +8,6 @@
 /* eslint-disable camelcase */
 /* eslint-disable max-len */
 import _ from 'lodash';
-import InstPackageItem from '../models/package-instance-item';
 
 /*============URL=============*/
 const listUrl = (apiUri, listId) => `${apiUri}/lists/${listId}`;
@@ -209,10 +208,10 @@ const listCreatedMessage = {
  * @returns {object} - Message to configure the customized sharing menu.
  */
 const sharePackageMessage = (apiUri, instId, title, description, imageUrl) => {
-  console.log('>>>>start sharePackageMessage', {apiUri: apiUri, instId: instId,
+  console.log('>>>>sharePackageMessage(), start', {apiUri: apiUri, instId: instId,
     title: title, description: description, imageUrl: imageUrl});
   const urlToInstPackage = instPackageUrl(apiUri, instId);
-  return {
+  const result = {
     attachment: {
       type: 'template',
       payload: {
@@ -232,6 +231,8 @@ const sharePackageMessage = (apiUri, instId, title, description, imageUrl) => {
       },
     },
   };
+  console.log('>>>>sharePackageMessage(), complete', result);
+  return result;
 };
 
 export default {
