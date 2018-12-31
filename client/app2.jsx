@@ -463,11 +463,11 @@ export default class App2 extends React.Component {
 
       page = (
         <Paper>
-          <FixedTab tabs={tabs} />
+          <FixedTab tabs={tabs} isOwner={isOwner}/>
           {invite}
         </Paper>
       );
-    } else if (socketStatus == 'noList') {
+    } else if (socketStatus === 'noList') {
       // We were unable to find a matching list in our system.
       page = <ListNotFound/>;
     } else {

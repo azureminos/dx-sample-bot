@@ -42,16 +42,12 @@ const styles = theme => ({
 
 class FullWidthTabs extends React.Component {
   state = {
-    value: 0,
+    value: this.props.isOwner ? 0 : 1,
     openNotes: false,
   };
 
-  handleDrawerOpen = () => {
-    this.setState({openNotes: true});
-  }
-
-  handleDrawerClose = () => {
-    this.setState({openNotes: false});
+  handleDrawer = () => {
+    this.setState({openNotes: !this.state.openNotes});
   }
 
   handleChange = (event, value) => {
@@ -75,7 +71,7 @@ class FullWidthTabs extends React.Component {
     return (
       <div className={classes.root}>
         <AppBar position='sticky' color='default'>
-          <BotHeader drawerHandler={this.handleDrawerOpen} />
+          <BotHeader drawerHandler={this.handleDrawer} />
           <Tabs
             value={this.state.value}
             onChange={this.handleChange}
@@ -96,7 +92,7 @@ class FullWidthTabs extends React.Component {
           }}
         >
           <div className={classes.drawerHeader}>
-            <IconButton onClick={this.handleDrawerClose}>
+            <IconButton onClick={this.handleDrawer}>
               {theme.direction === 'ltr' ? (
                 <ChevronLeftIcon />
               ) : (
