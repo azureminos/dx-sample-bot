@@ -31,11 +31,11 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.paper,
   },
   drawer: {
-    width: 150,
+    width: 300,
     flexShrink: 0,
   },
   drawerPaper: {
-    width: 150,
+    width: 300,
   },
 });
 
