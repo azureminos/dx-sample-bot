@@ -19,7 +19,7 @@ const styles = theme => ({
     paddingTop: '56.25%', // 16:9
   },
   title: {
-    fontSize: 8,
+    fontSize: 14,
   },
 });
 

@@ -62,9 +62,7 @@ export default class PackageItinerary extends React.Component {
     });
 
     return (
-      <section>
-        <ControlledAccordion mapContents={elItineraries} />
-      </section>
+      <ControlledAccordion mapContents={elItineraries} />
     );
   }
 }
