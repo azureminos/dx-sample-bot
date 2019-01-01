@@ -62,7 +62,7 @@ class BotHeader extends React.Component {
     let finalCost = 0;
     if (tier > totalAdults + adults + totalKids + kids) {
       promo1 = (tier - totalAdults - adults - totalKids - kids)+' more people';
-      promo2 = '$'+discount+' off';
+      promo2 = '$'+(cost - discount)+' per person';
       finalCost = cost;
     } else {
       promo1 = 'Max group size is ' + maxTotal;
@@ -73,9 +73,9 @@ class BotHeader extends React.Component {
       <Table className={classes.table}>
         <TableBody>
           <TableRow>
-            <TableCell style={{padding: '4px', width: '23%'}}>{totalAdults + adults} Adults<br/>{totalKids + kids} Kids</TableCell>
-            <TableCell style={{padding: '4px', width: '23%'}}>${finalCost}</TableCell>
-            <TableCell style={{padding: '4px', width: '23%'}}>{promo1}<br/>{promo2}</TableCell>
+            <TableCell style={{padding: '4px', width: '20%'}}>{totalAdults + adults} Adults<br/>{totalKids + kids} Kids</TableCell>
+            <TableCell style={{padding: '4px', width: '18%'}}>${finalCost} per person</TableCell>
+            <TableCell style={{padding: '4px', width: '31%'}}>{promo1}<br/>{promo2}</TableCell>
             <TableCell style={{padding: '4px', width: '23%'}}>
               <FormControl className={classes.formControl}>
                 <Select

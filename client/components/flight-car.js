@@ -35,7 +35,7 @@ class FlightCar extends React.Component {
   state = {
     departDate: '',
     returnDate: '',
-    typeGroundTransport: '',
+    typeGroundTransport: 'Basic',
   };
 
   handleCarChange = event => {

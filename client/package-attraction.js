@@ -26,7 +26,7 @@ class PackageAttraction extends React.Component {
       const tmpCity = _.find(cities, (c) => {return c.name == city;});
       const cityDesc = !!tmpCity ? tmpCity.description : '';
       const cityDescShort = cityDesc.substring(0, (cityDesc.length > 80 ? 80 : cityDesc.length)) + '...';
-      // Prepare settings of TagList
+      // Prepare settings of ChipList
       const likedItems = _.filter(cityAttractions[city], {isLiked: true});
       console.log('>>>>Show tags for city['+city+']', likedItems);
 
