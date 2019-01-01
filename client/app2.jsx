@@ -437,27 +437,35 @@ export default class App2 extends React.Component {
 
       const tabs = {
         Attraction: (
-          <Typography id='package-attraction'>
-            <PackageAttraction
-              instPackage={instPackage}
-              apiUri={apiUri}
-              cities={cities}
-              cityAttractions={cityAttractions}
-              likeAttractions={this.setLikedAttractions}
-            />
-            <Updating updating={updating} />
-          </Typography>
+          <div id='package-attraction'>
+            <Typography>
+              <PackageAttraction
+                instPackage={instPackage}
+                apiUri={apiUri}
+                cities={cities}
+                cityAttractions={cityAttractions}
+                likeAttractions={this.setLikedAttractions}
+              />
+              <Updating updating={updating} />
+            </Typography>
+            <br/>
+            <br/>
+          </div>
         ),
         Itinerary: (
-          <Typography id='package-itinerary'>
-            <PackageItinerary
-              instPackage={instPackage}
-              cityAttractions={cityAttractions}
-              cityHotels={cityHotels}
-              apiUri={apiUri}
-              selectHotel={this.setSelectedHotel}
-            />
-          </Typography>
+          <div id='package-itinerary'>
+            <Typography>
+              <PackageItinerary
+                instPackage={instPackage}
+                cityAttractions={cityAttractions}
+                cityHotels={cityHotels}
+                apiUri={apiUri}
+                selectHotel={this.setSelectedHotel}
+              />
+            </Typography>
+            <br/>
+            <br/>
+          </div>
         ),
       };
 
