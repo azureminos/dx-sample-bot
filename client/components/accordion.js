@@ -14,12 +14,8 @@ const styles = theme => ({
     width: '100%',
   },
   heading: {
-    padding: 8,
     fontSize: theme.typography.pxToRem(20),
     fontWeight: theme.typography.fontWeightRegular,
-  },
-  content: {
-    padding: 8,
   },
 });
 
@@ -70,7 +66,6 @@ class ControlledAccordion extends React.Component {
     console.log('>>>>ControlledAccordion, start render()', {props: this.props, state: this.state});
     const {classes, mapContents} = this.props;
     const {expanded} = this.state;
-    const scrollMap = this.scrollMap;
     const accordions = [];
 
     _.forEach(_.keys(mapContents), (title) => {
@@ -81,7 +76,7 @@ class ControlledAccordion extends React.Component {
               <Typography className={classes.heading} variant='h5'>{title}</Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
-              <Typography className={classes.content}>{mapContents[title]}</Typography>
+              <Typography>{mapContents[title]}</Typography>
             </ExpansionPanelDetails>
           </ExpansionPanel>
         </div>
