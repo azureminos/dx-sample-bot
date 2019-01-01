@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 
 import AttractionCard from './components/attraction-card.js';
 import CardSlider from './components/card-slider.jsx';
-import TagList from './components/tag-list.js';
+import ChipList from './components/chip-list.js';
 import DescPanel from './components/description-panel';
 
 const styles = {
@@ -27,13 +27,11 @@ class PackageAttraction extends React.Component {
       const cityDesc = !!tmpCity ? tmpCity.description : '';
       const cityDescShort = cityDesc.substring(0, (cityDesc.length > 80 ? 80 : cityDesc.length)) + '...';
       // Prepare settings of TagList
-      const tags = _.filter(cityAttractions[city], {isLiked: true});
-      console.log('>>>>Show tags for city['+city+']', tags);
+      const likedItems = _.filter(cityAttractions[city], {isLiked: true});
+      console.log('>>>>Show tags for city['+city+']', likedItems);
 
       const tagSetting = {
-        tags: tags.map((item) => {return {id: item.id, text: item.name};}),
-        title: null,
-        isReadonly: true,
+        tags: likedItems.map((item) => {return {id: item.id, text: item.name, imageUrl: item.imageUrl};}),
       };
 
       // Prepare attraction card list
@@ -55,8 +53,8 @@ class PackageAttraction extends React.Component {
             {city+' - '+days+' Day'+(days==1?'':'s')}
           </Typography>
           <DescPanel descShort={cityDescShort} descFull={cityDesc} />
+          <ChipList {...tagSetting} />
           <CardSlider cards={attractionCards}/>
-          <TagList {...tagSetting} />
         </div>
       );
     });
