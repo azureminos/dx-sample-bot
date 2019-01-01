@@ -42,7 +42,6 @@ class HotelCard extends React.Component {
     return (
       <Card className={classes.card}>
         <CardHeader
-          className={classes.heading}
           action={
             <IconButton onClick={(event) => this.handleChange(item)}>
               <CheckIcon style={{display: this.props.item.isSelected ? 'none' : 'block', color: grey[500]}}/>
