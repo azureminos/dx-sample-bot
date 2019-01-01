@@ -26,8 +26,8 @@ class HotelSlider extends React.Component {
 
   render() {
     const params = {
-      slidesPerView: 3,
-      spaceBetween: 30,
+      slidesPerView: 2,
+      spaceBetween: 8,
       pagination: {
         el: '.swiper-pagination',
         clickable: true,
