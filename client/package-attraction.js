@@ -31,7 +31,8 @@ class PackageAttraction extends React.Component {
       console.log('>>>>Show tags for city['+city+']', likedItems);
 
       const tagSetting = {
-        tags: likedItems.map((item) => {return {id: item.id, text: item.name, imageUrl: item.imageUrl};}),
+        tags: likedItems.map((item) => {return {id: item.id, name: item.name, imageUrl: item.imageUrl};}),
+        apiUri: apiUri,
       };
 
       // Prepare attraction card list
