@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
 import scrollToComponent from 'react-scroll-to-component';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import MuiExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import MuiExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
@@ -18,6 +18,18 @@ const styles = theme => ({
     fontWeight: theme.typography.fontWeightRegular,
   },
 });
+
+const ExpansionPanelSummary = withStyles(theme => ({
+  root: {
+    padding: theme.spacing.unit,
+  },
+}))(MuiExpansionPanelSummary);
+
+const ExpansionPanelDetails = withStyles(theme => ({
+  root: {
+    padding: theme.spacing.unit,
+  },
+}))(MuiExpansionPanelDetails);
 
 class ControlledAccordion extends React.Component {
   constructor(props) {

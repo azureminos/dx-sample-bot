@@ -7,7 +7,6 @@ import HotelSlider from './components/hotel-slider';
 import FlightCar from './components/flight-car';
 import ItineraryItem from './itinerary-item';
 
-
 const triggerText = (dayNo, city) => `Day ${dayNo}, ${city}`;
 
 export default class PackageItinerary extends React.Component {
