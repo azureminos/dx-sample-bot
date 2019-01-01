@@ -18,7 +18,11 @@ const styles = theme => ({
     height: 0,
     paddingTop: '56.25%', // 16:9
   },
-  title: {
+  headerRoot: {
+    padding: 8,
+    height: 56,
+  },
+  headerTitle: {
     fontSize: 14,
   },
 });
@@ -41,7 +45,7 @@ class HotelCard extends React.Component {
     return (
       <Card className={classes.card}>
         <CardHeader
-          classes={{title: classes.title}}
+          classes={{root: classes.headerRoot, title: classes.headerTitle}}
           action={
             <IconButton onClick={(event) => this.handleChange(item)}>
               <CheckIcon style={{display: this.props.item.isSelected ? 'none' : 'block', color: grey[500]}}/>
