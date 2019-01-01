@@ -5,7 +5,6 @@ import AppBar from '@material-ui/core/AppBar';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import Typography from '@material-ui/core/Typography';
-import SwipeableViews from 'react-swipeable-views';
 import Drawer from '@material-ui/core/Drawer';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
@@ -103,14 +102,8 @@ class FullWidthTabs extends React.Component {
           <Divider />
           <div>Hello</div>
         </Drawer>
-        <SwipeableViews
-          disabled={'true'}
-          axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-          index={this.state.value}
-          onChangeIndex={this.handleChangeIndex}
-        >
-          {tabContents}
-        </SwipeableViews>
+        {this.state.value === 0 && tabContents[0]}
+        {this.state.value === 1 && tabContents[1]}
       </div>
     );
   }
