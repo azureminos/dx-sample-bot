@@ -74,6 +74,11 @@ class BotHeader extends React.Component {
       <Table className={classes.table}>
         <TableBody>
           <TableRow>
+            <TableCell style={{padding: '2px', color: 'red', width: '100%', textAlign: 'center'}}>
+              <div>Your package will expire in ....</div>
+            </TableCell>
+          </TableRow>
+          <TableRow>
             <TableCell style={{padding: '4px', width: '20%'}}>{totalAdults + adults} Adults<br/>{totalKids + kids} Kids</TableCell>
             <TableCell style={{padding: '4px', width: '18%'}}>${finalCost} pp</TableCell>
             <TableCell style={{padding: '4px', width: '31%'}}>{promo1}<br/>{promo2}</TableCell>
