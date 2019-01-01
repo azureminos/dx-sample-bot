@@ -70,6 +70,7 @@ class FullWidthTabs extends React.Component {
     return (
       <div className={classes.root}>
         <AppBar position='sticky' color='default'>
+          <div style={{padding: '2px', color: 'red', fontSize: '12px', fontWeight: 'bold', textAlign: 'center'}}>Your package will expire in ....</div>
           <BotHeader drawerHandler={this.handleDrawer} />
           <Tabs
             value={this.state.value}
