@@ -55,6 +55,7 @@ class BotHeader extends React.Component {
   }
 
   render() {
+    console.log('>>>>BotHeader, render()', this.state);
     const {classes, drawerHandler} = this.props;
     const {adults, kids, totalAdults, totalKids, cost, tier, discount, maxTotal} = this.state;
     let promo1 = '';
@@ -62,11 +63,11 @@ class BotHeader extends React.Component {
     let finalCost = 0;
     if (tier > totalAdults + adults + totalKids + kids) {
       promo1 = (tier - totalAdults - adults - totalKids - kids)+' more people';
-      promo2 = '$'+(cost - discount)+' per person';
+      promo2 = '$'+(cost - discount)+' pp';
       finalCost = cost;
     } else {
       promo1 = 'Max group size is ' + maxTotal;
-      finalCost = cost - discount;
+      finalCost = (cost - discount);
     }
 
     return (
@@ -74,7 +75,7 @@ class BotHeader extends React.Component {
         <TableBody>
           <TableRow>
             <TableCell style={{padding: '4px', width: '20%'}}>{totalAdults + adults} Adults<br/>{totalKids + kids} Kids</TableCell>
-            <TableCell style={{padding: '4px', width: '18%'}}>${finalCost} per person</TableCell>
+            <TableCell style={{padding: '4px', width: '18%'}}>${finalCost} pp</TableCell>
             <TableCell style={{padding: '4px', width: '31%'}}>{promo1}<br/>{promo2}</TableCell>
             <TableCell style={{padding: '4px', width: '23%'}}>
               <FormControl className={classes.formControl}>
