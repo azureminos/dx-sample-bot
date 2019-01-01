@@ -18,7 +18,7 @@ const SuperSlider = ({items, btnActionMap, apiUri}) => {
     };
 
     return (
-      <div className='demo-slide' key={btnItem.id}>
+      <div className='carousel-slide' key={btnItem.id}>
         <MediaCard
           item={btnItem}
           btnActionMap={btnActionMap}

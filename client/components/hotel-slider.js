@@ -26,8 +26,12 @@ class HotelSlider extends React.Component {
 
   render() {
     const params = {
-      slidesPerView: 'auto',
-      spaceBetween: 8,
+      slidesPerView: 3,
+      spaceBetween: 30,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      }
     };
 
     console.log('>>>>HotelSlider, render()', this.props);
@@ -38,7 +42,7 @@ class HotelSlider extends React.Component {
       h.isSelected = (h.id == idxSelected);
       console.log('>>>>HotelSlider, checked Selected', h);
       return (
-        <div className='demo-slide' key={idx}>
+        <div className='hotel-slide' key={idx}>
           <HotelCard
             key={h.id}
             item={h}

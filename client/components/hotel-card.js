@@ -19,7 +19,7 @@ const styles = theme => ({
     paddingTop: '56.25%', // 16:9
   },
   heading: {
-    fontSize: theme.typography.pxToRem(20),
+    fontSize: theme.typography.pxToRem(12),
     fontWeight: theme.typography.fontWeightRegular,
   },
 });

@@ -11,7 +11,7 @@ const CardSlider = ({cards}) => {
 
   const items = cards.map((card, idx) => {
     return (
-      <div className='demo-slide' key={idx}>
+      <div className='carousel-slide' key={idx}>
         {card}
       </div>
     );

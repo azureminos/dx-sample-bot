@@ -17,6 +17,7 @@ import App from './app2.jsx';
 import Oops from './oops.jsx';
 
 /* ----------  Stylesheets  ---------- */
+import 'react-id-swiper/src/styles/css/swiper.css';
 import '../public/style.css';
 
 
