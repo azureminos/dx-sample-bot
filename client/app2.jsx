@@ -450,6 +450,8 @@ export default class App2 extends React.Component {
             </Typography>
             <br/>
             <br/>
+            <br/>
+            <br/>
           </div>
         ),
         Itinerary: (
@@ -463,6 +465,8 @@ export default class App2 extends React.Component {
                 selectHotel={this.setSelectedHotel}
               />
             </Typography>
+            <br/>
+            <br/>
             <br/>
             <br/>
           </div>
