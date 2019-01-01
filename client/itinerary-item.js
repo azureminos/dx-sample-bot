@@ -1,7 +1,7 @@
 import React, {createElement} from 'react';
 //import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
 import _ from 'lodash';
-import TagList from './components/tag-list';
+import ChipList from './components/chip-list';
 
 // Filter out selected attractions
 const getUnselected = (items, selected) => {
@@ -10,15 +10,14 @@ const getUnselected = (items, selected) => {
   });
 };
 
-const getTagSetting = (attractions) => {
+const getTagSetting = (attractions, apiUri) => {
   const tags = attractions.map((a) => {
-    return {id: a.attractionId, text: a.name};
+    return {id: a.attractionId, name: a.name, imageUrl: a.imageUrl};
   });
 
   return {
     tags: tags,
-    title: null,
-    isReadonly: true,
+    apiUri: apiUri,
   };
 };
 
@@ -26,7 +25,7 @@ export default class ItineraryItem extends React.Component {
   render() {
     console.log('>>>>ItineraryItem, Start render with props', this.props);
     // Get data from props
-    const {itinerary, attractions, isCustom} = this.props;
+    const {itinerary, attractions, isCustom, apiUri} = this.props;
     const allAttraction = attractions.map((a) => {
       a.attractionId = a.id;
       return a;
@@ -41,11 +40,11 @@ export default class ItineraryItem extends React.Component {
     return (
       <div className='itinerary-day-item'>
         <div className='dnd-container'>
-          <TagList {...getTagSetting(itinerary.attractions)} />
+          <ChipList {...getTagSetting(itinerary.attractions, apiUri)} />
         </div>
         <div style={styleItitenary} className='dnd-container'>
           <label>Other Attractions: </label>
-          <TagList {...getTagSetting(unselected)} />
+          <ChipList {...getTagSetting(unselected, apiUri)} />
         </div>
       </div>
     );

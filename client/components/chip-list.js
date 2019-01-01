@@ -7,7 +7,7 @@ import _ from 'lodash';
 const styles = theme => ({
   root: {
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'left',
     flexWrap: 'wrap',
   },
   chip: {

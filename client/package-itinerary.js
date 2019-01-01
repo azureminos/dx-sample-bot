@@ -54,6 +54,7 @@ export default class PackageItinerary extends React.Component {
             itinerary={itinerary}
             attractions={cityAttractions[city]}
             isCustom={instPackage.isCustom}
+            apiUri={apiUri}
           />
           {hotelSelector}
         </div>
