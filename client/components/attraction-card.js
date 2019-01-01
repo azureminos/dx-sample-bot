@@ -20,6 +20,10 @@ const styles = {
     height: 0,
     paddingTop: '56.25%', // 16:9
   },
+  headerRoot: {
+    padding: 8,
+    height: 80,
+  },
 };
 
 class AttractionCard extends React.Component {
@@ -29,6 +33,7 @@ class AttractionCard extends React.Component {
     return (
       <Card className={classes.card}>
         <CardHeader
+          classes={{root: classes.headerRoot}}
           action={
             <IconButton onClick={() => handleClick(item)}>
               <SolidCheckIcon style={{display: item.isLiked ? 'block' : 'none', color: blue[500]}}/>
