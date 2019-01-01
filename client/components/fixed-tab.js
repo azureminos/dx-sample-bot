@@ -58,7 +58,7 @@ class FullWidthTabs extends React.Component {
   };
 
   render() {
-    const {classes, theme, tabs} = this.props;
+    const {classes, theme, tabs, caseNotes} = this.props;
     const tabItems = [];
     const tabContents = [];
 
@@ -82,27 +82,29 @@ class FullWidthTabs extends React.Component {
             {tabItems}
           </Tabs>
         </AppBar>
-        <Drawer
-          className={classes.drawer}
-          variant='persistent'
-          anchor='left'
-          open={this.state.openNotes}
-          classes={{
-            paper: classes.drawerPaper,
-          }}
-        >
-          <div className={classes.drawerHeader}>
-            <IconButton onClick={this.handleDrawer}>
-              {theme.direction === 'ltr' ? (
-                <ChevronLeftIcon />
-              ) : (
-                <ChevronRightIcon />
-              )}
-            </IconButton>
-          </div>
-          <Divider />
-          <div>Hello</div>
-        </Drawer>
+        {caseNotes && (
+          <Drawer
+            className={classes.drawer}
+            variant='persistent'
+            anchor='left'
+            open={this.state.openNotes}
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+          >
+            <div className={classes.drawerHeader}>
+              <IconButton onClick={this.handleDrawer}>
+                {theme.direction === 'ltr' ? (
+                  <ChevronLeftIcon />
+                ) : (
+                  <ChevronRightIcon />
+                )}
+              </IconButton>
+            </div>
+            <Divider />
+            {caseNotes}
+          </Drawer>
+        )}
         {this.state.value === 0 && tabContents[0]}
         {this.state.value === 1 && tabContents[1]}
       </div>
