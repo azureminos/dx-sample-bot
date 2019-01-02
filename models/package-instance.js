@@ -128,16 +128,16 @@ const getInstPackageDetails = (instId) =>
   
 const getInstPackageDetailsByUserId = (userId) =>
   dsInstParticipant()
-    .select('pkg_inst_id')
+    .select('pkg_inst_id as instId')
     .where('login_id', userId)
     .orderBy('created_ts', 'desc')
     .first()
-    .then((instId) => {
-      console.log('getInstPackageDetailsByUserId('+userId+'), found latest package instance', instId);
+    .then((result) => {
+      console.log('getInstPackageDetailsByUserId('+userId+'), found latest package instance', result);
       return Promise.all([
-        getInstPackage(instId),
+        getInstPackage(result.instId),
         //RatePlan.getRatePlanByInstId(instId),
-        instItem.getInstItem(instId),
+        instItem.getInstItem(result.instId),
       ])
       .then(([inst, /*pkgRatePlans,*/ items]) => {
         inst.items = items;

@@ -161,7 +161,7 @@ const join = ({
         sendStatus('noPackage');
       } else {
         console.log('>>>>Print all packages', packages);
-        console.log('>>>>Print all packages', instPackage);
+        console.log('>>>>Print instPackage', instPackage);
         userSocket.emit('pre-init', {packages: packages, instPackage: instPackage});
         sendStatus('ok');
       }
