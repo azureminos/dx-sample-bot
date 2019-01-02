@@ -33,28 +33,41 @@ class CaseNotes extends React.Component {
     super(props);
 
     this.state = {
+      text: '',
     };
 
+    this.handleChange = this.handleChange.bind(this);
     this.handleAddNotes = this.handleAddNotes.bind(this);
+    this.handleClearNotes = this.handleClearNotes.bind(this);
+  }
+
+  handleChange(e) {
+    console.log('>>>>CaseNotes, handleChange()', e);
+    this.setState({text: e.target.value});
   }
 
   handleAddNotes(e) {
     console.log('>>>>CaseNotes, handleAddNotes()', e);
   }
 
+  handleClearNotes(e) {
+    console.log('>>>>CaseNotes, handleClearNotes()', e);
+    this.setState({text: ''});
+  }
+
   render() {
     console.log('>>>>CaseNotes, render()', this.props);
-    const {classes, notes} = this.props;
+    const {classes, notes, user} = this.props;
 
     return (
       <Typography className={classes.root}>
         <form className={classes.container} noValidate autoComplete='off'>
           <div className={classes.buttonGroup}>
-            <Button variant='contained' color='primary' className={classes.button}>
+            <Button variant='contained' color='primary' onClick={this.handleClearNotes} className={classes.button}>
               Clear
               <ClearIcon className={classes.rightIcon} />
             </Button>
-            <Button variant='contained' color='primary' className={classes.button}>
+            <Button variant='contained' color='primary' onClick={this.handleAddNotes} className={classes.button}>
               Add
               <AddNotesIcon className={classes.rightIcon} />
             </Button>
@@ -66,6 +79,8 @@ class CaseNotes extends React.Component {
               placeholder='Notes'
               multiline
               rows='4'
+              value={this.state.text}
+              onChange={this.handleChange}
               className={classes.textField}
               margin='normal'
               variant='outlined'
