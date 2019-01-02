@@ -408,8 +408,8 @@ export default class App2 extends React.Component {
         {props: this.props, state: this.state});
       const {apiUri, viewerId, threadType} = this.props;
       instPackage.notes = [
-        {id: 1, text: 'Hello', timestamp: Date.now(), userId: '2256669701027152'},
-        {id: 2, text: 'Byebye', timestamp: (Date.now() + 5000), userId: '2256669701027152'},
+        {id: 1, text: 'Hi, I\'d like to visit Disneyland in Shanghai. Could you please add it into our trip?', timestamp: Date.now(), userId: '2256669701027152'},
+        {id: 2, text: 'Please add night shopping tour at Huai Hai Road as well.', timestamp: (Date.now() + 50000), userId: '2256669701027152'},
       ];
       
       // Setup module "Invite"
