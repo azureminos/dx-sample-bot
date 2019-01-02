@@ -392,14 +392,39 @@ export default class App2 extends React.Component {
       console.log('>>>>No package instance found, let user select a package');
       const {apiUri} = this.props;
       if (packages && packages.length > 0) {
+        const tabs = {
+          'All Packages': (
+            <div id='package-attraction'>
+              <Typography>
+                <PackageSelector
+                  packages={packages}
+                  bookPackage={this.pushCreateInstPackage}
+                  apiUri={apiUri}
+                />
+              </Typography>
+            </div>
+          ),
+          /*Itinerary: (
+            <div id='package-itinerary'>
+              <Typography>
+                <PackageItinerary
+                  instPackage={instPackage}
+                  cityAttractions={cityAttractions}
+                  cityHotels={cityHotels}
+                  apiUri={apiUri}
+                  selectHotel={this.setSelectedHotel}
+                />
+              </Typography>
+            </div>
+          ),*/
+        };
+
         page = (
-          <section id='package-selector'>
-            <PackageSelector
-              packages={packages}
-              bookPackage={this.pushCreateInstPackage}
-              apiUri={apiUri}
+          <Paper>
+            <FixedTab
+              tabs={tabs}
             />
-          </section>
+          </Paper>
         );
       }
     } else if (users.length > 0) {
@@ -485,6 +510,9 @@ export default class App2 extends React.Component {
             isOwner={isOwner}
             notes={instPackage.notes}
             users={users}
+            showCountDown={'true'}
+            showBotHeader={'true'}
+            showNotesDrawer={'true'}
           />
           {invite}
         </Paper>

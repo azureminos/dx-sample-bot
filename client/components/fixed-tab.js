@@ -50,7 +50,7 @@ const styles = theme => ({
 
 class FullWidthTabs extends React.Component {
   state = {
-    value: this.props.isOwner ? 0 : 1,
+    tabIndex: this.props.isOwner ? 0 : 1,
     openNotes: false,
   };
 
@@ -59,51 +59,59 @@ class FullWidthTabs extends React.Component {
   }
 
   handleChange = (event, value) => {
-    this.setState({value});
+    this.setState({tabIndex: value});
   };
 
   handleChangeIndex = index => {
-    this.setState({value: index});
+    this.setState({tabIndex: index});
   };
 
   render() {
-    const {classes, theme, tabs, notes, users} = this.props;
+    const {classes, theme, tabs, notes, users,
+      showCountDown, showBotHeader, showNotesDrawer} = this.props;
     const tabItems = [];
     const tabContents = [];
+    let notesList = [];
 
     _.forEach(tabs, (item, key) => {
       tabItems.push((<Tab label={key} />));
       tabContents.push((<TabContainer dir={theme.direction}>{item}</TabContainer>));
     });
 
-    const notesList = notes.map((n) => {
-      const filteredUser = _.filter(users, {fbId: n.userId});
-      const imgProfile = filteredUser.length ? filteredUser[0].profilePic : '';
-      const name = filteredUser.length ? filteredUser[0].name : 'Unkown';
-      const time = new Date();
-      time.setTime(n.timestamp);
-
-      return (
-        <ListItem key={n.id}>
-          <ListItemAvatar>
-            <Avatar
-              alt={name}
-              src={imgProfile}
+    if(showNotesDrawer) {
+      notesList = notes.map((n) => {
+        const filteredUser = _.filter(users, {fbId: n.userId});
+        const imgProfile = filteredUser.length ? filteredUser[0].profilePic : '';
+        const name = filteredUser.length ? filteredUser[0].name : 'Unkown';
+        const time = new Date();
+        time.setTime(n.timestamp);
+  
+        return (
+          <ListItem key={n.id}>
+            <ListItemAvatar>
+              <Avatar
+                alt={name}
+                src={imgProfile}
+              />
+            </ListItemAvatar>
+            <ListItemText
+              primary={n.text}
+              secondary={'by ' + name + ' at ' + time.toLocaleString()}
             />
-          </ListItemAvatar>
-          <ListItemText
-            primary={n.text}
-            secondary={'by ' + name + ' at ' + time.toLocaleString()}
-          />
-        </ListItem>
-      );
-    });
+          </ListItem>
+        );
+      });
+    }
 
     return (
       <div className={classes.root}>
         <AppBar position='sticky' color='default'>
-          <div style={{padding: '2px', color: 'red', fontSize: '12px', fontWeight: 'bold', textAlign: 'center'}}>Your package will expire in ....</div>
-          <BotHeader drawerHandler={this.handleDrawer} />
+          {showCountDown && (
+            <div style={{padding: '2px', color: 'red', fontSize: '12px', fontWeight: 'bold', textAlign: 'center'}}>Your package will expire in ....</div>
+          )}
+          {showBotHeader && (
+            <BotHeader drawerHandler={this.handleDrawer} />
+          )}
           <Tabs
             value={this.state.value}
             onChange={this.handleChange}
@@ -114,35 +122,37 @@ class FullWidthTabs extends React.Component {
             {tabItems}
           </Tabs>
         </AppBar>
-        <Drawer
-          className={classes.drawer}
-          variant='persistent'
-          anchor='left'
-          open={this.state.openNotes}
-          classes={{
-            paper: classes.drawerPaper,
-          }}
-        >
-          <div className={classes.drawerHeader}>
-            <IconButton onClick={this.handleDrawer}>
-              {theme.direction === 'ltr' ? (
-                <ChevronLeftIcon />
-              ) : (
-                <ChevronRightIcon />
-              )}
-            </IconButton>
-          </div>
-          <Divider />
-          <CaseNotes />
-          <Divider />
-          <div className={classes.notesList}>
-            <List>
-              {notesList}
-            </List>
-          </div>
-        </Drawer>
-        {this.state.value === 0 && tabContents[0]}
-        {this.state.value === 1 && tabContents[1]}
+        {showNotesDrawer && (
+          <Drawer
+            className={classes.drawer}
+            variant='persistent'
+            anchor='left'
+            open={this.state.openNotes}
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+          >
+            <div className={classes.drawerHeader}>
+              <IconButton onClick={this.handleDrawer}>
+                {theme.direction === 'ltr' ? (
+                  <ChevronLeftIcon />
+                ) : (
+                  <ChevronRightIcon />
+                )}
+              </IconButton>
+            </div>
+            <Divider />
+            <CaseNotes />
+            <Divider />
+            <div className={classes.notesList}>
+              <List>
+                {notesList}
+              </List>
+            </div>
+          </Drawer>
+        )}
+        {this.state.tabIndex === 0 && tabContents[0]}
+        {this.state.tabIndex === 1 && tabContents[1]}
       </div>
     );
   }
