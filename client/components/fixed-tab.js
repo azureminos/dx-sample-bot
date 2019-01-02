@@ -59,7 +59,7 @@ class FullWidthTabs extends React.Component {
   };
 
   render() {
-    const {classes, theme, tabs} = this.props;
+    const {classes, theme, tabs, notes, users} = this.props;
     const tabItems = [];
     const tabContents = [];
 
@@ -68,15 +68,16 @@ class FullWidthTabs extends React.Component {
       tabContents.push((<TabContainer dir={theme.direction}>{item}</TabContainer>));
     });
 
-    const notes = [
-      {id: 1, text: 'Hello', timestamp: Date.now(), createdBy: 'Tom'},
-      {id: 2, text: 'Byebye', timestamp: (Date.now()+5000), createdBy: 'John'},
-    ];
+    notes.push({id: 1, text: 'Hello', timestamp: Date.now(), userId: '2256669701027152'});
+    notes.push({id: 2, text: 'Byebye', timestamp: (Date.now() + 5000), userId: '2256669701027152'});
+
     const caseNotes = (
       <CaseNotes
         notes={notes}
+        users={users}
       />
     );
+    
     return (
       <div className={classes.root}>
         <AppBar position='sticky' color='default'>

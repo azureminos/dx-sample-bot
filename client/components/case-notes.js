@@ -1,8 +1,14 @@
 import React, {createElement} from 'react';
 import {withStyles} from '@material-ui/core/styles';
+import _ from 'lodash';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import ListItemText from '@material-ui/core/ListItemText';
+import Avatar from '@material-ui/core/Avatar';
 import AddNotesIcon from '@material-ui/icons/NoteAdd';
 import ClearIcon from '@material-ui/icons/Clear';
 
@@ -25,6 +31,12 @@ const styles = theme => ({
     margin: 4,
     width: '90%',
   },
+  notesList: {
+    margin: 4,
+    flexGrow: 1,
+    maxWidth: 752,
+    backgroundColor: theme.palette.background.paper,
+  },
 });
 
 class CaseNotes extends React.Component {
@@ -46,8 +58,9 @@ class CaseNotes extends React.Component {
     this.setState({text: e.target.value});
   }
 
-  handleAddNotes(e) {
-    console.log('>>>>CaseNotes, handleAddNotes()', e);
+  handleAddNotes() {
+    const text = this.state.text;
+    console.log('>>>>CaseNotes, handleAddNotes()', text);
   }
 
   handleClearNotes(e) {
@@ -57,8 +70,26 @@ class CaseNotes extends React.Component {
 
   render() {
     console.log('>>>>CaseNotes, render()', this.props);
-    const {classes, notes, user} = this.props;
-
+    const {classes, notes, users} = this.props;
+    const notesList = notes.map((n) => {
+      const filteredUser = _.filter(users, {fbId: n.userId});
+      const imgProfile = filteredUser.length ? filteredUser[0].profilePic : '';
+      const name = filteredUser.length ? filteredUser[0].name : 'Unkown';
+      return (
+        <ListItem key={n.id}>
+          <ListItemAvatar>
+            <Avatar
+              alt={name}
+              src={imgProfile}
+            />
+          </ListItemAvatar>
+          <ListItemText
+            primary={n.text}
+            secondary={name}
+          />
+        </ListItem>
+      );
+    });
     return (
       <Typography className={classes.root}>
         <form className={classes.container} noValidate autoComplete='off'>
@@ -85,6 +116,11 @@ class CaseNotes extends React.Component {
               margin='normal'
               variant='outlined'
             />
+          </div>
+          <div className={classes.root}>
+            <List>
+              {notesList}
+            </List>
           </div>
         </form>
       </Typography>

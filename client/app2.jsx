@@ -407,6 +407,7 @@ export default class App2 extends React.Component {
       console.log('>>>>Package instance and user found',
         {props: this.props, state: this.state});
       const {apiUri, viewerId, threadType} = this.props;
+      instPackage.notes = [];
 
       // Setup module "Invite"
       let invite;
@@ -475,7 +476,12 @@ export default class App2 extends React.Component {
 
       page = (
         <Paper>
-          <FixedTab tabs={tabs} isOwner={isOwner}/>
+          <FixedTab
+            tabs={tabs}
+            isOwner={isOwner}
+            notes={instPackage.notes}
+            users={users}
+          />
           {invite}
         </Paper>
       );
