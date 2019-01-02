@@ -18,9 +18,11 @@ import ListNotFound from './list_not_found.jsx';
 import LoadingScreen from './loading_screen.jsx';
 import Updating from './updating.jsx';
 import FixedTab from './components/fixed-tab';
+import HomeFooter from './components/home-footer.jsx';
 import PackageAttraction from './package-attraction';
 import PackageItinerary from './package-itinerary';
 import PackageSelector from './package-selector.jsx';
+
 import _ from 'lodash';
 
 let socket;
@@ -427,7 +429,7 @@ export default class App2 extends React.Component {
                   cityAttractions={cityAttractions}
                   cityHotels={cityHotels}
                   apiUri={apiUri}
-                  isReadonly={'true'}
+                  isReadonly
                   selectHotel={this.setSelectedHotel}
                 />
               </Typography>
@@ -439,7 +441,11 @@ export default class App2 extends React.Component {
           <Paper>
             <FixedTab
               tabs={tabs}
-              isOwner={'true'}
+              isOwner
+            />
+            <HomeFooter
+              instPackage={instPackage}
+              apiUri={apiUri}
             />
           </Paper>
         );
@@ -509,7 +515,6 @@ export default class App2 extends React.Component {
                 cityAttractions={cityAttractions}
                 cityHotels={cityHotels}
                 apiUri={apiUri}
-                isReadonly={'false'}
                 selectHotel={this.setSelectedHotel}
               />
             </Typography>
@@ -528,9 +533,9 @@ export default class App2 extends React.Component {
             isOwner={isOwner}
             notes={instPackage.notes}
             users={users}
-            showCountDown={'true'}
-            showBotHeader={'true'}
-            showNotesDrawer={'true'}
+            showCountDown
+            showBotHeader
+            showNotesDrawer
           />
           {invite}
         </Paper>

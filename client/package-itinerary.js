@@ -23,7 +23,7 @@ export default class PackageItinerary extends React.Component {
     // Add Flight and Cars
     elItineraries['Flight and Car'] = (
       <div>
-        <FlightCar isReadonly={'true'}/>
+        <FlightCar isReadonly/>
       </div>
     );
 

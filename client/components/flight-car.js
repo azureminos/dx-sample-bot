@@ -58,7 +58,7 @@ class FlightCar extends React.Component {
             <div>
               <FormControl
                 className={classes.formControl}
-                disabled={isReadonly ? 'true' : 'false'}
+                disabled={isReadonly ? true : false}
               >
                 <Select
                   value={this.state.departDate}
@@ -80,7 +80,7 @@ class FlightCar extends React.Component {
               </FormControl>
               <FormControl
                 className={classes.formControl}
-                disabled={'true'}
+                disabled
               >
                 <Select value={this.state.departDate} displayEmpty>
                   <MenuItem value=''>
