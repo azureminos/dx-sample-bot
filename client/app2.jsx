@@ -388,8 +388,9 @@ export default class App2 extends React.Component {
 
     let page;
 
-    if (!instPackage) {
-      console.log('>>>>No package instance found, let user select a package');
+    if (packages && packages.length) {
+      console.log('>>>>Landing at bot home page',
+        {props: this.props, state: this.state});
       const {apiUri} = this.props;
       if (packages && packages.length > 0) {
         const tabs = {
@@ -423,6 +424,7 @@ export default class App2 extends React.Component {
           <Paper>
             <FixedTab
               tabs={tabs}
+              isOwner={'true'}
             />
           </Paper>
         );

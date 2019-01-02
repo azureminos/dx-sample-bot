@@ -162,8 +162,30 @@ const join = ({
       } else {
         console.log('>>>>Print all packages', packages);
         console.log('>>>>Print instPackage', instPackage);
-        userSocket.emit('pre-init', {packages: packages, instPackage: instPackage});
-        sendStatus('ok');
+        Promise.all([
+          packages,
+          instPackage,
+          InstPackage.getCityAttractionsByInstId(instPackage.id),
+          InstPackage.getCityHotelsByInstId(instPackage.id),
+          InstPackage.getCitiesByInstId(instPackage.id),
+          RatePlan.getRateByInstId(instId),
+        ]).then(([packages, instPackage, cityAttractions, cityHotels, cities, rates]) => {
+          // Dummy Hotels
+          if (!instPackage.hotels) {
+            instPackage.hotels = _.uniqBy(instPackage.items, 'dayNo').map((day) => {
+              return cityHotels[day.city][0].id;
+            });
+          }
+          userSocket.emit('pre-init', {
+            packages: packages,
+            instPackage: instPackage,
+            cityAttractions: cityAttractions,
+            cityHotels: cityHotels,
+            cities: cities,
+            rates: rates,
+          });
+          sendStatus('ok');
+        });
       }
     });
   }
