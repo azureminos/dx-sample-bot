@@ -63,9 +63,6 @@ class FullWidthTabs extends React.Component {
     const tabItems = [];
     const tabContents = [];
 
-    notes.push({id: 1, text: 'Hello', timestamp: Date.now(), userId: '2256669701027152'});
-    notes.push({id: 2, text: 'Byebye', timestamp: (Date.now() + 5000), userId: '2256669701027152'});
-    
     _.forEach(tabs, (item, key) => {
       tabItems.push((<Tab label={key} />));
       tabContents.push((<TabContainer dir={theme.direction}>{item}</TabContainer>));

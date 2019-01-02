@@ -407,8 +407,11 @@ export default class App2 extends React.Component {
       console.log('>>>>Package instance and user found',
         {props: this.props, state: this.state});
       const {apiUri, viewerId, threadType} = this.props;
-      instPackage.notes = [];
-
+      instPackage.notes = [
+        {id: 1, text: 'Hello', timestamp: Date.now(), userId: '2256669701027152'},
+        {id: 2, text: 'Byebye', timestamp: (Date.now() + 5000), userId: '2256669701027152'},
+      ];
+      
       // Setup module "Invite"
       let invite;
       const isOwner = viewerId == ownerId;
