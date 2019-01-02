@@ -85,8 +85,8 @@ const Invite = ({
           fullWidth='true'
           className={classes.button}
         >
-          <div className={classes.rightIcon}>{buttonText}</div>
-          <SendIcon/>
+          {buttonText}
+          <SendIcon className={classes.rightIcon}/>
         </Button>
         <Button
           variant='contained'
@@ -94,8 +94,8 @@ const Invite = ({
           fullWidth='true'
           className={classes.button}
         >
-          <div className={classes.leftIcon}>Pay Deposit</div>
-          <PaymentIcon/>
+          Pay Deposit
+          <PaymentIcon className={classes.leftIcon}/>
         </Button>
       </Toolbar>
     </AppBar>

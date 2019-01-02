@@ -18,13 +18,12 @@ const styles = theme => ({
     marginRight: 4,
   },
   rightIcon: {
-    paddingRight: theme.spacing.unit,
+    paddingLeft: theme.spacing.unit,
   },
   textField: {
     float: 'right',
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: '100%',
+    margin: 4,
+    width: '90%',
   },
 });
 
