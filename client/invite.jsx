@@ -15,7 +15,7 @@ const styles = theme => ({
   button: {
     margin: theme.spacing.unit,
   },
-  leftIcon: {
+  rightIcon: {
     paddingRight: theme.spacing.unit,
   },
   appBar: {
@@ -85,7 +85,7 @@ const Invite = ({
           fullWidth='true'
           className={classes.button}
         >
-          <div className={classes.leftIcon}>{buttonText}</div>
+          <div className={classes.rightIcon}>{buttonText}</div>
           <SendIcon/>
         </Button>
         <Button
