@@ -110,8 +110,9 @@ export default class App2 extends React.Component {
      ============================== */
 
   /* ----------  Package  ------- */
-  preInit({packages}) {
-    console.log('>>>>Result coming back from socket [pre-init]', packages);
+  preInit(input) {
+    console.log('>>>>Result coming back from socket [pre-init]', input);
+    const {packages, instPackage} = input;
     this.setState({packages});
   }
 

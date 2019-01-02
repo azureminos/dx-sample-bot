@@ -29,7 +29,7 @@ const handleInstanceCreation = (req, res) => {
       .addInstPackage(packageId)
       .then((inst) =>
         res.render('./index', {instId: '', socketAddress, demo: DEMO})
-      )
+      );
   } else if (instId === 'home') {
     res.render('./index', {instId: '', socketAddress, demo: DEMO});
   } else {
