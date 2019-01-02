@@ -12,6 +12,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import _ from 'lodash';
 import BotHeader from './bot-header';
+import CaseNotes from './case-notes';
 
 function TabContainer({children, dir}) {
   return (
@@ -58,7 +59,7 @@ class FullWidthTabs extends React.Component {
   };
 
   render() {
-    const {classes, theme, tabs, caseNotes} = this.props;
+    const {classes, theme, tabs} = this.props;
     const tabItems = [];
     const tabContents = [];
 
@@ -67,6 +68,15 @@ class FullWidthTabs extends React.Component {
       tabContents.push((<TabContainer dir={theme.direction}>{item}</TabContainer>));
     });
 
+    const notes = [
+      {id: 1, text: 'Hello', timestamp: Date.now(), createdBy: 'Tom'},
+      {id: 2, text: 'Byebye', timestamp: (Date.now()+5000), createdBy: 'John'},
+    ];
+    const caseNotes = (
+      <CaseNotes
+        notes={notes}
+      />
+    );
     return (
       <div className={classes.root}>
         <AppBar position='sticky' color='default'>
