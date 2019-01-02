@@ -9,11 +9,22 @@ import ClearIcon from '@material-ui/icons/Clear';
 const styles = theme => ({
   root: {
   },
+  buttonGroup: {
+    float: 'right',
+  },
   button: {
-    margin: theme.spacing.unit,
+    marginTop: 4,
+    marginBottom: 4,
+    marginRight: 4,
   },
   rightIcon: {
     paddingRight: theme.spacing.unit,
+  },
+  textField: {
+    float: 'right',
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: '100%',
   },
 });
 
@@ -39,7 +50,7 @@ class CaseNotes extends React.Component {
     return (
       <Typography className={classes.root}>
         <form className={classes.container} noValidate autoComplete='off'>
-          <div>
+          <div className={classes.buttonGroup}>
             <Button variant='contained' color='primary' className={classes.button}>
               Clear
               <ClearIcon className={classes.rightIcon} />
@@ -49,15 +60,18 @@ class CaseNotes extends React.Component {
               <AddNotesIcon className={classes.rightIcon} />
             </Button>
           </div>
-          <TextField
-            id='textarea-notes'
-            label='Please leave your notes'
-            placeholder='Notes'
-            multiline
-            rows='4'
-            className={classes.textField}
-            margin='normal'
-          />
+          <div className={classes.textArea}>
+            <TextField
+              id='textarea-notes'
+              label='Please leave your notes'
+              placeholder='Notes'
+              multiline
+              rows='4'
+              className={classes.textField}
+              margin='normal'
+              variant='outlined'
+            />
+          </div>
         </form>
       </Typography>
     );

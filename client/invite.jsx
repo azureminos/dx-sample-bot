@@ -16,7 +16,7 @@ const styles = theme => ({
     margin: theme.spacing.unit,
   },
   rightIcon: {
-    paddingRight: theme.spacing.unit,
+    paddingLeft: theme.spacing.unit,
   },
   appBar: {
     top: 'auto',
