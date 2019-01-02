@@ -155,13 +155,13 @@ const join = ({
     Promise.all([
       Packages.getAllPackage(),
       InstPackage.getInstPackageDetailsByUserId(senderId),
-    ]).then(([packages, instPackage]) => {
+    ]).then(([packages, inst]) => {
       if (!packages) {
         console.error('No package available!');
         sendStatus('noPackage');
       } else {
-        console.log('>>>>Print all packages', {packages: packages, instPackage: instPackage});
-        userSocket.emit('pre-init', {packages: packages, instPackage: instPackage});
+        console.log('>>>>Print all packages', {packages: packages, instPackage: inst});
+        userSocket.emit('pre-init', {packages: packages, instPackage: inst});
         sendStatus('ok');
       }
     });
