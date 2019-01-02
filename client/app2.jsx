@@ -112,8 +112,22 @@ export default class App2 extends React.Component {
   /* ----------  Package  ------- */
   preInit(input) {
     console.log('>>>>Result coming back from socket [pre-init]', input);
-    const {packages, instPackage} = input;
-    this.setState({packages});
+    const {packages, instPackage, cityAttractions, cityHotels, cities} = input;
+    _.forEach(cityHotels, (cHotels) => {
+      _.forEach(cHotels, (hotel) => {
+        if (hotel.id == 1) {
+          hotel.imageUrl = 'media/Hotel_Beijing_BeijingHotel.jpg';
+        } else if (hotel.id == 2) {
+          hotel.imageUrl = 'media/Hotel_Beijing_BeijingHolidayInn.jpg';
+        } else if (hotel.id == 3) {
+          hotel.imageUrl = 'media/Hotel_Shanghai_PenisulaShanghai.jpg';
+        } else if (hotel.id == 4) {
+          hotel.imageUrl = 'media/Hotel_Shanghai_ShanghaiHotel.jpg';
+        }
+      });
+    });
+
+    this.setState({instPackage, packages: packages, cityAttractions, cityHotels, cities});
   }
 
   pushCreateInstPackage(packageId) {
