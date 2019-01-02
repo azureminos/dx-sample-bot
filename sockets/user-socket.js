@@ -152,20 +152,19 @@ const join = ({
         });
     });
   } else {
-    Packages
-      .getAllPromotedPackage()
-      .then((packages) => {
-        if (!packages) {
-          console.error("No package available!");
-          sendStatus('noPackage');
-        } else {
-          console.log('>>>>Print all packages', packages);
-            userSocket.emit('pre-init', {
-              packages,
-            });
-            sendStatus('ok');
-        }
-      });
+    Promise.all([
+      Packages.getAllPackage(),
+      InstPackage.getInstPackageDetailsByUserId(senderId),
+    ]).then(([packages, instPackage]) => {
+      if (!packages) {
+        console.error('No package available!');
+        sendStatus('noPackage');
+      } else {
+        console.log('>>>>Print all packages', {packages: packages, instPackage: instPackage});
+        userSocket.emit('pre-init', {packages: packages, instPackage: instPackage});
+        sendStatus('ok');
+      }
+    });
   }
 }
 

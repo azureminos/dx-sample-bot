@@ -11,6 +11,7 @@ import instParticipant from '../models/package-instance-participant';
 
 const dsInstPackage = () => Knex('package_inst');
 const dsInstItem = () => Knex('package_inst_item');
+const dsInstParticipant = () => Knex('package_inst_participant');
 const dsAttraction = () => Knex('attraction');
 const dsHotel = () => Knex('hotel');
 
@@ -124,6 +125,28 @@ const getInstPackageDetails = (instId) =>
     return inst;
   });
 
+  
+const getInstPackageDetailsByUserId = (userId) =>
+  dsInstParticipant
+    .select('pkg_inst_id')
+    .where('login_id', userId)
+    .orderBy('created_ts', 'desc')
+    .first()
+    .then((instId) => {
+      console.log('getInstPackageDetailsByUserId('+userId+'), found latest package instance', instId);
+      return Promise.all([
+        getInstPackage(instId),
+        //RatePlan.getRatePlanByInstId(instId),
+        instItem.getInstItem(instId),
+      ])
+      .then(([inst, /*pkgRatePlans,*/ items]) => {
+        inst.items = items;
+        //pkgInst.rates = pkgRatePlans;
+        console.log('>>>>Retrieved package instance', inst);
+        return inst;
+      });
+    });
+
 const addInstPackage = (packageId) =>
   Promise.all([
     Package.getPackageDetails(packageId),
@@ -145,6 +168,7 @@ const delInstPackage = (instId) =>
 export default {
   getInstPackage,
   getInstPackageDetails,
+  getInstPackageDetailsByUserId,
   addInstPackage,
   delInstPackage,
   getAttractionsByInstId,
