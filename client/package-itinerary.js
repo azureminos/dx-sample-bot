@@ -37,6 +37,7 @@ export default class PackageItinerary extends React.Component {
       //console.log('>>>>PackageItinerary, formatted itinerary', itinerary);
       const city = itinerary.city;
       const title = triggerText(dayNo, city);
+      console.log('>>>>David 1 '+dayNo+' '+city + ' '+instPackage.hotels[Number(dayNo)], cityHotels[city]);
       const hotels = _.filter(cityHotels[city], {id: instPackage.hotels[Number(dayNo)]});
       //console.log('>>>>PackageItinerary, accordion setting', setting);
 
