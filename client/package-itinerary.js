@@ -5,14 +5,15 @@ import _ from 'lodash';
 import ControlledAccordion from './components/accordion';
 import HotelSlider from './components/hotel-slider';
 import FlightCar from './components/flight-car';
-import ItineraryItem from './itinerary-item';
+import ItineraryItem from './components/itinerary-item';
+import HotelItem from './components/hotel-item';
 
 const triggerText = (dayNo, city) => `Day ${dayNo}, ${city}`;
 
 export default class PackageItinerary extends React.Component {
   render() {
     console.log('>>>>PackageItinerary, Start render with props', this.props);
-    const {instPackage, cityAttractions, cityHotels, apiUri, selectHotel, isHotelSelectable} = this.props;
+    const {instPackage, cityAttractions, cityHotels, apiUri, selectHotel, isReadonly} = this.props;
     const itineraries = _.groupBy(instPackage.items, (item)=>{
       return item.dayNo;
     });
@@ -22,7 +23,7 @@ export default class PackageItinerary extends React.Component {
     // Add Flight and Cars
     elItineraries['Flight and Car'] = (
       <div>
-        <FlightCar />
+        <FlightCar isReadonly={'true'}/>
       </div>
     );
 
@@ -36,18 +37,22 @@ export default class PackageItinerary extends React.Component {
       //console.log('>>>>PackageItinerary, formatted itinerary', itinerary);
       const city = itinerary.city;
       const title = triggerText(dayNo, city);
+      const hotels = _.filter(cityHotels[city], {id: instPackage.hotels[Number(dayNo)]});
       //console.log('>>>>PackageItinerary, accordion setting', setting);
 
       // Prepare attraction card list
-      const hotelSelector = isHotelSelectable ? (
+      const hotelSelector = isReadonly ? (
+        <HotelItem
+          hotels={hotels}
+          apiUri={apiUri}
+        />
+      ) : (
         <HotelSlider
           dayNo={Number(dayNo)}
           instPackage={instPackage}
           hotels={cityHotels[city]}
           apiUri={apiUri}
         />
-      ) : (
-        <div/>
       );
 
       elItineraries[title] = (

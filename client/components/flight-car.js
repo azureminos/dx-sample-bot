@@ -46,7 +46,7 @@ class FlightCar extends React.Component {
     this.setState({departDate: event.target.value});
   };
   render() {
-    const {classes} = this.props;
+    const {classes, isReadonly} = this.props;
 
     return (
       <List className={classes.list}>
@@ -56,7 +56,10 @@ class FlightCar extends React.Component {
           </ListItemIcon>
           <ListItemSecondaryAction>
             <div>
-              <FormControl className={classes.formControl}>
+              <FormControl
+                className={classes.formControl}
+                disabled={isReadonly ? 'true' : 'false'}
+              >
                 <Select
                   value={this.state.departDate}
                   onChange={this.handleFlightChange}
@@ -75,7 +78,10 @@ class FlightCar extends React.Component {
                   <MenuItem value={40}>03 April 2019</MenuItem>
                 </Select>
               </FormControl>
-              <FormControl className={classes.formControl} disabled>
+              <FormControl
+                className={classes.formControl}
+                disabled={'true'}
+              >
                 <Select value={this.state.departDate} displayEmpty>
                   <MenuItem value=''>
                     <em>Arrive</em>
@@ -95,7 +101,10 @@ class FlightCar extends React.Component {
             <DirectionsCar color='primary' />
           </ListItemIcon>
           <ListItemSecondaryAction>
-            <FormControl className={classes.formControl}>
+            <FormControl
+              className={classes.formControl}
+              disabled={isReadonly ? 'true' : 'false'}
+            >
               <Select
                 value={this.state.typeGroundTransport}
                 onChange={this.handleCarChange}

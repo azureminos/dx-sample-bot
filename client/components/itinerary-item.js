@@ -1,7 +1,7 @@
 import React, {createElement} from 'react';
 //import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
 import _ from 'lodash';
-import ChipList from './components/chip-list';
+import ChipList from './chip-list';
 
 // Filter out selected attractions
 const getUnselected = (items, selected) => {

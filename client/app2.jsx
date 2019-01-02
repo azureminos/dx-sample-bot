@@ -427,7 +427,7 @@ export default class App2 extends React.Component {
                   cityAttractions={cityAttractions}
                   cityHotels={cityHotels}
                   apiUri={apiUri}
-                  isHotelSelectable={'true'}
+                  isReadonly={'true'}
                   selectHotel={this.setSelectedHotel}
                 />
               </Typography>
@@ -509,7 +509,7 @@ export default class App2 extends React.Component {
                 cityAttractions={cityAttractions}
                 cityHotels={cityHotels}
                 apiUri={apiUri}
-                isHotelSelectable={'true'}
+                isReadonly={'false'}
                 selectHotel={this.setSelectedHotel}
               />
             </Typography>

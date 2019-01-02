@@ -235,6 +235,13 @@ div.ReactTags__selected a.ReactTags__remove {
   border: 1px solid lightgrey;
   border-radius: 2px;
 }
+
+.hotel-day-item {
+  margin-bottom: 8px;
+  border: 1px solid lightgrey;
+  border-radius: 2px;
+}
+
 .dnd-container {
   padding: 4px;
 }
