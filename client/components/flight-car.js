@@ -104,7 +104,7 @@ class FlightCar extends React.Component {
           <ListItemSecondaryAction>
             <FormControl
               className={classes.formControl}
-              disabled={isReadonly ? 'true' : 'false'}
+              disabled={isReadonly ? true : false}
             >
               <Select
                 value={this.state.typeGroundTransport}
