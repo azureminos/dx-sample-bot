@@ -7,6 +7,11 @@ import Tabs from '@material-ui/core/Tabs';
 import Typography from '@material-ui/core/Typography';
 import Drawer from '@material-ui/core/Drawer';
 import Divider from '@material-ui/core/Divider';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import ListItemText from '@material-ui/core/ListItemText';
+import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
@@ -38,6 +43,9 @@ const styles = theme => ({
   drawerPaper: {
     width: 300,
   },
+  notesList: {
+    margin: 4,
+  },
 });
 
 class FullWidthTabs extends React.Component {
@@ -68,12 +76,28 @@ class FullWidthTabs extends React.Component {
       tabContents.push((<TabContainer dir={theme.direction}>{item}</TabContainer>));
     });
 
-    const caseNotes = (
-      <CaseNotes
-        notes={notes}
-        users={users}
-      />
-    );
+    const notesList = notes.map((n) => {
+      const filteredUser = _.filter(users, {fbId: n.userId});
+      const imgProfile = filteredUser.length ? filteredUser[0].profilePic : '';
+      const name = filteredUser.length ? filteredUser[0].name : 'Unkown';
+      const time = new Date();
+      time.setTime(n.timestamp);
+
+      return (
+        <ListItem key={n.id}>
+          <ListItemAvatar>
+            <Avatar
+              alt={name}
+              src={imgProfile}
+            />
+          </ListItemAvatar>
+          <ListItemText
+            primary={n.text}
+            secondary={'by ' + name + ' at ' + time.toLocaleString()}
+          />
+        </ListItem>
+      );
+    });
 
     return (
       <div className={classes.root}>
@@ -90,29 +114,33 @@ class FullWidthTabs extends React.Component {
             {tabItems}
           </Tabs>
         </AppBar>
-        {caseNotes && (
-          <Drawer
-            className={classes.drawer}
-            variant='persistent'
-            anchor='left'
-            open={this.state.openNotes}
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-          >
-            <div className={classes.drawerHeader}>
-              <IconButton onClick={this.handleDrawer}>
-                {theme.direction === 'ltr' ? (
-                  <ChevronLeftIcon />
-                ) : (
-                  <ChevronRightIcon />
-                )}
-              </IconButton>
-            </div>
-            <Divider />
-            {caseNotes}
-          </Drawer>
-        )}
+        <Drawer
+          className={classes.drawer}
+          variant='persistent'
+          anchor='left'
+          open={this.state.openNotes}
+          classes={{
+            paper: classes.drawerPaper,
+          }}
+        >
+          <div className={classes.drawerHeader}>
+            <IconButton onClick={this.handleDrawer}>
+              {theme.direction === 'ltr' ? (
+                <ChevronLeftIcon />
+              ) : (
+                <ChevronRightIcon />
+              )}
+            </IconButton>
+          </div>
+          <Divider />
+          <CaseNotes />
+          <Divider />
+          <div className={classes.notesList}>
+            <List>
+              {notesList}
+            </List>
+          </div>
+        </Drawer>
         {this.state.value === 0 && tabContents[0]}
         {this.state.value === 1 && tabContents[1]}
       </div>

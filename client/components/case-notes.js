@@ -4,12 +4,6 @@ import _ from 'lodash';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import Divider from '@material-ui/core/Divider';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemText from '@material-ui/core/ListItemText';
-import Avatar from '@material-ui/core/Avatar';
 import AddNotesIcon from '@material-ui/icons/NoteAdd';
 import ClearIcon from '@material-ui/icons/Clear';
 
@@ -31,9 +25,6 @@ const styles = theme => ({
     float: 'right',
     margin: 4,
     width: '90%',
-  },
-  notesList: {
-    margin: 4,
   },
 });
 
@@ -68,29 +59,8 @@ class CaseNotes extends React.Component {
 
   render() {
     console.log('>>>>CaseNotes, render()', this.props);
-    const {classes, notes, users} = this.props;
-    const notesList = notes.map((n) => {
-      const filteredUser = _.filter(users, {fbId: n.userId});
-      const imgProfile = filteredUser.length ? filteredUser[0].profilePic : '';
-      const name = filteredUser.length ? filteredUser[0].name : 'Unkown';
-      const time = new Date();
-      time.setTime(n.timestamp);
+    const {classes} = this.props;
 
-      return (
-        <ListItem key={n.id}>
-          <ListItemAvatar>
-            <Avatar
-              alt={name}
-              src={imgProfile}
-            />
-          </ListItemAvatar>
-          <ListItemText
-            primary={n.text}
-            secondary={'by ' + name + ' at ' + time.toLocaleString()}
-          />
-        </ListItem>
-      );
-    });
     return (
       <Typography className={classes.root}>
         <form className={classes.container} noValidate autoComplete='off'>
@@ -119,12 +89,6 @@ class CaseNotes extends React.Component {
             />
           </div>
         </form>
-        <Divider />
-        <div className={classes.notesList}>
-            <List>
-              {notesList}
-            </List>
-        </div>
       </Typography>
     );
   }
