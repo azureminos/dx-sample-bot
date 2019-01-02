@@ -127,7 +127,7 @@ const getInstPackageDetails = (instId) =>
 
   
 const getInstPackageDetailsByUserId = (userId) =>
-  dsInstParticipant
+  dsInstParticipant()
     .select('pkg_inst_id')
     .where('login_id', userId)
     .orderBy('created_ts', 'desc')
