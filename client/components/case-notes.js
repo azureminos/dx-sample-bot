@@ -75,6 +75,9 @@ class CaseNotes extends React.Component {
       const filteredUser = _.filter(users, {fbId: n.userId});
       const imgProfile = filteredUser.length ? filteredUser[0].profilePic : '';
       const name = filteredUser.length ? filteredUser[0].name : 'Unkown';
+      const time = new Date();
+      time.setTime(n.timestamp);
+
       return (
         <ListItem key={n.id}>
           <ListItemAvatar>
@@ -85,7 +88,7 @@ class CaseNotes extends React.Component {
           </ListItemAvatar>
           <ListItemText
             primary={n.text}
-            secondary={name}
+            secondary={'by ' + name + ' at ' + time.toLocaleString()}
           />
         </ListItem>
       );
