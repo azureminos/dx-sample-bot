@@ -46,6 +46,7 @@ class FlightCar extends React.Component {
     this.setState({departDate: event.target.value});
   };
   render() {
+    console.log('>>>>FlightCar, render()', this.props);
     const {classes, isReadonly} = this.props;
 
     return (

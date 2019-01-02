@@ -21,11 +21,7 @@ export default class PackageItinerary extends React.Component {
     // Generate itinerary accordion
     const elItineraries = {};
     // Add Flight and Cars
-    elItineraries['Flight and Car'] = (
-      <div>
-        <FlightCar isReadonly/>
-      </div>
-    );
+    elItineraries['Flight and Car'] = isReadonly ? (<div><FlightCar isReadonly/></div>) : (<div><FlightCar/></div>);
 
     // Add itinerary for each days
     _.forEach(_.keys(itineraries), (dayNo) => {
