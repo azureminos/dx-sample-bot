@@ -12,7 +12,7 @@ const triggerText = (dayNo, city) => `Day ${dayNo}, ${city}`;
 export default class PackageItinerary extends React.Component {
   render() {
     console.log('>>>>PackageItinerary, Start render with props', this.props);
-    const {instPackage, cityAttractions, cityHotels, apiUri, selectHotel} = this.props;
+    const {instPackage, cityAttractions, cityHotels, apiUri, selectHotel, isHotelSelectable} = this.props;
     const itineraries = _.groupBy(instPackage.items, (item)=>{
       return item.dayNo;
     });
@@ -39,23 +39,27 @@ export default class PackageItinerary extends React.Component {
       //console.log('>>>>PackageItinerary, accordion setting', setting);
 
       // Prepare attraction card list
-      const hotelSelector = (
+      const hotelSelector = isHotelSelectable ? (
         <HotelSlider
           dayNo={Number(dayNo)}
           instPackage={instPackage}
           hotels={cityHotels[city]}
           apiUri={apiUri}
         />
+      ) : (
+        <div/>
       );
 
       elItineraries[title] = (
         <div>
+          <div>Attractions</div>
           <ItineraryItem
             itinerary={itinerary}
             attractions={cityAttractions[city]}
             isCustom={instPackage.isCustom}
             apiUri={apiUri}
           />
+          <div>Hotels</div>
           {hotelSelector}
         </div>
       );

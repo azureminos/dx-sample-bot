@@ -405,7 +405,7 @@ export default class App2 extends React.Component {
               </Typography>
             </div>
           ),
-          /*Itinerary: (
+          'Recent Package': (
             <div id='package-itinerary'>
               <Typography>
                 <PackageItinerary
@@ -413,11 +413,12 @@ export default class App2 extends React.Component {
                   cityAttractions={cityAttractions}
                   cityHotels={cityHotels}
                   apiUri={apiUri}
+                  isHotelSelectable={'true'}
                   selectHotel={this.setSelectedHotel}
                 />
               </Typography>
             </div>
-          ),*/
+          ),
         };
 
         page = (
@@ -494,6 +495,7 @@ export default class App2 extends React.Component {
                 cityAttractions={cityAttractions}
                 cityHotels={cityHotels}
                 apiUri={apiUri}
+                isHotelSelectable={'true'}
                 selectHotel={this.setSelectedHotel}
               />
             </Typography>
