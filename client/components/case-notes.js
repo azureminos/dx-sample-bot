@@ -33,8 +33,6 @@ const styles = theme => ({
   },
   notesList: {
     margin: 4,
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
   },
 });
 
@@ -119,11 +117,7 @@ class CaseNotes extends React.Component {
               variant='outlined'
             />
           </div>
-          <div className={classes.notesList}>
-            <List>
-              {notesList}
-            </List>
-          </div>
+
         </form>
       </Typography>
     );
