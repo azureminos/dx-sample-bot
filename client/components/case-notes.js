@@ -4,6 +4,7 @@ import _ from 'lodash';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
@@ -20,7 +21,7 @@ const styles = theme => ({
   },
   button: {
     marginTop: 4,
-    marginBottom: 4,
+    marginBottom: 8,
     marginRight: 4,
   },
   rightIcon: {
@@ -117,8 +118,13 @@ class CaseNotes extends React.Component {
               variant='outlined'
             />
           </div>
-
         </form>
+        <Divider />
+        <div className={classes.notesList}>
+            <List>
+              {notesList}
+            </List>
+        </div>
       </Typography>
     );
   }
