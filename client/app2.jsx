@@ -125,8 +125,8 @@ export default class App2 extends React.Component {
     this.setState({instPackage, packages: packages, cityAttractions, cityHotels, cities});
   }
 
-  pushCreateInstPackage(packageId) {
-    const request = {senderId: this.props.viewerId, packageId: packageId};
+  pushCreateInstPackage(pkg) {
+    const request = {senderId: this.props.viewerId, packageId: pkg.id};
     console.log('>>>>Send event to create package instance', request);
     this.pushToRemote('package:create', request);
   }
