@@ -25,7 +25,7 @@ class MediaCard extends React.Component {
     const buttons = [];
     _.forEach(btnActionMap, (btnAction, btnName) => {
       buttons.push(
-        (<Button key={btnName} size='small' color='primary' onClick={() => btnAction(item)} >
+        (<Button key={btnName} size='small' color='primary' onClick={() => btnAction(item.id)} >
           {btnName}
         </Button>)
       );
