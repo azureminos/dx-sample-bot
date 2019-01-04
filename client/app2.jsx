@@ -78,18 +78,11 @@ export default class App2 extends React.Component {
    * and read the same in the rest of the code
    */
   pushToRemote(channel, message) {
+    console.log(`>>>>Push event[${channel}] with message`, message);
     this.setState({updating: true}); // Set the updating spinner
-
-    console.log('>>>>Push event['+channel+'] with message',
-      {senderId: this.props.viewerId, instId: this.props.instId, ...message,}
-    );
     socket.emit(
       `push:${channel}`,
-      {
-        senderId: this.props.viewerId,
-        instId: this.props.instId,
-        ...message,
-      },
+      message,
       (status) => {
         // Finished successfully with a special 'ok' message from socket server
         if (status !== 'ok') {
@@ -133,10 +126,9 @@ export default class App2 extends React.Component {
   }
 
   pushCreateInstPackage(packageId) {
-    const ownerId = this.props.viewerId;
-    console.log('>>>>Send event to create package instance with input',
-      {packageId: packageId, ownerId: ownerId});
-    //this.pushToRemote('instPackage:create', {packageId, ownerId});
+    const request = {senderId: this.props.viewerId, packageId: packageId};
+    console.log('>>>>Send event to create package instance', request);
+    this.pushToRemote('package:create', request);
   }
 
   /* ----------  Package Instance ------- */
@@ -273,7 +265,6 @@ export default class App2 extends React.Component {
     });
 
     const params = {
-      instId: instId,
       likedAttractions: likedAttractions.toString(),
       action: attraction.isLiked ? 'ADD' : 'DELETE',
       actionItemId: attraction.id,
@@ -293,23 +284,7 @@ export default class App2 extends React.Component {
     console.log('>>>>setSelectedHotel of Inst['+instId+']', {cityHotels: cityHotels, hotel: hotel});
   }
 
-  /* ----------  List  ---------- */
-
-  // For the initial data fetch
-  setOwnerId(ownerId) {
-    console.log('Set owner ID:', ownerId);
-    this.setState({ownerId});
-  }
-
-  setTitleText(title) {
-    console.log('Push title to remote:', title);
-    this.setState({title});
-    this.setDocumentTitle(title);
-    this.pushToRemote('title:update', {title});
-  }
-
   /* ----------  Users  ---------- */
-
   // Socket Event Handler for Set Online Users event.
   setOnlineUsers(onlineUserFbIds = []) {
     const users = this.state.users.map((user) => {
@@ -356,25 +331,26 @@ export default class App2 extends React.Component {
     socket.on('init', this.init);
     socket.on('user:join', this.userJoin);
 
-    //socket.on('item:add', this.addItem);
-    //socket.on('item:update', this.setItem);
-    //socket.on('list:setOwnerId', this.setOwnerId);
-    //socket.on('title:update', this.setDocumentTitle);
-    //socket.on('users:setOnline', this.setOnlineUsers);
-
     const self = this;
     // Check for permission, ask if there is none
     window.MessengerExtensions.getGrantedPermissions(function(response) {
       // check if permission exists
       const permissions = response.permissions;
       if (permissions.indexOf('user_profile') > -1) {
-        self.pushToRemote('user:join', {id: self.props.viewerId});
+        console.log('>>>>Send event[push:user:join]', self.props);
+        self.pushToRemote(
+          'user:join',
+          {senderId: self.props.viewerId, instId: self.props.instId}
+        );
       } else {
         window.MessengerExtensions.askPermission(function(response) {
           const isGranted = response.isGranted;
           if (isGranted) {
-            console.log('>>>>calling socket [push:user:join]', self.props.viewerId);
-            self.pushToRemote('user:join', {id: self.props.viewerId});
+            console.log('>>>>Send event[push:user:join]', self.props);
+            self.pushToRemote(
+              'user:join',
+              {senderId: self.props.viewerId, instId: self.props.instId}
+            );
           } else {
             window.MessengerExtensions.requestCloseBrowser(null, null);
           }

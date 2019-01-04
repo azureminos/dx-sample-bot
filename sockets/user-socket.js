@@ -69,7 +69,7 @@ const join = ({
   socketUsers,
   userSocket,
 }) => {
-  console.log('>>>>Start to process User Join event with Input['+senderId+', '+instId+']');
+  console.log(`>>>>New user[${senderId}] joined package instance[${instId}]`);
   if (instId) {
     Promise.all([
       InstPackage.getInstPackageDetails(instId),
@@ -106,20 +106,26 @@ const join = ({
               console.log('>>>>print users', users);
               console.log('>>>>print fbUsers', fbUsers);
               const ngUsers = fbUsers.map((u) => {
-                var m = _.filter(users, (user) => {return user.loginId === u.fbId});
-                if(m) {
+                const m = _.filter(users, (user) => {return user.loginId === u.fbId;});
+                if (m) {
                   u.likedAttractions = m[0].likedAttractions;
                 }
-                  return u;
+                return u;
               });
-              console.log('>>>>print ngUsers', ngUsers);
+
               const viewerUser = fbUsers.find((fbUser) => fbUser.fbId === user.loginId);
-              console.log('>>>>print viewerUser', viewerUser);
-              console.log('>>>>socket.join(instPackage.id)', instPackage);
               socket.join(instPackage.id);
-              console.log('>>>>socket.in(instPackage.id).emit(user:join, viewerUser)', viewerUser);
+              console.log(`>>>>Send event[user:join] to users in room[${instPackage.id}]`, viewerUser);
               socket.in(instPackage.id).emit('user:join', viewerUser);
-              console.log('>>>>userSocket.emit(init)', {
+
+              // Dummy Hotels
+              if (!instPackage.hotels) {
+                instPackage.hotels = _.uniqBy(instPackage.items, 'dayNo').map((day) => {
+                  return cityHotels[day.city][0].id;
+                });
+              }
+
+              console.log('>>>>Send event[init] to render webview', {
                 instPackage,
                 cityAttractions,
                 cityHotels,
@@ -129,13 +135,6 @@ const join = ({
                 packages: [],
                 ownerId: instOwner ? instOwner.loginId : user.loginId,
               });
-              // Dummy Hotels
-              if (!instPackage.hotels) {
-                instPackage.hotels = _.uniqBy(instPackage.items, 'dayNo').map((day) => {
-                  return cityHotels[day.city][0].id;
-                });
-              }
-
               userSocket.emit('init', {
                 instPackage,
                 cityAttractions,
@@ -211,8 +210,9 @@ const leave = ({userId, instId, allInRoom, socket, socketUsers}) => {
   allInRoom(instId).emit('users:setOnline', onlineUsers);
 };
 
-const updateLikedAttractions = ({request: {likedAttractions, instId}, sendStatus, socket, userId}) => {
-  console.log('>>>>Received event to setLikedAttraction', {instId: instId, likedAttractions: likedAttractions, userId: userId});
+const updateLikedAttractions = ({request, sendStatus, userId, instId}) => {
+  const {likedAttractions} = request;
+  console.log('>>>>Handle event[setLikedAttraction]', {request: request, userId: userId, instId: instId});
   // Update user liked attractions
   PackageParticipant.updateLikedAttractions(instId, userId, likedAttractions);
   // Add/Delete attraction to vist in the package instance

@@ -6,8 +6,8 @@
  */
 
 // ===== SOCKETS ===============================================================
-import ListSocket from './list-socket';
 import UserSocket from './user-socket';
+import PackageSocket from './package-socket';
 
 const socketUsers = new Map(); // {socketId: {userId, listId}}
 
@@ -22,13 +22,13 @@ export default function attachSockets(io) {
 
         handler({
           allInRoom,
-          instId,
           request,
           sendStatus,
           socket,
           socketUsers,
-          userId,
           userSocket,
+          instId,
+          userId,
         });
       });
     };
@@ -36,10 +36,8 @@ export default function attachSockets(io) {
     console.log(`A user connected (socket ID ${socket.id})`);
 
     channel('disconnect', UserSocket.leave);
-    channel('push:item:add', ListSocket.addItem);
-    channel('push:item:update', ListSocket.updateItem);
-    channel('push:title:update', ListSocket.updateTitle);
     channel('push:user:join', UserSocket.join);
+    channel('push:package:create', PackageSocket.create);
     channel('push:likedAttractions:update', UserSocket.updateLikedAttractions);
   });
 }
