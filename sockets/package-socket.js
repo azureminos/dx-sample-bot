@@ -23,7 +23,8 @@ const create = ({request: {senderId, packageId}, allInRoom, sendStatus, socket, 
   console.log('>>>>Received event to create package instance', {packageId: packageId, senderId: senderId});
   InstPackage
     .addInstPackage(packageId)
-    .then((inst) =>
+    .then((inst) => {
+      console.log('>>>>Created package instance', inst);
       // User(owner) join
       UserSocket.join({
         request: {senderId: senderId, instId: inst.id},
@@ -32,7 +33,8 @@ const create = ({request: {senderId, packageId}, allInRoom, sendStatus, socket, 
         socket,
         socketUsers,
         userSocket,
-      })
+      });
+    }
   );
 };
 
