@@ -409,6 +409,10 @@ export default class App2 extends React.Component {
                   selectHotel={this.setSelectedHotel}
                 />
               </Typography>
+              <HomeFooter
+                instPackage={instPackage}
+                apiUri={apiUri}
+              />
             </div>
           ),
         };
@@ -418,10 +422,6 @@ export default class App2 extends React.Component {
             <FixedTab
               tabs={tabs}
               isOwner
-            />
-            <HomeFooter
-              instPackage={instPackage}
-              apiUri={apiUri}
             />
           </Paper>
         );
