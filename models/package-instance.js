@@ -125,15 +125,14 @@ const getInstPackageDetails = (instId) =>
     return inst;
   });
 
-  
-const getInstPackageDetailsByUserId = (userId) =>
+const getLatestInstByUserId = (userId) =>
   dsInstParticipant()
     .select('pkg_inst_id as instId')
     .where('login_id', userId)
     .orderBy('created_ts', 'desc')
     .first()
     .then((result) => {
-      console.log('getInstPackageDetailsByUserId('+userId+'), found latest package instance', result);
+      console.log(`getLatestInstByUserId(${userId}), found latest package instance`, result);
       return Promise.all([
         getInstPackage(result.instId),
         //RatePlan.getRatePlanByInstId(instId),
@@ -168,7 +167,7 @@ const delInstPackage = (instId) =>
 export default {
   getInstPackage,
   getInstPackageDetails,
-  getInstPackageDetailsByUserId,
+  getLatestInstByUserId,
   addInstPackage,
   delInstPackage,
   getAttractionsByInstId,

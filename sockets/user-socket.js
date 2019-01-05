@@ -153,7 +153,7 @@ const join = ({
   } else {
     Promise.all([
       Packages.getAllPackage(),
-      InstPackage.getInstPackageDetailsByUserId(senderId),
+      InstPackage.getLatestInstByUserId(senderId),
     ]).then(([packages, instPackage]) => {
       if (!packages) {
         console.error('No package available!');
