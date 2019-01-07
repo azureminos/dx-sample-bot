@@ -30,7 +30,7 @@ const setHomeUrl = () => {
         url: [APP_URL]+'instance/home',
         webview_height_ratio: 'full',
         webview_share_button: 'hide',
-        in_test:true
+        in_test: true,
       },
     }
   );
