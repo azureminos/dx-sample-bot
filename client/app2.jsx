@@ -147,7 +147,7 @@ export default class App2 extends React.Component {
 
     const u = _.filter(users, (user) => {return user.fbId == ownerId;});
     console.log('>>>>Matched User['+ownerId+']', u);
-    if (u && u[0].likedAttractions) {
+    if (u && u.length > 0 && u[0].likedAttractions) {
       const liked = u[0].likedAttractions.split(',');
       _.forEach(_.values(cityAttractions), (attractions) => {
         _.forEach(attractions, (a) => {
