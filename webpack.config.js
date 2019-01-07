@@ -15,7 +15,7 @@ module.exports = [{
     filename: 'bundle.js'
   },
   module: {
-    loaders: [
+    rules: [
       { test: /\.css$/, loader: 'style-loader!css-loader?-svgo' },
       {
         test: /\.(eot|woff|woff2|ttf|svg|png|jpg|gif)$/,
