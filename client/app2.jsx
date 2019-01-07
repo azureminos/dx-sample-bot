@@ -37,6 +37,7 @@ export default class App2 extends React.Component {
 
     this.preInit = this.preInit.bind(this);
     this.init = this.init.bind(this);
+    this.viewPackage = this.viewPackage.bind(this);
     this.pushCreateInstPackage = this.pushCreateInstPackage.bind(this);
     this.setLikedAttractions = this.setLikedAttractions.bind(this);
     this.setSelectedHotel = this.setSelectedHotel.bind(this);
@@ -123,6 +124,11 @@ export default class App2 extends React.Component {
     });
 
     this.setState({instPackage, packages: packages, cityAttractions, cityHotels, cities});
+  }
+
+  viewPackage() {
+    console.log('>>>>Invoke function[viewPackage]');
+    this.setState({packages: []});
   }
 
   pushCreateInstPackage(pkg) {
@@ -413,6 +419,8 @@ export default class App2 extends React.Component {
               <HomeFooter
                 instPackage={instPackage}
                 apiUri={apiUri}
+                btnLabel='View Package'
+                btnAction={this.viewPackage}
               />
             </div>
           ),

@@ -31,6 +31,8 @@ const HomeFooter = ({
   instPackage,
   apiUri,
   classes,
+  btnLabel,
+  btnAction,
 }) => {
   console.log('>>>>Start HomeFooter', {instPackage: instPackage, apiUri: apiUri});
   return (
@@ -41,8 +43,9 @@ const HomeFooter = ({
           color='primary'
           fullWidth='true'
           className={classes.button}
+          onClick={btnAction}
         >
-          View Package
+          {btnLabel}
           <BeachIcon className={classes.leftIcon}/>
         </Button>
       </Toolbar>
