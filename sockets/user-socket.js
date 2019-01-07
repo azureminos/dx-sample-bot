@@ -88,12 +88,12 @@ const join = ({
     .then(() => {
       socketUsers.set(socket.id, {instId: instPackage.id, userId: user.loginId});
 
-      PackageParticipant.getParticipantByInstId(instId)
+      PackageParticipant.getParticipantByInstId(instPackage.id)
         .then((users) => {
-          console.log('>>>>Calling getFacebookProfileInfoForUsers', {users: users, instId: instId, socketUsers: socketUsers});
+          console.log('>>>>Calling getFacebookProfileInfoForUsers', {users: users, instId: instPackage.id, socketUsers: socketUsers});
           return Promise.all([
             users,
-            getFacebookProfileInfoForUsers(users, instId, socketUsers),
+            getFacebookProfileInfoForUsers(users, instPackage.id, socketUsers),
           ]);
         })
         .then(([users, fbUsers]) => {
