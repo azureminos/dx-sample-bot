@@ -132,9 +132,10 @@ export default class App2 extends React.Component {
   }
 
   /* ----------  Package Instance ------- */
-  init({instPackage, cityAttractions, cityHotels, cities, users, ownerId}) {
+  init({packages, instPackage, cityAttractions, cityHotels, cities, users, ownerId}) {
     console.log('>>>>Result coming back from socket [init]',
       {
+        packages: packages,
         instPackage: instPackage,
         cityAttractions: cityAttractions,
         cityHotels: cityHotels,
@@ -176,7 +177,7 @@ export default class App2 extends React.Component {
       });
     });
 
-    this.setState({instPackage, packages: [], cityAttractions, cityHotels, cities, users, ownerId});
+    this.setState({instPackage, packages: packages, cityAttractions, cityHotels, cities, users, ownerId});
   }
 
   /* ----------  Package Instance Items------- */
