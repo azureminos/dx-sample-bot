@@ -15,6 +15,7 @@ import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import Countdown from 'react-countdown-now';
 import _ from 'lodash';
 import BotHeader from './bot-header';
 import CaseNotes from './case-notes';
@@ -107,7 +108,9 @@ class FullWidthTabs extends React.Component {
       <div className={classes.root}>
         <AppBar position='sticky' color='default'>
           {showCountDown && (
-            <div style={{padding: '2px', color: 'red', fontSize: '12px', fontWeight: 'bold', textAlign: 'center'}}>Your package will expire in ....</div>
+            <div style={{padding: '2px', color: 'red', fontSize: '12px', fontWeight: 'bold', textAlign: 'center'}}>
+              Your package will expire in <Countdown date={Date.now() + 100000} />
+            </div>
           )}
           {showBotHeader && (
             <BotHeader drawerHandler={this.handleDrawer} />
