@@ -49,6 +49,12 @@ const view = ({request: {packageId}, sendStatus, userSocket}) => {
       Pkg.getCityHotels(packageId),
     ])
     .then(([pkg, cityAttractions, cityHotels]) => {
+      // Dummy Hotels
+      if (!pkg.hotels) {
+        pkg.hotels = _.uniqBy(pkg.items, 'dayNo').map((day) => {
+          return cityHotels[day.city][0].id;
+        });
+      }
       console.log('>>>>View Package', {pkg, cityAttractions, cityHotels});
       if (pkg) {
         userSocket.emit('package:view', {
