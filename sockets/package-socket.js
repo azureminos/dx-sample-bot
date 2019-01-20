@@ -53,10 +53,11 @@ const view = ({request: {packageId}, sendStatus, userSocket}) => {
       // Dummy Hotels
       if (!pkg.hotels) {
         pkg.hotels = _.uniqBy(pkg.items, 'dayNo').map((day) => {
-          return cityHotels[day.city][0].id;
+          console.log('>>>>Package Day Itinerary', day);
+          return 1;//cityHotels[day.city][0].id;
         });
       }
-      
+
       if (pkg) {
         userSocket.emit('package:view', {
           pkg,
