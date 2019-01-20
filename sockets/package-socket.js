@@ -10,6 +10,7 @@ import _ from 'lodash';
 
 // ===== DB ====================================================================
 import InstPackage from '../models/package-instance';
+import Pkg from '../models/package';
 
 // ===== SOCKET ================================================================
 import UserSocket from '../sockets/user-socket';
@@ -38,4 +39,28 @@ const create = ({request: {senderId, packageId}, allInRoom, sendStatus, socket, 
   );
 };
 
-export default {create};
+// Create package instance
+const view = ({request: {packageId}, sendStatus, userSocket}) => {
+  console.log('>>>>Received event to create package instance', packageId);
+  Promise
+    .all([
+      Pkg.getPackageDetails(packageId),
+      Pkg.getCityAttractions(packageId),
+      Pkg.getCityHotels(packageId),
+    ])
+    .then(([pkg, cityAttractions, cityHotels]) => {
+      console.log('>>>>View Package', {pkg, cityAttractions, cityHotels});
+      if (pkg) {
+        userSocket.emit('package:view', {
+          pkg,
+          cityAttractions,
+          cityHotels,
+        });
+      } else {
+        console.error("Package doesn't exist!");
+        sendStatus('noPackage');
+      }
+    });
+};
+
+export default {create, view};

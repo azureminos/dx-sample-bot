@@ -1,9 +1,15 @@
+// ===== Module ================================================================
+import _ from 'lodash';
 // ===== DB ====================================================================
 import Knex  from '../db/knex';
 import PackageItem from '../models/package-item';
 import PackageImage from '../models/package-image';
 
 const Package = () => Knex('package');
+
+const dsPackageItem = () => Knex('package_item');
+const dsAttraction = () => Knex('attraction');
+const dsHotel = () => Knex('hotel');
 
 // ===== Package ======================================================
 const getAllPackage = () =>
@@ -121,6 +127,52 @@ const getPackageDetails = (packageId) =>
     return pkg;
   });
 
+const getCityHotels = (packageId) => {
+  return dsPackageItem()
+    .join('attraction', {'attraction.id': 'package_item.attraction_id'})
+    .distinct('attraction.city_id')
+    .select()
+    .where('package_item.pkg_inst_id', packageId)
+    .then((cities) => {
+      const vCities = cities.map((city) => {return city.city_id;});
+      return dsHotel()
+        /*.join('hotel_image', {
+          'hotel_image.hotel_id': 'hotel.id',
+          'hotel_image.is_cover_page': Knex.raw('?', [true])})*/
+        .join('city', {'city.id': 'hotel.city_id'})
+        .select('city.name as cityName', 'hotel.id as id', 'hotel.name as name',
+          'hotel.description as description'/*, 'hotel_image.image_url as imageUrl'*/)
+        .whereIn('hotel.city_id', vCities)
+        .then((result) => {
+          console.log('>>>>Package.getCityHotels', result);
+          return _.groupBy(result, (item) => item.cityName);
+        });
+    });
+};
+
+const getCityAttractions = (packageId) => {
+  return dsPackageItem()
+    .join('attraction', {'attraction.id': 'package_item.attraction_id'})
+    .distinct('attraction.city_id')
+    .select()
+    .where('package_item.pkg_inst_id', packageId)
+    .then((cities) => {
+      const vCities = cities.map((city) => {return city.city_id;});
+      return dsAttraction()
+        .join('attraction_image', {
+          'attraction_image.attraction_id': 'attraction.id',
+          'attraction_image.is_cover_page': Knex.raw('?', [true])})
+        .join('city', {'city.id': 'attraction.city_id'})
+        .select('city.name as cityName', 'attraction.id as id', 'attraction.name as name',
+          'attraction.description as description', 'attraction_image.image_url as imageUrl')
+        .whereIn('attraction.city_id', vCities)
+        .then((result) => {
+          console.log('>>>>Package.getCityAttractions', result);
+          return _.groupBy(result, (item) => item.cityName);
+        });
+    });
+};
+
 export default {
   getAllPackage,
   getAllPromotedPackage,
@@ -129,4 +181,6 @@ export default {
   addPackage,
   delPackage,
   getPackageDetails,
+  getCityAttractions,
+  getCityHotels,
 };

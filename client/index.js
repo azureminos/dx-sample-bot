@@ -13,7 +13,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 /* ----------  Internal Components  ---------- */
-import App from './app2.jsx';
+import App from './app.jsx';
+import AppView from './app-view.jsx';
 import Oops from './oops.jsx';
 
 /* ----------  Stylesheets  ---------- */
@@ -41,7 +42,7 @@ window.attachApp = ({viewerId, instId, packageId, socketAddress, threadType}) =>
   } else if (packageId) {
     app = (
       // The main show
-      <App
+      <AppView
         packageId={Number(packageId)}
         apiUri={apiUri}
       />
