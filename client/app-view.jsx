@@ -95,7 +95,7 @@ export default class AppView extends React.Component {
   /* ----------  Display Package ------- */
   initView({pkg, cityAttractions, cityHotels, cities}) {
     console.log(
-      '>>>>Result coming back from socket [init]',
+      '>>>>Result coming back from socket [view:init]',
       {pkg, cityAttractions, cityHotels, cities},
     );
 
