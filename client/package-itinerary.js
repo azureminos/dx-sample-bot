@@ -13,15 +13,17 @@ const triggerText = (dayNo, city) => `Day ${dayNo}, ${city}`;
 export default class PackageItinerary extends React.Component {
   render() {
     console.log('>>>>PackageItinerary, Start render with props', this.props);
-    const {instPackage, cityAttractions, cityHotels, apiUri, selectHotel, isReadonly} = this.props;
+    const {instPackage, cityAttractions, cityHotels, apiUri, selectHotel, isReadonly, showTansport} = this.props;
     const itineraries = _.groupBy(instPackage.items, (item)=>{
       return item.dayNo;
     });
     console.log('>>>>PackageItinerary, Get itineraries', itineraries);
     // Generate itinerary accordion
     const elItineraries = {};
-    // Add Flight and Cars
-    elItineraries['Flight and Car'] = isReadonly ? (<div><FlightCar isReadonly/></div>) : (<div><FlightCar/></div>);
+    if (showTansport) {
+      // Add Flight and Cars
+      elItineraries['Flight and Car'] = isReadonly ? (<div><FlightCar isReadonly/></div>) : (<div><FlightCar/></div>);
+    }
 
     // Add itinerary for each days
     _.forEach(_.keys(itineraries), (dayNo) => {

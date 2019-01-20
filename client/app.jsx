@@ -413,6 +413,7 @@ export default class App extends React.Component {
                   cityHotels={cityHotels}
                   apiUri={apiUri}
                   isReadonly
+                  showTransport
                   selectHotel={this.setSelectedHotel}
                 />
               </Typography>
@@ -500,6 +501,7 @@ export default class App extends React.Component {
                 cityAttractions={cityAttractions}
                 cityHotels={cityHotels}
                 apiUri={apiUri}
+                showTransport
                 selectHotel={this.setSelectedHotel}
               />
             </Typography>
