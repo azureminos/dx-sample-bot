@@ -159,28 +159,19 @@ export default class AppView extends React.Component {
         {props: this.props, state: this.state}
       );
       const {apiUri} = this.props;
-      const tabs = {
-        'Package Details': (
-          <div id='package-itinerary'>
-            <Typography>
-              <PackageItinerary
-                instPackage={pkg}
-                cityAttractions={cityAttractions}
-                cityHotels={cityHotels}
-                apiUri={apiUri}
-                isReadonly
-                selectHotel={this.setSelectedHotel}
-              />
-            </Typography>
-          </div>
-        ),
-      };
 
       page = (
         <Paper>
-          <FixedTab
-            tabs={tabs}
-          />
+          <Typography>
+            <PackageItinerary
+              instPackage={pkg}
+              cityAttractions={cityAttractions}
+              cityHotels={cityHotels}
+              apiUri={apiUri}
+              isReadonly
+              selectHotel={this.setSelectedHotel}
+            />
+          </Typography>
         </Paper>
       );
     } else if (socketStatus === 'noList') {
