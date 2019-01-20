@@ -139,7 +139,7 @@ export default class AppView extends React.Component {
 
     this.pushToRemote(
       'package:view',
-      {packageId: self.props.packageId}
+      {packageId: this.props.packageId}
     );
   }
 
