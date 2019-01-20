@@ -31,7 +31,7 @@ let socket;
    = React Application          =
    ============================== */
 
-export default class App2 extends React.Component {
+export default class App extends React.Component {
   constructor(props) {
     super(props);
 
