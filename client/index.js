@@ -20,12 +20,11 @@ import Oops from './oops.jsx';
 import 'react-id-swiper/src/styles/css/swiper.css';
 import '../public/style.css';
 
-
-window.attachApp = (viewerId, instId, socketAddress, threadType) => {
-  console.log('>>>>window.attachApp', {viewerId:viewerId, instId:instId, socketAddress:socketAddress, threadType:threadType});
-  instId = instId?Number(instId):null;
-  console.log('>>>>instId after re-format', instId);
-
+window.attachApp = ({viewerId, instId, packageId, socketAddress, threadType}) => {
+  console.log(
+    '>>>>window.attachApp()',
+    {viewerId, instId, packageId, socketAddress, threadType}
+  );
   const apiUri = `https://${window.location.hostname}`;
   let app;
   if (viewerId) {
@@ -33,10 +32,18 @@ window.attachApp = (viewerId, instId, socketAddress, threadType) => {
       // The main show
       <App
         viewerId={viewerId}
-        instId={instId}
+        instId={instId ? Number(instId) : null}
         apiUri={apiUri}
         socketAddress={socketAddress}
         threadType={threadType}
+      />
+    );
+  } else if (packageId) {
+    app = (
+      // The main show
+      <App
+        packageId={Number(packageId)}
+        apiUri={apiUri}
       />
     );
   } else {

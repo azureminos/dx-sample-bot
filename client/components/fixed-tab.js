@@ -79,7 +79,7 @@ class FullWidthTabs extends React.Component {
       tabContents.push((<TabContainer dir={theme.direction}>{item}</TabContainer>));
     });
 
-    if(showNotesDrawer) {
+    if (showNotesDrawer) {
       notesList = notes.map((n) => {
         const filteredUser = _.filter(users, {fbId: n.userId});
         const imgProfile = filteredUser.length ? filteredUser[0].profilePic : '';
