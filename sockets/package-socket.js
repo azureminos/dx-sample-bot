@@ -41,7 +41,7 @@ const create = ({request: {senderId, packageId}, allInRoom, sendStatus, socket, 
 
 // Create package instance
 const view = ({request: {packageId}, sendStatus, userSocket}) => {
-  console.log('>>>>Received event to create package instance', packageId);
+  console.log('>>>>Received event to view package', packageId);
   Promise
     .all([
       Pkg.getPackageDetails(packageId),

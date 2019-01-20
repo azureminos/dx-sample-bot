@@ -132,7 +132,7 @@ const getCityHotels = (packageId) => {
     .join('attraction', {'attraction.id': 'package_item.attraction_id'})
     .distinct('attraction.city_id')
     .select()
-    .where('package_item.pkg_inst_id', packageId)
+    .where('package_item.pkg_id', packageId)
     .then((cities) => {
       const vCities = cities.map((city) => {return city.city_id;});
       return dsHotel()
@@ -155,7 +155,7 @@ const getCityAttractions = (packageId) => {
     .join('attraction', {'attraction.id': 'package_item.attraction_id'})
     .distinct('attraction.city_id')
     .select()
-    .where('package_item.pkg_inst_id', packageId)
+    .where('package_item.pkg_id', packageId)
     .then((cities) => {
       const vCities = cities.map((city) => {return city.city_id;});
       return dsAttraction()
