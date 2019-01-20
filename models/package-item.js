@@ -13,18 +13,22 @@ const getAllPackageItem = () =>
 const getItemByPackageId = (packageId) =>
   PackageItem()
     .join('attraction', 'attraction.id', 'package_item.attraction_id')
+    .join('attraction_image', {'attraction_image.attraction_id': 'package_inst_item.attraction_id', 'attraction_image.is_cover_page': knex.raw('?', [true])})
     .join('city', 'city.id', 'attraction.city_id')
     .select('package_item.id', 'package_item.pkg_id as packageId', 'package_item.day_no as dayNo', 'package_item.day_seq as daySeq',
-      'city.name as city', 'package_item.attraction_id as attractionId', 'attraction.name', 'package_item.description', 'package_item.notes')
+      'package_item.attraction_id as attractionId', 'attraction.name', 'package_item.description', 'package_item.notes', 
+      'city.name as city', 'attraction_image.image_url as imageUrl')
     .where('package_item.pkg_id', packageId);
 
 const getItemByPackageName = (packageName) =>
   PackageItem()
     .join('attraction', 'attraction.id', 'package_item.attraction_id')
     .join('package', 'package.id', 'package_item.pkg_id')
+    .join('attraction_image', {'attraction_image.attraction_id': 'package_inst_item.attraction_id', 'attraction_image.is_cover_page': knex.raw('?', [true])})
     .join('city', 'city.id', 'attraction.city_id')
     .select('package_item.id', 'package_item.pkg_id as packageId', 'package_item.day_no as dayNo', 'package_item.day_seq as daySeq',
-      'city.name as city', 'package_item.attraction_id as attractionId', 'attraction.name', 'package_item.description', 'package_item.notes')
+      'package_item.attraction_id as attractionId', 'attraction.name', 'package_item.description', 'package_item.notes', 
+      'city.name as city', 'attraction_image.image_url as imageUrl')
     .where('package.name', packageName);
 
 const getPackageItem = (itemId) =>
