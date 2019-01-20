@@ -30,14 +30,14 @@ const handleInstanceCreation = (req, res) => {
     InstPackage
       .addInstPackage(packageId)
       .then((inst) =>
-        res.render('./index', {instId: inst.id, socketAddress})
+        res.render('./index', {instId: inst.id, packageId: '', socketAddress})
       );
   } else if (instId === 'home') {
-    res.render('./index', {socketAddress});
+    res.render('./index', {instId: '', packageId: '', socketAddress});
   } else if (instId === 'view') {
-    res.render('./index', {packageId, socketAddress});
+    res.render('./index', {instId: '', packageId, socketAddress});
   } else {
-    res.render('./index', {instId, socketAddress});
+    res.render('./index', {instId, packageId: '', socketAddress});
   }
 };
 
