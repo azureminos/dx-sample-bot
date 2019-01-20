@@ -20,7 +20,10 @@
               threadType: context.thread_type,
             });
           }, function error(err) {
-            window.attachApp();
+            window.attachApp({
+              packageId: "<%= packageId %>",
+              socketAddress: "<%= socketAddress %>",
+            });
           });
       };
 
