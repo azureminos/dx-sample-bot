@@ -79,7 +79,7 @@ router.post('/', (req, res) => {
                 'Take From Inbox',
                 'take_from_inbox'
               );
-              HandoverProtocol.passThreadControl(psid, 266691027485519);
+              HandoverProtocol.passThreadControl(psid, 263902037430900);
             } else if (messagingEvent.pass_thread_control) {
               // thread control was passed back to bot manually in Page inbox
               sendQuickReply(
@@ -99,9 +99,7 @@ router.post('/', (req, res) => {
             } else {
               receiveApi.handleReceiveMessage(messagingEvent);
             }
-          }
-
-          if (messagingEvent.postback) {
+          } else if (messagingEvent.postback) {
             receiveApi.handleReceivePostback(messagingEvent);
           } else {
             console.log(
