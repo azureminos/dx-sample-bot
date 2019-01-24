@@ -10,6 +10,8 @@ import express from 'express';
 
 // ===== MESSENGER =============================================================
 import receiveApi from '../messenger-api-helpers/receive';
+import sendQuickReply from '../messenger-api-helpers/quick-reply';
+import HandoverProtocol from '../messenger-api-helpers/handover-protocol';
 
 const router = express.Router();
 
@@ -50,7 +52,6 @@ router.post('/', (req, res) => {
     don't get duplicate messages in the event that a request takes
     awhile to process.
   */
-  res.sendStatus(200);
 
   const data = req.body;
   console.log('Webhook POST', JSON.stringify(data));
@@ -60,28 +61,75 @@ router.post('/', (req, res) => {
     // Iterate over each entry
     // There may be multiple if batched
     data.entry.forEach((pageEntry) => {
-      if (!pageEntry.messaging) {
+      if (pageEntry.messaging) {
+        // Iterate over each messaging event and handle accordingly
+        pageEntry.messaging.forEach((messagingEvent) => {
+          console.log({messagingEvent});
+
+          // parse sender PSID and message
+          const psid = messagingEvent.sender.id;
+          const message = messagingEvent.message;
+
+          if (messagingEvent.message) {
+            if (message.quick_reply && message.quick_reply.payload == 'pass_to_inbox') {
+              // quick reply to pass to Page inbox was clicked
+              sendQuickReply(
+                psid,
+                'Tap [Take From Inbox] to have the Primary Receiver take control back.',
+                'Take From Inbox',
+                'take_from_inbox'
+              );
+              HandoverProtocol.passThreadControl(psid, 266691027485519);
+            } else if (messagingEvent.pass_thread_control) {
+              // thread control was passed back to bot manually in Page inbox
+              sendQuickReply(
+                psid,
+                'Tap [Pass to Inbox] to pass control to the Page Inbox.',
+                'Pass to Inbox',
+                'pass_to_inbox'
+              );
+            } else if (message && !message.is_echo) {
+              // default
+              sendQuickReply(
+                psid,
+                'Tap [Pass to Inbox] to pass control to the Page Inbox.',
+                'Pass to Inbox',
+                'pass_to_inbox'
+              );
+            } else {
+              receiveApi.handleReceiveMessage(messagingEvent);
+            }
+          }
+
+          if (messagingEvent.postback) {
+            receiveApi.handleReceivePostback(messagingEvent);
+          } else {
+            console.log(
+              'Webhook received unknown messagingEvent: ',
+              messagingEvent
+            );
+          }
+        });
+      } else if (pageEntry.standby) {
+        const psid = event.sender.id;
+        const message = event.message;
+
+        if (message && message.quick_reply && message.quick_reply.payload == 'take_from_inbox') {
+          sendQuickReply(
+            psid,
+            'Tap [Pass to Inbox] to pass thread control to the Page Inbox.',
+            'Pass to Inbox',
+            'pass_to_inbox'
+          );
+          HandoverProtocol.takeThreadControl(psid);
+        }
+      } else {
         return;
       }
-      // Iterate over each messaging event and handle accordingly
-      pageEntry.messaging.forEach((messagingEvent) => {
-        console.log({messagingEvent});
-
-        if (messagingEvent.message) {
-          receiveApi.handleReceiveMessage(messagingEvent);
-        }
-
-        if (messagingEvent.postback) {
-          receiveApi.handleReceivePostback(messagingEvent);
-        } else {
-          console.log(
-            'Webhook received unknown messagingEvent: ',
-            messagingEvent
-          );
-        }
-      });
     });
   }
+
+  res.sendStatus(200);
 });
 
 export default router;
