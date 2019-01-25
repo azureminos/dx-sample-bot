@@ -69,6 +69,11 @@ const sendReadReceipt = (recipientId) => {
   api.callMessagesAPI(messageData);
 };
 
+// Send the initial welcoming message with quick reply options.
+const sendWelcomeMessage = (recipientId, lastInstanceId) => {
+  sendMessage(recipientId, messages.welcomeMessage(lastInstanceId));
+};
+
 // Send the initial message welcoming & describing the bot.
 const sendPackageMessage = (recipientId) => {
   Package.getAllPackage()
@@ -120,7 +125,7 @@ const sendLists = (recipientId, action, lists, offset) => {
 
 // Send a message notifying the user their list has been created.
 const sendListCreated = (recipientId, instPackage) => {
-  console.log('>>>>sendListCreated, recipientId['+recipientId+'', instPackage);
+  console.log('>>>>sendListCreated, recipientId['+recipientId+']', instPackage);
   sendMessage(
     recipientId,
     [
@@ -130,11 +135,25 @@ const sendListCreated = (recipientId, instPackage) => {
     ]);
 };
 
+// Send a message notifying the user their list has been created.
+const sendPackageInst = (recipientId, inst) => {
+  console.log(`>>>>sendPackageInst, recipientId[${recipientId}]`, inst);
+  sendMessage(
+    recipientId,
+    [
+      messages.listCreatedMessage,
+      messages.shareListMessage(APP_URL, inst.id, inst.title, inst.desc,
+        inst.imageUrl, 'View Package'),
+    ]);
+};
+
 export default {
   sendListCreated,
   sendLists,
   sendMessage,
   sendNoListsYet,
   sendReadReceipt,
+  sendPackageInst,
   sendPackageMessage,
+  sendWelcomeMessage,
 };

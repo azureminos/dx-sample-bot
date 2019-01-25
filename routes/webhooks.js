@@ -64,42 +64,16 @@ router.post('/', (req, res) => {
       if (pageEntry.messaging) {
         // Iterate over each messaging event and handle accordingly
         pageEntry.messaging.forEach((messagingEvent) => {
-          console.log({messagingEvent});
-
-          // parse sender PSID and message
-          const psid = messagingEvent.sender.id;
-          const message = messagingEvent.message;
+          console.log('Message from main thread', messagingEvent);
 
           if (messagingEvent.message) {
-            if (message.quick_reply && message.quick_reply.payload == 'pass_to_inbox') {
-              // quick reply to pass to Page inbox was clicked
-              sendQuickReply(
-                psid,
-                'Tap [Take From Inbox] to have the Primary Receiver take control back.',
-                'Take From Inbox',
-                'take_from_inbox'
-              );
-              HandoverProtocol.passThreadControl(psid, 263902037430900);
-            } else if (messagingEvent.pass_thread_control) {
-              // thread control was passed back to bot manually in Page inbox
-              sendQuickReply(
-                psid,
-                'Tap [Pass to Inbox] to pass control to the Page Inbox.',
-                'Pass to Inbox',
-                'pass_to_inbox'
-              );
-            } else if (message && !message.is_echo) {
-              // default
-              sendQuickReply(
-                psid,
-                'Tap [Pass to Inbox] to pass control to the Page Inbox.',
-                'Pass to Inbox',
-                'pass_to_inbox'
-              );
-            } else {
-              receiveApi.handleReceiveMessage(messagingEvent);
-            }
+            // hande new message from customer
+            receiveApi.handleReceiveMessage(messagingEvent);
+          } else if (messagingEvent.pass_thread_control) {
+            // thread is in control by customer support
+            receiveApi.handleThreadback(messagingEvent);
           } else if (messagingEvent.postback) {
+            // hande postback message from customer
             receiveApi.handleReceivePostback(messagingEvent);
           } else {
             console.log(
@@ -109,7 +83,9 @@ router.post('/', (req, res) => {
           }
         });
       } else if (pageEntry.standby) {
-        const psid = event.sender.id;
+        // customer support needs to manualy send the thread back to bot.
+        console.log('Message from standby thread', pageEntry.standby);
+        /*const psid = event.sender.id;
         const message = event.message;
 
         if (message && message.quick_reply && message.quick_reply.payload == 'take_from_inbox') {
@@ -120,7 +96,7 @@ router.post('/', (req, res) => {
             'pass_to_inbox'
           );
           HandoverProtocol.takeThreadControl(psid);
-        }
+        }*/
       } else {
         return;
       }

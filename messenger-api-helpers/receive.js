@@ -10,6 +10,7 @@ import sendApi from './send';
 
 // ===== MODELS ================================================================
 import Lists from '../models/lists';
+import PackageInst from '../models/package-instance';
 
 /**
  * sendSharedLists - Gets & Sends a list of all lists a user owns.
@@ -59,11 +60,23 @@ const handleReceivePostback = (event) => {
   // Perform an action based on the type of payload received.
   if (type.substring(0, 11) === 'owned_lists') {
     sendOwnedLists(senderId, type);
-  } else if (type.substring(0, 16) === 'subscribed_lists') {
-    sendSharedLists(senderId, type);
   } else if (type.substring(0, 11) === 'get_started') {
-    sendApi.sendPackageMessage(senderId);
-    return;
+    // Greeting and quick reply
+    PackageInst
+      .getLatestInstIdByUserId(senderId)
+      .then(({lastInstanceId}) => {
+        sendApi.sendWelcomeMessage(senderId, lastInstanceId);
+      });
+  } else if (type.substring(0, 15) === 'handover_thread') {
+    // Handover to page inbox
+  } else if (type.substring(0, 10) === 'my_recent@') {
+    // Show recent package instance
+    const lastInstanceId = type.split('@')[1];
+    PackageInst
+      .getInstPackageDetails(lastInstanceId)
+      .then((inst) => {
+        sendApi.sendPackageInst(inst);
+      });
   }
   // eslint-enable camelcase
 
@@ -87,8 +100,19 @@ const handleReceiveMessage = (event) => {
   // spamming the bot if the requests take some time to return.
   sendApi.sendReadReceipt(senderId);
 
+  // Greeting Msg
+
+  // Provide with 3 quick reply options
+  // - Holiday Deals, all packages marked as on promote
+  // - Recent Update, last updated package instance, display only when exists
+  // - Chat to ABC, handover the chat thread to page inbox
+  
   if (message.text) {
-    sendApi.sendPackageMessage(senderId);
+    PackageInst
+      .getLatestInstIdByUserId(senderId)
+      .then(({lastInstanceId}) => {
+        sendApi.sendWelcomeMessage(senderId, lastInstanceId);
+      });
   }
 };
 

@@ -124,25 +124,32 @@ const getInstPackageDetails = (instId) =>
   });
 
 const getLatestInstByUserId = (userId) =>
+dsInstParticipant()
+  .select('pkg_inst_id as instId')
+  .where('login_id', userId)
+  .orderBy('created_ts', 'desc')
+  .first()
+  .then((result) => {
+    console.log(`getLatestInstByUserId(${userId}), found latest package instance`, result);
+    return Promise.all([
+      getInstPackage(result.instId),
+      //RatePlan.getRatePlanByInstId(instId),
+      instItem.getInstItem(result.instId),
+    ])
+    .then(([inst, /*pkgRatePlans,*/ items]) => {
+      inst.items = items;
+      //pkgInst.rates = pkgRatePlans;
+      console.log('>>>>Retrieved package instance', inst);
+      return inst;
+    });
+  });
+
+const getLatestInstIdByUserId = (userId) =>
   dsInstParticipant()
     .select('pkg_inst_id as instId')
     .where('login_id', userId)
     .orderBy('created_ts', 'desc')
-    .first()
-    .then((result) => {
-      console.log(`getLatestInstByUserId(${userId}), found latest package instance`, result);
-      return Promise.all([
-        getInstPackage(result.instId),
-        //RatePlan.getRatePlanByInstId(instId),
-        instItem.getInstItem(result.instId),
-      ])
-      .then(([inst, /*pkgRatePlans,*/ items]) => {
-        inst.items = items;
-        //pkgInst.rates = pkgRatePlans;
-        console.log('>>>>Retrieved package instance', inst);
-        return inst;
-      });
-    });
+    .first();
 
 const addInstPackage = (packageId) =>
   Promise.all([
@@ -166,6 +173,7 @@ export default {
   getInstPackage,
   getInstPackageDetails,
   getLatestInstByUserId,
+  getLatestInstIdByUserId,
   addInstPackage,
   delInstPackage,
   getAttractionsByInstId,

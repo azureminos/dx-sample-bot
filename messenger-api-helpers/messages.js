@@ -235,6 +235,61 @@ const sharePackageMessage = (apiUri, instId, title, description, imageUrl) => {
   return result;
 };
 
+/**
+ * Message to configure the quick reply message
+ *
+ * @param {string} title - Title of the list
+ * @param {object} items - array of quick reply items.
+ * @returns {object} - Message to configure the customized sharing menu.
+ */
+const quickReplyMessage = (title, items) => {
+  console.log('>>>>quickReplyMessage(), start', {title, items});
+  const result = {
+    text: title,
+    quick_replies: items,
+  };
+  console.log('>>>>quickReplyMessage(), complete', result);
+  return result;
+};
+
+/**
+ * Message to configure the welcome message via quick reply message
+ *
+ * @param {string} lastInstanceId - instance id of last updated package
+ * @returns {object} - Message to configure the customized sharing menu.
+ */
+const welcomeMessage = (lastInstanceId) => {
+  console.log('>>>>welcomeMessage(), start', lastInstanceId);
+  const title = 'Hello, I am XYZ and can assist you with your holiday planning. How may I help you?';
+  const replyItems = [];
+
+  const iAllPromote = {
+    content_type: 'text',
+    title: 'Holidays on Sale',
+    payload: 'promoted_packages',
+  };
+  const iMyRecent = {
+    content_type: 'text',
+    title: 'Recent Update',
+    payload: `my_recent@${lastInstanceId}`,
+  };
+  const iHandOver = {
+    content_type: 'text',
+    title: 'Live Chat',
+    payload: 'handover_thread',
+  };
+
+  replyItems.push(iAllPromote);
+  if (lastInstanceId) {
+    replyItems.push(iMyRecent);
+  }
+  replyItems.push(iHandOver);
+
+  const result = quickReplyMessage(title, replyItems);
+  console.log('>>>>welcomeMessage(), complete', result);
+  return result;
+};
+
 export default {
   packageMessage,
   listCreatedMessage,
@@ -242,4 +297,6 @@ export default {
   createListButton,
   noListsMessage,
   sharePackageMessage,
+  welcomeMessage,
+  quickReplyMessage,
 };
