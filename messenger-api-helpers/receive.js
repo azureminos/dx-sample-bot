@@ -77,10 +77,9 @@ const handleReceivePostback = (event) => {
       .then((inst) => {
         sendApi.sendPackageInst(inst);
       });
+  } else {
+    sendApi.sendMessage(senderId, `Unknown Postback called: ${type}`);
   }
-  // eslint-enable camelcase
-
-  sendApi.sendMessage(senderId, `Unknown Postback called: ${type}`);
 };
 
 /*
@@ -99,20 +98,11 @@ const handleReceiveMessage = (event) => {
   // the bot has seen the message. This can prevent a user
   // spamming the bot if the requests take some time to return.
   sendApi.sendReadReceipt(senderId);
-
-  // Greeting Msg
-
-  // Provide with 3 quick reply options
+  // Greeting Msg, Provide with 3 quick reply options
   // - Holiday Deals, all packages marked as on promote
   // - Recent Update, last updated package instance, display only when exists
   // - Chat to ABC, handover the chat thread to page inbox
-  if (message.text) {
-    PackageInst
-      .getLatestInstIdByUserId(senderId)
-      .then(({lastInstanceId}) => {
-        sendApi.sendWelcomeMessage(senderId, lastInstanceId);
-      });
-  } else if (message.quick_reply && message.quick_reply.payload === 'promoted_packages') {
+  if (message.quick_reply && message.quick_reply.payload === 'promoted_packages') {
     // Show list of packages
     sendApi.sendWelcomeMessage(senderId);
   } else if (message.quick_reply && message.quick_reply.payload === 'get_started') {
@@ -132,6 +122,14 @@ const handleReceiveMessage = (event) => {
       .then((inst) => {
         sendApi.sendPackageInst(inst);
       });
+  } else if (message.text) {
+    PackageInst
+      .getLatestInstIdByUserId(senderId)
+      .then(({lastInstanceId}) => {
+        sendApi.sendWelcomeMessage(senderId, lastInstanceId);
+      });
+  } else {
+    sendApi.sendMessage(senderId, `Unknown Postback called: ${type}`);
   }
 };
 
