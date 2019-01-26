@@ -29,7 +29,7 @@ const instPackageUrl = (apiUri, instId) => `${apiUri}/instance/${instId}`;
  * @returns {object} -
  *   Message to create a button pointing to the list in a webview.
  */
-const openExistingPackageButton = (instPackageUrl, buttonText = 'View Package') => {
+const openExistingPackageButton = (instPackageUrl, buttonText = 'View Details') => {
   return {
     type: 'web_url',
     title: buttonText,

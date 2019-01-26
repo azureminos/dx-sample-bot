@@ -123,28 +123,14 @@ const sendLists = (recipientId, action, lists, offset) => {
   }
 };
 
-// Send a message notifying the user their list has been created.
-const sendListCreated = (recipientId, instPackage) => {
-  console.log('>>>>sendListCreated, recipientId['+recipientId+']', instPackage);
-  sendMessage(
-    recipientId,
-    [
-      messages.listCreatedMessage,
-      messages.shareListMessage(APP_URL, instPackage.id, instPackage.title, instPackage.desc,
-        instPackage.imageUrl, 'View Package'),
-    ]);
-};
 
 // Send a message notifying the user their list has been created.
 const sendPackageInst = (recipientId, inst) => {
   console.log(`>>>>sendPackageInst, recipientId[${recipientId}]`, inst);
   sendMessage(
     recipientId,
-    [
-      messages.listCreatedMessage,
-      messages.shareListMessage(APP_URL, inst.id, inst.title, inst.desc,
-        inst.imageUrl, 'View Package'),
-    ]);
+    messages.sharePackageMessage(APP_URL, inst.id, inst.title, inst.desc, inst.imageUrl)
+  );
 };
 
 // Pass thread control to target app
@@ -172,7 +158,6 @@ const takeThreadControl = (recipientId) => {
   api.callTakeControlAPI('/take_thread_control', payload, () => {});
 };
 export default {
-  sendListCreated,
   sendLists,
   sendMessage,
   sendNoListsYet,
