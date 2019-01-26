@@ -106,12 +106,31 @@ const handleReceiveMessage = (event) => {
   // - Holiday Deals, all packages marked as on promote
   // - Recent Update, last updated package instance, display only when exists
   // - Chat to ABC, handover the chat thread to page inbox
-  
   if (message.text) {
     PackageInst
       .getLatestInstIdByUserId(senderId)
       .then(({lastInstanceId}) => {
         sendApi.sendWelcomeMessage(senderId, lastInstanceId);
+      });
+  } else if (message.quick_reply && message.quick_reply.payload === 'promoted_packages') {
+    // Show list of packages
+    sendApi.sendWelcomeMessage(senderId);
+  } else if (message.quick_reply && message.quick_reply.payload === 'get_started') {
+    // Greeting and quick reply
+    PackageInst
+      .getLatestInstIdByUserId(senderId)
+      .then(({lastInstanceId}) => {
+        sendApi.sendWelcomeMessage(senderId, lastInstanceId);
+      });
+  } else if (message.quick_reply && message.quick_reply.payload === 'handover_thread') {
+    // Handover to page inbox
+  } else if (message.quick_reply && message.quick_reply.payload === 'my_recent@') {
+    // Show recent package instance
+    const lastInstanceId = message.quick_reply.payload.split('@')[1];
+    PackageInst
+      .getInstPackageDetails(lastInstanceId)
+      .then((inst) => {
+        sendApi.sendPackageInst(inst);
       });
   }
 };
