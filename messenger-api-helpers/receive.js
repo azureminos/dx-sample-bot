@@ -75,7 +75,7 @@ const handleReceivePostback = (event) => {
     PackageInst
       .getInstPackageDetails(lastInstanceId)
       .then((inst) => {
-        sendApi.sendPackageInst(inst);
+        sendApi.sendPackageInst(senderId, inst);
       });
   } else {
     sendApi.sendMessage(senderId, `Unknown Postback called: ${type}`);
@@ -122,7 +122,7 @@ const handleReceiveMessage = (event) => {
     PackageInst
       .getInstPackageDetails(lastInstanceId)
       .then((inst) => {
-        sendApi.sendPackageInst(inst);
+        sendApi.sendPackageInst(senderId, inst);
       });
   } else if (message.text) {
     PackageInst
