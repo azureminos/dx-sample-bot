@@ -147,6 +147,30 @@ const sendPackageInst = (recipientId, inst) => {
     ]);
 };
 
+// Pass thread control to target app
+const passThreadControl = (recipientId, targetAppId) => {
+  console.log('PASSING THREAD CONTROL');
+  const payload = {
+    recipient: {
+      id: recipientId,
+    },
+    target_app_id: targetAppId,
+  };
+
+  api.callPassControlAPI('/pass_thread_control', payload, () => {});
+};
+
+// Take control of the current thread
+const takeThreadControl = (recipientId) => {
+  console.log('TAKING THREAD CONTROL');
+  const payload = {
+    recipient: {
+      id: recipientId,
+    },
+  };
+
+  api.callTakeControlAPI('/take_thread_control', payload, () => {});
+};
 export default {
   sendListCreated,
   sendLists,
@@ -156,4 +180,6 @@ export default {
   sendPackageInst,
   sendPackageMessage,
   sendWelcomeMessage,
+  passThreadControl,
+  takeThreadControl,
 };

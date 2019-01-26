@@ -104,7 +104,7 @@ const handleReceiveMessage = (event) => {
   // - Chat to ABC, handover the chat thread to page inbox
   if (message.quick_reply && message.quick_reply.payload === 'promoted_packages') {
     // Show list of packages
-    sendApi.sendWelcomeMessage(senderId);
+    sendApi.sendPackageMessage(senderId);
   } else if (message.quick_reply && message.quick_reply.payload === 'get_started') {
     // Greeting and quick reply
     PackageInst
@@ -114,6 +114,7 @@ const handleReceiveMessage = (event) => {
       });
   } else if (message.quick_reply && message.quick_reply.payload === 'handover_thread') {
     // Handover to page inbox
+    sendApi.passThreadControl(senderId, 263902037430900);
   } else if (message.quick_reply && message.quick_reply.payload === 'my_recent@') {
     // Show recent package instance
     const lastInstanceId = message.quick_reply.payload.split('@')[1];

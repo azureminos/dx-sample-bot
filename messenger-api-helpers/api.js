@@ -99,8 +99,18 @@ const callMessengerProfileAPI = (messageDataArray, queryParams = {}) => {
   return callAPI('messenger_profile', messageDataArray, queryParams);
 };
 
+const callPassControlAPI = (messageDataArray, queryParams = {}) => {
+  return callAPI('pass_thread_control', messageDataArray, queryParams);
+};
+
+const callTakeControlAPI = (messageDataArray, queryParams = {}) => {
+  return callAPI('take_thread_control', messageDataArray, queryParams);
+};
+
 export default {
   callMessagesAPI,
   callThreadAPI,
+  callPassControlAPI,
+  callTakeControlAPI,
   callMessengerProfileAPI,
 };
