@@ -127,11 +127,12 @@ const handleReceiveMessage = (event) => {
   } else if (message.text) {
     PackageInst
       .getLatestInstIdByUserId(senderId)
-      .then(({lastInstanceId}) => {
-        sendApi.sendWelcomeMessage(senderId, lastInstanceId);
+      .then((rs) => {
+        console.log(`>>>>Result of getLatestInstIdByUserId(${senderId})`, rs);
+        sendApi.sendWelcomeMessage(senderId, 1);
       });
   } else {
-    sendApi.sendMessage(senderId, `Unknown Postback called: ${type}`);
+    sendApi.sendMessage(senderId, 'Unknown Message');
   }
 };
 
