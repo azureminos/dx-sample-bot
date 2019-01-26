@@ -116,7 +116,7 @@ const handleReceiveMessage = (event) => {
   } else if (message.quick_reply && message.quick_reply.payload === 'handover_thread') {
     // Handover to page inbox
     sendApi.passThreadControl(senderId, 263902037430900);
-  } else if (message.quick_reply && message.quick_reply.payload === 'my_recent@') {
+  } else if (message.quick_reply && message.quick_reply.payload && message.quick_reply.payload.startWith('my_recent@')) {
     // Show recent package instance
     const lastInstanceId = message.quick_reply.payload.split('@')[1];
     PackageInst
