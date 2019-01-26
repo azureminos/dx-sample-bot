@@ -109,8 +109,9 @@ const handleReceiveMessage = (event) => {
     // Greeting and quick reply
     PackageInst
       .getLatestInstIdByUserId(senderId)
-      .then(({lastInstanceId}) => {
-        sendApi.sendWelcomeMessage(senderId, lastInstanceId);
+      .then((rs) => {
+        console.log(`>>>>Result of getLatestInstIdByUserId(${senderId})`, rs);
+        sendApi.sendWelcomeMessage(senderId, 1);
       });
   } else if (message.quick_reply && message.quick_reply.payload === 'handover_thread') {
     // Handover to page inbox
