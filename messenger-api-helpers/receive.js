@@ -109,9 +109,9 @@ const handleReceiveMessage = (event) => {
     // Greeting and quick reply
     PackageInst
       .getLatestInstIdByUserId(senderId)
-      .then((rs) => {
-        console.log(`>>>>Result of getLatestInstIdByUserId(${senderId})`, rs);
-        sendApi.sendWelcomeMessage(senderId, 1);
+      .then(({instId}) => {
+        console.log(`>>>>Result of getLatestInstIdByUserId(${senderId})`, instId);
+        sendApi.sendWelcomeMessage(senderId, instId);
       });
   } else if (message.quick_reply && message.quick_reply.payload === 'handover_thread') {
     // Handover to page inbox
@@ -127,9 +127,9 @@ const handleReceiveMessage = (event) => {
   } else if (message.text) {
     PackageInst
       .getLatestInstIdByUserId(senderId)
-      .then((rs) => {
-        console.log(`>>>>Result of getLatestInstIdByUserId(${senderId})`, rs);
-        sendApi.sendWelcomeMessage(senderId, 1);
+      .then(({instId}) => {
+        console.log(`>>>>Result of getLatestInstIdByUserId(${senderId})`, instId);
+        sendApi.sendWelcomeMessage(senderId, instId);
       });
   } else {
     sendApi.sendMessage(senderId, 'Unknown Message');
