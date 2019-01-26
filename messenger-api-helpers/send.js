@@ -129,7 +129,7 @@ const sendPackageInst = (recipientId, inst) => {
   console.log(`>>>>sendPackageInst, recipientId[${recipientId}]`, inst);
   sendMessage(
     recipientId,
-    messages.sharePackageMessage(APP_URL, inst.id, inst.title, inst.desc, inst.imageUrl)
+    messages.sharePackageMessage(APP_URL, inst.id, inst.name, inst.description, inst.imageUrl)
   );
 };
 
