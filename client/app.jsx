@@ -13,11 +13,11 @@ import {CSSTransitionGroup} from 'react-transition-group';
 import {Paper, Typography} from '@material-ui/core';
 
 // ==== COMPONENTS ========================================
-import Invite from './invite.jsx';
 import ListNotFound from './list_not_found.jsx';
 import LoadingScreen from './loading_screen.jsx';
 import Updating from './updating.jsx';
 import FixedTab from './components/fixed-tab';
+import AppFooter from './components/app-footer.jsx';
 import HomeFooter from './components/home-footer.jsx';
 import PackageAttraction from './package-attraction';
 import PackageItinerary from './package-itinerary';
@@ -447,8 +447,8 @@ export default class App extends React.Component {
         {id: 2, text: 'Please add night shopping tour at Huai Hai Road as well.', timestamp: (Date.now() + 50000), userId: '2256669701027152'},
       ];
       
-      // Setup module "Invite"
-      let invite;
+      // Setup module "appFooter"
+      let appFooter;
       const isOwner = viewerId == ownerId;
       if (isOwner || threadType !== 'USER_TO_PAGE') {
         // only owners are able to share their lists and other
@@ -464,8 +464,8 @@ export default class App extends React.Component {
           buttonText = 'Send';
         }
 
-        invite = (
-          <Invite
+        appFooter = (
+          <AppFooter
             instPackage={instPackage}
             apiUri={apiUri}
             sharingMode={sharingMode}
@@ -524,7 +524,7 @@ export default class App extends React.Component {
             showBotHeader
             showNotesDrawer
           />
-          {invite}
+          {appFooter}
         </Paper>
       );
     } else if (socketStatus === 'noList') {

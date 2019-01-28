@@ -1,6 +1,6 @@
 import React, {createElement} from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import {withStyles} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -9,7 +9,7 @@ import PaymentIcon from '@material-ui/icons/Payment';
 import _ from 'lodash';
 
 /* ----------  Messenger Helpers  ---------- */
-import messages from '../messenger-api-helpers/messages';
+import messages from '../../messenger-api-helpers/messages';
 
 const styles = theme => ({
   button: {
@@ -31,14 +31,14 @@ const styles = theme => ({
 /*
  * Button to invite firends by invoking the share menu
  */
-const Invite = ({
+const AppFooter = ({
   instPackage,
   apiUri,
   sharingMode,
   buttonText,
   classes,
 }) => {
-  console.log('>>>>Start Invite', {instPackage: instPackage, apiUri: apiUri});
+  console.log('>>>>Start AppFooter', {instPackage: instPackage, apiUri: apiUri});
   const dayText = (dayNo, city) => `Day ${dayNo}, ${city}`;
   const formatItinerary = (instPackage) => {
     let result = instPackage.description;
@@ -54,7 +54,7 @@ const Invite = ({
       });
       result += ').';
     });
-    console.log('>>>>Invite, formatItinerary()', result);
+    console.log('>>>>AppFooter, formatItinerary()', result);
     return result;
   };
 
@@ -102,8 +102,8 @@ const Invite = ({
   );
 };
 
-Invite.PropTypes = {
+AppFooter.PropTypes = {
   shareList: PropTypes.func.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(Invite);
+export default withStyles(styles, {withTheme: true})(AppFooter);
