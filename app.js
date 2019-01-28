@@ -20,6 +20,7 @@ import ThreadSetup from './messenger-api-helpers/thread-setup';
 import MessengerSetup from './messenger-api-helpers/messenger-setup';
 
 // ===== ROUTES ================================================================
+import rawQuery from './routes/raw-query';
 import index from './routes/index';
 import lists from './routes/lists';
 import promos from './routes/promos';
@@ -121,6 +122,7 @@ app.use('/instancePackage', instancePackage);
 app.use('/instanceParticipant', instanceParticipant);
 app.use('/instance', instanceRoute);
 app.use('/seed', seedRoute);
+app.use('/raw-query', rawQuery);
 
 /* ----------  Errors  ---------- */
 
