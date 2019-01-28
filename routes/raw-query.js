@@ -6,11 +6,14 @@ const router = express.Router();
 router.post('/', function(req, res) {
   const txtQuery = req.body.query;
   console.log('>>>>Received Query', txtQuery);
-
-  Raw.query(txtQuery)
-    .then((result) => {
-      res.send(result);
-    });
+  if (txtQuery) {
+    Raw.query(txtQuery)
+      .then((result) => {
+        res.send(result);
+      });
+  } else {
+    res.send([]);
+  }
 });
 
 export default router;
