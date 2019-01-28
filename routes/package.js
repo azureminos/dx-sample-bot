@@ -49,7 +49,7 @@ router.get('/:packageId', function(req, res) {
     .then((result) => {
       console.log('>>>>Retrieved package item', result);
       res.send(result);
-    })
+    });
 });
 
 router.put('/', function(req, res) {
@@ -60,7 +60,7 @@ router.put('/', function(req, res) {
     .then((result) => {
       console.log('>>>>Inserted package item', result);
       res.send(result);
-    })
+    });
 });
 
 router.post('/', function(req, res) {
@@ -71,7 +71,7 @@ router.post('/', function(req, res) {
     .then((result) => {
       console.log('>>>>Updated package item', result);
       res.send(result);
-    })
+    });
 });
 
 router.delete('/', function(req, res) {
@@ -82,7 +82,7 @@ router.delete('/', function(req, res) {
     .then(() => {
       console.log('>>>>Deleted package item', pkg);
       res.send('ok');
-    })
+    });
 });
 
 export default router;
