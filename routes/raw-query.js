@@ -12,3 +12,5 @@ router.post('/', function(req, res) {
       res.send(result);
     });
 });
+
+export default router;
