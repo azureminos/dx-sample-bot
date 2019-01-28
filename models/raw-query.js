@@ -6,7 +6,7 @@ const query = (txtQuery) =>
 Knex.raw(txtQuery)
   .then((rs) => {
     console.log(`>>>>Raw Query [${txtQuery}]`, rs);
-    return rs;
+    return rs.rows || [];
   });
 
 export default {
