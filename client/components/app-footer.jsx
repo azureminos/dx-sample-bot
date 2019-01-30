@@ -33,12 +33,13 @@ const styles = theme => ({
  */
 const AppFooter = ({
   instPackage,
+  isOwner,
   apiUri,
   sharingMode,
   buttonText,
   classes,
 }) => {
-  console.log('>>>>Start AppFooter', {instPackage: instPackage, apiUri: apiUri});
+  console.log('>>>>Start AppFooter', {instPackage, isOwner, apiUri, sharingMode});
   const dayText = (dayNo, city) => `Day ${dayNo}, ${city}`;
   const formatItinerary = (instPackage) => {
     let result = instPackage.description;
@@ -74,29 +75,36 @@ const AppFooter = ({
   };
 
   // const iconClassName = sharingMode === 'broadcast' ? 'share' : 'send';
+  const btnShare = (
+    <Button
+      onClick={shareList}
+      variant='contained'
+      color='primary'
+      fullWidth='true'
+      className={classes.button}
+    >
+      {buttonText}
+      <SendIcon className={classes.rightIcon}/>
+    </Button>
+  );
+
+  const btnDeposit = (
+    <Button
+      variant='contained'
+      color='primary'
+      fullWidth='true'
+      className={classes.button}
+    >
+      Pay Deposit
+      <PaymentIcon className={classes.leftIcon}/>
+    </Button>
+  );
 
   return (
     <AppBar position='fixed' color='default' className={classes.appBar}>
       <Toolbar className={classes.toolbar}>
-        <Button
-          onClick={shareList}
-          variant='contained'
-          color='primary'
-          fullWidth='true'
-          className={classes.button}
-        >
-          {buttonText}
-          <SendIcon className={classes.rightIcon}/>
-        </Button>
-        <Button
-          variant='contained'
-          color='primary'
-          fullWidth='true'
-          className={classes.button}
-        >
-          Pay Deposit
-          <PaymentIcon className={classes.leftIcon}/>
-        </Button>
+        {btnShare}
+        {isOwner ? btnDeposit : ''}
       </Toolbar>
     </AppBar>
   );

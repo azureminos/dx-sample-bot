@@ -467,6 +467,7 @@ export default class App extends React.Component {
         appFooter = (
           <AppFooter
             instPackage={instPackage}
+            isOwner={isOwner}
             apiUri={apiUri}
             sharingMode={sharingMode}
             buttonText={buttonText}
