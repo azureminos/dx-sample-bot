@@ -217,6 +217,15 @@ exports.up = (knex, Promise) => {
       table.timestamp('created_ts').defaultTo(knex.fn.now());
       table.timestamp('updated_ts').defaultTo(knex.fn.now());
     }),
+    knex.schema.createTable('package_inst_notes', (table) => {
+      table.increments();
+      table.integer('pkg_inst_id').references('package_inst.id').notNullable();
+      table.string('login_id');
+      table.string('notes', 2048);
+      table.string('additional_field', 2048);
+      table.timestamp('created_ts').defaultTo(knex.fn.now());
+      table.timestamp('updated_ts').defaultTo(knex.fn.now());
+    }),
     knex.schema.createTable('all_user', (table) => {
       table.increments();
       table.string('login_type');
@@ -234,7 +243,6 @@ exports.up = (knex, Promise) => {
       table.string('login_id');
       table.string('pkg_inst_id');
       table.string('action');
-      table.string('updated_by');
       table.string('additional_field', 2048);
       table.timestamp('created_ts').defaultTo(knex.fn.now());
       table.timestamp('updated_ts').defaultTo(knex.fn.now());
