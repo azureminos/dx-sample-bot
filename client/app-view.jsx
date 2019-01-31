@@ -105,21 +105,6 @@ export default class AppView extends React.Component {
       });
     });
     console.log('>>>>After update liked attractions', cityAttractions);
-
-    _.forEach(cityHotels, (cHotels) => {
-      _.forEach(cHotels, (hotel) => {
-        if (hotel.id == 1) {
-          hotel.imageUrl = 'media/Hotel_Beijing_BeijingHotel.jpg';
-        } else if (hotel.id == 2) {
-          hotel.imageUrl = 'media/Hotel_Beijing_BeijingHolidayInn.jpg';
-        } else if (hotel.id == 3) {
-          hotel.imageUrl = 'media/Hotel_Shanghai_PenisulaShanghai.jpg';
-        } else if (hotel.id == 4) {
-          hotel.imageUrl = 'media/Hotel_Shanghai_ShanghaiHotel.jpg';
-        }
-      });
-    });
-
     this.setState({pkg: pkg, cityAttractions, cityHotels, cities});
   }
 
