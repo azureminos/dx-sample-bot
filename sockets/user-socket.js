@@ -15,6 +15,7 @@ import InstPackage from '../models/package-instance';
 import InstItem from '../models/package-instance-item';
 import PackageParticipant from '../models/package-instance-participant';
 import RatePlan from '../models/rate-plan';
+import CaseNotes from '../models/package-instance-notes';
 
 // ===== MESSENGER =============================================================
 import userApi from '../messenger-api-helpers/user';
@@ -145,7 +146,7 @@ const join = ({
     });
   };
 
-  console.log(`>>>>New user[${senderId}] joined package instance[${instId}]`);
+  console.log(`>>>>User[${senderId}] joined package instance[${instId}]`);
   if (instId) {
     Promise.all([
       InstPackage.getInstPackageDetails(instId),
@@ -154,8 +155,10 @@ const join = ({
       InstPackage.getCitiesByInstId(instId),
       PackageParticipant.getOwnerByInstId(instId),
       RatePlan.getRateByInstId(instId),
+      CaseNotes.getRateByInstId(instId),
       getUser(senderId),
     ]).then(([instPackage, cityAttractions, cityHotels, cities, instOwner, rates, user]) => {
+
       if (!instPackage) {
         console.error("Package instance doesn't exist!");
         sendStatus('noInstPackage');

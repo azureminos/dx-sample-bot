@@ -16,9 +16,10 @@ import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Countdown from 'react-countdown-now';
-import _ from 'lodash';
 import BotHeader from './bot-header';
 import CaseNotes from './case-notes';
+
+import _ from 'lodash';
 
 function TabContainer({children, dir}) {
   return (
@@ -104,6 +105,36 @@ class FullWidthTabs extends React.Component {
       });
     }
 
+    const divNotes = (
+      <Drawer
+        className={classes.drawer}
+        variant='persistent'
+        anchor='left'
+        open={this.state.openNotes}
+        classes={{
+          paper: classes.drawerPaper,
+        }}
+      >
+        <div className={classes.drawerHeader}>
+          <IconButton onClick={this.handleDrawer}>
+            {theme.direction === 'ltr' ? (
+              <ChevronLeftIcon />
+            ) : (
+              <ChevronRightIcon />
+            )}
+          </IconButton>
+        </div>
+        <Divider />
+        <CaseNotes />
+        <Divider />
+        <div className={classes.notesList}>
+          <List>
+            {notesList}
+          </List>
+        </div>
+      </Drawer>
+    );
+
     return (
       <div className={classes.root}>
         <AppBar position='sticky' color='default'>
@@ -125,35 +156,7 @@ class FullWidthTabs extends React.Component {
             {tabItems}
           </Tabs>
         </AppBar>
-        {showNotesDrawer && (
-          <Drawer
-            className={classes.drawer}
-            variant='persistent'
-            anchor='left'
-            open={this.state.openNotes}
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-          >
-            <div className={classes.drawerHeader}>
-              <IconButton onClick={this.handleDrawer}>
-                {theme.direction === 'ltr' ? (
-                  <ChevronLeftIcon />
-                ) : (
-                  <ChevronRightIcon />
-                )}
-              </IconButton>
-            </div>
-            <Divider />
-            <CaseNotes />
-            <Divider />
-            <div className={classes.notesList}>
-              <List>
-                {notesList}
-              </List>
-            </div>
-          </Drawer>
-        )}
+        {showNotesDrawer ? divNotes : ''}
         {this.state.tabIndex === 0 && tabContents[0]}
         {this.state.tabIndex === 1 && tabContents[1]}
       </div>

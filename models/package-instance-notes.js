@@ -1,40 +1,51 @@
 // ===== DB ====================================================================
 import Knex  from '../db/knex';
 
-const PackageImage = () => Knex('package_image');
+const CaseNotes = () => Knex('package_inst_notes');
 
 // ===== Package ======================================================
-const getAllImages = () =>
-  PackageImage()
-    .select('id', 'pkg_id as packageId', 'image_url as imageUrl',
-      'is_cover_page as isCoverPage');
+const getNotes = (instId) =>
+  CaseNotes()
+    .where('pkg_inst_id', instId)
+    .select('login_id as loginId', 'notes', 'created_ts as createdTime');
 
-const getImageByPackageId = (packageId) =>
-  PackageImage()
-    .where('pkg_id', packageId)
-    .select('id', 'pkg_id as packageId', 'image_url as imageUrl',
-      'is_cover_page as isCoverPage');
+const setNotes = (notes) =>
+  CaseNotes()
+    .where('id', notes.id)
+    .update(
+      {
+        pkg_inst_id: notes.instId,
+        login_id: notes.loginId,
+        notes: notes.text,
+        //updated_ts: (new Date()),
+      },
+      ['id']);
 
-const updatePackageImage = (pkg) =>
-  PackageImage()
-  .where({pkg_id: pkg.id})
-  .update({image_url: pkg.imageUrl}, ['image_url as imageUrl'])
-  .then(([result]) => {return result;});
+const addNotes = (notes) =>
+  CaseNotes()
+    .insert(
+      {
+        pkg_inst_id: notes.instId,
+        login_id: notes.loginId,
+        notes: notes.text,
+      },
+      ['id'])
+    .then(([result]) => {return result;});
 
-const insertPackageImage = (item) =>
-  PackageImage()
-  .insert(
-    {
-      pkg_id: item.id,
-      image_url: item.imageUrl,
-      is_cover_page: true,
-    },
-    ['image_url as imageUrl'])
-  .then(([result]) => {return result;});
+const delNotes = (id) =>
+  CaseNotes()
+    .where('id', id)
+    .del();
+
+const delAllNotes = (instId) =>
+  CaseNotes()
+    .where('id', instId)
+    .del();
 
 export default {
-  getAllImages,
-  getImageByPackageId,
-  updatePackageImage,
-  insertPackageImage,
+  getNotes,
+  setNotes,
+  addNotes,
+  delNotes,
+  delAllNotes,
 };
