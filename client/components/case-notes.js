@@ -38,7 +38,6 @@ class CaseNotes extends React.Component {
     };
 
     this.handleChange = this.handleChange.bind(this);
-    this.handleAddNotes = this.handleAddNotes.bind(this);
     this.handleClearNotes = this.handleClearNotes.bind(this);
   }
 
