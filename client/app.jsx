@@ -513,6 +513,7 @@ export default class App extends React.Component {
             showCountDown
             showBotHeader
             showNotesDrawer
+            handleAddNotes={this.handleAddNotes}
           />
           {appFooter}
         </Paper>

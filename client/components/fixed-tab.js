@@ -70,7 +70,8 @@ class FullWidthTabs extends React.Component {
 
   render() {
     const {classes, theme, tabs, notes, users,
-      showCountDown, showBotHeader, showNotesDrawer} = this.props;
+      showCountDown, showBotHeader, showNotesDrawer,
+      handleAddNotes} = this.props;
     const tabItems = [];
     const tabContents = [];
     let notesList = [];
@@ -98,7 +99,7 @@ class FullWidthTabs extends React.Component {
             </ListItemAvatar>
             <ListItemText
               primary={n.text}
-              secondary={'by ' + name + ' at ' + time.toLocaleString()}
+              secondary={`by ${name} at ${time.toLocaleString()}`}
             />
           </ListItem>
         );
@@ -125,7 +126,7 @@ class FullWidthTabs extends React.Component {
           </IconButton>
         </div>
         <Divider />
-        <CaseNotes />
+        <CaseNotes handleAddNotes={handleAddNotes}/>
         <Divider />
         <div className={classes.notesList}>
           <List>
