@@ -12,7 +12,6 @@ import _ from 'lodash';
 import Customer from '../models/customer';
 import Packages from '../models/package';
 import InstPackage from '../models/package-instance';
-import InstItem from '../models/package-instance-item';
 import PackageParticipant from '../models/package-instance-participant';
 import RatePlan from '../models/rate-plan';
 import CaseNotes from '../models/package-instance-notes';
@@ -61,7 +60,28 @@ const getFacebookProfileInfoForUsers = (users = [], instId, socketUsers) =>
       return Object.assign({}, resUser, {online: !!isOnline || false});
     }));
 
-
+// Add notes
+const addNotes = ({
+  request: {notes},
+  senderId,
+  instId,
+  allInRoom,
+  sendStatus,
+}) => {
+  console.log('>>>>Calling addNotes', {notes, senderId, instId});
+  const objNotes = {
+    instId: instId,
+    userId: senderId,
+    text: notes.text,
+  };
+  CaseNotes
+    .addNotes(objNotes)
+    .then((rs) => {
+      console.log('>>>>addNotes.receiveAddedNotes', rs);
+      allInRoom(instId).emit('users:addNotes', rs);
+      sendStatus('ok');
+    });
+};
 
 // Join Room, Update Necessary List Info, Notify All Users in room of changes.
 const join = ({
@@ -155,7 +175,6 @@ const join = ({
       InstPackage.getCitiesByInstId(instId),
       PackageParticipant.getOwnerByInstId(instId),
       RatePlan.getRateByInstId(instId),
-      CaseNotes.getRateByInstId(instId),
       getUser(senderId),
     ]).then(([instPackage, cityAttractions, cityHotels, cities, instOwner, rates, user]) => {
 
@@ -256,4 +275,9 @@ const updateLikedAttractions = ({request, sendStatus, userId, instId}) => {
   sendStatus('ok');
 };
 
-export default {join, leave, updateLikedAttractions};
+export default {
+  join,
+  leave,
+  addNotes,
+  updateLikedAttractions,
+};

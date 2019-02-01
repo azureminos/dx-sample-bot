@@ -38,6 +38,7 @@ export default function attachSockets(io) {
 
     channel('disconnect', UserSocket.leave);
     channel('push:user:join', UserSocket.join);
+    channel('push:user:addNotes', UserSocket.addNotes);
     channel('push:package:create', PackageSocket.create);
     channel('push:package:view', PackageSocket.view);
     channel('push:likedAttractions:update', UserSocket.updateLikedAttractions);

@@ -5,9 +5,9 @@ import _ from 'lodash';
 import Knex  from '../db/knex';
 import Package from '../models/package';
 import PackageImage from '../models/package-image';
-import RatePlan from '../models/rate-plan';
 import instItem from '../models/package-instance-item';
 import instParticipant from '../models/package-instance-participant';
+import CaseNotes from '../models/package-instance-notes';
 
 const dsInstPackage = () => Knex('package_inst');
 const dsInstItem = () => Knex('package_inst_item');
@@ -113,12 +113,12 @@ const getAttractionsByInstId = (instId) => {
 const getInstPackageDetails = (instId) =>
   Promise.all([
     getInstPackage(instId),
-    //RatePlan.getRatePlanByInstId(instId),
     instItem.getInstItem(instId),
+    CaseNotes.getNotes(instId),
   ])
-  .then(([inst, /*pkgRatePlans,*/ items]) => {
-    inst.items = items;
-    //pkgInst.rates = pkgRatePlans;
+  .then(([inst, items, notes]) => {
+    inst.items = items || [];
+    inst.notes = notes || [];
     console.log('>>>>Retrieved package instance', inst);
     return inst;
   });
@@ -133,12 +133,10 @@ dsInstParticipant()
     console.log(`getLatestInstByUserId(${userId}), found latest package instance`, result);
     return Promise.all([
       getInstPackage(result.instId),
-      //RatePlan.getRatePlanByInstId(instId),
       instItem.getInstItem(result.instId),
     ])
-    .then(([inst, /*pkgRatePlans,*/ items]) => {
+    .then(([inst, items]) => {
       inst.items = items;
-      //pkgInst.rates = pkgRatePlans;
       console.log('>>>>Retrieved package instance', inst);
       return inst;
     });

@@ -7,7 +7,7 @@ const CaseNotes = () => Knex('package_inst_notes');
 const getNotes = (instId) =>
   CaseNotes()
     .where('pkg_inst_id', instId)
-    .select('login_id as loginId', 'notes', 'created_ts as createdTime');
+    .select('id', 'login_id as userId', 'notes as text', 'created_ts as timestamp');
 
 const setNotes = (notes) =>
   CaseNotes()
@@ -15,7 +15,7 @@ const setNotes = (notes) =>
     .update(
       {
         pkg_inst_id: notes.instId,
-        login_id: notes.loginId,
+        login_id: notes.userId,
         notes: notes.text,
         //updated_ts: (new Date()),
       },
@@ -26,11 +26,14 @@ const addNotes = (notes) =>
     .insert(
       {
         pkg_inst_id: notes.instId,
-        login_id: notes.loginId,
+        login_id: notes.userId,
         notes: notes.text,
       },
-      ['id'])
-    .then(([result]) => {return result;});
+      ['id', 'login_id as userId', 'created_ts as timestamp', 'notes as text'])
+    .then(([result]) => {
+      console.log('>>>>Notes added', result);
+      return result;
+    });
 
 const delNotes = (id) =>
   CaseNotes()
@@ -39,7 +42,7 @@ const delNotes = (id) =>
 
 const delAllNotes = (instId) =>
   CaseNotes()
-    .where('id', instId)
+    .where('pkg_inst_id', instId)
     .del();
 
 export default {

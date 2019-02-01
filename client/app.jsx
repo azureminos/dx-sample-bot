@@ -42,6 +42,8 @@ export default class App extends React.Component {
     this.setLikedAttractions = this.setLikedAttractions.bind(this);
     this.setSelectedHotel = this.setSelectedHotel.bind(this);
     this.updateItinerary = this.updateItinerary.bind(this);
+    this.handleAddNotes = this.handleAddNotes.bind(this);
+    this.handleAddedNotes = this.handleAddedNotes.bind(this);
 
     this.state = {
       packages: [],
@@ -154,21 +156,6 @@ export default class App extends React.Component {
       });
     }
     console.log('>>>>After update liked attractions', cityAttractions);
-
-    /*_.forEach(cityHotels, (cHotels) => {
-      _.forEach(cHotels, (hotel) => {
-        if (hotel.id == 1) {
-          hotel.imageUrl = 'media/Hotel_Beijing_BeijingHotel.jpg';
-        } else if (hotel.id == 2) {
-          hotel.imageUrl = 'media/Hotel_Beijing_BeijingHolidayInn.jpg';
-        } else if (hotel.id == 3) {
-          hotel.imageUrl = 'media/Hotel_Shanghai_PenisulaShanghai.jpg';
-        } else if (hotel.id == 4) {
-          hotel.imageUrl = 'media/Hotel_Shanghai_ShanghaiHotel.jpg';
-        }
-      });
-    });*/
-
     this.setState({instPackage, packages: packages, cityAttractions, cityHotels, cities, users, ownerId});
   }
 
@@ -237,6 +224,7 @@ export default class App extends React.Component {
       }
     }
   }
+
   /* ----------  Attractions  ---------- */
   setLikedAttractions(attraction) {
     const cityAttractions = this.state.cityAttractions;
@@ -270,11 +258,25 @@ export default class App extends React.Component {
     this.updateItinerary(attraction, params.action);
   }
 
-  /* ---------- Hotels ---------- */
+  /* ----------  Notes  ---------- */
+  // Push event to add notes
+  handleAddNotes(notes) {
+    const instId = this.state.instPackage.id;
+    console.log(`>>>>handleAddNotes of Inst[${instId}]`, notes);
+    this.pushToRemote('user:addNotes', {text: notes});
+  }
+
+  // Receive event to update notes
+  handleAddedNotes(notes) {
+    const instId = this.state.instPackage.id;
+    console.log(`>>>>handleAddedNotes of Inst[${instId}]`, notes);
+  }
+
+  /* ----------  Hotels  ---------- */
   setSelectedHotel(hotel) {
     const cityHotels = this.state.cityHotels;
     const instId = this.state.instPackage.id;
-    console.log('>>>>setSelectedHotel of Inst['+instId+']', {cityHotels: cityHotels, hotel: hotel});
+    console.log(`>>>>setSelectedHotel of Inst[${instId}]`, {cityHotels: cityHotels, hotel: hotel});
   }
 
   /* ----------  Users  ---------- */
@@ -323,6 +325,7 @@ export default class App extends React.Component {
     socket.on('pre-init', this.preInit);
     socket.on('init', this.init);
     socket.on('user:join', this.userJoin);
+    socket.on('user:addNotes', this.handleAddedNotes);
 
     const self = this;
     // Check for permission, ask if there is none

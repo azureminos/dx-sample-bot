@@ -47,11 +47,6 @@ class CaseNotes extends React.Component {
     this.setState({text: e.target.value});
   }
 
-  handleAddNotes() {
-    const text = this.state.text;
-    console.log('>>>>CaseNotes, handleAddNotes()', text);
-  }
-
   handleClearNotes(e) {
     console.log('>>>>CaseNotes, handleClearNotes()', e);
     this.setState({text: ''});
@@ -59,7 +54,7 @@ class CaseNotes extends React.Component {
 
   render() {
     console.log('>>>>CaseNotes, render()', this.props);
-    const {classes} = this.props;
+    const {classes, handleAddNotes} = this.props;
 
     return (
       <Typography className={classes.root}>
@@ -69,7 +64,7 @@ class CaseNotes extends React.Component {
               Clear
               <ClearIcon className={classes.rightIcon} />
             </Button>
-            <Button variant='contained' color='primary' onClick={this.handleAddNotes} className={classes.button}>
+            <Button variant='contained' color='primary' onClick={() => handleAddNotes(this.state.text)} className={classes.button}>
               Add
               <AddNotesIcon className={classes.rightIcon} />
             </Button>
