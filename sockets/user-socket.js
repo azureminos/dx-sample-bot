@@ -69,13 +69,13 @@ const addNotes = ({
   sendStatus,
 }) => {
   console.log('>>>>Calling addNotes', {text, userId, instId});
-  const objNotes = {
+  const note = {
     instId: instId,
     userId: userId,
     text: text,
   };
   CaseNotes
-    .addNotes(objNotes)
+    .addNotes(note)
     .then((rs) => {
       console.log('>>>>addNotes.receiveAddedNotes', rs);
       allInRoom(instId).emit('user:addNotes', rs);

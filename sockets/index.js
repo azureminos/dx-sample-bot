@@ -19,7 +19,7 @@ export default function attachSockets(io) {
     const channel = (channel, handler) => {
       socket.on(channel, (request, sendStatus) => {
         console.log(
-          `>>>>Captured event[${channel}] on socket${socket.id}`,
+          `>>>>Captured event[${channel}] on socket[${socket.id}]`,
           {request, socketUsers}
         );
         const {userId, instId} = socketUsers.get(socket.id) || {};
