@@ -272,8 +272,10 @@ export default class App extends React.Component {
     console.log(`>>>>handleAddedNotes of Inst[${instId}]`, note);
     const notes = this.state.instPackage.notes;
     notes.push(note);
-    this.setState({instPackage: {...this.state.instPackage, notes}});
-    console.log('>>>>handleAddedNotes, state update', this.state.instPackage);
+    const instPackage = {...this.state.instPackage};
+    instPackage.notes = notes;
+    console.log('>>>>handleAddedNotes, state update', instPackage);
+    this.setState({instPackage});
   }
 
   /* ----------  Hotels  ---------- */
