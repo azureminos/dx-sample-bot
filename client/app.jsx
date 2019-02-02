@@ -272,8 +272,8 @@ export default class App extends React.Component {
     console.log(`>>>>handleAddedNotes of Inst[${instId}]`, note);
     const notes = this.state.instPackage.notes;
     notes.push(note);
-    const instPackage = {...this.state.instPackage};
-    instPackage.notes = notes;
+    console.log('>>>>handleAddedNotes, notes', notes);
+    const instPackage = {...this.state.instPackage, notes};
     console.log('>>>>handleAddedNotes, state update', instPackage);
     this.setState({instPackage});
   }
@@ -437,10 +437,10 @@ export default class App extends React.Component {
       console.log('>>>>Package instance and user found',
         {props: this.props, state: this.state});
       const {apiUri, viewerId, threadType} = this.props;
-      instPackage.notes = [
+      /*instPackage.notes = [
         {id: 1, text: 'Hi, I\'d like to visit Disneyland in Shanghai. Could you please add it into our trip?', timestamp: Date.now(), userId: '2256669701027152'},
         {id: 2, text: 'Please add night shopping tour at Huai Hai Road as well.', timestamp: (Date.now() + 50000), userId: '2256669701027152'},
-      ];
+      ];*/
       
       // Setup module "appFooter"
       let appFooter;
