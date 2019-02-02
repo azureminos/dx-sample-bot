@@ -78,7 +78,7 @@ const addNotes = ({
     .addNotes(objNotes)
     .then((rs) => {
       console.log('>>>>addNotes.receiveAddedNotes', rs);
-      allInRoom(instId).emit('users:addNotes', rs);
+      allInRoom(instId).emit('user:addNotes', rs);
       sendStatus('ok');
     });
 };
