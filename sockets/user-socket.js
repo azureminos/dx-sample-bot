@@ -62,17 +62,17 @@ const getFacebookProfileInfoForUsers = (users = [], instId, socketUsers) =>
 
 // Add notes
 const addNotes = ({
-  request: {notes},
-  senderId,
+  request: {text},
+  userId,
   instId,
   allInRoom,
   sendStatus,
 }) => {
-  console.log('>>>>Calling addNotes', {notes, senderId, instId});
+  console.log('>>>>Calling addNotes', {text, userId, instId});
   const objNotes = {
     instId: instId,
-    userId: senderId,
-    text: notes.text,
+    userId: userId,
+    text: text,
   };
   CaseNotes
     .addNotes(objNotes)
