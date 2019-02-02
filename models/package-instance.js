@@ -131,15 +131,18 @@ dsInstParticipant()
   .first()
   .then((result) => {
     console.log(`getLatestInstByUserId(${userId}), found latest package instance`, result);
-    return Promise.all([
-      getInstPackage(result.instId),
-      instItem.getInstItem(result.instId),
-    ])
-    .then(([inst, items]) => {
-      inst.items = items;
-      console.log('>>>>Retrieved package instance', inst);
-      return inst;
-    });
+    if (result) {
+      return Promise.all([
+        getInstPackage(result.instId),
+        instItem.getInstItem(result.instId),
+      ])
+      .then(([inst, items]) => {
+        inst.items = items;
+        console.log('>>>>Retrieved package instance', inst);
+        return inst;
+      });
+    }
+    return null;
   });
 
 const getLatestInstIdByUserId = (userId) =>
