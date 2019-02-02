@@ -212,34 +212,42 @@ const join = ({
       } else {
         console.log('>>>>Print all packages', packages);
         console.log('>>>>Print instPackage', instPackage);
-        Promise.all([
-          packages,
-          instPackage,
-          InstPackage.getCityAttractionsByInstId(instPackage.id),
-          InstPackage.getCityHotelsByInstId(instPackage.id),
-          InstPackage.getCitiesByInstId(instPackage.id),
-          PackageParticipant.getOwnerByInstId(instPackage.id),
-          RatePlan.getRateByInstId(instPackage.id),
-          getUser(senderId),
-        ]).then(([packages, instPackage, cityAttractions, cityHotels, cities, instOwner, rates, user]) => {
-          enter({
-            request: {
-              packages,
-              instPackage,
-              cityAttractions,
-              cityHotels,
-              cities,
-              instOwner,
-              rates,
-              user,
-            },
-            allInRoom,
-            sendStatus,
-            socket,
-            socketUsers,
-            userSocket,
+        if (instPackage) {
+          Promise.all([
+            packages,
+            instPackage,
+            InstPackage.getCityAttractionsByInstId(instPackage.id),
+            InstPackage.getCityHotelsByInstId(instPackage.id),
+            InstPackage.getCitiesByInstId(instPackage.id),
+            PackageParticipant.getOwnerByInstId(instPackage.id),
+            RatePlan.getRateByInstId(instPackage.id),
+            getUser(senderId),
+          ]).then(([packages, instPackage, cityAttractions, cityHotels, cities, instOwner, rates, user]) => {
+            enter({
+              request: {
+                packages,
+                instPackage,
+                cityAttractions,
+                cityHotels,
+                cities,
+                instOwner,
+                rates,
+                user,
+              },
+              allInRoom,
+              sendStatus,
+              socket,
+              socketUsers,
+              userSocket,
+            });
           });
-        });
+        } else {
+          userSocket.emit('init', {
+            packages: packages,
+          });
+          console.log('>>>>Status OK');
+          sendStatus('ok');
+        }
       }
     });
   }

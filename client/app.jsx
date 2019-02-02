@@ -387,19 +387,21 @@ export default class App extends React.Component {
         {props: this.props, state: this.state});
       const {apiUri} = this.props;
       if (packages && packages.length > 0) {
-        const tabs = {
-          'All Packages': (
-            <div id='package-attraction'>
-              <Typography>
-                <PackageSelector
-                  packages={packages}
-                  bookPackage={this.pushCreateInstPackage}
-                  apiUri={apiUri}
-                />
-              </Typography>
-            </div>
-          ),
-          'Recent Package': (
+        const tabAllPackage = (
+          <div id='package-attraction'>
+            <Typography>
+              <PackageSelector
+                packages={packages}
+                bookPackage={this.pushCreateInstPackage}
+                apiUri={apiUri}
+              />
+            </Typography>
+          </div>
+        );
+
+        const tabs = {'All Packages': tabAllPackage};
+        if (instPackage) {
+          const tabRecent = (
             <div id='package-itinerary'>
               <Typography>
                 <PackageItinerary
@@ -419,8 +421,9 @@ export default class App extends React.Component {
                 btnAction={this.viewPackage}
               />
             </div>
-          ),
-        };
+          );
+          tabs['Recent Package'] = tabRecent;
+        }
 
         page = (
           <Paper>
