@@ -20,6 +20,9 @@ router.get('/', function(req, res) {
   }
   request(clientServerOptions, function (error, response) {
       console.log('>>>>Result of all country items', response.body);
+      if(response.body) {
+        console.log('>>>>Number of country items returned', response.body.length);
+      }
       return res.send(response.body);
   });
 });
