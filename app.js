@@ -107,12 +107,13 @@ app.use(function(req, res, next) {
 /* ----------  Primary / Happy Path  ---------- */
 
 app.use('/', index);
-app.use('/lists', lists);
 app.use('/webhook', webhooks);
-app.use('/promos', promos);
+// APIs
 app.use('/region', region);
 app.use('/country', country);
 app.use('/city', city);
+app.use('/lists', lists);
+app.use('/promos', promos);
 app.use('/hotel', hotel);
 app.use('/attraction', attraction);
 app.use('/package', pkg);
