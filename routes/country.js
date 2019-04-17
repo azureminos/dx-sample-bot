@@ -11,13 +11,11 @@ router.get('/', function(req, res) {
       console.log('>>>>Retrieved all country items', result);
       res.send(result);
     });*/
-    var clientServerOptions = {
-      uri: 'https://autrip-cms.herokuapp.com/api/country',
-      method: 'GET',
-      headers: {
-          'Content-Type': 'application/json'
-      }
-  }
+  const clientServerOptions = {
+    uri: 'https://autrip-cms.herokuapp.com/api/country',
+    method: 'GET',
+    json: true,
+  };
   request(clientServerOptions, function (error, response) {
       console.log('>>>>Result of all country items', response.body);
       if(response.body) {
