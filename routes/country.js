@@ -6,12 +6,12 @@ const router = express.Router();
 
 router.get('/', function(req, res) {
   console.log('>>>>Retrieve all country items');
-  /*Ref.getAllCountry()
+  Ref.getAllCountry()
     .then((result) => {
       console.log('>>>>Retrieved all country items', result);
       res.send(result);
-    });*/
-  const clientServerOptions = {
+    });
+  /*const clientServerOptions = {
     uri: 'https://autrip-cms.herokuapp.com/api/country',
     method: 'GET',
     json: true,
@@ -22,7 +22,7 @@ router.get('/', function(req, res) {
         console.log('>>>>Number of country items returned', response.body.length);
       }
       return res.send(response.body);
-  });
+  });*/
 });
 
 router.get('/:countryId', function(req, res) {
