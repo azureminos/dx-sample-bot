@@ -1,15 +1,27 @@
 import express from 'express';
+import request from 'request';
 import Ref from '../models/country';
 
 const router = express.Router();
 
 router.get('/', function(req, res) {
   console.log('>>>>Retrieve all country items');
-  Ref.getAllCountry()
+  /*Ref.getAllCountry()
     .then((result) => {
       console.log('>>>>Retrieved all country items', result);
       res.send(result);
-    })
+    });*/
+    var clientServerOptions = {
+      uri: 'https://autrip-cms.herokuapp.com/api/country',
+      method: 'GET',
+      headers: {
+          'Content-Type': 'application/json'
+      }
+  }
+  request(clientServerOptions, function (error, response) {
+      console.log('>>>>Result of all country items', response.body);
+      return res.send(response.body);
+  });
 });
 
 router.get('/:countryId', function(req, res) {
@@ -19,7 +31,7 @@ router.get('/:countryId', function(req, res) {
     .then((result) => {
       console.log('>>>>Retrieved country item', result);
       res.send(result);
-    })
+    });
 });
 
 router.put('/', function(req, res) {
@@ -30,7 +42,7 @@ router.put('/', function(req, res) {
     .then(([result]) => {
       console.log('>>>>Inserted country item', result);
       res.send(result);
-    })
+    });
 });
 
 router.post('/', function(req, res) {
@@ -52,7 +64,7 @@ router.delete('/', function(req, res) {
     .then(() => {
       console.log('>>>>Deleted country item', country);
       res.send('ok');
-    })
+    });
 });
 
 export default router;
