@@ -3,7 +3,7 @@
 'use strict';
 
 // import API helper
-import api from './dx-api';
+import api from './embeded-messenger';
 
 const passThreadControl = (userPsid, targetAppId) => {
   console.log('PASSING THREAD CONTROL');

@@ -20,23 +20,8 @@ import ThreadSetup from './messenger-api-helpers/thread-setup';
 import MessengerSetup from './messenger-api-helpers/messenger-setup';
 
 // ===== ROUTES ================================================================
-import rawQuery from './routes/raw-query';
 import index from './routes/index';
-import lists from './routes/lists';
-import promos from './routes/promos';
 import webhooks from './routes/webhooks';
-import region from './routes/region';
-import country from './routes/country';
-import city from './routes/city';
-import hotel from './routes/hotel';
-import attraction from './routes/attraction';
-import pkg from './routes/package';
-import pkgItem from './routes/package-item';
-import ratePlan from './routes/rate-plan';
-import instancePackage from './routes/package-instance';
-import instanceParticipant from './routes/package-instance-participant';
-import instanceRoute from './routes/instance';
-import seedRoute from './routes/seed';
 
 // ===== SOCKETS ===============================================================
 import attachSockets from './sockets';
@@ -49,7 +34,9 @@ export const app = express();
 const appPort = process.env.PORT;
 const demo = process.env.DEMO || false;
 
-if (demo) { console.log('====> RUNNING IN DEMO MODE'); }
+if (demo) {
+  console.log('====> RUNNING IN DEMO MODE');
+}
 
 /* =============================================
    =           Basic Configuration             =
@@ -89,8 +76,10 @@ attachSockets(io);
 /* ----------  Sockets Hooks  ---------- */
 app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept'
+  );
   res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
   next();
 });
@@ -108,22 +97,7 @@ app.use(function(req, res, next) {
 
 app.use('/', index);
 app.use('/webhook', webhooks);
-// APIs
-app.use('/region', region);
-app.use('/country', country);
-app.use('/city', city);
-app.use('/lists', lists);
-app.use('/promos', promos);
-app.use('/hotel', hotel);
-app.use('/attraction', attraction);
-app.use('/package', pkg);
-app.use('/packageItem', pkgItem);
-app.use('/ratePlan', ratePlan);
-app.use('/instancePackage', instancePackage);
-app.use('/instanceParticipant', instanceParticipant);
 app.use('/instance', instanceRoute);
-app.use('/seed', seedRoute);
-app.use('/raw-query', rawQuery);
 
 /* ----------  Errors  ---------- */
 

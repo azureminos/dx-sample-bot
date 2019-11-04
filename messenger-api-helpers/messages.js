@@ -9,7 +9,10 @@
 /* eslint-disable max-len */
 import _ from 'lodash';
 
-/*============URL=============*/
+/* ============  Local Variables  =============*/
+const msgWelcome =
+  'Hello, I am XYZ and can assist you with your holiday planning. How may I help you?';
+const defaultImageUrl = 'media/tour-1-cover.png';
 const listUrl = (apiUri, listId) => `${apiUri}/lists/${listId}`;
 const homeUrl = (apiUri) => `${apiUri}/`;
 const packageUrl = (apiUri, packageId) => `${apiUri}/instance/new/${packageId}`;
@@ -29,7 +32,10 @@ const instPackageUrl = (apiUri, instId) => `${apiUri}/instance/${instId}`;
  * @returns {object} -
  *   Message to create a button pointing to the list in a webview.
  */
-const openExistingPackageButton = (instPackageUrl, buttonText = 'View Details') => {
+const openExistingPackageButton = (
+  instPackageUrl,
+  buttonText = 'View Details'
+) => {
   return {
     type: 'web_url',
     title: buttonText,
@@ -67,18 +73,15 @@ const createListButton = (apiUri) => {
  */
 
 const packageMessage = (apiUri, packages) => {
-  let items = packages.map((pkg) => {
-    const urlToPackage = packageUrl(apiUri, pkg.id);
-    
-    // Set default package image url
-    const defaultImageUrl = 'media/tour-1-cover.png';
-    console.log('>>>>Generated URL >> ' + urlToPackage, pkg);
+  const items = packages.map((p) => {
+    const urlToPackage = packageUrl(apiUri, p.id);
+    console.log(`>>>>Generated URL >> ${urlToPackage}`, p);
 
     return {
-      title: pkg.name,
-      image_url: `${apiUri}/${pkg.imageUrl || defaultImageUrl}`,
-      subtitle: pkg.description,
-      /*default_action: {
+      title: p.name,
+      image_url: `${apiUri}/${p.imageUrl || defaultImageUrl}`,
+      subtitle: p.description,
+      /* default_action: {
         type: 'web_url',
         url: urlToPackage,
         messenger_extensions: true,
@@ -112,9 +115,7 @@ const noListsMessage = (apiUri) => {
       payload: {
         template_type: 'button',
         text: 'It looks like you don’t have booked any packages yet.',
-        buttons: [
-          createListButton(apiUri),
-        ],
+        buttons: [createListButton(apiUri)],
       },
     },
   };
@@ -168,7 +169,7 @@ const paginatedListsMessage = (apiUri, action, lists, offset = 0) => {
   const pageLists = lists.slice(offset, offset + 4);
 
   let buttons;
-  if (lists.length > (offset + 4)) {
+  if (lists.length > offset + 4) {
     buttons = [
       {
         title: 'View More',
@@ -192,19 +193,6 @@ const paginatedListsMessage = (apiUri, action, lists, offset = 0) => {
 };
 
 /**
- * Message that informs the user that their list has been created.
- */
-const listCreatedMessage = {
-  text: 'Your list was created.',
-};
-
-const createDayItinery = (its) => {
-  return its.map((i) => {
-    return i.name;
-  }).toString();
-};
-
-/**
  * Message to configure the customized sharing menu in the webview
  *
  * @param {string} apiUri - Application basename
@@ -214,20 +202,27 @@ const createDayItinery = (its) => {
  * @returns {object} - Message to configure the customized sharing menu.
  */
 const sharePackageMessage = (apiUri, instId, title, description, imageUrl) => {
-  console.log('>>>>sharePackageMessage(), start', {apiUri: apiUri, instId: instId,
-    title: title, description: description, imageUrl: imageUrl});
+  console.log('>>>>sharePackageMessage(), start', {
+    apiUri: apiUri,
+    instId: instId,
+    title: title,
+    description: description,
+    imageUrl: imageUrl,
+  });
   const urlToInstPackage = instPackageUrl(apiUri, instId);
   const result = {
     attachment: {
       type: 'template',
       payload: {
         template_type: 'generic',
-        elements: [{
-          title: title,
-          image_url: `${apiUri}/${imageUrl}`,
-          subtitle: description,
-          buttons: [openExistingPackageButton(urlToInstPackage)],
-        }],
+        elements: [
+          {
+            title: title,
+            image_url: `${apiUri}/${imageUrl}`,
+            subtitle: description,
+            buttons: [openExistingPackageButton(urlToInstPackage)],
+          },
+        ],
       },
     },
   };
@@ -260,7 +255,6 @@ const quickReplyMessage = (title, items) => {
  */
 const welcomeMessage = (lastInstanceId) => {
   console.log('>>>>welcomeMessage(), start', lastInstanceId);
-  const title = 'Hello, I am XYZ and can assist you with your holiday planning. How may I help you?';
   const replyItems = [];
 
   const iAllPromote = {
@@ -285,14 +279,13 @@ const welcomeMessage = (lastInstanceId) => {
   }
   replyItems.push(iHandOver);
 
-  const result = quickReplyMessage(title, replyItems);
+  const result = quickReplyMessage(msgWelcome, replyItems);
   console.log('>>>>welcomeMessage(), complete', result);
   return result;
 };
 
 export default {
   packageMessage,
-  listCreatedMessage,
   paginatedListsMessage,
   createListButton,
   noListsMessage,

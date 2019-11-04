@@ -41,7 +41,7 @@ class MediaCard extends React.Component {
           />
           <CardContent>
             <Typography gutterBottom variant='h5'>
-              {item.name}
+            {item.name} - <span className={classes.media}>{item.status}</span>
             </Typography>
             <Typography component='p'>
               {item.description}

@@ -2,7 +2,7 @@
 'use strict';
 
 // import API helper
-import api from './dx-api';
+import api from './embeded-messenger';
 
 // Send a quick reply message
 const sendQuickReply = (psid, text, title, postbackPayload) => {
@@ -14,11 +14,13 @@ const sendQuickReply = (psid, text, title, postbackPayload) => {
 
   payload.message = {
     text: text,
-    quick_replies: [{
+    quick_replies: [
+      {
         content_type: 'text',
         title: title,
         payload: postbackPayload,
-    }],
+      },
+    ],
   };
 
   api.call('/messages', payload, () => {});

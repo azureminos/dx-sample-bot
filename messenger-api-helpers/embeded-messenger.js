@@ -19,20 +19,23 @@ const call = (path, payload, callback) => {
     return;
   }
 
-  request({
-    uri: graphUrl + path,
-    qs: {access_token: accessToken},
-    method: 'POST',
-    json: payload,
-  }, (error, response, body) => {
-    console.log(body);
-    if (!error && response.statusCode === 200) {
-      console.log('Message sent succesfully');
-    } else {
-      console.error('Error: ' + error);
+  request(
+    {
+      uri: graphUrl + path,
+      qs: {access_token: accessToken},
+      method: 'POST',
+      json: payload,
+    },
+    (error, response, body) => {
+      console.log(body);
+      if (!error && response.statusCode === 200) {
+        console.log('Message sent succesfully');
+      } else {
+        console.error(`Error: ${  error}`);
+      }
+      callback(body);
     }
-    callback(body);
-  });
+  );
 };
 
 export default {
