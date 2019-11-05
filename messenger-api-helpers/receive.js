@@ -9,8 +9,7 @@
 import sendApi from './send';
 
 // ===== MODELS ================================================================
-import Lists from '../models/lists';
-import PackageInst from '../models/package-instance';
+import Model from '../db/schema';
 
 /**
  * sendOwnedLists - Gets & Sends a list of all lists a user owns.
@@ -19,10 +18,8 @@ import PackageInst from '../models/package-instance';
  * @returns {Undefined} - .
  */
 const sendOwnedLists = (senderId, type) => {
-  Lists.getOwnedForUser(senderId)
-    .then((lists) => {
-      sendApi.sendLists(senderId, type, lists, Number(type.substring(19)));
-    });
+  console.log('>>>>Receive.sendOwnedLists', {senderId, type});
+  sendApi.sendLists(senderId, type, [], Number(type.substring(19)));
 };
 
 /*
@@ -39,7 +36,7 @@ const handleReceivePostback = (event) => {
    * actions to be a string that represents a JSON object
    * containing `type` and `data` properties. EG:
    */
-  console.log('>>>>Received postback event', event);
+  console.log('>>>>Receive.handleReceivePostback', event);
 
   const type = event.postback.payload;
   const senderId = event.sender.id;
@@ -49,21 +46,18 @@ const handleReceivePostback = (event) => {
     sendOwnedLists(senderId, type);
   } else if (type.substring(0, 11) === 'get_started') {
     // Greeting and quick reply
-    PackageInst
-      .getLatestInstIdByUserId(senderId)
-      .then(({lastInstanceId}) => {
-        sendApi.sendWelcomeMessage(senderId, lastInstanceId);
-      });
+    Model.getLatestInstByUserId;
+    PackageInst.getLatestInstIdByUserId(senderId).then(({lastInstanceId}) => {
+      sendApi.sendWelcomeMessage(senderId, lastInstanceId);
+    });
   } else if (type.substring(0, 15) === 'handover_thread') {
     // Handover to page inbox
   } else if (type.substring(0, 10) === 'my_recent@') {
     // Show recent package instance
     const lastInstanceId = type.split('@')[1];
-    PackageInst
-      .getInstPackageDetails(lastInstanceId)
-      .then((inst) => {
-        sendApi.sendPackageInst(senderId, inst);
-      });
+    PackageInst.getInstPackageDetails(lastInstanceId).then((inst) => {
+      sendApi.sendPackageInst(senderId, inst);
+    });
   } else {
     sendApi.sendMessage(senderId, `Unknown Postback called: ${type}`);
   }
@@ -89,35 +83,42 @@ const handleReceiveMessage = (event) => {
   // - Holiday Deals, all packages marked as on promote
   // - Recent Update, last updated package instance, display only when exists
   // - Chat to ABC, handover the chat thread to page inbox
-  if (message.quick_reply && message.quick_reply.payload === 'promoted_packages') {
+  if (
+    message.quick_reply &&
+    message.quick_reply.payload === 'promoted_packages'
+  ) {
     // Show list of packages
     sendApi.sendPackageMessage(senderId);
-  } else if (message.quick_reply && message.quick_reply.payload === 'get_started') {
+  } else if (
+    message.quick_reply &&
+    message.quick_reply.payload === 'get_started'
+  ) {
     // Greeting and quick reply
-    PackageInst
-      .getLatestInstIdByUserId(senderId)
-      .then(({instId}) => {
-        console.log(`>>>>Result of getLatestInstIdByUserId(${senderId})`, instId);
-        sendApi.sendWelcomeMessage(senderId, instId);
-      });
-  } else if (message.quick_reply && message.quick_reply.payload === 'handover_thread') {
+    PackageInst.getLatestInstIdByUserId(senderId).then(({instId}) => {
+      console.log(`>>>>Result of getLatestInstIdByUserId(${senderId})`, instId);
+      sendApi.sendWelcomeMessage(senderId, instId);
+    });
+  } else if (
+    message.quick_reply &&
+    message.quick_reply.payload === 'handover_thread'
+  ) {
     // Handover to page inbox
     sendApi.passThreadControl(senderId, 263902037430900);
-  } else if (message.quick_reply && message.quick_reply.payload && message.quick_reply.payload.startsWith('my_recent@')) {
+  } else if (
+    message.quick_reply &&
+    message.quick_reply.payload &&
+    message.quick_reply.payload.startsWith('my_recent@')
+  ) {
     // Show recent package instance
     const lastInstanceId = message.quick_reply.payload.split('@')[1];
-    PackageInst
-      .getInstPackageDetails(lastInstanceId)
-      .then((inst) => {
-        sendApi.sendPackageInst(senderId, inst);
-      });
+    PackageInst.getInstPackageDetails(lastInstanceId).then((inst) => {
+      sendApi.sendPackageInst(senderId, inst);
+    });
   } else if (message.text) {
-    PackageInst
-      .getLatestInstIdByUserId(senderId)
-      .then(({instId}) => {
-        console.log(`>>>>Result of getLatestInstIdByUserId(${senderId})`, instId);
-        sendApi.sendWelcomeMessage(senderId, instId);
-      });
+    PackageInst.getLatestInstIdByUserId(senderId).then(({instId}) => {
+      console.log(`>>>>Result of getLatestInstIdByUserId(${senderId})`, instId);
+      sendApi.sendWelcomeMessage(senderId, instId);
+    });
   } else {
     sendApi.sendMessage(senderId, 'Unknown Message');
   }
