@@ -11,17 +11,6 @@ import sendApi from './send';
 // ===== MODELS ================================================================
 import Model from '../db/schema';
 
-/**
- * sendOwnedLists - Gets & Sends a list of all lists a user owns.
- * @param   {Number} senderId - FB ID to send to.
- * @param   {String} type - Postback Action type to respond to.
- * @returns {Undefined} - .
- */
-const sendOwnedLists = (senderId, type) => {
-  console.log('>>>>Receive.sendOwnedLists', {senderId, type});
-  sendApi.sendLists(senderId, type, [], Number(type.substring(19)));
-};
-
 /*
  * handleReceivePostback — Postback event handler triggered by a postback
  * action you, the developer, specify on a button in a template. Read more at:
@@ -43,20 +32,23 @@ const handleReceivePostback = (event) => {
 
   // Perform an action based on the type of payload received.
   if (type.substring(0, 11) === 'owned_lists') {
-    sendOwnedLists(senderId, type);
+    // Send my list
   } else if (type.substring(0, 11) === 'get_started') {
     // Greeting and quick reply
-    Model.getLatestInstByUserId;
-    PackageInst.getLatestInstIdByUserId(senderId).then(({lastInstanceId}) => {
-      sendApi.sendWelcomeMessage(senderId, lastInstanceId);
+    Model.getLatestInstByUserId(senderId, (err, docs) => {
+      if (err) console.log('>>>>Error.Model.getLatestInstByUserId', err);
+      console.log('>>>>Model.getLatestInstByUserId', docs);
+      sendApi.sendWelcomeMessage(senderId, docs);
     });
   } else if (type.substring(0, 15) === 'handover_thread') {
     // Handover to page inbox
   } else if (type.substring(0, 10) === 'my_recent@') {
     // Show recent package instance
-    const lastInstanceId = type.split('@')[1];
-    PackageInst.getInstPackageDetails(lastInstanceId).then((inst) => {
-      sendApi.sendPackageInst(senderId, inst);
+    const instId = type.split('@')[1];
+    Model.getInstSummaryById(instId, (err, docs) => {
+      if (err) console.log('>>>>Error.Model.getInstSummaryById', err);
+      console.log('>>>>Model.getInstSummaryById', docs);
+      sendApi.sendPackageInst(senderId, docs);
     });
   } else {
     sendApi.sendMessage(senderId, `Unknown Postback called: ${type}`);
@@ -94,9 +86,10 @@ const handleReceiveMessage = (event) => {
     message.quick_reply.payload === 'get_started'
   ) {
     // Greeting and quick reply
-    PackageInst.getLatestInstIdByUserId(senderId).then(({instId}) => {
-      console.log(`>>>>Result of getLatestInstIdByUserId(${senderId})`, instId);
-      sendApi.sendWelcomeMessage(senderId, instId);
+    Model.getLatestInstByUserId(senderId, (err, docs) => {
+      if (err) console.log('>>>>Error.Model.getLatestInstByUserId', err);
+      console.log('>>>>Model.getLatestInstByUserId', docs);
+      sendApi.sendWelcomeMessage(senderId, docs);
     });
   } else if (
     message.quick_reply &&
@@ -110,14 +103,17 @@ const handleReceiveMessage = (event) => {
     message.quick_reply.payload.startsWith('my_recent@')
   ) {
     // Show recent package instance
-    const lastInstanceId = message.quick_reply.payload.split('@')[1];
-    PackageInst.getInstPackageDetails(lastInstanceId).then((inst) => {
-      sendApi.sendPackageInst(senderId, inst);
+    const instId = message.quick_reply.payload.split('@')[1];
+    Model.getInstSummaryById(instId, (err, docs) => {
+      if (err) console.log('>>>>Error.Model.getInstSummaryById', err);
+      console.log('>>>>Model.getInstSummaryById', docs);
+      sendApi.sendPackageInst(senderId, docs);
     });
   } else if (message.text) {
-    PackageInst.getLatestInstIdByUserId(senderId).then(({instId}) => {
-      console.log(`>>>>Result of getLatestInstIdByUserId(${senderId})`, instId);
-      sendApi.sendWelcomeMessage(senderId, instId);
+    Model.getLatestInstByUserId(senderId, (err, docs) => {
+      if (err) console.log('>>>>Error.Model.getLatestInstByUserId', err);
+      console.log('>>>>Model.getLatestInstByUserId', docs);
+      sendApi.sendWelcomeMessage(senderId, docs);
     });
   } else {
     sendApi.sendMessage(senderId, 'Unknown Message');

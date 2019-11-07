@@ -156,43 +156,6 @@ const listElement = ({id, subscriberIds, title}, apiUri) => {
 };
 
 /**
- * Messages for a list template of lists (meta!), offset by how many
- * "read mores" the user has been through
- *
- * @param {string} apiUri - Hostname of the server.
- * @param {string} action - The postback action
- * @param {Array.<Object>} lists - All of the lists to be (eventually) displayed.
- * @param {int=} offset - How far through the list we are so far.
- * @returns {object} - Message with welcome text and a button to start a new list.
- */
-const paginatedListsMessage = (apiUri, action, lists, offset = 0) => {
-  const pageLists = lists.slice(offset, offset + 4);
-
-  let buttons;
-  if (lists.length > offset + 4) {
-    buttons = [
-      {
-        title: 'View More',
-        type: 'postback',
-        payload: `${action}_OFFSET_${offset + 4}`,
-      },
-    ];
-  }
-
-  return {
-    attachment: {
-      type: 'template',
-      payload: {
-        template_type: 'list',
-        top_element_style: 'compact',
-        elements: pageLists.map((list) => listElement(list, apiUri)),
-        buttons,
-      },
-    },
-  };
-};
-
-/**
  * Message to configure the customized sharing menu in the webview
  *
  * @param {string} apiUri - Application basename

@@ -12,6 +12,7 @@ import castArray from 'lodash/castArray';
 import messages from './messages';
 import api from './api';
 import Package from '../models/package';
+import {Model} from 'mongoose';
 
 const {APP_URL} = process.env;
 
@@ -47,8 +48,9 @@ const messageToJSON = (recipientId, messagePayload) => {
 
 // Send one or more messages using the Send API.
 const sendMessage = (recipientId, messagePayloads) => {
-  const messagePayloadArray = castArray(messagePayloads)
-    .map((messagePayload) => messageToJSON(recipientId, messagePayload));
+  const messagePayloadArray = castArray(messagePayloads).map((messagePayload) =>
+    messageToJSON(recipientId, messagePayload)
+  );
 
   api.callMessagesAPI([
     typingOn(recipientId),
@@ -76,60 +78,26 @@ const sendWelcomeMessage = (recipientId, lastInstanceId) => {
 
 // Send the initial message welcoming & describing the bot.
 const sendPackageMessage = (recipientId) => {
-  Package.getAllPackage()
-      .then((packages) => {
-        sendMessage(recipientId, messages.packageMessage(APP_URL, packages));
-      });
+  const params = {isSnapshot: true, status: status.PUBLISHED};
+  Model.getFilteredPackages(params, (err, docs) => {
+    if (err) console.log('>>>>Error.Model.getFilteredPackages', err);
+    console.log('>>>>Model.getFilteredPackages', docs);
+    sendMessage(recipientId, messages.packageMessage(APP_URL, docs));
+  });
 };
-
-// Let the user know that they don't have any lists yet.
-const sendNoListsYet = (recipientId) => {
-  sendMessage(recipientId, messages.noListsMessage(APP_URL));
-};
-
-// Show user the lists they are associated with.
-const sendLists = (recipientId, action, lists, offset) => {
-  console.log('>>>>sendLists, recipientId['+recipientId+'], action['+action+'], lists', lists);
-  // Show different responses based on number of lists.
-  switch (lists.length) {
-  case 0:
-    // Tell User they have no lists.
-    sendNoListsYet(recipientId);
-    break;
-  case 1:
-    // Show a single list — List view templates require
-    // a minimum of 2 Elements. Rease More at:
-    // https://developers.facebook.com/docs/
-    // messenger-platform/send-api-reference/list-template
-    const {id, title} = lists[0];
-
-    sendMessage(
-      recipientId,
-      messages.shareListMessage(APP_URL, id, title, 'Open List'),
-    );
-
-    break;
-  default:
-    // Show a paginated set of lists — List view templates require
-    // a maximum of 4 Elements. Rease More at:
-    // https://developers.facebook.com/docs/
-    // messenger-platform/send-api-reference/list-template
-    sendMessage(
-      recipientId,
-      messages.paginatedListsMessage(APP_URL, action, lists, offset)
-    );
-
-    break;
-  }
-};
-
 
 // Send a message notifying the user their list has been created.
 const sendPackageInst = (recipientId, inst) => {
   console.log(`>>>>sendPackageInst, recipientId[${recipientId}]`, inst);
   sendMessage(
     recipientId,
-    messages.sharePackageMessage(APP_URL, inst.id, inst.name, inst.description, inst.imageUrl)
+    messages.sharePackageMessage(
+      APP_URL,
+      inst.id,
+      inst.name,
+      inst.description,
+      inst.imageUrl
+    )
   );
 };
 
@@ -158,9 +126,7 @@ const takeThreadControl = (recipientId) => {
   api.callTakeControlAPI('/take_thread_control', payload, () => {});
 };
 export default {
-  sendLists,
   sendMessage,
-  sendNoListsYet,
   sendReadReceipt,
   sendPackageInst,
   sendPackageMessage,

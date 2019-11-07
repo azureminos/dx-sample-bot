@@ -9,29 +9,25 @@
 import express from 'express';
 
 // ===== DB ====================================================================
-import InstPackage from '../models/package-instance';
+import Model from '../db/schema';
 
 const router = express.Router();
 
 const handleInstanceCreation = (req, res) => {
   const {hostname} = req;
   const {DEMO, PORT, LOCAL} = process.env;
-  const socketAddress = (DEMO && LOCAL) ? `http://${hostname}:${PORT}` : `wss://${hostname}`;
+  const socketAddress =
+    DEMO && LOCAL ? `http://${hostname}:${PORT}` : `wss://${hostname}`;
 
   const instId = req.params.instId;
   const packageId = req.params.packageId;
 
-  console.log(
-    '>>>>Printing input params',
-    {packageId: packageId, instId: instId, socketAddress: socketAddress},
-  );
+  console.log('>>>>Printing input params', {packageId, instId, socketAddress});
 
   if (instId === 'new') {
-    InstPackage
-      .addInstPackage(packageId)
-      .then((inst) =>
-        res.render('./index', {instId: inst.id, packageId: '', socketAddress})
-      );
+    Model.InstPackage.addInstPackage(packageId).then((inst) =>
+      res.render('./index', {instId: inst.id, packageId: '', socketAddress})
+    );
   } else if (instId === 'home') {
     res.render('./index', {instId: '', packageId: '', socketAddress});
   } else if (instId === 'view') {
