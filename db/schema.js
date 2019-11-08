@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import async from 'async';
 import mongoose from './mongoose';
-import helper from '../lib/helper';
 import CONSTANTS from '../lib/constants';
 
 const InstanceStatus = CONSTANTS.get().Instance.status;
@@ -246,152 +245,15 @@ const getHotelsByIds = (ids) => {
 };
 // Flight Rate
 const getFlightRatesByPackageId = (packageId) => {
-  // console.log('>>>>Model >> FlightRate.getFlightRatesByPackageId', packageId);
+  // console.log('>>>>Model.getFlightRatesByPackageId', packageId);
   const params = {package: new mongoose.Types.ObjectId(packageId)};
   return FlightRate.find(params);
 };
 // Package Rate
 const getPackageRatesByPackageId = (packageId) => {
-  // console.log('>>>>Model >> PackageRate.getPackageRatesByPackageId', packageId);
+  // console.log('>>>>Model.getPackageRatesByPackageId', packageId);
   const params = {package: new mongoose.Types.ObjectId(packageId)};
   return PackageRate.find(params);
-};
-// Inst Package
-const getLatestInstByUserId = (userId, callback) => {
-  const params = {createdBy: userId};
-  const select = '_id';
-  const options = {sort: {createdAt: -1}};
-  InstPackage.findOne(params, select, options).exec(callback);
-};
-const getInstSummaryById = (instId, callback) => {
-  InstPackage.findById(instId)
-    .populate({
-      path: 'package',
-      model: 'TravelPackage',
-      /* populate: {
-        path: 'image',
-      },*/
-    })
-    .exec(callback);
-};
-const createInstance = (inst, callback) => {
-  const instPackage = new InstPackage(inst);
-  instPackage.save(callback);
-};
-const createInstanceByPackageId = (request, callback) => {
-  console.log('>>>>Modal.createInstanceByPackageId', request);
-  const {packageId, user, isCustomised} = request;
-  const now = new Date();
-  const slug = `${user.id}_${packageId}_${now.getTime()}`;
-  const instance = {
-    status: InstanceStatus.INITIATED,
-    package: packageId,
-    isCustomised: isCustomised,
-    rate: 0,
-    totalPeople: 0,
-    totalRooms: 0,
-    createdBy: user.id,
-    createdAt: now,
-    slug: slug,
-  };
-  const handleInstance = (err, inst) => {
-    if (err) return console.log(err);
-    console.log('>>>>Instance Created', inst);
-
-    async.parallel(
-      {
-        items: (callback) => {
-          getItemsByPackageId(packageId, (err, items) => {
-            console.log(`>>>>Model.getItemsByPackageId [${packageId}]`, items);
-            const instanceItems = _.map(items, (item) => {
-              const instanceItem = {
-                instPackage: doc._id,
-                dayNo: item.dayNo,
-                daySeq: item.daySeq,
-                timePlannable: item.timePlannable,
-                isMustVisit: item.isMustVisit,
-                attraction: item.attraction,
-                createdAt: now,
-                createdBy: user.id,
-              };
-              instPackageItem.slug = `${doc._id}_item_${instPackageItem.dayNo}_${instPackageItem.daySeq}`;
-              return instanceItem;
-            });
-            createInstPackageItems(instanceItems, function(err, docs) {
-              console.log('>>>>Model.createInstPackageItems', docs);
-              return callback(null, docs);
-            });
-          });
-        },
-        hotels: (callback) => {
-          getHotelsByPackageId(packageId, (err, hotels) => {
-            console.log(`>>>>Model.getHotelsByPackageId [${packageId}]`, hotels);
-            const instanceHotels = _.map(docs, (hotel) => {
-              const instanceHotel = {
-                instPackage: doc._id,
-                dayNo: item.dayNo,
-                isOvernight: item.isOvernight,
-                hotel: item.hotel,
-                createdAt: now,
-                createdBy: user.id,
-              };
-              instanceHotel.slug = `${doc._id}_hotel_${instanceHotel.dayNo}`;
-              return instanceHotel;
-            });
-            createInstPackageHotels(instanceHotels, function(err, docs) {
-              console.log('>>>>Model.createInstPackageHotels', docs);
-              return callback(null, docs);
-            });
-          });
-        },
-        members: (callback) => {
-            const instanceMember = [{
-              instPackage: doc._id,
-              loginId: user.id,
-              createdAt: now,
-              createdBy: user.id,
-              people: 0,
-              rooms: 0,
-              isOwner: true,
-              status: InstanceStatus.INITIATED,
-            }];
-            instanceMember.slug = `${doc._id}_member_${user.id}`;
-            const instanceMembers = [instanceMember];
-
-          MongoDB.createInstPackageMembers(instanceMembers, function(
-            err,
-            docs
-          ) {
-            console.log('>>>>Model.createInstPackageMembers', docs);
-            return callback(null, docs);
-          });
-        },
-      },
-      function(err, results) {
-        console.log('>>>>Instance Saved', {doc, results});
-        const inst = {...doc._doc};
-        inst.items = results.items;
-        inst.hotels = results.hotels;
-        inst.members = results.members;
-        socket.emit('product:customise', inst);
-      }
-    );
-  };
-  createInstance(instance, handleInstance);
-};
-const updateInstanceStatus = (params, callback) => {
-  const filter = {_id: params.id};
-  const doc = {
-    status: params.status,
-    updatedBy: params.user,
-    updatedAt: new Date(),
-  };
-  return InstPackage.updateOne(filter, doc, callback);
-};
-const deleteAllInstance = () => {
-  return InstPackage.remove({}, () => {
-    console.log('>>>>Function [deleteAllInstance] executed');
-  });
 };
 // Inst Package Items
 const createInstanceItems = (items, callback) => {
@@ -421,6 +283,146 @@ const createInstanceMembers = (members, callback) => {
 const deleteAllInstanceMembers = () => {
   return InstPackageMember.remove({}, () => {
     console.log('>>>>Function [deleteAllInstanceMembers] executed');
+  });
+};
+// Inst Package
+const getLatestInstByUserId = (userId, callback) => {
+  const params = {createdBy: userId};
+  const select = '_id';
+  const options = {sort: {createdAt: -1}};
+  InstPackage.findOne(params, select, options).exec(callback);
+};
+const getInstSummaryById = (instId, callback) => {
+  InstPackage.findById(instId)
+    .populate({
+      path: 'package',
+      model: 'TravelPackage',
+      /* populate: {
+        path: 'image',
+      },*/
+    })
+    .exec(callback);
+};
+const createInstance = (inst, callback) => {
+  const instPackage = new InstPackage(inst);
+  instPackage.save(callback);
+};
+const createInstanceByPackageId = (request, handler) => {
+  console.log('>>>>Modal.createInstanceByPackageId', request);
+  const {packageId, user, isCustomised} = request;
+  const now = new Date();
+  const slug = `${user.id}_${packageId}_${now.getTime()}`;
+  const instance = {
+    status: InstanceStatus.INITIATED,
+    package: packageId,
+    isCustomised: isCustomised,
+    rate: 0,
+    totalPeople: 0,
+    totalRooms: 0,
+    createdBy: user.id,
+    createdAt: now,
+    slug: slug,
+  };
+  const handleInstance = (err, inst) => {
+    if (err) return console.log(err);
+    console.log('>>>>Instance Created', inst);
+
+    return async.parallel(
+      {
+        items: (callback) => {
+          getItemsByPackageId(packageId, (err, items) => {
+            console.log(`>>>>Model.getItemsByPackageId [${packageId}]`, items);
+            const iItems = _.map(items, (item) => {
+              const iItem = {
+                instPackage: inst._id,
+                dayNo: item.dayNo,
+                daySeq: item.daySeq,
+                timePlannable: item.timePlannable,
+                isMustVisit: item.isMustVisit,
+                attraction: item.attraction,
+                createdAt: now,
+                createdBy: user.id,
+              };
+              iItem.slug = `${inst._id}_item_${iItem.dayNo}_${iItem.daySeq}`;
+              return iItem;
+            });
+            createInstanceItems(iItems, function(err, docs) {
+              console.log('>>>>Model.createInstanceItems', docs);
+              return callback(null, docs);
+            });
+          });
+        },
+        hotels: (callback) => {
+          getHotelsByPackageId(packageId, (err, hotels) => {
+            console.log(
+              `>>>>Model.getHotelsByPackageId [${packageId}]`,
+              hotels
+            );
+            const iHotels = _.map(hotels, (hotel) => {
+              const iHotel = {
+                instPackage: inst._id,
+                dayNo: hotel.dayNo,
+                isOvernight: hotel.isOvernight,
+                hotel: hotel.hotel,
+                createdAt: now,
+                createdBy: user.id,
+              };
+              iHotel.slug = `${inst._id}_hotel_${iHotel.dayNo}`;
+              return iHotel;
+            });
+            createInstanceHotels(iHotels, function(err, docs) {
+              console.log('>>>>Model.createInstanceHotels', docs);
+              return callback(null, docs);
+            });
+          });
+        },
+        members: (callback) => {
+          const instanceMember = [
+            {
+              instPackage: inst._id,
+              loginId: user.id,
+              createdAt: now,
+              createdBy: user.id,
+              people: 0,
+              rooms: 0,
+              isOwner: true,
+              status: InstanceStatus.INITIATED,
+            },
+          ];
+          instanceMember.slug = `${inst._id}_member_${user.id}`;
+          const instanceMembers = [instanceMember];
+
+          createInstanceMembers(instanceMembers, function(err, docs) {
+            console.log('>>>>Model.createInstanceMembers', docs);
+            return callback(null, docs);
+          });
+        },
+      },
+      function(err, results) {
+        console.log('>>>>Instance Saved', {err, results});
+        handler({err, results});
+        /* const inst = {...doc._doc};
+        inst.items = results.items;
+        inst.hotels = results.hotels;
+        inst.members = results.members;
+        socket.emit('product:customise', inst); */
+      }
+    );
+  };
+  createInstance(instance, handleInstance);
+};
+const updateInstanceStatus = (params, callback) => {
+  const filter = {_id: params.id};
+  const doc = {
+    status: params.status,
+    updatedBy: params.user,
+    updatedAt: new Date(),
+  };
+  return InstPackage.updateOne(filter, doc, callback);
+};
+const deleteAllInstance = () => {
+  return InstPackage.remove({}, () => {
+    console.log('>>>>Function [deleteAllInstance] executed');
   });
 };
 
