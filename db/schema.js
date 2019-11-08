@@ -3,7 +3,8 @@ import async from 'async';
 import mongoose from './mongoose';
 import CONSTANTS from '../lib/constants';
 
-const InstanceStatus = CONSTANTS.get().Instance.status;
+const {Global, Instance} = CONSTANTS.get();
+const InstanceStatus = Instance.status;
 const Schema = mongoose.Schema;
 
 /* ============= Schemas ============= */
@@ -149,7 +150,6 @@ const scInstPackage = new mongoose.Schema({
   members: [],
   notes: Schema.Types.String,
   additionalField: Schema.Types.String,
-  slug: Schema.Types.String,
   createdAt: Schema.Types.Date,
   createdBy: Schema.Types.String,
   updatedAt: Schema.Types.Date,
@@ -166,7 +166,6 @@ const scInstPackageItem = new mongoose.Schema({
   attraction: {type: Schema.Types.ObjectId, ref: 'Attraction'},
   notes: Schema.Types.String,
   additionalField: Schema.Types.String,
-  slug: Schema.Types.String,
   createdAt: Schema.Types.Date,
   createdBy: Schema.Types.String,
   updatedAt: Schema.Types.Date,
@@ -181,7 +180,6 @@ const scInstPackageHotel = new mongoose.Schema({
   hotel: {type: Schema.Types.ObjectId, ref: 'Hotel'},
   notes: Schema.Types.String,
   additionalField: Schema.Types.String,
-  slug: Schema.Types.String,
   createdAt: Schema.Types.Date,
   createdBy: Schema.Types.String,
   updatedAt: Schema.Types.Date,
@@ -198,7 +196,6 @@ const scInstPackageMember = new mongoose.Schema({
   rooms: Schema.Types.Number,
   notes: Schema.Types.String,
   additionalField: Schema.Types.String,
-  slug: Schema.Types.String,
   createdAt: Schema.Types.Date,
   createdBy: Schema.Types.String,
   updatedAt: Schema.Types.Date,
@@ -311,7 +308,7 @@ const createInstanceByPackageId = (request, handler) => {
   console.log('>>>>Modal.createInstanceByPackageId', request);
   const {packageId, user, isCustomised} = request;
   const now = new Date();
-  const slug = `${user.id}_${packageId}_${now.getTime()}`;
+  const createdBy = user ? user.id : Global.sysUser;
   const instance = {
     status: InstanceStatus.INITIATED,
     package: packageId,
@@ -319,9 +316,8 @@ const createInstanceByPackageId = (request, handler) => {
     rate: 0,
     totalPeople: 0,
     totalRooms: 0,
-    createdBy: user.id,
+    createdBy: createdBy,
     createdAt: now,
-    slug: slug,
   };
   const handleInstance = (err, inst) => {
     if (err) return console.log(err);
@@ -340,13 +336,12 @@ const createInstanceByPackageId = (request, handler) => {
                 timePlannable: item.timePlannable,
                 isMustVisit: item.isMustVisit,
                 attraction: item.attraction,
+                createdBy: createdBy,
                 createdAt: now,
-                createdBy: user.id,
               };
-              iItem.slug = `${inst._id}_item_${iItem.dayNo}_${iItem.daySeq}`;
               return iItem;
             });
-            createInstanceItems(iItems, function(err, docs) {
+            return createInstanceItems(iItems, function(err, docs) {
               console.log('>>>>Model.createInstanceItems', docs);
               return callback(null, docs);
             });
@@ -364,38 +359,39 @@ const createInstanceByPackageId = (request, handler) => {
                 dayNo: hotel.dayNo,
                 isOvernight: hotel.isOvernight,
                 hotel: hotel.hotel,
+                createdBy: createdBy,
                 createdAt: now,
-                createdBy: user.id,
               };
-              iHotel.slug = `${inst._id}_hotel_${iHotel.dayNo}`;
               return iHotel;
             });
-            createInstanceHotels(iHotels, function(err, docs) {
+            return createInstanceHotels(iHotels, function(err, docs) {
               console.log('>>>>Model.createInstanceHotels', docs);
               return callback(null, docs);
             });
           });
         },
         members: (callback) => {
-          const instanceMember = [
-            {
-              instPackage: inst._id,
-              loginId: user.id,
-              createdAt: now,
-              createdBy: user.id,
-              people: 0,
-              rooms: 0,
-              isOwner: true,
-              status: InstanceStatus.INITIATED,
-            },
-          ];
-          instanceMember.slug = `${inst._id}_member_${user.id}`;
-          const instanceMembers = [instanceMember];
+          if (user) {
+            const instanceMember = [
+              {
+                instPackage: inst._id,
+                loginId: createdBy,
+                createdBy: createdBy,
+                createdAt: now,
+                people: 0,
+                rooms: 0,
+                isOwner: true,
+                status: InstanceStatus.INITIATED,
+              },
+            ];
+            const instanceMembers = [instanceMember];
 
-          createInstanceMembers(instanceMembers, function(err, docs) {
-            console.log('>>>>Model.createInstanceMembers', docs);
-            return callback(null, docs);
-          });
+            return createInstanceMembers(instanceMembers, function(err, docs) {
+              console.log('>>>>Model.createInstanceMembers', docs);
+              return callback(null, docs);
+            });
+          }
+          return callback(null, []);
         },
       },
       function(err, results) {
@@ -420,9 +416,9 @@ const updateInstanceStatus = (params, callback) => {
   };
   return InstPackage.updateOne(filter, doc, callback);
 };
-const deleteAllInstance = () => {
+const deleteAllInstances = () => {
   return InstPackage.remove({}, () => {
-    console.log('>>>>Function [deleteAllInstance] executed');
+    console.log('>>>>Function [deleteAllInstances] executed');
   });
 };
 
@@ -443,7 +439,7 @@ export default {
   createInstanceHotels,
   createInstanceMembers,
   updateInstanceStatus,
-  deleteAllInstance,
+  deleteAllInstances,
   deleteAllInstanceItems,
   deleteAllInstanceHotels,
   deleteAllInstanceMembers,

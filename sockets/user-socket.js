@@ -322,10 +322,10 @@ const updateLikedAttractions = ({request, sendStatus, userId, instId}) => {
     userId: userId,
     instId: instId,
   });
-  // Update user liked attractions
-  // PackageParticipant.updateLikedAttractions(instId, userId, likedAttractions);
+  /* Update user liked attractions
+  PackageParticipant.updateLikedAttractions(instId, userId, likedAttractions);
   // Add/Delete attraction to vist in the package instance
-
+  */
   sendStatus('ok');
 };
 

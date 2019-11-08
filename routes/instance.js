@@ -15,9 +15,10 @@ const router = express.Router();
 
 const handleInstanceCreation = (req, res) => {
   const {hostname} = req;
-  const {DEMO, PORT, LOCAL} = process.env;
-  const socketAddress =
-    DEMO && LOCAL ? `http://${hostname}:${PORT}` : `wss://${hostname}`;
+  const {PORT, LOCAL} = process.env;
+  const socketAddress = LOCAL
+    ? `http://${hostname}:${PORT}`
+    : `wss://${hostname}`;
 
   const instId = req.params.instId;
   const packageId = req.params.packageId;
@@ -29,6 +30,13 @@ const handleInstanceCreation = (req, res) => {
       res.render('./index', {instId: inst.id, packageId: '', socketAddress})
     );
   } else if (instId === 'home') {
+    if (process.env.IS_CLEANUP === 'true') {
+      Model.deleteAllInstanceMembers();
+      Model.deleteAllInstanceItems();
+      Model.deleteAllInstanceHotels();
+      Model.deleteAllInstances();
+    }
+
     res.render('./index', {instId: '', packageId: '', socketAddress});
   } else if (instId === 'view') {
     res.render('./index', {instId: '', packageId, socketAddress});

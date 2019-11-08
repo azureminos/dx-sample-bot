@@ -10,12 +10,13 @@ import express from 'express';
 
 const router = express.Router();
 
-
 // GET home page
 router.get('/', (req, res) => {
   const {hostname} = req;
-  const {DEMO, PORT, LOCAL} = process.env;
-  const socketAddress = (DEMO && LOCAL) ? `http://${hostname}:${PORT}` : `wss://${hostname}`;
+  const {PORT, LOCAL} = process.env;
+  const socketAddress = LOCAL
+    ? `http://${hostname}:${PORT}`
+    : `wss://${hostname}`;
 
   console.log('>>>>print input into index', {instId: null, socketAddress});
   res.render('./index', {instId: null, socketAddress});
