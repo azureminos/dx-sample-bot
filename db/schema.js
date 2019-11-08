@@ -82,6 +82,7 @@ const scPackageItem = new Schema({
   dayNo: Schema.Types.Number,
   daySeq: Schema.Types.Number,
   timePlannable: Schema.Types.Number,
+  isMustVisit: Schema.Types.Boolean,
   attraction: {type: Schema.Types.ObjectId, ref: 'Attraction'},
   notes: Schema.Types.String,
   additionalField: Schema.Types.String,
@@ -279,9 +280,9 @@ const createInstance = (inst, callback) => {
 };
 const createInstanceByPackageId = (request, callback) => {
   console.log('>>>>Modal.createInstanceByPackageId', request);
-  const {packageId, userId, isCustomised} = request;
+  const {packageId, user, isCustomised} = request;
   const now = new Date();
-  const slug = `${userId}_${packageId}_${now.getTime()}`;
+  const slug = `${user.id}_${packageId}_${now.getTime()}`;
   const instance = {
     status: InstanceStatus.INITIATED,
     package: packageId,
@@ -289,62 +290,79 @@ const createInstanceByPackageId = (request, callback) => {
     rate: 0,
     totalPeople: 0,
     totalRooms: 0,
-    createdBy: userId,
+    createdBy: user.id,
     createdAt: now,
     slug: slug,
   };
-  const handleInstance = (err, doc) => {
+  const handleInstance = (err, inst) => {
     if (err) return console.log(err);
-    console.log('>>>>Instance Created', doc);
-
-    const instPackageItems = _.map(request.items, (item) => {
-      const instPackageItem = {...item};
-      instPackageItem.instPackage = doc._id;
-      instPackageItem.createdBy = instPackage.createdBy;
-      instPackageItem.createdAt = instPackage.createdAt;
-      instPackageItem.slug = `${doc._id}_item_${instPackageItem.dayNo}_${instPackageItem.daySeq}`;
-      return instPackageItem;
-    });
-    const instPackageHotels = _.map(request.hotels, (hotel) => {
-      const instPackageHotel = {...hotel};
-      instPackageHotel.instPackage = doc._id;
-      instPackageHotel.createdBy = instPackage.createdBy;
-      instPackageHotel.createdAt = instPackage.createdAt;
-      instPackageHotel.slug = `${doc._id}_hotel_${instPackageHotel.dayNo}`;
-      return instPackageHotel;
-    });
-    const instPackageMembers = _.map(request.members, (member) => {
-      const instPackageMember = {...member};
-      instPackageMember.instPackage = doc._id;
-      instPackageMember.createdBy = instPackage.createdBy;
-      instPackageMember.createdAt = instPackage.createdAt;
-      instPackageMember.slug = `${doc._id}_member_${instPackageMember.loginId}`;
-      return instPackageMember;
-    });
+    console.log('>>>>Instance Created', inst);
 
     async.parallel(
       {
         items: (callback) => {
-          MongoDB.createInstPackageItems(instPackageItems, function(err, docs) {
-            console.log('>>>>createInstPackageItems', docs);
-            return callback(null, docs);
+          getItemsByPackageId(packageId, (err, items) => {
+            console.log(`>>>>Model.getItemsByPackageId [${packageId}]`, items);
+            const instanceItems = _.map(items, (item) => {
+              const instanceItem = {
+                instPackage: doc._id,
+                dayNo: item.dayNo,
+                daySeq: item.daySeq,
+                timePlannable: item.timePlannable,
+                isMustVisit: item.isMustVisit,
+                attraction: item.attraction,
+                createdAt: now,
+                createdBy: user.id,
+              };
+              instPackageItem.slug = `${doc._id}_item_${instPackageItem.dayNo}_${instPackageItem.daySeq}`;
+              return instanceItem;
+            });
+            createInstPackageItems(instanceItems, function(err, docs) {
+              console.log('>>>>Model.createInstPackageItems', docs);
+              return callback(null, docs);
+            });
           });
         },
         hotels: (callback) => {
-          MongoDB.createInstPackageHotels(instPackageHotels, function(
-            err,
-            docs
-          ) {
-            console.log('>>>>createInstPackageHotels', docs);
-            return callback(null, docs);
+          getHotelsByPackageId(packageId, (err, hotels) => {
+            console.log(`>>>>Model.getHotelsByPackageId [${packageId}]`, hotels);
+            const instanceHotels = _.map(docs, (hotel) => {
+              const instanceHotel = {
+                instPackage: doc._id,
+                dayNo: item.dayNo,
+                isOvernight: item.isOvernight,
+                hotel: item.hotel,
+                createdAt: now,
+                createdBy: user.id,
+              };
+              instanceHotel.slug = `${doc._id}_hotel_${instanceHotel.dayNo}`;
+              return instanceHotel;
+            });
+            createInstPackageHotels(instanceHotels, function(err, docs) {
+              console.log('>>>>Model.createInstPackageHotels', docs);
+              return callback(null, docs);
+            });
           });
         },
         members: (callback) => {
-          MongoDB.createInstPackageMembers(instPackageMembers, function(
+            const instanceMember = [{
+              instPackage: doc._id,
+              loginId: user.id,
+              createdAt: now,
+              createdBy: user.id,
+              people: 0,
+              rooms: 0,
+              isOwner: true,
+              status: InstanceStatus.INITIATED,
+            }];
+            instanceMember.slug = `${doc._id}_member_${user.id}`;
+            const instanceMembers = [instanceMember];
+
+          MongoDB.createInstPackageMembers(instanceMembers, function(
             err,
             docs
           ) {
-            console.log('>>>>createInstPackageMembers', docs);
+            console.log('>>>>Model.createInstPackageMembers', docs);
             return callback(null, docs);
           });
         },
