@@ -7,13 +7,12 @@
 
 /* eslint-disable camelcase */
 /* eslint-disable max-len */
-import _ from 'lodash';
+// import _ from 'lodash';
 
 /* ============  Local Variables  =============*/
 const msgWelcome =
   'Hello, I am XYZ and can assist you with your holiday planning. How may I help you?';
 const defaultImageUrl = 'media/tour-1-cover.png';
-const listUrl = (apiUri, listId) => `${apiUri}/lists/${listId}`;
 const homeUrl = (apiUri) => `${apiUri}/`;
 const packageUrl = (apiUri, packageId) => `${apiUri}/instance/new/${packageId}`;
 const instPackageUrl = (apiUri, instId) => `${apiUri}/instance/${instId}`;
@@ -117,40 +116,6 @@ const noListsMessage = (apiUri) => {
         text: 'It looks like you don’t have booked any packages yet.',
         buttons: [createListButton(apiUri)],
       },
-    },
-  };
-};
-
-/**
- * Helper to construct a URI for the desired list
- *
- * @param {string} apiUri -
- *   Base URI for the server.
- *   Because this moduele may be called from the front end, we need to pass it explicitely.
- * @param {int} listId - The list ID.
- * @returns {string} - URI for the required list.
- */
-
-/**
- * A single list for the list template.
- * The name here is to distinguish lists and list templates.
- *
- * @param {string} id            - List ID.
- * @param {string} apiUri        - Url of endpoint.
- * @param {string} subscriberIds - Ids of each subscriber.
- * @param {string} title         - List title.
- * @returns {object} - Message with welcome text and a button to start a new list.
- */
-const listElement = ({id, subscriberIds, title}, apiUri) => {
-  return {
-    title: title,
-    subtitle: `Shared with ${[...subscriberIds].length} people`,
-    default_action: {
-      type: 'web_url',
-      url: listUrl(apiUri, id),
-      messenger_extensions: true,
-      webview_height_ratio: 'full',
-      webview_share_button: 'hide',
     },
   };
 };

@@ -11,7 +11,6 @@ import castArray from 'lodash/castArray';
 // ===== MESSENGER =============================================================
 import messages from './messages';
 import api from './api';
-import Package from '../models/package';
 import {Model} from 'mongoose';
 
 const {APP_URL} = process.env;
