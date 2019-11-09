@@ -249,7 +249,6 @@ const welcomeMessage = (lastInstanceId) => {
 
 export default {
   packageMessage,
-  paginatedListsMessage,
   createListButton,
   noListsMessage,
   sharePackageMessage,
