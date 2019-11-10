@@ -11,7 +11,7 @@ import castArray from 'lodash/castArray';
 // ===== MESSENGER =============================================================
 import messages from './messages';
 import api from './api';
-import {Model} from 'mongoose';
+import Model from '../db/schema';
 import CONSTANTS from '../lib/constants';
 
 const {Instance} = CONSTANTS.get();
