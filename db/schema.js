@@ -210,11 +210,11 @@ const InstPackageMember = mongoose.model(
 const getAllPackages = () => {
   return TravelPackage.find();
 };
-const getFilteredPackages = (filter) => {
-  return TravelPackage.find(filter);
+const getFilteredPackages = (filter, callback) => {
+  return TravelPackage.find(filter).exec(callback);
 };
-const getPackageById = (id) => {
-  return TravelPackage.findById(id);
+const getPackageById = (id, callback) => {
+  return TravelPackage.findById(id).exec(callback);
 };
 // Package Item
 const getItemsByPackageId = (packageId, callback) => {
@@ -231,26 +231,27 @@ const getHotelsByPackageId = (packageId, callback) => {
   PackageHotel.find(params).exec(callback);
 };
 // Hotel
-const getHotelsByIds = (ids) => {
+const getHotelsByIds = (ids, callback) => {
   const input = _.filter(ids, (id) => {
     return !!id;
   });
   // console.log('>>>>Model >> Hotel.getHotelsByIds', input);
   return Hotel.find()
     .where('_id')
-    .in(input);
+    .in(input)
+    .exec(callback);
 };
 // Flight Rate
-const getFlightRatesByPackageId = (packageId) => {
+const getFlightRatesByPackageId = (packageId, callback) => {
   // console.log('>>>>Model.getFlightRatesByPackageId', packageId);
   const params = {package: new mongoose.Types.ObjectId(packageId)};
-  return FlightRate.find(params);
+  return FlightRate.find(params).exec(callback);
 };
 // Package Rate
-const getPackageRatesByPackageId = (packageId) => {
+const getPackageRatesByPackageId = (packageId, callback) => {
   // console.log('>>>>Model.getPackageRatesByPackageId', packageId);
   const params = {package: new mongoose.Types.ObjectId(packageId)};
-  return PackageRate.find(params);
+  return PackageRate.find(params).exec(callback);
 };
 // Inst Package Items
 const createInstanceItems = (items, callback) => {
