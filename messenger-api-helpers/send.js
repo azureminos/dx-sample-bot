@@ -14,8 +14,8 @@ import api from './api';
 import Model from '../db/schema';
 import CONSTANTS from '../lib/constants';
 
-const {Instance} = CONSTANTS.get();
-const InstanceStatus = Instance.status;
+const {TravelPackage} = CONSTANTS.get();
+const PackageStatus = TravelPackage.status;
 const {APP_URL} = process.env;
 
 // Turns typing indicator on.
@@ -80,7 +80,7 @@ const sendWelcomeMessage = (recipientId, lastInstanceId) => {
 
 // Send the initial message welcoming & describing the bot.
 const sendPackageMessage = (recipientId) => {
-  const params = {isSnapshot: true, status: InstanceStatus.PUBLISHED};
+  const params = {isSnapshot: true, status: PackageStatus.PUBLISHED};
   Model.getFilteredPackages(params, (err, docs) => {
     if (err) console.log('>>>>Error.Model.getFilteredPackages', err);
     console.log('>>>>Model.getFilteredPackages', docs);
