@@ -72,7 +72,7 @@ const createListButton = (apiUri) => {
  */
 
 const packageMessage = (apiUri, packages) => {
-  console.log('>>>>Messange.packageMessage', packages);
+  console.log('>>>>Message.packageMessage', packages);
   const items = packages.map((p) => {
     const urlToPackage = packageUrl(apiUri, p.id);
     console.log(`>>>>Generated URL >> ${urlToPackage}`, p);
@@ -125,9 +125,10 @@ const noListsMessage = (apiUri) => {
  * Message to configure the customized sharing menu in the webview
  *
  * @param {string} apiUri - Application basename
- * @param {string} listId - The ID for list to be shared
+ * @param {string} instId - The ID for instance to be shared
  * @param {string} title - Title of the list
- * @param {string} buttonText - Text for the action button.
+ * @param {string} description - Description of the instance
+ * @param {string} imageUrl - Image url.
  * @returns {object} - Message to configure the customized sharing menu.
  */
 const sharePackageMessage = (apiUri, instId, title, description, imageUrl) => {
