@@ -209,7 +209,7 @@ const InstPackageMember = mongoose.model(
 // Travel Package
 const selectPackage =
   '_id highlight departureDate finePrint description name effectiveTo ' +
-  'effectiveFrom titleImage.secure_url image.secure_url';
+  'effectiveFrom titleImage.secure_url image.secure_url test.secure_url';
 const getAllPackages = (callback) => {
   console.log('>>>>Model.getAllPackages');
   return TravelPackage.find().exec(callback);
