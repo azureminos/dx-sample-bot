@@ -207,18 +207,21 @@ const InstPackageMember = mongoose.model(
 );
 /* =========== Functions ============ */
 // Travel Package
-const getAllPackages = () => {
-  return TravelPackage.find();
+const getAllPackages = (callback) => {
+  console.log('>>>>Model.getAllPackages');
+  return TravelPackage.find().exec(callback);
 };
 const getFilteredPackages = (filter, callback) => {
+  console.log('>>>>Model.getFilteredPackages', filter);
   return TravelPackage.find(filter).exec(callback);
 };
 const getPackageById = (id, callback) => {
+  console.log('>>>>Model.getPackageById', id);
   return TravelPackage.findById(id).exec(callback);
 };
 // Package Item
 const getItemsByPackageId = (packageId, callback) => {
-  // console.log('>>>>Model >> PackageItem.getItemsByPackageId', packageId);
+  console.log('>>>>Model.getItemsByPackageId', packageId);
   const params = {package: new mongoose.Types.ObjectId(packageId)};
   PackageItem.find(params)
     .populate('attraction')
@@ -226,7 +229,7 @@ const getItemsByPackageId = (packageId, callback) => {
 };
 // Package Hotel
 const getHotelsByPackageId = (packageId, callback) => {
-  // console.log('>>>>Model >> PackageHotel.getHotelsByPackageId', packageId);
+  console.log('>>>>Model.getHotelsByPackageId', packageId);
   const params = {package: new mongoose.Types.ObjectId(packageId)};
   PackageHotel.find(params).exec(callback);
 };
@@ -243,19 +246,19 @@ const getHotelsByIds = (ids, callback) => {
 };
 // Flight Rate
 const getFlightRatesByPackageId = (packageId, callback) => {
-  // console.log('>>>>Model.getFlightRatesByPackageId', packageId);
+  console.log('>>>>Model.getFlightRatesByPackageId', packageId);
   const params = {package: new mongoose.Types.ObjectId(packageId)};
   return FlightRate.find(params).exec(callback);
 };
 // Package Rate
 const getPackageRatesByPackageId = (packageId, callback) => {
-  // console.log('>>>>Model.getPackageRatesByPackageId', packageId);
+  console.log('>>>>Model.getPackageRatesByPackageId', packageId);
   const params = {package: new mongoose.Types.ObjectId(packageId)};
   return PackageRate.find(params).exec(callback);
 };
 // Inst Package Items
 const createInstanceItems = (items, callback) => {
-  console.log('>>>>Model >> InstPackageItem.createInstanceItems', items);
+  console.log('>>>>Model.createInstanceItems', items);
   return InstPackageItem.insertMany(items, callback);
 };
 const deleteAllInstanceItems = () => {
@@ -265,7 +268,7 @@ const deleteAllInstanceItems = () => {
 };
 // Inst Package Hotels
 const createInstanceHotels = (hotels, callback) => {
-  console.log('>>>>Model >> InstPackageHotel.createInstanceHotels', hotels);
+  console.log('>>>>Model.createInstanceHotels', hotels);
   return InstPackageHotel.insertMany(hotels, callback);
 };
 const deleteAllInstanceHotels = () => {
@@ -275,7 +278,7 @@ const deleteAllInstanceHotels = () => {
 };
 // Inst Package Members
 const createInstanceMembers = (members, callback) => {
-  console.log('>>>>Model >> InstPackageMember.createInstanceMembers', members);
+  console.log('>>>>Model.createInstanceMembers', members);
   return InstPackageMember.insertMany(members, callback);
 };
 const deleteAllInstanceMembers = () => {

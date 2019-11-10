@@ -72,6 +72,7 @@ const createListButton = (apiUri) => {
  */
 
 const packageMessage = (apiUri, packages) => {
+  console.log('>>>>Messange.packageMessage', packages);
   const items = packages.map((p) => {
     const urlToPackage = packageUrl(apiUri, p.id);
     console.log(`>>>>Generated URL >> ${urlToPackage}`, p);
