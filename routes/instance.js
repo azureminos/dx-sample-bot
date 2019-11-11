@@ -26,9 +26,9 @@ const handleInstanceCreation = (req, res) => {
   console.log('>>>>Printing input params', {packageId, instId, socketAddress});
 
   if (instId === 'new') {
-    Model.addInstPackage(packageId).then((inst) => {
+    Model.createInstanceByPackageId(packageId).then((inst) => {
       console.log('>>>>Instance Created', inst);
-      res.render('./index', {instId: inst.id, packageId: '', socketAddress});
+      res.render('./index', {instId: inst._id, packageId: '', socketAddress});
     });
   } else if (instId === 'home') {
     if (process.env.IS_CLEANUP === 'true') {
