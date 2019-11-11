@@ -26,7 +26,7 @@ const handleInstanceCreation = (req, res) => {
   console.log('>>>>Printing input params', {packageId, instId, socketAddress});
 
   if (instId === 'new') {
-    Model.createInstanceByPackageId(packageId).then((inst) => {
+    Model.createInstanceByPackageId(packageId, (inst) => {
       console.log('>>>>Instance Created', inst);
       res.render('./index', {instId: inst._id, packageId: '', socketAddress});
     });
