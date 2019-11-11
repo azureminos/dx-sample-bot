@@ -74,12 +74,12 @@ const createListButton = (apiUri) => {
 const packageMessage = (apiUri, packages) => {
   console.log('>>>>Message.packageMessage', packages);
   const items = packages.map((p) => {
-    const urlToPackage = packageUrl(apiUri, p.id);
-    console.log(`>>>>Generated URL >> ${urlToPackage}`, p);
+    const urlToPackage = packageUrl(apiUri, p._id);
+    const imageUrl = p.image ? p.image.secure_url : '';
 
     return {
       title: p.name,
-      image_url: `${apiUri}/${p.imageUrl || defaultImageUrl}`,
+      image_url: imageUrl,
       subtitle: p.description,
       /* default_action: {
         type: 'web_url',
