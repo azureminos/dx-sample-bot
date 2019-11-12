@@ -13,19 +13,23 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 /* ----------  Internal Components  ---------- */
-import App from './app.jsx';
-import AppView from './app-view.jsx';
-import Oops from './oops.jsx';
+import App from './app';
+import Oops from './components/oops';
 
-/* ----------  Stylesheets  ---------- */
-import 'react-id-swiper/src/styles/css/swiper.css';
-import '../public/style.css';
-
-window.attachApp = ({viewerId, instId, packageId, socketAddress, threadType}) => {
-  console.log(
-    '>>>>window.attachApp()',
-    {viewerId, instId, packageId, socketAddress, threadType}
-  );
+window.attachApp = ({
+  viewerId,
+  instId,
+  packageId,
+  socketAddress,
+  threadType,
+}) => {
+  console.log('>>>>window.attachApp()', {
+    viewerId,
+    instId,
+    packageId,
+    socketAddress,
+    threadType,
+  });
   const apiUri = `https://${window.location.hostname}`;
   let app;
   if (viewerId) {
@@ -42,10 +46,7 @@ window.attachApp = ({viewerId, instId, packageId, socketAddress, threadType}) =>
   } else if (packageId) {
     app = (
       // The main show
-      <AppView
-        packageId={Number(packageId)}
-        apiUri={apiUri}
-      />
+      <AppView packageId={Number(packageId)} apiUri={apiUri} />
     );
   } else {
     /**

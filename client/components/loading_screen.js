@@ -9,9 +9,14 @@
 
 /* ----------  External Libraries  ---------- */
 import React from 'react';
-import CircularProgress from "@material-ui/core/CircularProgress";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 // Simple loading spinner
 export default function LoadingScreen() {
-  return <div><CircularProgress />Loading...</div>;
+  return (
+    <div>
+      <CircularProgress />
+      Loading...
+    </div>
+  );
 }

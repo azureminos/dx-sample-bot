@@ -12,23 +12,22 @@
 import React from 'react';
 
 /*
- * MessengerExtensions are only available on iOS and Android,
- * so show an error page if MessengerExtensions was unable to start
+ * Handle the case when a user requests a list that doesn't exist.
+ *
+ * Typically occurs when they follow an old link from before the app was spun up.
  */
-const Oops = () => {
+export default function NotFound() {
   return (
     <div id='oops'>
       <div id='oops-body'>
-        <h1>Viewing Outside Messenger App</h1>
+        <h1>List Not Found</h1>
 
         <div id='oops-subtitle'>
-          <p>It looks like you're viewing this list outside of the Messenger app. This experience has been designed to work within the app on iOS or Android.</p>
+          <p>Sorry, we couldn't find the list you were looking for.</p>
           <br />
-          <p>Head over to the Messenger app on your mobile device for a better experience.</p>
+          <p>We apologize for the inconvenience.</p>
         </div>
       </div>
     </div>
   );
-};
-
-export default Oops;
+}

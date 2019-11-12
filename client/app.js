@@ -6,24 +6,16 @@
  */
 
 // ==== MODULES ==========================================
+import _ from 'lodash';
 import io from 'socket.io-client';
-import React, {createElement} from 'react';
 import PropTypes from 'prop-types';
+import React, {createElement} from 'react';
 import {CSSTransitionGroup} from 'react-transition-group';
 import {Paper, Typography} from '@material-ui/core';
 
 // ==== COMPONENTS ========================================
-import ListNotFound from './list_not_found.jsx';
-import LoadingScreen from './loading_screen.jsx';
-import Updating from './updating.jsx';
-import FixedTab from './components/fixed-tab';
-import AppFooter from './components/app-footer.jsx';
-import HomeFooter from './components/home-footer.jsx';
-import PackageAttraction from './package-attraction';
-import PackageItinerary from './package-itinerary';
-import PackageSelector from './package-selector.jsx';
-
-import _ from 'lodash';
+import NotFound from './components/not_found';
+import LoadingScreen from './components/loading_screen';
 
 let socket;
 
@@ -31,7 +23,7 @@ let socket;
    = React Application          =
    ============================== */
 
-export default class App extends React.Component {
+class App extends React.Component {
   constructor(props) {
     super(props);
 
@@ -529,7 +521,7 @@ export default class App extends React.Component {
       );
     } else if (socketStatus === 'noList') {
       // We were unable to find a matching list in our system.
-      page = <ListNotFound/>;
+      page = <NotFound/>;
     } else {
       // Show a loading screen until app is ready
       page = <LoadingScreen key='load' />;
@@ -550,3 +542,5 @@ export default class App extends React.Component {
     );
   }
 }
+
+export default App;
