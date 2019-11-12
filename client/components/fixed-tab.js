@@ -1,5 +1,5 @@
-import React from 'react';
 import _ from 'lodash';
+import React, {createElement} from 'react';
 import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -7,23 +7,20 @@ import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import Typography from '@material-ui/core/Typography';
 
-
-
-
-function TabContainer({children, dir}) {
+const TabContainer = ({children, dir}) => {
   return (
     <Typography component='div' dir={dir} style={{padding: 8}}>
       {children}
     </Typography>
   );
-}
+};
 
 TabContainer.propTypes = {
   children: PropTypes.node.isRequired,
   dir: PropTypes.string.isRequired,
 };
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     backgroundColor: theme.palette.background.paper,
   },
@@ -41,28 +38,32 @@ class FullWidthTabs extends React.Component {
   render() {
     const {classes, theme, tabs} = this.props;
     const tabItems = [];
-		const tabContents = [];
-		
-		let displayedTab;
+    const tabContents = [];
+
+    let displayedTab;
 
     _.forEach(tabs, (item, key) => {
-      tabItems.push((<Tab label={key} key={key} />));
-			tabContents.push((<TabContainer dir={theme.direction} key={key} >{item}</TabContainer>));
-			if (Object.keys(tabs)[this.state.tabIndex] == key) {
-				displayedTab = tabContents[this.state.tabIndex];
-			}
+      tabItems.push(<Tab label={key} key={key} />);
+      tabContents.push(
+        <TabContainer dir={theme.direction} key={key}>
+          {item}
+        </TabContainer>
+      );
+      if (Object.keys(tabs)[this.state.tabIndex] == key) {
+        displayedTab = tabContents[this.state.tabIndex];
+      }
     });
 
     return (
       <div className={classes.root}>
         <AppBar position='sticky' color='default'>
-					{this.props.children}
+          {this.props.children}
           <Tabs
             value={this.state.tabIndex}
             onChange={this.handleChange}
             indicatorColor='primary'
             textColor='primary'
-            variant="fullWidth"
+            variant='fullWidth'
           >
             {tabItems}
           </Tabs>

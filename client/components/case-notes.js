@@ -1,15 +1,14 @@
+import _ from 'lodash';
 import React, {createElement} from 'react';
 import {withStyles} from '@material-ui/core/styles';
-import _ from 'lodash';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import AddNotesIcon from '@material-ui/icons/NoteAdd';
 import ClearIcon from '@material-ui/icons/Clear';
 
-const styles = theme => ({
-  root: {
-  },
+const styles = (theme) => ({
+  root: {},
   buttonGroup: {
     float: 'right',
   },
@@ -59,11 +58,21 @@ class CaseNotes extends React.Component {
       <Typography className={classes.root}>
         <form className={classes.container} noValidate autoComplete='off'>
           <div className={classes.buttonGroup}>
-            <Button variant='contained' color='primary' onClick={this.handleClearNotes} className={classes.button}>
+            <Button
+              variant='contained'
+              color='primary'
+              onClick={this.handleClearNotes}
+              className={classes.button}
+            >
               Clear
               <ClearIcon className={classes.rightIcon} />
             </Button>
-            <Button variant='contained' color='primary' onClick={() => handleAddNotes(this.state.text)} className={classes.button}>
+            <Button
+              variant='contained'
+              color='primary'
+              onClick={() => handleAddNotes(this.state.text)}
+              className={classes.button}
+            >
               Add
               <AddNotesIcon className={classes.rightIcon} />
             </Button>
