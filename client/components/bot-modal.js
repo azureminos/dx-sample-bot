@@ -1,14 +1,12 @@
 import _ from 'lodash';
 import React from 'react';
-import getConfig from 'next/config';
 import {withStyles} from '@material-ui/core/styles';
 import {Typography, Grid, Modal, Button, Checkbox} from '@material-ui/core';
 // import { PayPalButton } from 'react-paypal-button-v2';
-import CONSTANTS from '../../../lib/constants';
+import CONSTANTS from '../../lib/constants';
 
 const {ModalConst, Instance} = CONSTANTS.get().Modal;
 const InstStatus = Instance.status;
-const {publicRuntimeConfig} = getConfig();
 
 const styles = (theme) => ({
   paper: {
@@ -112,9 +110,9 @@ class BotModal extends React.Component {
       secModal.description = ModalConst.INVALID_DATE.description;
       secModal.buttons = pBtnModal;
     } else if (modal === ModalConst.SUBMIT_PAYMENT.key) {
-      // Local Variables
-      const {PAYPAL_ENV, PAYPAL_ID, PAYPAL_DUMMY_ID} = publicRuntimeConfig;
-      const {TERMS_CONDS, DEF_CURRENCY, DEF_DEPOSIT} = publicRuntimeConfig;
+      // Local Variables, DXTODO
+      const {PAYPAL_ENV, PAYPAL_ID, PAYPAL_DUMMY_ID} = {};
+      const {TERMS_CONDS, DEF_CURRENCY, DEF_DEPOSIT} = {};
       const paypalId =
         PAYPAL_ENV === 'production' ? PAYPAL_ID : PAYPAL_DUMMY_ID;
       const {dtStart, dtEnd, people, rooms, rate, totalRate} = reference;

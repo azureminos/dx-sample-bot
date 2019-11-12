@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import React, {createElement} from 'react';
-import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tab from '@material-ui/core/Tab';
@@ -73,10 +72,5 @@ class FullWidthTabs extends React.Component {
     );
   }
 }
-
-FullWidthTabs.propTypes = {
-  classes: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired,
-};
 
 export default withStyles(styles, {withTheme: true})(FullWidthTabs);

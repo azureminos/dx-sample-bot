@@ -23,8 +23,8 @@ import PackageItinerary from './package-itinerary';
 
 // ==== HELPERS =======================================
 import Helper from '../lib/helper';
-import PackageHelper from '../../lib/package-helper';
-import CONSTANTS from '../../lib/constants';
+import PackageHelper from '../lib/package-helper';
+import CONSTANTS from '../lib/constants';
 
 // ==== CSS ==============================================
 import 'react-id-swiper/src/styles/css/swiper.css';
