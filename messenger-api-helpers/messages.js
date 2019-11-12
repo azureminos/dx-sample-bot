@@ -14,8 +14,8 @@ const msgWelcome =
   'Hello, I am XYZ and can assist you with your holiday planning. How may I help you?';
 const defaultImageUrl = 'media/tour-1-cover.png';
 const homeUrl = (apiUri) => `${apiUri}/`;
-const packageUrl = (apiUri, packageId) => `${apiUri}/instance/new/${packageId}`;
-const instPackageUrl = (apiUri, instId) => `${apiUri}/instance/${instId}`;
+const packageUrl = (apiUri, packageId) => `${apiUri}/new/${packageId}`;
+const instPackageUrl = (apiUri, instId) => `${apiUri}/${instId}`;
 /*
  * BUTTONS
  *

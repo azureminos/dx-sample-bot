@@ -7,9 +7,45 @@
 
 // ===== MODULES ===============================================================
 import express from 'express';
+import Model from '../db/schema';
 
 const router = express.Router();
 
+const handleWebviewAccess = (req, res) => {
+  const {hostname} = req;
+  const {PORT, LOCAL} = process.env;
+  const socketAddress = LOCAL
+    ? `http://${hostname}:${PORT}`
+    : `wss://${hostname}`;
+
+  const {instId, packageId} = req.params;
+
+  console.log('>>>>Printing input params', {packageId, instId, socketAddress});
+
+  if (instId === 'new') {
+    const instance = {
+      packageId: packageId,
+      isCustomised: false,
+    };
+    Model.createInstanceByPackageId(instance, (inst) => {
+      console.log('>>>>Instance Created', inst);
+      res.render('./index', {instId: inst._id, packageId: '', socketAddress});
+    });
+  } else if (instId === 'home') {
+    if (process.env.IS_CLEANUP === 'true') {
+      Model.deleteAllInstanceMembers();
+      Model.deleteAllInstanceItems();
+      Model.deleteAllInstanceHotels();
+      Model.deleteAllInstances();
+    }
+
+    res.render('./index', {instId: '', packageId: '', socketAddress});
+  } else if (instId === 'view') {
+    res.render('./index', {instId: '', packageId, socketAddress});
+  } else {
+    res.render('./index', {instId, packageId: '', socketAddress});
+  }
+};
 // GET home page
 router.get('/', (req, res) => {
   const {hostname} = req;
@@ -21,5 +57,9 @@ router.get('/', (req, res) => {
   console.log('>>>>print input into index', {instId: null, socketAddress});
   res.render('./index', {instId: null, socketAddress});
 });
+
+router.get('/', handleWebviewAccess);
+router.get('/:instId', handleWebviewAccess);
+router.get('/:instId/:packageId', handleWebviewAccess);
 
 export default router;

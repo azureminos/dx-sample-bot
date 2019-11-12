@@ -16,20 +16,9 @@ import ReactDOM from 'react-dom';
 import App from './app';
 import Oops from './components/oops';
 
-window.attachApp = ({
-  viewerId,
-  instId,
-  packageId,
-  socketAddress,
-  threadType,
-}) => {
-  console.log('>>>>window.attachApp()', {
-    viewerId,
-    instId,
-    packageId,
-    socketAddress,
-    threadType,
-  });
+window.attachApp = (params) => {
+  console.log('>>>>window.attachApp()', params);
+  const {viewerId, instId, packageId, socketAddress, threadType} = params;
   const apiUri = `https://${window.location.hostname}`;
   let app;
   if (viewerId) {

@@ -22,7 +22,6 @@ import MessengerSetup from './messenger-api-helpers/messenger-setup';
 // ===== ROUTES ================================================================
 import index from './routes/index';
 import webhooks from './routes/webhooks';
-import instance from './routes/instance';
 
 // ===== SOCKETS ===============================================================
 import attachSockets from './sockets';
@@ -98,7 +97,6 @@ app.use(function(req, res, next) {
 
 app.use('/', index);
 app.use('/webhook', webhooks);
-app.use('/instance', instance);
 
 /* ----------  Errors  ---------- */
 

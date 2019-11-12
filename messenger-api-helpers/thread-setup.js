@@ -24,13 +24,11 @@ const {APP_URL} = process.env;
  * @returns {undefined}
  */
 const domainWhitelisting = () => {
-  api.callThreadAPI(
-    {
-      setting_type: 'domain_whitelisting',
-      whitelisted_domains: [APP_URL],
-      domain_action_type: 'add',
-    }
-  );
+  api.callThreadAPI({
+    setting_type: 'domain_whitelisting',
+    whitelisted_domains: [APP_URL],
+    domain_action_type: 'add',
+  });
 };
 
 /**
@@ -39,34 +37,32 @@ const domainWhitelisting = () => {
  * @returns {undefined}
  */
 const persistentMenu = () => {
-  api.callThreadAPI(
-    {
-      setting_type: 'call_to_actions',
-      thread_state: 'existing_thread',
-      call_to_actions: [
-        {
-          type: 'web_url',
-          title: 'Create List',
-          url: `${APP_URL}/lists/new`,
-          webview_height_ratio: 'tall',
-          messenger_extensions: true,
-          webview_share_button: 'hide',
-        },
-        {
-          type: 'postback',
-          title: 'My Lists',
-          payload: 'owned_lists',
-          webview_share_button: 'hide',
-        },
-        {
-          type: 'postback',
-          title: 'Shared With Me',
-          payload: 'subscribed_lists',
-          webview_share_button: 'hide',
-        },
-      ],
-    }
-  );
+  api.callThreadAPI({
+    setting_type: 'call_to_actions',
+    thread_state: 'existing_thread',
+    call_to_actions: [
+      {
+        type: 'web_url',
+        title: 'Create List',
+        url: `${APP_URL}/lists/new`,
+        webview_height_ratio: 'tall',
+        messenger_extensions: true,
+        webview_share_button: 'hide',
+      },
+      {
+        type: 'postback',
+        title: 'My Lists',
+        payload: 'owned_lists',
+        webview_share_button: 'hide',
+      },
+      {
+        type: 'postback',
+        title: 'Shared With Me',
+        payload: 'subscribed_lists',
+        webview_share_button: 'hide',
+      },
+    ],
+  });
 };
 
 /**
@@ -75,17 +71,15 @@ const persistentMenu = () => {
  * @returns {undefined}
  */
 const getStartedButton = () => {
-  api.callThreadAPI(
-    {
-      setting_type: 'call_to_actions',
-      thread_state: 'new_thread',
-      call_to_actions: [
-        {
-          payload: 'get_started',
-        },
-      ],
-    }
-  );
+  api.callThreadAPI({
+    setting_type: 'call_to_actions',
+    thread_state: 'new_thread',
+    call_to_actions: [
+      {
+        payload: 'get_started',
+      },
+    ],
+  });
 };
 
 export default {
