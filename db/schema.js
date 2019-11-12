@@ -159,8 +159,8 @@ const InstPackage = mongoose.model('InstPackage', scInstPackage);
 // Instance - Package Item
 const scInstPackageItem = new mongoose.Schema({
   instPackage: {type: Schema.Types.ObjectId, ref: 'InstPackage'},
-  dayNo: Schema.Types.Date,
-  daySeq: Schema.Types.Date,
+  dayNo: Schema.Types.Number,
+  daySeq: Schema.Types.Number,
   timePlannable: Schema.Types.Number,
   isMustVisit: Schema.Types.Boolean,
   attraction: {type: Schema.Types.ObjectId, ref: 'Attraction'},
@@ -175,7 +175,7 @@ const InstPackageItem = mongoose.model('InstPackageItem', scInstPackageItem);
 // Instance - Package Hotel
 const scInstPackageHotel = new mongoose.Schema({
   instPackage: {type: Schema.Types.ObjectId, ref: 'InstPackage'},
-  dayNo: Schema.Types.Date,
+  dayNo: Schema.Types.Number,
   isOvernight: Schema.Types.Boolean,
   hotel: {type: Schema.Types.ObjectId, ref: 'Hotel'},
   notes: Schema.Types.String,
