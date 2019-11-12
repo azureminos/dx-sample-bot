@@ -241,7 +241,9 @@ const getItemsByPackageId = (packageId, callback) => {
 const getHotelsByPackageId = (packageId, callback) => {
   console.log('>>>>Model.getHotelsByPackageId', packageId);
   const params = {package: new mongoose.Types.ObjectId(packageId)};
-  PackageHotel.find(params).exec(callback);
+  PackageHotel.find(params)
+    .populate('hotel')
+    .exec(callback);
 };
 // Hotel
 const getHotelsByIds = (ids, callback) => {
@@ -349,10 +351,12 @@ const createInstanceByPackageId = (request, handler) => {
                 daySeq: item.daySeq,
                 timePlannable: item.timePlannable,
                 isMustVisit: item.isMustVisit,
-                attraction: item.attraction,
                 createdBy: createdBy,
                 createdAt: now,
               };
+              if(item.attraction) {
+                iItem.attraction = item.attraction._id
+              }
               return iItem;
             });
             return createInstanceItems(iItems, function(err, docs) {
@@ -372,10 +376,12 @@ const createInstanceByPackageId = (request, handler) => {
                 instPackage: inst._id,
                 dayNo: hotel.dayNo,
                 isOvernight: hotel.isOvernight,
-                hotel: hotel.hotel,
                 createdBy: createdBy,
                 createdAt: now,
               };
+              if(hotel.hotel) {
+                iHotel.hotel = hotel.hotel._id
+              }
               return iHotel;
             });
             return createInstanceHotels(iHotels, function(err, docs) {
