@@ -56,7 +56,7 @@ class App extends React.Component {
     socketAddress: PropTypes.string.isRequired,
     viewerId: PropTypes.number.isRequired,
     threadType: PropTypes.string.isRequired,
-  }
+  };
 
   /* ==============================
      = Helper Methods             =
@@ -75,24 +75,17 @@ class App extends React.Component {
   pushToRemote(channel, message) {
     console.log(`>>>>Push event[${channel}] with message`, message);
     this.setState({updating: true}); // Set the updating spinner
-    socket.emit(
-      `push:${channel}`,
-      message,
-      (status) => {
-        // Finished successfully with a special 'ok' message from socket server
-        if (status !== 'ok') {
-          console.error(
-            `Problem pushing to ${channel}`,
-            JSON.stringify(message)
-          );
-        }
-
-        this.setState({
-          socketStatus: status,
-          updating: false, // Turn spinner off
-        });
+    socket.emit(`push:${channel}`, message, (status) => {
+      // Finished successfully with a special 'ok' message from socket server
+      if (status !== 'ok') {
+        console.error(`Problem pushing to ${channel}`, JSON.stringify(message));
       }
-    );
+
+      this.setState({
+        socketStatus: status,
+        updating: false, // Turn spinner off
+      });
+    });
   }
 
   /* ==============================
@@ -103,7 +96,13 @@ class App extends React.Component {
   preInit(input) {
     console.log('>>>>Result coming back from socket [pre-init]', input);
     const {packages, instPackage, cityAttractions, cityHotels, cities} = input;
-    this.setState({instPackage, packages: packages, cityAttractions, cityHotels, cities});
+    this.setState({
+      instPackage,
+      packages: packages,
+      cityAttractions,
+      cityHotels,
+      cities,
+    });
   }
 
   viewPackage() {
@@ -118,37 +117,57 @@ class App extends React.Component {
   }
 
   /* ----------  Package Instance ------- */
-  init({packages, instPackage, cityAttractions, cityHotels, cities, users, ownerId}) {
-    console.log('>>>>Result coming back from socket [init]',
-      {
-        packages: packages,
-        instPackage: instPackage,
-        cityAttractions: cityAttractions,
-        cityHotels: cityHotels,
-        cities: cities,
-        users: users,
-        ownerId: ownerId,
-      }
-    );
+  init({
+    packages,
+    instPackage,
+    cityAttractions,
+    cityHotels,
+    cities,
+    users,
+    ownerId,
+  }) {
+    console.log('>>>>Result coming back from socket [init]', {
+      packages: packages,
+      instPackage: instPackage,
+      cityAttractions: cityAttractions,
+      cityHotels: cityHotels,
+      cities: cities,
+      users: users,
+      ownerId: ownerId,
+    });
 
-    const u = _.filter(users, (user) => {return user.fbId == ownerId;});
-    console.log('>>>>Matched User['+ownerId+']', u);
+    const u = _.filter(users, (user) => {
+      return user.fbId == ownerId;
+    });
+    console.log(`>>>>Matched User[${  ownerId  }]`, u);
     if (u && u.length > 0 && u[0].likedAttractions) {
       const liked = u[0].likedAttractions.split(',');
       _.forEach(_.values(cityAttractions), (attractions) => {
         _.forEach(attractions, (a) => {
-          a.isLiked = !!_.find(liked, (likedId) => { return likedId == a.id;});
+          a.isLiked = !!_.find(liked, (likedId) => {
+            return likedId == a.id;
+          });
         });
       });
     } else {
       _.forEach(_.values(cityAttractions), (attractions) => {
         _.forEach(attractions, (a) => {
-          a.isLiked = !!_.find(instPackage.items, (item) => { return item.attractionId == a.id;});
+          a.isLiked = !!_.find(instPackage.items, (item) => {
+            return item.attractionId == a.id;
+          });
         });
       });
     }
     console.log('>>>>After update liked attractions', cityAttractions);
-    this.setState({instPackage, packages: packages, cityAttractions, cityHotels, cities, users, ownerId});
+    this.setState({
+      instPackage,
+      packages: packages,
+      cityAttractions,
+      cityHotels,
+      cities,
+      users,
+      ownerId,
+    });
   }
 
   /* ----------  Package Instance Items------- */
@@ -161,16 +180,27 @@ class App extends React.Component {
       });
       console.log('>>>>updateItinerary.delete - result', inst.items);
     } else if (action == 'ADD') {
-      if (!_.find(inst.items, (i) => {return i.attractionId == attraction.id;})) {
+      if (
+        !_.find(inst.items, (i) => {
+          return i.attractionId == attraction.id;
+        })
+      ) {
         console.log('>>>>updateItinerary.add', attraction);
         let firstMatch = -1;
         _.forEach(inst.items, (item, idx) => {
           if (item.city == attraction.cityName) {
             console.log('>>>>updateItinerary.add - find city match', item);
             const nearbyAttractions = item.nearbyAttractions || '';
-            firstMatch = (firstMatch == -1) ? idx : firstMatch;
-            if (!!_.find(nearbyAttractions.split(','), (nba) => {return nba == attraction.id;})) {
-              console.log('>>>>updateItinerary.add - find attraction nearby', item);
+            firstMatch = firstMatch == -1 ? idx : firstMatch;
+            if (
+              !!_.find(nearbyAttractions.split(','), (nba) => {
+                return nba == attraction.id;
+              })
+            ) {
+              console.log(
+                '>>>>updateItinerary.add - find attraction nearby',
+                item
+              );
               // Insert next to the item
               const iNew = {
                 attractionId: attraction.id,
@@ -183,9 +213,16 @@ class App extends React.Component {
                 name: attraction.name,
               };
               if (firstMatch == inst.items.length) {
-                inst.items = _.concat(_.slice(inst.items, 0, firstMatch + 1), iNew);
+                inst.items = _.concat(
+                  _.slice(inst.items, 0, firstMatch + 1),
+                  iNew
+                );
               } else {
-                inst.items = _.concat(_.slice(inst.items, 0, firstMatch + 1), iNew, _.slice(inst.items, firstMatch + 1, inst.items.length));
+                inst.items = _.concat(
+                  _.slice(inst.items, 0, firstMatch + 1),
+                  iNew,
+                  _.slice(inst.items, firstMatch + 1, inst.items.length)
+                );
               }
               firstMatch = -1;
               return false;
@@ -208,11 +245,18 @@ class App extends React.Component {
           if (firstMatch == inst.items.length) {
             inst.items = _.concat(_.slice(inst.items, 0, firstMatch + 1), iNew);
           } else {
-            inst.items = _.concat(_.slice(inst.items, 0, firstMatch + 1), iNew, _.slice(inst.items, firstMatch + 1, inst.items.length));
+            inst.items = _.concat(
+              _.slice(inst.items, 0, firstMatch + 1),
+              iNew,
+              _.slice(inst.items, firstMatch + 1, inst.items.length)
+            );
           }
         }
       } else {
-        console.log('>>>>updateItinerary.add - bypass item already in the itinerary', attraction);
+        console.log(
+          '>>>>updateItinerary.add - bypass item already in the itinerary',
+          attraction
+        );
       }
     }
   }
@@ -223,7 +267,10 @@ class App extends React.Component {
     const instId = this.state.instPackage.id;
     const likedAttractions = [];
 
-    console.log('>>>>setLikedAttractions['+attraction.id+'] of Inst['+instId+']', {attraction: attraction, cityAttractions: cityAttractions});
+    console.log(
+      `>>>>setLikedAttractions[${  attraction.id  }] of Inst[${  instId  }]`,
+      {attraction: attraction, cityAttractions: cityAttractions}
+    );
     _.forEach(_.values(cityAttractions), (attractions) => {
       _.forEach(attractions, (a) => {
         if (a.id == attraction.id) {
@@ -274,15 +321,19 @@ class App extends React.Component {
   setSelectedHotel(hotel) {
     const cityHotels = this.state.cityHotels;
     const instId = this.state.instPackage.id;
-    console.log(`>>>>setSelectedHotel of Inst[${instId}]`, {cityHotels: cityHotels, hotel: hotel});
+    console.log(`>>>>setSelectedHotel of Inst[${instId}]`, {
+      cityHotels: cityHotels,
+      hotel: hotel,
+    });
   }
 
   /* ----------  Users  ---------- */
   // Socket Event Handler for Set Online Users event.
   setOnlineUsers(onlineUserFbIds = []) {
     const users = this.state.users.map((user) => {
-      const isOnline =
-        onlineUserFbIds.find((onlineUserFbId) => onlineUserFbId == user.fbId);
+      const isOnline = onlineUserFbIds.find(
+        (onlineUserFbId) => onlineUserFbId == user.fbId
+      );
 
       return Object.assign({}, user, {online: isOnline});
     });
@@ -299,7 +350,8 @@ class App extends React.Component {
     let users;
     if (existing) {
       users = oldUsers.map((user) =>
-        (user.fbId == newUser.fbId) ? newUser : user);
+        user.fbId == newUser.fbId ? newUser : user
+      );
     } else {
       oldUsers.push(newUser);
       users = oldUsers;
@@ -314,10 +366,10 @@ class App extends React.Component {
 
   componentWillMount() {
     // Connect to socket.
-    socket = io.connect(
-      this.props.socketAddress,
-      {reconnect: true, secure: true}
-    );
+    socket = io.connect(this.props.socketAddress, {
+      reconnect: true,
+      secure: true,
+    });
 
     // Add socket event handlers.
     socket.on('pre-init', this.preInit);
@@ -327,36 +379,43 @@ class App extends React.Component {
 
     const self = this;
     // Check for permission, ask if there is none
-    window.MessengerExtensions.getGrantedPermissions(function(response) {
-      // check if permission exists
-      const permissions = response.permissions;
-      if (permissions.indexOf('user_profile') > -1) {
-        console.log('>>>>Send event[push:user:join]', self.props);
-        self.pushToRemote(
-          'user:join',
-          {senderId: self.props.viewerId, instId: self.props.instId}
-        );
-      } else {
-        window.MessengerExtensions.askPermission(function(response) {
-          const isGranted = response.isGranted;
-          if (isGranted) {
-            console.log('>>>>Send event[push:user:join]', self.props);
-            self.pushToRemote(
-              'user:join',
-              {senderId: self.props.viewerId, instId: self.props.instId}
-            );
-          } else {
-            window.MessengerExtensions.requestCloseBrowser(null, null);
-          }
-        }, function(errorCode, errorMessage) {
-          console.error({errorCode, errorMessage});
-          window.MessengerExtensions.requestCloseBrowser(null, null);
-        }, 'user_profile');
+    window.MessengerExtensions.getGrantedPermissions(
+      function(response) {
+        // check if permission exists
+        const permissions = response.permissions;
+        if (permissions.indexOf('user_profile') > -1) {
+          console.log('>>>>Send event[push:user:join]', self.props);
+          self.pushToRemote('user:join', {
+            senderId: self.props.viewerId,
+            instId: self.props.instId,
+          });
+        } else {
+          window.MessengerExtensions.askPermission(
+            function(response) {
+              const isGranted = response.isGranted;
+              if (isGranted) {
+                console.log('>>>>Send event[push:user:join]', self.props);
+                self.pushToRemote('user:join', {
+                  senderId: self.props.viewerId,
+                  instId: self.props.instId,
+                });
+              } else {
+                window.MessengerExtensions.requestCloseBrowser(null, null);
+              }
+            },
+            function(errorCode, errorMessage) {
+              console.error({errorCode, errorMessage});
+              window.MessengerExtensions.requestCloseBrowser(null, null);
+            },
+            'user_profile'
+          );
+        }
+      },
+      function(errorCode, errorMessage) {
+        console.error({errorCode, errorMessage});
+        window.MessengerExtensions.requestCloseBrowser(null, null);
       }
-    }, function(errorCode, errorMessage) {
-      console.error({errorCode, errorMessage});
-      window.MessengerExtensions.requestCloseBrowser(null, null);
-    });
+    );
   }
 
   render() {
@@ -375,8 +434,10 @@ class App extends React.Component {
     let page;
 
     if (packages && packages.length) {
-      console.log('>>>>Landing at bot home page',
-        {props: this.props, state: this.state});
+      console.log('>>>>Landing at bot home page', {
+        props: this.props,
+        state: this.state,
+      });
       const {apiUri} = this.props;
       if (packages && packages.length > 0) {
         const tabAllPackage = (
@@ -419,24 +480,23 @@ class App extends React.Component {
 
         page = (
           <Paper>
-            <FixedTab
-              tabs={tabs}
-              isOwner
-            />
+            <FixedTab tabs={tabs} isOwner />
           </Paper>
         );
       }
     } else if (users.length > 0) {
       // Skip and show loading spinner if we don't have data yet
       /* -------  Setup Sections (anything dynamic or repeated) ------- */
-      console.log('>>>>Package instance and user found',
-        {props: this.props, state: this.state});
+      console.log('>>>>Package instance and user found', {
+        props: this.props,
+        state: this.state,
+      });
       const {apiUri, viewerId, threadType} = this.props;
-      /*instPackage.notes = [
+      /* instPackage.notes = [
         {id: 1, text: 'Hi, I\'d like to visit Disneyland in Shanghai. Could you please add it into our trip?', timestamp: Date.now(), userId: '2256669701027152'},
         {id: 2, text: 'Please add night shopping tour at Huai Hai Road as well.', timestamp: (Date.now() + 50000), userId: '2256669701027152'},
       ];*/
-      
+
       // Setup module "appFooter"
       let appFooter;
       const isOwner = viewerId == ownerId;
@@ -478,10 +538,10 @@ class App extends React.Component {
               />
               <Updating updating={updating} />
             </Typography>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
+            <br />
+            <br />
+            <br />
+            <br />
           </div>
         ),
         Itinerary: (
@@ -496,10 +556,10 @@ class App extends React.Component {
                 selectHotel={this.setSelectedHotel}
               />
             </Typography>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
+            <br />
+            <br />
+            <br />
+            <br />
           </div>
         ),
       };
@@ -521,7 +581,7 @@ class App extends React.Component {
       );
     } else if (socketStatus === 'noList') {
       // We were unable to find a matching list in our system.
-      page = <NotFound/>;
+      page = <NotFound />;
     } else {
       // Show a loading screen until app is ready
       page = <LoadingScreen key='load' />;
