@@ -29,7 +29,7 @@ const handleWebviewAccess = (req, res) => {
     };
     Model.createInstanceByPackageId(instance, (inst) => {
       console.log('>>>>Instance Created', inst);
-      res.render('./index', {instId: inst._id, packageId: '', socketAddress});
+      res.render('./index', {instId: inst._id, socketAddress});
     });
   } else if (instId === 'home') {
     if (process.env.IS_CLEANUP === 'true') {
@@ -38,25 +38,11 @@ const handleWebviewAccess = (req, res) => {
       Model.deleteAllInstanceHotels();
       Model.deleteAllInstances();
     }
-
-    res.render('./index', {instId: '', packageId: '', socketAddress});
-  } else if (instId === 'view') {
-    res.render('./index', {instId: '', packageId, socketAddress});
+    res.render('./index', {instId: '', socketAddress});
   } else {
-    res.render('./index', {instId, packageId: '', socketAddress});
+    res.render('./index', {instId, socketAddress});
   }
 };
-// GET home page
-router.get('/', (req, res) => {
-  const {hostname} = req;
-  const {PORT, LOCAL} = process.env;
-  const socketAddress = LOCAL
-    ? `http://${hostname}:${PORT}`
-    : `wss://${hostname}`;
-
-  console.log('>>>>print input into index', {instId: null, socketAddress});
-  res.render('./index', {instId: null, socketAddress});
-});
 
 router.get('/', handleWebviewAccess);
 router.get('/:instId', handleWebviewAccess);

@@ -12,8 +12,7 @@
 /* ============  Local Variables  =============*/
 const msgWelcome =
   'Hello, I am XYZ and can assist you with your holiday planning. How may I help you?';
-const defaultImageUrl = 'media/tour-1-cover.png';
-const homeUrl = (apiUri) => `${apiUri}/`;
+const homeUrl = (apiUri) => `${apiUri}/home`;
 const packageUrl = (apiUri, packageId) => `${apiUri}/new/${packageId}`;
 const instPackageUrl = (apiUri, instId) => `${apiUri}/${instId}`;
 /*

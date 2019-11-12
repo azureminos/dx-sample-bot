@@ -8,15 +8,29 @@
 // ==== MODULES ==========================================
 import _ from 'lodash';
 import io from 'socket.io-client';
-import PropTypes from 'prop-types';
 import React, {createElement} from 'react';
 import {CSSTransitionGroup} from 'react-transition-group';
-import {Paper, Typography} from '@material-ui/core';
 
 // ==== COMPONENTS ========================================
+import {Paper, Typography} from '@material-ui/core';
 import NotFound from './components/not_found';
 import LoadingScreen from './components/loading_screen';
+import BotModal from './components/bot-modal';
+import BotHeader from './components/bot-header';
+import BotFooter from './components/bot-footer';
+import ProgressBar from './components/progress-bar';
+import PackageItinerary from './package-itinerary';
 
+// ==== HELPERS =======================================
+import Helper from '../lib/helper';
+import PackageHelper from '../../lib/package-helper';
+import CONSTANTS from '../../lib/constants';
+
+// ==== CSS ==============================================
+import 'react-id-swiper/src/styles/css/swiper.css';
+
+// Variables
+const {Modal, Global, Instance} = CONSTANTS.get();
 let socket;
 
 /* ==============================
@@ -26,52 +40,53 @@ let socket;
 class App extends React.Component {
   constructor(props) {
     super(props);
-
-    this.preInit = this.preInit.bind(this);
+    // Register event handler
     this.init = this.init.bind(this);
-    this.viewPackage = this.viewPackage.bind(this);
-    this.pushCreateInstPackage = this.pushCreateInstPackage.bind(this);
-    this.setLikedAttractions = this.setLikedAttractions.bind(this);
-    this.setSelectedHotel = this.setSelectedHotel.bind(this);
-    this.updateItinerary = this.updateItinerary.bind(this);
     this.handleAddNotes = this.handleAddNotes.bind(this);
     this.handleAddedNotes = this.handleAddedNotes.bind(this);
+    this.handleHdPeopleChange = this.handleHdPeopleChange.bind(this);
+    this.handleHdRoomChange = this.handleHdRoomChange.bind(this);
+    this.handleFtBtnBackward = this.handleFtBtnBackward.bind(this);
+    this.handleFtBtnForward = this.handleFtBtnForward.bind(this);
+    this.handleFtBtnShare = this.handleFtBtnShare.bind(this);
+    this.handleFtBtnPayment = this.handleFtBtnPayment.bind(this);
+    this.confirmSubmitPayment = this.confirmSubmitPayment.bind(this);
+    this.handleFtBtnJoin = this.handleFtBtnJoin.bind(this);
+    this.handleFtBtnLeave = this.handleFtBtnLeave.bind(this);
+    this.handleFtBtnLock = this.handleFtBtnLock.bind(this);
+    this.handleFtBtnUnlock = this.handleFtBtnUnlock.bind(this);
+    this.handleFtBtnStatus = this.handleFtBtnStatus.bind(this);
+    this.handleFtBtnCustomise = this.handleFtBtnCustomise.bind(this);
+    this.handleFtBtnNoCustomise = this.handleFtBtnNoCustomise.bind(this);
+    this.handleModalClose = this.handleModalClose.bind(this);
+    this.enablePackageDiy = this.enablePackageDiy.bind(this);
+    this.handleLikeAttraction = this.handleLikeAttraction.bind(this);
+    this.confirmAddItinerary = this.confirmAddItinerary.bind(this);
+    this.handleAddItinerary = this.handleAddItinerary.bind(this);
+    this.confirmDeleteItinerary = this.confirmDeleteItinerary.bind(this);
+    this.handleDeleteItinerary = this.handleDeleteItinerary.bind(this);
+    this.handleSelectHotel = this.handleSelectHotel.bind(this);
+    this.handleSelectFlight = this.handleSelectFlight.bind(this);
+    this.handleSelectCar = this.handleSelectCar.bind(this);
 
     this.state = {
-      packages: [],
-      users: [],
-      instPackage: null,
-      ownerId: null,
-      cityAttractions: null,
-      cityHotels: null,
-      cities: null,
-      isCustomisable: false,
       updating: false,
+      socketStatus: '',
+      message: '',
+      modalType: '',
+      modalRef: null,
+      instPackage: null,
+      instPackageExt: null,
     };
   }
-
-  static propTypes = {
-    apiUri: PropTypes.string.isRequired,
-    instId: PropTypes.number.isRequired,
-    socketAddress: PropTypes.string.isRequired,
-    viewerId: PropTypes.number.isRequired,
-    threadType: PropTypes.string.isRequired,
-  };
 
   /* ==============================
      = Helper Methods             =
      ============================== */
 
-  /* ----------  Communicate with Server  ---------- */
-
-  /*
-   * Push a message to socket server
-   * To keep things clear, we're distinguishing push events by automatically
-   * prepending 'push:' to the channel name
-   *
-   * Returned responses have no prefix,
-   * and read the same in the rest of the code
-   */
+  /* ==============================
+     = Socket Methods             =
+     ============================== */
   pushToRemote(channel, message) {
     console.log(`>>>>Push event[${channel}] with message`, message);
     this.setState({updating: true}); // Set the updating spinner
@@ -91,221 +106,394 @@ class App extends React.Component {
   /* ==============================
      = State & Event Handlers     =
      ============================== */
-
-  /* ----------  Package  ------- */
-  preInit(input) {
-    console.log('>>>>Result coming back from socket [pre-init]', input);
-    const {packages, instPackage, cityAttractions, cityHotels, cities} = input;
+  // ----------  App  ----------
+  handleModalClose() {
+    console.log('>>>>MobileApp.handleModalClose');
     this.setState({
-      instPackage,
-      packages: packages,
-      cityAttractions,
-      cityHotels,
-      cities,
+      modalType: '',
+      modalRef: null,
     });
   }
-
-  viewPackage() {
-    console.log('>>>>Invoke function[viewPackage]');
-    this.setState({packages: []});
-  }
-
-  pushCreateInstPackage(pkg) {
-    const request = {senderId: this.props.viewerId, packageId: pkg.id};
-    console.log('>>>>Send event to create package instance', request);
-    this.pushToRemote('package:create', request);
-  }
-
   /* ----------  Package Instance ------- */
-  init({
-    packages,
-    instPackage,
-    cityAttractions,
-    cityHotels,
-    cities,
-    users,
-    ownerId,
-  }) {
-    console.log('>>>>Result coming back from socket [init]', {
-      packages: packages,
+  init(result) {
+    console.log('>>>>Result coming back from socket [init]', result);
+  }
+  // ----------  BotHeader  ----------
+  handleHdPeopleChange(input) {
+    console.log('>>>>MobileApp.handleHdPeopleChange');
+    const {userId, instPackage, instPackageExt} = this.state;
+    for (let i = 0; i < instPackage.members.length; i++) {
+      if (instPackage.members[i].loginId === userId) {
+        instPackage.members[i].people = input.people;
+        instPackage.members[i].rooms = input.rooms;
+      }
+    }
+    instPackageExt.people = input.people;
+    instPackageExt.rooms = input.rooms;
+
+    const matchingRates = PackageHelper.doRating({
       instPackage: instPackage,
-      cityAttractions: cityAttractions,
-      cityHotels: cityHotels,
-      cities: cities,
-      users: users,
-      ownerId: ownerId,
+      instPackageExt: instPackageExt,
+      rates: input.rates,
     });
 
-    const u = _.filter(users, (user) => {
-      return user.fbId == ownerId;
+    this.setState({
+      instPackage: {...instPackage, rate: matchingRates.curRate},
+      instPackageExt: {...instPackageExt, ...matchingRates},
     });
-    console.log(`>>>>Matched User[${  ownerId  }]`, u);
-    if (u && u.length > 0 && u[0].likedAttractions) {
-      const liked = u[0].likedAttractions.split(',');
-      _.forEach(_.values(cityAttractions), (attractions) => {
-        _.forEach(attractions, (a) => {
-          a.isLiked = !!_.find(liked, (likedId) => {
-            return likedId == a.id;
-          });
-        });
+  }
+  handleHdRoomChange(input) {
+    console.log('>>>>MobileApp.handleHdRoomChange');
+    const {userId, instPackage, instPackageExt} = this.state;
+    for (let i = 0; i < instPackage.members.length; i++) {
+      if (instPackage.members[i].loginId === userId) {
+        instPackage.members[i].rooms = input.rooms;
+      }
+    }
+
+    instPackageExt.rooms = input.rooms;
+
+    const matchingRates = PackageHelper.doRating({
+      instPackage: instPackage,
+      instPackageExt: instPackageExt,
+      rates: input.rates,
+    });
+
+    this.setState({
+      instPackage: {...instPackage, rate: matchingRates.curRate},
+      instPackageExt: {...instPackageExt, ...matchingRates},
+    });
+  }
+  // ----------  BotFooter  ----------
+  handleFtBtnCustomise() {
+    console.log('>>>>MobileApp.handleFtBtnCustomise');
+    const {instPackage} = this.state;
+    instPackage.isCustomised = true;
+    this.setState({instPackage: instPackage});
+  }
+  handleFtBtnNoCustomise() {
+    console.log('>>>>MobileApp.handleFtBtnNoCustomise');
+    const {instPackage, instPackageExt} = this.state;
+    instPackage.status = Instance.status.INITIATED;
+    instPackage.isCustomised = false;
+    instPackageExt.step = 0;
+    this.setState({instPackage, instPackageExt});
+  }
+  handleFtBtnBackward(rates) {
+    console.log('>>>>MobileApp.handleFtBtnBackward');
+    const {instPackage, instPackageExt} = this.state;
+    instPackage.status = PackageHelper.getPreviousStatus(
+      instPackage.isCustomised,
+      instPackage.status
+    );
+    instPackageExt.step = instPackageExt.step - 1;
+    this.setState({instPackage, instPackageExt});
+  }
+  handleFtBtnForward(rates) {
+    console.log('>>>>MobileApp.handleFtBtnForward');
+    const {instPackage, instPackageExt} = this.state;
+    if (PackageHelper.validateInstance(instPackage)) {
+      instPackage.status = PackageHelper.getNextStatus(
+        instPackage.isCustomised,
+        instPackage.status
+      );
+      instPackageExt.step = instPackageExt.step + 1;
+      this.setState({instPackage, instPackageExt});
+    } else {
+      // Todo
+    }
+  }
+  handleFtBtnShare() {
+    console.log('>>>>MobileApp.handleFtBtnShare');
+  }
+  handleFtBtnPayment(outcome) {
+    console.log('>>>>MobileApp.handleFtBtnPayment', outcome);
+    const {instPackage} = this.state;
+    if (PackageHelper.validateInstance(instPackage)) {
+      instPackage.status = outcome.status;
+      this.setState({
+        instPackage: instPackage,
+        modalType: '',
+        modalRef: null,
       });
     } else {
-      _.forEach(_.values(cityAttractions), (attractions) => {
-        _.forEach(attractions, (a) => {
-          a.isLiked = !!_.find(instPackage.items, (item) => {
-            return item.attractionId == a.id;
-          });
-        });
-      });
+      // Todo
     }
-    console.log('>>>>After update liked attractions', cityAttractions);
-    this.setState({
-      instPackage,
-      packages: packages,
-      cityAttractions,
-      cityHotels,
-      cities,
-      users,
-      ownerId,
-    });
   }
-
-  /* ----------  Package Instance Items------- */
-  updateItinerary(attraction, action) {
-    const inst = this.state.instPackage;
-    if (action == 'DELETE') {
-      console.log('>>>>updateItinerary.delete', attraction);
-      inst.items = _.filter(inst.items, (item) => {
-        return item.attractionId !== attraction.id;
+  handleFtBtnJoin() {
+    console.log('>>>>MobileApp.handleFtBtnJoin');
+  }
+  handleFtBtnLeave() {
+    console.log('>>>>MobileApp.handleFtBtnLeave');
+  }
+  handleFtBtnLock() {
+    const {userId, instPackage, instPackageExt} = this.state;
+    const {min, people, otherPeople, rooms, otherRooms} = instPackageExt;
+    console.log('>>>>MobileApp.handleFtBtnLock', {instPackage, userId});
+    // Before lock the package, start date and end date cannot be null
+    if (!instPackage.startDate || !instPackage.endDate) {
+      this.setState({
+        modalType: Modal.INVALID_DATE.key,
       });
-      console.log('>>>>updateItinerary.delete - result', inst.items);
-    } else if (action == 'ADD') {
-      if (
-        !_.find(inst.items, (i) => {
-          return i.attractionId == attraction.id;
-        })
-      ) {
-        console.log('>>>>updateItinerary.add', attraction);
-        let firstMatch = -1;
-        _.forEach(inst.items, (item, idx) => {
-          if (item.city == attraction.cityName) {
-            console.log('>>>>updateItinerary.add - find city match', item);
-            const nearbyAttractions = item.nearbyAttractions || '';
-            firstMatch = firstMatch == -1 ? idx : firstMatch;
-            if (
-              !!_.find(nearbyAttractions.split(','), (nba) => {
-                return nba == attraction.id;
-              })
-            ) {
-              console.log(
-                '>>>>updateItinerary.add - find attraction nearby',
-                item
-              );
-              // Insert next to the item
-              const iNew = {
-                attractionId: attraction.id,
-                city: attraction.cityName,
-                dayNo: item.dayNo,
-                daySeq: item.daySeq,
-                description: attraction.description,
-                id: -1,
-                imageUrl: attraction.imageUrl,
-                name: attraction.name,
-              };
-              if (firstMatch == inst.items.length) {
-                inst.items = _.concat(
-                  _.slice(inst.items, 0, firstMatch + 1),
-                  iNew
-                );
-              } else {
-                inst.items = _.concat(
-                  _.slice(inst.items, 0, firstMatch + 1),
-                  iNew,
-                  _.slice(inst.items, firstMatch + 1, inst.items.length)
-                );
-              }
-              firstMatch = -1;
-              return false;
-            }
-          }
+    } else {
+      // Check participants
+      if (people === 0) {
+        this.setState({
+          modalType: Modal.ZERO_OWNER.key,
+          modalRef: {min: min},
         });
-
-        if (firstMatch !== -1) {
-          // Insert next to the first matchitem
-          const iNew = {
-            attractionId: attraction.id,
-            city: attraction.cityName,
-            dayNo: inst.items[firstMatch].dayNo,
-            daySeq: inst.items[firstMatch].daySeq,
-            description: attraction.description,
-            id: -1,
-            imageUrl: attraction.imageUrl,
-            name: attraction.name,
-          };
-          if (firstMatch == inst.items.length) {
-            inst.items = _.concat(_.slice(inst.items, 0, firstMatch + 1), iNew);
-          } else {
-            inst.items = _.concat(
-              _.slice(inst.items, 0, firstMatch + 1),
-              iNew,
-              _.slice(inst.items, firstMatch + 1, inst.items.length)
-            );
-          }
-        }
+      } else if (people + otherPeople < min) {
+        this.setState({
+          modalType: Modal.LESS_THAN_MIN.key,
+          modalRef: {min: min},
+        });
       } else {
-        console.log(
-          '>>>>updateItinerary.add - bypass item already in the itinerary',
-          attraction
-        );
+        instPackage.totalPeople = people + otherPeople;
+        instPackage.totalRooms = rooms + otherRooms;
+        instPackage.status = Instance.status.PENDING_PAYMENT;
+        instPackageExt.step = instPackageExt.step + 1;
+        for (let i = 0; i < instPackage.members.length; i++) {
+          instPackage.members[i].status = Instance.status.PENDING_PAYMENT;
+        }
+        this.setState({instPackage, instPackageExt});
       }
     }
   }
-
-  /* ----------  Attractions  ---------- */
-  setLikedAttractions(attraction) {
-    const cityAttractions = this.state.cityAttractions;
-    const instId = this.state.instPackage.id;
-    const likedAttractions = [];
-
-    console.log(
-      `>>>>setLikedAttractions[${  attraction.id  }] of Inst[${  instId  }]`,
-      {attraction: attraction, cityAttractions: cityAttractions}
-    );
-    _.forEach(_.values(cityAttractions), (attractions) => {
-      _.forEach(attractions, (a) => {
-        if (a.id == attraction.id) {
-          a.isLiked = !a.isLiked;
-          attraction.isLiked = a.isLiked;
-        }
-
-        if (a.isLiked) {
-          likedAttractions.push(a.id);
-        }
-      });
-    });
-
-    const params = {
-      likedAttractions: likedAttractions.toString(),
-      action: attraction.isLiked ? 'ADD' : 'DELETE',
-      actionItemId: attraction.id,
-    };
-    console.log('>>>>Send event to update user liked attraction', params);
-    this.pushToRemote('likedAttractions:update', params);
-
-    // action is delete, find the item in package instance and delete
-    // action is add, find the nearby item and add next to it
-    this.updateItinerary(attraction, params.action);
+  handleFtBtnUnlock() {
+    const {instPackage, instPackageExt} = this.state;
+    instPackageExt.step = instPackageExt.step - 1;
+    if (!instPackage.isCustomised) {
+      // Regular package, change status to INITIATED
+      instPackage.status = Instance.status.INITIATED;
+    } else {
+      // Customised package, change status to REVIEW ITINERARY
+      instPackage.status = Instance.status.REVIEW_ITINERARY;
+    }
+    for (let i = 0; i < instPackage.members.length; i++) {
+      instPackage.members[i].status = Instance.status.INITIATED;
+    }
+    this.setState({instPackage, instPackageExt});
   }
-
-  /* ----------  Notes  ---------- */
-  // Push event to add notes
+  handleFtBtnStatus() {
+    console.log('>>>>MobileApp.handleFtBtnStatus');
+  }
+  // ----------  Payment  ---------
+  confirmSubmitPayment() {
+    const {instPackage} = this.state;
+    const {startDate, endDate, totalPeople, totalRooms, rate} = instPackage;
+    if (PackageHelper.validateInstance(instPackage)) {
+      const ref = {
+        dtStart: startDate,
+        dtEnd: endDate,
+        people: totalPeople,
+        rooms: totalRooms,
+        rate: rate,
+        totalRate: totalPeople * rate,
+      };
+      this.setState({
+        modalType: Modal.SUBMIT_PAYMENT.key,
+        modalRef: ref,
+      });
+    } else {
+      // Todo
+    }
+  }
+  // ----------  Itinerary  -------
+  enablePackageDiy() {
+    console.log('>>>>MobileApp.enablePackageDiy');
+    const {instPackage} = this.state;
+    instPackage.isCustomised = true;
+    this.setState({
+      instPackage: instPackage,
+    });
+  }
+  confirmAddItinerary(ref) {
+    console.log('>>>>MobileApp.confirmAddItinerary', ref);
+    this.setState({
+      modalType: Modal.ADD_ITINERARY.key,
+      modalRef: ref,
+    });
+  }
+  handleAddItinerary() {
+    const ref = this.state.modalRef;
+    console.log('>>>>MobileApp.handleAddItinerary', ref);
+    const instPackage = PackageHelper.addItinerary(
+      this.state.instPackage,
+      ref.dayNo
+    );
+    if (PackageHelper.validateInstance(instPackage)) {
+      instPackage.status = Instance.status.SELECT_ATTRACTION;
+      this.setState({
+        instPackage: instPackage,
+        modalType: '',
+      });
+    } else {
+      // Todo
+    }
+  }
+  confirmDeleteItinerary(ref) {
+    console.log('>>>>MobileApp.confirmDeleteItinerary', ref);
+    this.setState({
+      modalType: Modal.DELETE_ITINERARY.key,
+      modalRef: ref,
+    });
+  }
+  handleDeleteItinerary() {
+    const ref = this.state.modalRef;
+    const userId = this.state.userId;
+    console.log('>>>>MobileApp.handleDeleteItinerary', ref);
+    if (ref.isRequired) {
+      this.setState({
+        modalType: Modal.FAILED_DELETE_ITINERARY.key,
+      });
+    } else {
+      const instPackage = PackageHelper.deleteItinerary(
+        this.state.instPackage,
+        ref.dayNo
+      );
+      if (PackageHelper.validateInstance(instPackage, userId)) {
+        instPackage.status = Instance.status.SELECT_HOTEL;
+        this.setState({
+          instPackage: instPackage,
+          modalType: '',
+        });
+      } else {
+        // Todo
+      }
+    }
+  }
+  handleLikeAttraction(dayNo, timePlannable, item, attractions) {
+    console.log('>>>>MobileApp.handleLikeAttraction', {
+      dayNo,
+      item,
+      attractions,
+      instPackage: this.state.instPackage,
+    });
+    // Functions
+    const isOverloaded = (attractions) => {
+      if (timePlannable === 0) {
+        return true;
+      }
+      let timePlanned = 0;
+      for (let i = 0; i < attractions.length; i++) {
+        const attraction = attractions[i];
+        if (attraction.isLiked) {
+          timePlanned =
+            timePlanned + attraction.timeTraffic + attraction.timeVisit;
+          if (
+            i > 0 &&
+            _.findIndex(attractions[i].nearByAttractions, (item) => {
+              return item === attractions[i - 1].id;
+            }) > -1
+          ) {
+            timePlanned = timePlanned - 1;
+          }
+        }
+      }
+      return timePlannable <= timePlanned;
+    };
+    const mergeDayItems = (dayItems) => {
+      const items = [];
+      const days = Object.keys(dayItems);
+      _.each(days, (day) => {
+        _.each(dayItems[day], (item) => {
+          items.push(item);
+        });
+      });
+      return items;
+    };
+    // Logic starts here
+    const {instPackage} = this.state;
+    if (!instPackage.isCustomised) {
+      // Package is not customised (DIY) yet, ask customer to confirm
+      this.setState({
+        modalType: Modal.ENABLE_DIY.key,
+      });
+    } else {
+      // Package is customised (DIY) already, move on with rest of logic
+      const action = item.isLiked ? 'DELETE' : 'ADD';
+      if (action === 'ADD') {
+        if (isOverloaded(attractions)) {
+          // Activities over booked
+          this.setState({
+            modalType: Modal.FULL_ITINERARY.key,
+            modalRef: {dayNo: dayNo},
+          });
+        } else {
+          // Enough time for extra Activity
+          const dayItems = _.groupBy(instPackage.items, (item) => {
+            return item.dayNo;
+          });
+          const newItem = {
+            id: -1,
+            isMustVisit: false,
+            timePlannable: Global.timePlannable,
+            description: '',
+            dayNo: dayNo,
+            daySeq: Global.idxLastItem,
+            attraction: {...item},
+          };
+          dayItems[dayNo].push(newItem);
+          instPackage.items = mergeDayItems(dayItems);
+          this.setState({instPackage: instPackage});
+        }
+      } else if (action === 'DELETE') {
+        const dayItems = _.groupBy(instPackage.items, (item) => {
+          return item.dayNo;
+        });
+        if (dayItems[dayNo].length === 1) {
+          // Only one activity, can not be deleted
+          this.setState({
+            modalType: Modal.ONLY_ITINERARY.key,
+            modalRef: {dayNo: dayNo},
+          });
+        } else {
+          const newItems = [];
+          _.each(dayItems[dayNo], (it) => {
+            if (it.attraction.id !== item.id) {
+              newItems.push({...it});
+            }
+          });
+          dayItems[dayNo] = newItems;
+          instPackage.items = mergeDayItems(dayItems);
+          this.setState({instPackage: instPackage});
+        }
+      }
+    }
+  }
+  // ----------  Package Instance Hotel  ----------
+  handleSelectHotel(dayNo, item) {
+    const {instPackage} = this.state;
+    console.log('>>>>MobileApp.handleSelectHotel', instPackage);
+    for (let i = 0; i < instPackage.hotels.length; i++) {
+      const hotel = instPackage.hotels[i];
+      if (Number(hotel.dayNo) === Number(dayNo)) {
+        const city = hotel.hotel.city;
+        hotel.hotel = {...item, city};
+      }
+    }
+    this.setState({instPackage: instPackage});
+  }
+  // ----------  Package Instance Flight  ----------
+  handleSelectFlight(startDate, endDate) {
+    // console.log(`>>>>MobileApp.handleSelectFlight`, { startDate, endDate });
+    const {instPackage} = this.state;
+    instPackage.startDate = startDate;
+    instPackage.endDate = endDate;
+    this.setState({instPackage: instPackage});
+  }
+  // ----------  Package Instance Car  ----------
+  handleSelectCar(selectedVal) {
+    console.log('>>>>MobileApp.handleSelectCar', selectedVal);
+    const {instPackage} = this.state;
+    instPackage.carOption = selectedVal;
+  }
+  // ----------  Notes  ----------
   handleAddNotes(notes) {
     const instId = this.state.instPackage.id;
     console.log(`>>>>handleAddNotes of Inst[${instId}]`, notes);
     this.pushToRemote('user:addNotes', {text: notes});
   }
-
-  // Receive event to update notes
   handleAddedNotes(note) {
     const instId = this.state.instPackage.id;
     console.log(`>>>>handleAddedNotes of Inst[${instId}]`, note);
@@ -316,54 +504,35 @@ class App extends React.Component {
     console.log('>>>>handleAddedNotes, state update', instPackage);
     this.setState({instPackage});
   }
-
-  /* ----------  Hotels  ---------- */
-  setSelectedHotel(hotel) {
-    const cityHotels = this.state.cityHotels;
-    const instId = this.state.instPackage.id;
-    console.log(`>>>>setSelectedHotel of Inst[${instId}]`, {
-      cityHotels: cityHotels,
-      hotel: hotel,
-    });
-  }
-
-  /* ----------  Users  ---------- */
-  // Socket Event Handler for Set Online Users event.
+  // ----------  Users  ----------
   setOnlineUsers(onlineUserFbIds = []) {
     const users = this.state.users.map((user) => {
       const isOnline = onlineUserFbIds.find(
-        (onlineUserFbId) => onlineUserFbId == user.fbId
+        (onlineUserFbId) => onlineUserFbId === user.fbId
       );
-
       return Object.assign({}, user, {online: isOnline});
     });
-
     this.setState({users});
   }
-
-  // Socket Event Handler for User Join event.
   userJoin(newUser) {
     console.log('>>>>Result coming back from socket [user:join]', newUser);
     const oldUsers = this.state.users.slice();
     const existing = oldUsers.find((user) => user.fbId == newUser.fbId);
-
     let users;
     if (existing) {
       users = oldUsers.map((user) =>
-        user.fbId == newUser.fbId ? newUser : user
+        user.fbId === newUser.fbId ? newUser : user
       );
     } else {
       oldUsers.push(newUser);
       users = oldUsers;
     }
-
     this.setState({users});
   }
 
   /* ==============================
      = React Lifecycle            =
      ============================== */
-
   componentWillMount() {
     // Connect to socket.
     socket = io.connect(this.props.socketAddress, {
@@ -372,7 +541,6 @@ class App extends React.Component {
     });
 
     // Add socket event handlers.
-    socket.on('pre-init', this.preInit);
     socket.on('init', this.init);
     socket.on('user:join', this.userJoin);
     socket.on('user:addNotes', this.handleAddedNotes);
@@ -419,176 +587,8 @@ class App extends React.Component {
   }
 
   render() {
-    const {
-      ownerId,
-      instPackage,
-      packages,
-      cityAttractions,
-      cityHotels,
-      cities,
-      users,
-      updating,
-      socketStatus,
-    } = this.state;
-
-    let page;
-
-    if (packages && packages.length) {
-      console.log('>>>>Landing at bot home page', {
-        props: this.props,
-        state: this.state,
-      });
-      const {apiUri} = this.props;
-      if (packages && packages.length > 0) {
-        const tabAllPackage = (
-          <div id='package-attraction'>
-            <Typography>
-              <PackageSelector
-                packages={packages}
-                bookPackage={this.pushCreateInstPackage}
-                apiUri={apiUri}
-              />
-            </Typography>
-          </div>
-        );
-
-        const tabs = {'All Packages': tabAllPackage};
-        if (instPackage) {
-          const tabRecent = (
-            <div id='package-itinerary'>
-              <Typography>
-                <PackageItinerary
-                  instPackage={instPackage}
-                  cityAttractions={cityAttractions}
-                  cityHotels={cityHotels}
-                  apiUri={apiUri}
-                  isReadonly
-                  showTransport
-                  selectHotel={this.setSelectedHotel}
-                />
-              </Typography>
-              <HomeFooter
-                instPackage={instPackage}
-                apiUri={apiUri}
-                btnLabel='View Package'
-                btnAction={this.viewPackage}
-              />
-            </div>
-          );
-          tabs['Recent Package'] = tabRecent;
-        }
-
-        page = (
-          <Paper>
-            <FixedTab tabs={tabs} isOwner />
-          </Paper>
-        );
-      }
-    } else if (users.length > 0) {
-      // Skip and show loading spinner if we don't have data yet
-      /* -------  Setup Sections (anything dynamic or repeated) ------- */
-      console.log('>>>>Package instance and user found', {
-        props: this.props,
-        state: this.state,
-      });
-      const {apiUri, viewerId, threadType} = this.props;
-      /* instPackage.notes = [
-        {id: 1, text: 'Hi, I\'d like to visit Disneyland in Shanghai. Could you please add it into our trip?', timestamp: Date.now(), userId: '2256669701027152'},
-        {id: 2, text: 'Please add night shopping tour at Huai Hai Road as well.', timestamp: (Date.now() + 50000), userId: '2256669701027152'},
-      ];*/
-
-      // Setup module "appFooter"
-      let appFooter;
-      const isOwner = viewerId == ownerId;
-      if (isOwner || threadType !== 'USER_TO_PAGE') {
-        // only owners are able to share their lists and other
-        // participants are able to post back to groups.
-        let sharingMode;
-        let buttonText;
-
-        if (threadType == 'USER_TO_PAGE') {
-          sharingMode = 'broadcast';
-          buttonText = 'Invite';
-        } else {
-          sharingMode = 'current_thread';
-          buttonText = 'Send';
-        }
-
-        appFooter = (
-          <AppFooter
-            instPackage={instPackage}
-            isOwner={isOwner}
-            apiUri={apiUri}
-            sharingMode={sharingMode}
-            buttonText={buttonText}
-          />
-        );
-      }
-
-      const tabs = {
-        Attraction: (
-          <div id='package-attraction'>
-            <Typography>
-              <PackageAttraction
-                instPackage={instPackage}
-                apiUri={apiUri}
-                cities={cities}
-                cityAttractions={cityAttractions}
-                likeAttractions={this.setLikedAttractions}
-              />
-              <Updating updating={updating} />
-            </Typography>
-            <br />
-            <br />
-            <br />
-            <br />
-          </div>
-        ),
-        Itinerary: (
-          <div id='package-itinerary'>
-            <Typography>
-              <PackageItinerary
-                instPackage={instPackage}
-                cityAttractions={cityAttractions}
-                cityHotels={cityHotels}
-                apiUri={apiUri}
-                showTransport
-                selectHotel={this.setSelectedHotel}
-              />
-            </Typography>
-            <br />
-            <br />
-            <br />
-            <br />
-          </div>
-        ),
-      };
-
-      page = (
-        <Paper>
-          <FixedTab
-            tabs={tabs}
-            isOwner={isOwner}
-            notes={instPackage.notes}
-            users={users}
-            showCountDown
-            showBotHeader
-            showNotesDrawer
-            handleAddNotes={this.handleAddNotes}
-          />
-          {appFooter}
-        </Paper>
-      );
-    } else if (socketStatus === 'noList') {
-      // We were unable to find a matching list in our system.
-      page = <NotFound />;
-    } else {
-      // Show a loading screen until app is ready
-      page = <LoadingScreen key='load' />;
-    }
-
+    const page = <div>Hello</div>;
     /* ----------  Animated Wrapper  ---------- */
-
     return (
       <div id='app'>
         <CSSTransitionGroup

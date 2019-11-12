@@ -18,7 +18,7 @@ import Oops from './components/oops';
 
 window.attachApp = (params) => {
   console.log('>>>>window.attachApp()', params);
-  const {viewerId, instId, packageId, socketAddress, threadType} = params;
+  const {viewerId, instId, socketAddress, threadType} = params;
   const apiUri = `https://${window.location.hostname}`;
   let app;
   if (viewerId) {
@@ -31,11 +31,6 @@ window.attachApp = (params) => {
         socketAddress={socketAddress}
         threadType={threadType}
       />
-    );
-  } else if (packageId) {
-    app = (
-      // The main show
-      <AppView packageId={Number(packageId)} apiUri={apiUri} />
     );
   } else {
     /**
