@@ -245,7 +245,10 @@ const getItemsByPackageId = (packageId, callback) => {
   console.log('>>>>Model.getItemsByPackageId', packageId);
   const params = {package: packageId};
   PackageItem.find(params)
-    .populate('attraction')
+    .populate({
+      path: 'attraction',
+      model: 'Attraction',
+    })
     .exec(callback);
 };
 // Package Hotel
@@ -253,7 +256,10 @@ const getHotelsByPackageId = (packageId, callback) => {
   console.log('>>>>Model.getHotelsByPackageId', packageId);
   const params = {package: new mongoose.Types.ObjectId(packageId)};
   PackageHotel.find(params)
-    .populate('hotel')
+    .populate({
+      path: 'hotel',
+      model: 'Hotel',
+    })
     .exec(callback);
 };
 // Hotel
@@ -290,7 +296,11 @@ const getCitiesByPackageId = (packageId, callback) => {
       return !!city;
     });
     City.find({_id: {$in: allCities}})
-      .populate('attractions hotels carRates')
+      .populate([
+        {path: 'attractions', model: 'Attraction'},
+        {path: 'carRates', model: 'CarRate'},
+        {path: 'hotels', model: 'Hotel'},
+      ])
       .exec(callback);
   });
 };
