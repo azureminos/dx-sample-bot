@@ -417,11 +417,6 @@ const createInstanceByPackageId = (request, handler) => {
       function(err, results) {
         console.log('>>>>Instance Saved', {err, results});
         handler({err, results});
-        /* const inst = {...doc._doc};
-        inst.items = results.items;
-        inst.hotels = results.hotels;
-        inst.members = results.members;
-        socket.emit('product:customise', inst); */
       }
     );
   };
@@ -453,11 +448,16 @@ export default {
   getHotelsByPackageId,
   getFlightRatesByPackageId,
   getPackageRatesByPackageId,
-  createInstance,
   createInstanceByPackageId,
+  createInstance,
   createInstanceItems,
   createInstanceHotels,
   createInstanceMembers,
+  getInstanceDetailsByInstId,
+  getInstanceByInstId,
+  getInstanceItemsByInstId,
+  getInstanceHotelsByInstId,
+  getInstanceMembersByInstId,
   updateInstanceStatus,
   deleteAllInstances,
   deleteAllInstanceItems,
