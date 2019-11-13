@@ -77,6 +77,10 @@ class App extends React.Component {
       modalRef: null,
       instPackage: null,
       instPackageExt: null,
+      reference: {
+        cities: null,
+        packageSummary: null,
+      },
     };
   }
 
@@ -628,13 +632,12 @@ class App extends React.Component {
   }
 
   render() {
-		const { instPackage, instPackageExt } = this.state;
-		const { modalType, modalRef } = this.state;
-		const { classes, rates, reference } = this.state;
-		const { cities, packageSummary } = reference;
+    const {instPackage, instPackageExt} = this.state;
+    const {modalType, modalRef} = this.state;
+    const {classes, rates, reference} = this.state;
+    const {cities, packageSummary} = reference;
 
-		console.log('>>>>MobileApp.render', this.state);
-
+    console.log('>>>>MobileApp.render', this.state);
 
     const page = <div>Hello</div>;
     /* ----------  Animated Wrapper  ---------- */

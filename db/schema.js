@@ -18,6 +18,21 @@ const scCity = new Schema({
   carRates: {type: [Schema.Types.ObjectId], ref: 'CarRate'},
 });
 const City = mongoose.model('City', scCity);
+// City
+const scCarRate = new Schema({
+  city: {type: [Schema.Types.ObjectId], ref: 'City'},
+  type: Schema.Types.String,
+  minParticipant: Schema.Types.Number,
+  maxParticipant: Schema.Types.Number,
+  rangeFrom: Schema.Types.Date,
+  rangeTo: Schema.Types.Date,
+  rate: Schema.Types.Number,
+  rateLocalGuide: Schema.Types.Number,
+  rateAirport: Schema.Types.Number,
+  rateExtra: Schema.Types.Number,
+  priority: Schema.Types.Number,
+});
+const CarRate = mongoose.model('CarRate', scCarRate);
 // Attraction
 const scAttraction = new Schema({
   name: Schema.Types.String,
