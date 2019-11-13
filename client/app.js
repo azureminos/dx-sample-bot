@@ -95,10 +95,6 @@ class App extends React.Component {
       if (status !== 'ok') {
         console.error(`Problem pushing to ${channel}`, JSON.stringify(message));
       }
-
-      this.setState({
-        updating: false, // Turn spinner off
-      });
     });
   }
 
@@ -114,8 +110,53 @@ class App extends React.Component {
     });
   }
   /* ----------  Package Instance ------- */
-  init(result) {
-    console.log('>>>>Result coming back from socket [init]', result);
+  init(results) {
+    console.log('>>>>Result coming back from socket [init]', results);
+    const {
+      instance,
+      packageSummary,
+      cities,
+      packageRates,
+      flightRates,
+    } = results;
+    const reference = {packageSummary, cities};
+    const carRates = _.map(cities, (c) => {
+      return {
+        id: c.id || '',
+        name: c.name || '',
+        carRates: c.carRates || [],
+      };
+    });
+    const rates = {carRates, packageRates, flightRates};
+    const instItems = _.map(instance.items, (item) => {
+      return item.attraction ? Helper.enhanceItem(item, cities) : item;
+    });
+    const instHotels = _.map(instance.hotels, (hotel) => {
+      return hotel.hotel ? Helper.enhanceHotel(hotel, cities) : hotel;
+    });
+    const instPackage = {
+      ...instance,
+      items: instItems,
+      hotels: instHotels,
+    };
+    const instPackageExt = PackageHelper.enhanceInstance({
+      userId: this.props.viewerId,
+      instPackage: instPackage,
+      rates: rates,
+    });
+    const matchingRates = PackageHelper.doRating({
+      instPackage: instPackage,
+      instPackageExt: instPackageExt,
+      rates: rates,
+    });
+
+    this.setState({
+      updating: false, // Turn spinner off
+      reference,
+      rates,
+      instPackage: instPackage,
+      instPackageExt: {...instPackageExt, ...matchingRates},
+    });
   }
   // ----------  BotHeader  ----------
   handleHdPeopleChange(input) {
@@ -178,7 +219,7 @@ class App extends React.Component {
     instPackageExt.step = 0;
     this.setState({instPackage, instPackageExt});
   }
-  handleFtBtnBackward(rates) {
+  handleFtBtnBackward() {
     console.log('>>>>MobileApp.handleFtBtnBackward');
     const {instPackage, instPackageExt} = this.state;
     instPackage.status = PackageHelper.getPreviousStatus(
@@ -188,7 +229,7 @@ class App extends React.Component {
     instPackageExt.step = instPackageExt.step - 1;
     this.setState({instPackage, instPackageExt});
   }
-  handleFtBtnForward(rates) {
+  handleFtBtnForward() {
     console.log('>>>>MobileApp.handleFtBtnForward');
     const {instPackage, instPackageExt} = this.state;
     if (PackageHelper.validateInstance(instPackage)) {
@@ -587,6 +628,14 @@ class App extends React.Component {
   }
 
   render() {
+		const { instPackage, instPackageExt } = this.state;
+		const { modalType, modalRef } = this.state;
+		const { classes, rates, reference } = this.state;
+		const { cities, packageSummary } = reference;
+
+		console.log('>>>>MobileApp.render', this.state);
+
+
     const page = <div>Hello</div>;
     /* ----------  Animated Wrapper  ---------- */
     return (

@@ -298,10 +298,7 @@ const getCitiesByPackageId = (packageId, callback) => {
 const getInstanceItemsByInstId = (instId, callback) => {
   console.log('>>>>Model.getInstanceItemsByInstId', instId);
   const params = {instPackage: new mongoose.Types.ObjectId(instId)};
-  return InstPackageItem.find(params).exec((err, docs) => {
-    // console.log('>>>>Model.getInstanceItemsByInstId End', {err, docs});
-    return callback(err, docs);
-  });
+  return InstPackageItem.find(params).exec(callback);
 };
 const createInstanceItems = (items, callback) => {
   console.log('>>>>Model.createInstanceItems', items);
@@ -316,10 +313,7 @@ const deleteAllInstanceItems = () => {
 const getInstanceHotelsByInstId = (instId, callback) => {
   console.log('>>>>Model.getInstanceHotelsByInstId', instId);
   const params = {instPackage: new mongoose.Types.ObjectId(instId)};
-  return InstPackageHotel.find(params).exec((err, docs) => {
-    // console.log('>>>>Model.getInstanceHotelsByInstId End', {err, docs});
-    return callback(err, docs);
-  });
+  return InstPackageHotel.find(params).exec(callback);
 };
 const createInstanceHotels = (hotels, callback) => {
   console.log('>>>>Model.createInstanceHotels', hotels);
@@ -334,10 +328,7 @@ const deleteAllInstanceHotels = () => {
 const getInstanceMembersByInstId = (instId, callback) => {
   console.log('>>>>Model.getInstanceMembersByInstId', instId);
   const params = {instPackage: new mongoose.Types.ObjectId(instId)};
-  return InstPackageMember.find(params).exec((err, docs) => {
-    // console.log('>>>>Model.getInstanceMembersByInstId End', {err, docs});
-    return callback(err, docs);
-  });
+  return InstPackageMember.find(params).exec(callback);
 };
 const createInstanceMembers = (members, callback) => {
   console.log('>>>>Model.createInstanceMembers', members);
