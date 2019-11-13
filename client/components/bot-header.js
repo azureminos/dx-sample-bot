@@ -13,8 +13,9 @@ import Input from '@material-ui/core/Input';
 import MenuItem from '@material-ui/core/MenuItem';
 import CONSTANTS from '../../lib/constants';
 
-const InstanceStatus = CONSTANTS.get().Instance.status;
-const {maxRoomCapacity, standardRoomCapacity} = CONSTANTS.get().Global;
+const {Instance, Global} = CONSTANTS.get();
+const InstanceStatus = Instance.status;
+const {maxRoomCapacity, standardRoomCapacity} = Global;
 
 const styles = (theme) => ({
   appBar: {
