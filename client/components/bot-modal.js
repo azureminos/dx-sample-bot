@@ -5,8 +5,8 @@ import {Typography, Grid, Modal, Button, Checkbox} from '@material-ui/core';
 // import { PayPalButton } from 'react-paypal-button-v2';
 import CONSTANTS from '../../lib/constants';
 
-const {ModalConst, Instance} = CONSTANTS.get().Modal;
-const InstStatus = Instance.status;
+const ModalConst = CONSTANTS.get().Modal;
+const InstStatus = CONSTANTS.get().Instance.status;
 
 const styles = (theme) => ({
   paper: {

@@ -15,8 +15,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Helper from '../lib/helper';
 import CONSTANTS from '../lib/constants';
 
-const dtFormat = CONSTANTS.get().Global.dateFormat;
-const InstanceStatus = CONSTANTS.get().Instance.status;
+const {Global, Instance} = CONSTANTS.get();
+const InstanceStatus = Instance.status;
 const triggerText = (dayNo, city) => `Day ${dayNo}: ${city}`;
 
 const styles = (theme) => ({
@@ -76,9 +76,11 @@ class PackageItinerary extends React.Component {
   }
   // Event Handlers
   doHandleSelectFlight(stStartDate) {
-    const sDate = stStartDate ? Moment(stStartDate, dtFormat).toDate() : null;
+    const sDate = stStartDate
+      ? Moment(stStartDate, Global.dateFormat).toDate()
+      : null;
     const eDate = stStartDate
-      ? Moment(stStartDate, dtFormat)
+      ? Moment(stStartDate, Global.dateFormat)
           .add(this.props.transport.totalDays, 'days')
           .toDate()
       : null;
@@ -106,11 +108,13 @@ class PackageItinerary extends React.Component {
     } = actions;
     const {startDate} = this.state;
     const isDisabled = status === InstanceStatus.PENDING_PAYMENT;
-    const stStartDate = startDate ? Moment(startDate).format(dtFormat) : '';
+    const stStartDate = startDate
+      ? Moment(startDate).format(Global.dateFormat)
+      : '';
     const stEndDate = startDate
       ? Moment(startDate)
           .add(totalDays, 'days')
-          .format(dtFormat)
+          .format(Global.dateFormat)
       : '';
     // Sub Widgets
     const secFlightCar = (
@@ -150,85 +154,85 @@ class PackageItinerary extends React.Component {
         secAttraction = <AttractionList attractions={it.attractions} />;
         secHotel = <HotelList hotels={it.hotels} />;
       } else if (
-          status === InstanceStatus.INITIATED ||
-          status === InstanceStatus.SELECT_ATTRACTION
-        ) {
+        status === InstanceStatus.INITIATED ||
+        status === InstanceStatus.SELECT_ATTRACTION
+      ) {
         secAttraction = (
-            <div>
-              <AttractionList attractions={it.attractions} />
-              <AttractionSlider
-                dayNo={it.dayNo}
-                timePlannable={it.timePlannable}
-                attractions={it.attractions}
-                handleLikeAttraction={handleLikeAttraction}
-              />
-            </div>
-          );
+          <div>
+            <AttractionList attractions={it.attractions} />
+            <AttractionSlider
+              dayNo={it.dayNo}
+              timePlannable={it.timePlannable}
+              attractions={it.attractions}
+              handleLikeAttraction={handleLikeAttraction}
+            />
+          </div>
+        );
         secHotel = <HotelList hotels={it.hotels} />;
         btnDelete = isDayChangable ? (
-            <Fab
-              size='small'
-              color='secondary'
-              aria-label='delete'
-              onClick={doHandleDeleteItinerary}
-              className={classes.iconDayCity}
-            >
-              <DeleteIcon />
-            </Fab>
-          ) : (
-            ''
-          );
+          <Fab
+            size='small'
+            color='secondary'
+            aria-label='delete'
+            onClick={doHandleDeleteItinerary}
+            className={classes.iconDayCity}
+          >
+            <DeleteIcon />
+          </Fab>
+        ) : (
+          ''
+        );
         btnAdd = isDayChangable ? (
-            <Fab
-              size='small'
-              color='primary'
-              aria-label='add'
-              onClick={doHandleAddItinerary}
-              className={classes.iconDayCity}
-            >
-              <AddIcon />
-            </Fab>
-          ) : (
-            ''
-          );
+          <Fab
+            size='small'
+            color='primary'
+            aria-label='add'
+            onClick={doHandleAddItinerary}
+            className={classes.iconDayCity}
+          >
+            <AddIcon />
+          </Fab>
+        ) : (
+          ''
+        );
       } else if (status === InstanceStatus.SELECT_HOTEL) {
         secAttraction = <AttractionList attractions={it.attractions} />;
         secHotel = (
-            <div>
-              <HotelList hotels={it.hotels} />
-              <HotelSlider
-                dayNo={it.dayNo}
-                hotels={it.hotels}
-                handleSelectHotel={handleSelectHotel}
-              />
-            </div>
-          );
+          <div>
+            <HotelList hotels={it.hotels} />
+            <HotelSlider
+              dayNo={it.dayNo}
+              hotels={it.hotels}
+              handleSelectHotel={handleSelectHotel}
+            />
+          </div>
+        );
         btnDelete = isDayChangable ? (
-            <Fab
-              size='small'
-              color='secondary'
-              aria-label='delete'
-              onClick={doHandleDeleteItinerary}
-              className={classes.iconDayCity}
-            >
-              <DeleteIcon />
-            </Fab>
-          ) : (
-            ''
-          );
+          <Fab
+            size='small'
+            color='secondary'
+            aria-label='delete'
+            onClick={doHandleDeleteItinerary}
+            className={classes.iconDayCity}
+          >
+            <DeleteIcon />
+          </Fab>
+        ) : (
+          ''
+        );
         btnAdd = isDayChangable ? (
-            <Fab
-              size='small'
-              color='primary'
-              aria-label='add'
-              onClick={doHandleAddItinerary}
-              className={classes.iconDayCity}
-            >
-              <AddIcon />
-            </Fab>
-          ) : (
-            ''
-          );
+          <Fab
+            size='small'
+            color='primary'
+            aria-label='add'
+            onClick={doHandleAddItinerary}
+            className={classes.iconDayCity}
+          >
+            <AddIcon />
+          </Fab>
+        ) : (
+          ''
+        );
       } else {
         secAttraction = <AttractionList attractions={it.attractions} />;
         secHotel = <HotelList hotels={it.hotels} />;

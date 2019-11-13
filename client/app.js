@@ -234,28 +234,25 @@ class App extends React.Component {
       this.setState({
         modalType: Modal.INVALID_DATE.key,
       });
+    } else if (people === 0) {
+      this.setState({
+        modalType: Modal.ZERO_OWNER.key,
+        modalRef: {min: min},
+      });
+    } else if (people + otherPeople < min) {
+      this.setState({
+        modalType: Modal.LESS_THAN_MIN.key,
+        modalRef: {min: min},
+      });
     } else {
-      // Check participants
-      if (people === 0) {
-        this.setState({
-          modalType: Modal.ZERO_OWNER.key,
-          modalRef: {min: min},
-        });
-      } else if (people + otherPeople < min) {
-        this.setState({
-          modalType: Modal.LESS_THAN_MIN.key,
-          modalRef: {min: min},
-        });
-      } else {
-        instPackage.totalPeople = people + otherPeople;
-        instPackage.totalRooms = rooms + otherRooms;
-        instPackage.status = Instance.status.PENDING_PAYMENT;
-        instPackageExt.step = instPackageExt.step + 1;
-        for (let i = 0; i < instPackage.members.length; i++) {
-          instPackage.members[i].status = Instance.status.PENDING_PAYMENT;
-        }
-        this.setState({instPackage, instPackageExt});
+      instPackage.totalPeople = people + otherPeople;
+      instPackage.totalRooms = rooms + otherRooms;
+      instPackage.status = Instance.status.PENDING_PAYMENT;
+      instPackageExt.step = instPackageExt.step + 1;
+      for (let i = 0; i < instPackage.members.length; i++) {
+        instPackage.members[i].status = Instance.status.PENDING_PAYMENT;
       }
+      this.setState({instPackage, instPackageExt});
     }
   }
   handleFtBtnUnlock() {
