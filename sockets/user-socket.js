@@ -20,8 +20,8 @@ const {Global, Instance} = CONSTANTS.get();
 const InstanceStatus = Instance.status;
 
 // Find or Create a new/existing User with the given id.
-const getUser = (senderId, callback) => {
-  return callback({
+const getUser = (senderId) => {
+  return {
     loginId: senderId,
     source: 'facebook',
     profilePic: '',
@@ -29,7 +29,7 @@ const getUser = (senderId, callback) => {
     email: '',
     mobile: '',
     phone: '',
-  });
+  };
 };
 
 // Promise wrapper for Facebook UserApi.
@@ -93,9 +93,6 @@ const view = (params) => {
       instanceMembers: (callback) => {
         Model.getInstanceMembersByInstId(instId, callback);
       },
-      user: (callback) => {
-        getUser(senderId, callback);
-      },
     },
     function(err, results1) {
       if (err) {
@@ -107,7 +104,6 @@ const view = (params) => {
           instanceItems,
           instanceHotels,
           instanceMembers,
-          user,
         } = results1;
         if (!instance) {
           console.error(">>>>Package instance doesn't exist!");
@@ -151,6 +147,7 @@ const view = (params) => {
             getInstance(instance, packageSummary);
           } else {
             // If empty list, then add current user and mark as owner
+            const user = getUser(senderId);
             const owner = {
               instPackage: instId,
               loginId: senderId,
