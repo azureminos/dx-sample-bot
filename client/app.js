@@ -133,10 +133,18 @@ class App extends React.Component {
     });
     const rates = {carRates, packageRates, flightRates};
     const instItems = _.map(instance.items, (item) => {
-      return item.attraction ? Helper.enhanceItem(item, cities) : item;
+      if (item.attraction) {
+        const match = Helper.findAttractionById(item.attraction, cities);
+        item.attraction = match;
+      }
+      return item;
     });
     const instHotels = _.map(instance.hotels, (hotel) => {
-      return hotel.hotel ? Helper.enhanceHotel(hotel, cities) : hotel;
+      if (hotel.hotel) {
+        const match = Helper.findHotelById(hotel.hotel, cities);
+        hotel.hotel = match;
+      }
+      return hotel;
     });
     const instPackage = {
       ...instance,
