@@ -27,9 +27,19 @@ const handleWebviewAccess = (req, res) => {
       packageId: packageId,
       isCustomised: false,
     };
-    Model.createInstanceByPackageId(instance, (inst) => {
-      console.log('>>>>Instance Created', inst);
-      res.render('./index', {instId: inst._id, socketAddress});
+    Model.createInstanceByPackageId(instance, ({err, results}) => {
+      if (err) {
+        console.error('>>>>Model.createInstanceByPackageId Error', {
+          err,
+          results,
+        });
+      } else {
+        console.log('>>>>Model.createInstanceByPackageId Success', {
+          err,
+          results,
+        });
+        res.render('./index', {instId: results.instance._id, socketAddress});
+      }
     });
   } else if (instId === 'home') {
     res.render('./index', {instId: '', socketAddress});

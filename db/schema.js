@@ -379,6 +379,9 @@ const createInstanceByPackageId = (request, handler) => {
 
     return async.parallel(
       {
+        instance: (callback) => {
+          callback(err, inst);
+        },
         items: (callback) => {
           getItemsByPackageId(packageId, (err, items) => {
             console.log(`>>>>Model.getItemsByPackageId [${packageId}]`, items);
