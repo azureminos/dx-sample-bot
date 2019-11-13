@@ -7,23 +7,29 @@
 
 // ===== Module ================================================================
 import _ from 'lodash';
-
+import CONSTANTS from '../lib/constants';
 // ===== DB ====================================================================
-
+import Model from '../db/schema';
 // ===== MESSENGER =============================================================
 import userApi from '../messenger-api-helpers/user';
 import sendApi from '../messenger-api-helpers/send';
 
+// Variables
+const {Global} = CONSTANTS.get();
+
 // Find or Create a new/existing User with the given id.
-const getUser = (senderId) => {
-  /* return Customer.findOrCreate({
-    loginId: senderId, // eslint-disable-line camelcase
-  });*/
+const getUser = (senderId, callback) => {
+  return callback({
+    userId: 'iyxx',
+    loginId: senderId,
+    profilePic: '',
+    name: 'David Xia',
+  });
 };
 
 // Promise wrapper for Facebook UserApi.
 const getUserDetails = (senderId) => {
-  /* return new Promise((resolve, reject) => {
+   return new Promise((resolve, reject) => {
     userApi.getDetails(senderId, (err, {statusCode}, body) => {
       if (err) {
         return reject(err);
@@ -38,14 +44,14 @@ const getUserDetails = (senderId) => {
       return resolve({
         name: body.first_name || body.last_name || senderId,
         profilePic: body.profile_pic,
-        fbId: senderId,
+        loginId: senderId,
       });
     });
-  });*/
+  });
 };
 
 const getFacebookProfileInfoForUsers = (users = [], instId, socketUsers) => {
-  /* Promise.all(users.map((user) => getUserDetails(user.loginId))).then((res) =>
+  Promise.all(users.map((user) => getUserDetails(user.loginId))).then((res) =>
     res.map((resUser = {}) => {
       // Detect online status via socketUser with matching list & FB IDs.
       const isOnline = [...socketUsers.values()].find(
@@ -54,33 +60,40 @@ const getFacebookProfileInfoForUsers = (users = [], instId, socketUsers) => {
       );
       return Object.assign({}, resUser, {online: !!isOnline || false});
     })
-  );*/
+  );
 };
 
-// Add notes
-const addNotes = ({request: {text}, userId, instId, allInRoom, sendStatus}) => {
-  console.log('>>>>Calling addNotes', {text, userId, instId});
-  const note = {
-    instId: instId,
-    userId: userId,
-    text: text,
-  };
-  /* CaseNotes.addNotes(note).then((rs) => {
-    console.log('>>>>addNotes.receiveAddedNotes', rs);
-    allInRoom(instId).emit('user:addNotes', rs);
-    sendStatus('ok');
-  });*/
+const view = (params) => {
+ const {
+    request,
+    allInRoom,
+    sendStatus,
+    socket,
+    socketUsers,
+    userSocket,
+  } = params;
+  const {senderId, instId} = request;
+  // Get instance details (package, attractions, hotels, members)
+  // If member list is empty, then add the current user member list and mark as owner
+  // If not empty, then return existing instance details
+  // return to BOT [init]
 };
 
 // Join Room, Update Necessary List Info, Notify All Users in room of changes.
-const join = ({
-  request: {senderId, instId},
-  allInRoom,
-  sendStatus,
-  socket,
-  socketUsers,
-  userSocket,
-}) => {
+const join = () => {
+  const {
+    request,
+    allInRoom,
+    sendStatus,
+    socket,
+    socketUsers,
+    userSocket,
+  } = params;
+  const {senderId, instId, people, rooms} = request;
+  
+  
+  
+  
   /* const enter = ({
     request: {
       packages,
@@ -315,23 +328,23 @@ const leave = ({userId, instId, allInRoom, socket, socketUsers}) => {
   allInRoom(instId).emit('users:setOnline', onlineUsers);*/
 };
 
-const updateLikedAttractions = ({request, sendStatus, userId, instId}) => {
-  const {likedAttractions} = request;
-  console.log('>>>>Handle event[setLikedAttraction]', {
-    request: request,
-    userId: userId,
+// Add notes
+const addNotes = ({request: {text}, userId, instId, allInRoom, sendStatus}) => {
+  console.log('>>>>Calling addNotes', {text, userId, instId});
+  const note = {
     instId: instId,
-  });
-  /* Update user liked attractions
-  PackageParticipant.updateLikedAttractions(instId, userId, likedAttractions);
-  // Add/Delete attraction to vist in the package instance
-  */
-  sendStatus('ok');
+    userId: userId,
+    text: text,
+  };
+  /* CaseNotes.addNotes(note).then((rs) => {
+    console.log('>>>>addNotes.receiveAddedNotes', rs);
+    allInRoom(instId).emit('user:addNotes', rs);
+    sendStatus('ok');
+  });*/
 };
 
 export default {
   join,
   leave,
   addNotes,
-  updateLikedAttractions,
 };
