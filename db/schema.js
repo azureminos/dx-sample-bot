@@ -284,7 +284,7 @@ const getCitiesByPackageId = (packageId, callback) => {
   console.log('>>>>Model.getCitiesByPackageId', packageId);
   getItemsByPackageId(packageId, (err, docs) => {
     const tmpCities = _.map(docs, (item) => {
-      return item.cityId;
+      return item.attraction ? item.attraction.city : null;
     });
     const allCities = _.filter(tmpCities, (city) => {
       return !!city;
@@ -299,7 +299,7 @@ const getInstanceItemsByInstId = (instId, callback) => {
   console.log('>>>>Model.getInstanceItemsByInstId', instId);
   const params = {instPackage: new mongoose.Types.ObjectId(instId)};
   return InstPackageItem.find(params).exec((err, docs) => {
-    console.log('>>>>Model.getInstanceItemsByInstId End', {err, docs});
+    // console.log('>>>>Model.getInstanceItemsByInstId End', {err, docs});
     return callback(err, docs);
   });
 };
@@ -317,7 +317,7 @@ const getInstanceHotelsByInstId = (instId, callback) => {
   console.log('>>>>Model.getInstanceHotelsByInstId', instId);
   const params = {instPackage: new mongoose.Types.ObjectId(instId)};
   return InstPackageHotel.find(params).exec((err, docs) => {
-    console.log('>>>>Model.getInstanceHotelsByInstId End', {err, docs});
+    // console.log('>>>>Model.getInstanceHotelsByInstId End', {err, docs});
     return callback(err, docs);
   });
 };
@@ -335,7 +335,7 @@ const getInstanceMembersByInstId = (instId, callback) => {
   console.log('>>>>Model.getInstanceMembersByInstId', instId);
   const params = {instPackage: new mongoose.Types.ObjectId(instId)};
   return InstPackageMember.find(params).exec((err, docs) => {
-    console.log('>>>>Model.getInstanceMembersByInstId End', {err, docs});
+    // console.log('>>>>Model.getInstanceMembersByInstId End', {err, docs});
     return callback(err, docs);
   });
 };

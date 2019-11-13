@@ -121,6 +121,9 @@ const view = (params) => {
                 instance: (callback) => {
                   callback(null, inst);
                 },
+                packageSummary: (callback) => {
+                  callback(null, pack);
+                },
                 cities: (callback) => {
                   Model.getCitiesByPackageId(pack._id, callback);
                 },
