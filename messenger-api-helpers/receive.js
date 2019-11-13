@@ -45,9 +45,9 @@ const handleReceivePostback = (event) => {
   } else if (type.substring(0, 10) === 'my_recent@') {
     // Show recent package instance
     const instId = type.split('@')[1];
-    Model.getInstSummaryById(instId, (err, docs) => {
-      if (err) console.log('>>>>Error.Model.getInstSummaryById', err);
-      console.log('>>>>Model.getInstSummaryById', docs);
+    Model.getInstanceByInstId(instId, (err, docs) => {
+      if (err) console.log('>>>>Error.Model.getInstanceByInstId', err);
+      console.log('>>>>Model.getInstanceByInstId', docs);
       sendApi.sendPackageInst(senderId, docs);
     });
   } else {
@@ -104,9 +104,9 @@ const handleReceiveMessage = (event) => {
   ) {
     // Show recent package instance
     const instId = message.quick_reply.payload.split('@')[1];
-    Model.getInstSummaryById(instId, (err, docs) => {
-      if (err) console.log('>>>>Error.Model.getInstSummaryById', err);
-      console.log('>>>>Model.getInstSummaryById', docs);
+    Model.getInstanceByInstId(instId, (err, docs) => {
+      if (err) console.log('>>>>Error.Model.getInstanceByInstId', err);
+      console.log('>>>>Model.getInstanceByInstId', docs);
       sendApi.sendPackageInst(senderId, docs);
     });
   } else if (message.text) {

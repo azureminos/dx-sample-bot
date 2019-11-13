@@ -7,6 +7,7 @@
 
 // ===== Module ================================================================
 import _ from 'lodash';
+import async from 'async';
 import CONSTANTS from '../lib/constants';
 // ===== DB ====================================================================
 import Model from '../db/schema';
@@ -15,21 +16,25 @@ import userApi from '../messenger-api-helpers/user';
 import sendApi from '../messenger-api-helpers/send';
 
 // Variables
-const {Global} = CONSTANTS.get();
+const {Global, Instance} = CONSTANTS.get();
+const InstanceStatus = Instance.status;
 
 // Find or Create a new/existing User with the given id.
 const getUser = (senderId, callback) => {
   return callback({
-    userId: 'iyxx',
     loginId: senderId,
+    source: 'facebook',
     profilePic: '',
     name: 'David Xia',
+    email: '',
+    mobile: '',
+    phone: '',
   });
 };
 
 // Promise wrapper for Facebook UserApi.
 const getUserDetails = (senderId) => {
-   return new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     userApi.getDetails(senderId, (err, {statusCode}, body) => {
       if (err) {
         return reject(err);
@@ -64,7 +69,7 @@ const getFacebookProfileInfoForUsers = (users = [], instId, socketUsers) => {
 };
 
 const view = (params) => {
- const {
+  const {
     request,
     allInRoom,
     sendStatus,
@@ -74,9 +79,103 @@ const view = (params) => {
   } = params;
   const {senderId, instId} = request;
   // Get instance details (package, attractions, hotels, members)
-  // If member list is empty, then add the current user member list and mark as owner
-  // If not empty, then return existing instance details
-  // return to BOT [init]
+  async.parallel(
+    {
+      instance: (callback) => {
+        Model.getInstanceByInstId(instId, callback);
+      },
+      instanceItems: (callback) => {
+        Model.getInstanceItemsByInstId(instId, callback);
+      },
+      instanceHotels: (callback) => {
+        Model.getInstanceHotelsByInstId(instId, callback);
+      },
+      instanceMembers: (callback) => {
+        Model.getInstanceMembersByInstId(instId, callback);
+      },
+      user: (callback) => {
+        getUser(senderId, callback);
+      },
+    },
+    function(err, results1) {
+      if (err) {
+        console.error('>>>>Database Error', err);
+        sendStatus('DatabaseError');
+      } else {
+        const {
+          instance,
+          instanceItems,
+          instanceHotels,
+          instanceMembers,
+          user,
+        } = results1;
+        if (!instance) {
+          console.error(">>>>Package instance doesn't exist!");
+          sendStatus('NoInstance');
+        } else {
+          console.log('>>>>Model.view Level 1 Result', results1);
+          const packageSummary = instance.package;
+          instance.package = packageSummary._id;
+          instance.items = [...instanceItems];
+          instance.hotels = [...instanceHotels];
+          instance.members = [...instanceMembers];
+          const getInstance = (inst, pack) => {
+            async.parallel(
+              {
+                instance: (callback) => {
+                  callback(null, inst);
+                },
+                cities: (callback) => {
+                  Model.getCitiesByPackageId(pack._id, callback);
+                },
+                packageRates: (callback) => {
+                  Model.getPackageRatesByPackageId(pack._id, callback);
+                },
+                flightRates: (callback) => {
+                  Model.getFlightRatesByPackageId(pack._id, callback);
+                },
+              },
+              function(err, results2) {
+                if (err) {
+                  console.error('>>>>Database Error', err);
+                  sendStatus('DatabaseError');
+                } else {
+                  console.log('>>>>Model.view Level 2 Result', results2);
+                  socket.emit('init', results2);
+                }
+              }
+            );
+          };
+          if (instanceMembers && instanceMembers.length > 0) {
+            // If not empty, then return existing instance details
+            getInstance(instance, packageSummary);
+          } else {
+            // If empty list, then add current user and mark as owner
+            const owner = {
+              instPackage: instId,
+              loginId: senderId,
+              name: user.name,
+              isOwner: true,
+              status: InstanceStatus.INITIATED,
+              people: Global.defaultPeople,
+              rooms: Global.defaultRooms,
+              createdAt: new Date(),
+              createdBy: senderId,
+            };
+            instance.members = [owner];
+            Model.createInstanceMembers(instance.members, (err, docs) => {
+              if (err) {
+                console.error('>>>>Database Error>>Failed to add member', err);
+                sendStatus('DatabaseError');
+              } else {
+                getInstance(instance, packageSummary);
+              }
+            });
+          }
+        }
+      }
+    }
+  );
 };
 
 // Join Room, Update Necessary List Info, Notify All Users in room of changes.
@@ -90,226 +189,11 @@ const join = () => {
     userSocket,
   } = params;
   const {senderId, instId, people, rooms} = request;
-  
-  
-  
-  
-  /* const enter = ({
-    request: {
-      packages,
-      instPackage,
-      cityAttractions,
-      cityHotels,
-      cities,
-      instOwner,
-      rates,
-      user,
-    },
-    allInRoom,
-    sendStatus,
-    socket,
-    socketUsers,
-    userSocket,
-  }) => {
-    PackageParticipant.addParticipant(instPackage.id, user.loginId)
-      .then((usersInst) => {
-        if (!instOwner) {
-          allInRoom(instPackage.id).emit(
-            'instPackage:setOwnerId',
-            usersInst.loginId
-          );
-        }
-      })
-      .then(() => {
-        socketUsers.set(socket.id, {
-          instId: instPackage.id,
-          userId: user.loginId,
-        });
-
-        PackageParticipant.getParticipantByInstId(instPackage.id)
-          .then((users) => {
-            console.log('>>>>Calling getFacebookProfileInfoForUsers', {
-              users: users,
-              instId: instPackage.id,
-              socketUsers: socketUsers,
-            });
-            return Promise.all([
-              users,
-              getFacebookProfileInfoForUsers(
-                users,
-                instPackage.id,
-                socketUsers
-              ),
-            ]);
-          })
-          .then(([users, fbUsers]) => {
-            console.log('>>>>print users', users);
-            console.log('>>>>print fbUsers', fbUsers);
-            const ngUsers = fbUsers.map((u) => {
-              const m = _.filter(users, (user) => {
-                return user.loginId === u.fbId;
-              });
-              if (m) {
-                u.likedAttractions = m[0].likedAttractions;
-              }
-              return u;
-            });
-
-            const viewerUser = fbUsers.find(
-              (fbUser) => fbUser.fbId === user.loginId
-            );
-            socket.join(instPackage.id);
-            console.log(
-              `>>>>Send event[user:join] to users in room[${instPackage.id}]`,
-              viewerUser
-            );
-            socket.in(instPackage.id).emit('user:join', viewerUser);
-
-            // Dummy Hotels
-            if (!instPackage.hotels) {
-              instPackage.hotels = _.uniqBy(instPackage.items, 'dayNo').map(
-                (day) => {
-                  return cityHotels[day.city][0].id;
-                }
-              );
-            }
-
-            console.log('>>>>Send event[init] to render webview', {
-              instPackage,
-              cityAttractions,
-              cityHotels,
-              cities,
-              rates,
-              users: ngUsers,
-              packages: packages,
-              ownerId: instOwner ? instOwner.loginId : user.loginId,
-            });
-            userSocket.emit('init', {
-              instPackage,
-              cityAttractions,
-              cityHotels,
-              cities,
-              rates,
-              users: ngUsers,
-              packages: packages,
-              ownerId: instOwner ? instOwner.loginId : user.loginId,
-            });
-            console.log('>>>>Status OK');
-            sendStatus('ok');
-          });
-      });
-  };
-
-  console.log(`>>>>User[${senderId}] joined package instance[${instId}]`);
-  if (instId) {
-    Promise.all([
-      InstPackage.getInstPackageDetails(instId),
-      InstPackage.getCityAttractionsByInstId(instId),
-      InstPackage.getCityHotelsByInstId(instId),
-      InstPackage.getCitiesByInstId(instId),
-      PackageParticipant.getOwnerByInstId(instId),
-      RatePlan.getRateByInstId(instId),
-      getUser(senderId),
-    ]).then(
-      ([
-        instPackage,
-        cityAttractions,
-        cityHotels,
-        cities,
-        instOwner,
-        rates,
-        user,
-      ]) => {
-        if (!instPackage) {
-          console.error("Package instance doesn't exist!");
-          sendStatus('noInstPackage');
-        }
-        console.log('>>>>Print package instance before addUser', instPackage);
-        enter({
-          request: {
-            packages: [],
-            instPackage,
-            cityAttractions,
-            cityHotels,
-            cities,
-            instOwner,
-            rates,
-            user,
-          },
-          allInRoom,
-          sendStatus,
-          socket,
-          socketUsers,
-          userSocket,
-        });
-      }
-    );
-  } else {
-    Promise.all([
-      Packages.getAllPackage(),
-      InstPackage.getLatestInstByUserId(senderId),
-    ]).then(([packages, instPackage]) => {
-      if (!packages) {
-        console.error('No package available!');
-        sendStatus('noPackage');
-      } else {
-        console.log('>>>>Print all packages', packages);
-        console.log('>>>>Print instPackage', instPackage);
-        if (instPackage) {
-          Promise.all([
-            packages,
-            instPackage,
-            InstPackage.getCityAttractionsByInstId(instPackage.id),
-            InstPackage.getCityHotelsByInstId(instPackage.id),
-            InstPackage.getCitiesByInstId(instPackage.id),
-            PackageParticipant.getOwnerByInstId(instPackage.id),
-            RatePlan.getRateByInstId(instPackage.id),
-            getUser(senderId),
-          ]).then(
-            ([
-              packages,
-              instPackage,
-              cityAttractions,
-              cityHotels,
-              cities,
-              instOwner,
-              rates,
-              user,
-            ]) => {
-              enter({
-                request: {
-                  packages,
-                  instPackage,
-                  cityAttractions,
-                  cityHotels,
-                  cities,
-                  instOwner,
-                  rates,
-                  user,
-                },
-                allInRoom,
-                sendStatus,
-                socket,
-                socketUsers,
-                userSocket,
-              });
-            }
-          );
-        } else {
-          userSocket.emit('init', {
-            packages: packages,
-          });
-          console.log('>>>>Status OK');
-          sendStatus('ok');
-        }
-      }
-    });
-  }*/
 };
 
 // Notify users in room when user leaves.
 const leave = ({userId, instId, allInRoom, socket, socketUsers}) => {
-  /* if (!userId) {
+  if (!userId) {
     console.error('User not registered to socket');
     return;
   }
@@ -325,7 +209,7 @@ const leave = ({userId, instId, allInRoom, socket, socketUsers}) => {
     []
   );
 
-  allInRoom(instId).emit('users:setOnline', onlineUsers);*/
+  allInRoom(instId).emit('users:setOnline', onlineUsers);
 };
 
 // Add notes
@@ -344,6 +228,7 @@ const addNotes = ({request: {text}, userId, instId, allInRoom, sendStatus}) => {
 };
 
 export default {
+  view,
   join,
   leave,
   addNotes,

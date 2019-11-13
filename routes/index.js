@@ -32,12 +32,6 @@ const handleWebviewAccess = (req, res) => {
       res.render('./index', {instId: inst._id, socketAddress});
     });
   } else if (instId === 'home') {
-    if (process.env.IS_CLEANUP === 'true') {
-      Model.deleteAllInstanceMembers();
-      Model.deleteAllInstanceItems();
-      Model.deleteAllInstanceHotels();
-      Model.deleteAllInstances();
-    }
     res.render('./index', {instId: '', socketAddress});
   } else {
     res.render('./index', {instId, socketAddress});
@@ -47,5 +41,12 @@ const handleWebviewAccess = (req, res) => {
 router.get('/', handleWebviewAccess);
 router.get('/:instId', handleWebviewAccess);
 router.get('/:instId/:packageId', handleWebviewAccess);
+
+if (process.env.IS_CLEANUP === 'true') {
+  Model.deleteAllInstanceMembers();
+  Model.deleteAllInstanceItems();
+  Model.deleteAllInstanceHotels();
+  Model.deleteAllInstances();
+}
 
 export default router;

@@ -26,7 +26,7 @@ window.attachApp = (params) => {
       // The main show
       <App
         viewerId={viewerId}
-        instId={instId ? Number(instId) : null}
+        instId={instId}
         apiUri={apiUri}
         socketAddress={socketAddress}
         threadType={threadType}

@@ -3,11 +3,21 @@ import async from 'async';
 import mongoose from './mongoose';
 import CONSTANTS from '../lib/constants';
 
-const {Global, Instance} = CONSTANTS.get();
+const {Global, User, Instance} = CONSTANTS.get();
 const InstanceStatus = Instance.status;
+const UserSource = User.Source;
 const Schema = mongoose.Schema;
 
 /* ============= Schemas ============= */
+// City
+const scCity = new Schema({
+  name: Schema.Types.String,
+  description: Schema.Types.String,
+  attractions: {type: [Schema.Types.ObjectId], ref: 'Attraction'},
+  hotels: {type: [Schema.Types.ObjectId], ref: 'Hotel'},
+  carRates: {type: [Schema.Types.ObjectId], ref: 'CarRate'},
+});
+const City = mongoose.model('City', scCity);
 // Attraction
 const scAttraction = new Schema({
   name: Schema.Types.String,
@@ -190,6 +200,7 @@ const InstPackageHotel = mongoose.model('InstPackageHotel', scInstPackageHotel);
 const scInstPackageMember = new mongoose.Schema({
   instPackage: {type: Schema.Types.ObjectId, ref: 'InstPackage'},
   loginId: Schema.Types.String,
+  name: Schema.Types.String,
   isOwner: Schema.Types.Boolean,
   status: Schema.Types.String,
   people: Schema.Types.Number,
@@ -268,7 +279,27 @@ const getPackageRatesByPackageId = (packageId, callback) => {
   const params = {package: new mongoose.Types.ObjectId(packageId)};
   return PackageRate.find(params).exec(callback);
 };
+// Package City
+const getCitiesByPackageId = (packageId, callback) => {
+  console.log('>>>>Model.getCitiesByPackageId', packageId);
+  getItemsByPackageId(packageId, (err, docs) => {
+    const tmpCities = _.map(docs, (item) => {
+      return item.cityId;
+    });
+    const allCities = _.filter(tmpCities, (city) => {
+      return !!city;
+    });
+    City.find({_id: {$in: allCities}})
+      .populate('attractions hotels carRates')
+      .exec(callback);
+  });
+};
 // Inst Package Items
+const getInstanceItemsByInstId = (instId, callback) => {
+  console.log('>>>>Model.getInstanceItemsByInstId', instId);
+  const params = {instPackage: new mongoose.Types.ObjectId(instId)};
+  return InstPackageItem.find(params).exec(callback);
+};
 const createInstanceItems = (items, callback) => {
   console.log('>>>>Model.createInstanceItems', items);
   return InstPackageItem.insertMany(items, callback);
@@ -279,6 +310,11 @@ const deleteAllInstanceItems = () => {
   });
 };
 // Inst Package Hotels
+const getInstanceHotelsByInstId = (instId, callback) => {
+  console.log('>>>>Model.getInstanceHotelsByInstId', instId);
+  const params = {instPackage: new mongoose.Types.ObjectId(instId)};
+  return InstPackageHotel.find(params).exec(callback);
+};
 const createInstanceHotels = (hotels, callback) => {
   console.log('>>>>Model.createInstanceHotels', hotels);
   return InstPackageHotel.insertMany(hotels, callback);
@@ -289,6 +325,11 @@ const deleteAllInstanceHotels = () => {
   });
 };
 // Inst Package Members
+const getInstanceMembersByInstId = (instId, callback) => {
+  console.log('>>>>Model.getInstanceMembersByInstId', instId);
+  const params = {instPackage: new mongoose.Types.ObjectId(instId)};
+  return InstPackageMember.find(params).exec(callback);
+};
 const createInstanceMembers = (members, callback) => {
   console.log('>>>>Model.createInstanceMembers', members);
   return InstPackageMember.insertMany(members, callback);
@@ -305,14 +346,11 @@ const getLatestInstByUserId = (userId, callback) => {
   const options = {sort: {createdAt: -1}};
   InstPackage.findOne(params, select, options).exec(callback);
 };
-const getInstSummaryById = (instId, callback) => {
+const getInstanceByInstId = (instId, callback) => {
   InstPackage.findById(instId)
     .populate({
       path: 'package',
       model: 'TravelPackage',
-      /* populate: {
-        path: 'image',
-      },*/
     })
     .exec(callback);
 };
@@ -354,8 +392,8 @@ const createInstanceByPackageId = (request, handler) => {
                 createdBy: createdBy,
                 createdAt: now,
               };
-              if(item.attraction) {
-                iItem.attraction = item.attraction._id
+              if (item.attraction) {
+                iItem.attraction = item.attraction._id;
               }
               return iItem;
             });
@@ -379,8 +417,8 @@ const createInstanceByPackageId = (request, handler) => {
                 createdBy: createdBy,
                 createdAt: now,
               };
-              if(hotel.hotel) {
-                iHotel.hotel = hotel.hotel._id
+              if (hotel.hotel) {
+                iHotel.hotel = hotel.hotel._id;
               }
               return iHotel;
             });
@@ -438,8 +476,6 @@ const deleteAllInstances = () => {
 };
 
 export default {
-  getInstSummaryById,
-  getLatestInstByUserId,
   getPackageById,
   getAllPackages,
   getFilteredPackages,
@@ -448,16 +484,17 @@ export default {
   getHotelsByPackageId,
   getFlightRatesByPackageId,
   getPackageRatesByPackageId,
+  getCitiesByPackageId,
+  getLatestInstByUserId,
+  getInstanceByInstId,
+  getInstanceItemsByInstId,
+  getInstanceHotelsByInstId,
+  getInstanceMembersByInstId,
   createInstanceByPackageId,
   createInstance,
   createInstanceItems,
   createInstanceHotels,
   createInstanceMembers,
-  getInstanceDetailsByInstId,
-  getInstanceByInstId,
-  getInstanceItemsByInstId,
-  getInstanceHotelsByInstId,
-  getInstanceMembersByInstId,
   updateInstanceStatus,
   deleteAllInstances,
   deleteAllInstanceItems,

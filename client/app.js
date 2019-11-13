@@ -97,7 +97,6 @@ class App extends React.Component {
       }
 
       this.setState({
-        socketStatus: status,
         updating: false, // Turn spinner off
       });
     });
@@ -298,7 +297,7 @@ class App extends React.Component {
       // Todo
     }
   }
-  // ----------  Itinerary  -------
+  // ----------  Itinerary  ----------
   enablePackageDiy() {
     console.log('>>>>MobileApp.enablePackageDiy');
     const {instPackage} = this.state;
@@ -552,8 +551,8 @@ class App extends React.Component {
         // check if permission exists
         const permissions = response.permissions;
         if (permissions.indexOf('user_profile') > -1) {
-          console.log('>>>>Send event[push:user:join]', self.props);
-          self.pushToRemote('user:join', {
+          console.log('>>>>Send event[push:user:view]', self.props);
+          self.pushToRemote('user:view', {
             senderId: self.props.viewerId,
             instId: self.props.instId,
           });
@@ -562,8 +561,8 @@ class App extends React.Component {
             function(response) {
               const isGranted = response.isGranted;
               if (isGranted) {
-                console.log('>>>>Send event[push:user:join]', self.props);
-                self.pushToRemote('user:join', {
+                console.log('>>>>Send event[push:user:view]', self.props);
+                self.pushToRemote('user:view', {
                   senderId: self.props.viewerId,
                   instId: self.props.instId,
                 });
