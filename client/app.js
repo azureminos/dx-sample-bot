@@ -646,8 +646,96 @@ class App extends React.Component {
     const {cities, packageSummary} = reference;
 
     console.log('>>>>MobileApp.render', this.state);
-
-    const page = <div>Hello</div>;
+    // Variables
+    const carOptions = instPackage.isCustomised
+      ? Helper.getValidCarOptions(rates.carRates)
+      : [instPackage.carOption];
+    const departDates = _.map(packageSummary.departureDate.split(','), (d) => {
+      return d.trim();
+    });
+    const transport = {
+      departDates: departDates,
+      startDate: instPackage.startDate,
+      totalDays: instPackage.totalDays,
+      carOption: instPackage.carOption,
+      carOptions: carOptions,
+    };
+    const itineraries = PackageHelper.getFullItinerary({
+      isCustomised: instPackage.isCustomised,
+      cities: cities,
+      packageItems: instPackage.items,
+      packageHotels: instPackage.hotels,
+    });
+    const headerActions = {
+      handlePeople: this.handleHdPeopleChange,
+      handleRoom: this.handleHdRoomChange,
+    };
+    const footerActions = {
+      handleBackward: this.handleFtBtnBackward,
+      handleForward: this.handleFtBtnForward,
+      handleShare: this.handleFtBtnShare,
+      handlePay: this.confirmSubmitPayment,
+      handleJoin: this.handleFtBtnJoin,
+      handleLeave: this.handleFtBtnLeave,
+      handleLock: this.handleFtBtnLock,
+      handleUnlock: this.handleFtBtnUnlock,
+      handleStatus: this.handleFtBtnStatus,
+      handleCustomise: this.handleFtBtnCustomise,
+      handleCancelCustomise: this.handleFtBtnNoCustomise,
+    };
+    const itineraryActions = {
+      handleSelectHotel: this.handleSelectHotel,
+      handleSelectFlight: this.handleSelectFlight,
+      handleSelectCar: this.handleSelectCar,
+      handleLikeAttraction: this.handleLikeAttraction,
+      handleAddItinerary: this.confirmAddItinerary,
+      handleDeleteItinerary: this.confirmDeleteItinerary,
+    };
+    const modalActions = {
+      handleModalClose: this.handleModalClose,
+      handleDeleteItinerary: this.handleDeleteItinerary,
+      handleAddItinerary: this.handleAddItinerary,
+      handlePayment: this.handleFtBtnPayment,
+    };
+    // ======Web Elements======
+    // Bot Modal
+    const elModal = modalType ? (
+      <BotModal modal={modalType} actions={modalActions} reference={modalRef} />
+    ) : (
+      ''
+    );
+    const page = (
+      <div id='app'>
+        <BotHeader
+          instPackage={instPackage}
+          instPackageExt={instPackageExt}
+          rates={rates}
+          actions={headerActions}
+        />
+        <div className={classes.appBody}>
+          <ProgressBar
+            step={instPackageExt.step}
+            isOwner={instPackageExt.isOwner}
+            isCustomised={instPackage.isCustomised}
+          />
+          <PackageItinerary
+            isCustomised={instPackage.isCustomised}
+            rates={rates}
+            transport={transport}
+            itineraries={itineraries}
+            status={instPackage.status}
+            actions={itineraryActions}
+          />
+        </div>
+        <BotFooter
+          instPackage={instPackage}
+          instPackageExt={instPackageExt}
+          rates={rates}
+          actions={footerActions}
+        />
+        {elModal}
+      </div>
+    );
     /* ----------  Animated Wrapper  ---------- */
     return (
       <div id='app'>
