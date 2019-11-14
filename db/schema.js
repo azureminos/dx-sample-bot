@@ -253,11 +253,13 @@ const format = (input) => {
         nItem.attraction = attraction;
       }
       if (item.attractions) {
-        console.log('>>>>format attractions before', item.attractions);
+        // console.log('>>>>format attractions before', item.attractions);
         nItem.attractions = _.map(item.attractions, (a) => {
+          console.log('>>>>format attractions before', a);
+          console.log('>>>>format attractions before', parseObj(a));
           return parseObj(a);
         });
-        console.log('>>>>format attractions after', nItem.attractions);
+        // console.log('>>>>format attractions after', nItem.attractions);
       }
       if (item.hotel && !(item.hotel instanceof String)) {
         nItem.cityId = item.hotel.city;
@@ -274,18 +276,18 @@ const format = (input) => {
         nItem.hotel = hotel;
       }
       if (item.hotels) {
-        console.log('>>>>format hotels before', item.hotels);
+        // console.log('>>>>format hotels before', item.hotels);
         nItem.hotels = _.map(item.hotels, (h) => {
           return parseObj(h);
         });
-        console.log('>>>>format hotels after', nItem.hotels);
+        // console.log('>>>>format hotels after', nItem.hotels);
       }
       if (item.carRates) {
-        console.log('>>>>format carRates before', item.carRates);
+        // console.log('>>>>format carRates before', item.carRates);
         nItem.carRates = _.map(item.carRates, (cr) => {
           return parseObj(cr);
         });
-        console.log('>>>>format carRates after', nItem.carRates);
+        // console.log('>>>>format carRates after', nItem.carRates);
       }
       return nItem;
     }
