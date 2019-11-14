@@ -111,7 +111,7 @@ const view = (params) => {
         } else {
           console.log('>>>>Model.view Level 1 Result', results1);
           const packageSummary = instance.package;
-          instance.package = packageSummary._id;
+          instance.package = packageSummary.id;
           instance.items = [...instanceItems];
           instance.hotels = [...instanceHotels];
           instance.members = [...instanceMembers];
@@ -125,13 +125,13 @@ const view = (params) => {
                   callback(null, pack);
                 },
                 cities: (callback) => {
-                  Model.getCitiesByPackageId(pack._id, callback);
+                  Model.getCitiesByPackageId(pack.id, callback);
                 },
                 packageRates: (callback) => {
-                  Model.getPackageRatesByPackageId(pack._id, callback);
+                  Model.getPackageRatesByPackageId(pack.id, callback);
                 },
                 flightRates: (callback) => {
-                  Model.getFlightRatesByPackageId(pack._id, callback);
+                  Model.getFlightRatesByPackageId(pack.id, callback);
                 },
               },
               function(err, results2) {
