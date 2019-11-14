@@ -232,12 +232,13 @@ const InstPackageMember = mongoose.model(
 const format = (input) => {
   const parseObj = (item) => {
     if (item) {
-      item.id = item._id;
+      const nItem = {...item};
+      nItem.id = item._id;
       if (item.image) {
-        item.imageUrl = item.image.secure_url || '';
+        nItem.imageUrl = item.image.secure_url || '';
       }
       if (item.attraction && !(item.attraction instanceof String)) {
-        item.cityId = item.attraction.city;
+        nItem.cityId = item.attraction.city;
         const attraction = {
           id: item.attraction._id,
           name: item.attraction.name,
@@ -248,10 +249,10 @@ const format = (input) => {
         if (item.attraction.image) {
           attraction.imageUrl = item.attraction.image.secure_url || '';
         }
-        item.attraction = attraction;
+        nItem.attraction = attraction;
       }
       if (item.hotel && !(item.hotel instanceof String)) {
-        item.cityId = item.hotel.city;
+        nItem.cityId = item.hotel.city;
         const hotel = {
           id: item.hotel._id,
           name: item.hotel.name,
@@ -262,8 +263,9 @@ const format = (input) => {
         if (item.hotel.image) {
           hotel.imageUrl = item.hotel.image.secure_url || '';
         }
-        item.hotel = hotel;
+        nItem.hotel = hotel;
       }
+      return nItem;
     }
     return item;
   };
@@ -317,7 +319,7 @@ const getItemsByPackageId = (packageId, callback) => {
     .exec((err, docs) => {
       console.log('>>>>Model.getItemsByPackageId result before format', docs);
       console.log(
-        '>>>>Model.getItemsByPackageId result before format',
+        '>>>>Model.getItemsByPackageId result after format',
         format(docs)
       );
       callback(err, format(docs));
