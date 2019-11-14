@@ -264,6 +264,7 @@ const getItemsByPackageId = (packageId, callback) => {
   console.log('>>>>Model.getItemsByPackageId', packageId);
   const params = {package: packageId};
   PackageItem.find(params)
+    .sort({dayNo: 'asc', daySeq: 'asc'})
     .populate({
       path: 'attraction',
       model: 'Attraction',
@@ -277,6 +278,7 @@ const getHotelsByPackageId = (packageId, callback) => {
   console.log('>>>>Model.getHotelsByPackageId', packageId);
   const params = {package: new mongoose.Types.ObjectId(packageId)};
   PackageHotel.find(params)
+    .sort({dayNo: 'asc'})
     .populate({
       path: 'hotel',
       model: 'Hotel',
@@ -299,13 +301,17 @@ const getHotelsByIds = (ids, callback) => {
 const getFlightRatesByPackageId = (packageId, callback) => {
   console.log('>>>>Model.getFlightRatesByPackageId', packageId);
   const params = {package: new mongoose.Types.ObjectId(packageId)};
-  return FlightRate.find(params).exec(callback);
+  return FlightRate.find(params)
+    .sort({priority: 'desc'})
+    .exec(callback);
 };
 // Package Rate
 const getPackageRatesByPackageId = (packageId, callback) => {
   console.log('>>>>Model.getPackageRatesByPackageId', packageId);
   const params = {package: new mongoose.Types.ObjectId(packageId)};
-  return PackageRate.find(params).exec(callback);
+  return PackageRate.find(params)
+    .sort({priority: 'desc'})
+    .exec(callback);
 };
 // Package City
 const getCitiesByPackageId = (packageId, callback) => {
@@ -332,7 +338,9 @@ const getCitiesByPackageId = (packageId, callback) => {
 const getInstanceItemsByInstId = (instId, callback) => {
   console.log('>>>>Model.getInstanceItemsByInstId', instId);
   const params = {instPackage: new mongoose.Types.ObjectId(instId)};
-  return InstPackageItem.find(params).exec(callback);
+  return InstPackageItem.find(params)
+    .sort({dayNo: 'asc', daySeq: 'asc'})
+    .exec(callback);
 };
 const createInstanceItems = (items, callback) => {
   console.log('>>>>Model.createInstanceItems', items);
@@ -347,7 +355,9 @@ const deleteAllInstanceItems = () => {
 const getInstanceHotelsByInstId = (instId, callback) => {
   console.log('>>>>Model.getInstanceHotelsByInstId', instId);
   const params = {instPackage: new mongoose.Types.ObjectId(instId)};
-  return InstPackageHotel.find(params).exec(callback);
+  return InstPackageHotel.find(params)
+    .sort({dayNo: 'asc', daySeq: 'asc'})
+    .exec(callback);
 };
 const createInstanceHotels = (hotels, callback) => {
   console.log('>>>>Model.createInstanceHotels', hotels);
