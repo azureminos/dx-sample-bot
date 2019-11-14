@@ -235,7 +235,8 @@ const InstPackageMember = mongoose.model(
 const selectPackage =
   'id departureDate description name effectiveTo effectiveFrom ' +
   'highlight finePrint titleImage.secure_url image.secure_url ' +
-  'isExtention isCustomisable isPromoted totalDays additionalField';
+  'isExtention isCustomisable isPromoted totalDays carOption ' +
+  'additionalField';
 const getAllPackages = (callback) => {
   console.log('>>>>Model.getAllPackages');
   return TravelPackage.find()
