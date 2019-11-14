@@ -318,11 +318,6 @@ const getItemsByPackageId = (packageId, callback) => {
       model: 'Attraction',
     })
     .exec((err, docs) => {
-      console.log('>>>>Model.getItemsByPackageId result before format', docs);
-      console.log(
-        '>>>>Model.getItemsByPackageId result after format',
-        format(docs)
-      );
       callback(err, format(docs));
     });
 };
@@ -367,7 +362,6 @@ const getPackageRatesByPackageId = (packageId, callback) => {
 const getCitiesByPackageId = (packageId, callback) => {
   console.log('>>>>Model.getCitiesByPackageId', packageId);
   getItemsByPackageId(packageId, (err, docs) => {
-    console.log('>>>>Model.getCitiesByPackageId all attractions', docs);
     const tmpCities = _.map(docs, (item) => {
       return item.cityId;
     });
@@ -381,7 +375,6 @@ const getCitiesByPackageId = (packageId, callback) => {
         {path: 'hotels', model: 'Hotel'},
       ])
       .exec((err, docs) => {
-        console.log('>>>>Model.getCitiesByPackageId before format', docs);
         callback(err, format(docs));
       });
   });
@@ -391,6 +384,8 @@ const getInstanceItemsByInstId = (instId, callback) => {
   console.log('>>>>Model.getInstanceItemsByInstId', instId);
   const params = {instPackage: new mongoose.Types.ObjectId(instId)};
   return InstPackageItem.find(params).exec((err, docs) => {
+    console.log('>>>>Model.getInstanceItemsByInstId before', docs);
+    console.log('>>>>Model.getInstanceItemsByInstId after', format(docs));
     callback(err, format(docs));
   });
 };
