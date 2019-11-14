@@ -257,7 +257,7 @@ const format = (input) => {
         nItem.attractions = _.map(item.attractions, (a) => {
           return parseObj(a);
         });
-        console.log('>>>>format attractions after', item.attractions);
+        console.log('>>>>format attractions after', nItem.attractions);
       }
       if (item.hotel && !(item.hotel instanceof String)) {
         nItem.cityId = item.hotel.city;
@@ -278,14 +278,14 @@ const format = (input) => {
         nItem.hotels = _.map(item.hotels, (h) => {
           return parseObj(h);
         });
-        console.log('>>>>format hotels after', item.hotels);
+        console.log('>>>>format hotels after', nItem.hotels);
       }
       if (item.carRates) {
         console.log('>>>>format carRates before', item.carRates);
         nItem.carRates = _.map(item.carRates, (cr) => {
           return parseObj(cr);
         });
-        console.log('>>>>format carRates after', item.carRates);
+        console.log('>>>>format carRates after', nItem.carRates);
       }
       return nItem;
     }
