@@ -158,6 +158,7 @@ class App extends React.Component {
     });
     const instPackage = {
       ...instance,
+      isCustomisable: packageSummary.isCustomisable,
       items: instItems,
       hotels: instHotels,
     };
