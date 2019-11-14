@@ -17,7 +17,6 @@ const scCity = new Schema({
   hotels: {type: [Schema.Types.ObjectId], ref: 'Hotel'},
   carRates: {type: [Schema.Types.ObjectId], ref: 'CarRate'},
 });
-scCity.virtual('id').get(function() { return this._id; });
 const City = mongoose.model('City', scCity);
 // City
 const scCarRate = new Schema({
@@ -33,7 +32,6 @@ const scCarRate = new Schema({
   rateExtra: Schema.Types.Number,
   priority: Schema.Types.Number,
 });
-scCarRate.virtual('id').get(function() { return this._id; });
 const CarRate = mongoose.model('CarRate', scCarRate);
 // Attraction
 const scAttraction = new Schema({
@@ -50,7 +48,6 @@ const scAttraction = new Schema({
   notes: Schema.Types.String,
   additionalField: Schema.Types.String,
 });
-scAttraction.virtual('id').get(function() { return this._id; });
 const Attraction = mongoose.model('Attraction', scAttraction);
 // Hotel
 const scHotel = new mongoose.Schema({
@@ -67,7 +64,6 @@ const scHotel = new mongoose.Schema({
   notes: Schema.Types.String,
   additionalField: Schema.Types.String,
 });
-scHotel.virtual('id').get(function() { return this._id; });
 const Hotel = mongoose.model('Hotel', scHotel);
 // Travel Package
 const scTravelPackage = new Schema({
@@ -99,7 +95,6 @@ const scTravelPackage = new Schema({
   notes: Schema.Types.String,
   additionalField: Schema.Types.String,
 });
-scTravelPackage.virtual('id').get(function() { return this._id; });
 const TravelPackage = mongoose.model('TravelPackage', scTravelPackage);
 // Package Item
 const scPackageItem = new Schema({
@@ -114,7 +109,6 @@ const scPackageItem = new Schema({
   notes: Schema.Types.String,
   additionalField: Schema.Types.String,
 });
-scPackageItem.virtual('id').get(function() { return this._id; });
 const PackageItem = mongoose.model('PackageItem', scPackageItem);
 // Package Hotel
 const scPackageHotel = new mongoose.Schema({
@@ -127,7 +121,6 @@ const scPackageHotel = new mongoose.Schema({
   notes: Schema.Types.String,
   additionalField: Schema.Types.String,
 });
-scPackageHotel.virtual('id').get(function() { return this._id; });
 const PackageHotel = mongoose.model('PackageHotel', scPackageHotel);
 // Flight Rate
 const scFlightRate = new mongoose.Schema({
@@ -144,7 +137,6 @@ const scFlightRate = new mongoose.Schema({
   notes: Schema.Types.String,
   additionalField: Schema.Types.String,
 });
-scFlightRate.virtual('id').get(function() { return this._id; });
 const FlightRate = mongoose.model('FlightRate', scFlightRate);
 // Package Rate
 const scPackageRate = new mongoose.Schema({
@@ -161,7 +153,6 @@ const scPackageRate = new mongoose.Schema({
   notes: Schema.Types.String,
   additionalField: Schema.Types.String,
 });
-scPackageRate.virtual('id').get(function() { return this._id; });
 const PackageRate = mongoose.model('PackageRate', scPackageRate);
 // Instance - Travel Package
 const scInstPackage = new mongoose.Schema({
@@ -186,7 +177,6 @@ const scInstPackage = new mongoose.Schema({
   updatedAt: Schema.Types.Date,
   updatedBy: Schema.Types.String,
 });
-scInstPackage.virtual('id').get(function() { return this._id; });
 const InstPackage = mongoose.model('InstPackage', scInstPackage);
 // Instance - Package Item
 const scInstPackageItem = new mongoose.Schema({
@@ -203,7 +193,6 @@ const scInstPackageItem = new mongoose.Schema({
   updatedAt: Schema.Types.Date,
   updatedBy: Schema.Types.String,
 });
-scInstPackageItem.virtual('id').get(function() { return this._id; });
 const InstPackageItem = mongoose.model('InstPackageItem', scInstPackageItem);
 // Instance - Package Hotel
 const scInstPackageHotel = new mongoose.Schema({
@@ -218,7 +207,6 @@ const scInstPackageHotel = new mongoose.Schema({
   updatedAt: Schema.Types.Date,
   updatedBy: Schema.Types.String,
 });
-scInstPackageHotel.virtual('id').get(function() { return this._id; });
 const InstPackageHotel = mongoose.model('InstPackageHotel', scInstPackageHotel);
 // Instance - Package Member
 const scInstPackageMember = new mongoose.Schema({
@@ -236,12 +224,56 @@ const scInstPackageMember = new mongoose.Schema({
   updatedAt: Schema.Types.Date,
   updatedBy: Schema.Types.String,
 });
-scInstPackageMember.virtual('id').get(function() { return this._id; });
 const InstPackageMember = mongoose.model(
   'InstPackageMember',
   scInstPackageMember
 );
 /* =========== Functions ============ */
+const format = (input) => {
+  const parseObj = (item) => {
+    if(item) {
+      item.id = item._id;
+      if(item.image) {
+        item.imageUrl = item.image.secure_url || '';
+      }
+      if (item.attraction && !(item.attraction instanceof String)) {
+        item.cityId = item.attraction.city;
+        const attraction = {
+          id: item.attraction._id,
+          name: item.attraction.name,
+          timeTraffic: item.attraction.timeTraffic,
+          timeVisit: item.attraction.timeVisit,
+        };
+        if(item.attraction.image) {
+          attraction.imageUrl = item.attraction.image.secure_url || '';
+        }
+        item.attraction = attraction;
+      }
+      if (item.hotel && !(item.hotel instanceof String)) {
+        item.cityId = item.hotel.city;
+        const hotel = {
+          id: item.hotel._id,
+          name: item.hotel.name,
+          type: item.hotel.type,
+          stars: item.hotel.stars,
+        };
+        if(item.hotel.image) {
+          hotel.imageUrl = item.hotel.image.secure_url || '';
+        }
+        item.hotel = hotel;
+      }
+    }
+    return item;
+  };
+  if (Array.isArray(input)) {
+    const rs = [];
+    _.each(input, function(item) {
+      rs.push(parseObj(item));
+    });
+    return rs;
+  }
+  return parseObj(input);
+};
 // Travel Package
 const selectPackage =
   'id departureDate description name effectiveTo effectiveFrom ' +
@@ -251,19 +283,19 @@ const getAllPackages = (callback) => {
   console.log('>>>>Model.getAllPackages');
   return TravelPackage.find()
     .select(selectPackage)
-    .exec(callback);
+    .exec((err, docs) => {callback(err, format(docs));});
 };
 const getFilteredPackages = (filter, callback) => {
   console.log('>>>>Model.getFilteredPackages', filter);
   return TravelPackage.find(filter)
     .select(selectPackage)
-    .exec(callback);
+    .exec((err, docs) => {callback(err, format(docs));});
 };
 const getPackageById = (id, callback) => {
   console.log('>>>>Model.getPackageById', id);
   return TravelPackage.findById(id)
     .select(selectPackage)
-    .exec(callback);
+    .exec((err, docs) => {callback(err, format(docs));});
 };
 // Package Item
 const getItemsByPackageId = (packageId, callback) => {
@@ -274,7 +306,7 @@ const getItemsByPackageId = (packageId, callback) => {
       path: 'attraction',
       model: 'Attraction',
     })
-    .exec(callback);
+    .exec((err, docs) => {callback(err, format(docs));});
 };
 // Package Hotel
 const getHotelsByPackageId = (packageId, callback) => {
@@ -285,7 +317,7 @@ const getHotelsByPackageId = (packageId, callback) => {
       path: 'hotel',
       model: 'Hotel',
     })
-    .exec(callback);
+    .exec((err, docs) => {callback(err, format(docs));});
 };
 // Hotel
 const getHotelsByIds = (ids, callback) => {
@@ -293,16 +325,15 @@ const getHotelsByIds = (ids, callback) => {
     return !!id;
   });
   // console.log('>>>>Model >> Hotel.getHotelsByIds', input);
-  return Hotel.find()
-    .where('_id')
-    .in(input)
-    .exec(callback);
+  return Hotel
+    .find({_id: {$in: input}})
+    .exec((err, docs) => {callback(err, format(docs));});
 };
 // Flight Rate
 const getFlightRatesByPackageId = (packageId, callback) => {
   console.log('>>>>Model.getFlightRatesByPackageId', packageId);
   const params = {package: new mongoose.Types.ObjectId(packageId)};
-  return FlightRate.find(params).exec(callback);
+  return FlightRate.find(params).exec((err, docs) => {callback(err, format(docs));});
 };
 // Package Rate
 const getPackageRatesByPackageId = (packageId, callback) => {
@@ -326,18 +357,18 @@ const getCitiesByPackageId = (packageId, callback) => {
         {path: 'carRates', model: 'CarRate'},
         {path: 'hotels', model: 'Hotel'},
       ])
-      .exec(callback);
+      .exec((err, docs) => {callback(err, format(docs));});
   });
 };
 // Inst Package Items
 const getInstanceItemsByInstId = (instId, callback) => {
   console.log('>>>>Model.getInstanceItemsByInstId', instId);
   const params = {instPackage: new mongoose.Types.ObjectId(instId)};
-  return InstPackageItem.find(params).exec(callback);
+  return InstPackageItem.find(params).exec((err, docs) => {callback(err, format(docs));});
 };
 const createInstanceItems = (items, callback) => {
   console.log('>>>>Model.createInstanceItems', items);
-  return InstPackageItem.insertMany(items, callback);
+  return InstPackageItem.insertMany(items, (err, docs) => {callback(err, format(docs));});
 };
 const deleteAllInstanceItems = () => {
   return InstPackageItem.remove({}, () => {
@@ -348,11 +379,11 @@ const deleteAllInstanceItems = () => {
 const getInstanceHotelsByInstId = (instId, callback) => {
   console.log('>>>>Model.getInstanceHotelsByInstId', instId);
   const params = {instPackage: new mongoose.Types.ObjectId(instId)};
-  return InstPackageHotel.find(params).exec(callback);
+  return InstPackageHotel.find(params).exec((err, docs) => {callback(err, format(docs));});
 };
 const createInstanceHotels = (hotels, callback) => {
   console.log('>>>>Model.createInstanceHotels', hotels);
-  return InstPackageHotel.insertMany(hotels, callback);
+  return InstPackageHotel.insertMany(hotels, (err, docs) => {callback(err, format(docs));});
 };
 const deleteAllInstanceHotels = () => {
   return InstPackageHotel.remove({}, () => {
@@ -363,11 +394,11 @@ const deleteAllInstanceHotels = () => {
 const getInstanceMembersByInstId = (instId, callback) => {
   console.log('>>>>Model.getInstanceMembersByInstId', instId);
   const params = {instPackage: new mongoose.Types.ObjectId(instId)};
-  return InstPackageMember.find(params).exec(callback);
+  return InstPackageMember.find(params).exec((err, docs) => {callback(err, format(docs));});
 };
 const createInstanceMembers = (members, callback) => {
   console.log('>>>>Model.createInstanceMembers', members);
-  return InstPackageMember.insertMany(members, callback);
+  return InstPackageMember.insertMany(members, (err, docs) => {callback(err, format(docs));});
 };
 const deleteAllInstanceMembers = () => {
   return InstPackageMember.remove({}, () => {
@@ -379,7 +410,7 @@ const getLatestInstByUserId = (userId, callback) => {
   const params = {createdBy: userId};
   const select = '_id';
   const options = {sort: {createdAt: -1}};
-  InstPackage.findOne(params, select, options).exec(callback);
+  InstPackage.findOne(params, select, options).exec((err, docs) => {callback(err, format(docs));});
 };
 const getInstanceByInstId = (instId, callback) => {
   InstPackage.findById(instId)
@@ -387,11 +418,11 @@ const getInstanceByInstId = (instId, callback) => {
       path: 'package',
       model: 'TravelPackage',
     })
-    .exec(callback);
+    .exec((err, docs) => {callback(err, format(docs));});
 };
 const createInstance = (inst, callback) => {
   const instPackage = new InstPackage(inst);
-  instPackage.save(callback);
+  instPackage.save((err, docs) => {callback(err, format(docs));});
 };
 const createInstanceByPackageId = (request, handler) => {
   console.log('>>>>Modal.createInstanceByPackageId', request);
@@ -437,7 +468,7 @@ const createInstanceByPackageId = (request, handler) => {
             });
             return createInstanceItems(iItems, function(err, docs) {
               console.log('>>>>Model.createInstanceItems', docs);
-              return callback(null, docs);
+              return callback(null, format(docs));
             });
           });
         },
@@ -462,7 +493,7 @@ const createInstanceByPackageId = (request, handler) => {
             });
             return createInstanceHotels(iHotels, function(err, docs) {
               console.log('>>>>Model.createInstanceHotels', docs);
-              return callback(null, docs);
+              return callback(null, format(docs));
             });
           });
         },
@@ -484,7 +515,7 @@ const createInstanceByPackageId = (request, handler) => {
 
             return createInstanceMembers(instanceMembers, function(err, docs) {
               console.log('>>>>Model.createInstanceMembers', docs);
-              return callback(null, docs);
+              return callback(null, format(docs));
             });
           }
           return callback(null, []);
