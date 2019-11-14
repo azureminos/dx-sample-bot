@@ -358,7 +358,7 @@ const getCitiesByPackageId = (packageId, callback) => {
   console.log('>>>>Model.getCitiesByPackageId', packageId);
   getItemsByPackageId(packageId, (err, docs) => {
     const tmpCities = _.map(docs, (item) => {
-      return item.attraction ? item.attraction.city : null;
+      return item.attraction ? item.cityId : null;
     });
     const allCities = _.filter(tmpCities, (city) => {
       return !!city;

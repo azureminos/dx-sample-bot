@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import React from 'react';
+import React, {createElement} from 'react';
 import Moment from 'moment';
 // import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
 import {withStyles} from '@material-ui/core/styles';
