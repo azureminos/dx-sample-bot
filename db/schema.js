@@ -150,7 +150,7 @@ const scPackageRate = new mongoose.Schema({
   rate: Schema.Types.Number,
   rangeFrom: Schema.Types.Date,
   rangeTo: Schema.Types.Date,
-  priority: Schema.Types.String,
+  priority: Schema.Types.Number,
   notes: Schema.Types.String,
   additionalField: Schema.Types.String,
 });
@@ -405,6 +405,13 @@ const createInstance = (inst, callback) => {
   const instPackage = new InstPackage(inst);
   instPackage.save(callback);
 };
+const updateInstance = (params, callback) => {
+  InstPackage.updateOne(
+    params.query,
+    params.update,
+    callback
+  );
+};
 const createInstanceByPackageId = (request, handler) => {
   console.log('>>>>Modal.createInstanceByPackageId', request);
   const {packageId, user, isCustomised} = request;
@@ -546,6 +553,7 @@ export default {
   createInstanceItems,
   createInstanceHotels,
   createInstanceMembers,
+  updateInstance,
   updateInstanceStatus,
   deleteAllInstances,
   deleteAllInstanceItems,

@@ -163,14 +163,28 @@ const view = (params) => {
               createdBy: senderId,
             };
             instance.members = [owner];
-            Model.createInstanceMembers(instance.members, (err, docs) => {
-              if (err) {
-                console.error('>>>>Database Error>>Failed to add member', err);
-                sendStatus('DatabaseError');
-              } else {
-                getInstance(instance, packageSummary);
+            async.parallel(
+              {
+                member: (callback) => {
+                  Model.createInstanceMembers(instance.members, callback);
+                },
+                instance: (callback) => {
+                  const params = {
+                    query: {_id: instId},
+                    update: {createdBy: senderId},
+                  };
+                  Model.updateInstance(params, callback);
+                },
+              },
+              function(err, output) {
+                if (err) {
+                  console.error('>>>>Database Error', err);
+                  sendStatus('DatabaseError');
+                } else {
+                  getInstance(instance, packageSummary);
+                }
               }
-            });
+            );
           }
         }
       }
