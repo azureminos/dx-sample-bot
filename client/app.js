@@ -9,12 +9,10 @@
 import _ from 'lodash';
 import io from 'socket.io-client';
 import React, {createElement} from 'react';
+import {withStyles} from '@material-ui/core/styles';
 import {CSSTransitionGroup} from 'react-transition-group';
 
 // ==== COMPONENTS ========================================
-import {Paper, Typography} from '@material-ui/core';
-import NotFound from './components/not_found';
-import LoadingScreen from './components/loading_screen';
 import BotModal from './components/bot-modal';
 import BotHeader from './components/bot-header';
 import BotFooter from './components/bot-footer';
@@ -30,6 +28,18 @@ import CONSTANTS from '../lib/constants';
 import 'react-id-swiper/src/styles/css/swiper.css';
 
 // Variables
+const styles = (theme) => ({
+  appBody: {
+    position: 'absolute',
+    top: 80,
+    left: 0,
+    marginLeft: 8,
+    marginRight: 8,
+    maxHeight: 515,
+    overflowY: 'auto',
+    width: '98%',
+  },
+});
 const {Modal, Global, Instance} = CONSTANTS.get();
 let socket;
 
@@ -762,4 +772,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default withStyles(styles, {withTheme: true})(App);
