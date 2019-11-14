@@ -252,6 +252,11 @@ const format = (input) => {
         }
         nItem.attraction = attraction;
       }
+      if (item.attractions) {
+        nItem.attractions = _.map(item.attractions, (a) => {
+          return parseObj(a);
+        });
+      }
       if (item.hotel && !(item.hotel instanceof String)) {
         nItem.cityId = item.hotel.city;
         const hotel = {
@@ -265,6 +270,16 @@ const format = (input) => {
           hotel.imageUrl = item.hotel.image.secure_url || '';
         }
         nItem.hotel = hotel;
+      }
+      if (item.hotels) {
+        nItem.hotels = _.map(item.hotels, (h) => {
+          return parseObj(h);
+        });
+      }
+      if (item.carRates) {
+        nItem.carRates = _.map(item.carRates, (cr) => {
+          return parseObj(cr);
+        });
       }
       return nItem;
     }
