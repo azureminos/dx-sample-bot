@@ -10,7 +10,6 @@ import _ from 'lodash';
 import io from 'socket.io-client';
 import React, {createElement} from 'react';
 import {withStyles} from '@material-ui/core/styles';
-import {CSSTransitionGroup} from 'react-transition-group';
 
 // ==== COMPONENTS ========================================
 import BotModal from './components/bot-modal';
@@ -650,10 +649,10 @@ class App extends React.Component {
   }
 
   render() {
-    const {instPackage, instPackageExt} = this.state;
-    const {modalType, modalRef} = this.state;
-    const {classes, rates, reference} = this.state;
+    const {instPackage, instPackageExt, rates} = this.state;
+    const {modalType, modalRef, reference} = this.state;
     const {cities, packageSummary} = reference;
+    const {classes} = this.props;
 
     console.log('>>>>MobileApp.render', this.state);
     let page = <div>Loading...</div>;
@@ -759,15 +758,7 @@ class App extends React.Component {
 
     /* ----------  Animated Wrapper  ---------- */
     return (
-      <div id='app'>
-        <CSSTransitionGroup
-          transitionName='page'
-          transitionEnterTimeout={500}
-          transitionLeaveTimeout={500}
-        >
-          {page}
-        </CSSTransitionGroup>
-      </div>
+      {page}
     );
   }
 }
