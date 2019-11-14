@@ -232,7 +232,8 @@ const InstPackageMember = mongoose.model(
 const format = (input) => {
   const parseObj = (item) => {
     if (item) {
-      const nItem = {...item};
+      const source = {...item};
+      const nItem = {...source._doc};
       nItem.id = item._id;
       if (item.image) {
         nItem.imageUrl = item.image.secure_url || '';
