@@ -17,6 +17,7 @@ const scCity = new Schema({
   hotels: {type: [Schema.Types.ObjectId], ref: 'Hotel'},
   carRates: {type: [Schema.Types.ObjectId], ref: 'CarRate'},
 });
+scCity.virtual('id').get(function() { return this._id; });
 const City = mongoose.model('City', scCity);
 // City
 const scCarRate = new Schema({
@@ -32,6 +33,7 @@ const scCarRate = new Schema({
   rateExtra: Schema.Types.Number,
   priority: Schema.Types.Number,
 });
+scCarRate.virtual('id').get(function() { return this._id; });
 const CarRate = mongoose.model('CarRate', scCarRate);
 // Attraction
 const scAttraction = new Schema({
@@ -48,6 +50,7 @@ const scAttraction = new Schema({
   notes: Schema.Types.String,
   additionalField: Schema.Types.String,
 });
+scAttraction.virtual('id').get(function() { return this._id; });
 const Attraction = mongoose.model('Attraction', scAttraction);
 // Hotel
 const scHotel = new mongoose.Schema({
@@ -64,6 +67,7 @@ const scHotel = new mongoose.Schema({
   notes: Schema.Types.String,
   additionalField: Schema.Types.String,
 });
+scHotel.virtual('id').get(function() { return this._id; });
 const Hotel = mongoose.model('Hotel', scHotel);
 // Travel Package
 const scTravelPackage = new Schema({
@@ -95,9 +99,7 @@ const scTravelPackage = new Schema({
   notes: Schema.Types.String,
   additionalField: Schema.Types.String,
 });
-scTravelPackage.virtual('startingPrice').get(function() {
-  return 700;
-});
+scTravelPackage.virtual('id').get(function() { return this._id; });
 const TravelPackage = mongoose.model('TravelPackage', scTravelPackage);
 // Package Item
 const scPackageItem = new Schema({
@@ -112,6 +114,7 @@ const scPackageItem = new Schema({
   notes: Schema.Types.String,
   additionalField: Schema.Types.String,
 });
+scPackageItem.virtual('id').get(function() { return this._id; });
 const PackageItem = mongoose.model('PackageItem', scPackageItem);
 // Package Hotel
 const scPackageHotel = new mongoose.Schema({
@@ -124,6 +127,7 @@ const scPackageHotel = new mongoose.Schema({
   notes: Schema.Types.String,
   additionalField: Schema.Types.String,
 });
+scPackageHotel.virtual('id').get(function() { return this._id; });
 const PackageHotel = mongoose.model('PackageHotel', scPackageHotel);
 // Flight Rate
 const scFlightRate = new mongoose.Schema({
@@ -140,6 +144,7 @@ const scFlightRate = new mongoose.Schema({
   notes: Schema.Types.String,
   additionalField: Schema.Types.String,
 });
+scFlightRate.virtual('id').get(function() { return this._id; });
 const FlightRate = mongoose.model('FlightRate', scFlightRate);
 // Package Rate
 const scPackageRate = new mongoose.Schema({
@@ -156,6 +161,7 @@ const scPackageRate = new mongoose.Schema({
   notes: Schema.Types.String,
   additionalField: Schema.Types.String,
 });
+scPackageRate.virtual('id').get(function() { return this._id; });
 const PackageRate = mongoose.model('PackageRate', scPackageRate);
 // Instance - Travel Package
 const scInstPackage = new mongoose.Schema({
@@ -180,6 +186,7 @@ const scInstPackage = new mongoose.Schema({
   updatedAt: Schema.Types.Date,
   updatedBy: Schema.Types.String,
 });
+scInstPackage.virtual('id').get(function() { return this._id; });
 const InstPackage = mongoose.model('InstPackage', scInstPackage);
 // Instance - Package Item
 const scInstPackageItem = new mongoose.Schema({
@@ -196,6 +203,7 @@ const scInstPackageItem = new mongoose.Schema({
   updatedAt: Schema.Types.Date,
   updatedBy: Schema.Types.String,
 });
+scInstPackageItem.virtual('id').get(function() { return this._id; });
 const InstPackageItem = mongoose.model('InstPackageItem', scInstPackageItem);
 // Instance - Package Hotel
 const scInstPackageHotel = new mongoose.Schema({
@@ -210,6 +218,7 @@ const scInstPackageHotel = new mongoose.Schema({
   updatedAt: Schema.Types.Date,
   updatedBy: Schema.Types.String,
 });
+scInstPackageHotel.virtual('id').get(function() { return this._id; });
 const InstPackageHotel = mongoose.model('InstPackageHotel', scInstPackageHotel);
 // Instance - Package Member
 const scInstPackageMember = new mongoose.Schema({
@@ -227,6 +236,7 @@ const scInstPackageMember = new mongoose.Schema({
   updatedAt: Schema.Types.Date,
   updatedBy: Schema.Types.String,
 });
+scInstPackageMember.virtual('id').get(function() { return this._id; });
 const InstPackageMember = mongoose.model(
   'InstPackageMember',
   scInstPackageMember
@@ -234,7 +244,7 @@ const InstPackageMember = mongoose.model(
 /* =========== Functions ============ */
 // Travel Package
 const selectPackage =
-  '_id departureDate description name effectiveTo effectiveFrom ' +
+  'id departureDate description name effectiveTo effectiveFrom ' +
   'highlight finePrint titleImage.secure_url image.secure_url ' +
   'isExtention isCustomisable isPromoted totalDays additionalField';
 const getAllPackages = (callback) => {
