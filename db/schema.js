@@ -241,19 +241,21 @@ const format = (input) => {
         const attraction = {
           id: item.attraction._id,
           name: item.attraction.name,
+          city: item.attraction.city,
           timeTraffic: item.attraction.timeTraffic,
           timeVisit: item.attraction.timeVisit,
         };
         if (item.attraction.image) {
           attraction.imageUrl = item.attraction.image.secure_url || '';
         }
-        //item.attraction = attraction;
+        item.attraction = attraction;
       }
       if (item.hotel && !(item.hotel instanceof String)) {
         item.cityId = item.hotel.city;
         const hotel = {
           id: item.hotel._id,
           name: item.hotel.name,
+          city: item.hotel.city,
           type: item.hotel.type,
           stars: item.hotel.stars,
         };
@@ -313,6 +315,11 @@ const getItemsByPackageId = (packageId, callback) => {
       model: 'Attraction',
     })
     .exec((err, docs) => {
+      console.log('>>>>Model.getItemsByPackageId result before format', docs);
+      console.log(
+        '>>>>Model.getItemsByPackageId result before format',
+        format(docs)
+      );
       callback(err, format(docs));
     });
 };
