@@ -313,6 +313,7 @@ const getItemsByPackageId = (packageId, callback) => {
       model: 'Attraction',
     })
     .exec((err, docs) => {
+      console.log('>>>>Model.getItemsByPackageId result before format', docs);
       callback(err, format(docs));
     });
 };
