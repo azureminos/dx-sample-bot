@@ -247,7 +247,7 @@ const format = (input) => {
         if (item.attraction.image) {
           attraction.imageUrl = item.attraction.image.secure_url || '';
         }
-        item.attraction = attraction;
+        //item.attraction = attraction;
       }
       if (item.hotel && !(item.hotel instanceof String)) {
         item.cityId = item.hotel.city;
