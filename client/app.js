@@ -10,6 +10,7 @@ import _ from 'lodash';
 import io from 'socket.io-client';
 import React, {createElement} from 'react';
 import {withStyles} from '@material-ui/core/styles';
+import {CSSTransitionGroup} from 'react-transition-group';
 
 // ==== COMPONENTS ========================================
 import BotModal from './components/bot-modal';
@@ -723,7 +724,7 @@ class App extends React.Component {
         ''
       );
       page = (
-        <div id='app'>
+        <div>
           <BotHeader
             instPackage={instPackage}
             instPackageExt={instPackageExt}
@@ -758,7 +759,15 @@ class App extends React.Component {
 
     /* ----------  Animated Wrapper  ---------- */
     return (
-      {page}
+      <div id='app'>
+        <CSSTransitionGroup
+          transitionName='page'
+          transitionEnterTimeout={500}
+          transitionLeaveTimeout={500}
+        >
+          {page}
+        </CSSTransitionGroup>
+      </div>
     );
   }
 }
