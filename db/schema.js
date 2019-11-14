@@ -253,9 +253,11 @@ const format = (input) => {
         nItem.attraction = attraction;
       }
       if (item.attractions) {
+        console.log('>>>>format attractions before', item.attractions);
         nItem.attractions = _.map(item.attractions, (a) => {
           return parseObj(a);
         });
+        console.log('>>>>format attractions after', item.attractions);
       }
       if (item.hotel && !(item.hotel instanceof String)) {
         nItem.cityId = item.hotel.city;
@@ -272,14 +274,18 @@ const format = (input) => {
         nItem.hotel = hotel;
       }
       if (item.hotels) {
+        console.log('>>>>format hotels before', item.hotels);
         nItem.hotels = _.map(item.hotels, (h) => {
           return parseObj(h);
         });
+        console.log('>>>>format hotels after', item.hotels);
       }
       if (item.carRates) {
+        console.log('>>>>format carRates before', item.carRates);
         nItem.carRates = _.map(item.carRates, (cr) => {
           return parseObj(cr);
         });
+        console.log('>>>>format carRates after', item.carRates);
       }
       return nItem;
     }
