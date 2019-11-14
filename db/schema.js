@@ -406,21 +406,18 @@ const createInstance = (inst, callback) => {
   instPackage.save(callback);
 };
 const updateInstance = (params, callback) => {
-  InstPackage.updateOne(
-    params.query,
-    params.update,
-    callback
-  );
+  InstPackage.updateOne(params.query, params.update, callback);
 };
 const createInstanceByPackageId = (request, handler) => {
   console.log('>>>>Modal.createInstanceByPackageId', request);
-  const {packageId, user, isCustomised} = request;
+  const {packageId, user, isCustomised, carOption} = request;
   const now = new Date();
   const createdBy = user ? user.id : Global.sysUser;
   const instance = {
     status: InstanceStatus.INITIATED,
     package: packageId,
     isCustomised: isCustomised,
+    carOption: carOption,
     rate: 0,
     totalPeople: 0,
     totalRooms: 0,

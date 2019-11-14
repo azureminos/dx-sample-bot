@@ -23,23 +23,28 @@ const handleWebviewAccess = (req, res) => {
   console.log('>>>>Printing input params', {packageId, instId, socketAddress});
 
   if (instId === 'new') {
-    const instance = {
-      packageId: packageId,
-      isCustomised: false,
-    };
-    Model.createInstanceByPackageId(instance, ({err, results}) => {
-      if (err) {
-        console.error('>>>>Model.createInstanceByPackageId Error', {
-          err,
-          results,
-        });
-      } else {
-        console.log('>>>>Model.createInstanceByPackageId Success', {
-          err,
-          results,
-        });
-        res.render('./index', {instId: results.instance.id, socketAddress});
-      }
+    Model.getPackageById(packageId, (err, docs) => {
+      if (err) console.error('>>>>Model.getPackageById Error', err);
+      console.log('>>>>Model.getPackageById Success', docs);
+      const instance = {
+        packageId: packageId,
+        carOption: docs.carOption,
+        isCustomised: false,
+      };
+      Model.createInstanceByPackageId(instance, ({err, results}) => {
+        if (err) {
+          console.error('>>>>Model.createInstanceByPackageId Error', {
+            err,
+            results,
+          });
+        } else {
+          console.log('>>>>Model.createInstanceByPackageId Success', {
+            err,
+            results,
+          });
+          res.render('./index', {instId: results.instance.id, socketAddress});
+        }
+      });
     });
   } else if (instId === 'home') {
     res.render('./index', {instId: '', socketAddress});
