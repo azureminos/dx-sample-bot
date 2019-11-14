@@ -492,7 +492,7 @@ const createInstanceByPackageId = (request, handler) => {
             console.log(`>>>>Model.getItemsByPackageId [${packageId}]`, items);
             const iItems = _.map(items, (item) => {
               const iItem = {
-                instPackage: inst._id,
+                instPackage: inst.id,
                 dayNo: item.dayNo,
                 daySeq: item.daySeq,
                 timePlannable: item.timePlannable,
@@ -501,7 +501,7 @@ const createInstanceByPackageId = (request, handler) => {
                 createdAt: now,
               };
               if (item.attraction) {
-                iItem.attraction = item.attraction._id;
+                iItem.attraction = item.attraction.id;
               }
               return iItem;
             });
@@ -519,14 +519,14 @@ const createInstanceByPackageId = (request, handler) => {
             );
             const iHotels = _.map(hotels, (hotel) => {
               const iHotel = {
-                instPackage: inst._id,
+                instPackage: inst.id,
                 dayNo: hotel.dayNo,
                 isOvernight: hotel.isOvernight,
                 createdBy: createdBy,
                 createdAt: now,
               };
               if (hotel.hotel) {
-                iHotel.hotel = hotel.hotel._id;
+                iHotel.hotel = hotel.hotel.id;
               }
               return iHotel;
             });
@@ -540,7 +540,7 @@ const createInstanceByPackageId = (request, handler) => {
           if (user) {
             const instanceMember = [
               {
-                instPackage: inst._id,
+                instPackage: inst.id,
                 loginId: createdBy,
                 createdBy: createdBy,
                 createdAt: now,

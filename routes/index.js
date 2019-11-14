@@ -38,7 +38,7 @@ const handleWebviewAccess = (req, res) => {
           err,
           results,
         });
-        res.render('./index', {instId: results.instance._id, socketAddress});
+        res.render('./index', {instId: results.instance.id, socketAddress});
       }
     });
   } else if (instId === 'home') {
