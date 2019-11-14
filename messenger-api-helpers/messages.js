@@ -74,11 +74,10 @@ const packageMessage = (apiUri, packages) => {
   console.log('>>>>Message.packageMessage', packages);
   const items = packages.map((p) => {
     const urlToPackage = packageUrl(apiUri, p.id);
-    const imageUrl = p.image ? p.image.secure_url : '';
 
     return {
       title: p.name,
-      image_url: imageUrl,
+      image_url: p.imageUrl,
       subtitle: p.description,
       /* default_action: {
         type: 'web_url',
