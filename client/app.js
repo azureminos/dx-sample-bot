@@ -54,6 +54,7 @@ class App extends React.Component {
     // Register event handler
     this.init = this.init.bind(this);
     this.handleDialogShareClose = this.handleDialogShareClose.bind(this);
+    this.handleShareOnMessenger = this.handleShareOnMessenger.bind(this);
     this.handleAddNotes = this.handleAddNotes.bind(this);
     this.handleAddedNotes = this.handleAddedNotes.bind(this);
     this.handleHdPeopleChange = this.handleHdPeopleChange.bind(this);
@@ -124,6 +125,9 @@ class App extends React.Component {
     this.setState({
       isOpenDialogShare: false,
     });
+  }
+  handleShareOnMessenger() {
+    console.log('>>>>MobileApp.handleShareOnMessenger');
   }
   handleModalClose() {
     console.log('>>>>MobileApp.handleModalClose');
@@ -730,7 +734,8 @@ class App extends React.Component {
       const elDialogShare = (
         <DialogShare
           open={isOpenDialogShare}
-          handleClose={this.handleFtBtnShare}
+          handleClose={this.handleDialogShareClose}
+          handleShare={this.handleShareOnMessenger}
         />
       );
       // Bot Modal

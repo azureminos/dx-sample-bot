@@ -29,6 +29,7 @@ class DialogShare extends React.Component {
   constructor(props) {
     super(props);
     this.doHandleClose = this.doHandleClose.bind(this);
+    this.doHandleShare = this.doHandleShare.bind(this);
   }
   // Local Variables
 
@@ -38,15 +39,20 @@ class DialogShare extends React.Component {
       this.props.handleClose();
     }
   }
+  doHandleShare() {
+    if (this.props.handleShare) {
+      this.props.handleShare();
+    }
+  }
   // Sub Components
   // Display Widget
   render() {
-    const {classes, open, handleClose} = this.props;
+    const {classes, open} = this.props;
     return (
       <Dialog
         fullScreen
         open={open}
-        onClose={handleClose}
+        onClose={this.doHandleClose}
         TransitionComponent={Transition}
       >
         <AppBar className={classes.appBar}>
@@ -54,22 +60,24 @@ class DialogShare extends React.Component {
             <IconButton
               edge='start'
               color='inherit'
-              onClick={handleClose}
+              onClick={this.doHandleClose}
               aria-label='close'
             >
               <CloseIcon />
             </IconButton>
             <Typography variant='h6' className={classes.title}>
-              Invite your friends to this package
+              Share
             </Typography>
           </Toolbar>
         </AppBar>
         <Grid container>
-          <Grid item xs={12}>
-            <Button>Invite Friends on Messenger</Button>
+          <Grid justify='center' item xs={12}>
+            <Button color='primary' onClick={this.doHandleShare}>
+              Invite Friends on Messenger
+            </Button>
           </Grid>
           <Divider />
-          <Grid item xs={12}>
+          <Grid justify='center' item xs={12}>
             <Button>Invite Friends on Social Media</Button>
           </Grid>
         </Grid>
