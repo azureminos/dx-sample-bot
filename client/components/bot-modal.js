@@ -3,14 +3,14 @@ import React, {createElement} from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import {Typography, Grid, Modal, Button, Checkbox} from '@material-ui/core';
 // import { PayPalButton } from 'react-paypal-button-v2';
-import PaypalButton from './paypal-button';
+import {PayPalButton} from 'react-paypal-button';
 import CONSTANTS from '../../lib/constants';
 
 // Vairables
 const ModalConst = CONSTANTS.get().Modal;
 const InstStatus = CONSTANTS.get().Instance.status;
 const Payment = {
-  envPaypal: process.env.PAYPAL_ENV,
+  env: process.env.PAYPAL_ENV,
   sandbox: process.env.PAYPAL_DUMMY_ID,
   production: process.env.PAYPAL_ID,
   terms: process.env.TERMS_CONDS,
@@ -120,9 +120,16 @@ class BotModal extends React.Component {
       secModal.buttons = pBtnModal;
     } else if (modal === ModalConst.SUBMIT_PAYMENT.key) {
       // Local Variables, DXTODO
-      const CLIENT = {
-        sandbox: Payment.sandbox,
-        production: Payment.production,
+      const paypalOptions = {
+        clientId:
+          Payment.env === 'production' ? Payment.production : Payment.sandbox,
+        currency: Payment.currency,
+      };
+      const buttonStyles = {
+        layout: 'vertical',
+        color: 'gold',
+        shape: 'rect',
+        label: 'checkout',
       };
       const {dtStart, dtEnd, people, rooms, rate} = reference;
       // Event Handlers
@@ -218,15 +225,13 @@ class BotModal extends React.Component {
         </div>
       );*/
       const divPayment = isTermsAgreed ? (
-        <PaypalButton
-          client={CLIENT}
-          env={Payment.envPaypal}
-          commit
-          currency={Payment.currency}
-          total={Payment.deposit}
-          onSuccess={onSuccess}
-          onError={onError}
-          onCancel={onCancel}
+        <PayPalButton
+          paypalOptions={paypalOptions}
+          buttonStyles={buttonStyles}
+          amount={Payment.deposit}
+          onPaymentSuccess={onSuccess}
+          onPaymentSuccess={onError}
+          onPaymentCancel={onCancel}
         />
       ) : (
         <div className={classes.panelBody}>

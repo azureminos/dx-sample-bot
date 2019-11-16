@@ -50,6 +50,7 @@
     "react-countdown-now": "^2.0.2",
     "react-dom": "^16.8.1",
     "react-id-swiper": "^1.6.8",
+    "react-paypal-button": "^4.1.1",
     "react-share": "^3.0.1",
     "react-transition-group": "^1.2.1",
     "recess": "^1.1.9",
