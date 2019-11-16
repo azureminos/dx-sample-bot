@@ -17,6 +17,7 @@ import BotModal from './components/bot-modal';
 import BotHeader from './components/bot-header';
 import BotFooter from './components/bot-footer';
 import ProgressBar from './components/progress-bar';
+import DialogShare from './components/dialog-share';
 import PackageItinerary from './package-itinerary';
 
 // ==== HELPERS =======================================
@@ -52,6 +53,7 @@ class App extends React.Component {
     super(props);
     // Register event handler
     this.init = this.init.bind(this);
+    this.handleDialogShareClose = this.handleDialogShareClose.bind(this);
     this.handleAddNotes = this.handleAddNotes.bind(this);
     this.handleAddedNotes = this.handleAddedNotes.bind(this);
     this.handleHdPeopleChange = this.handleHdPeopleChange.bind(this);
@@ -83,6 +85,7 @@ class App extends React.Component {
       updating: false,
       socketStatus: '',
       message: '',
+      isOpenDialogShare: false,
       modalType: '',
       modalRef: null,
       instPackage: null,
@@ -116,6 +119,12 @@ class App extends React.Component {
      = State & Event Handlers     =
      ============================== */
   // ----------  App  ----------
+  handleDialogShareClose() {
+    console.log('>>>>MobileApp.handleDialogShareClose');
+    this.setState({
+      isOpenDialogShare: false,
+    });
+  }
   handleModalClose() {
     console.log('>>>>MobileApp.handleModalClose');
     this.setState({
@@ -268,6 +277,9 @@ class App extends React.Component {
   }
   handleFtBtnShare() {
     console.log('>>>>MobileApp.handleFtBtnShare');
+    this.setState({
+      isOpenDialogShare: true,
+    });
   }
   handleFtBtnPayment(outcome) {
     console.log('>>>>MobileApp.handleFtBtnPayment', outcome);
@@ -652,7 +664,7 @@ class App extends React.Component {
 
   render() {
     const {instPackage, instPackageExt, rates} = this.state;
-    const {modalType, modalRef, reference} = this.state;
+    const {modalType, modalRef, reference, isOpenDialogShare} = this.state;
     const {cities, packageSummary} = reference;
     const {classes} = this.props;
 
@@ -714,6 +726,13 @@ class App extends React.Component {
         handlePayment: this.handleFtBtnPayment,
       };
       // ======Web Elements======
+      // Dialog Share
+      const elDialogShare = (
+        <DialogShare
+          open={isOpenDialogShare}
+          handleClose={this.handleFtBtnShare}
+        />
+      );
       // Bot Modal
       const elModal = modalType ? (
         <BotModal
@@ -754,6 +773,7 @@ class App extends React.Component {
             actions={footerActions}
           />
           {elModal}
+          {elDialogShare}
         </div>
       );
     }

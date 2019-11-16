@@ -49,6 +49,7 @@
     "react-countdown-now": "^2.0.2",
     "react-dom": "^16.3.1",
     "react-id-swiper": "^1.6.8",
+    "react-share": "^3.0.1",
     "react-transition-group": "^1.2.1",
     "recess": "^1.1.9",
     "request": "^2.79.0",

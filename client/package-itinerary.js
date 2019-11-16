@@ -12,7 +12,6 @@ import AttractionList from './components/attraction-list';
 import DescPanel from './components/description-panel';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
-import Helper from '../lib/helper';
 import CONSTANTS from '../lib/constants';
 
 const {Global, Instance} = CONSTANTS.get();
@@ -26,18 +25,6 @@ const styles = (theme) => ({
   heading: {
     fontSize: theme.typography.pxToRem(20),
     fontWeight: theme.typography.fontWeightRegular,
-  },
-  accodionTitleText: {
-    float: 'left',
-    paddingRight: 8,
-  },
-  accodionTitleIcon: {
-    float: 'right',
-    margin: 4,
-  },
-  accodionSummary: {
-    display: 'flex',
-    alignItems: 'center',
   },
   itinerary: {
     border: '1px solid',
@@ -251,114 +238,6 @@ class PackageItinerary extends React.Component {
         </div>
       );
     });
-
-    /* _.forEach(itineraries, (it, idx) => {
-			let secAttraction = '';
-			let secHotel = '';
-			const title = triggerText(it.dayNo, it.cityBase);
-			if (!isCustomised) {
-				// always display attraction / hotel icon
-				secAttraction = <AttractionList attractions={it.attractions} />;
-				secHotel = <HotelList hotels={it.hotels} />;
-			} else {
-				if (
-					status === InstanceStatus.INITIATED
-					|| status === InstanceStatus.SELECT_ATTRACTION
-				) {
-					secAttraction = <AttractionList attractions={it.attractions} />;
-				} else if (status === InstanceStatus.SELECT_HOTEL) {
-					secAttraction = <AttractionList attractions={it.attractions} />;
-					secHotel = (
-						<HotelSlider
-							dayNo={it.dayNo}
-							hotels={it.hotels}
-							handleSelectHotel={handleSelectHotel}
-						/>
-					);
-				} else {
-					secAttraction = <AttractionList attractions={it.attractions} />;
-					secHotel = <HotelList hotels={it.hotels} />;
-				}
-			}
-			// Display the desciption of package-item
-			const desc
-				= !isCustomised || idx === 0 || idx === itineraries.length - 1 ? (
-					<Typography>{it.cityDesc}</Typography>
-				) : (
-					''
-				);
-			// Display Add icon
-			const iconAdd
-				= isCustomised && it.isClonable > 0 ? (
-					<Fab
-						size="small"
-						color="secondary"
-						aria-label="add"
-						className={classes.accodionTitleIcon}
-						style={{ padding: '0px' }}
-					>
-						<AddIcon />
-					</Fab>
-				) : (
-					''
-				);
-			// Display Delete icon
-			const iconDelete
-				= isCustomised && !it.isRequired ? (
-					<Fab
-						size="small"
-						color="secondary"
-						aria-label="delete"
-						className={classes.accodionTitleIcon}
-						style={{ padding: '0px' }}
-					>
-						<DeleteIcon />
-					</Fab>
-				) : (
-					''
-				);
-			// Display Edit icon
-			const iconEdit
-				= isCustomised && it.timePlannable > 0 ? (
-					<Fab
-						size="small"
-						color="secondary"
-						aria-label="edit"
-						className={classes.accodionTitleIcon}
-						style={{ padding: '0px' }}
-					>
-						<EditIcon />
-					</Fab>
-				) : (
-					''
-				);
-			accordions.push(
-				<ExpansionPanel
-					key={title}
-					expanded={panelMap[title]}
-					onChange={this.doHandleAccordionClick(title)}
-				>
-					<ExpansionPanelSummary
-						expandIcon={<ExpandMoreIcon />}
-						classes={{ content: classes.accodionSummary }}
-					>
-						<Typography className={classes.accodionTitleText} variant="h5">
-							{title}
-						</Typography>
-						{iconAdd}
-						{iconEdit}
-						{iconDelete}
-					</ExpansionPanelSummary>
-					<ExpansionPanelDetails>
-						<div style={{ width: '-webkit-fill-available' }}>
-							{desc}
-							{secAttraction}
-							{secHotel}
-						</div>
-					</ExpansionPanelDetails>
-				</ExpansionPanel>
-			);
-		});*/
 
     return <section>{[secFlightCar].concat(secItinerary)}</section>;
   }

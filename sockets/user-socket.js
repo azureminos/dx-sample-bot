@@ -25,7 +25,7 @@ const getUser = (senderId) => {
     loginId: senderId,
     source: 'facebook',
     profilePic: '',
-    name: 'David Xia',
+    name: `FB User ${senderId}`,
     email: '',
     mobile: '',
     phone: '',
