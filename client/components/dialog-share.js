@@ -2,6 +2,10 @@ import React, {createElement} from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
 import AppBar from '@material-ui/core/AppBar';
@@ -9,7 +13,10 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
+import MessageIcon from '@material-ui/icons/MessageRounded';
 import Slide from '@material-ui/core/Slide';
+
+import {FacebookShareButton, FacebookIcon} from 'react-share';
 
 const styles = {
   root: {},
@@ -47,7 +54,8 @@ class DialogShare extends React.Component {
   // Sub Components
   // Display Widget
   render() {
-    const {classes, open} = this.props;
+    const {classes, open, title, instId, apiUri} = this.props;
+    const shareUrl = `${apiUri}/${instId}`;
     return (
       <Dialog
         fullScreen
@@ -81,6 +89,20 @@ class DialogShare extends React.Component {
             <Button>Invite Friends on Social Media</Button>
           </Grid>
         </Grid>
+        <List component='nav' aria-label='share'>
+          <ListItem button component='a'>
+            <ListItemIcon>
+              <MessageIcon />
+            </ListItemIcon>
+            <ListItemText primary='Share on Messenger' />
+          </ListItem>
+          <ListItem>
+            <FacebookShareButton url={shareUrl} quote={title}>
+              <FacebookIcon size={32} round />
+            </FacebookShareButton>
+          </ListItem>
+        </List>
+        <Divider />
       </Dialog>
     );
   }
