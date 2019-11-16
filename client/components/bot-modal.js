@@ -146,37 +146,37 @@ class BotModal extends React.Component {
       };
       // Sub Components
       const divTime = (
-        <tr>
-          <td>
+        <tr key='time'>
+          <td key='time.title'>
             <b>Fly Out / Fly Back</b>
           </td>
-          <td>
+          <td key='time.value'>
             {`${dtStart.toLocaleDateString()} / ${dtEnd.toLocaleDateString()}`}
           </td>
         </tr>
       );
       const divPeople = (
-        <tr>
-          <td>
+        <tr key='people'>
+          <td key='people.title'>
             <b>Total Travellers</b>
           </td>
-          <td>{people}</td>
+          <td key='people.value'>{people}</td>
         </tr>
       );
       const divRooms = (
-        <tr>
-          <td>
+        <tr key='rooms'>
+          <td key='rooms.title'>
             <b>Total Rooms</b>
           </td>
-          <td>{rooms}</td>
+          <td key='rooms.value'>{rooms}</td>
         </tr>
       );
       const divRate = (
-        <tr>
-          <td>
+        <tr key='rate'>
+          <td key='rate.title'>
             <b>Package Rate</b>
           </td>
-          <td>{rate}</td>
+          <td key='rate.value'>{rate}</td>
         </tr>
       );
       /* const divTotal = (
@@ -188,11 +188,11 @@ class BotModal extends React.Component {
         </tr>
       );*/
       const divDeposit = Payment.deposit ? (
-        <tr>
-          <td>
+        <tr key='deposit'>
+          <td key='deposit.title'>
             <b>Deposit</b>
           </td>
-          <td>{Payment.deposit}</td>
+          <td key='deposit.value'>{Payment.deposit}</td>
         </tr>
       ) : (
         ''
@@ -250,11 +250,13 @@ class BotModal extends React.Component {
       secModal.contents = (
         <Grid container className={classes.bodyContent}>
           <table>
-            {divTime}
-            {divPeople}
-            {divRooms}
-            {divRate}
-            {divDeposit}
+            <tbody>
+              {divTime}
+              {divPeople}
+              {divRooms}
+              {divRate}
+              {divDeposit}
+            </tbody>
           </table>
           {divTerms}
           {divPayment}
