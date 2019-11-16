@@ -670,7 +670,7 @@ class App extends React.Component {
     const {instPackage, instPackageExt, rates} = this.state;
     const {modalType, modalRef, reference, isOpenDialogShare} = this.state;
     const {cities, packageSummary} = reference;
-    const {classes} = this.props;
+    const {classes, apiUri} = this.props;
 
     console.log('>>>>MobileApp.render', this.state);
     let page = <div>Loading...</div>;
@@ -734,6 +734,9 @@ class App extends React.Component {
       const elDialogShare = (
         <DialogShare
           open={isOpenDialogShare}
+          title={packageSummary.name}
+          instId={instPackage.id}
+          apiUri={apiUri}
           handleClose={this.handleDialogShareClose}
           handleShare={this.handleShareOnMessenger}
         />

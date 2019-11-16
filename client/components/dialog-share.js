@@ -1,12 +1,10 @@
 import React, {createElement} from 'react';
 import {withStyles} from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -78,17 +76,6 @@ class DialogShare extends React.Component {
             </Typography>
           </Toolbar>
         </AppBar>
-        <Grid container>
-          <Grid justify='center' item xs={12}>
-            <Button color='primary' onClick={this.doHandleShare}>
-              Invite Friends on Messenger
-            </Button>
-          </Grid>
-          <Divider />
-          <Grid justify='center' item xs={12}>
-            <Button>Invite Friends on Social Media</Button>
-          </Grid>
-        </Grid>
         <List component='nav' aria-label='share'>
           <ListItem button component='a'>
             <ListItemIcon>
@@ -99,6 +86,7 @@ class DialogShare extends React.Component {
           <ListItem>
             <FacebookShareButton url={shareUrl} quote={title}>
               <FacebookIcon size={32} round />
+              Share on Facebook
             </FacebookShareButton>
           </ListItem>
         </List>
