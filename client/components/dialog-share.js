@@ -15,6 +15,7 @@ import MessageIcon from '@material-ui/icons/MessageRounded';
 import Slide from '@material-ui/core/Slide';
 
 import {FacebookShareButton, FacebookIcon} from 'react-share';
+import {TwitterShareButton, TwitterIcon} from 'react-share';
 
 const styles = {
   root: {},
@@ -82,19 +83,19 @@ class DialogShare extends React.Component {
             <ListItemIcon>
               <MessageIcon />
             </ListItemIcon>
-            <ListItemText primary='Share on Messenger' />
+            <ListItemText primary='Invite friends in Messenger' />
           </ListItem>
-          <ListItem button component='a' href={fbUrl}>
-            <ListItemIcon>
-              <FacebookIcon />
-            </ListItemIcon>
-            <ListItemText primary='Share on Facebook' />
+          <Divider />
+          <ListItem>
+            <ListItemText primary='Share on Social Media' />
           </ListItem>
           <ListItem>
             <FacebookShareButton url={shareUrl} quote={title}>
               <FacebookIcon size={32} round />
-              Share on Facebook
             </FacebookShareButton>
+            <TwitterShareButton url={shareUrl} quote={title}>
+              <TwitterIcon size={32} round />
+            </TwitterShareButton>
           </ListItem>
         </List>
         <Divider />
