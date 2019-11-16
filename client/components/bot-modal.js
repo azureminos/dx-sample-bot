@@ -8,15 +8,8 @@ import CONSTANTS from '../../lib/constants';
 
 // Vairables
 const ModalConst = CONSTANTS.get().Modal;
-const InstStatus = CONSTANTS.get().Instance.status;
-const Payment = {
-  env: process.env.PAYPAL_ENV,
-  sandbox: process.env.PAYPAL_DUMMY_ID,
-  production: process.env.PAYPAL_ID,
-  terms: process.env.TERMS_CONDS,
-  currency: process.env.DEF_CURRENCY,
-  deposit: process.env.DEF_DEPOSIT,
-};
+const {Payment, Instance} = CONSTANTS.get();
+const InstStatus = Instance.status;
 const styles = (theme) => ({
   paper: {
     position: 'relative',

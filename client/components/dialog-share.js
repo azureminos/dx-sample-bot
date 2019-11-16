@@ -55,7 +55,6 @@ class DialogShare extends React.Component {
   render() {
     const {classes, open, title, instId, apiUri} = this.props;
     const shareUrl = `${apiUri}/${instId}`;
-    const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`;
     return (
       <Dialog
         fullScreen
