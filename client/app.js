@@ -17,7 +17,7 @@ import BotModal from './components/bot-modal';
 import BotHeader from './components/bot-header';
 import BotFooter from './components/bot-footer';
 import ProgressBar from './components/progress-bar';
-import DialogShare from './components/dialog-share';
+//import DialogShare from './components/dialog-share';
 import PackageItinerary from './package-itinerary';
 
 // ==== HELPERS =======================================
@@ -773,7 +773,7 @@ class App extends React.Component {
             actions={footerActions}
           />
           {elModal}
-          {elDialogShare}
+          
         </div>
       );
     }
