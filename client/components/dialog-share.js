@@ -54,6 +54,7 @@ class DialogShare extends React.Component {
   render() {
     const {classes, open, title, instId, apiUri} = this.props;
     const shareUrl = `${apiUri}/${instId}`;
+    const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`;
     return (
       <Dialog
         fullScreen
@@ -82,6 +83,12 @@ class DialogShare extends React.Component {
               <MessageIcon />
             </ListItemIcon>
             <ListItemText primary='Share on Messenger' />
+          </ListItem>
+          <ListItem button component='a' href={fbUrl}>
+            <ListItemIcon>
+              <FacebookIcon />
+            </ListItemIcon>
+            <ListItemText primary='Share on Facebook' />
           </ListItem>
           <ListItem>
             <FacebookShareButton url={shareUrl} quote={title}>
