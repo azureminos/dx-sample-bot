@@ -1,13 +1,22 @@
 import _ from 'lodash';
-import React from 'react';
+import React, {createElement} from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import {Typography, Grid, Modal, Button, Checkbox} from '@material-ui/core';
 // import { PayPalButton } from 'react-paypal-button-v2';
+import PaypalButton from './paypal-button';
 import CONSTANTS from '../../lib/constants';
 
+// Vairables
 const ModalConst = CONSTANTS.get().Modal;
 const InstStatus = CONSTANTS.get().Instance.status;
-
+const Payment = {
+  envPaypal: process.env.PAYPAL_ENV,
+  sandbox: process.env.PAYPAL_DUMMY_ID,
+  production: process.env.PAYPAL_ID,
+  terms: process.env.TERMS_CONDS,
+  currency: process.env.DEF_CURRENCY,
+  deposit: process.env.DEF_DEPOSIT,
+};
 const styles = (theme) => ({
   paper: {
     position: 'relative',
@@ -111,11 +120,31 @@ class BotModal extends React.Component {
       secModal.buttons = pBtnModal;
     } else if (modal === ModalConst.SUBMIT_PAYMENT.key) {
       // Local Variables, DXTODO
-      const {PAYPAL_ENV, PAYPAL_ID, PAYPAL_DUMMY_ID} = {};
-      const {TERMS_CONDS, DEF_CURRENCY, DEF_DEPOSIT} = {};
-      const paypalId =
-        PAYPAL_ENV === 'production' ? PAYPAL_ID : PAYPAL_DUMMY_ID;
-      const {dtStart, dtEnd, people, rooms, rate, totalRate} = reference;
+      const CLIENT = {
+        sandbox: Payment.sandbox,
+        production: Payment.production,
+      };
+      const {dtStart, dtEnd, people, rooms, rate} = reference;
+      // Event Handlers
+      const onSuccess = (outcome) => {
+        console.log('paypal integration success', outcome);
+        if (outcome.status === 'COMPLETED') {
+          const result = {
+            status:
+              Payment.deposit > 0
+                ? InstStatus.DEPOSIT_PAID
+                : InstStatus.FULLY_PAID,
+          };
+          actions.handlePayment(result);
+        }
+      };
+      const onError = (error) => {
+        console.log('Erroneous payment OR failed to load script!', error);
+      };
+      const onCancel = (data) => {
+        console.log('Cancelled payment!', data);
+      };
+      // Sub Components
       const divTime = (
         <tr>
           <td>
@@ -150,20 +179,20 @@ class BotModal extends React.Component {
           <td>{rate}</td>
         </tr>
       );
-      const divTotal = (
+      /* const divTotal = (
         <tr>
           <td>
             <b>Total Price</b>
           </td>
           <td>{totalRate}</td>
         </tr>
-      );
-      const divDeposit = DEF_DEPOSIT ? (
+      );*/
+      const divDeposit = Payment.deposit ? (
         <tr>
           <td>
             <b>Deposit</b>
           </td>
-          <td>{DEF_DEPOSIT}</td>
+          <td>{Payment.deposit}</td>
         </tr>
       ) : (
         ''
@@ -172,11 +201,11 @@ class BotModal extends React.Component {
         <div>
           <label onClick={checkTermsHandler} className={classes.terms}>
             <Checkbox checked={isTermsAgreed} color='primary' />
-            <div style={{paddingTop: 12}}>{TERMS_CONDS}</div>
+            <div style={{paddingTop: 12}}>{Payment.terms}</div>
           </label>
         </div>
       );
-      const divPayment = isTermsAgreed ? (
+      /* const divPayment = isTermsAgreed ? (
         <Button>Paypal</Button>
       ) : (
         <div className={classes.panelBody}>
@@ -187,50 +216,28 @@ class BotModal extends React.Component {
             </b>
           </p>
         </div>
+      );*/
+      const divPayment = isTermsAgreed ? (
+        <PaypalButton
+          client={CLIENT}
+          env={Payment.envPaypal}
+          commit
+          currency={Payment.currency}
+          total={Payment.deposit}
+          onSuccess={onSuccess}
+          onError={onError}
+          onCancel={onCancel}
+        />
+      ) : (
+        <div className={classes.panelBody}>
+          <p style={{color: 'red'}}>
+            <b>
+              In order to proceed with the payment, please read the terms and
+              conditions, then tick the checkbox above.
+            </b>
+          </p>
+        </div>
       );
-      /* const divPayment = isTermsAgreed ? (
-				<PayPalButton
-					options={{
-						clientId: paypalId,
-						currency: DEF_CURRENCY,
-					}}
-					style={{
-						layout: 'horizontal',
-						color: 'gold',
-						shape: 'rect',
-						label: 'pay',
-						tagline: false,
-					}}
-					amount={String(DEF_DEPOSIT > 0 ? DEF_DEPOSIT : totalRate)}
-					onSuccess={details => {
-						console.log('paypal integration success', details);
-						if (details.status === 'COMPLETED') {
-							const result = {
-								status:
-									DEF_DEPOSIT > 0
-										? InstStatus.DEPOSIT_PAID
-										: InstStatus.FULLY_PAID,
-							};
-							actions.handlePayment(result);
-						}
-					}}
-					onError={err => {
-						console.log('paypal integration generic error', err);
-					}}
-					catchError={err => {
-						console.log('paypal integration transaction error', err);
-					}}
-				/>
-			) : (
-				<div className={classes.panelBody}>
-					<p style={{ color: 'red' }}>
-						<b>
-							In order to proceed with the payment, please read the terms and
-							conditions, then tick the checkbox above.
-						</b>
-					</p>
-				</div>
-			);*/
       const pBtnModal = [
         {
           title: ModalConst.button.CLOSE,

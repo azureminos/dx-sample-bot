@@ -566,12 +566,12 @@ class App extends React.Component {
   }
   // ----------  Notes  ----------
   handleAddNotes(notes) {
-    const instId = this.state.instPackage.id;
+    const instId = this.state.instPackage._id;
     console.log(`>>>>handleAddNotes of Inst[${instId}]`, notes);
     this.pushToRemote('user:addNotes', {text: notes});
   }
   handleAddedNotes(note) {
-    const instId = this.state.instPackage.id;
+    const instId = this.state.instPackage._id;
     console.log(`>>>>handleAddedNotes of Inst[${instId}]`, note);
     const notes = this.state.instPackage.notes;
     notes.push(note);
@@ -735,7 +735,7 @@ class App extends React.Component {
         <DialogShare
           open={isOpenDialogShare}
           title={packageSummary.name}
-          instId={instPackage.id}
+          instId={instPackage._id}
           apiUri={apiUri}
           handleClose={this.handleDialogShareClose}
           handleShare={this.handleShareOnMessenger}
