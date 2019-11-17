@@ -18,7 +18,7 @@ import sendApi from '../messenger-api-helpers/send';
 const sharePackage = (params) => {
   const {request, sendStatus} = params;
   const {senderId, input} = request;
-  if (!input || input.instId) {
+  if (!input || !input.instId) {
     console.error('shareList: Invalid Package Instance ID');
     return;
   }
