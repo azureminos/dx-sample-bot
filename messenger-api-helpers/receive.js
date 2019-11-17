@@ -109,7 +109,8 @@ const handleReceiveMessage = (event) => {
     Model.getInstanceByInstId(instId, (err, docs) => {
       if (err) console.log('>>>>Error.Model.getInstanceByInstId', err);
       console.log('>>>>Model.getInstanceByInstId', docs);
-      sendApi.sendPackageInst(senderId, docs);
+      const packageSummary = ObjectParser.parseTravelPackage(docs.package);
+      sendApi.sendPackageInst(senderId, docs._id, packageSummary);
     });
   } else if (message.text) {
     Model.getLatestInstByUserId(senderId, (err, docs) => {
