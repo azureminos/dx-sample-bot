@@ -78,6 +78,7 @@ const view = (params) => {
     socketUsers,
     userSocket,
   } = params;
+  console.log('>>>>Socket.view start', {request, socketUsers});
   const {senderId, instId} = request;
   // Persist socket details
   if (!socketUsers.get(socket.id)) {

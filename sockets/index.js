@@ -24,6 +24,7 @@ export default function attachSockets(io) {
         });
         const {senderId, instId} = socketUsers.get(socket.id) || {};
         const newRequest = {};
+        console.log('>>>>Socket Incoming Request', typeof request);
         if (typeof request === 'object') {
           if (!request.senderId) {
             newRequest.senderId = senderId;
@@ -31,7 +32,7 @@ export default function attachSockets(io) {
           if (!request.instId) {
             newRequest.instId = instId;
           }
-        } else {
+        } else if (typeof request === 'string') {
           newRequest.senderId = senderId;
           newRequest.instId = instId;
         }
