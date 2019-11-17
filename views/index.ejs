@@ -16,9 +16,11 @@
           "266691027485519",
           function success(context) {
             console.log(">>>>MessengerExtensions.getContext Success", context);
-            alert("instId [" + (context.pif ? context.pif : "empty") + "]");
+            alert(
+              "context.psid [" + (context.psid ? context.psid : "empty") + "]"
+            );
             window.attachApp({
-              viewerId: context.pif ? context.pif : "<%= userId %>",
+              viewerId: context.psid ? context.psid : "<%= userId %>",
               instId: "<%= instId %>",
               socketAddress: "<%= socketAddress %>",
               threadType: context.thread_type
