@@ -24,19 +24,30 @@ export default function attachSockets(io) {
         });
         const {senderId, instId} = socketUsers.get(socket.id) || {};
         const newRequest = {};
-        console.log('>>>>Socket Incoming Request', typeof request);
+        console.log(`>>>>Socket Incoming Request [${typeof request}]`, {
+          senderId,
+          instId,
+        });
         if (typeof request === 'object') {
           if (!request.senderId) {
+            console.log(
+              `>>>>Socket Incoming Request.senderId[${senderId}]`,
+              newRequest
+            );
             newRequest.senderId = senderId;
           }
           if (!request.instId) {
+            console.log(
+              `>>>>Socket Incoming Request.instId[${instId}]`,
+              newRequest
+            );
             newRequest.instId = instId;
           }
         } else if (typeof request === 'string') {
           newRequest.senderId = senderId;
           newRequest.instId = instId;
         }
-
+        console.log('>>>>before handler', newRequest);
         handler({
           allInRoom,
           request: newRequest,
