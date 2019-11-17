@@ -23,14 +23,13 @@ export default function attachSockets(io) {
           socketUsers,
         });
         const {senderId, instId} = socketUsers.get(socket.id) || {};
-        const newRequest = {};
+        let newRequest = {};
         console.log(`>>>>Socket Incoming Request [${typeof request}]`, {
           senderId,
           instId,
         });
         if (typeof request === 'object') {
-          newRequest.senderId = request.senderId;
-          newRequest.instId = request.instId;
+          newRequest = {...request};
           if (!request.senderId) {
             console.log(
               `>>>>Socket Incoming Request.senderId[${senderId}]`,
