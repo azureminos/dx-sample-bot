@@ -20,7 +20,7 @@ const handleWebviewAccess = (req, res) => {
 
   const {instId, packageId, userId} = req.params;
 
-  console.log('>>>>Printing input params', {packageId, instId, socketAddress});
+  console.log('>>>>Printing input params', {packageId, instId, userId});
 
   if (instId === 'new') {
     Model.getPackageById(packageId, (err, docs) => {

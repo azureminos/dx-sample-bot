@@ -156,8 +156,8 @@ const quickReplyMessage = (title, items) => {
  * @param {string} lastInstanceId - instance id of last updated package
  * @returns {object} - Message to configure the customized sharing menu.
  */
-const welcomeMessage = (lastInstanceId) => {
-  console.log('>>>>welcomeMessage(), start', lastInstanceId);
+const welcomeMessage = (lastInstance) => {
+  console.log('>>>>welcomeMessage(), start', lastInstance);
   const replyItems = [];
 
   const iAllPromote = {
@@ -168,7 +168,7 @@ const welcomeMessage = (lastInstanceId) => {
   const iMyRecent = {
     content_type: 'text',
     title: 'Recent Update',
-    payload: `my_recent@${lastInstanceId}`,
+    payload: `my_recent@${lastInstance._id}`,
   };
   const iHandOver = {
     content_type: 'text',
@@ -177,7 +177,7 @@ const welcomeMessage = (lastInstanceId) => {
   };
 
   replyItems.push(iAllPromote);
-  if (lastInstanceId) {
+  if (lastInstance) {
     replyItems.push(iMyRecent);
   }
   replyItems.push(iHandOver);
