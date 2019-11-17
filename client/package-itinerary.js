@@ -106,6 +106,7 @@ class PackageItinerary extends React.Component {
     // Sub Widgets
     const secFlightCar = (
       <FlightCar
+        key='FlightCar'
         isDisabled={isDisabled}
         departDates={departDates}
         selectedDepartDate={stStartDate}

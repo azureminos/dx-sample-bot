@@ -55,7 +55,6 @@ class App extends React.Component {
     this.init = this.init.bind(this);
     this.pushToRemote = this.pushToRemote.bind(this);
     this.handleDialogShareClose = this.handleDialogShareClose.bind(this);
-    this.handleShareOnMessenger = this.handleShareOnMessenger.bind(this);
     this.handleAddNotes = this.handleAddNotes.bind(this);
     this.handleAddedNotes = this.handleAddedNotes.bind(this);
     this.handleHdPeopleChange = this.handleHdPeopleChange.bind(this);
@@ -126,9 +125,6 @@ class App extends React.Component {
     this.setState({
       isOpenDialogShare: false,
     });
-  }
-  handleShareOnMessenger() {
-    console.log('>>>>MobileApp.handleShareOnMessenger');
   }
   handleDialogShareInvite() {
     console.log('>>>>MobileApp.handleDialogShareInvite');
@@ -677,7 +673,7 @@ class App extends React.Component {
     const {instPackage, instPackageExt, rates} = this.state;
     const {modalType, modalRef, reference, isOpenDialogShare} = this.state;
     const {cities, packageSummary} = reference;
-    const {classes, apiUri} = this.props;
+    const {classes, apiUri, viewerId} = this.props;
 
     console.log('>>>>MobileApp.render', this.state);
     let page = <div>Loading...</div>;
@@ -741,6 +737,7 @@ class App extends React.Component {
       const elDialogShare = (
         <DialogShare
           open={isOpenDialogShare}
+          viewerId={viewerId}
           title={packageSummary.name}
           instId={instPackage._id}
           description={packageSummary.description}
