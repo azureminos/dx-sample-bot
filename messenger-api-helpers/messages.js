@@ -44,25 +44,6 @@ const openExistingPackageButton = (
   };
 };
 
-/**
- * Button for opening a new list in a webview
- *
- * @param {string} apiUri - Hostname of the server.
- * @param {string=} buttonTitle - Button title.
- * @returns {object} -
- *   Message to create a button pointing to the new list form.
- */
-const createListButton = (apiUri) => {
-  return {
-    type: 'web_url',
-    url: homeUrl(apiUri),
-    title: 'View All Packages',
-    webview_height_ratio: 'full',
-    messenger_extensions: true,
-    webview_share_button: 'hide',
-  };
-};
-
 /*
  * MESSAGES
  *
@@ -100,25 +81,10 @@ const packageMessage = (apiUri, packages) => {
   };
 };
 
-/**
- * Message for when the user has no lists yet.
- *
- * @param {string} apiUri - Hostname of the server.
- * @returns {object} - Message with welcome text and a button to start a new list.
- */
-const noListsMessage = (apiUri) => {
-  return {
-    attachment: {
-      type: 'template',
-      payload: {
-        template_type: 'button',
-        text: 'It looks like you don’t have booked any packages yet.',
-        buttons: [createListButton(apiUri)],
-      },
-    },
-  };
+const packageShareMessage = {
+  text:
+    'To share the package, simply forward the item below to your friends in Messenger.',
 };
-
 /**
  * Message to configure the customized sharing menu in the webview
  *
@@ -146,7 +112,7 @@ const sharePackageMessage = (apiUri, instId, title, description, imageUrl) => {
         elements: [
           {
             title: title,
-            image_url: `${apiUri}/${imageUrl}`,
+            image_url: imageUrl,
             subtitle: description,
             buttons: [openExistingPackageButton(urlToInstPackage)],
           },
@@ -213,10 +179,9 @@ const welcomeMessage = (lastInstanceId) => {
 };
 
 export default {
-  packageMessage,
-  createListButton,
-  noListsMessage,
-  sharePackageMessage,
   welcomeMessage,
   quickReplyMessage,
+  packageMessage,
+  sharePackageMessage,
+  packageShareMessage,
 };

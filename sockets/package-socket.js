@@ -11,11 +11,21 @@ import _ from 'lodash';
 // ===== DB ====================================================================
 
 // ===== SOCKET ================================================================
-import UserSocket from '../sockets/user-socket';
 
 // ===== MESSENGER =============================================================
-
+import sendApi from '../messenger-api-helpers/send';
 // ===== HANDLER ===============================================================
+const sharePackage = (params) => {
+  const {request, sendStatus} = params;
+  const {senderId, input} = request;
+  if (!input || input.instId) {
+    console.error('shareList: Invalid Package Instance ID');
+    return;
+  }
+  sendApi.sendPackageShareItem(senderId, input);
+  sendStatus('ok');
+};
 
-
-export default {};
+export default {
+  sharePackage,
+};

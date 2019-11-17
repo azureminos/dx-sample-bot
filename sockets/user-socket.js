@@ -9,6 +9,7 @@
 import _ from 'lodash';
 import async from 'async';
 import CONSTANTS from '../lib/constants';
+import ObjectParser from '../lib/object-parser';
 // ===== DB ====================================================================
 import Model from '../db/schema';
 // ===== MESSENGER =============================================================
@@ -110,7 +111,9 @@ const view = (params) => {
           sendStatus('NoInstance');
         } else {
           console.log('>>>>Model.view Level 1 Result', results1);
-          const packageSummary = instance.package;
+          const packageSummary = ObjectParser.parseTravelPackage(
+            instance.package
+          );
           instance.package = packageSummary.id;
           instance.items = [...instanceItems];
           instance.hotels = [...instanceHotels];

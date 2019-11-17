@@ -53,6 +53,7 @@ class App extends React.Component {
     super(props);
     // Register event handler
     this.init = this.init.bind(this);
+    this.pushToRemote = this.pushToRemote.bind(this);
     this.handleDialogShareClose = this.handleDialogShareClose.bind(this);
     this.handleShareOnMessenger = this.handleShareOnMessenger.bind(this);
     this.handleAddNotes = this.handleAddNotes.bind(this);
@@ -128,6 +129,12 @@ class App extends React.Component {
   }
   handleShareOnMessenger() {
     console.log('>>>>MobileApp.handleShareOnMessenger');
+  }
+  handleDialogShareInvite() {
+    console.log('>>>>MobileApp.handleDialogShareInvite');
+    this.setState({
+      isOpenDialogShare: false,
+    });
   }
   handleModalClose() {
     console.log('>>>>MobileApp.handleModalClose');
@@ -736,7 +743,10 @@ class App extends React.Component {
           open={isOpenDialogShare}
           title={packageSummary.name}
           instId={instPackage._id}
+          description={packageSummary.description}
+          imageUrl={packageSummary.imageUrl}
           apiUri={apiUri}
+          pushToRemote={this.pushToRemote}
           handleClose={this.handleDialogShareClose}
           handleShare={this.handleShareOnMessenger}
         />

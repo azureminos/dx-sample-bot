@@ -127,12 +127,22 @@ const takeThreadControl = (recipientId) => {
 
   api.callTakeControlAPI('/take_thread_control', payload, () => {});
 };
+
+const sendPackageShareItem = (recipientId, input) => {
+  const {instId, title, description, imageUrl} = input;
+  sendMessage(recipientId, [
+    messages.packageShareMessage,
+    messages.sharePackageMessage(APP_URL, instId, title, description, imageUrl),
+  ]);
+};
+
 export default {
   sendMessage,
   sendReadReceipt,
   sendPackageInst,
   sendPackageMessage,
   sendWelcomeMessage,
+  sendPackageShareItem,
   passThreadControl,
   takeThreadControl,
 };

@@ -53,8 +53,24 @@ class DialogShare extends React.Component {
   // Sub Components
   // Display Widget
   render() {
-    const {classes, open, title, instId, apiUri} = this.props;
+    // Local Variables
+    const {classes, open, apiUri, pushToRemote} = this.props;
+    const {instId, title, description, imageUrl} = this.props;
     const shareUrl = `${apiUri}/${instId}`;
+    const params = {
+      senderId: self.props.viewerId,
+      input: {
+        instId: instId,
+        title: title,
+        description: description,
+        imageUrl: imageUrl,
+      },
+    };
+    const sharePackage = () => {
+      pushToRemote('share:package', params);
+      window.MessengerExtensions.requestCloseBrowser(null, null);
+    };
+    // Display widget
     return (
       <Dialog
         fullScreen
@@ -78,7 +94,7 @@ class DialogShare extends React.Component {
           </Toolbar>
         </AppBar>
         <List component='nav' aria-label='share'>
-          <ListItem button component='a'>
+          <ListItem button onClick={sharePackage}>
             <ListItemIcon>
               <MessageIcon />
             </ListItemIcon>

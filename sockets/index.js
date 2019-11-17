@@ -43,6 +43,7 @@ export default function attachSockets(io) {
     channel('push:user:view', UserSocket.view);
     channel('push:user:join', UserSocket.join);
     channel('push:user:addNotes', UserSocket.addNotes);
+    channel('push:share:package', PackageSocket.sharePackage);
     channel('push:likedAttractions:update', UserSocket.updateLikedAttractions);
   });
 }
