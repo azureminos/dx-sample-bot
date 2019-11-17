@@ -16,6 +16,7 @@ import _ from 'lodash';
 import sendApi from '../messenger-api-helpers/send';
 // ===== HANDLER ===============================================================
 const sharePackage = (params) => {
+  console.log('>>>>Socket.sharePackage', params);
   const {request, sendStatus} = params;
   const {senderId, input} = request;
   if (!input || !input.instId) {
