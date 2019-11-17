@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import React from 'react';
+import React, {createElement} from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
@@ -75,8 +75,8 @@ const calcVisibility = ({instPackage, instPackageExt}) => {
       }
     } else if (instPackage.status === Instance.status.INITIATED) {
       vs.BtnShare.isHidden = false;
-      vs.BtnJoin.isHidden = !instPackageExt.isJoined;
-      vs.BtnLeave.isHidden = instPackageExt.isJoined;
+      vs.BtnJoin.isHidden = instPackageExt.isJoined;
+      vs.BtnLeave.isHidden = !instPackageExt.isJoined;
     } else if (instPackage.status === Instance.status.PENDING_PAYMENT) {
       vs.BtnStatus.isHidden = false;
     } else {

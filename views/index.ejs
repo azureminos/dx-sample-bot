@@ -16,9 +16,6 @@
           "266691027485519",
           function success(context) {
             console.log(">>>>MessengerExtensions.getContext Success", context);
-            alert(
-              "context.psid [" + (context.psid ? context.psid : "empty") + "]"
-            );
             window.attachApp({
               viewerId: context.psid ? context.psid : "<%= userId %>",
               instId: "<%= instId %>",

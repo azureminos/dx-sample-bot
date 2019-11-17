@@ -79,6 +79,10 @@ const view = (params) => {
     userSocket,
   } = params;
   const {senderId, instId} = request;
+  // Persist socket details
+  if (!socketUsers.get(socket.id)) {
+    socketUsers.set(socket.id, {instId, senderId});
+  }
   // Get instance details (package, attractions, hotels, members)
   async.parallel(
     {
@@ -153,11 +157,11 @@ const view = (params) => {
             getInstance(instance, packageSummary);
           } else {
             // If empty list, then add current user and mark as owner
-            const user = getUser(senderId);
+            const userDetails = getUser(senderId);
             const owner = {
               instPackage: instId,
               loginId: senderId,
-              name: user.name,
+              name: userDetails.name,
               isOwner: true,
               status: InstanceStatus.INITIATED,
               people: Global.defaultPeople,
@@ -196,21 +200,63 @@ const view = (params) => {
 };
 
 // Join Room, Update Necessary List Info, Notify All Users in room of changes.
-const join = () => {
-  const {
-    request,
-    allInRoom,
-    sendStatus,
-    socket,
-    socketUsers,
-    userSocket,
-  } = params;
+const joinPackage = (input) => {
+  const {request, allInRoom, sendStatus} = input;
   const {senderId, instId, people, rooms} = request;
+  if (!senderId) {
+    console.error('User not registered to socket');
+    return;
+  }
+  const userDetails = getUser(senderId);
+  const member = {
+    instPackage: instId,
+    loginId: senderId,
+    name: userDetails.name,
+    isOwner: false,
+    status: InstanceStatus.INITIATED,
+    people: people,
+    rooms: rooms,
+    createdAt: new Date(),
+    createdBy: senderId,
+  };
+  Model.createInstanceMembers(member, (err, docs) => {
+    if (err) {
+      console.log('>>>>Model.createInstanceMembers error', err);
+      sendStatus('DatabaseError');
+    } else {
+      console.log('>>>>Model.createInstanceMembers completed', docs);
+      allInRoom(instId).emit('user:join', member);
+    }
+  });
+};
+
+// User Join Package
+const leavePackage = (input) => {
+  const {request, allInRoom, sendStatus} = input;
+  const {senderId, instId} = request;
+  if (!senderId) {
+    console.error('User not registered to socket');
+    return;
+  }
+  const params = {
+    instPackage: instId,
+    loginId: senderId,
+  };
+  Model.deleteInstanceByParams(params, (err) => {
+    if (err) {
+      console.log('>>>>Model.deleteInstanceByParams error', err);
+      sendStatus('DatabaseError');
+    } else {
+      console.log('>>>>Model.deleteInstanceByParams completed');
+      allInRoom(instId).emit('user:leave', senderId);
+    }
+  });
 };
 
 // Notify users in room when user leaves.
-const leave = ({userId, instId, allInRoom, socket, socketUsers}) => {
-  if (!userId) {
+const leave = ({request, allInRoom, socket, socketUsers}) => {
+  /* const {senderId} = request;
+  if (!senderId) {
     console.error('User not registered to socket');
     return;
   }
@@ -221,12 +267,12 @@ const leave = ({userId, instId, allInRoom, socket, socketUsers}) => {
   const onlineUsers = [...socketUsers.values()].reduce(
     (onlineUsers, socketUser) =>
       socketUser.instId === instId
-        ? [...onlineUsers, socketUser.userId]
+        ? [...onlineUsers, socketUser.senderId]
         : onlineUsers,
     []
   );
 
-  allInRoom(instId).emit('users:setOnline', onlineUsers);
+  allInRoom(instId).emit('users:setOnline', onlineUsers);*/
 };
 
 // Add notes
@@ -246,7 +292,8 @@ const addNotes = ({request: {text}, userId, instId, allInRoom, sendStatus}) => {
 
 export default {
   view,
-  join,
+  joinPackage,
+  leavePackage,
   leave,
   addNotes,
 };

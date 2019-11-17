@@ -380,6 +380,10 @@ const createInstanceMembers = (members, callback) => {
   console.log('>>>>Model.createInstanceMembers', members);
   return InstPackageMember.insertMany(members, callback);
 };
+const deleteInstanceByParams = (params, callback) => {
+  console.log('>>>>Model.deleteInstanceByParams', params);
+  return InstPackageMember.deleteMany(params, callback);
+};
 const deleteAllInstanceMembers = () => {
   return InstPackageMember.remove({}, () => {
     console.log('>>>>Function [deleteAllInstanceMembers] executed');
@@ -557,4 +561,5 @@ export default {
   deleteAllInstanceItems,
   deleteAllInstanceHotels,
   deleteAllInstanceMembers,
+  deleteInstanceByParams,
 };

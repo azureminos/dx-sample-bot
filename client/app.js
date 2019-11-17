@@ -55,6 +55,8 @@ class App extends React.Component {
     this.init = this.init.bind(this);
     this.pushToRemote = this.pushToRemote.bind(this);
     this.handleDialogShareClose = this.handleDialogShareClose.bind(this);
+    this.handleUserJoin = this.handleUserJoin.bind(this);
+    this.handleUserLeave = this.handleUserLeave.bind(this);
     this.handleAddNotes = this.handleAddNotes.bind(this);
     this.handleAddedNotes = this.handleAddedNotes.bind(this);
     this.handleHdPeopleChange = this.handleHdPeopleChange.bind(this);
@@ -304,6 +306,14 @@ class App extends React.Component {
   }
   handleFtBtnJoin() {
     console.log('>>>>MobileApp.handleFtBtnJoin');
+    const {_id, people, rooms} = this.state.instPackage;
+    const params = {
+      senderId: this.props.viewerId,
+      instId: _id,
+      people: people ? people : Global.defaultPeople,
+      rooms: rooms ? rooms : Global.defaultRooms,
+    };
+    this.pushToRemote('user:join', params);
   }
   handleFtBtnLeave() {
     console.log('>>>>MobileApp.handleFtBtnLeave');
@@ -593,10 +603,11 @@ class App extends React.Component {
     });
     this.setState({users});
   }
-  userJoin(newUser) {
-    console.log('>>>>Result coming back from socket [user:join]', newUser);
-    const oldUsers = this.state.users.slice();
-    const existing = oldUsers.find((user) => user.fbId == newUser.fbId);
+  handleUserJoin(newUser) {
+    console.log('>>>>Socket.handleUserJoin', newUser);
+    const {instPackage} = this.state;
+    const oldUsers = instPackage.members.slice();
+    const existing = oldUsers.find((user) => user.loginId === newUser.loginId);
     let users;
     if (existing) {
       users = oldUsers.map((user) =>
@@ -606,7 +617,15 @@ class App extends React.Component {
       oldUsers.push(newUser);
       users = oldUsers;
     }
-    this.setState({users});
+    this.setState({instPackage: {...instPackage, members: users}});
+  }
+  handleUserLeave(userLeft) {
+    console.log('>>>>Socket.handleUserLeave', userLeft);
+    const {instPackage} = this.state;
+    const filteredUsers = _.filter(instPackage.members, (u) => {
+      return u.loginId !== userLeft;
+    });
+    this.setState({instPackage: {...instPackage, members: filteredUsers}});
   }
 
   /* ==============================
@@ -621,7 +640,8 @@ class App extends React.Component {
 
     // Add socket event handlers.
     socket.on('init', this.init);
-    socket.on('user:join', this.userJoin);
+    socket.on('user:join', this.handleUserJoin);
+    socket.on('user:leave', this.handleUserLeave);
     socket.on('user:addNotes', this.handleAddedNotes);
 
     const self = this;

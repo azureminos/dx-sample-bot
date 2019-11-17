@@ -22,8 +22,13 @@ export default function attachSockets(io) {
           request,
           socketUsers,
         });
-        const {userId, instId} = socketUsers.get(socket.id) || {};
-
+        const {senderId, instId} = socketUsers.get(socket.id) || {};
+        if (!request.senderId) {
+          request.senderId = senderId;
+        }
+        if (!request.instId) {
+          request.instId = instId;
+        }
         handler({
           allInRoom,
           request,
@@ -31,8 +36,6 @@ export default function attachSockets(io) {
           socket,
           socketUsers,
           userSocket,
-          instId,
-          userId,
         });
       });
     };
@@ -41,7 +44,8 @@ export default function attachSockets(io) {
 
     channel('disconnect', UserSocket.leave);
     channel('push:user:view', UserSocket.view);
-    channel('push:user:join', UserSocket.join);
+    channel('push:user:join', UserSocket.joinPackage);
+    channel('push:user:leave', UserSocket.leavePackage);
     channel('push:user:addNotes', UserSocket.addNotes);
     channel('push:share:package', PackageSocket.sharePackage);
     channel('push:likedAttractions:update', UserSocket.updateLikedAttractions);
