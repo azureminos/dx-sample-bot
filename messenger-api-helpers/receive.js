@@ -7,9 +7,10 @@
 
 // ===== MESSENGER =============================================================
 import sendApi from './send';
-
 // ===== MODELS ================================================================
 import Model from '../db/schema';
+// ===== HELPERS =============================================================
+import ObjectParser from '../lib/object-parser';
 
 /*
  * handleReceivePostback — Postback event handler triggered by a postback
@@ -48,7 +49,8 @@ const handleReceivePostback = (event) => {
     Model.getInstanceByInstId(instId, (err, docs) => {
       if (err) console.log('>>>>Error.Model.getInstanceByInstId', err);
       console.log('>>>>Model.getInstanceByInstId', docs);
-      sendApi.sendPackageInst(senderId, docs);
+      const packageSummary = ObjectParser.parseTravelPackage(docs.package);
+      sendApi.sendPackageInst(senderId, docs._id, packageSummary);
     });
   } else {
     sendApi.sendMessage(senderId, `Unknown Postback called: ${type}`);

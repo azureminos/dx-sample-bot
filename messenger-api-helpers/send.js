@@ -92,17 +92,17 @@ const sendPackageMessage = (recipientId) => {
 };
 
 // Send a message notifying the user their list has been created.
-const sendPackageInst = (recipientId, inst) => {
+const sendPackageInst = (recipientId, instId, packageSummary) => {
   console.log(`>>>>sendPackageInst, recipientId[${recipientId}]`, inst);
   sendMessage(
     recipientId,
     messages.sharePackageMessage(
       APP_URL,
       recipientId,
-      inst.id,
-      inst.name,
-      inst.description,
-      inst.imageUrl
+      instId,
+      packageSummary.name,
+      packageSummary.description,
+      packageSummary.imageUrl
     )
   );
 };
