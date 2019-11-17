@@ -84,7 +84,10 @@ const sendPackageMessage = (recipientId) => {
   Model.getFilteredPackages(params, (err, docs) => {
     if (err) console.log('>>>>Error.Model.getFilteredPackages', err);
     console.log('>>>>Model.getFilteredPackages', docs);
-    sendMessage(recipientId, messages.packageMessage(APP_URL, docs));
+    sendMessage(
+      recipientId,
+      messages.packageMessage(APP_URL, recipientId, docs)
+    );
   });
 };
 
@@ -95,6 +98,7 @@ const sendPackageInst = (recipientId, inst) => {
     recipientId,
     messages.sharePackageMessage(
       APP_URL,
+      recipientId,
       inst.id,
       inst.name,
       inst.description,
@@ -132,7 +136,14 @@ const sendPackageShareItem = (recipientId, input) => {
   const {instId, title, description, imageUrl} = input;
   sendMessage(recipientId, [
     messages.packageShareMessage,
-    messages.sharePackageMessage(APP_URL, instId, title, description, imageUrl),
+    messages.sharePackageMessage(
+      APP_URL,
+      recipientId,
+      instId,
+      title,
+      description,
+      imageUrl
+    ),
   ]);
 };
 

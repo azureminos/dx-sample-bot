@@ -18,7 +18,7 @@ const handleWebviewAccess = (req, res) => {
     ? `http://${hostname}:${PORT}`
     : `wss://${hostname}`;
 
-  const {instId, packageId} = req.params;
+  const {instId, packageId, userId} = req.params;
 
   console.log('>>>>Printing input params', {packageId, instId, socketAddress});
 
@@ -42,20 +42,24 @@ const handleWebviewAccess = (req, res) => {
             err,
             results,
           });
-          res.render('./index', {instId: results.instance.id, socketAddress});
+          res.render('./index', {
+            instId: results.instance.id,
+            userId,
+            socketAddress,
+          });
         }
       });
     });
   } else if (instId === 'home') {
-    res.render('./index', {instId: '', socketAddress});
+    res.render('./index', {instId: '', userId, socketAddress});
   } else {
-    res.render('./index', {instId, socketAddress});
+    res.render('./index', {instId, userId, socketAddress});
   }
 };
 
 router.get('/', handleWebviewAccess);
-router.get('/:instId', handleWebviewAccess);
-router.get('/:instId/:packageId', handleWebviewAccess);
+router.get('/:userId/:instId', handleWebviewAccess);
+router.get('/:userId/:instId/:packageId', handleWebviewAccess);
 
 if (process.env.IS_CLEANUP === 'true') {
   Model.deleteAllInstanceMembers();

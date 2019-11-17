@@ -12,9 +12,10 @@
 /* ============  Local Variables  =============*/
 const msgWelcome =
   'Hello, I am XYZ and can assist you with your holiday planning. How may I help you?';
-const homeUrl = (apiUri) => `${apiUri}/home`;
-const packageUrl = (apiUri, packageId) => `${apiUri}/new/${packageId}`;
-const instPackageUrl = (apiUri, instId) => `${apiUri}/${instId}`;
+const packageUrl = (apiUri, userId, packageId) =>
+  `${apiUri}/${userId}/new/${packageId}`;
+const instPackageUrl = (apiUri, userId, instId) =>
+  `${apiUri}/${userId}/${instId}`;
 /*
  * BUTTONS
  *
@@ -25,19 +26,19 @@ const instPackageUrl = (apiUri, instId) => `${apiUri}/${instId}`;
 /**
  * Button for opening a specific list in a webview
  *
- * @param {string} instPackageUrl - URL for a specific package instance.
+ * @param {string} instanceUrl - URL for a specific package instance.
  * @param {string} buttonText - Text for the action button.
  * @returns {object} -
  *   Message to create a button pointing to the list in a webview.
  */
 const openExistingPackageButton = (
-  instPackageUrl,
+  instanceUrl,
   buttonText = 'View Details'
 ) => {
   return {
     type: 'web_url',
     title: buttonText,
-    url: instPackageUrl,
+    url: instanceUrl,
     messenger_extensions: true,
     webview_height_ratio: 'full',
     webview_share_button: 'hide',
@@ -51,10 +52,10 @@ const openExistingPackageButton = (
  * messages sent to Messenger users.
  */
 
-const packageMessage = (apiUri, packages) => {
+const packageMessage = (apiUri, userId, packages) => {
   console.log('>>>>Message.packageMessage', packages);
   const items = packages.map((p) => {
-    const urlToPackage = packageUrl(apiUri, p.id);
+    const urlToPackage = packageUrl(apiUri, userId, p.id);
 
     return {
       title: p.name,
@@ -95,15 +96,23 @@ const packageShareMessage = {
  * @param {string} imageUrl - Image url.
  * @returns {object} - Message to configure the customized sharing menu.
  */
-const sharePackageMessage = (apiUri, instId, title, description, imageUrl) => {
+const sharePackageMessage = (
+  apiUri,
+  userId,
+  instId,
+  title,
+  description,
+  imageUrl
+) => {
   console.log('>>>>sharePackageMessage(), start', {
     apiUri: apiUri,
+    userId: userId,
     instId: instId,
     title: title,
     description: description,
     imageUrl: imageUrl,
   });
-  const urlToInstPackage = instPackageUrl(apiUri, instId);
+  const urlToInstPackage = instPackageUrl(apiUri, userId, instId);
   const result = {
     attachment: {
       type: 'template',

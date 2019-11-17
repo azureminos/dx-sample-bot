@@ -17,7 +17,7 @@
           function success(context) {
             console.log(">>>>MessengerExtensions.getContext Success", context);
             window.attachApp({
-              viewerId: context.psid || 99999,
+              viewerId: "<%= userId %>",
               instId: "<%= instId %>",
               socketAddress: "<%= socketAddress %>",
               threadType: context.thread_type
@@ -26,6 +26,7 @@
           function error(err) {
             console.log(">>>>MessengerExtensions.getContext Error", err);
             window.attachApp({
+              viewerId: "<%= userId %>",
               instId: "<%= instId %>",
               socketAddress: "<%= socketAddress %>"
             });
