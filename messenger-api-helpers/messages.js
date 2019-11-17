@@ -165,11 +165,13 @@ const welcomeMessage = (lastInstance) => {
     title: 'Holidays on Sale',
     payload: 'promoted_packages',
   };
-  const iMyRecent = {
-    content_type: 'text',
-    title: 'Recent Update',
-    payload: `my_recent@${lastInstance._id}`,
-  };
+  const iMyRecent = lastInstance
+    ? {
+      content_type: 'text',
+      title: 'Recent Update',
+      payload: `my_recent@${lastInstance._id}`,
+    }
+    : null;
   const iHandOver = {
     content_type: 'text',
     title: 'Live Chat',
@@ -177,7 +179,7 @@ const welcomeMessage = (lastInstance) => {
   };
 
   replyItems.push(iAllPromote);
-  if (lastInstance) {
+  if (iMyRecent) {
     replyItems.push(iMyRecent);
   }
   replyItems.push(iHandOver);

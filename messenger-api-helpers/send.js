@@ -74,8 +74,8 @@ const sendReadReceipt = (recipientId) => {
 };
 
 // Send the initial welcoming message with quick reply options.
-const sendWelcomeMessage = (recipientId, lastInstanceId) => {
-  sendMessage(recipientId, messages.welcomeMessage(lastInstanceId));
+const sendWelcomeMessage = (recipientId, lastInstance) => {
+  sendMessage(recipientId, messages.welcomeMessage(lastInstance));
 };
 
 // Send the initial message welcoming & describing the bot.
