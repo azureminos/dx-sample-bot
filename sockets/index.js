@@ -23,15 +23,22 @@ export default function attachSockets(io) {
           socketUsers,
         });
         const {senderId, instId} = socketUsers.get(socket.id) || {};
-        if (!request.senderId) {
-          request.senderId = senderId;
+        const newRequest = {};
+        if (typeof request === 'object') {
+          if (!request.senderId) {
+            newRequest.senderId = senderId;
+          }
+          if (!request.instId) {
+            newRequest.instId = instId;
+          }
+        } else {
+          newRequest.senderId = senderId;
+          newRequest.instId = instId;
         }
-        if (!request.instId) {
-          request.instId = instId;
-        }
+
         handler({
           allInRoom,
-          request,
+          request: newRequest,
           sendStatus,
           socket,
           socketUsers,

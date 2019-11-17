@@ -56,7 +56,7 @@ class DialogShare extends React.Component {
     // Local Variables
     const {classes, open, apiUri, viewerId, pushToRemote} = this.props;
     const {instId, title, description, imageUrl} = this.props;
-    const shareUrl = `${apiUri}/${instId}`;
+    const shareUrl = `${apiUri}/${viewerId}/${instId}`;
     const params = {
       senderId: viewerId,
       input: {
