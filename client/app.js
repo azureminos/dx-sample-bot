@@ -27,6 +27,7 @@ import CONSTANTS from '../lib/constants';
 
 // ==== CSS ==============================================
 import 'react-id-swiper/src/styles/css/swiper.css';
+import { Socket } from 'net';
 
 // Variables
 const styles = (theme) => ({
@@ -41,7 +42,8 @@ const styles = (theme) => ({
     width: '98%',
   },
 });
-const {Modal, Global, Instance} = CONSTANTS.get();
+const {Modal, Global, Instance, SocketAction} = CONSTANTS.get();
+const InstanceStatus = Instance.status;
 let socket;
 
 /* ==============================
@@ -53,6 +55,7 @@ class App extends React.Component {
     super(props);
     // Register event handler
     this.init = this.init.bind(this);
+    this.update = this.update.bind(this);
     this.pushToRemote = this.pushToRemote.bind(this);
     this.handleDialogShareClose = this.handleDialogShareClose.bind(this);
     this.handleUserJoin = this.handleUserJoin.bind(this);
@@ -199,6 +202,33 @@ class App extends React.Component {
       instPackageExt: {...instPackageExt, ...matchingRates},
     });
   }
+  update(results) {
+    console.log('>>>>Result coming back from socket [update]', results);
+    const {action, instId, userId, params} = results;
+    const {instPackage} = this.state;
+    const {members} = instPackage;
+    if (action === SocketAction.UPDATE_PEOPLE) {
+      const {instPackage} = this.state;
+      if (instPackage.status === InstanceStatus.INITIATED) {
+        instPackage.status = InstanceStatus.IN_PROGRESS;
+      }
+      for (let i = 0; i < members.length; i++) {
+        const member = members[i];
+        if (member.loginId === userId) {
+          member.people = params.people;
+          member.rooms = params.rooms;
+          if (member.status === InstanceStatus.INITIATED) {
+            member.status = InstanceStatus.IN_PROGRESS;
+          }
+        }
+      }
+
+    } else if (action === SocketAction.UPDATE_ROOMS) {
+
+    } else if(action === SocketAction.UPDATE_DATE) {
+
+    }
+  }
   // ----------  BotHeader  ----------
   handleHdPeopleChange(input) {
     console.log('>>>>MobileApp.handleHdPeopleChange');
@@ -222,6 +252,16 @@ class App extends React.Component {
       instPackage: {...instPackage, rate: matchingRates.curRate},
       instPackageExt: {...instPackageExt, ...matchingRates},
     });
+
+    const req = {
+      action: SocketAction.UPDATE_PEOPLE,
+      params: {
+        people: input.people,
+        rooms: input.rooms,
+        status: InstanceStatus.IN_PROGRESS,
+      },
+    };
+    this.pushToRemote('package:update', req);
   }
   handleHdRoomChange(input) {
     console.log('>>>>MobileApp.handleHdRoomChange');
@@ -643,6 +683,7 @@ class App extends React.Component {
     socket.on('user:join', this.handleUserJoin);
     socket.on('user:leave', this.handleUserLeave);
     socket.on('user:addNotes', this.handleAddedNotes);
+    socket.on('user:leave', this.handleUserLeave);
 
     const self = this;
     // Check for permission, ask if there is none

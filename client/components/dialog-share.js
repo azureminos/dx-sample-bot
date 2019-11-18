@@ -13,10 +13,14 @@ import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import MessageIcon from '@material-ui/icons/MessageRounded';
 import Slide from '@material-ui/core/Slide';
+import {
+  FacebookShareButton,
+  FacebookIcon,
+  TwitterShareButton,
+  TwitterIcon,
+} from 'react-share';
 
-import {FacebookShareButton, FacebookIcon} from 'react-share';
-import {TwitterShareButton, TwitterIcon} from 'react-share';
-
+// Variables
 const styles = {
   root: {},
   appBar: {
@@ -57,9 +61,9 @@ class DialogShare extends React.Component {
     const {classes, open, apiUri, viewerId, pushToRemote} = this.props;
     const {instId, title, description, imageUrl} = this.props;
     const shareUrl = `${apiUri}/${viewerId}/${instId}`;
-    const params = {
+    const input = {
       senderId: viewerId,
-      input: {
+      params: {
         instId: instId,
         title: title,
         description: description,
@@ -67,7 +71,7 @@ class DialogShare extends React.Component {
       },
     };
     const sharePackage = () => {
-      pushToRemote('share:package', params);
+      pushToRemote('package:share', input);
       window.MessengerExtensions.requestCloseBrowser(null, null);
     };
     // Display widget

@@ -67,7 +67,8 @@ export default function attachSockets(io) {
     channel('push:user:join', UserSocket.joinPackage);
     channel('push:user:leave', UserSocket.leavePackage);
     channel('push:user:addNotes', UserSocket.addNotes);
-    channel('push:share:package', PackageSocket.sharePackage);
+    channel('push:package:share', PackageSocket.sharePackage);
+    channel('push:package:update', PackageSocket.updatePackage);
     channel('push:likedAttractions:update', UserSocket.updateLikedAttractions);
   });
 }

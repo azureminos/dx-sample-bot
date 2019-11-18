@@ -15,18 +15,23 @@ import _ from 'lodash';
 // ===== MESSENGER =============================================================
 import sendApi from '../messenger-api-helpers/send';
 // ===== HANDLER ===============================================================
-const sharePackage = (params) => {
-  console.log('>>>>Socket.sharePackage', params);
-  const {request, sendStatus} = params;
-  const {senderId, input} = request;
-  if (!input || !input.instId) {
+const sharePackage = (input) => {
+  console.log('>>>>Socket.sharePackage', input);
+  const {request, sendStatus} = input;
+  const {senderId, params} = request;
+  if (!params || !params.instId) {
     console.error('shareList: Invalid Package Instance ID');
     return;
   }
-  sendApi.sendPackageShareItem(senderId, input);
+  sendApi.sendPackageShareItem(senderId, params);
   sendStatus('ok');
+};
+
+const updatePackage = (input) => {
+  console.log('>>>>Socket.updatePackage', input);
 };
 
 export default {
   sharePackage,
+  updatePackage,
 };

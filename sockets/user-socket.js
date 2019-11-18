@@ -69,7 +69,7 @@ const getFacebookProfileInfoForUsers = (users = [], instId, socketUsers) => {
   );
 };
 
-const view = (params) => {
+const view = (input) => {
   const {
     request,
     allInRoom,
@@ -77,7 +77,7 @@ const view = (params) => {
     socket,
     socketUsers,
     userSocket,
-  } = params;
+  } = input;
   console.log('>>>>Socket.view start', {request, socketUsers});
   const {senderId, instId} = request;
   // Persist socket details
