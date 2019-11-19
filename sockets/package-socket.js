@@ -7,28 +7,96 @@
 
 // ===== Module ================================================================
 import _ from 'lodash';
-
+import async from 'async';
+import CONSTANTS from '../lib/constants';
 // ===== DB ====================================================================
-
+import Model from '../db/schema';
 // ===== SOCKET ================================================================
 
 // ===== MESSENGER =============================================================
 import sendApi from '../messenger-api-helpers/send';
+
+// Variables
+const {Global, Instance, SocketChannel} = CONSTANTS.get();
+const InstanceStatus = Instance.status;
+const SocketAction = SocketChannel.Action;
+const SocketStatus = SocketChannel.Status;
+
 // ===== HANDLER ===============================================================
 const sharePackage = (input) => {
   console.log('>>>>Socket.sharePackage', input);
   const {request, sendStatus} = input;
-  const {senderId, params} = request;
-  if (!params || !params.instId) {
+  const {senderId, instId, params} = request;
+  if (!senderId) {
+    console.error('shareList: Invalid User ID');
+    sendStatus(SocketStatus.INVALID_USER);
+    return;
+  }
+  if (!instId) {
     console.error('shareList: Invalid Package Instance ID');
+    sendStatus(SocketStatus.INVALID_INSTANCE);
     return;
   }
   sendApi.sendPackageShareItem(senderId, params);
-  sendStatus('ok');
+  sendStatus(SocketStatus.OK);
 };
 
 const updatePackage = (input) => {
-  console.log('>>>>Socket.updatePackage', input);
+  const {request, allInRoom, sendStatus} = input;
+  console.log('>>>>Socket.updatePackage', request);
+  const {senderId, instId, action, params} = request;
+  params.status = InstanceStatus.IN_PROGRESS;
+  if (action === SocketAction.UPDATE_PEOPLE) {
+    console.log('>>>>Start to process people update');
+    async.parallel(
+      {
+        instance: (callback) => {
+          const pInstance = {
+            query: {
+              _id: instId,
+              status: InstanceStatus.INITIATED,
+            },
+            update: {
+              status: params.status,
+              updatedAt: new Date(),
+              updatedBy: senderId,
+            },
+          };
+          Model.updateInstance(pInstance, callback);
+        },
+        members: (callback) => {
+          const pMembers = {
+            query: {
+              instPackage: instId,
+              loginId: senderId,
+            },
+            update: {
+              status: params.status,
+              people: params.people,
+              rooms: params.rooms,
+              updatedAt: new Date(),
+              updatedBy: senderId,
+            },
+          };
+          Model.updateInstanceMembers(pMembers, callback);
+        },
+      },
+      function(err, result) {
+        if (err) {
+          console.error('>>>>Database Error', err);
+          sendStatus(SocketStatus.DB_ERROR);
+        } else {
+          console.log(`>>>>Model.updatePackage[${action}] Result`, result);
+          allInRoom.emit('package:update', params);
+          sendStatus(SocketStatus.OK);
+        }
+      }
+    );
+  } else if (action === SocketAction.UPDATE_ROOMS) {
+    console.log('>>>>Start to process rooms update');
+  } else if (action === SocketAction.UPDATE_DATE) {
+    console.log('>>>>Start to process date update');
+  }
 };
 
 export default {

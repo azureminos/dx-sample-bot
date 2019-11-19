@@ -17,9 +17,11 @@ import userApi from '../messenger-api-helpers/user';
 import sendApi from '../messenger-api-helpers/send';
 
 // Variables
-const {Global, Instance} = CONSTANTS.get();
+const {Global, Instance, SocketChannel} = CONSTANTS.get();
 const InstanceStatus = Instance.status;
+const SocketStatus = SocketChannel.Status;
 
+// ===== HANDLER ===============================================================
 // Find or Create a new/existing User with the given id.
 const getUser = (senderId) => {
   return {
@@ -103,7 +105,7 @@ const view = (input) => {
     function(err, results1) {
       if (err) {
         console.error('>>>>Database Error', err);
-        sendStatus('DatabaseError');
+        sendStatus(SocketStatus.DB_ERROR);
       } else {
         const {
           instance,
@@ -113,7 +115,7 @@ const view = (input) => {
         } = results1;
         if (!instance) {
           console.error(">>>>Package instance doesn't exist!");
-          sendStatus('NoInstance');
+          sendStatus(SocketStatus.NO_INSTANCE);
         } else {
           console.log('>>>>Model.view Level 1 Result', results1);
           const packageSummary = ObjectParser.parseTravelPackage(
@@ -145,10 +147,11 @@ const view = (input) => {
               function(err, results2) {
                 if (err) {
                   console.error('>>>>Database Error', err);
-                  sendStatus('DatabaseError');
+                  sendStatus(SocketStatus.DB_ERROR);
                 } else {
                   console.log('>>>>Model.view Level 2 Result', results2);
                   socket.emit('init', results2);
+                  sendStatus(SocketStatus.OK);
                 }
               }
             );
@@ -187,7 +190,7 @@ const view = (input) => {
               function(err, output) {
                 if (err) {
                   console.error('>>>>Database Error', err);
-                  sendStatus('DatabaseError');
+                  sendStatus(SocketStatus.DB_ERROR);
                 } else {
                   getInstance(instance, packageSummary);
                 }
@@ -206,6 +209,7 @@ const joinPackage = (input) => {
   const {senderId, instId, people, rooms} = request;
   if (!senderId) {
     console.error('User not registered to socket');
+    sendStatus(SocketStatus.INVALID_USER);
     return;
   }
   const userDetails = getUser(senderId);
@@ -223,10 +227,11 @@ const joinPackage = (input) => {
   Model.createInstanceMembers(member, (err, docs) => {
     if (err) {
       console.log('>>>>Model.createInstanceMembers error', err);
-      sendStatus('DatabaseError');
+      sendStatus(SocketStatus.DB_ERROR);
     } else {
       console.log('>>>>Model.createInstanceMembers completed', docs);
       allInRoom(instId).emit('user:join', member);
+      sendStatus(SocketStatus.OK);
     }
   });
 };
@@ -237,6 +242,7 @@ const leavePackage = (input) => {
   const {senderId, instId} = request;
   if (!senderId) {
     console.error('User not registered to socket');
+    sendStatus(SocketStatus.INVALID_USER);
     return;
   }
   const params = {
@@ -246,16 +252,18 @@ const leavePackage = (input) => {
   Model.deleteInstanceByParams(params, (err) => {
     if (err) {
       console.log('>>>>Model.deleteInstanceByParams error', err);
-      sendStatus('DatabaseError');
+      sendStatus(SocketStatus.DB_ERROR);
     } else {
       console.log('>>>>Model.deleteInstanceByParams completed');
       allInRoom(instId).emit('user:leave', senderId);
+      sendStatus(SocketStatus.OK);
     }
   });
 };
 
 // Notify users in room when user leaves.
-const leave = ({request, allInRoom, socket, socketUsers}) => {
+const leave = (input) => {
+  const {request, allInRoom, socket, socketUsers, sendStatus} = input;
   /* const {senderId} = request;
   if (!senderId) {
     console.error('User not registered to socket');
@@ -274,6 +282,7 @@ const leave = ({request, allInRoom, socket, socketUsers}) => {
   );
 
   allInRoom(instId).emit('users:setOnline', onlineUsers);*/
+  sendStatus(SocketStatus.OK);
 };
 
 // Add notes
@@ -287,8 +296,8 @@ const addNotes = ({request: {text}, userId, instId, allInRoom, sendStatus}) => {
   /* CaseNotes.addNotes(note).then((rs) => {
     console.log('>>>>addNotes.receiveAddedNotes', rs);
     allInRoom(instId).emit('user:addNotes', rs);
-    sendStatus('ok');
   });*/
+  sendStatus(SocketStatus.OK);
 };
 
 export default {

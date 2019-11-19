@@ -348,6 +348,9 @@ const createInstanceItems = (items, callback) => {
   console.log('>>>>Model.createInstanceItems', items);
   return InstPackageItem.insertMany(items, callback);
 };
+const updateInstanceItems = (params, callback) => {
+  InstPackageItem.update(params.query, params.update, callback);
+};
 const deleteAllInstanceItems = () => {
   return InstPackageItem.remove({}, () => {
     console.log('>>>>Function [deleteAllInstanceItems] executed');
@@ -365,6 +368,9 @@ const createInstanceHotels = (hotels, callback) => {
   console.log('>>>>Model.createInstanceHotels', hotels);
   return InstPackageHotel.insertMany(hotels, callback);
 };
+const updateInstanceHotels = (params, callback) => {
+  InstPackageHotel.update(params.query, params.update, callback);
+};
 const deleteAllInstanceHotels = () => {
   return InstPackageHotel.remove({}, () => {
     console.log('>>>>Function [deleteAllInstanceHotels] executed');
@@ -379,6 +385,9 @@ const getInstanceMembersByInstId = (instId, callback) => {
 const createInstanceMembers = (members, callback) => {
   console.log('>>>>Model.createInstanceMembers', members);
   return InstPackageMember.insertMany(members, callback);
+};
+const updateInstanceMembers = (params, callback) => {
+  InstPackageMember.update(params.query, params.update, callback);
 };
 const deleteInstanceByParams = (params, callback) => {
   console.log('>>>>Model.deleteInstanceByParams', params);
@@ -557,6 +566,9 @@ export default {
   createInstanceMembers,
   updateInstance,
   updateInstanceStatus,
+  updateInstanceMembers,
+  updateInstanceItems,
+  updateInstanceHotels,
   deleteAllInstances,
   deleteAllInstanceItems,
   deleteAllInstanceHotels,

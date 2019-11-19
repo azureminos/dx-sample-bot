@@ -27,7 +27,6 @@ import CONSTANTS from '../lib/constants';
 
 // ==== CSS ==============================================
 import 'react-id-swiper/src/styles/css/swiper.css';
-import { Socket } from 'net';
 
 // Variables
 const styles = (theme) => ({
@@ -42,8 +41,9 @@ const styles = (theme) => ({
     width: '98%',
   },
 });
-const {Modal, Global, Instance, SocketAction} = CONSTANTS.get();
+const {Modal, Global, Instance, SocketChannel} = CONSTANTS.get();
 const InstanceStatus = Instance.status;
+const SocketAction = SocketChannel.Action;
 let socket;
 
 /* ==============================
@@ -94,6 +94,7 @@ class App extends React.Component {
       isOpenDialogShare: false,
       modalType: '',
       modalRef: null,
+      rates: null,
       instPackage: null,
       instPackageExt: null,
       reference: {
@@ -204,29 +205,55 @@ class App extends React.Component {
   }
   update(results) {
     console.log('>>>>Result coming back from socket [update]', results);
-    const {action, instId, userId, params} = results;
-    const {instPackage} = this.state;
+    const {action, userId, params} = results;
+    const {instPackage, rates} = this.state;
     const {members} = instPackage;
+    let update = false;
     if (action === SocketAction.UPDATE_PEOPLE) {
+      console.log('>>>>Start to process people update');
       const {instPackage} = this.state;
-      if (instPackage.status === InstanceStatus.INITIATED) {
-        instPackage.status = InstanceStatus.IN_PROGRESS;
+      if (instPackage.status !== params.status) {
+        instPackage.status = params.status;
+        update = true;
       }
       for (let i = 0; i < members.length; i++) {
         const member = members[i];
         if (member.loginId === userId) {
-          member.people = params.people;
-          member.rooms = params.rooms;
-          if (member.status === InstanceStatus.INITIATED) {
-            member.status = InstanceStatus.IN_PROGRESS;
+          if (member.people !== params.people) {
+            member.people = params.people;
+            update = true;
+          }
+          if (member.rooms !== params.rooms) {
+            member.rooms = params.rooms;
+            update = true;
+          }
+          if (member.status !== params.status) {
+            member.status = params.status;
+            update = true;
           }
         }
       }
-
     } else if (action === SocketAction.UPDATE_ROOMS) {
-
-    } else if(action === SocketAction.UPDATE_DATE) {
-
+      console.log('>>>>Start to process rooms update');
+    } else if (action === SocketAction.UPDATE_DATE) {
+      console.log('>>>>Start to process date update');
+    }
+    // Check if updated
+    if (update) {
+      const instPackageExt = PackageHelper.enhanceInstance({
+        userId: userId,
+        instPackage: instPackage,
+        rates: rates,
+      });
+      const matchingRates = PackageHelper.doRating({
+        instPackage: instPackage,
+        instPackageExt: instPackageExt,
+        rates: rates,
+      });
+      this.setState({
+        instPackage: instPackage,
+        instPackageExt: {...instPackageExt, ...matchingRates},
+      });
     }
   }
   // ----------  BotHeader  ----------
