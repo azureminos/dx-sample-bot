@@ -263,7 +263,8 @@ const leavePackage = (input) => {
 
 // Notify users in room when user leaves.
 const leave = (input) => {
-  const {request, allInRoom, socket, socketUsers, sendStatus} = input;
+  console.log('>>>>Socket.leave', input);
+  // const {request, allInRoom, socket, socketUsers, sendStatus} = input;
   /* const {senderId} = request;
   if (!senderId) {
     console.error('User not registered to socket');
@@ -282,11 +283,15 @@ const leave = (input) => {
   );
 
   allInRoom(instId).emit('users:setOnline', onlineUsers);*/
-  sendStatus(SocketStatus.OK);
 };
 
 // Add notes
-const addNotes = ({request: {text}, userId, instId, allInRoom, sendStatus}) => {
+const addNotes = (input) => {
+  const {
+    request: {userId, instId, text},
+    allInRoom,
+    sendStatus,
+  } = input;
   console.log('>>>>Calling addNotes', {text, userId, instId});
   const note = {
     instId: instId,
