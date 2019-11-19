@@ -87,7 +87,7 @@ const updatePackage = (input) => {
           sendStatus(SocketStatus.DB_ERROR);
         } else {
           console.log(`>>>>Model.updatePackage[${action}] Result`, result);
-          allInRoom.emit('package:update', params);
+          allInRoom(instId).emit('package:update', params);
           sendStatus(SocketStatus.OK);
         }
       }
