@@ -279,13 +279,20 @@ class App extends React.Component {
       instPackage: {...instPackage, rate: matchingRates.curRate},
       instPackageExt: {...instPackageExt, ...matchingRates},
     });
-
+    let status = instPackage.status;
+    if (instPackage.status === InstanceStatus.INITIATED) {
+      if (instPackage.isCustomised) {
+        status = InstanceStatus.SELECT_ATTRACTION;
+      } else {
+        status = InstanceStatus.IN_PROGRESS;
+      }
+    }
     const req = {
       action: SocketAction.UPDATE_PEOPLE,
       params: {
         people: input.people,
         rooms: input.rooms,
-        status: InstanceStatus.IN_PROGRESS,
+        status: status,
       },
     };
     this.pushToRemote('package:update', req);

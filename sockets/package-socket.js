@@ -45,7 +45,6 @@ const updatePackage = (input) => {
   const {request, allInRoom, sendStatus} = input;
   console.log('>>>>Socket.updatePackage', {request, sendStatus});
   const {senderId, instId, action, params} = request;
-  params.status = InstanceStatus.IN_PROGRESS;
   if (action === SocketAction.UPDATE_PEOPLE) {
     console.log('>>>>Start to process people update');
     async.parallel(
@@ -71,7 +70,7 @@ const updatePackage = (input) => {
               loginId: senderId,
             },
             update: {
-              status: params.status,
+              status: InstanceStatus.IN_PROGRESS,
               people: params.people,
               rooms: params.rooms,
               updatedAt: new Date(),

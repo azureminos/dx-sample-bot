@@ -265,8 +265,8 @@ const leavePackage = (input) => {
 
 // Notify users in room when user leaves.
 const leave = (input) => {
-  console.log('>>>>Socket.leave', input);
-  // const {request, allInRoom, socket, socketUsers, sendStatus} = input;
+  const {request, allInRoom, socket, socketUsers, sendStatus} = input;
+  console.log('>>>>Socket.leave', {request, sendStatus});
   /* const {senderId} = request;
   if (!senderId) {
     console.error('User not registered to socket');
