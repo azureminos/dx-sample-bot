@@ -80,7 +80,7 @@ const view = (input) => {
     socketUsers,
     userSocket,
   } = input;
-  console.log('>>>>Socket.view start', {request, socketUsers});
+  console.log('>>>>Socket.view start', {request, socketUsers, sendStatus});
   const {senderId, instId} = request;
   // Persist socket details
   if (!socketUsers.get(socket.id)) {
@@ -207,6 +207,7 @@ const view = (input) => {
 const joinPackage = (input) => {
   const {request, allInRoom, sendStatus} = input;
   const {senderId, instId, people, rooms} = request;
+  console.log('>>>>Socket.joinPackage', {request, sendStatus});
   if (!senderId) {
     console.error('User not registered to socket');
     sendStatus(SocketStatus.INVALID_USER);
@@ -240,6 +241,7 @@ const joinPackage = (input) => {
 const leavePackage = (input) => {
   const {request, allInRoom, sendStatus} = input;
   const {senderId, instId} = request;
+  console.log('>>>>Socket.leavePackage', {request, sendStatus});
   if (!senderId) {
     console.error('User not registered to socket');
     sendStatus(SocketStatus.INVALID_USER);

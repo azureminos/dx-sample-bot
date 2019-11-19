@@ -24,9 +24,9 @@ const SocketStatus = SocketChannel.Status;
 
 // ===== HANDLER ===============================================================
 const sharePackage = (input) => {
-  console.log('>>>>Socket.sharePackage', input);
   const {request, sendStatus} = input;
   const {senderId, instId, params} = request;
+  console.log('>>>>Socket.sharePackage', {request, sendStatus});
   if (!senderId) {
     console.error('shareList: Invalid User ID');
     sendStatus(SocketStatus.INVALID_USER);
@@ -43,7 +43,7 @@ const sharePackage = (input) => {
 
 const updatePackage = (input) => {
   const {request, allInRoom, sendStatus} = input;
-  console.log('>>>>Socket.updatePackage', request);
+  console.log('>>>>Socket.updatePackage', {request, sendStatus});
   const {senderId, instId, action, params} = request;
   params.status = InstanceStatus.IN_PROGRESS;
   if (action === SocketAction.UPDATE_PEOPLE) {
