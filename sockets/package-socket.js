@@ -56,7 +56,7 @@ const updatePackage = (input) => {
               status: InstanceStatus.INITIATED,
             },
             update: {
-              status: params.status,
+              status: params.statusInstance,
               updatedAt: new Date(),
               updatedBy: senderId,
             },
@@ -70,7 +70,7 @@ const updatePackage = (input) => {
               loginId: senderId,
             },
             update: {
-              status: InstanceStatus.IN_PROGRESS,
+              status: params.statusMember,
               people: params.people,
               rooms: params.rooms,
               updatedAt: new Date(),
