@@ -246,6 +246,24 @@ class App extends React.Component {
       }
     } else if (action === SocketAction.UPDATE_ROOMS) {
       console.log('>>>>Start to process rooms update');
+      const {instPackage} = this.state;
+      if (instPackage.status !== params.statusInstance) {
+        instPackage.status = params.statusInstance;
+        update = true;
+      }
+      for (let i = 0; i < members.length; i++) {
+        const member = members[i];
+        if (member.loginId === senderId) {
+          if (member.rooms !== params.rooms) {
+            member.rooms = params.rooms;
+            update = true;
+          }
+          if (member.status !== params.statusMember) {
+            member.status = params.statusMember;
+            update = true;
+          }
+        }
+      }
     } else if (action === SocketAction.UPDATE_DATE) {
       console.log('>>>>Start to process date update');
     }
@@ -313,14 +331,14 @@ class App extends React.Component {
     this.pushToRemote('package:update', req);
   }
   handleHdRoomChange(input) {
-    console.log('>>>>MobileApp.handleHdRoomChange');
-    const {userId, instPackage, instPackageExt} = this.state;
+    console.log('>>>>MobileApp.handleHdRoomChange', input);
+    const {viewerId, instId} = this.props;
+    const {instPackage, instPackageExt} = this.state;
     for (let i = 0; i < instPackage.members.length; i++) {
-      if (instPackage.members[i].loginId === userId) {
+      if (instPackage.members[i].loginId === viewerId) {
         instPackage.members[i].rooms = input.rooms;
       }
     }
-
     instPackageExt.rooms = input.rooms;
 
     const matchingRates = PackageHelper.doRating({
@@ -333,6 +351,25 @@ class App extends React.Component {
       instPackage: {...instPackage, rate: matchingRates.curRate},
       instPackageExt: {...instPackageExt, ...matchingRates},
     });
+    let status = instPackage.status;
+    if (instPackage.status === InstanceStatus.INITIATED) {
+      if (instPackage.isCustomised) {
+        status = InstanceStatus.SELECT_ATTRACTION;
+      } else {
+        status = InstanceStatus.IN_PROGRESS;
+      }
+    }
+    const req = {
+      senderId: viewerId,
+      instId: instId,
+      action: SocketAction.UPDATE_ROOMS,
+      params: {
+        rooms: input.rooms,
+        statusInstance: status,
+        statusMember: InstanceStatus.IN_PROGRESS,
+      },
+    };
+    this.pushToRemote('package:update', req);
   }
   // ----------  BotFooter  ----------
   handleFtBtnCustomise() {

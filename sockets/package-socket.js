@@ -116,6 +116,50 @@ const updatePackage = (input) => {
     );
   } else if (action === SocketAction.UPDATE_ROOMS) {
     console.log('>>>>Start to process rooms update');
+    async.parallel(
+      {
+        instance: (callback) => {
+          const pInstance = {
+            query: {
+              _id: instId,
+              status: InstanceStatus.INITIATED,
+            },
+            update: {
+              status: params.statusInstance,
+              updatedAt: new Date(),
+              updatedBy: senderId,
+            },
+          };
+          Model.updateInstance(pInstance, callback);
+        },
+        members: (callback) => {
+          const pMembers = {
+            query: {
+              instPackage: instId,
+              loginId: senderId,
+            },
+            update: {
+              status: params.statusMember,
+              rooms: params.rooms,
+              updatedAt: new Date(),
+              updatedBy: senderId,
+            },
+          };
+          Model.updateInstanceMembers(pMembers, callback);
+        },
+      },
+      function(err, result) {
+        if (err) {
+          console.error('>>>>Database Error', err);
+          sendStatus(SocketStatus.DB_ERROR);
+        } else {
+          console.log(`>>>>Model.updatePackage[${action}] Result`, result);
+          output = {...request};
+          allInRoom(instId).emit('package:update', output);
+          sendStatus(SocketStatus.OK);
+        }
+      }
+    );
   } else if (action === SocketAction.UPDATE_DATE) {
     console.log('>>>>Start to process date update');
   }
