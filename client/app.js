@@ -259,9 +259,10 @@ class App extends React.Component {
   // ----------  BotHeader  ----------
   handleHdPeopleChange(input) {
     console.log('>>>>MobileApp.handleHdPeopleChange');
-    const {userId, instPackage, instPackageExt} = this.state;
+    const {viewerId, instId} = this.props;
+    const {instPackage, instPackageExt} = this.state;
     for (let i = 0; i < instPackage.members.length; i++) {
-      if (instPackage.members[i].loginId === userId) {
+      if (instPackage.members[i].loginId === viewerId) {
         instPackage.members[i].people = input.people;
         instPackage.members[i].rooms = input.rooms;
       }
@@ -288,6 +289,8 @@ class App extends React.Component {
       }
     }
     const req = {
+      senderId: viewerId,
+      instId: instId,
       action: SocketAction.UPDATE_PEOPLE,
       params: {
         people: input.people,
@@ -381,12 +384,13 @@ class App extends React.Component {
   }
   handleFtBtnJoin() {
     console.log('>>>>MobileApp.handleFtBtnJoin');
-    const {_id, people, rooms} = this.state.instPackage;
+    const {viewerId, instId} = this.props;
+    const {instPackage} = this.state;
     const params = {
-      senderId: this.props.viewerId,
-      instId: _id,
-      people: people ? people : Global.defaultPeople,
-      rooms: rooms ? rooms : Global.defaultRooms,
+      senderId: viewerId,
+      instId: instId,
+      people: Global.defaultPeople,
+      rooms: Global.defaultRooms,
     };
     this.pushToRemote('user:join', params);
   }
@@ -654,19 +658,10 @@ class App extends React.Component {
   }
   // ----------  Notes  ----------
   handleAddNotes(notes) {
-    const instId = this.state.instPackage._id;
-    console.log(`>>>>handleAddNotes of Inst[${instId}]`, notes);
-    this.pushToRemote('user:addNotes', {text: notes});
+    console.log('>>>>MobileApp.handleAddNotes');
   }
   handleAddedNotes(note) {
-    const instId = this.state.instPackage._id;
-    console.log(`>>>>handleAddedNotes of Inst[${instId}]`, note);
-    const notes = this.state.instPackage.notes;
-    notes.push(note);
-    console.log('>>>>handleAddedNotes, notes', notes);
-    const instPackage = {...this.state.instPackage, notes};
-    console.log('>>>>handleAddedNotes, state update', instPackage);
-    this.setState({instPackage});
+    console.log('>>>>MobileApp.handleAddedNotes');
   }
   // ----------  Users  ----------
   setOnlineUsers(onlineUserFbIds = []) {
@@ -726,11 +721,12 @@ class App extends React.Component {
         // check if permission exists
         const permissions = response.permissions;
         if (permissions.indexOf('user_profile') > -1) {
-          if (self.props.viewerId) {
+          const {viewerId, instId} = this.props;
+          if (viewerId) {
             console.log('>>>>Send event[push:user:view]', self.props);
             self.pushToRemote('user:view', {
-              senderId: self.props.viewerId,
-              instId: self.props.instId,
+              senderId: viewerId,
+              instId: instId,
             });
           } else {
             console.log('>>>>NO viewerId');
@@ -739,11 +735,12 @@ class App extends React.Component {
           window.MessengerExtensions.askPermission(
             function(response) {
               const isGranted = response.isGranted;
-              if (isGranted && self.props.viewerId) {
+              const {viewerId, instId} = this.props;
+              if (isGranted && viewerId) {
                 console.log('>>>>Send event[push:user:view]', self.props);
                 self.pushToRemote('user:view', {
-                  senderId: self.props.viewerId,
-                  instId: self.props.instId,
+                  senderId: viewerId,
+                  instId: instId,
                 });
               } else {
                 window.MessengerExtensions.requestCloseBrowser(null, null);
@@ -833,8 +830,8 @@ class App extends React.Component {
         <DialogShare
           open={isOpenDialogShare}
           viewerId={viewerId}
-          title={packageSummary.name}
           instId={instPackage._id}
+          title={packageSummary.name}
           description={packageSummary.description}
           imageUrl={packageSummary.imageUrl}
           apiUri={apiUri}
