@@ -63,8 +63,8 @@ class DialogShare extends React.Component {
     const shareUrl = `${apiUri}/${viewerId}/${instId}`;
     const input = {
       senderId: viewerId,
+      instId: instId,
       params: {
-        instId: instId,
         title: title,
         description: description,
         imageUrl: imageUrl,
