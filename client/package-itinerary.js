@@ -81,6 +81,7 @@ class PackageItinerary extends React.Component {
     const {
       classes,
       isCustomised,
+      isOwner,
       status,
       transport: {totalDays, departDates, carOption, carOptions},
       itineraries,
@@ -94,7 +95,7 @@ class PackageItinerary extends React.Component {
       handleDeleteItinerary,
     } = actions;
     const {startDate} = this.state;
-    const isDisabled = status === InstanceStatus.PENDING_PAYMENT;
+    const isDisabled = !isOwner || status === InstanceStatus.PENDING_PAYMENT;
     const stStartDate = startDate
       ? Moment(startDate).format(Global.dateFormat)
       : '';
@@ -137,7 +138,7 @@ class PackageItinerary extends React.Component {
       let secHotel = '';
       let btnDelete = '';
       let btnAdd = '';
-      if (!isCustomised) {
+      if (!isCustomised || !isOwner) {
         // always display attraction / hotel icon
         secAttraction = <AttractionList attractions={it.attractions} />;
         secHotel = <HotelList hotels={it.hotels} />;

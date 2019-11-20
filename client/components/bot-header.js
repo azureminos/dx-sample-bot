@@ -113,10 +113,14 @@ class BotHeader extends React.Component {
           : `Max group size is ${max}`;
     }
 
-    const miPeople = this.buildMenuItems(1, max, 'Person');
+    const miPeople = this.buildMenuItems(
+      1,
+      Global.maxPeopleSelection,
+      'Person'
+    );
     const miRooms = this.buildMenuItems(
-      Math.ceil((otherPeople + people) / maxRoomCapacity) || 1,
-      otherPeople + people,
+      Math.ceil(people / maxRoomCapacity) || 1,
+      people,
       'Room'
     );
 
@@ -143,7 +147,7 @@ class BotHeader extends React.Component {
                     disabled={isPeopleDisabled}
                   >
                     <Select
-                      value={otherPeople + people}
+                      value={people}
                       onChange={this.doHandlePeopleChange}
                       input={
                         <Input name='people' id='people-label-placeholder' />
@@ -160,7 +164,7 @@ class BotHeader extends React.Component {
                     disabled={isRoomDisabled}
                   >
                     <Select
-                      value={otherRooms + rooms}
+                      value={rooms}
                       onChange={this.doHandleRoomChange}
                       input={
                         <Input name='rooms' id='rooms-label-placeholder' />

@@ -885,6 +885,7 @@ class App extends React.Component {
             />
             <PackageItinerary
               isCustomised={instPackage.isCustomised}
+              isOwner={instPackageExt.isOwner}
               rates={rates}
               transport={transport}
               itineraries={itineraries}
