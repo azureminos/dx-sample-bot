@@ -215,7 +215,7 @@ class App extends React.Component {
   }
   update(results) {
     console.log('>>>>Result coming back from socket [package:update]', results);
-    const {action, userId, params} = results;
+    const {action, senderId, params} = results;
     const {instPackage, rates} = this.state;
     const {members} = instPackage;
     let update = false;
@@ -228,7 +228,7 @@ class App extends React.Component {
       }
       for (let i = 0; i < members.length; i++) {
         const member = members[i];
-        if (member.loginId === userId) {
+        if (member.loginId === senderId) {
           if (member.people !== params.people) {
             member.people = params.people;
             update = true;
