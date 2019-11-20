@@ -63,7 +63,8 @@ const calcVisibility = ({instPackage, instPackageExt}) => {
   // Logic starts here
   if (!instPackage.isCustomised) {
     if (instPackageExt.isOwner) {
-      if (instPackage.status === Instance.status.INITIATED) {
+      if (instPackage.status === Instance.status.INITIATED ||
+        instPackage.status === Instance.status.IN_PROGRESS) {
         vs.BtnShare.isHidden = false;
         vs.BtnCustomise.isHidden = !instPackage.isCustomisable;
         vs.BtnLock.isHidden = false;
@@ -73,7 +74,8 @@ const calcVisibility = ({instPackage, instPackageExt}) => {
       } else {
         vs.BtnStatus.isHidden = false;
       }
-    } else if (instPackage.status === Instance.status.INITIATED) {
+    } else if (instPackage.status === Instance.status.INITIATED ||
+      instPackage.status === Instance.status.IN_PROGRESS) {
       vs.BtnShare.isHidden = false;
       vs.BtnJoin.isHidden = instPackageExt.isJoined;
       vs.BtnLeave.isHidden = !instPackageExt.isJoined;
