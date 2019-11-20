@@ -37,7 +37,7 @@ const sharePackage = (input) => {
     sendStatus(SocketStatus.INVALID_INSTANCE);
     return;
   }
-  sendApi.sendPackageShareItem(senderId, params);
+  sendApi.sendPackageShareItem(senderId, {...params, instId});
   sendStatus(SocketStatus.OK);
 };
 
