@@ -217,6 +217,7 @@ class App extends React.Component {
     console.log('>>>>Result coming back from socket [package:update]', results);
     const {action, senderId, params} = results;
     const {instPackage, rates} = this.state;
+    const {viewerId} = this.props;
     const {members} = instPackage;
     let update = false;
     if (action === SocketAction.UPDATE_PEOPLE) {
@@ -251,7 +252,7 @@ class App extends React.Component {
     // Check if updated
     if (update) {
       const instPackageExt = PackageHelper.enhanceInstance({
-        userId: userId,
+        userId: viewerId,
         instPackage: instPackage,
         rates: rates,
       });
