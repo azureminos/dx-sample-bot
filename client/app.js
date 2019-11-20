@@ -721,7 +721,7 @@ class App extends React.Component {
         // check if permission exists
         const permissions = response.permissions;
         if (permissions.indexOf('user_profile') > -1) {
-          const {viewerId, instId} = this.props;
+          const {viewerId, instId} = self.props;
           if (viewerId) {
             console.log('>>>>Send event[push:user:view]', self.props);
             self.pushToRemote('user:view', {
@@ -735,7 +735,7 @@ class App extends React.Component {
           window.MessengerExtensions.askPermission(
             function(response) {
               const isGranted = response.isGranted;
-              const {viewerId, instId} = this.props;
+              const {viewerId, instId} = self.props;
               if (isGranted && viewerId) {
                 console.log('>>>>Send event[push:user:view]', self.props);
                 self.pushToRemote('user:view', {
