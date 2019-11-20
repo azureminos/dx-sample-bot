@@ -718,8 +718,7 @@ class App extends React.Component {
     socket.on('user:join', this.handleUserJoin);
     socket.on('user:leave', this.handleUserLeave);
     socket.on('user:addNotes', this.handleAddedNotes);
-    socket.on('user:leave', this.handleUserLeave);
-
+    
     const self = this;
     // Check for permission, ask if there is none
     window.MessengerExtensions.getGrantedPermissions(
