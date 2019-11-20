@@ -97,6 +97,7 @@ const view = (input) => {
   if (!socketUsers.get(socket.id)) {
     socketUsers.set(socket.id, {instId, senderId});
   }
+  socket.join(instId);
   // Get instance details (package, attractions, hotels, members)
   async.parallel(
     {
