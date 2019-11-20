@@ -49,6 +49,7 @@ const sharePackage = (input) => {
 const updatePackage = (input) => {
   const {request, allInRoom, sendStatus, socket, socketUsers} = input;
   const {senderId, instId, action, params} = request;
+  let output = {};
   console.log('>>>>Socket.updatePackage', {request, sendStatus});
   // Validate UserId and InstanceId
   if (!senderId) {
@@ -107,7 +108,8 @@ const updatePackage = (input) => {
           sendStatus(SocketStatus.DB_ERROR);
         } else {
           console.log(`>>>>Model.updatePackage[${action}] Result`, result);
-          allInRoom(instId).emit('package:update', params);
+          output = {...request};
+          allInRoom(instId).emit('package:update', output);
           sendStatus(SocketStatus.OK);
         }
       }

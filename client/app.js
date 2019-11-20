@@ -214,7 +214,7 @@ class App extends React.Component {
     });
   }
   update(results) {
-    console.log('>>>>Result coming back from socket [update]', results);
+    console.log('>>>>Result coming back from socket [package:update]', results);
     const {action, userId, params} = results;
     const {instPackage, rates} = this.state;
     const {members} = instPackage;
@@ -268,7 +268,7 @@ class App extends React.Component {
   }
   // ----------  BotHeader  ----------
   handleHdPeopleChange(input) {
-    console.log('>>>>MobileApp.handleHdPeopleChange');
+    console.log('>>>>MobileApp.handleHdPeopleChange', input);
     const {viewerId, instId} = this.props;
     const {instPackage, instPackageExt} = this.state;
     for (let i = 0; i < instPackage.members.length; i++) {
@@ -732,6 +732,7 @@ class App extends React.Component {
     socket.on('user:join', this.handleUserJoin);
     socket.on('user:leave', this.handleUserLeave);
     socket.on('user:addNotes', this.handleAddedNotes);
+    socket.on('package:update', this.update);
 
     const self = this;
     // Check for permission, ask if there is none
