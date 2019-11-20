@@ -212,8 +212,8 @@ class App extends React.Component {
     if (action === SocketAction.UPDATE_PEOPLE) {
       console.log('>>>>Start to process people update');
       const {instPackage} = this.state;
-      if (instPackage.status !== params.status) {
-        instPackage.status = params.status;
+      if (instPackage.status !== params.statusInstance) {
+        instPackage.status = params.statusInstance;
         update = true;
       }
       for (let i = 0; i < members.length; i++) {
@@ -227,8 +227,8 @@ class App extends React.Component {
             member.rooms = params.rooms;
             update = true;
           }
-          if (member.status !== params.status) {
-            member.status = params.status;
+          if (member.status !== params.statusMember) {
+            member.status = params.statusMember;
             update = true;
           }
         }
@@ -292,7 +292,8 @@ class App extends React.Component {
       params: {
         people: input.people,
         rooms: input.rooms,
-        status: status,
+        statusInstance: status,
+        statusMember: InstanceStatus.IN_PROGRESS,
       },
     };
     this.pushToRemote('package:update', req);
