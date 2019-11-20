@@ -725,9 +725,7 @@ class App extends React.Component {
     socket.on('reconnect', () => {
       console.log('>>>>Socket.reconnect');
     });
-    socket.on('connect', () => {
-      socket.emit('register', this.register);
-    });
+    socket.on('connect', this.register);
     socket.on('init', this.init);
     socket.on('user:join', this.handleUserJoin);
     socket.on('user:leave', this.handleUserLeave);
