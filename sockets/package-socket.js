@@ -24,27 +24,48 @@ const SocketStatus = SocketChannel.Status;
 
 // ===== HANDLER ===============================================================
 const sharePackage = (input) => {
-  const {request, sendStatus} = input;
+  const {request, sendStatus, socket, socketUsers} = input;
   const {senderId, instId, params} = request;
   console.log('>>>>Socket.sharePackage', {request, sendStatus});
+  // Validate UserId and InstanceId
   if (!senderId) {
     console.error('shareList: Invalid User ID');
     sendStatus(SocketStatus.INVALID_USER);
     return;
   }
   if (!instId) {
-    console.error('shareList: Invalid Package Instance ID');
+    console.error('Invalid Package Instance ID');
     sendStatus(SocketStatus.INVALID_INSTANCE);
     return;
+  }
+  // Persist socket details
+  if (!socketUsers.get(socket.id)) {
+    socketUsers.set(socket.id, {instId, senderId});
   }
   sendApi.sendPackageShareItem(senderId, {...params, instId});
   sendStatus(SocketStatus.OK);
 };
 
 const updatePackage = (input) => {
-  const {request, allInRoom, sendStatus} = input;
-  console.log('>>>>Socket.updatePackage', {request, sendStatus});
+  const {request, allInRoom, sendStatus, socket, socketUsers} = input;
   const {senderId, instId, action, params} = request;
+  console.log('>>>>Socket.updatePackage', {request, sendStatus});
+  // Validate UserId and InstanceId
+  if (!senderId) {
+    console.error('shareList: Invalid User ID');
+    sendStatus(SocketStatus.INVALID_USER);
+    return;
+  }
+  if (!instId) {
+    console.error('Invalid Package Instance ID');
+    sendStatus(SocketStatus.INVALID_INSTANCE);
+    return;
+  }
+  // Persist socket details
+  if (!socketUsers.get(socket.id)) {
+    socketUsers.set(socket.id, {instId, senderId});
+  }
+  // Check actions
   if (action === SocketAction.UPDATE_PEOPLE) {
     console.log('>>>>Start to process people update');
     async.parallel(

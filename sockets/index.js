@@ -60,9 +60,10 @@ export default function attachSockets(io) {
       });
     };
 
-    console.log(`A user connected (socket ID ${socket.id})`);
+    console.log(`A user connected (socket ID ${socket.id})`, socket);
 
     channel('disconnect', UserSocket.leave);
+    channel('push:register', UserSocket.register);
     channel('push:user:view', UserSocket.view);
     channel('push:user:join', UserSocket.joinPackage);
     channel('push:user:leave', UserSocket.leavePackage);

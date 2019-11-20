@@ -82,6 +82,17 @@ const view = (input) => {
   } = input;
   console.log('>>>>Socket.view start', {request, socketUsers, sendStatus});
   const {senderId, instId} = request;
+  // Validate UserId and InstanceId
+  if (!senderId) {
+    console.error('User not registered to socket');
+    sendStatus(SocketStatus.INVALID_USER);
+    return;
+  }
+  if (!instId) {
+    console.error('Invalid Package Instance ID');
+    sendStatus(SocketStatus.INVALID_INSTANCE);
+    return;
+  }
   // Persist socket details
   if (!socketUsers.get(socket.id)) {
     socketUsers.set(socket.id, {instId, senderId});
@@ -203,15 +214,48 @@ const view = (input) => {
   );
 };
 
+// Register User to Socket
+const register = (input) => {
+  const {request, allInRoom, sendStatus, socketUsers, socket} = input;
+  const {senderId, instId} = request;
+  console.log('>>>>Socket.joinPackage', {request, sendStatus});
+  // Validate UserId and InstanceId
+  if (!senderId) {
+    console.error('User not registered to socket');
+    if (sendStatus) sendStatus(SocketStatus.INVALID_USER);
+    return;
+  }
+  if (!instId) {
+    console.error('Invalid Package Instance ID');
+    if (sendStatus) sendStatus(SocketStatus.INVALID_INSTANCE);
+    return;
+  }
+  // Persist socket details
+  if (!socketUsers.get(socket.id)) {
+    socketUsers.set(socket.id, {instId, senderId});
+  }
+  if (sendStatus) sendStatus(SocketStatus.OK);
+};
+
 // Join Room, Update Necessary List Info, Notify All Users in room of changes.
 const joinPackage = (input) => {
-  const {request, allInRoom, sendStatus} = input;
+  const {request, allInRoom, sendStatus, socketUsers, socket} = input;
   const {senderId, instId, people, rooms} = request;
   console.log('>>>>Socket.joinPackage', {request, sendStatus});
+  // Validate UserId and InstanceId
   if (!senderId) {
     console.error('User not registered to socket');
     sendStatus(SocketStatus.INVALID_USER);
     return;
+  }
+  if (!instId) {
+    console.error('Invalid Package Instance ID');
+    sendStatus(SocketStatus.INVALID_INSTANCE);
+    return;
+  }
+  // Persist socket details
+  if (!socketUsers.get(socket.id)) {
+    socketUsers.set(socket.id, {instId, senderId});
   }
   const userDetails = getUser(senderId);
   const member = {
@@ -239,13 +283,23 @@ const joinPackage = (input) => {
 
 // User Join Package
 const leavePackage = (input) => {
-  const {request, allInRoom, sendStatus} = input;
+  const {request, allInRoom, sendStatus, socket, socketUsers} = input;
   const {senderId, instId} = request;
   console.log('>>>>Socket.leavePackage', {request, sendStatus});
+  // Validate UserId and InstanceId
   if (!senderId) {
     console.error('User not registered to socket');
     sendStatus(SocketStatus.INVALID_USER);
     return;
+  }
+  if (!instId) {
+    console.error('Invalid Package Instance ID');
+    sendStatus(SocketStatus.INVALID_INSTANCE);
+    return;
+  }
+  // Persist socket details
+  if (!socketUsers.get(socket.id)) {
+    socketUsers.set(socket.id, {instId, senderId});
   }
   const params = {
     instPackage: instId,
@@ -308,6 +362,7 @@ const addNotes = (input) => {
 };
 
 export default {
+  register,
   view,
   joinPackage,
   leavePackage,

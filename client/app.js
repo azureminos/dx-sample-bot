@@ -54,9 +54,10 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     // Register event handler
+    this.pushToRemote = this.pushToRemote.bind(this);
     this.init = this.init.bind(this);
     this.update = this.update.bind(this);
-    this.pushToRemote = this.pushToRemote.bind(this);
+    this.register = this.register.bind(this);
     this.handleDialogShareClose = this.handleDialogShareClose.bind(this);
     this.handleUserJoin = this.handleUserJoin.bind(this);
     this.handleUserLeave = this.handleUserLeave.bind(this);
@@ -126,6 +127,15 @@ class App extends React.Component {
      = State & Event Handlers     =
      ============================== */
   // ----------  App  ----------
+  register() {
+    console.log('>>>>MobileApp.register');
+    const {viewerId, instId} = this.props;
+    const params = {
+      senderId: viewerId,
+      instId: instId,
+    };
+    this.pushToRemote('register', params);
+  }
   handleDialogShareClose() {
     console.log('>>>>MobileApp.handleDialogShareClose');
     this.setState({
@@ -709,11 +719,20 @@ class App extends React.Component {
     });
 
     // Add socket event handlers.
+    socket.on('disconnect', () => {
+      console.log('>>>>Socket.disconnect');
+    });
+    socket.on('reconnect', () => {
+      console.log('>>>>Socket.reconnect');
+    });
+    socket.on('connect', () => {
+      socket.emit('register', this.register);
+    });
     socket.on('init', this.init);
     socket.on('user:join', this.handleUserJoin);
     socket.on('user:leave', this.handleUserLeave);
     socket.on('user:addNotes', this.handleAddedNotes);
-    
+
     const self = this;
     // Check for permission, ask if there is none
     window.MessengerExtensions.getGrantedPermissions(
