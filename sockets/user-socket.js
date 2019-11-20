@@ -218,7 +218,7 @@ const view = (input) => {
 const register = (input) => {
   const {request, allInRoom, sendStatus, socketUsers, socket} = input;
   const {senderId, instId} = request;
-  console.log('>>>>Socket.joinPackage', {request, sendStatus});
+  console.log('>>>>Socket.register', {request, sendStatus});
   // Validate UserId and InstanceId
   if (!senderId) {
     console.error('User not registered to socket');
@@ -233,6 +233,7 @@ const register = (input) => {
   // Persist socket details
   if (!socketUsers.get(socket.id)) {
     socketUsers.set(socket.id, {instId, senderId});
+    socket.join(instId);
   }
   if (sendStatus) sendStatus(SocketStatus.OK);
 };
