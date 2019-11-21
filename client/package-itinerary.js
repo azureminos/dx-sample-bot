@@ -157,7 +157,11 @@ class PackageItinerary extends React.Component {
             />
           </div>
         );
-        secHotel = <HotelList hotels={it.hotels} />;
+        secHotel = (
+          <div>
+            <HotelList hotels={it.hotels} />
+          </div>
+        );
         btnDelete = isDayChangable ? (
           <Fab
             size='small'
@@ -185,7 +189,11 @@ class PackageItinerary extends React.Component {
           ''
         );
       } else if (status === InstanceStatus.SELECT_HOTEL) {
-        secAttraction = <AttractionList attractions={it.attractions} />;
+        secAttraction = (
+          <div>
+            <AttractionList attractions={it.attractions} />
+          </div>
+        );
         secHotel = (
           <div>
             <HotelList hotels={it.hotels} />

@@ -1,7 +1,14 @@
 import _ from 'lodash';
-import React from 'react';
+import React, {createElement} from 'react';
 import Swiper from 'react-id-swiper';
+import {withStyles} from '@material-ui/core/styles';
 import AttractionCard from './attraction-card';
+
+const styles = (theme) => ({
+  slideRoot: {
+    padding: 4,
+  },
+});
 
 class AttractionSlider extends React.Component {
   constructor(props) {
@@ -9,6 +16,7 @@ class AttractionSlider extends React.Component {
   }
 
   render() {
+    const {classes} = this.props;
     const params = {
       centeredSlides: true,
       slidesPerView: 2,
@@ -29,7 +37,11 @@ class AttractionSlider extends React.Component {
     if (attractions && attractions.length > 0) {
       const cards = _.map(attractions, (a, idx) => {
         return (
-          <div className='attraction-slide' key={idx}>
+          <div
+            className='attraction-slide'
+            key={idx}
+            className={classes.slideRoot}
+          >
             <AttractionCard item={a} doLikeAttraction={doLikeAttraction} />
           </div>
         );
@@ -41,4 +53,4 @@ class AttractionSlider extends React.Component {
   }
 }
 
-export default AttractionSlider;
+export default withStyles(styles, {withTheme: true})(AttractionSlider);
