@@ -31,9 +31,9 @@ const styles = {
     fontSize: '1rem',
   },
   bodyRoot: {
-    padding: '8px',
+    padding: 8,
     overflow: 'hidden',
-    maxHheight: '100px',
+    height: 75,
   },
 };
 
@@ -43,10 +43,8 @@ class AttractionCard extends React.Component {
     const cardContent = !item.description ? (
       ''
     ) : (
-      <CardContent className={{root: styles.bodyRoot}}>
-        <Typography component='p' className={classes.bodyContent}>
-          {item.description}
-        </Typography>
+      <CardContent className={{root: classes.bodyRoot}}>
+        <Typography component='p'>{item.description}</Typography>
       </CardContent>
     );
     return (
