@@ -35,6 +35,9 @@ const styles = {
     overflow: 'hidden',
     height: 75,
   },
+  bodyPadding: {
+    padding: 8,
+  },
 };
 
 class AttractionCard extends React.Component {
@@ -43,7 +46,10 @@ class AttractionCard extends React.Component {
     const cardContent = !item.description ? (
       ''
     ) : (
-      <CardContent classes={{root: classes.bodyRoot}}>
+      <CardContent
+        classes={{root: classes.bodyRoot}}
+        className={classes.bodyPadding}
+      >
         <Typography component='p'>{item.description}</Typography>
       </CardContent>
     );
