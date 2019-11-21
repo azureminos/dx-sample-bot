@@ -43,7 +43,7 @@ class AttractionCard extends React.Component {
     const cardContent = !item.description ? (
       ''
     ) : (
-      <CardContent className={{root: classes.bodyRoot}}>
+      <CardContent classes={{root: classes.bodyRoot}}>
         <Typography component='p'>{item.description}</Typography>
       </CardContent>
     );
