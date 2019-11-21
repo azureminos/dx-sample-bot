@@ -28,6 +28,7 @@ const handleWebviewAccess = (req, res) => {
       console.log('>>>>Model.getPackageById Success', docs);
       const instance = {
         packageId: packageId,
+        totalDays: docs.totalDays,
         carOption: docs.carOption,
         isCustomised: false,
       };

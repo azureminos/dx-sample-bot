@@ -424,7 +424,7 @@ const updateInstance = (params, callback) => {
 };
 const createInstanceByPackageId = (request, handler) => {
   console.log('>>>>Modal.createInstanceByPackageId', request);
-  const {packageId, user, isCustomised, carOption} = request;
+  const {packageId, user, isCustomised, carOption, totalDays} = request;
   const now = new Date();
   const createdBy = user ? user.id : Global.sysUser;
   const instance = {
@@ -435,6 +435,7 @@ const createInstanceByPackageId = (request, handler) => {
     rate: 0,
     totalPeople: 0,
     totalRooms: 0,
+    totalDays: totalDays,
     createdBy: createdBy,
     createdAt: now,
   };

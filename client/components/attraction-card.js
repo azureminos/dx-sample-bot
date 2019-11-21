@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {createElement} from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -24,6 +24,17 @@ const styles = {
     padding: 8,
     height: 80,
   },
+  headerContent: {
+    overflow: 'hidden',
+  },
+  headerTitle: {
+    fontSize: '1rem',
+  },
+  bodyRoot: {
+    padding: '8px',
+    overflow: 'hidden',
+    maxHheight: '100px',
+  },
 };
 
 class AttractionCard extends React.Component {
@@ -32,14 +43,20 @@ class AttractionCard extends React.Component {
     const cardContent = !item.description ? (
       ''
     ) : (
-      <CardContent>
-        <Typography component='p'>{item.description}</Typography>
+      <CardContent className={{root: styles.bodyRoot}}>
+        <Typography component='p' className={classes.bodyContent}>
+          {item.description}
+        </Typography>
       </CardContent>
     );
     return (
       <Card className={classes.card}>
         <CardHeader
-          classes={{root: classes.headerRoot}}
+          classes={{
+            root: classes.headerRoot,
+            title: classes.headerTitle,
+            content: classes.headerContent,
+          }}
           action={
             <IconButton onClick={() => doLikeAttraction(item)}>
               <SolidCheckIcon
