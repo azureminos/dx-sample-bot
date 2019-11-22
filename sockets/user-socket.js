@@ -282,16 +282,21 @@ const joinPackage = (input) => {
       console.log('>>>>Model.findInstanceMemberById error', err);
     } else {
       console.log('>>>>Model.findInstanceMemberById completed', docs);
-      /* Model.createInstanceMembers(member, (err, docs) => {
-        if (err) {
-          console.log('>>>>Model.createInstanceMembers error', err);
-          sendStatus(SocketStatus.DB_ERROR);
-        } else {
-          console.log('>>>>Model.createInstanceMembers completed', docs);
-          allInRoom(instId).emit('user:join', member);
-          sendStatus(SocketStatus.OK);
-        }
-      });*/
+      if (!docs || docs.length === 0) {
+        Model.createInstanceMembers(member, (err, docs) => {
+          if (err) {
+            console.log('>>>>Model.createInstanceMembers error', err);
+            sendStatus(SocketStatus.DB_ERROR);
+          } else {
+            console.log('>>>>Model.createInstanceMembers completed', docs);
+            allInRoom(instId).emit('user:join', member);
+            sendStatus(SocketStatus.OK);
+          }
+        });
+      } else {
+        console.log('>>>>User existed already');
+        sendStatus(SocketStatus.EXISTING_USER);
+      }
     }
   });
 };
