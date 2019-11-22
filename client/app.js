@@ -218,7 +218,6 @@ class App extends React.Component {
     const {action, senderId, params} = results;
     const {instPackage, rates} = this.state;
     const {viewerId} = this.props;
-    const {members} = instPackage;
     let update = false;
     if (action === SocketAction.UPDATE_PEOPLE) {
       console.log('>>>>Start to process people update');
@@ -227,8 +226,8 @@ class App extends React.Component {
         instPackage.status = params.statusInstance;
         update = true;
       }
-      for (let i = 0; i < members.length; i++) {
-        const member = members[i];
+      for (let i = 0; i < instPackage.members.length; i++) {
+        const member = instPackage.members[i];
         if (member.loginId === senderId) {
           if (member.people !== params.people) {
             member.people = params.people;
@@ -251,8 +250,8 @@ class App extends React.Component {
         instPackage.status = params.statusInstance;
         update = true;
       }
-      for (let i = 0; i < members.length; i++) {
-        const member = members[i];
+      for (let i = 0; i < instPackage.members.length; i++) {
+        const member = instPackage.members[i];
         if (member.loginId === senderId) {
           if (member.rooms !== params.rooms) {
             member.rooms = params.rooms;
@@ -274,7 +273,7 @@ class App extends React.Component {
         instPackage.members.push(params);
       }
     } else if (action === SocketAction.USER_LEAVE) {
-      console.log('>>>>Start to process user join');
+      console.log('>>>>Start to process user leave');
       update = true;
       const {instPackage} = this.state;
       _.remove(instPackage.members, (m) => {
@@ -472,6 +471,8 @@ class App extends React.Component {
     const {instPackageExt} = this.state;
     if (instPackageExt.isJoined) {
       instPackageExt.isJoined = false;
+      instPackageExt.people = 0;
+      instPackageExt.rooms = 0;
       this.setState({instPackageExt});
       const params = {
         senderId: viewerId,
