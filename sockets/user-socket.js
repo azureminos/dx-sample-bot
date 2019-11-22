@@ -276,11 +276,11 @@ const joinPackage = (input) => {
     loginId: senderId,
   };
   Model.getInstanceMembersByParams(params, (err, docs) => {
-    if(err) {
+    if (err) {
       console.log('>>>>Model.findInstanceMemberById error', err);
     } else {
       console.log('>>>>Model.findInstanceMemberById completed', docs);
-      /*Model.createInstanceMembers(member, (err, docs) => {
+      /* Model.createInstanceMembers(member, (err, docs) => {
         if (err) {
           console.log('>>>>Model.createInstanceMembers error', err);
           sendStatus(SocketStatus.DB_ERROR);
@@ -291,7 +291,7 @@ const joinPackage = (input) => {
         }
       });*/
     }
-  }
+  });
 };
 
 // User Join Package
