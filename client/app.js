@@ -735,10 +735,10 @@ class App extends React.Component {
     this.setState({instPackage: instPackage});
   }
   // ----------  Package Instance Car  ----------
-  handleSelectCar(selectedVal) {
-    console.log('>>>>MobileApp.handleSelectCar', selectedVal);
+  handleSelectCar(carOption) {
+    console.log('>>>>MobileApp.handleSelectCar', carOption);
     const {instPackage} = this.state;
-    instPackage.carOption = selectedVal;
+    instPackage.carOption = carOption;
   }
   // ----------  Notes  ----------
   handleAddNotes(notes) {

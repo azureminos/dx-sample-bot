@@ -306,8 +306,7 @@ const joinPackage = (input) => {
     }
   });
 };
-
-// User Join Package
+// User Leave Package
 const leavePackage = (input) => {
   const {request, allInRoom, sendStatus, socket, socketUsers} = input;
   const {senderId, instId} = request;
