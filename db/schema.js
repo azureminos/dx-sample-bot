@@ -377,6 +377,10 @@ const deleteAllInstanceHotels = () => {
   });
 };
 // Inst Package Members
+const getInstanceMembersByParams = (params, callback) => {
+  console.log('>>>>Model.getInstanceMembersById', params);
+  return InstPackageMember.find(params).exec(callback);
+};
 const getInstanceMembersByInstId = (instId, callback) => {
   console.log('>>>>Model.getInstanceMembersByInstId', instId);
   const params = {instPackage: new mongoose.Types.ObjectId(instId)};
@@ -559,6 +563,7 @@ export default {
   getInstanceByInstId,
   getInstanceItemsByInstId,
   getInstanceHotelsByInstId,
+  getInstanceMembersByParams,
   getInstanceMembersByInstId,
   createInstanceByPackageId,
   createInstance,

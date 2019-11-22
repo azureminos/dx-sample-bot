@@ -271,16 +271,27 @@ const joinPackage = (input) => {
     createdAt: new Date(),
     createdBy: senderId,
   };
-  Model.createInstanceMembers(member, (err, docs) => {
-    if (err) {
-      console.log('>>>>Model.createInstanceMembers error', err);
-      sendStatus(SocketStatus.DB_ERROR);
+  const params = {
+    instPackage: instId,
+    loginId: senderId,
+  };
+  Model.getInstanceMembersByParams(params, (err, docs) => {
+    if(err) {
+      console.log('>>>>Model.findInstanceMemberById error', err);
     } else {
-      console.log('>>>>Model.createInstanceMembers completed', docs);
-      allInRoom(instId).emit('user:join', member);
-      sendStatus(SocketStatus.OK);
+      console.log('>>>>Model.findInstanceMemberById completed', docs);
+      /*Model.createInstanceMembers(member, (err, docs) => {
+        if (err) {
+          console.log('>>>>Model.createInstanceMembers error', err);
+          sendStatus(SocketStatus.DB_ERROR);
+        } else {
+          console.log('>>>>Model.createInstanceMembers completed', docs);
+          allInRoom(instId).emit('user:join', member);
+          sendStatus(SocketStatus.OK);
+        }
+      });*/
     }
-  });
+  }
 };
 
 // User Join Package
