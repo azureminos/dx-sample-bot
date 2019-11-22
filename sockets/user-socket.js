@@ -19,6 +19,7 @@ import sendApi from '../messenger-api-helpers/send';
 // Variables
 const {Global, Instance, SocketChannel} = CONSTANTS.get();
 const InstanceStatus = Instance.status;
+const SocketAction = SocketChannel.Action;
 const SocketStatus = SocketChannel.Status;
 
 // ===== HANDLER ===============================================================
@@ -204,6 +205,7 @@ const view = (input) => {
                   console.error('>>>>Database Error', err);
                   sendStatus(SocketStatus.DB_ERROR);
                 } else {
+                  console.error('>>>>Member added', output);
                   getInstance(instance, packageSummary);
                 }
               }
@@ -318,13 +320,18 @@ const leavePackage = (input) => {
     instPackage: instId,
     loginId: senderId,
   };
-  Model.deleteInstanceByParams(params, (err) => {
+  Model.deleteInstanceByParams(params, (err, docs) => {
     if (err) {
       console.log('>>>>Model.deleteInstanceByParams error', err);
       sendStatus(SocketStatus.DB_ERROR);
     } else {
-      console.log('>>>>Model.deleteInstanceByParams completed');
-      allInRoom(instId).emit('user:leave', senderId);
+      console.log('>>>>Model.deleteInstanceByParams completed', docs);
+      const output = {
+        action: SocketAction.USER_LEAVE,
+        senderId,
+        instId,
+      };
+      allInRoom(instId).emit('package:update', output);
       sendStatus(SocketStatus.OK);
     }
   });

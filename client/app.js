@@ -266,6 +266,20 @@ class App extends React.Component {
       }
     } else if (action === SocketAction.UPDATE_DATE) {
       console.log('>>>>Start to process date update');
+    } else if (action === SocketAction.USER_JOIN) {
+      console.log('>>>>Start to process user join');
+      const {instPackage} = this.state;
+      if (params && params.loginId) {
+        update = true;
+        instPackage.members.push(params);
+      }
+    } else if (action === SocketAction.USER_LEAVE) {
+      console.log('>>>>Start to process user join');
+      update = true;
+      const {instPackage} = this.state;
+      _.remove(instPackage.members, (m) => {
+        return m.loginId === senderId;
+      });
     }
     // Check if updated
     if (update) {
@@ -309,26 +323,29 @@ class App extends React.Component {
       instPackage: {...instPackage, rate: matchingRates.curRate},
       instPackageExt: {...instPackageExt, ...matchingRates},
     });
-    let status = instPackage.status;
-    if (instPackage.status === InstanceStatus.INITIATED) {
-      if (instPackage.isCustomised) {
-        status = InstanceStatus.SELECT_ATTRACTION;
-      } else {
-        status = InstanceStatus.IN_PROGRESS;
+    // Update status and sync to server
+    if (instPackageExt.isJoined) {
+      let status = instPackage.status;
+      if (instPackage.status === InstanceStatus.INITIATED) {
+        if (instPackage.isCustomised) {
+          status = InstanceStatus.SELECT_ATTRACTION;
+        } else {
+          status = InstanceStatus.IN_PROGRESS;
+        }
       }
+      const req = {
+        senderId: viewerId,
+        instId: instId,
+        action: SocketAction.UPDATE_PEOPLE,
+        params: {
+          people: input.people,
+          rooms: input.rooms,
+          statusInstance: status,
+          statusMember: InstanceStatus.IN_PROGRESS,
+        },
+      };
+      this.pushToRemote('package:update', req);
     }
-    const req = {
-      senderId: viewerId,
-      instId: instId,
-      action: SocketAction.UPDATE_PEOPLE,
-      params: {
-        people: input.people,
-        rooms: input.rooms,
-        statusInstance: status,
-        statusMember: InstanceStatus.IN_PROGRESS,
-      },
-    };
-    this.pushToRemote('package:update', req);
   }
   handleHdRoomChange(input) {
     console.log('>>>>MobileApp.handleHdRoomChange', input);
@@ -351,25 +368,28 @@ class App extends React.Component {
       instPackage: {...instPackage, rate: matchingRates.curRate},
       instPackageExt: {...instPackageExt, ...matchingRates},
     });
-    let status = instPackage.status;
-    if (instPackage.status === InstanceStatus.INITIATED) {
-      if (instPackage.isCustomised) {
-        status = InstanceStatus.SELECT_ATTRACTION;
-      } else {
-        status = InstanceStatus.IN_PROGRESS;
+    // Update status and sync to server
+    if (instPackageExt.isJoined) {
+      let status = instPackage.status;
+      if (instPackage.status === InstanceStatus.INITIATED) {
+        if (instPackage.isCustomised) {
+          status = InstanceStatus.SELECT_ATTRACTION;
+        } else {
+          status = InstanceStatus.IN_PROGRESS;
+        }
       }
+      const req = {
+        senderId: viewerId,
+        instId: instId,
+        action: SocketAction.UPDATE_ROOMS,
+        params: {
+          rooms: input.rooms,
+          statusInstance: status,
+          statusMember: InstanceStatus.IN_PROGRESS,
+        },
+      };
+      this.pushToRemote('package:update', req);
     }
-    const req = {
-      senderId: viewerId,
-      instId: instId,
-      action: SocketAction.UPDATE_ROOMS,
-      params: {
-        rooms: input.rooms,
-        statusInstance: status,
-        statusMember: InstanceStatus.IN_PROGRESS,
-      },
-    };
-    this.pushToRemote('package:update', req);
   }
   // ----------  BotFooter  ----------
   handleFtBtnCustomise() {
@@ -433,17 +453,32 @@ class App extends React.Component {
   handleFtBtnJoin() {
     console.log('>>>>MobileApp.handleFtBtnJoin');
     const {viewerId, instId} = this.props;
-    const {instPackage} = this.state;
-    const params = {
-      senderId: viewerId,
-      instId: instId,
-      people: Global.defaultPeople,
-      rooms: Global.defaultRooms,
-    };
-    this.pushToRemote('user:join', params);
+    const {instPackageExt} = this.state;
+    if (!instPackageExt.isJoined) {
+      instPackageExt.isJoined = true;
+      this.setState({instPackageExt});
+      const params = {
+        senderId: viewerId,
+        instId: instId,
+        people: instPackageExt.people,
+        rooms: instPackageExt.rooms,
+      };
+      this.pushToRemote('user:join', params);
+    }
   }
   handleFtBtnLeave() {
     console.log('>>>>MobileApp.handleFtBtnLeave');
+    const {viewerId, instId} = this.props;
+    const {instPackageExt} = this.state;
+    if (instPackageExt.isJoined) {
+      instPackageExt.isJoined = false;
+      this.setState({instPackageExt});
+      const params = {
+        senderId: viewerId,
+        instId: instId,
+      };
+      this.pushToRemote('user:leave', params);
+    }
   }
   handleFtBtnLock() {
     const {userId, instPackage, instPackageExt} = this.state;
