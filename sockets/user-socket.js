@@ -289,7 +289,13 @@ const joinPackage = (input) => {
             sendStatus(SocketStatus.DB_ERROR);
           } else {
             console.log('>>>>Model.createInstanceMembers completed', docs);
-            allInRoom(instId).emit('user:join', member);
+            const output = {
+              action: SocketAction.USER_JOIN,
+              senderId,
+              instId,
+              params: member,
+            };
+            allInRoom(instId).emit('package:update', output);
             sendStatus(SocketStatus.OK);
           }
         });
