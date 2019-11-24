@@ -41,7 +41,8 @@ const persistentMenu = () => {
     setting_type: 'call_to_actions',
     thread_state: 'existing_thread',
     call_to_actions: [
-      {
+      // TODO: userId as anonymous
+      /* {
         type: 'web_url',
         title: 'Create List',
         url: `${APP_URL}/lists/new`,
@@ -60,7 +61,7 @@ const persistentMenu = () => {
         title: 'Shared With Me',
         payload: 'subscribed_lists',
         webview_share_button: 'hide',
-      },
+      },*/
     ],
   });
 };

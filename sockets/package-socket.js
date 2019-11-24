@@ -17,10 +17,11 @@ import Model from '../db/schema';
 import sendApi from '../messenger-api-helpers/send';
 
 // Variables
-const {Global, Instance, SocketChannel} = CONSTANTS.get();
+const {Instance, SocketChannel, TravelPackage} = CONSTANTS.get();
 const InstanceStatus = Instance.status;
 const SocketAction = SocketChannel.Action;
 const SocketStatus = SocketChannel.Status;
+const PackageStatus = TravelPackage.status;
 
 // ===== HANDLER ===============================================================
 const sharePackage = (input) => {
@@ -165,7 +166,19 @@ const updatePackage = (input) => {
   }
 };
 
+const showAllPackages = (input) => {
+  const {request, allInRoom, sendStatus, socket, socketUsers} = input;
+  console.log('>>>>Socket.updatePackage', {request, socketUsers});
+  const params = {isSnapshot: true, status: PackageStatus.PUBLISHED};
+  Model.getFilteredPackages(params, (err, docs) => {
+    if (err) console.log('>>>>Error.Model.getFilteredPackages', err);
+    console.log('>>>>Model.getFilteredPackages', docs);
+    socket.emit('package:showAll', docs);
+  });
+};
+
 export default {
   sharePackage,
   updatePackage,
+  showAllPackages,
 };

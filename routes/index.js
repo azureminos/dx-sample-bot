@@ -52,9 +52,10 @@ const handleWebviewAccess = (req, res) => {
       });
     });
   } else if (instId === 'home') {
-    res.render('./index', {instId: '', userId, socketAddress});
+    res.render('./index', {instId: '', userId: '', socketAddress});
   } else {
-    res.render('./index', {instId, userId, socketAddress});
+    res.render('./index', {instId: '', userId: '', socketAddress});
+    // res.render('./index', {instId, userId, socketAddress});
   }
 };
 

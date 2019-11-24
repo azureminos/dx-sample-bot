@@ -57,6 +57,7 @@ class App extends React.Component {
     this.pushToRemote = this.pushToRemote.bind(this);
     this.init = this.init.bind(this);
     this.update = this.update.bind(this);
+    this.showAll = this.showAll.bind(this);
     this.register = this.register.bind(this);
     this.handleDialogShareClose = this.handleDialogShareClose.bind(this);
     this.handleUserJoin = this.handleUserJoin.bind(this);
@@ -96,6 +97,7 @@ class App extends React.Component {
       modalType: '',
       modalRef: null,
       rates: null,
+      packages: [],
       instPackage: null,
       instPackageExt: null,
       reference: {
@@ -805,35 +807,39 @@ class App extends React.Component {
     socket.on('user:leave', this.handleUserLeave);
     socket.on('user:addNotes', this.handleAddedNotes);
     socket.on('package:update', this.update);
+    socket.on('package:showAll', this.showAll);
 
-    const self = this;
+    const {viewerId, instId} = this.props;
+    const handleMount = (vid, iid) => {
+      if (vid && !iid) {
+        console.log('>>>>Load All Package');
+        this.pushToRemote('package:showAll', {
+          senderId: vid,
+          instId: iid,
+        });
+      }
+      if (vid && iid) {
+        console.log('>>>>View Package', {viewerId: vid, instId: iid});
+        this.pushToRemote('user:view', {
+          senderId: vid,
+          instId: iid,
+        });
+      } else {
+        console.log('>>>>NO viewerId');
+      }
+    };
     // Check for permission, ask if there is none
     window.MessengerExtensions.getGrantedPermissions(
       function(response) {
         // check if permission exists
         const permissions = response.permissions;
         if (permissions.indexOf('user_profile') > -1) {
-          const {viewerId, instId} = self.props;
-          if (viewerId) {
-            console.log('>>>>Send event[push:user:view]', self.props);
-            self.pushToRemote('user:view', {
-              senderId: viewerId,
-              instId: instId,
-            });
-          } else {
-            console.log('>>>>NO viewerId');
-          }
+          handleMount(viewerId, instId);
         } else {
           window.MessengerExtensions.askPermission(
             function(response) {
-              const isGranted = response.isGranted;
-              const {viewerId, instId} = self.props;
-              if (isGranted && viewerId) {
-                console.log('>>>>Send event[push:user:view]', self.props);
-                self.pushToRemote('user:view', {
-                  senderId: viewerId,
-                  instId: instId,
-                });
+              if (response.isGranted) {
+                handleMount(viewerId, instId);
               } else {
                 window.MessengerExtensions.requestCloseBrowser(null, null);
               }
@@ -854,7 +860,7 @@ class App extends React.Component {
   }
 
   render() {
-    const {instPackage, instPackageExt, rates} = this.state;
+    const {packages, instPackage, instPackageExt, rates} = this.state;
     const {modalType, modalRef, reference, isOpenDialogShare} = this.state;
     const {cities, packageSummary} = reference;
     const {classes, apiUri, viewerId} = this.props;
@@ -976,6 +982,8 @@ class App extends React.Component {
           {elDialogShare}
         </div>
       );
+    } else if (packages && packages.length > 0) {
+      
     }
 
     /* ----------  Animated Wrapper  ---------- */

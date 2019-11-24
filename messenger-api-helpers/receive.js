@@ -98,7 +98,7 @@ const handleReceiveMessage = (event) => {
     message.quick_reply.payload === 'handover_thread'
   ) {
     // Handover to page inbox
-    sendApi.passThreadControl(senderId, 263902037430900);
+    sendApi.passThreadControl(senderId, process.env.HANDOVER_ID);
   } else if (
     message.quick_reply &&
     message.quick_reply.payload &&
