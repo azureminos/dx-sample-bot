@@ -138,6 +138,15 @@ class App extends React.Component {
     };
     this.pushToRemote('register', params);
   }
+  showAll(results) {
+    console.log('>>>>Result from socket [package:showAll]', results);
+    this.setState({
+      packages: results,
+      instPackage: null,
+      instPackageExt: null,
+      rates: null,
+    });
+  }
   handleDialogShareClose() {
     console.log('>>>>MobileApp.handleDialogShareClose');
     this.setState({
@@ -159,7 +168,7 @@ class App extends React.Component {
   }
   /* ----------  Package Instance ------- */
   init(results) {
-    console.log('>>>>Result coming back from socket [init]', results);
+    console.log('>>>>Result from socket [init]', results);
     const {
       instance,
       packageSummary,
@@ -216,7 +225,7 @@ class App extends React.Component {
     });
   }
   update(results) {
-    console.log('>>>>Result coming back from socket [package:update]', results);
+    console.log('>>>>Result from socket [package:update]', results);
     const {action, senderId, params} = results;
     const {instPackage, rates} = this.state;
     const {viewerId} = this.props;
