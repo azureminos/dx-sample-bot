@@ -55,7 +55,7 @@ const createInstPackage = (input) => {
         createdBy: senderId,
       };
       const newInstance = {
-        ...results.instance,
+        ...results.instance._doc,
         items: results.items,
         hotels: results.hotels,
         members: [owner],

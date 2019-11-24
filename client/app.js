@@ -91,6 +91,7 @@ class App extends React.Component {
     this.handleSelectCar = this.handleSelectCar.bind(this);
 
     this.state = {
+      instId: props.instId || '',
       updating: false,
       socketStatus: '',
       message: '',
@@ -131,7 +132,8 @@ class App extends React.Component {
      ============================== */
   // ----------  App  ----------
   register() {
-    const {viewerId, instId} = this.props;
+    const {viewerId} = this.props;
+    const {instId} = this.state;
     console.log('>>>>MobileApp.register', {viewerId, instId});
     if (instId) {
       const params = {
@@ -221,10 +223,11 @@ class App extends React.Component {
 
     this.setState({
       updating: false, // Turn spinner off
-      reference,
-      rates,
+      instId: instPackage._id,
       instPackage: instPackage,
       instPackageExt: {...instPackageExt, ...matchingRates},
+      reference,
+      rates,
     });
   }
   update(results) {
@@ -315,7 +318,8 @@ class App extends React.Component {
   // ----------  BotHeader  ----------
   handleHdPeopleChange(input) {
     console.log('>>>>MobileApp.handleHdPeopleChange', input);
-    const {viewerId, instId} = this.props;
+    const {viewerId} = this.props;
+    const {instId} = this.state;
     const {instPackage, instPackageExt} = this.state;
     for (let i = 0; i < instPackage.members.length; i++) {
       if (instPackage.members[i].loginId === viewerId) {
@@ -362,7 +366,8 @@ class App extends React.Component {
   }
   handleHdRoomChange(input) {
     console.log('>>>>MobileApp.handleHdRoomChange', input);
-    const {viewerId, instId} = this.props;
+    const {viewerId} = this.props;
+    const {instId} = this.state;
     const {instPackage, instPackageExt} = this.state;
     for (let i = 0; i < instPackage.members.length; i++) {
       if (instPackage.members[i].loginId === viewerId) {
@@ -465,7 +470,8 @@ class App extends React.Component {
   }
   handleFtBtnJoin() {
     console.log('>>>>MobileApp.handleFtBtnJoin');
-    const {viewerId, instId} = this.props;
+    const {viewerId} = this.props;
+    const {instId} = this.state;
     const {instPackageExt} = this.state;
     if (!instPackageExt.isJoined) {
       instPackageExt.isJoined = true;
@@ -481,8 +487,8 @@ class App extends React.Component {
   }
   handleFtBtnLeave() {
     console.log('>>>>MobileApp.handleFtBtnLeave');
-    const {viewerId, instId} = this.props;
-    const {instPackageExt} = this.state;
+    const {viewerId} = this.props;
+    const {instId, instPackageExt} = this.state;
     if (instPackageExt.isJoined) {
       instPackageExt.isJoined = false;
       instPackageExt.people = 0;
@@ -821,7 +827,8 @@ class App extends React.Component {
     socket.on('package:update', this.update);
     socket.on('package:showAll', this.showAll);
 
-    const {viewerId, instId} = this.props;
+    const {viewerId} = this.props;
+    const {instId} = this.state;
     const handleMount = (vid, iid) => {
       if (vid && !iid) {
         console.log('>>>>Load All Package');
@@ -872,7 +879,7 @@ class App extends React.Component {
   }
 
   render() {
-    const {packages, instPackage, instPackageExt, rates} = this.state;
+    const {instId, packages, instPackage, instPackageExt, rates} = this.state;
     const {modalType, modalRef, reference, isOpenDialogShare} = this.state;
     const {cities, packageSummary} = reference;
     const {classes, apiUri, viewerId} = this.props;
@@ -940,7 +947,7 @@ class App extends React.Component {
         <DialogShare
           open={isOpenDialogShare}
           viewerId={viewerId}
-          instId={instPackage._id}
+          instId={instId}
           title={packageSummary.name}
           description={packageSummary.description}
           imageUrl={packageSummary.imageUrl}
