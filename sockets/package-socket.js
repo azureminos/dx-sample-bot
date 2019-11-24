@@ -27,7 +27,20 @@ const PackageStatus = TravelPackage.status;
 const createInstPackage = (input) => {
   const {request, sendStatus, socket, socketUsers} = input;
   console.log('>>>>Socket.createInstPackage', {request, socketUsers});
-  const {packageId, totalDays, carOption, isCustomised, owner} = request;
+  const {packageId, totalDays, carOption, senderId} = request;
+  const instance = {
+    packageId: packageId,
+    totalDays: totalDays,
+    carOption: carOption,
+    isCustomised: false,
+  };
+  Model.createInstanceByPackageId(instance, ({err, results}) => {
+    if (err) {
+      console.error('>>>>Model.createInstanceByPackageId Error', err);
+    } else {
+      console.log('>>>>Model.createInstanceByPackageId Success', results);
+    }
+  });
 };
 const shareInstPackage = (input) => {
   const {request, sendStatus, socket, socketUsers} = input;

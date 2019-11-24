@@ -11,10 +11,10 @@ import Swiper from 'react-id-swiper';
 const styles = (theme) => ({
   panel: {
     flexGrow: 1,
-    paddingTop: 20,
-    paddingRight: 200,
-    paddingBottom: 20,
-    paddingLeft: 200,
+    paddingTop: 4,
+    paddingRight: 4,
+    paddingBottom: 4,
+    paddingLeft: 4,
   },
   brickBorder: {
     backgroundColor: 'rgb(255, 255, 255)',
@@ -27,7 +27,7 @@ const styles = (theme) => ({
     width: '100%',
   },
   sectionImage: {
-    height: 400,
+    height: 200,
     width: '100%',
   },
   sectionContext: {
@@ -47,6 +47,9 @@ const styles = (theme) => ({
   },
   extendedIcon: {
     marginLeft: 8,
+  },
+  button: {
+    width: '100%',
   },
 });
 
@@ -127,6 +130,7 @@ class PackageCard extends React.Component {
               size='medium'
               color='primary'
               aria-label='View Details'
+              classes={{root: classes.button}}
               onClick={this.doHandleViewPackage}
             >
               View Details

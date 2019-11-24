@@ -23,8 +23,7 @@ class PackageAll extends React.Component {
           packageId: p.id,
           totalDays: p.totalDays,
           carOption: p.carOption,
-          isCustomised: false,
-          owner: viewerId,
+          senderId: viewerId,
         };
         pushToRemote('package:create', instance);
       };
