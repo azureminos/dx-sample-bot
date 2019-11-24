@@ -84,6 +84,12 @@ const createInstPackage = (input) => {
             sendStatus(SocketStatus.DB_ERROR);
           } else {
             console.info('>>>>Package Instance Created', output);
+            // Persist socket details
+            if (!socketUsers.get(socket.id)) {
+              const instId = output.instance._id;
+              socketUsers.set(socket.id, {instId, senderId});
+              socket.join(instId);
+            }
             socket.emit('init', output);
             sendStatus(SocketStatus.OK);
           }
