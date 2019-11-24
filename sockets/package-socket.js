@@ -172,7 +172,7 @@ const showAllPackages = (input) => {
   const params = {isSnapshot: true, status: PackageStatus.PUBLISHED};
   Model.getFilteredPackages(params, (err, docs) => {
     if (err) console.log('>>>>Error.Model.getFilteredPackages', err);
-    console.log('>>>>Model.getFilteredPackages', docs);
+    console.log('>>>>Model.getFilteredPackages result', docs);
     socket.emit('package:showAll', docs);
   });
 };
