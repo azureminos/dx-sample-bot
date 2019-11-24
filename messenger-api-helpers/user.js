@@ -13,23 +13,19 @@ import request from 'request';
 const fakeUsers = [
   {
     fb_id: '1',
-    first_name: 'Ludwig',
-    profile_pic: 'http://uago.at/-xu6k/sgim.jpg',
+    name: 'Ludwig Wang',
   },
   {
     fb_id: '2',
-    first_name: 'Wolfgang',
-    profile_pic: 'http://uago.at/-wmjk/sgim.jpg',
+    name: 'Wolfgang Chang',
   },
   {
     fb_id: '3',
-    first_name: 'Gabriel',
-    profile_pic: 'http://uago.at/-eRAu/sgim.jpg',
+    name: 'Gabriel Dang',
   },
   {
     fb_id: '4',
-    first_name: 'Giuseppe',
-    profile_pic: 'http://uago.at/-Pcyd/sgim.jpg',
+    name: 'Giuseppe Tang',
   },
 ];
 
@@ -50,13 +46,13 @@ const getDetailsFromFacebook = (userId, callback) => {
   request(
     {
       method: 'GET',
-      url: `https://graph.facebook.com/v2.6/${userId}`,
+      url: `https://graph.facebook.com/${userId}`,
       json: true,
       qs: {
         access_token: process.env.PAGE_ACCESS_TOKEN,
         // facebook requires the qs in the format
         // fields=a,b,c not fields=[a,b,c]
-        fields: 'first_name,last_name,profile_pic',
+        fields: 'name',
       },
     },
     callback

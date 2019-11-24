@@ -10,6 +10,18 @@ const UserSource = User.Source;
 const Schema = mongoose.Schema;
 
 /* ============= Schemas ============= */
+// Members
+const scMember = new Schema({
+  name: Schema.Types.String,
+  profilePic: Schema.Types.String,
+  loginId: Schema.Types.String,
+  source: Schema.Types.String,
+  email: Schema.Types.String,
+  contactNumber: Schema.Types.String,
+  linkedAccount: {type: [Schema.Types.ObjectId], ref: 'Member'},
+  isActive: Schema.Types.Boolean,
+});
+const Member = mongoose.model('Member', scMember);
 // City
 const scCity = new Schema({
   name: Schema.Types.String,
@@ -19,7 +31,7 @@ const scCity = new Schema({
   carRates: {type: [Schema.Types.ObjectId], ref: 'CarRate'},
 });
 const City = mongoose.model('City', scCity);
-// City
+// Car Rate
 const scCarRate = new Schema({
   city: {type: [Schema.Types.ObjectId], ref: 'City'},
   type: Schema.Types.String,

@@ -47,8 +47,7 @@ const getUserDetails = (senderId) => {
         });
       }
       return resolve({
-        name: body.first_name || body.last_name || senderId,
-        profilePic: body.profile_pic,
+        name: body.name || senderId,
         loginId: senderId,
       });
     });
