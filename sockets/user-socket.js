@@ -14,7 +14,6 @@ import ObjectParser from '../lib/object-parser';
 import Model from '../db/schema';
 // ===== MESSENGER =============================================================
 import userApi from '../messenger-api-helpers/user';
-import sendApi from '../messenger-api-helpers/send';
 
 // Variables
 const {Global, Instance, SocketChannel} = CONSTANTS.get();
@@ -23,21 +22,19 @@ const SocketAction = SocketChannel.Action;
 const SocketStatus = SocketChannel.Status;
 
 // ===== HANDLER ===============================================================
-// Find or Create a new/existing User with the given id.
-const getUser = (senderId) => {
-  return {
-    loginId: senderId,
-    source: 'facebook',
-    profilePic: '',
-    name: `FB User ${senderId}`,
-    email: '',
-    mobile: '',
-    phone: '',
-  };
-};
-
 // Promise wrapper for Facebook UserApi.
 const getUserDetails = (senderId) => {
+  if (process.env.IS_DUMMY_USER === 'true') {
+    return {
+      loginId: senderId,
+      source: 'facebook',
+      profilePic: '',
+      name: `FB User ${senderId}`,
+      email: '',
+      mobile: '',
+      phone: '',
+    };
+  }
   return new Promise((resolve, reject) => {
     userApi.getDetails(senderId, (err, {statusCode}, body) => {
       if (err) {
@@ -49,7 +46,6 @@ const getUserDetails = (senderId) => {
           senderId,
         });
       }
-
       return resolve({
         name: body.first_name || body.last_name || senderId,
         profilePic: body.profile_pic,
@@ -174,7 +170,7 @@ const view = (input) => {
             getInstance(instance, packageSummary);
           } else {
             // If empty list, then add current user and mark as owner
-            const userDetails = getUser(senderId);
+            const userDetails = getUserDetails(senderId);
             const owner = {
               instPackage: instId,
               loginId: senderId,
@@ -261,7 +257,7 @@ const joinPackage = (input) => {
   if (!socketUsers.get(socket.id)) {
     socketUsers.set(socket.id, {instId, senderId});
   }
-  const userDetails = getUser(senderId);
+  const userDetails = getUserDetails(senderId);
   const member = {
     instPackage: instId,
     loginId: senderId,
@@ -398,4 +394,5 @@ export default {
   leavePackage,
   leave,
   addNotes,
+  getUserDetails,
 };

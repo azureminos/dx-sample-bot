@@ -431,7 +431,7 @@ const createInstanceByPackageId = (request, handler) => {
   console.log('>>>>Modal.createInstanceByPackageId', request);
   const {packageId, user, isCustomised, carOption, totalDays} = request;
   const now = new Date();
-  const createdBy = user ? user.id : Global.sysUser;
+  const createdBy = user ? user.loginId : Global.sysUser;
   const instance = {
     status: InstanceStatus.INITIATED,
     package: packageId,
@@ -509,10 +509,11 @@ const createInstanceByPackageId = (request, handler) => {
               {
                 instPackage: inst.id,
                 loginId: createdBy,
+                name: user.name,
                 createdBy: createdBy,
                 createdAt: now,
-                people: 0,
-                rooms: 0,
+                people: Global.defaultPeople,
+                rooms: Global.defaultRooms,
                 isOwner: true,
                 status: InstanceStatus.INITIATED,
               },
