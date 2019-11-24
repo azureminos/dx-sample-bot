@@ -42,7 +42,7 @@ const createInstPackage = (input) => {
     } else {
       console.log('>>>>Model.createInstanceByPackageId Success', results);
       // Archive all instances in INITIATED status and owned by user
-      Model.archiveInstanceByUserId(senderId);
+      Model.archiveInstanceByUserId({userId: senderId});
       // Add current user and mark as owner
       const owner = {
         instPackage: results.instance._id,

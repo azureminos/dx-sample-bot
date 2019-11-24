@@ -405,7 +405,15 @@ const deleteAllInstanceMembers = () => {
 };
 // Inst Package
 const getLatestInstByUserId = (userId, callback) => {
-  const params = {createdBy: userId};
+  const listStatus = [
+    InstanceStatus.IN_PROGRESS,
+    InstanceStatus.SELECT_ATTRACTION,
+    InstanceStatus.SELECT_HOTEL,
+    InstanceStatus.REVIEW_ITINERARY,
+    InstanceStatus.PENDING_PAYMENT,
+    InstanceStatus.DEPOSIT_PAID,
+  ];
+  const params = {createdBy: userId, status: {$in: listStatus}};
   const select = '_id';
   const options = {sort: {createdAt: -1}};
   InstPackage.findOne(params, select, options).exec((err, docs) => {
@@ -546,9 +554,9 @@ const updateInstanceStatus = (params, callback) => {
   return InstPackage.updateOne(filter, doc, callback);
 };
 const archiveInstanceByUserId = (params, callback) => {
-  const userFilter = {loginId: params.userId};
-  InstPackageMember.find(userFilter)
-    .select('instPackage')
+  const filter = {createdBy: params.userId, status: InstanceStatus.INITIATED};
+  InstPackage.find(filter)
+    .select('_id')
     .exec((err, docs) => {
       console.log('>>>>Model.archiveInstanceByUserId', docs);
       if (callback) {
