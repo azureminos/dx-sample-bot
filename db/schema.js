@@ -233,10 +233,10 @@ const InstPackageMember = mongoose.model(
 /* =========== Functions ============ */
 // Travel Package
 const selectPackage =
-  'id departureDate description name effectiveTo effectiveFrom ' +
+  '_id departureDate description name effectiveTo effectiveFrom ' +
   'highlight finePrint titleImage.secure_url image.secure_url ' +
   'isExtention isCustomisable isPromoted totalDays carOption ' +
-  'additionalField';
+  'additionalField, carouselImages.secure_url';
 const getAllPackages = (callback) => {
   console.log('>>>>Model.getAllPackages');
   return TravelPackage.find()
@@ -250,6 +250,7 @@ const getFilteredPackages = (filter, callback) => {
   return TravelPackage.find(filter)
     .select(selectPackage)
     .exec((err, docs) => {
+      console.log('>>>>getFilteredPackages middle result', docs);
       callback(err, ObjectParser.parseTravelPackage(docs));
     });
 };
