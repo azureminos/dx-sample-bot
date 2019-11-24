@@ -576,7 +576,7 @@ const archiveInstanceByUserId = (params, callback) => {
         updatedAt: new Date(),
       };
       console.log('>>>>Model.archiveInstanceByUserId', {docs, query, doc});
-      return InstPackage.update(query, doc, callback);
+      return InstPackage.updateMany(query, doc, callback);
     });
 };
 const deleteAllInstances = () => {
