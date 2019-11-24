@@ -554,6 +554,7 @@ const updateInstanceStatus = (params, callback) => {
   return InstPackage.updateOne(filter, doc, callback);
 };
 const archiveInstanceByUserId = (params, callback) => {
+  console.log('>>>>Model.archiveInstanceByUserId', params);
   const filter = {createdBy: params.userId, status: InstanceStatus.INITIATED};
   InstPackage.find(filter)
     .select('_id')

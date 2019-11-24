@@ -170,44 +170,45 @@ const view = (input) => {
             getInstance(instance, packageSummary);
           } else {
             // Archive all instances in INITIATED status and owned by user
-            Model.archiveInstanceByUserId({userId: senderId});
-            // If empty list, then add current user and mark as owner
-            const userDetails = getUserDetails(senderId);
-            const owner = {
-              instPackage: instId,
-              loginId: senderId,
-              name: userDetails.name,
-              isOwner: true,
-              status: InstanceStatus.INITIATED,
-              people: Global.defaultPeople,
-              rooms: Global.defaultRooms,
-              createdAt: new Date(),
-              createdBy: senderId,
-            };
-            instance.members = [owner];
-            async.parallel(
-              {
-                member: (callback) => {
-                  Model.createInstanceMembers(instance.members, callback);
+            Model.archiveInstanceByUserId({userId: senderId}, (err, docs) => {
+              // If empty list, then add current user and mark as owner
+              const userDetails = getUserDetails(senderId);
+              const owner = {
+                instPackage: instId,
+                loginId: senderId,
+                name: userDetails.name,
+                isOwner: true,
+                status: InstanceStatus.INITIATED,
+                people: Global.defaultPeople,
+                rooms: Global.defaultRooms,
+                createdAt: new Date(),
+                createdBy: senderId,
+              };
+              instance.members = [owner];
+              async.parallel(
+                {
+                  member: (callback) => {
+                    Model.createInstanceMembers(instance.members, callback);
+                  },
+                  instance: (callback) => {
+                    const params = {
+                      query: {_id: instId},
+                      update: {createdBy: senderId},
+                    };
+                    Model.updateInstance(params, callback);
+                  },
                 },
-                instance: (callback) => {
-                  const params = {
-                    query: {_id: instId},
-                    update: {createdBy: senderId},
-                  };
-                  Model.updateInstance(params, callback);
-                },
-              },
-              function(err, output) {
-                if (err) {
-                  console.error('>>>>Database Error', err);
-                  sendStatus(SocketStatus.DB_ERROR);
-                } else {
-                  console.error('>>>>Member added', output);
-                  getInstance(instance, packageSummary);
+                function(err, output) {
+                  if (err) {
+                    console.error('>>>>Database Error', err);
+                    sendStatus(SocketStatus.DB_ERROR);
+                  } else {
+                    console.error('>>>>Member added', output);
+                    getInstance(instance, packageSummary);
+                  }
                 }
-              }
-            );
+              );
+            });
           }
         }
       }

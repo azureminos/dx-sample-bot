@@ -42,60 +42,61 @@ const createInstPackage = (input) => {
     } else {
       console.log('>>>>Model.createInstanceByPackageId Success', results);
       // Archive all instances in INITIATED status and owned by user
-      Model.archiveInstanceByUserId({userId: senderId});
-      // Add current user and mark as owner
-      const owner = {
-        instPackage: results.instance._id,
-        loginId: senderId,
-        name: userDetails.name,
-        isOwner: true,
-        status: InstanceStatus.INITIATED,
-        people: Global.defaultPeople,
-        rooms: Global.defaultRooms,
-        createdAt: new Date(),
-        createdBy: senderId,
-      };
-      const newInstance = {
-        ...results.instance._doc,
-        items: results.items,
-        hotels: results.hotels,
-        members: [owner],
-      };
-      async.parallel(
-        {
-          instance: (callback) => {
-            callback(null, newInstance);
+      Model.archiveInstanceByUserId({userId: senderId}, (err, docs) => {
+        // Add current user and mark as owner
+        const owner = {
+          instPackage: results.instance._id,
+          loginId: senderId,
+          name: userDetails.name,
+          isOwner: true,
+          status: InstanceStatus.INITIATED,
+          people: Global.defaultPeople,
+          rooms: Global.defaultRooms,
+          createdAt: new Date(),
+          createdBy: senderId,
+        };
+        const newInstance = {
+          ...results.instance._doc,
+          items: results.items,
+          hotels: results.hotels,
+          members: [owner],
+        };
+        async.parallel(
+          {
+            instance: (callback) => {
+              callback(null, newInstance);
+            },
+            packageSummary: (callback) => {
+              Model.getPackageById(packageId, callback);
+            },
+            cities: (callback) => {
+              Model.getCitiesByPackageId(packageId, callback);
+            },
+            packageRates: (callback) => {
+              Model.getPackageRatesByPackageId(packageId, callback);
+            },
+            flightRates: (callback) => {
+              Model.getFlightRatesByPackageId(packageId, callback);
+            },
           },
-          packageSummary: (callback) => {
-            Model.getPackageById(packageId, callback);
-          },
-          cities: (callback) => {
-            Model.getCitiesByPackageId(packageId, callback);
-          },
-          packageRates: (callback) => {
-            Model.getPackageRatesByPackageId(packageId, callback);
-          },
-          flightRates: (callback) => {
-            Model.getFlightRatesByPackageId(packageId, callback);
-          },
-        },
-        function(err, output) {
-          if (err) {
-            console.error('>>>>Database Error', err);
-            sendStatus(SocketStatus.DB_ERROR);
-          } else {
-            console.info('>>>>Package Instance Created', output);
-            // Persist socket details
-            if (!socketUsers.get(socket.id)) {
-              const instId = output.instance._id;
-              socketUsers.set(socket.id, {instId, senderId});
-              socket.join(instId);
+          function(err, output) {
+            if (err) {
+              console.error('>>>>Database Error', err);
+              sendStatus(SocketStatus.DB_ERROR);
+            } else {
+              console.info('>>>>Package Instance Created', output);
+              // Persist socket details
+              if (!socketUsers.get(socket.id)) {
+                const instId = output.instance._id;
+                socketUsers.set(socket.id, {instId, senderId});
+                socket.join(instId);
+              }
+              socket.emit('init', output);
+              sendStatus(SocketStatus.OK);
             }
-            socket.emit('init', output);
-            sendStatus(SocketStatus.OK);
           }
-        }
-      );
+        );
+      });
     }
   });
 };
