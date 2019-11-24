@@ -62,8 +62,10 @@ class PackageCard extends React.Component {
   /* ===== State & Event Handlers ===== */
   doHandleViewPackage() {
     console.log('>>>>PackageCard.doHandleViewPackage');
-    const {product, handleViewPackage} = this.props;
-    handleViewPackage(product.id);
+    const {handleViewPackage} = this.props;
+    if (handleViewPackage) {
+      handleViewPackage();
+    }
   }
   // Display Widget
   render() {

@@ -19,6 +19,7 @@ import BotFooter from './components/bot-footer';
 import ProgressBar from './components/progress-bar';
 import DialogShare from './components/dialog-share';
 import PackageItinerary from './package-itinerary';
+import PackageAll from './package-all';
 
 // ==== HELPERS =======================================
 import Helper from '../lib/helper';
@@ -992,7 +993,13 @@ class App extends React.Component {
         </div>
       );
     } else if (packages && packages.length > 0) {
-      
+      page = (
+        <PackageAll
+          packages={packages}
+          viewerId={viewerId}
+          pushToRemote={this.pushToRemote}
+        />
+      );
     }
 
     /* ----------  Animated Wrapper  ---------- */

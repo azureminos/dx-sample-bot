@@ -24,10 +24,15 @@ const SocketStatus = SocketChannel.Status;
 const PackageStatus = TravelPackage.status;
 
 // ===== HANDLER ===============================================================
-const sharePackage = (input) => {
+const createInstPackage = (input) => {
+  const {request, sendStatus, socket, socketUsers} = input;
+  console.log('>>>>Socket.createInstPackage', {request, socketUsers});
+  const {packageId, totalDays, carOption, isCustomised, owner} = request;
+};
+const shareInstPackage = (input) => {
   const {request, sendStatus, socket, socketUsers} = input;
   const {senderId, instId, params} = request;
-  console.log('>>>>Socket.sharePackage', {request, sendStatus});
+  console.log('>>>>Socket.shareInstPackage', {request, sendStatus});
   // Validate UserId and InstanceId
   if (!senderId) {
     console.error('shareList: Invalid User ID');
@@ -47,11 +52,11 @@ const sharePackage = (input) => {
   sendStatus(SocketStatus.OK);
 };
 
-const updatePackage = (input) => {
+const updateInstPackage = (input) => {
   const {request, allInRoom, sendStatus, socket, socketUsers} = input;
   const {senderId, instId, action, params} = request;
   let output = {};
-  console.log('>>>>Socket.updatePackage', {request, sendStatus});
+  console.log('>>>>Socket.updateInstPackage', {request, sendStatus});
   // Validate UserId and InstanceId
   if (!senderId) {
     console.error('shareList: Invalid User ID');
@@ -178,7 +183,8 @@ const showAllPackages = (input) => {
 };
 
 export default {
-  sharePackage,
-  updatePackage,
+  createInstPackage,
+  shareInstPackage,
+  updateInstPackage,
   showAllPackages,
 };
