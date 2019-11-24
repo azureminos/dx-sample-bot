@@ -559,10 +559,16 @@ const archiveInstanceByUserId = (params, callback) => {
   InstPackage.find(filter)
     .select('_id')
     .exec((err, docs) => {
-      console.log('>>>>Model.archiveInstanceByUserId', docs);
-      if (callback) {
-        callback(err, docs);
+      if (err) {
+        return callback(err, null);
       }
+      console.log('>>>>Model.archiveInstanceByUserId matching instances', docs);
+      const doc = {
+        status: InstanceStatus.ARCHIVED,
+        updatedBy: params.userId,
+        updatedAt: new Date(),
+      };
+      return InstPackage.update(docs, doc, callback);
     });
 };
 const deleteAllInstances = () => {
