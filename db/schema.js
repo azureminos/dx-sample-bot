@@ -554,21 +554,29 @@ const updateInstanceStatus = (params, callback) => {
   return InstPackage.updateOne(filter, doc, callback);
 };
 const archiveInstanceByUserId = (params, callback) => {
-  console.log('>>>>Model.archiveInstanceByUserId', params);
+  console.log('>>>>Model.archiveInstanceByUserId params', params);
   const filter = {createdBy: params.userId, status: InstanceStatus.INITIATED};
   InstPackage.find(filter)
     .select('_id')
     .exec((err, docs) => {
       if (err) {
+        console.log('>>>>Model.archiveInstanceByUserId query error', err);
         return callback(err, null);
       }
-      console.log('>>>>Model.archiveInstanceByUserId matching instances', docs);
+      const query = {
+        _id: {
+          $in: _.map(docs, (d) => {
+            return d._id;
+          }),
+        },
+      };
       const doc = {
         status: InstanceStatus.ARCHIVED,
         updatedBy: params.userId,
         updatedAt: new Date(),
       };
-      return InstPackage.update(docs, doc, callback);
+      console.log('>>>>Model.archiveInstanceByUserId', {docs, query, doc});
+      return InstPackage.update(query, doc, callback);
     });
 };
 const deleteAllInstances = () => {
