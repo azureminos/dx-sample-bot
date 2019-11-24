@@ -29,11 +29,11 @@ class PackageAll extends React.Component {
         pushToRemote('package:create', instance);
       };
       return (
-        <PackageCard>
+        <PackageCard
           key={p.id}
           product={p}
           handleViewPackage={handleViewPackage}
-        </PackageCard>
+        />
       );
     });
     // Display Widget
