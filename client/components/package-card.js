@@ -83,7 +83,7 @@ class PackageCard extends React.Component {
       },
     };
     // Sub Widget
-    const itemsSwiper = _.map(product.carouselImages, (img, idx) => {
+    const itemsSwiper = _.map(product.carouselImageUrls, (img, idx) => {
       // const carouselImage = Helper.resizeImage(img, 'w_788,h_400,c_scale');
       return (
         <div key={`${product.name}_${idx}`}>
@@ -98,7 +98,7 @@ class PackageCard extends React.Component {
       );
     });
     return (
-      <div className={classes.panel}>
+      <div key={product.name} className={classes.panel}>
         <Grid container className={classes.brickBorder} spacing={0}>
           <Grid item xs={12}>
             <Grid container justify='center' spacing={0}>

@@ -131,13 +131,15 @@ class App extends React.Component {
      ============================== */
   // ----------  App  ----------
   register() {
-    console.log('>>>>MobileApp.register');
     const {viewerId, instId} = this.props;
-    const params = {
-      senderId: viewerId,
-      instId: instId,
-    };
-    this.pushToRemote('register', params);
+    console.log('>>>>MobileApp.register', {viewerId, instId});
+    if (instId) {
+      const params = {
+        senderId: viewerId,
+        instId: instId,
+      };
+      this.pushToRemote('register', params);
+    }
   }
   showAll(results) {
     console.log('>>>>Result from socket [package:showAll]', results);
