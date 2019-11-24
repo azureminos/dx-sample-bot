@@ -169,6 +169,8 @@ const view = (input) => {
             // If not empty, then return existing instance details
             getInstance(instance, packageSummary);
           } else {
+            // Archive all instances in INITIATED status and owned by user
+            Model.archiveInstanceByUserId(senderId);
             // If empty list, then add current user and mark as owner
             const userDetails = getUserDetails(senderId);
             const owner = {

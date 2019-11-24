@@ -545,6 +545,17 @@ const updateInstanceStatus = (params, callback) => {
   };
   return InstPackage.updateOne(filter, doc, callback);
 };
+const archiveInstanceByUserId = (params, callback) => {
+  const userFilter = {loginId: params.userId};
+  InstPackageMember.find(userFilter)
+    .select('instPackage')
+    .exec((err, docs) => {
+      console.log('>>>>Model.archiveInstanceByUserId', docs);
+      if (callback) {
+        callback(err, docs);
+      }
+    });
+};
 const deleteAllInstances = () => {
   return InstPackage.remove({}, () => {
     console.log('>>>>Function [deleteAllInstances] executed');
@@ -582,4 +593,5 @@ export default {
   deleteAllInstanceHotels,
   deleteAllInstanceMembers,
   deleteInstanceByParams,
+  archiveInstanceByUserId,
 };
