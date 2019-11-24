@@ -23,8 +23,7 @@ const handleWebviewAccess = (req, res) => {
   console.log('>>>>Printing input params', {packageId, instId, userId});
 
   if (instId === 'new') {
-    res.render('./index', {instId: '', userId: '', socketAddress});
-    /* Model.getPackageById(packageId, (err, docs) => {
+    Model.getPackageById(packageId, (err, docs) => {
       if (err) console.error('>>>>Model.getPackageById Error', err);
       console.log('>>>>Model.getPackageById Success', docs);
       const instance = {
@@ -51,12 +50,11 @@ const handleWebviewAccess = (req, res) => {
           });
         }
       });
-    });*/
+    });
   } else if (instId === 'home') {
     res.render('./index', {instId: '', userId: '', socketAddress});
   } else {
-    res.render('./index', {instId: '', userId: '', socketAddress});
-    // res.render('./index', {instId, userId, socketAddress});
+    res.render('./index', {instId, userId, socketAddress});
   }
 };
 
