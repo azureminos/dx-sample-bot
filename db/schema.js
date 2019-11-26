@@ -224,6 +224,7 @@ const InstPackageHotel = mongoose.model('InstPackageHotel', scInstPackageHotel);
 // Instance - Package Member
 const scInstPackageMember = new mongoose.Schema({
   instPackage: {type: Schema.Types.ObjectId, ref: 'InstPackage'},
+  memberId: {type: Schema.Types.ObjectId, ref: 'Member'},
   loginId: Schema.Types.String,
   name: Schema.Types.String,
   isOwner: Schema.Types.Boolean,

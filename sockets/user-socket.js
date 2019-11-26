@@ -38,7 +38,7 @@ const getUserFromApi = (senderId, callback) => {
     } else if (statusCode !== 200) {
       return console.error('>>>>UserApi.getDetails error code', statusCode);
     }
-    console.error('>>>>UserApi.getDetails error result', body);
+    console.log('>>>>UserApi.getDetails result', body);
     const user = {
       name: body.name || senderId,
       loginId: senderId,
@@ -194,6 +194,7 @@ const view = (input) => {
               return getUserDetails(senderId, (err, userDetails) => {
                 const owner = {
                   instPackage: instId,
+                  memberId: userDetails._id,
                   loginId: senderId,
                   name: userDetails.name,
                   isOwner: true,
@@ -283,6 +284,7 @@ const joinPackage = (input) => {
   getUserDetails(senderId, (err, userDetails) => {
     const member = {
       instPackage: instId,
+      memberId: userDetails._id,
       loginId: senderId,
       name: userDetails.name,
       isOwner: false,
