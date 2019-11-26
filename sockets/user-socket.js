@@ -22,49 +22,40 @@ const SocketAction = SocketChannel.Action;
 const SocketStatus = SocketChannel.Status;
 
 // ===== HANDLER ===============================================================
-const getUserFromDB = (senderId) => {
-  return new Promise((resolve, reject) => {
-    Model.getUserByLoginId(senderId, (err, docs) => {
+const getUserFromDB = (senderId, callback) => {
+  Model.getUserByLoginId(senderId, (err, docs) => {
+    if (err) {
+      return console.error('>>>>Model.getUserByLoginId error', err);
+    }
+    console.log('>>>>Model.getUserByLoginId result', docs);
+    return callback(err, docs);
+  });
+};
+const getUserFromApi = (senderId, callback) => {
+  userApi.getDetails(senderId, (err, {statusCode}, body) => {
+    if (err) {
+      return console.error('>>>>UserApi.getDetails error', err);
+    } else if (statusCode !== 200) {
+      return console.error('>>>>UserApi.getDetails error code', statusCode);
+    }
+    const user = {
+      name: body.name || senderId,
+      loginId: senderId,
+      source: 'facebook',
+      isActive: true,
+    };
+    return Model.createUser(user, (err, docs) => {
       if (err) {
-        console.error('>>>>Model.getUserByLoginId error', err);
-        return reject(err);
+        console.error('>>>>Model.createMember error', err);
       }
-      console.log('>>>>Model.getUserByLoginId result', docs);
-      return resolve(docs);
+      console.log('>>>>Model.createMember result', docs);
+      return callback(err, docs);
     });
   });
 };
-const getUserFromApi = (senderId) => {
-  return new Promise((resolve, reject) => {
-    userApi.getDetails(senderId, (err, {statusCode}, body) => {
-      if (err) {
-        return reject(err);
-      } else if (statusCode !== 200) {
-        return reject({
-          statusCode,
-          message: 'Unable to fetch user data for user',
-          senderId,
-        });
-      }
-      const user = {
-        name: body.name || senderId,
-        loginId: senderId,
-        source: 'facebook',
-        isActive: true,
-      };
-      return Model.createUser(user, (err, docs) => {
-        if (err) {
-          console.error('>>>>Model.createMember error', err);
-        }
-        console.log('>>>>Model.createMember result', docs);
-        return resolve(docs);
-      });
-    });
-  });
-};
-const getUserDetails = (senderId) => {
+const getUserDetails = (senderId, callback) => {
   if (process.env.IS_DUMMY_USER === 'true') {
-    return {
+    return callback(null, {
       loginId: senderId,
       source: 'facebook',
       profilePic: '',
@@ -72,13 +63,15 @@ const getUserDetails = (senderId) => {
       email: '',
       mobile: '',
       phone: '',
-    };
+    });
   }
-  let user = getUserFromDB(senderId);
-  if (!user) {
-    user = getUserFromApi(senderId);
-  }
-  return user;
+  return getUserFromDB(senderId, (err, dbUser) => {
+    console.log('>>>>UserSocket.getUserFromDB', {err, dbUser});
+    if (!dbUser) {
+      return getUserFromApi(senderId, callback);
+    }
+    return callback(err, dbUser);
+  });
 };
 const getFacebookProfileInfoForUsers = (users = [], instId, socketUsers) => {
   Promise.all(users.map((user) => getUserDetails(user.loginId))).then((res) =>
@@ -118,8 +111,8 @@ const view = (input) => {
   // Persist socket details
   if (!socketUsers.get(socket.id)) {
     socketUsers.set(socket.id, {instId, senderId});
+    socket.join(instId);
   }
-  socket.join(instId);
   // Get instance details (package, attractions, hotels, members)
   async.parallel(
     {
@@ -197,42 +190,43 @@ const view = (input) => {
             // Archive all instances in INITIATED status and owned by user
             Model.archiveInstanceByUserId({userId: senderId}, (err, docs) => {
               // If empty list, then add current user and mark as owner
-              const userDetails = getUserDetails(senderId);
-              const owner = {
-                instPackage: instId,
-                loginId: senderId,
-                name: userDetails.name,
-                isOwner: true,
-                status: InstanceStatus.INITIATED,
-                people: Global.defaultPeople,
-                rooms: Global.defaultRooms,
-                createdAt: new Date(),
-                createdBy: senderId,
-              };
-              instance.members = [owner];
-              async.parallel(
-                {
-                  member: (callback) => {
-                    Model.createInstanceMembers(instance.members, callback);
+              return getUserDetails(senderId, (err, userDetails) => {
+                const owner = {
+                  instPackage: instId,
+                  loginId: senderId,
+                  name: userDetails.name,
+                  isOwner: true,
+                  status: InstanceStatus.INITIATED,
+                  people: Global.defaultPeople,
+                  rooms: Global.defaultRooms,
+                  createdAt: new Date(),
+                  createdBy: senderId,
+                };
+                instance.members = [owner];
+                async.parallel(
+                  {
+                    member: (callback) => {
+                      Model.createInstanceMembers(instance.members, callback);
+                    },
+                    instance: (callback) => {
+                      const params = {
+                        query: {_id: instId},
+                        update: {createdBy: senderId},
+                      };
+                      Model.updateInstance(params, callback);
+                    },
                   },
-                  instance: (callback) => {
-                    const params = {
-                      query: {_id: instId},
-                      update: {createdBy: senderId},
-                    };
-                    Model.updateInstance(params, callback);
-                  },
-                },
-                function(err, output) {
-                  if (err) {
-                    console.error('>>>>Database Error', err);
-                    sendStatus(SocketStatus.DB_ERROR);
-                  } else {
-                    console.error('>>>>Member added', output);
-                    getInstance(instance, packageSummary);
+                  function(err, output) {
+                    if (err) {
+                      console.error('>>>>Database Error', err);
+                      sendStatus(SocketStatus.DB_ERROR);
+                    } else {
+                      console.error('>>>>Member added', output);
+                      getInstance(instance, packageSummary);
+                    }
                   }
-                }
-              );
+                );
+              });
             });
           }
         }
@@ -285,49 +279,50 @@ const joinPackage = (input) => {
   if (!socketUsers.get(socket.id)) {
     socketUsers.set(socket.id, {instId, senderId});
   }
-  const userDetails = getUserDetails(senderId);
-  const member = {
-    instPackage: instId,
-    loginId: senderId,
-    name: userDetails.name,
-    isOwner: false,
-    status: InstanceStatus.INITIATED,
-    people: people,
-    rooms: rooms,
-    createdAt: new Date(),
-    createdBy: senderId,
-  };
-  const params = {
-    instPackage: instId,
-    loginId: senderId,
-  };
-  Model.getInstanceMembersByParams(params, (err, docs) => {
-    if (err) {
-      console.log('>>>>Model.findInstanceMemberById error', err);
-    } else {
-      console.log('>>>>Model.findInstanceMemberById completed', docs);
-      if (!docs || docs.length === 0) {
-        Model.createInstanceMembers(member, (err, docs) => {
-          if (err) {
-            console.log('>>>>Model.createInstanceMembers error', err);
-            sendStatus(SocketStatus.DB_ERROR);
-          } else {
-            console.log('>>>>Model.createInstanceMembers completed', docs);
-            const output = {
-              action: SocketAction.USER_JOIN,
-              senderId,
-              instId,
-              params: member,
-            };
-            allInRoom(instId).emit('package:update', output);
-            sendStatus(SocketStatus.OK);
-          }
-        });
+  getUserDetails(senderId, (err, userDetails) => {
+    const member = {
+      instPackage: instId,
+      loginId: senderId,
+      name: userDetails.name,
+      isOwner: false,
+      status: InstanceStatus.INITIATED,
+      people: people,
+      rooms: rooms,
+      createdAt: new Date(),
+      createdBy: senderId,
+    };
+    const params = {
+      instPackage: instId,
+      loginId: senderId,
+    };
+    Model.getInstanceMembersByParams(params, (err, docs) => {
+      if (err) {
+        console.log('>>>>Model.findInstanceMemberById error', err);
       } else {
-        console.log('>>>>User existed already');
-        sendStatus(SocketStatus.EXISTING_USER);
+        console.log('>>>>Model.findInstanceMemberById completed', docs);
+        if (!docs || docs.length === 0) {
+          Model.createInstanceMembers(member, (err, docs) => {
+            if (err) {
+              console.log('>>>>Model.createInstanceMembers error', err);
+              sendStatus(SocketStatus.DB_ERROR);
+            } else {
+              console.log('>>>>Model.createInstanceMembers completed', docs);
+              const output = {
+                action: SocketAction.USER_JOIN,
+                senderId,
+                instId,
+                params: member,
+              };
+              allInRoom(instId).emit('package:update', output);
+              sendStatus(SocketStatus.OK);
+            }
+          });
+        } else {
+          console.log('>>>>User existed already');
+          sendStatus(SocketStatus.EXISTING_USER);
+        }
       }
-    }
+    });
   });
 };
 // User Leave Package

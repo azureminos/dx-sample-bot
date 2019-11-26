@@ -244,7 +244,7 @@ const InstPackageMember = mongoose.model(
 /* =========== Functions ============ */
 // Member
 const getUserByLoginId = (loginId, callback) => {
-  console.log('>>>>Model.getUserByLoginId');
+  console.log('>>>>Model.getUserByLoginId', loginId);
   return Member.find({loginId, isActive: true}).exec(callback);
 };
 const createUser = (user, callback) => {
