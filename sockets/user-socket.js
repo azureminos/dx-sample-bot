@@ -28,7 +28,7 @@ const getUserFromDB = (senderId, callback) => {
       return console.error('>>>>Model.getUserByLoginId error', err);
     }
     console.log('>>>>Model.getUserByLoginId result', docs);
-    return callback(err, docs);
+    return callback(err, docs ? docs[0] : {});
   });
 };
 const getUserFromApi = (senderId, callback) => {
@@ -50,7 +50,7 @@ const getUserFromApi = (senderId, callback) => {
         console.error('>>>>Model.createMember error', err);
       }
       console.log('>>>>Model.createMember result', docs);
-      return callback(err, docs);
+      return callback(err, docs ? docs[0] : {});
     });
   });
 };
