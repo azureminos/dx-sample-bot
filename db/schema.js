@@ -6,7 +6,6 @@ import CONSTANTS from '../lib/constants';
 
 const {Global, User, Instance} = CONSTANTS.get();
 const InstanceStatus = Instance.status;
-const UserSource = User.Source;
 const Schema = mongoose.Schema;
 
 /* ============= Schemas ============= */
@@ -243,6 +242,15 @@ const InstPackageMember = mongoose.model(
   scInstPackageMember
 );
 /* =========== Functions ============ */
+// Member
+const getUserByLoginId = (loginId, callback) => {
+  console.log('>>>>Model.getUserByLoginId');
+  return Member.find({loginId, isActive: true}).exec(callback);
+};
+const createUser = (user, callback) => {
+  const member = new Member(user);
+  member.save(callback);
+};
 // Travel Package
 const selectPackage =
   '_id departureDate description name effectiveTo effectiveFrom ' +
@@ -262,7 +270,6 @@ const getFilteredPackages = (filter, callback) => {
   return TravelPackage.find(filter)
     .select(selectPackage)
     .exec((err, docs) => {
-      console.log('>>>>getFilteredPackages middle result', docs);
       callback(err, ObjectParser.parseTravelPackage(docs));
     });
 };
@@ -598,6 +605,7 @@ const deleteAllInstances = () => {
 };
 
 export default {
+  getUserByLoginId,
   getPackageById,
   getAllPackages,
   getFilteredPackages,
@@ -613,6 +621,7 @@ export default {
   getInstanceHotelsByInstId,
   getInstanceMembersByParams,
   getInstanceMembersByInstId,
+  createUser,
   createInstanceByPackageId,
   createInstance,
   createInstanceItems,

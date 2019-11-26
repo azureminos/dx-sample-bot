@@ -22,7 +22,46 @@ const SocketAction = SocketChannel.Action;
 const SocketStatus = SocketChannel.Status;
 
 // ===== HANDLER ===============================================================
-// Promise wrapper for Facebook UserApi.
+const getUserFromDB = (senderId) => {
+  return new Promise((resolve, reject) => {
+    Model.getUserByLoginId(senderId, (err, docs) => {
+      if (err) {
+        console.error('>>>>Model.getUserByLoginId error', err);
+        return reject(err);
+      }
+      console.log('>>>>Model.getUserByLoginId result', docs);
+      return resolve(docs);
+    });
+  });
+};
+const getUserFromApi = (senderId) => {
+  return new Promise((resolve, reject) => {
+    userApi.getDetails(senderId, (err, {statusCode}, body) => {
+      if (err) {
+        return reject(err);
+      } else if (statusCode !== 200) {
+        return reject({
+          statusCode,
+          message: 'Unable to fetch user data for user',
+          senderId,
+        });
+      }
+      const user = {
+        name: body.name || senderId,
+        loginId: senderId,
+        source: 'facebook',
+        isActive: true,
+      };
+      return Model.createUser(user, (err, docs) => {
+        if (err) {
+          console.error('>>>>Model.createMember error', err);
+        }
+        console.log('>>>>Model.createMember result', docs);
+        return resolve(docs);
+      });
+    });
+  });
+};
 const getUserDetails = (senderId) => {
   if (process.env.IS_DUMMY_USER === 'true') {
     return {
@@ -35,25 +74,12 @@ const getUserDetails = (senderId) => {
       phone: '',
     };
   }
-  return new Promise((resolve, reject) => {
-    userApi.getDetails(senderId, (err, {statusCode}, body) => {
-      if (err) {
-        return reject(err);
-      } else if (statusCode !== 200) {
-        return reject({
-          statusCode,
-          message: 'Unable to fetch user data for user',
-          senderId,
-        });
-      }
-      return resolve({
-        name: body.name || senderId,
-        loginId: senderId,
-      });
-    });
-  });
+  let user = getUserFromDB(senderId);
+  if (!user) {
+    user = getUserFromApi(senderId);
+  }
+  return user;
 };
-
 const getFacebookProfileInfoForUsers = (users = [], instId, socketUsers) => {
   Promise.all(users.map((user) => getUserDetails(user.loginId))).then((res) =>
     res.map((resUser = {}) => {
