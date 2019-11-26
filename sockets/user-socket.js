@@ -38,6 +38,7 @@ const getUserFromApi = (senderId, callback) => {
     } else if (statusCode !== 200) {
       return console.error('>>>>UserApi.getDetails error code', statusCode);
     }
+    console.error('>>>>UserApi.getDetails error result', body);
     const user = {
       name: body.name || senderId,
       loginId: senderId,
@@ -67,7 +68,7 @@ const getUserDetails = (senderId, callback) => {
   }
   return getUserFromDB(senderId, (err, dbUser) => {
     console.log('>>>>UserSocket.getUserFromDB', {err, dbUser});
-    if (!dbUser) {
+    if (!dbUser || dbUser.length === 0) {
       return getUserFromApi(senderId, callback);
     }
     return callback(err, dbUser);
