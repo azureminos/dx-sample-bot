@@ -36,12 +36,14 @@ const createInstPackage = (input) => {
       isCustomised: false,
       user: userDetails,
     };
+    console.log('>>>>Model.createInstanceByPackageId Start', instance);
     Model.createInstanceByPackageId(instance, ({err, results}) => {
       if (err) {
         console.error('>>>>Model.createInstanceByPackageId Error', err);
       } else {
         console.log('>>>>Model.createInstanceByPackageId Success', results);
         // Archive all instances in INITIATED status and owned by user
+        console.log('>>>>Model.archiveInstanceByUserId Start', senderId);
         Model.archiveInstanceByUserId({userId: senderId}, (err, docs) => {
           // Add current user and mark as owner
           const owner = {
