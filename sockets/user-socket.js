@@ -39,9 +39,12 @@ const getUserFromApi = (senderId, callback) => {
       return console.error('>>>>UserApi.getDetails error code', statusCode);
     }
     console.log('>>>>UserApi.getDetails result', body);
+    const picUrl =
+      body.picture && body.picture.data ? body.picture.data.url : '';
     const user = {
       name: body.name || senderId,
       loginId: senderId,
+      profilePic: picUrl || '',
       source: 'facebook',
       isActive: true,
     };
@@ -192,6 +195,7 @@ const view = (input) => {
             Model.archiveInstanceByUserId({userId: senderId}, (err, docs) => {
               // If empty list, then add current user and mark as owner
               return getUserDetails(senderId, (err, userDetails) => {
+                console.log('>>>>Model.getUserDetails', userDetails);
                 const owner = {
                   instPackage: instId,
                   memberId: userDetails._id,
