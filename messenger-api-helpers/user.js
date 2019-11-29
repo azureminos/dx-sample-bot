@@ -52,7 +52,7 @@ const getDetailsFromFacebook = (userId, callback) => {
         access_token: process.env.PAGE_ACCESS_TOKEN,
         // facebook requires the qs in the format
         // fields=a,b,c not fields=[a,b,c]
-        fields: 'name',
+        fields: 'id, name, picture, email',
       },
     },
     callback
