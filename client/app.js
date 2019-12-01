@@ -521,7 +521,7 @@ class App extends React.Component {
         modalType: Modal.LESS_THAN_MIN.key,
         modalRef: {min: min},
       });
-    } else {,,,
+    } else {
       instPackage.totalPeople = people + otherPeople;
       instPackage.totalRooms = rooms + otherRooms;
       instPackage.status = Instance.status.PENDING_PAYMENT;
