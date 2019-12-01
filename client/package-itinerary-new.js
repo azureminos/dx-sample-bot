@@ -77,13 +77,15 @@ class PackageItineraryNew extends React.Component {
       return <Tab key={label} label={label} {...a11yProps(it.dayNo - 1)} />;
     });
     const tabPanels = _.map(itineraries, (it) => {
-      const attractionSelected = <div>Attraction Selected</div>;
+      const attractionSelected = (
+        <div>{`Day ${it.dayNo}: Attraction Selected`}</div>
+      );
       const attractionToSelect = isCustomised ? (
-        <div>Attraction To Select</div>
+        <div>{`Day ${it.dayNo}: Attraction To Select`}</div>
       ) : (
         ''
       );
-      const hotelSelected = <div>Hotel Selected</div>;
+      const hotelSelected = <div>{`Day ${it.dayNo}: Hotel Selected`}</div>;
       return (
         <TabPanel key={it.dayNo} value={tabSelected} index={it.dayNo - 1}>
           <Typography component='div'>
@@ -109,7 +111,27 @@ class PackageItineraryNew extends React.Component {
             {tabLabels}
           </Tabs>
         </AppBar>
-        {tabPanels}
+        <TabPanel value={tabSelected} index={0}>
+          Item One
+        </TabPanel>
+        <TabPanel value={tabSelected} index={1}>
+          Item Two
+        </TabPanel>
+        <TabPanel value={tabSelected} index={2}>
+          Item Three
+        </TabPanel>
+        <TabPanel value={tabSelected} index={3}>
+          Item Four
+        </TabPanel>
+        <TabPanel value={tabSelected} index={4}>
+          Item Five
+        </TabPanel>
+        <TabPanel value={tabSelected} index={5}>
+          Item Six
+        </TabPanel>
+        <TabPanel value={tabSelected} index={6}>
+          Item Seven
+        </TabPanel>
       </div>
     );
   }
