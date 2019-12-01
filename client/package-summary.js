@@ -93,7 +93,6 @@ class PackageSummary extends React.Component {
           <ListItemText primary='Itinerary Details' secondary={labelDays} />
         </ListItem>
         {divDays}
-        {divSpace}
       </List>
     );
   }
