@@ -892,8 +892,20 @@ class App extends React.Component {
     let page = <div>Loading...</div>;
     if (instPackage) {
       if (this.state.isViewSummary) {
+        const itineraries = PackageHelper.getFullItinerary({
+          isCustomised: instPackage.isCustomised,
+          cities: cities,
+          packageItems: instPackage.items,
+          packageHotels: instPackage.hotels,
+        });
         page = (
-          <PackageSummary userId={viewerId} pushToRemote={this.pushToRemote} />
+          <PackageSummary
+            userId={viewerId}
+            packageSummary={packageSummary}
+            itineraries={itineraries}
+            cities={cities}
+            pushToRemote={this.pushToRemote}
+          />
         );
       } else {
         // Variables
