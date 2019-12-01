@@ -69,6 +69,7 @@ export default function attachSockets(io) {
     channel('push:user:leave', UserSocket.leavePackage);
     channel('push:user:addNotes', UserSocket.addNotes);
     channel('push:package:showAll', PackageSocket.showAllPackages);
+    channel('push:package:view', PackageSocket.showPackage);
     channel('push:package:create', PackageSocket.createInstPackage);
     channel('push:package:share', PackageSocket.shareInstPackage);
     channel('push:package:update', PackageSocket.updateInstPackage);

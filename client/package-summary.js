@@ -12,8 +12,8 @@ class PackageSummary extends React.Component {
     super(props);
   }
   render() {
-    console.log('>>>>PackageSummary, render()', this.props);
     const {classes, userId, pushToRemote} = this.props;
+    console.log('>>>>PackageSummary, render()', {userId});
     // Local Variables
     // Sub Components
     // Display Widget

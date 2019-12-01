@@ -8,26 +8,29 @@
 // ===== MODULES ===============================================================
 import express from 'express';
 import Model from '../db/schema';
+import CONSTANTS from '../lib/constants';
 
+const {Global} = CONSTANTS.get();
 const router = express.Router();
 
 const handleWebviewAccess = (req, res) => {
+  const appId = Global.appId;
   const {hostname} = req;
   const {PORT, LOCAL} = process.env;
   const socketAddress = LOCAL
     ? `http://${hostname}:${PORT}`
     : `wss://${hostname}`;
 
-  const {instId, packageId, userId} = req.params;
+  const {userId, type, id} = req.params;
 
-  console.log('>>>>Printing input params', {packageId, instId, userId});
+  console.log('>>>>Printing input params', {type, id});
 
-  if (instId === 'new') {
-    Model.getPackageById(packageId, (err, docs) => {
+  if (type === 'package') {
+    Model.getPackageById(id, (err, docs) => {
       if (err) console.error('>>>>Model.getPackageById Error', err);
       console.log('>>>>Model.getPackageById Success', docs);
       const instance = {
-        packageId: packageId,
+        packageId: id,
         totalDays: docs.totalDays,
         carOption: docs.carOption,
         isCustomised: false,
@@ -45,22 +48,43 @@ const handleWebviewAccess = (req, res) => {
           });
           res.render('./index', {
             instId: results.instance.id,
+            packageId: '',
+            appId,
             userId,
             socketAddress,
           });
         }
       });
     });
-  } else if (instId === 'home') {
-    res.render('./index', {instId: '', userId: '', socketAddress});
-  } else {
-    res.render('./index', {instId, userId, socketAddress});
+  } else if (type === 'package2') {
+    res.render('./index', {
+      instId: '',
+      packageId: id,
+      appId,
+      userId,
+      socketAddress,
+    });
+  } else if (type === 'home') {
+    res.render('./index', {
+      instId: '',
+      packageId: '',
+      appId,
+      userId: '',
+      socketAddress,
+    });
+  } else if (type === 'instance') {
+    res.render('./index', {
+      instId: id,
+      packageId: '',
+      appId,
+      userId,
+      socketAddress,
+    });
   }
 };
 
-router.get('/', handleWebviewAccess);
-router.get('/:userId/:instId', handleWebviewAccess);
-router.get('/:userId/:instId/:packageId', handleWebviewAccess);
+router.get('/:userId/:type', handleWebviewAccess);
+router.get('/:userId/:type/:id', handleWebviewAccess);
 
 if (process.env.IS_CLEANUP === 'true') {
   Model.deleteAllInstanceMembers();

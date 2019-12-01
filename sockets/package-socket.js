@@ -256,9 +256,54 @@ const showAllPackages = (input) => {
   });
 };
 
+const showPackage = (input) => {
+  const {request, allInRoom, sendStatus, socket, socketUsers} = input;
+  console.log('>>>>Socket.updatePackage', {request, socketUsers});
+  const {senderId, packageId} = request;
+  async.parallel(
+    {
+      packageSummary: (callback) => {
+        Model.getPackageById(packageId, callback);
+      },
+      packageItems: (callback) => {
+        Model.getItemsByPackageId(packageId, callback);
+      },
+      packageHotels: (callback) => {
+        Model.getHotelsByPackageId(packageId, callback);
+      },
+      cities: (callback) => {
+        Model.getCitiesByPackageId(packageId, callback);
+      },
+      packageRates: (callback) => {
+        Model.getPackageRatesByPackageId(packageId, callback);
+      },
+      flightRates: (callback) => {
+        Model.getFlightRatesByPackageId(packageId, callback);
+      },
+    },
+    function(err, results2) {
+      if (err) {
+        console.error('>>>>Database Error', err);
+        sendStatus(SocketStatus.DB_ERROR);
+      } else {
+        console.log('>>>>Model.view Level 2 Result', results2);
+        // socket.emit('init', results2);
+        sendStatus(SocketStatus.OK);
+      }
+    }
+  );
+
+  /* Model.getDummyPackageInstance({senderId, packageId}, (err, docs) => {
+    if (err) console.log('>>>>Model.getDummyPackageInstance error', err);
+    console.log('>>>>Model.getDummyPackageInstance result', docs);
+    socket.emit('init', docs);
+  });*/
+};
+
 export default {
   createInstPackage,
   shareInstPackage,
   updateInstPackage,
   showAllPackages,
+  showPackage,
 };

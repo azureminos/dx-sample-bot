@@ -13,12 +13,13 @@
     <script>
       window.extAsyncInit = function() {
         MessengerExtensions.getContext(
-          "266691027485519",
+          "<%= appId %>",
           function success(context) {
             console.log(">>>>MessengerExtensions.getContext Success", context);
             window.attachApp({
               viewerId: context.psid ? context.psid : "<%= userId %>",
               instId: "<%= instId %>",
+              packageId: "<%= packageId %>",
               socketAddress: "<%= socketAddress %>",
               threadType: context.thread_type
             });
@@ -28,6 +29,7 @@
             window.attachApp({
               viewerId: "<%= userId %>",
               instId: "<%= instId %>",
+              packageId: "<%= packageId %>",
               socketAddress: "<%= socketAddress %>"
             });
           }

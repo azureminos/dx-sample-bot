@@ -18,9 +18,9 @@ import BotHeader from './components/bot-header';
 import BotFooter from './components/bot-footer';
 import ProgressBar from './components/progress-bar';
 import DialogShare from './components/dialog-share';
-import PackageItinerary from './package-itinerary';
 import PackageAll from './package-all';
-
+import PackageSummary from './package-summary';
+import PackageItinerary from './package-itinerary';
 // ==== HELPERS =======================================
 import Helper from '../lib/helper';
 import PackageHelper from '../lib/package-helper';
@@ -97,6 +97,7 @@ class App extends React.Component {
       socketStatus: '',
       message: '',
       isOpenDialogShare: false,
+      isViewSummary: true,
       modalType: '',
       modalRef: null,
       rates: null,
@@ -828,18 +829,20 @@ class App extends React.Component {
     socket.on('package:update', this.update);
     socket.on('package:showAll', this.showAll);
 
-    const {viewerId} = this.props;
+    const {viewerId, packageId} = this.props;
     const {instId} = this.state;
-    const handleMount = (vid, iid) => {
-      if (vid && !iid) {
+    const handleMount = (vid, iid, pid) => {
+      if (vid && !pid && !iid) {
         console.log('>>>>Load All Package');
-        this.pushToRemote('package:showAll', {
+        this.pushToRemote('package:showAll', {senderId: vid});
+      } else if (vid && pid && !iid) {
+        console.log('>>>>View Package', {viewerId: vid, packageId: pid});
+        this.pushToRemote('package:view', {
           senderId: vid,
-          instId: iid,
+          packageId: pid,
         });
-      }
-      if (vid && iid) {
-        console.log('>>>>View Package', {viewerId: vid, instId: iid});
+      } else if (vid && iid) {
+        console.log('>>>>View Package Instance', {viewerId: vid, instId: iid});
         this.pushToRemote('user:view', {
           senderId: vid,
           instId: iid,
@@ -854,12 +857,12 @@ class App extends React.Component {
         // check if permission exists
         const permissions = response.permissions;
         if (permissions.indexOf('user_profile') > -1) {
-          handleMount(viewerId, instId);
+          handleMount(viewerId, instId, packageId);
         } else {
           window.MessengerExtensions.askPermission(
             function(response) {
               if (response.isGranted) {
-                handleMount(viewerId, instId);
+                handleMount(viewerId, instId, packageId);
               } else {
                 window.MessengerExtensions.requestCloseBrowser(null, null);
               }
@@ -888,120 +891,126 @@ class App extends React.Component {
     console.log('>>>>MobileApp.render', this.state);
     let page = <div>Loading...</div>;
     if (instPackage) {
-      // Variables
-      const carOptions = instPackage.isCustomised
-        ? Helper.getValidCarOptions(rates.carRates)
-        : [instPackage.carOption];
-      const departDates = _.map(
-        packageSummary.departureDate.split(','),
-        (d) => {
-          return d.trim();
-        }
-      );
-      const transport = {
-        departDates: departDates,
-        startDate: instPackage.startDate,
-        totalDays: instPackage.totalDays,
-        carOption: instPackage.carOption,
-        carOptions: carOptions,
-      };
-      const itineraries = PackageHelper.getFullItinerary({
-        isCustomised: instPackage.isCustomised,
-        cities: cities,
-        packageItems: instPackage.items,
-        packageHotels: instPackage.hotels,
-      });
-      const headerActions = {
-        handlePeople: this.handleHdPeopleChange,
-        handleRoom: this.handleHdRoomChange,
-      };
-      const footerActions = {
-        handleBackward: this.handleFtBtnBackward,
-        handleForward: this.handleFtBtnForward,
-        handleShare: this.handleFtBtnShare,
-        handlePay: this.confirmSubmitPayment,
-        handleJoin: this.handleFtBtnJoin,
-        handleLeave: this.handleFtBtnLeave,
-        handleLock: this.handleFtBtnLock,
-        handleUnlock: this.handleFtBtnUnlock,
-        handleStatus: this.handleFtBtnStatus,
-        handleCustomise: this.handleFtBtnCustomise,
-        handleCancelCustomise: this.handleFtBtnNoCustomise,
-      };
-      const itineraryActions = {
-        handleSelectHotel: this.handleSelectHotel,
-        handleSelectFlight: this.handleSelectFlight,
-        handleSelectCar: this.handleSelectCar,
-        handleLikeAttraction: this.handleLikeAttraction,
-        handleAddItinerary: this.confirmAddItinerary,
-        handleDeleteItinerary: this.confirmDeleteItinerary,
-      };
-      const modalActions = {
-        handleModalClose: this.handleModalClose,
-        handleDeleteItinerary: this.handleDeleteItinerary,
-        handleAddItinerary: this.handleAddItinerary,
-        handlePayment: this.handleFtBtnPayment,
-      };
-      // ======Web Elements======
-      // Dialog Share
-      const elDialogShare = (
-        <DialogShare
-          open={isOpenDialogShare}
-          viewerId={viewerId}
-          instId={instId}
-          title={packageSummary.name}
-          description={packageSummary.description}
-          imageUrl={packageSummary.imageUrl}
-          apiUri={apiUri}
-          pushToRemote={this.pushToRemote}
-          handleClose={this.handleDialogShareClose}
-          handleShare={this.handleShareOnMessenger}
-        />
-      );
-      // Bot Modal
-      const elModal = modalType ? (
-        <BotModal
-          modal={modalType}
-          actions={modalActions}
-          reference={modalRef}
-        />
-      ) : (
-        ''
-      );
-      page = (
-        <div>
-          <BotHeader
-            instPackage={instPackage}
-            instPackageExt={instPackageExt}
-            rates={rates}
-            actions={headerActions}
+      if (this.state.isViewSummary) {
+        page = (
+          <PackageSummary userId={viewerId} pushToRemote={this.pushToRemote} />
+        );
+      } else {
+        // Variables
+        const carOptions = instPackage.isCustomised
+          ? Helper.getValidCarOptions(rates.carRates)
+          : [instPackage.carOption];
+        const departDates = _.map(
+          packageSummary.departureDate.split(','),
+          (d) => {
+            return d.trim();
+          }
+        );
+        const transport = {
+          departDates: departDates,
+          startDate: instPackage.startDate,
+          totalDays: instPackage.totalDays,
+          carOption: instPackage.carOption,
+          carOptions: carOptions,
+        };
+        const itineraries = PackageHelper.getFullItinerary({
+          isCustomised: instPackage.isCustomised,
+          cities: cities,
+          packageItems: instPackage.items,
+          packageHotels: instPackage.hotels,
+        });
+        const headerActions = {
+          handlePeople: this.handleHdPeopleChange,
+          handleRoom: this.handleHdRoomChange,
+        };
+        const footerActions = {
+          handleBackward: this.handleFtBtnBackward,
+          handleForward: this.handleFtBtnForward,
+          handleShare: this.handleFtBtnShare,
+          handlePay: this.confirmSubmitPayment,
+          handleJoin: this.handleFtBtnJoin,
+          handleLeave: this.handleFtBtnLeave,
+          handleLock: this.handleFtBtnLock,
+          handleUnlock: this.handleFtBtnUnlock,
+          handleStatus: this.handleFtBtnStatus,
+          handleCustomise: this.handleFtBtnCustomise,
+          handleCancelCustomise: this.handleFtBtnNoCustomise,
+        };
+        const itineraryActions = {
+          handleSelectHotel: this.handleSelectHotel,
+          handleSelectFlight: this.handleSelectFlight,
+          handleSelectCar: this.handleSelectCar,
+          handleLikeAttraction: this.handleLikeAttraction,
+          handleAddItinerary: this.confirmAddItinerary,
+          handleDeleteItinerary: this.confirmDeleteItinerary,
+        };
+        const modalActions = {
+          handleModalClose: this.handleModalClose,
+          handleDeleteItinerary: this.handleDeleteItinerary,
+          handleAddItinerary: this.handleAddItinerary,
+          handlePayment: this.handleFtBtnPayment,
+        };
+        // ======Web Elements======
+        // Dialog Share
+        const elDialogShare = (
+          <DialogShare
+            open={isOpenDialogShare}
+            viewerId={viewerId}
+            instId={instId}
+            title={packageSummary.name}
+            description={packageSummary.description}
+            imageUrl={packageSummary.imageUrl}
+            apiUri={apiUri}
+            pushToRemote={this.pushToRemote}
+            handleClose={this.handleDialogShareClose}
+            handleShare={this.handleShareOnMessenger}
           />
-          <div className={classes.appBody}>
-            <ProgressBar
-              step={instPackageExt.step}
-              isOwner={instPackageExt.isOwner}
-              isCustomised={instPackage.isCustomised}
-            />
-            <PackageItinerary
-              isCustomised={instPackage.isCustomised}
-              isOwner={instPackageExt.isOwner}
+        );
+        // Bot Modal
+        const elModal = modalType ? (
+          <BotModal
+            modal={modalType}
+            actions={modalActions}
+            reference={modalRef}
+          />
+        ) : (
+          ''
+        );
+        page = (
+          <div>
+            <BotHeader
+              instPackage={instPackage}
+              instPackageExt={instPackageExt}
               rates={rates}
-              transport={transport}
-              itineraries={itineraries}
-              status={instPackage.status}
-              actions={itineraryActions}
+              actions={headerActions}
             />
+            <div className={classes.appBody}>
+              <ProgressBar
+                step={instPackageExt.step}
+                isOwner={instPackageExt.isOwner}
+                isCustomised={instPackage.isCustomised}
+              />
+              <PackageItinerary
+                isCustomised={instPackage.isCustomised}
+                isOwner={instPackageExt.isOwner}
+                rates={rates}
+                transport={transport}
+                itineraries={itineraries}
+                status={instPackage.status}
+                actions={itineraryActions}
+              />
+            </div>
+            <BotFooter
+              instPackage={instPackage}
+              instPackageExt={instPackageExt}
+              rates={rates}
+              actions={footerActions}
+            />
+            {elModal}
+            {elDialogShare}
           </div>
-          <BotFooter
-            instPackage={instPackage}
-            instPackageExt={instPackageExt}
-            rates={rates}
-            actions={footerActions}
-          />
-          {elModal}
-          {elDialogShare}
-        </div>
-      );
+        );
+      }
     } else if (packages && packages.length > 0) {
       page = (
         <PackageAll
