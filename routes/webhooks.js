@@ -40,7 +40,7 @@ router.get('/', (req, res) => {
  * 2. Postbacks
  */
 router.post('/', (req, res) => {
-    /*
+  /*
     You must send back a status of 200(success) within 20 seconds
     to let us know you've successfully received the callback.
     Otherwise, the request will time out.
@@ -71,7 +71,8 @@ router.post('/', (req, res) => {
             receiveApi.handleReceiveMessage(messagingEvent);
           } else if (messagingEvent.pass_thread_control) {
             // thread is in control by customer support
-            receiveApi.handleThreadback(messagingEvent);
+            console.log('>>>>receiveApi.handleThreadback', messagingEvent);
+            // receiveApi.handleThreadback(messagingEvent);
           } else if (messagingEvent.postback) {
             // hande postback message from customer
             receiveApi.handleReceivePostback(messagingEvent);
@@ -85,7 +86,7 @@ router.post('/', (req, res) => {
       } else if (pageEntry.standby) {
         // customer support needs to manualy send the thread back to bot.
         console.log('Message from standby thread', pageEntry.standby);
-        /*const psid = event.sender.id;
+        /* const psid = event.sender.id;
         const message = event.message;
 
         if (message && message.quick_reply && message.quick_reply.payload == 'take_from_inbox') {

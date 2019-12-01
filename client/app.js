@@ -91,8 +91,9 @@ class App extends React.Component {
     this.handleSelectCar = this.handleSelectCar.bind(this);
 
     this.state = {
-      instId: props.instId || '',
       updating: false,
+      instId: props.instId || '',
+      user: null,
       socketStatus: '',
       message: '',
       isOpenDialogShare: false,
@@ -520,7 +521,7 @@ class App extends React.Component {
         modalType: Modal.LESS_THAN_MIN.key,
         modalRef: {min: min},
       });
-    } else {
+    } else {,,,
       instPackage.totalPeople = people + otherPeople;
       instPackage.totalRooms = rooms + otherRooms;
       instPackage.status = Instance.status.PENDING_PAYMENT;
