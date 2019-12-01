@@ -14,18 +14,15 @@ class PackageAll extends React.Component {
   }
   render() {
     console.log('>>>>PackageAll, render()', this.props);
-    const {classes, packages, viewerId, pushToRemote} = this.props;
+    const {packages, viewerId, pushToRemote} = this.props;
     // Local Variables
     // Sub Components
     const bricks = _.map(packages, (p) => {
       const handleViewPackage = () => {
-        const instance = {
+        pushToRemote('package:view', {
           packageId: p.id,
-          totalDays: p.totalDays,
-          carOption: p.carOption,
           senderId: viewerId,
-        };
-        pushToRemote('package:create', instance);
+        });
       };
       return (
         <PackageCard
