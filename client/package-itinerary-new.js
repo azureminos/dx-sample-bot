@@ -5,7 +5,14 @@ import {withStyles} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import IconCustomise from '@material-ui/icons/Ballot';
+import AttractionSlider from './components/attraction-slider';
 import CONSTANTS from '../lib/constants';
 
 // Functions
@@ -62,6 +69,7 @@ class PackageItineraryNew extends React.Component {
     // Local variables
     const {classes, isCustomised, isOwner, status} = this.props;
     const {actions, rates, transport, itineraries} = this.props;
+    const {handleLikeAttraction} = this.props.actions;
     const {tabSelected} = this.state;
     console.log('>>>>PackageItineraryNew.render', {
       isCustomised,
@@ -78,15 +86,67 @@ class PackageItineraryNew extends React.Component {
       return <Tab key={label} label={label} {...a11yProps(it.dayNo - 1)} />;
     });
     const tabPanels = _.map(itineraries, (it) => {
-      const attractionSelected = (
-        <div>{`Day ${it.dayNo}: Attraction Selected`}</div>
-      );
-      const attractionToSelect = isCustomised ? (
-        <div>{`Day ${it.dayNo}: Attraction To Select`}</div>
+      const likedAttractions = _.filter(it.attractions, (a) => {
+        return a.isLiked;
+      });
+      const notLikedAttractions = _.filter(it.attractions, (a) => {
+        return !a.isLiked;
+      });
+      const selectedHotel = _.find(it.hotels, (h) => {
+        return !h.isLiked;
+      });
+      const btnCustomise =
+        isCustomised &&
+        notLikedAttractions &&
+        notLikedAttractions.length > 0 ? (
+          <ListItemSecondaryAction>
+            <IconButton aria-label='Comments'>
+              <IconCustomise />
+            </IconButton>
+          </ListItemSecondaryAction>
+        ) : (
+          ''
+        );
+      const attractionSelected =
+        likedAttractions && likedAttractions.length > 0 ? (
+          <List>
+            <ListItem
+              key={`Day ${it.dayNo}, Selected Attractions Label`}
+              role={undefined}
+              dense
+            >
+              <ListItemText primary={'Attractions to visit'} />
+              {btnCustomise}
+            </ListItem>
+            <ListItem
+              key={`Day ${it.dayNo}, Selected Attractions Slider`}
+              role={undefined}
+              dense
+            >
+              <AttractionSlider
+                dayNo={it.dayNo}
+                timePlannable={it.timePlannable}
+                attractions={likedAttractions}
+                handleLikeAttraction={handleLikeAttraction}
+              />
+            </ListItem>
+          </List>
+        ) : (
+          ''
+        );
+      const attractionToSelect =
+        isCustomised &&
+        notLikedAttractions &&
+        notLikedAttractions.length > 0 ? (
+          <div>{`Day ${it.dayNo}: Attraction To Select`}</div>
+        ) : (
+          ''
+        );
+      const hotelSelected = selectedHotel ? (
+        <div>{`Day ${it.dayNo}: Hotel Selected`}</div>
       ) : (
         ''
       );
-      const hotelSelected = <div>{`Day ${it.dayNo}: Hotel Selected`}</div>;
       return (
         <TabPanel key={it.dayNo} value={tabSelected} index={it.dayNo - 1}>
           <Typography component='div'>
