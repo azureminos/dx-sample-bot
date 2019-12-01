@@ -46,7 +46,7 @@ class PackageSummary extends React.Component {
     // Sub Components
     const divDays = _.map(itineraries, (it) => {
       const labelItinerary = `Day ${it.dayNo}, ${it.cityVisit}`;
-      const cityImageUrl = packageHelper.getCityImage(it, cities);
+      const cityImageUrl = packageHelper.getCityImage(it, cities) || '';
       return (
         <div key={it.dayNo}>
           <Typography variant='h6' component='h4'>
