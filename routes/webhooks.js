@@ -70,9 +70,9 @@ router.post('/', (req, res) => {
             // hande new message from customer
             receiveApi.handleReceiveMessage(messagingEvent);
           } else if (messagingEvent.pass_thread_control) {
-            // thread is in control by customer support
-            console.log('>>>>receiveApi.handleThreadback', messagingEvent);
-            // receiveApi.handleThreadback(messagingEvent);
+            // thread is passed back to BOT
+            console.log('>>>>receiveApi.handleThreadBack', messagingEvent);
+            receiveApi.handleThreadBack(messagingEvent);
           } else if (messagingEvent.postback) {
             // hande postback message from customer
             receiveApi.handleReceivePostback(messagingEvent);

@@ -123,7 +123,14 @@ const handleReceiveMessage = (event) => {
   }
 };
 
+const handleThreadBack = (event) => {
+  console.log('>>>>Received message event', event);
+  const senderId = event.sender.id;
+  sendApi.sendWelcomeMessage(senderId);
+};
+
 export default {
   handleReceivePostback,
   handleReceiveMessage,
+  handleThreadBack,
 };
