@@ -23,6 +23,9 @@ const styles = (theme) => ({
   whitespace: {
     height: 70,
   },
+  itinerary: {
+    display: 'block',
+  },
 });
 
 class PackageSummary extends React.Component {
@@ -61,7 +64,7 @@ class PackageSummary extends React.Component {
       const labelItinerary = `Day ${it.dayNo}, ${it.cityVisit}`;
       const cityImageUrl = packageHelper.getCityImage(it, cities) || '';
       return (
-        <ListItem key={it.dayNo}>
+        <ListItem key={it.dayNo} className={classes.itinerary}>
           <Typography variant='h6' component='h4'>
             {labelItinerary}
           </Typography>

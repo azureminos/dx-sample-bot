@@ -160,11 +160,12 @@ class App extends React.Component {
   checkAvailability(input) {
     console.log('>>>>MobileApp.checkAvailability', input);
     const {packageId, totalDays, carOption} = this.state.instPackage;
+    const isViewSummary = false;
     const senderId = this.props.viewerId;
     const daySelected = input && input.dayNo ? input.dayNo : 1;
     const req = {packageId, totalDays, carOption, senderId};
     this.pushToRemote('package:create', req);
-    this.setState({daySelected});
+    this.setState({daySelected, isViewSummary});
   }
   handleDialogShareClose() {
     console.log('>>>>MobileApp.handleDialogShareClose');
