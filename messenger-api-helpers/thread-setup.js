@@ -46,7 +46,7 @@ const persistentMenu = () => {
         type: 'web_url',
         title: 'Create List',
         url: `${APP_URL}/lists/new`,
-        webview_height_ratio: 'full',
+        webview_height_ratio: 'tall',
         messenger_extensions: true,
         webview_share_button: 'hide',
       },
