@@ -34,13 +34,16 @@ import 'react-id-swiper/src/styles/css/swiper.css';
 const styles = (theme) => ({
   appBody: {
     position: 'absolute',
-    top: 80,
     left: 0,
-    marginLeft: 8,
-    marginRight: 8,
     maxHeight: 515,
     overflowY: 'auto',
-    width: '98%',
+    width: '100%',
+  },
+  whitespaceTop: {
+    height: 80,
+  },
+  whitespaceBottom: {
+    height: 30,
   },
 });
 const {Modal, Global, Instance, SocketChannel} = CONSTANTS.get();
@@ -896,6 +899,8 @@ class App extends React.Component {
   }
 
   render() {
+    // Local Variables
+    console.log('>>>>MobileApp.render', this.state);
     const {instId, isViewSummary, isOpenDialogShare} = this.state;
     const {packages, instPackage, instPackageExt, rates} = this.state;
     const {modalType, modalRef, reference} = this.state;
@@ -933,8 +938,9 @@ class App extends React.Component {
       handleAddItinerary: this.handleAddItinerary,
       handlePayment: this.handleFtBtnPayment,
     };
-
-    console.log('>>>>MobileApp.render', this.state);
+    // Sub Components
+    const divWhitespaceTop = <div className={classes.whitespaceTop} />;
+    const divWhitespaceBottom = <div className={classes.whitespaceBottom} />;
     let page = <div>Loading...</div>;
     if (instPackage) {
       if (isViewSummary) {
@@ -954,6 +960,7 @@ class App extends React.Component {
                 cities={cities}
                 handleAvailability={this.checkAvailability}
               />
+              {divWhitespaceBottom}
             </div>
             <BotFooter
               instPackage={instPackage}
@@ -1023,6 +1030,7 @@ class App extends React.Component {
               actions={headerActions}
             />
             <div className={classes.appBody}>
+              {divWhitespaceTop}
               <PackageItineraryNew
                 isCustomised={instPackage.isCustomised}
                 isOwner={instPackageExt.isOwner}
@@ -1032,6 +1040,7 @@ class App extends React.Component {
                 status={instPackage.status}
                 actions={itineraryActions}
               />
+              {divWhitespaceBottom}
             </div>
             <BotFooter
               instPackage={instPackage}

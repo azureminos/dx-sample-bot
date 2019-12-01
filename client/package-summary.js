@@ -17,11 +17,7 @@ import packageHelper from '../lib/package-helper';
 const styles = (theme) => ({
   root: {
     width: '100%',
-    paddingButton: 80,
     backgroundColor: theme.palette.background.paper,
-  },
-  whitespace: {
-    height: 70,
   },
   itinerary: {
     display: 'block',
@@ -55,11 +51,6 @@ class PackageSummary extends React.Component {
         ? `${packageSummary.totalDays} Day`
         : `${packageSummary.totalDays} Days`;
     // Sub Components
-    const divSpace = (
-      <ListItem key={'whitespace'}>
-        <div className={classes.whitespace} />
-      </ListItem>
-    );
     const divDays = _.map(itineraries, (it) => {
       const labelItinerary = `Day ${it.dayNo}, ${it.cityVisit}`;
       const cityImageUrl = packageHelper.getCityImage(it, cities) || '';
