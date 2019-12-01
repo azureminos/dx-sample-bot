@@ -85,7 +85,7 @@ class PackageItineraryNew extends React.Component {
       );
       const hotelSelected = <div>Hotel Selected</div>;
       return (
-        <TabPanel value={tabSelected} index={it.dayNo - 1}>
+        <TabPanel key={it.dayNo} value={tabSelected} index={it.dayNo - 1}>
           <Typography component='div'>
             {attractionSelected}
             {attractionToSelect}
