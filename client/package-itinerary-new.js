@@ -11,7 +11,7 @@ import CONSTANTS from '../lib/constants';
 // Functions
 const TabPanel = (props) => {
   const {children, value, index, ...other} = props;
-  return value !== index ? (
+  return value === index ? (
     <Typography
       component='div'
       role='tabpanel'
@@ -112,27 +112,7 @@ class PackageItineraryNew extends React.Component {
             {tabLabels}
           </Tabs>
         </AppBar>
-        <TabPanel value={tabSelected} index={0}>
-          Item One
-        </TabPanel>
-        <TabPanel value={tabSelected} index={1}>
-          Item Two
-        </TabPanel>
-        <TabPanel value={tabSelected} index={2}>
-          Item Three
-        </TabPanel>
-        <TabPanel value={tabSelected} index={3}>
-          Item Four
-        </TabPanel>
-        <TabPanel value={tabSelected} index={4}>
-          Item Five
-        </TabPanel>
-        <TabPanel value={tabSelected} index={5}>
-          Item Six
-        </TabPanel>
-        <TabPanel value={tabSelected} index={6}>
-          Item Seven
-        </TabPanel>
+        {tabPanels}
       </div>
     );
   }
