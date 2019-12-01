@@ -21,6 +21,7 @@ import DialogShare from './components/dialog-share';
 import PackageAll from './package-all';
 import PackageSummary from './package-summary';
 import PackageItinerary from './package-itinerary';
+import PackageItineraryNew from './package-itinerary-new';
 // ==== HELPERS =======================================
 import Helper from '../lib/helper';
 import PackageHelper from '../lib/package-helper';
@@ -98,6 +99,7 @@ class App extends React.Component {
       message: '',
       isOpenDialogShare: false,
       isViewSummary: true,
+      isSelectedDay: null,
       modalType: '',
       modalRef: null,
       rates: null,
@@ -883,15 +885,47 @@ class App extends React.Component {
   }
 
   render() {
-    const {instId, packages, instPackage, instPackageExt, rates} = this.state;
-    const {modalType, modalRef, reference, isOpenDialogShare} = this.state;
+    const {instId, isViewSummary, isOpenDialogShare} = this.state;
+    const {packages, instPackage, instPackageExt, rates} = this.state;
+    const {modalType, modalRef, reference} = this.state;
     const {cities, packageSummary} = reference;
     const {classes, apiUri, viewerId} = this.props;
+    const headerActions = {
+      handlePeople: this.handleHdPeopleChange,
+      handleRoom: this.handleHdRoomChange,
+    };
+    const footerActions = {
+      handleBackward: this.handleFtBtnBackward,
+      handleForward: this.handleFtBtnForward,
+      handleShare: this.handleFtBtnShare,
+      handlePay: this.confirmSubmitPayment,
+      handleJoin: this.handleFtBtnJoin,
+      handleLeave: this.handleFtBtnLeave,
+      handleLock: this.handleFtBtnLock,
+      handleUnlock: this.handleFtBtnUnlock,
+      handleStatus: this.handleFtBtnStatus,
+      handleCustomise: this.handleFtBtnCustomise,
+      handleCancelCustomise: this.handleFtBtnNoCustomise,
+    };
+    const itineraryActions = {
+      handleSelectHotel: this.handleSelectHotel,
+      handleSelectFlight: this.handleSelectFlight,
+      handleSelectCar: this.handleSelectCar,
+      handleLikeAttraction: this.handleLikeAttraction,
+      handleAddItinerary: this.confirmAddItinerary,
+      handleDeleteItinerary: this.confirmDeleteItinerary,
+    };
+    const modalActions = {
+      handleModalClose: this.handleModalClose,
+      handleDeleteItinerary: this.handleDeleteItinerary,
+      handleAddItinerary: this.handleAddItinerary,
+      handlePayment: this.handleFtBtnPayment,
+    };
 
     console.log('>>>>MobileApp.render', this.state);
     let page = <div>Loading...</div>;
     if (instPackage) {
-      if (this.state.isViewSummary) {
+      if (isViewSummary) {
         const itineraries = PackageHelper.getFullItinerary({
           isCustomised: instPackage.isCustomised,
           cities: cities,
@@ -899,13 +933,22 @@ class App extends React.Component {
           packageHotels: instPackage.hotels,
         });
         page = (
-          <PackageSummary
-            userId={viewerId}
-            packageSummary={packageSummary}
-            itineraries={itineraries}
-            cities={cities}
-            pushToRemote={this.pushToRemote}
-          />
+          <div>
+            <PackageSummary
+              userId={viewerId}
+              packageSummary={packageSummary}
+              itineraries={itineraries}
+              cities={cities}
+              pushToRemote={this.pushToRemote}
+            />
+            <BotFooter
+              instPackage={instPackage}
+              instPackageExt={instPackageExt}
+              isViewSummary={isViewSummary}
+              rates={rates}
+              actions={footerActions}
+            />
+          </div>
         );
       } else {
         // Variables
@@ -931,37 +974,6 @@ class App extends React.Component {
           packageItems: instPackage.items,
           packageHotels: instPackage.hotels,
         });
-        const headerActions = {
-          handlePeople: this.handleHdPeopleChange,
-          handleRoom: this.handleHdRoomChange,
-        };
-        const footerActions = {
-          handleBackward: this.handleFtBtnBackward,
-          handleForward: this.handleFtBtnForward,
-          handleShare: this.handleFtBtnShare,
-          handlePay: this.confirmSubmitPayment,
-          handleJoin: this.handleFtBtnJoin,
-          handleLeave: this.handleFtBtnLeave,
-          handleLock: this.handleFtBtnLock,
-          handleUnlock: this.handleFtBtnUnlock,
-          handleStatus: this.handleFtBtnStatus,
-          handleCustomise: this.handleFtBtnCustomise,
-          handleCancelCustomise: this.handleFtBtnNoCustomise,
-        };
-        const itineraryActions = {
-          handleSelectHotel: this.handleSelectHotel,
-          handleSelectFlight: this.handleSelectFlight,
-          handleSelectCar: this.handleSelectCar,
-          handleLikeAttraction: this.handleLikeAttraction,
-          handleAddItinerary: this.confirmAddItinerary,
-          handleDeleteItinerary: this.confirmDeleteItinerary,
-        };
-        const modalActions = {
-          handleModalClose: this.handleModalClose,
-          handleDeleteItinerary: this.handleDeleteItinerary,
-          handleAddItinerary: this.handleAddItinerary,
-          handlePayment: this.handleFtBtnPayment,
-        };
         // ======Web Elements======
         // Dialog Share
         const elDialogShare = (
@@ -1002,6 +1014,41 @@ class App extends React.Component {
                 isOwner={instPackageExt.isOwner}
                 isCustomised={instPackage.isCustomised}
               />
+              <PackageItineraryNew
+                isCustomised={instPackage.isCustomised}
+                isOwner={instPackageExt.isOwner}
+                rates={rates}
+                transport={transport}
+                itineraries={itineraries}
+                status={instPackage.status}
+                actions={itineraryActions}
+              />
+            </div>
+            <BotFooter
+              instPackage={instPackage}
+              instPackageExt={instPackageExt}
+              isViewSummary={isViewSummary}
+              rates={rates}
+              actions={footerActions}
+            />
+            {elModal}
+            {elDialogShare}
+          </div>
+        );
+        /* page = (
+          <div>
+            <BotHeader
+              instPackage={instPackage}
+              instPackageExt={instPackageExt}
+              rates={rates}
+              actions={headerActions}
+            />
+            <div className={classes.appBody}>
+              <ProgressBar
+                step={instPackageExt.step}
+                isOwner={instPackageExt.isOwner}
+                isCustomised={instPackage.isCustomised}
+              />
               <PackageItinerary
                 isCustomised={instPackage.isCustomised}
                 isOwner={instPackageExt.isOwner}
@@ -1015,13 +1062,14 @@ class App extends React.Component {
             <BotFooter
               instPackage={instPackage}
               instPackageExt={instPackageExt}
+              isViewSummary={isViewSummary}
               rates={rates}
               actions={footerActions}
             />
             {elModal}
             {elDialogShare}
           </div>
-        );
+        );*/
       }
     } else if (packages && packages.length > 0) {
       page = (

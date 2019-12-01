@@ -17,6 +17,7 @@ import packageHelper from '../lib/package-helper';
 const styles = (theme) => ({
   root: {
     width: '100%',
+    paddingButton: 80,
     backgroundColor: theme.palette.background.paper,
   },
 });
