@@ -11,17 +11,18 @@ import CONSTANTS from '../lib/constants';
 // Functions
 const TabPanel = (props) => {
   const {children, value, index, ...other} = props;
-  return (
+  return value !== index ? (
     <Typography
       component='div'
       role='tabpanel'
-      hidden={value !== index}
       id={`scrollable-auto-tabpanel-${index}`}
       aria-labelledby={`scrollable-auto-tab-${index}`}
       {...other}
     >
       <div>{children}</div>
     </Typography>
+  ) : (
+    ''
   );
 };
 const a11yProps = (index) => {
