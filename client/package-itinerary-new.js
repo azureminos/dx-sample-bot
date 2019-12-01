@@ -53,19 +53,47 @@ class PackageItineraryNew extends React.Component {
   }
   // Event Handlers
   doHandleTabSelect = (event, newValue) => {
-    console.log('>>>>PackageItineraryNew.doHandleTabSelect', newValue);
+    // console.log('>>>>PackageItineraryNew.doHandleTabSelect', newValue);
     this.setState({tabSelected: newValue});
   };
   // Display Widget
   render() {
     // Local variables
-    const {classes, daySelected} = this.props;
+    const {classes, isCustomised, isOwner, status} = this.props;
+    const {actions, rates, transport, itineraries} = this.props;
     const {tabSelected} = this.state;
-    console.log('>>>>PackageItineraryNew, Start render with props', {
-      daySelected,
+    console.log('>>>>PackageItineraryNew.render', {
+      isCustomised,
+      isOwner,
+      status,
+      actions,
+      rates,
+      transport,
+      itineraries,
     });
     // Sub Widgets
-
+    const tabLabels = _.map(itineraries, (it) => {
+      const label = `Day ${it.dayNo}`;
+      return <Tab key={label} label={label} {...a11yProps(it.dayNo - 1)} />;
+    });
+    const tabPanels = _.map(itineraries, (it) => {
+      const attractionSelected = <div>Attraction Selected</div>;
+      const attractionToSelect = isCustomised ? (
+        <div>Attraction To Select</div>
+      ) : (
+        ''
+      );
+      const hotelSelected = <div>Hotel Selected</div>;
+      return (
+        <TabPanel value={tabSelected} index={it.dayNo - 1}>
+          <Typography component='div'>
+            {attractionSelected}
+            {attractionToSelect}
+            {hotelSelected}
+          </Typography>
+        </TabPanel>
+      );
+    });
     return (
       <div className={classes.root}>
         <AppBar position='static' color='default'>
@@ -78,36 +106,10 @@ class PackageItineraryNew extends React.Component {
             scrollButtons='auto'
             aria-label='scrollable auto tabs example'
           >
-            <Tab label='Item One' {...a11yProps(0)} />
-            <Tab label='Item Two' {...a11yProps(1)} />
-            <Tab label='Item Three' {...a11yProps(2)} />
-            <Tab label='Item Four' {...a11yProps(3)} />
-            <Tab label='Item Five' {...a11yProps(4)} />
-            <Tab label='Item Six' {...a11yProps(5)} />
-            <Tab label='Item Seven' {...a11yProps(6)} />
+            {tabLabels}
           </Tabs>
         </AppBar>
-        <TabPanel value={tabSelected} index={0}>
-          Item One
-        </TabPanel>
-        <TabPanel value={tabSelected} index={1}>
-          Item Two
-        </TabPanel>
-        <TabPanel value={tabSelected} index={2}>
-          Item Three
-        </TabPanel>
-        <TabPanel value={tabSelected} index={3}>
-          Item Four
-        </TabPanel>
-        <TabPanel value={tabSelected} index={4}>
-          Item Five
-        </TabPanel>
-        <TabPanel value={tabSelected} index={5}>
-          Item Six
-        </TabPanel>
-        <TabPanel value={tabSelected} index={6}>
-          Item Seven
-        </TabPanel>
+        {tabPanels}
       </div>
     );
   }

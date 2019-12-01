@@ -901,7 +901,7 @@ class App extends React.Component {
   render() {
     // Local Variables
     console.log('>>>>MobileApp.render', this.state);
-    const {instId, isViewSummary, isOpenDialogShare} = this.state;
+    const {instId, isViewSummary, isOpenDialogShare, daySelected} = this.state;
     const {packages, instPackage, instPackageExt, rates} = this.state;
     const {modalType, modalRef, reference} = this.state;
     const {cities, packageSummary} = reference;
@@ -1033,6 +1033,7 @@ class App extends React.Component {
               {divWhitespaceTop}
               <PackageItineraryNew
                 isCustomised={instPackage.isCustomised}
+                daySelected={daySelected}
                 isOwner={instPackageExt.isOwner}
                 rates={rates}
                 transport={transport}
