@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import React, {createElement} from 'react';
 import {withStyles} from '@material-ui/core/styles';
-import Links from '@material-ui/core/Links';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
@@ -55,13 +54,11 @@ class PackageSummary extends React.Component {
           <Typography variant='h6' component='h4'>
             {labelItinerary}
           </Typography>
-          <Links href='#' color='inherit'>
-            <GridList cellHeight={160} className={classes.gridList} cols={1}>
-              <GridListTile cols={1}>
-                <img src={cityImageUrl} alt={labelItinerary} />
-              </GridListTile>
-            </GridList>
-          </Links>
+          <GridList cellHeight={160} className={classes.gridList} cols={1}>
+            <GridListTile cols={1}>
+              <img src={cityImageUrl} alt={labelItinerary} />
+            </GridListTile>
+          </GridList>
         </div>
       );
     });
