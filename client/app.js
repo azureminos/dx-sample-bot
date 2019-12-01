@@ -1023,11 +1023,6 @@ class App extends React.Component {
               actions={headerActions}
             />
             <div className={classes.appBody}>
-              <ProgressBar
-                step={instPackageExt.step}
-                isOwner={instPackageExt.isOwner}
-                isCustomised={instPackage.isCustomised}
-              />
               <PackageItineraryNew
                 isCustomised={instPackage.isCustomised}
                 isOwner={instPackageExt.isOwner}
