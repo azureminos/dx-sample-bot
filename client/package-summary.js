@@ -20,6 +20,9 @@ const styles = (theme) => ({
     paddingButton: 80,
     backgroundColor: theme.palette.background.paper,
   },
+  whitespace: {
+    height: 70,
+  },
 });
 
 class PackageSummary extends React.Component {
@@ -49,11 +52,16 @@ class PackageSummary extends React.Component {
         ? `${packageSummary.totalDays} Day`
         : `${packageSummary.totalDays} Days`;
     // Sub Components
+    const divSpace = (
+      <ListItem key={'whitespace'}>
+        <div className={classes.whitespace} />
+      </ListItem>
+    );
     const divDays = _.map(itineraries, (it) => {
       const labelItinerary = `Day ${it.dayNo}, ${it.cityVisit}`;
       const cityImageUrl = packageHelper.getCityImage(it, cities) || '';
       return (
-        <div key={it.dayNo}>
+        <ListItem key={it.dayNo}>
           <Typography variant='h6' component='h4'>
             {labelItinerary}
           </Typography>
@@ -67,7 +75,7 @@ class PackageSummary extends React.Component {
               <img src={cityImageUrl} alt={labelItinerary} />
             </GridListTile>
           </GridList>
-        </div>
+        </ListItem>
       );
     });
     // Display Widget
@@ -91,6 +99,7 @@ class PackageSummary extends React.Component {
           <ListItemText primary='Itinerary Details' secondary={labelDays} />
         </ListItem>
         {divDays}
+        {divSpace}
       </List>
     );
   }
