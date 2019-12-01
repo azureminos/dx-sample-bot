@@ -57,7 +57,7 @@ class PackageItineraryNew extends React.Component {
     // Init data
     const tabSelected = (this.props.daySelected || 1) - 1;
     // Setup state
-    this.state = {tabSelected};
+    this.state = {tabSelected: 2};
   }
   // Event Handlers
   doHandleTabSelect = (event, newValue) => {
