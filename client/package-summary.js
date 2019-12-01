@@ -9,8 +9,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import BeachAccessIcon from '@material-ui/icons/BeachAccess';
 import Divider from '@material-ui/core/Divider';
-import GridList from '@material-ui/core/GridList ';
-import GridListTile from '@material-ui/core/GridListTile ';
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
 import Typography from '@material-ui/core/Typography';
 import packageHelper from '../lib/package-helper';
 // ====== Icons ======
