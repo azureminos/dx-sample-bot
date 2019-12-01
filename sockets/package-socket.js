@@ -310,7 +310,7 @@ const showPackage = (input) => {
           flightRates,
         };
         console.log('>>>>Model.showPackage Level 2 Result', result);
-        // socket.emit('init', results2);
+        socket.emit('init', result);
         sendStatus(SocketStatus.OK);
       }
     }
