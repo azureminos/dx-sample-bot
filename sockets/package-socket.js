@@ -9,6 +9,7 @@
 import _ from 'lodash';
 import async from 'async';
 import CONSTANTS from '../lib/constants';
+import PackageHelper from '../lib/package-helper';
 // ===== DB ====================================================================
 import Model from '../db/schema';
 // ===== SOCKET ================================================================
@@ -281,23 +282,39 @@ const showPackage = (input) => {
         Model.getFlightRatesByPackageId(packageId, callback);
       },
     },
-    function(err, results2) {
+    function(err, docs) {
       if (err) {
         console.error('>>>>Database Error', err);
         sendStatus(SocketStatus.DB_ERROR);
       } else {
-        console.log('>>>>Model.view Level 2 Result', results2);
+        console.log('>>>>Model.showPackage Level 1 Result', docs);
+        const {
+          packageSummary,
+          packageItems,
+          packageHotels,
+          cities,
+          packageRates,
+          flightRates,
+        } = docs;
+        const instance = PackageHelper.dummyInstance({
+          packageSummary: packageSummary,
+          packageItems: packageItems,
+          packageHotels: packageHotels,
+          userId: senderId,
+        });
+        const result = {
+          instance,
+          packageSummary,
+          cities,
+          packageRates,
+          flightRates,
+        };
+        console.log('>>>>Model.showPackage Level 2 Result', result);
         // socket.emit('init', results2);
         sendStatus(SocketStatus.OK);
       }
     }
   );
-
-  /* Model.getDummyPackageInstance({senderId, packageId}, (err, docs) => {
-    if (err) console.log('>>>>Model.getDummyPackageInstance error', err);
-    console.log('>>>>Model.getDummyPackageInstance result', docs);
-    socket.emit('init', docs);
-  });*/
 };
 
 export default {
