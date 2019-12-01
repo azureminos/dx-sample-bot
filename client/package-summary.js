@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import React, {createElement} from 'react';
 import {withStyles} from '@material-ui/core/styles';
+import Links from '@material-ui/core/Links';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
@@ -8,6 +9,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import BeachAccessIcon from '@material-ui/icons/BeachAccess';
 import Divider from '@material-ui/core/Divider';
+import GridList from '@material-ui/core/GridList ';
+import GridListTile from '@material-ui/core/GridListTile ';
 import Typography from '@material-ui/core/Typography';
 import packageHelper from '../lib/package-helper';
 // ====== Icons ======
@@ -52,9 +55,13 @@ class PackageSummary extends React.Component {
           <Typography variant='h6' component='h4'>
             {labelItinerary}
           </Typography>
-          <div>
-            <img src={cityImageUrl} alt={labelItinerary} />
-          </div>
+          <Links href='#' color='inherit'>
+            <GridList cellHeight={160} className={classes.gridList} cols={1}>
+              <GridListTile cols={1}>
+                <img src={cityImageUrl} alt={labelItinerary} />
+              </GridListTile>
+            </GridList>
+          </Links>
         </div>
       );
     });
