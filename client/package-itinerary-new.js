@@ -12,7 +12,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import IconCustomise from '@material-ui/icons/Ballot';
-import AttractionSlider from './components/attraction-slider';
+import AttractionSlider from './components/attraction-slider-new';
 import CONSTANTS from '../lib/constants';
 
 // Functions
@@ -135,10 +135,31 @@ class PackageItineraryNew extends React.Component {
           ''
         );
       const attractionToSelect =
-        isCustomised &&
-        notLikedAttractions &&
-        notLikedAttractions.length > 0 ? (
-          <div>{`Day ${it.dayNo}: Attraction To Select`}</div>
+        // isCustomised &&
+        notLikedAttractions && notLikedAttractions.length > 0 ? (
+          <List>
+            <ListItem
+              key={`Day ${it.dayNo}, Unselected Attractions Label`}
+              role={undefined}
+              dense
+            >
+              <ListItemText
+                primary={'Other attractions you may be interested'}
+              />
+            </ListItem>
+            <ListItem
+              key={`Day ${it.dayNo}, Unselected Attractions Slider`}
+              role={undefined}
+              dense
+            >
+              <AttractionSlider
+                dayNo={it.dayNo}
+                timePlannable={it.timePlannable}
+                attractions={notLikedAttractions}
+                handleLikeAttraction={handleLikeAttraction}
+              />
+            </ListItem>
+          </List>
         ) : (
           ''
         );

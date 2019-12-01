@@ -40,19 +40,9 @@ const styles = {
   },
 };
 
-class AttractionCardNew extends React.Component {
+class AttractionCard extends React.Component {
   render() {
     const {classes, item, doLikeAttraction} = this.props;
-    const cardContent = !item.description ? (
-      ''
-    ) : (
-      <CardContent
-        classes={{root: classes.bodyRoot}}
-        className={classes.bodyPadding}
-      >
-        <Typography component='p'>{item.description}</Typography>
-      </CardContent>
-    );
     return (
       <Card className={classes.card}>
         <CardHeader
@@ -85,12 +75,8 @@ class AttractionCardNew extends React.Component {
             image={item.imageUrl}
             title={item.name}
           />
-          <CardActions
-            className={classes.actions}
-            disableActionSpacing
-          />
+          <CardActions className={classes.actions} disableActionSpacing />
         </CardActionArea>
-        {cardContent}
       </Card>
     );
   }
