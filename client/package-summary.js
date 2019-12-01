@@ -9,6 +9,7 @@ import Avatar from '@material-ui/core/Avatar';
 import BeachAccessIcon from '@material-ui/icons/BeachAccess';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
+import packageHelper from '../lib/package-helper';
 // ====== Icons ======
 // Variables
 const styles = (theme) => ({
@@ -44,7 +45,18 @@ class PackageSummary extends React.Component {
         : `${packageSummary.totalDays} Days`;
     // Sub Components
     const divDays = _.map(itineraries, (it) => {
-      return <div key={it.dayNo}>Day {it.dayNo}</div>;
+      const labelItinerary = `Day ${it.dayNo}, ${it.cityVisit}`;
+      const cityImageUrl = packageHelper.getCityImage(it, cities);
+      return (
+        <div key={it.dayNo}>
+          <Typography variant='h6' component='h4'>
+            {labelItinerary}
+          </Typography>
+          <div>
+            <img src={cityImageUrl} alt={labelItinerary} />
+          </div>
+        </div>
+      );
     });
     // Display Widget
     return (
