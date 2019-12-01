@@ -61,6 +61,7 @@ class App extends React.Component {
     this.update = this.update.bind(this);
     this.showAll = this.showAll.bind(this);
     this.register = this.register.bind(this);
+    this.checkAvailability = this.checkAvailability.bind(this);
     this.handleDialogShareClose = this.handleDialogShareClose.bind(this);
     this.handleUserJoin = this.handleUserJoin.bind(this);
     this.handleUserLeave = this.handleUserLeave.bind(this);
@@ -99,7 +100,7 @@ class App extends React.Component {
       message: '',
       isOpenDialogShare: false,
       isViewSummary: true,
-      isSelectedDay: null,
+      daySelected: null,
       modalType: '',
       modalRef: null,
       rates: null,
@@ -155,6 +156,15 @@ class App extends React.Component {
       instPackageExt: null,
       rates: null,
     });
+  }
+  checkAvailability(input) {
+    console.log('>>>>MobileApp.checkAvailability', input);
+    const {packageId, totalDays, carOption} = this.state.instPackage;
+    const senderId = this.props.viewerId;
+    const daySelected = input && input.dayNo ? input.dayNo : 1;
+    const req = {packageId, totalDays, carOption, senderId};
+    this.pushToRemote('package:create', req);
+    this.setState({daySelected});
   }
   handleDialogShareClose() {
     console.log('>>>>MobileApp.handleDialogShareClose');
@@ -895,6 +905,7 @@ class App extends React.Component {
       handleRoom: this.handleHdRoomChange,
     };
     const footerActions = {
+      handleAvailability: this.checkAvailability,
       handleBackward: this.handleFtBtnBackward,
       handleForward: this.handleFtBtnForward,
       handleShare: this.handleFtBtnShare,
@@ -934,13 +945,15 @@ class App extends React.Component {
         });
         page = (
           <div>
-            <PackageSummary
-              userId={viewerId}
-              packageSummary={packageSummary}
-              itineraries={itineraries}
-              cities={cities}
-              pushToRemote={this.pushToRemote}
-            />
+            <div className={classes.appBody}>
+              <PackageSummary
+                userId={viewerId}
+                packageSummary={packageSummary}
+                itineraries={itineraries}
+                cities={cities}
+                handleAvailability={this.checkAvailability}
+              />
+            </div>
             <BotFooter
               instPackage={instPackage}
               instPackageExt={instPackageExt}

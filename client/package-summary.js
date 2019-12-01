@@ -25,16 +25,18 @@ const styles = (theme) => ({
 class PackageSummary extends React.Component {
   constructor(props) {
     super(props);
+    this.doHandleAvailability = this.doHandleAvailability.bind(this);
   }
+  // Event Handlers
+  doHandleAvailability(dayNo) {
+    console.log('>>>>PackageSummary.doHandleAvailability');
+    if (this.props.handleAvailability) {
+      this.props.handleAvailability({dayNo});
+    }
+  }
+  // Display Widget
   render() {
-    const {
-      classes,
-      userId,
-      pushToRemote,
-      packageSummary,
-      itineraries,
-      cities,
-    } = this.props;
+    const {classes, userId, packageSummary, itineraries, cities} = this.props;
     console.log('>>>>PackageSummary, render()', {
       userId,
       packageSummary,
@@ -56,7 +58,12 @@ class PackageSummary extends React.Component {
             {labelItinerary}
           </Typography>
           <GridList cellHeight={160} className={classes.gridList} cols={1}>
-            <GridListTile cols={1}>
+            <GridListTile
+              cols={1}
+              onClick={() => {
+                this.doHandleAvailability(it.dayNo);
+              }}
+            >
               <img src={cityImageUrl} alt={labelItinerary} />
             </GridListTile>
           </GridList>
