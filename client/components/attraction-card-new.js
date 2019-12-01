@@ -75,7 +75,6 @@ class AttractionCard extends React.Component {
             image={item.imageUrl}
             title={item.name}
           />
-          <CardActions className={classes.actions} disableActionSpacing />
         </CardActionArea>
       </Card>
     );
