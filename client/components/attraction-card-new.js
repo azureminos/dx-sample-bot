@@ -41,19 +41,22 @@ class AttractionCard extends React.Component {
     return (
       <Card className={classes.card}>
         <ReactCardFlip isFlipped={this.state.isFlipped}>
-          <CardContent>
+          <div>
             <CardMedia
               className={classes.media}
               image={item.imageUrl}
               title={item.name}
               onClick={this.handleClick}
             />
-          </CardContent>
-          <CardContent>
-            <Typography variant='h5' component='h3' onClick={this.handleClick}>
+            <Typography variant='h6' component='h3' onClick={this.handleClick}>
+              {item.name}
+            </Typography>
+          </div>
+          <div>
+            <Typography component='p' onClick={this.handleClick}>
               {item.description}
             </Typography>
-          </CardContent>
+          </div>
         </ReactCardFlip>
         <CardActions onClick={() => doLikeAttraction(item)}>
           <SolidCheckIcon
