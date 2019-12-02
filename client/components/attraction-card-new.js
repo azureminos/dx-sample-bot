@@ -19,6 +19,13 @@ const styles = {
     height: 0,
     paddingTop: '56.25%', // 16:9
   },
+  cardContent: {
+    height: '130px',
+    overflow: 'hidden',
+  },
+  cardText: {
+    fontSize: '1rem',
+  },
 };
 
 class AttractionCard extends React.Component {
@@ -41,19 +48,27 @@ class AttractionCard extends React.Component {
     return (
       <Card className={classes.card}>
         <ReactCardFlip isFlipped={this.state.isFlipped}>
-          <div>
+          <div className={classes.cardContent}>
             <CardMedia
               className={classes.media}
               image={item.imageUrl}
               title={item.name}
               onClick={this.handleClick}
             />
-            <Typography variant='h6' component='h3' onClick={this.handleClick}>
+            <Typography
+              component='p'
+              className={classes.cardText}
+              onClick={this.handleClick}
+            >
               {item.name}
             </Typography>
           </div>
-          <div>
-            <Typography component='p' onClick={this.handleClick}>
+          <div className={classes.cardContent}>
+            <Typography
+              component='p'
+              className={classes.cardText}
+              onClick={this.handleClick}
+            >
               {item.description}
             </Typography>
           </div>
