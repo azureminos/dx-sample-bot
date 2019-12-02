@@ -13,6 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import IconCustomise from '@material-ui/icons/Ballot';
 import AttractionSlider from './components/attraction-slider-new';
+import HotelOverview from './components/hotel-overview';
 import CONSTANTS from '../lib/constants';
 
 // Functions
@@ -164,7 +165,7 @@ class PackageItineraryNew extends React.Component {
           ''
         );
       const hotelSelected = selectedHotel ? (
-        <div>{`Day ${it.dayNo}: Hotel Selected`}</div>
+        <HotelOverview isCustomised={isCustomised} hotel={selectedHotel} />
       ) : (
         ''
       );

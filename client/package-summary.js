@@ -75,16 +75,16 @@ class PackageSummary extends React.Component {
     // Display Widget
     return (
       <List className={classes.root}>
-        <ListItem key={'title'}>
+        <ListItem key={'package-title'}>
           <Typography variant='h5' component='h3'>
             {packageSummary.name}
           </Typography>
         </ListItem>
-        <ListItem key={'description'}>
+        <ListItem key={'package-description'}>
           <Typography component='p'>{packageSummary.description}</Typography>
         </ListItem>
         <Divider />
-        <ListItem key={'Itinerary'}>
+        <ListItem key={'package-Itinerary'}>
           <ListItemAvatar>
             <Avatar>
               <BeachAccessIcon />

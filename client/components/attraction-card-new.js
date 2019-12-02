@@ -24,7 +24,7 @@ const styles = {
     overflow: 'hidden',
   },
   cardText: {
-    fontSize: '1rem',
+    fontSize: '0.8rem',
   },
 };
 
