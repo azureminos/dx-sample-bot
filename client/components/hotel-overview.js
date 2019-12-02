@@ -20,9 +20,12 @@ const InstanceStatus = Instance.status;
 
 const styles = (theme) => ({
   root: {
-    flexGrow: 1,
     width: '100%',
     backgroundColor: theme.palette.background.paper,
+  },
+  itemText: {
+    fontSize: '1rem',
+    fontWeight: 'bolder',
   },
 });
 class HotelOverview extends React.Component {
@@ -39,6 +42,7 @@ class HotelOverview extends React.Component {
     // Local variables
     const {classes, isCustomised, hotel} = this.props;
     console.log('>>>>HotelOverview.render', {isCustomised, hotel});
+    const hotelLabel = `Stay at ${hotel.name}`;
     // Sub Widgets
     const btnCustomise = isCustomised ? (
       <ListItemSecondaryAction>
@@ -53,7 +57,10 @@ class HotelOverview extends React.Component {
     return (
       <List className={classes.root}>
         <ListItem key={'hotel-title'} dense>
-          <ListItemText primary={hotel.name} />
+          <ListItemText
+            primary={hotelLabel}
+            classes={{primary: classes.itemText}}
+          />
           {btnCustomise}
         </ListItem>
         <ListItem key={'hotel-description'} dense>

@@ -49,6 +49,10 @@ const styles = (theme) => ({
     width: '100%',
     backgroundColor: theme.palette.background.paper,
   },
+  itemText: {
+    fontSize: '1rem',
+    fontWeight: 'bolder',
+  },
 });
 class PackageItineraryNew extends React.Component {
   constructor(props) {
@@ -116,7 +120,10 @@ class PackageItineraryNew extends React.Component {
               role={undefined}
               dense
             >
-              <ListItemText primary={'Attractions to visit'} />
+              <ListItemText
+                primary={'Attractions to visit'}
+                classes={{primary: classes.itemText}}
+              />
               {btnCustomise}
             </ListItem>
             <ListItem
@@ -146,6 +153,7 @@ class PackageItineraryNew extends React.Component {
             >
               <ListItemText
                 primary={'Other attractions you may be interested'}
+                classes={{primary: classes.itemText}}
               />
             </ListItem>
             <ListItem

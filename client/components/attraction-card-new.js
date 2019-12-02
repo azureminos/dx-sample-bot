@@ -25,6 +25,7 @@ const styles = {
   },
   cardText: {
     fontSize: '0.8rem',
+    padding: 8,
   },
 };
 
