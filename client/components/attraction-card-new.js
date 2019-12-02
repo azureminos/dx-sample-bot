@@ -6,7 +6,6 @@ import CardActions from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import ReactCardFlip from 'react-card-flip';
-import IconButton from '@material-ui/core/IconButton';
 import grey from '@material-ui/core/colors/grey';
 import blue from '@material-ui/core/colors/blue';
 import CheckIcon from '@material-ui/icons/CheckCircleOutline';
@@ -38,6 +37,7 @@ class AttractionCard extends React.Component {
 
   render() {
     const {classes, item, doLikeAttraction} = this.props;
+    console.log('>>>>AttractionCard.render', item);
     return (
       <Card className={classes.card}>
         <ReactCardFlip isFlipped={this.state.isFlipped}>
@@ -55,21 +55,19 @@ class AttractionCard extends React.Component {
             </Typography>
           </CardContent>
         </ReactCardFlip>
-        <CardActions>
-          <IconButton onClick={() => doLikeAttraction(item)}>
-            <SolidCheckIcon
-              style={{
-                display: item.isLiked ? 'block' : 'none',
-                color: blue[500],
-              }}
-            />
-            <CheckIcon
-              style={{
-                display: item.isLiked ? 'none' : 'block',
-                color: grey[500],
-              }}
-            />
-          </IconButton>
+        <CardActions onClick={() => doLikeAttraction(item)}>
+          <SolidCheckIcon
+            style={{
+              display: item.isLiked ? 'block' : 'none',
+              color: blue[500],
+            }}
+          />
+          <CheckIcon
+            style={{
+              display: item.isLiked ? 'none' : 'block',
+              color: grey[500],
+            }}
+          />
         </CardActions>
       </Card>
     );
