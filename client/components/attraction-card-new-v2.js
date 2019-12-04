@@ -65,6 +65,7 @@ class AttractionCard extends React.Component {
 
   render() {
     const {classes, item, doLikeAttraction} = this.props;
+    const {open} = this.state;
     console.log('>>>>AttractionCard.render', item);
     // Sub Widget
     const modal = (
