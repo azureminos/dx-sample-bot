@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React, {createElement} from 'react';
 import Swiper from 'react-id-swiper';
 import {withStyles} from '@material-ui/core/styles';
-import AttractionCard from './attraction-card-new';
+import AttractionCard from './attraction-card-new-v2';
 
 const styles = (theme) => ({
   slideRoot: {
