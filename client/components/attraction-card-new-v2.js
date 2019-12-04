@@ -15,6 +15,10 @@ import SolidCheckIcon from '@material-ui/icons/CheckCircle';
 import Slide from '@material-ui/core/Slide';
 import Dialog from '@material-ui/core/Dialog';
 import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
+import Divider from '@material-ui/core/Divider';
 
 const styles = {
   card: {
@@ -31,6 +35,7 @@ const styles = {
   cardText: {
     fontSize: '0.8rem',
     padding: 8,
+    color: 'white',
   },
   appBar: {
     position: 'relative',
@@ -90,7 +95,19 @@ class AttractionCard extends React.Component {
             </Typography>
           </Toolbar>
         </AppBar>
-        <List component='nav' aria-label='share' />
+        <List className={classes.root}>
+          <ListItem key={'attraction-description'} dense>
+            <Typography component='p'>{item.description}</Typography>
+          </ListItem>
+          <Divider />
+          <ListItem key={'attraction-images'} dense>
+            <GridList cellHeight={160} className={classes.gridList} cols={1}>
+              <GridListTile cols={1}>
+                <img src={item.imageUrl} alt={'attraction-image'} />
+              </GridListTile>
+            </GridList>
+          </ListItem>
+        </List>
       </Dialog>
     );
     // Display Widget
