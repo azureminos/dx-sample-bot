@@ -933,7 +933,7 @@ class App extends React.Component {
       handleDeleteItinerary: this.confirmDeleteItinerary,
     };
     const modalActions = {
-      handleModalClose: this.handleModalClose,
+      handleClose: this.handleModalClose,
       handleDeleteItinerary: this.handleDeleteItinerary,
       handleAddItinerary: this.handleAddItinerary,
       handlePayment: this.handleFtBtnPayment,
