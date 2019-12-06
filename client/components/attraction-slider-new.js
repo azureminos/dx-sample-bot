@@ -20,6 +20,7 @@ class AttractionSlider extends React.Component {
     // console.log('>>>>AttractionSlider, render()', this.props);
     const {
       dayNo,
+      loop,
       timePlannable,
       attractions,
       handleLikeAttraction,
@@ -46,6 +47,11 @@ class AttractionSlider extends React.Component {
       const params = {
         slidesPerView: attractions.length > 2 ? 3 : 2,
         spaceBetween: 8,
+        loop: loop,
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+        },
       };
       return <Swiper {...params}>{cards}</Swiper>;
     }
