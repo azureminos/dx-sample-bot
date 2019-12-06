@@ -35,6 +35,13 @@ const styles = (theme) => ({
     fontSize: '1rem',
     fontWeight: 'bolder',
   },
+  modalBody: {
+    position: 'absolute',
+    left: 0,
+    maxHeight: 515,
+    overflowY: 'auto',
+    width: '100%',
+  },
   headerBar: {
     position: 'absolute',
     width: '100%',
@@ -146,7 +153,7 @@ class HotelOverview extends React.Component {
             </Typography>
           </Toolbar>
         </AppBar>
-        <div>{divHotels}</div>
+        <div className={classes.modalBody}>{divHotels}</div>
         <AppBar position='fixed' color='default' className={classes.footerBar}>
           <Toolbar className={classes.footerToolbar}>{btnClose}</Toolbar>
         </AppBar>

@@ -37,7 +37,7 @@ class HotelCard extends React.Component {
     const {classes, item, doSelectHotel} = this.props;
     // console.log('>>>>HotelCard render()', item);
     return (
-      <Card className={classes.card}>
+      <Card key={item.name} className={classes.card}>
         <CardActionArea onClick={(e) => doSelectHotel(e, item)}>
           <CardMedia
             className={classes.media}
