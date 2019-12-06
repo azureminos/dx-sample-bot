@@ -22,15 +22,7 @@ const styles = (theme) => ({
   cardTitle: {
     fontSize: 18,
     display: 'inline-block',
-    width: '80%',
     textAlign: 'left',
-  },
-  cardPrice: {
-    fontSize: 18,
-    display: 'inline-block',
-    width: '20%',
-    textAlign: 'right',
-    paddingRight: 16,
   },
   cardDescrition: {
     fontSize: 14,
@@ -57,7 +49,6 @@ class HotelCard extends React.Component {
           />
           <div className={classes.cardTextRoot}>
             <div className={classes.cardTitle}>{item.name}</div>
-            <div className={classes.cardPrice}>{'???'}</div>
           </div>
           <Typography component='p'>{item.description}</Typography>
         </CardActionArea>
