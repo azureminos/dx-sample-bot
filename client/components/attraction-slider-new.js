@@ -45,6 +45,9 @@ class AttractionSlider extends React.Component {
           </div>
         );
       });
+      if (attractions.length < 3) {
+        params.slidesPerView = attractions.length;
+      }
       return <Swiper {...params}>{cards}</Swiper>;
     }
 
