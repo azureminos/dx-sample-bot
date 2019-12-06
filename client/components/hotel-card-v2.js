@@ -38,7 +38,7 @@ class HotelCard extends React.Component {
     // console.log('>>>>HotelCard render()', item);
     return (
       <Card className={classes.card}>
-        <CardActionArea onClick={() => doSelectHotel(item)}>
+        <CardActionArea onClick={(e) => doSelectHotel(e, item)}>
           <CardMedia
             className={classes.media}
             image={item.imageUrl}
