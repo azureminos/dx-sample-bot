@@ -17,11 +17,6 @@ class AttractionSlider extends React.Component {
 
   render() {
     const {classes} = this.props;
-    const params = {
-      slidesPerView: 3,
-      spaceBetween: 8,
-    };
-
     // console.log('>>>>AttractionSlider, render()', this.props);
     const {
       dayNo,
@@ -45,9 +40,13 @@ class AttractionSlider extends React.Component {
           </div>
         );
       });
-      if (attractions.length < 3) {
-        params.slidesPerView = attractions.length;
+      if (attractions.length === 1) {
+        return <Swiper>{cards}</Swiper>;
       }
+      const params = {
+        slidesPerView: attractions.length > 2 ? 3 : 2,
+        spaceBetween: 8,
+      };
       return <Swiper {...params}>{cards}</Swiper>;
     }
 
