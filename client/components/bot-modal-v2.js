@@ -70,18 +70,12 @@ class BotModal extends React.Component {
     console.log('>>>>BotModal.constructor', props);
     super(props);
     // Bind handlers
-    this.doHandleClose = this.doHandleClose.bind(this);
     // Set initial state
     this.state = {
       isTermsAgreed: false,
-      open: true,
     };
   }
   // Event Handlers
-  doHandleClose(e) {
-    e.preventDefault();
-    this.setState({open: false});
-  }
   // Render widget
   render() {
     const {isTermsAgreed} = this.state;
@@ -100,7 +94,7 @@ class BotModal extends React.Component {
       const pBtnModal = [
         {
           title: ModalConst.button.CLOSE,
-          handleClick: actions.doHandleClose,
+          handleClick: actions.handleClose,
         },
       ];
       secModal.title = format(ModalConst.LESS_THAN_MIN.title, replacements);
@@ -111,7 +105,7 @@ class BotModal extends React.Component {
       const pBtnModal = [
         {
           title: ModalConst.button.CLOSE,
-          handleClick: actions.doHandleClose,
+          handleClick: actions.handleClose,
         },
       ];
       secModal.title = format(ModalConst.ZERO_OWNER.title, replacements);
@@ -120,14 +114,14 @@ class BotModal extends React.Component {
     } else if (modal === ModalConst.ENABLE_DIY.key) {
       const pBtnModal = [
         {title: ModalConst.button.DIY, handleClick: actions.handleCustomise},
-        {title: ModalConst.button.CLOSE, handleClick: actions.doHandleClose},
+        {title: ModalConst.button.CLOSE, handleClick: actions.handleClose},
       ];
       secModal.title = ModalConst.ENABLE_DIY.title;
       secModal.description = ModalConst.ENABLE_DIY.description;
       secModal.buttons = pBtnModal;
     } else if (modal === ModalConst.INVALID_DATE.key) {
       const pBtnModal = [
-        {title: ModalConst.button.OK, handleClick: actions.doHandleClose},
+        {title: ModalConst.button.OK, handleClick: actions.handleClose},
       ];
       secModal.title = ModalConst.INVALID_DATE.title;
       secModal.description = ModalConst.INVALID_DATE.description;
@@ -241,7 +235,7 @@ class BotModal extends React.Component {
       const pBtnModal = [
         {
           title: ModalConst.button.CLOSE,
-          handleClick: actions.doHandleClose,
+          handleClick: actions.handleClose,
         },
       ];
       secModal.title = ModalConst.SUBMIT_PAYMENT.title;
@@ -272,7 +266,7 @@ class BotModal extends React.Component {
           title: ModalConst.button.YES,
           handleClick: actions.handleDeleteItinerary,
         },
-        {title: ModalConst.button.NO, handleClick: actions.doHandleClose},
+        {title: ModalConst.button.NO, handleClick: actions.handleClose},
       ];
       secModal.title = format(ModalConst.DELETE_ITINERARY.title, replacements);
       secModal.description = format(
@@ -293,7 +287,7 @@ class BotModal extends React.Component {
         '#Attractions#': attractions.toString(),
       };
       const pBtnModal = [
-        {title: ModalConst.button.OK, handleClick: actions.doHandleClose},
+        {title: ModalConst.button.OK, handleClick: actions.handleClose},
       ];
       secModal.title = format(
         ModalConst.FAILED_DELETE_ITINERARY.title,
@@ -314,7 +308,7 @@ class BotModal extends React.Component {
           title: ModalConst.button.YES,
           handleClick: actions.handleAddItinerary,
         },
-        {title: ModalConst.button.NO, handleClick: actions.doHandleClose},
+        {title: ModalConst.button.NO, handleClick: actions.handleClose},
       ];
       secModal.title = format(ModalConst.ADD_ITINERARY.title, replacements);
       secModal.description = format(
@@ -328,7 +322,7 @@ class BotModal extends React.Component {
         '#Day#': dayNo,
       };
       const pBtnModal = [
-        {title: ModalConst.button.OK, handleClick: actions.doHandleClose},
+        {title: ModalConst.button.OK, handleClick: actions.handleClose},
       ];
       secModal.title = format(ModalConst.FULL_ITINERARY.title, replacements);
       secModal.description = format(
@@ -342,7 +336,7 @@ class BotModal extends React.Component {
         '#Day#': dayNo,
       };
       const pBtnModal = [
-        {title: ModalConst.button.OK, handleClick: actions.doHandleClose},
+        {title: ModalConst.button.OK, handleClick: actions.handleClose},
       ];
       secModal.title = format(ModalConst.ONLY_ITINERARY.title, replacements);
       secModal.description = format(
@@ -356,7 +350,7 @@ class BotModal extends React.Component {
         '#Max#': max,
       };
       const pBtnModal = [
-        {title: ModalConst.button.OK, handleClick: actions.doHandleClose},
+        {title: ModalConst.button.OK, handleClick: actions.handleClose},
       ];
       secModal.title = ModalConst.INVALID_MAX_PARTICIPANT.title;
       secModal.description = format(
@@ -370,7 +364,7 @@ class BotModal extends React.Component {
         '#Min#': min,
       };
       const pBtnModal = [
-        {title: ModalConst.button.OK, handleClick: actions.doHandleClose},
+        {title: ModalConst.button.OK, handleClick: actions.handleClose},
       ];
       secModal.title = ModalConst.INVALID_MIN_PARTICIPANT.title;
       secModal.description = format(
@@ -397,7 +391,7 @@ class BotModal extends React.Component {
     return (
       <Dialog
         fullScreen
-        open={this.state.open}
+        open
         onClose={this.handleClose}
         TransitionComponent={Transition}
       >
