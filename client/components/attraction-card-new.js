@@ -43,7 +43,7 @@ class AttractionCard extends React.Component {
   }
 
   render() {
-    const {classes, item, doLikeAttraction} = this.props;
+    const {classes, item, likeAttraction} = this.props;
     console.log('>>>>AttractionCard.render', item);
     return (
       <Card className={classes.card}>
@@ -73,7 +73,7 @@ class AttractionCard extends React.Component {
             </Typography>
           </div>
         </ReactCardFlip>
-        <CardActions onClick={() => doLikeAttraction(item)}>
+        <CardActions onClick={() => likeAttraction(item)}>
           <SolidCheckIcon
             style={{
               display: item.isLiked ? 'block' : 'none',

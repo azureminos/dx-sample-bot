@@ -42,7 +42,7 @@ const styles = {
 
 class AttractionCard extends React.Component {
   render() {
-    const {classes, item, doLikeAttraction} = this.props;
+    const {classes, item, likeAttraction} = this.props;
     const cardContent = !item.description ? (
       ''
     ) : (
@@ -62,7 +62,7 @@ class AttractionCard extends React.Component {
             content: classes.headerContent,
           }}
           action={
-            <IconButton onClick={() => doLikeAttraction(item)}>
+            <IconButton onClick={() => likeAttraction(item)}>
               <SolidCheckIcon
                 style={{
                   display: item.isLiked ? 'block' : 'none',
@@ -79,7 +79,7 @@ class AttractionCard extends React.Component {
           }
           title={item.name}
         />
-        <CardActionArea onClick={() => doLikeAttraction(item)}>
+        <CardActionArea onClick={() => likeAttraction(item)}>
           <CardMedia
             className={classes.media}
             image={item.imageUrl}

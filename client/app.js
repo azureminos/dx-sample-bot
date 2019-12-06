@@ -13,14 +13,14 @@ import {withStyles} from '@material-ui/core/styles';
 import {CSSTransitionGroup} from 'react-transition-group';
 
 // ==== COMPONENTS ========================================
-import BotModal from './components/bot-modal';
+import BotModal from './components/bot-modal-v2';
 import BotHeader from './components/bot-header';
 import BotFooter from './components/bot-footer';
-import ProgressBar from './components/progress-bar';
+// import ProgressBar from './components/progress-bar';
 import DialogShare from './components/dialog-share';
 import PackageAll from './package-all';
 import PackageSummary from './package-summary';
-import PackageItinerary from './package-itinerary';
+// import PackageItinerary from './package-itinerary';
 import PackageItineraryNew from './package-itinerary-new';
 // ==== HELPERS =======================================
 import Helper from '../lib/helper';

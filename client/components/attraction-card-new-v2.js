@@ -1,3 +1,4 @@
+// Components
 import React, {createElement} from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -14,15 +15,16 @@ import ListItem from '@material-ui/core/ListItem';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import Divider from '@material-ui/core/Divider';
-import CloseIcon from '@material-ui/icons/Close';
+// Styles
 import grey from '@material-ui/core/colors/grey';
 import blue from '@material-ui/core/colors/blue';
+import CloseIcon from '@material-ui/icons/Close';
 import CheckIcon from '@material-ui/icons/CheckCircleOutline';
 import SolidCheckIcon from '@material-ui/icons/CheckCircle';
 import IconLock from '@material-ui/icons/Lock';
 import IconUnlock from '@material-ui/icons/LockOpen';
 
-const styles = {
+const styles = (theme) => ({
   card: {
     maxWidth: 345,
   },
@@ -59,7 +61,7 @@ const styles = {
     // Aligns the content of the button vertically.
     flexDirection: 'column',
   },
-};
+});
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction='up' ref={ref} {...props} />;
 });
@@ -68,6 +70,7 @@ class AttractionCard extends React.Component {
   constructor() {
     super();
     this.doHandleClose = this.doHandleClose.bind(this);
+    this.doLikeAttraction = this.doLikeAttraction.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.state = {
       open: false,
@@ -82,9 +85,16 @@ class AttractionCard extends React.Component {
     e.preventDefault();
     this.setState({open: false});
   }
+  doLikeAttraction(e, item) {
+    e.preventDefault();
+    this.setState({open: false});
+    if (this.props.likeAttraction) {
+      this.props.likeAttraction(item);
+    }
+  }
 
   render() {
-    const {classes, item, doLikeAttraction} = this.props;
+    const {classes, item} = this.props;
     const {open} = this.state;
     console.log('>>>>AttractionCard.render', item);
     // Sub Widget
@@ -93,10 +103,10 @@ class AttractionCard extends React.Component {
         classes={{root: classes.button, label: classes.label}}
         variant='contained'
         disableRipple
-        onClick={() => doLikeAttraction(item)}
+        onClick={(e) => this.doLikeAttraction(e, item)}
       >
         <IconLock />
-        Let's visit
+        Add to itinerary
       </Button>
     ) : (
       ''
@@ -106,10 +116,10 @@ class AttractionCard extends React.Component {
         classes={{root: classes.button, label: classes.label}}
         variant='contained'
         disableRipple
-        onClick={() => doLikeAttraction(item)}
+        onClick={(e) => this.doLikeAttraction(e, item)}
       >
         <IconUnlock />
-        Leave it next time
+        Remove from itinerary
       </Button>
     ) : (
       ''
@@ -122,7 +132,7 @@ class AttractionCard extends React.Component {
         onClick={this.doHandleClose}
       >
         <CloseIcon />
-        Start DIY
+        Close
       </Button>
     );
     const modal = (
@@ -173,7 +183,7 @@ class AttractionCard extends React.Component {
           </Typography>
           {modal}
         </div>
-        <CardActions onClick={() => doLikeAttraction(item)}>
+        <CardActions onClick={() => this.doLikeAttraction(item)}>
           <SolidCheckIcon
             style={{
               display: item.isLiked ? 'block' : 'none',
@@ -192,4 +202,4 @@ class AttractionCard extends React.Component {
   }
 }
 
-export default withStyles(styles)(AttractionCard);
+export default withStyles(styles, {withTheme: true})(AttractionCard);

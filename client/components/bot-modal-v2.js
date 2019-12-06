@@ -1,15 +1,47 @@
+// Components
 import _ from 'lodash';
 import React, {createElement} from 'react';
 import {withStyles} from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+import Slide from '@material-ui/core/Slide';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import Grid from '@material-ui/core/Grid';
+import Checkbox from '@material-ui/core/Checkbox';
 import {PayPalButton} from 'react-paypal-button';
 import CONSTANTS from '../../lib/constants';
-
+// Styles
+import CloseIcon from '@material-ui/icons/Close';
 // Vairables
 const ModalConst = CONSTANTS.get().Modal;
 const {Payment, Instance} = CONSTANTS.get();
 const InstStatus = Instance.status;
-const styles = (theme) => ({});
-
+const styles = (theme) => ({
+  headerBar: {
+    position: 'absolute',
+    width: '100%',
+    height: 80,
+    top: 0,
+    bottom: 'auto',
+  },
+  footerBar: {
+    position: 'absolute',
+    width: '100%',
+    height: 80,
+    top: 0,
+    bottom: 'auto',
+  },
+  footerToolbar: {
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 0,
+  },
+});
+// Helpers
 const format = (input, replacements) => {
   const keys = _.keys(replacements);
   _.each(keys, (k) => {
@@ -17,16 +49,28 @@ const format = (input, replacements) => {
   });
   return input;
 };
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction='up' ref={ref} {...props} />;
+});
 
 class BotModal extends React.Component {
   constructor(props) {
     console.log('>>>>BotModal.constructor', props);
     super(props);
+    // Bind handlers
+    this.doHandleClose = this.doHandleClose.bind(this);
     // Set initial state
     this.state = {
       isTermsAgreed: false,
+      open: true,
     };
   }
+  // Event Handlers
+  doHandleClose(e) {
+    e.preventDefault();
+    this.setState({open: false});
+  }
+  // Render widget
   render() {
     const {isTermsAgreed} = this.state;
     const {classes, modal, actions, reference} = this.props;
@@ -144,14 +188,6 @@ class BotModal extends React.Component {
           <td key='rate.value'>{rate}</td>
         </tr>
       );
-      /* const divTotal = (
-        <tr>
-          <td>
-            <b>Total Price</b>
-          </td>
-          <td>{totalRate}</td>
-        </tr>
-      );*/
       const divDeposit = Payment.deposit ? (
         <tr key='deposit'>
           <td key='deposit.title'>
@@ -170,7 +206,7 @@ class BotModal extends React.Component {
           </label>
         </div>
       );
-      
+
       const divPayment = isTermsAgreed ? (
         <PayPalButton
           paypalOptions={paypalOptions}
@@ -334,87 +370,51 @@ class BotModal extends React.Component {
     // Sub Components
     const dButtons = _.map(secModal.buttons, (b) => {
       return (
-        <Grid item xs>
-          <Button
-            key={b.title}
-            onClick={() => {
-              b.handleClick();
-            }}
-            className={classes.button}
-          >
-            {b.title}
-          </Button>
-        </Grid>
+        <Button
+          key={b.title}
+          onClick={() => {
+            b.handleClick();
+          }}
+          className={classes.button}
+        >
+          {b.title}
+        </Button>
       );
     });
     // Display Widget
     return (
-      <div>
-        <Modal open={!!modal} onClose={() => actions.doHandleClose()}>
-          <div className={classes.paper}>
-            <Typography
-              variant='h6'
-              id='modal-title'
-              className={classes.headerContainer}
+      <Dialog
+        fullScreen
+        open={this.state.open}
+        onClose={this.handleClose}
+        TransitionComponent={Transition}
+      >
+        <AppBar className={classes.headerBar}>
+          <Toolbar>
+            <IconButton
+              color='inherit'
+              onClick={this.handleClose}
+              aria-label='Close'
             >
+              <CloseIcon />
+            </IconButton>
+            <Typography variant='h6' color='inherit'>
               {secModal.title}
             </Typography>
-            <div className={classes.bodyContainer}>
-              <Typography variant='subtitle1' id='simple-modal-description'>
-                {secModal.description}
-              </Typography>
-              {secModal.contents ? secModal.contents : ''}
-            </div>
-            <Grid container className={classes.footerContainer}>
-              {dButtons}
-            </Grid>
-          </div>
-        </Modal>
-      </div>
-
-
-
-<Dialog
-          fullScreen
-          open={this.state.open}
-          onClose={this.handleClose}
-          TransitionComponent={Transition}
-        >
-          <AppBar className={classes.appBar}>
-            <Toolbar>
-              <IconButton color="inherit" onClick={this.handleClose} aria-label="Close">
-                <CloseIcon />
-              </IconButton>
-              <Typography variant="h6" color="inherit" className={classes.flex}>
-                Sound
-              </Typography>
-            </Toolbar>
-          </AppBar>
-      <MuiDialogContent>
-        <Typography gutterBottom>
-          Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac
-          facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum
-          at eros.
-        </Typography>
-        <Typography gutterBottom>
-          Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis
-          lacus vel augue laoreet rutrum faucibus dolor auctor.
-        </Typography>
-        <Typography gutterBottom>
-          Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel
-          scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus
-          auctor fringilla.
-        </Typography>
-      </MuiDialogContent>
-      <MuiDialogActions>
-        <Button onClick={this.handleClose} color="primary">
-          Save changes 1
-        </Button>
-        <Button onClick={this.handleClose} color="primary">
-          Save changes 2
-        </Button>
-      </MuiDialogActions>
-        </Dialog>
+          </Toolbar>
+        </AppBar>
+        <DialogContent>
+          {secModal.description ? (
+            <Typography component='p'>{secModal.description}</Typography>
+          ) : (
+            ''
+          )}
+          {secModal.contents ? secModal.contents : ''}
+        </DialogContent>
+        <AppBar position='fixed' color='default' className={classes.footerBar}>
+          <Toolbar className={classes.footerToolbar}>{dButtons}</Toolbar>
+        </AppBar>
+      </Dialog>
     );
   }
 }
