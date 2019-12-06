@@ -34,13 +34,6 @@ const styles = (theme) => ({
     fontSize: '1rem',
     fontWeight: 'bolder',
   },
-  headerBar: {
-    position: 'absolute',
-    width: '100%',
-    height: 60,
-    top: 0,
-    bottom: 'auto',
-  },
   footerBar: {
     position: 'absolute',
     width: '100%',
@@ -112,7 +105,7 @@ class HotelOverview extends React.Component {
     // Sub Widgets
     const btnClose = (
       <Button
-        classes={{root: classes.button, label: classes.label}}
+        classes={{root: classes.footerButton, label: classes.footerLabel}}
         variant='contained'
         disableRipple
         onClick={this.doCloseSelectHotel}
@@ -129,8 +122,8 @@ class HotelOverview extends React.Component {
         TransitionComponent={Transition}
       >
         <div>Hotels...</div>
-        <AppBar position='fixed' color='default' className={classes.appBar}>
-          <Toolbar className={classes.toolbar}>{btnClose}</Toolbar>
+        <AppBar position='fixed' color='default' className={classes.footerBar}>
+          <Toolbar className={classes.footerToolbar}>{btnClose}</Toolbar>
         </AppBar>
       </Dialog>
     ) : (
