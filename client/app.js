@@ -428,12 +428,6 @@ class App extends React.Component {
     }
   }
   // ----------  BotFooter  ----------
-  handleFtBtnCustomise() {
-    console.log('>>>>MobileApp.handleFtBtnCustomise');
-    const {instPackage} = this.state;
-    instPackage.isCustomised = true;
-    this.setState({instPackage: instPackage});
-  }
   handleFtBtnNoCustomise() {
     console.log('>>>>MobileApp.handleFtBtnNoCustomise');
     const {instPackage, instPackageExt} = this.state;
@@ -921,7 +915,7 @@ class App extends React.Component {
       handleLock: this.handleFtBtnLock,
       handleUnlock: this.handleFtBtnUnlock,
       handleStatus: this.handleFtBtnStatus,
-      handleCustomise: this.handleFtBtnCustomise,
+      handleCustomise: this.enablePackageDiy,
       handleCancelCustomise: this.handleFtBtnNoCustomise,
     };
     const itineraryActions = {
@@ -937,6 +931,7 @@ class App extends React.Component {
       handleDeleteItinerary: this.handleDeleteItinerary,
       handleAddItinerary: this.handleAddItinerary,
       handlePayment: this.handleFtBtnPayment,
+      handleCustomise: this.enablePackageDiy,
     };
     // Sub Components
     const divWhitespaceTop = <div className={classes.whitespaceTop} />;

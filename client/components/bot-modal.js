@@ -98,7 +98,7 @@ class BotModal extends React.Component {
       secModal.buttons = pBtnModal;
     } else if (modal === ModalConst.ENABLE_DIY.key) {
       const pBtnModal = [
-        {title: ModalConst.button.YES, handleClick: actions.enablePackageDiy},
+        {title: ModalConst.button.YES, handleClick: actions.handleCustomise},
         {title: ModalConst.button.NO, handleClick: actions.handleModalClose},
       ];
       secModal.title = ModalConst.ENABLE_DIY.title;

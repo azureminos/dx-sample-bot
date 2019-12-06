@@ -82,7 +82,7 @@ class DialogShare extends React.Component {
         onClose={this.doHandleClose}
         TransitionComponent={Transition}
       >
-        <AppBar className={classes.appBar}>
+        <AppBar color='default' className={classes.appBar}>
           <Toolbar>
             <IconButton
               edge='start'

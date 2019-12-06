@@ -24,7 +24,7 @@ const styles = (theme) => ({
   headerBar: {
     position: 'absolute',
     width: '100%',
-    height: 80,
+    height: 60,
     top: 0,
     bottom: 'auto',
   },
@@ -48,6 +48,9 @@ const styles = (theme) => ({
   footerLabel: {
     // Aligns the content of the button vertically.
     flexDirection: 'column',
+  },
+  bodyContent: {
+    marginTop: 80,
   },
 });
 // Helpers
@@ -116,8 +119,8 @@ class BotModal extends React.Component {
       secModal.buttons = pBtnModal;
     } else if (modal === ModalConst.ENABLE_DIY.key) {
       const pBtnModal = [
-        {title: ModalConst.button.YES, handleClick: actions.enablePackageDiy},
-        {title: ModalConst.button.NO, handleClick: actions.doHandleClose},
+        {title: ModalConst.button.DIY, handleClick: actions.handleCustomise},
+        {title: ModalConst.button.CLOSE, handleClick: actions.doHandleClose},
       ];
       secModal.title = ModalConst.ENABLE_DIY.title;
       secModal.description = ModalConst.ENABLE_DIY.description;
@@ -398,7 +401,7 @@ class BotModal extends React.Component {
         onClose={this.handleClose}
         TransitionComponent={Transition}
       >
-        <AppBar className={classes.headerBar}>
+        <AppBar color='default' className={classes.headerBar}>
           <Toolbar>
             <IconButton
               color='inherit'
@@ -412,7 +415,7 @@ class BotModal extends React.Component {
             </Typography>
           </Toolbar>
         </AppBar>
-        <DialogContent>
+        <DialogContent classes={{root: classes.bodyContent}}>
           {secModal.description ? (
             <Typography component='p'>{secModal.description}</Typography>
           ) : (
