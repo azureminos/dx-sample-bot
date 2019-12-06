@@ -82,10 +82,9 @@ class App extends React.Component {
     this.handleFtBtnLock = this.handleFtBtnLock.bind(this);
     this.handleFtBtnUnlock = this.handleFtBtnUnlock.bind(this);
     this.handleFtBtnStatus = this.handleFtBtnStatus.bind(this);
-    this.handleFtBtnCustomise = this.handleFtBtnCustomise.bind(this);
-    this.handleFtBtnNoCustomise = this.handleFtBtnNoCustomise.bind(this);
     this.handleModalClose = this.handleModalClose.bind(this);
     this.enablePackageDiy = this.enablePackageDiy.bind(this);
+    this.disablePackageDiy = this.disablePackageDiy.bind(this);
     this.handleLikeAttraction = this.handleLikeAttraction.bind(this);
     this.confirmAddItinerary = this.confirmAddItinerary.bind(this);
     this.handleAddItinerary = this.handleAddItinerary.bind(this);
@@ -428,14 +427,6 @@ class App extends React.Component {
     }
   }
   // ----------  BotFooter  ----------
-  handleFtBtnNoCustomise() {
-    console.log('>>>>MobileApp.handleFtBtnNoCustomise');
-    const {instPackage, instPackageExt} = this.state;
-    instPackage.status = Instance.status.INITIATED;
-    instPackage.isCustomised = false;
-    instPackageExt.step = 0;
-    this.setState({instPackage, instPackageExt});
-  }
   handleFtBtnBackward() {
     console.log('>>>>MobileApp.handleFtBtnBackward');
     const {instPackage, instPackageExt} = this.state;
@@ -590,6 +581,14 @@ class App extends React.Component {
     this.setState({
       instPackage: instPackage,
     });
+  }
+  disablePackageDiy() {
+    console.log('>>>>MobileApp.disablePackageDiy');
+    const {instPackage, instPackageExt} = this.state;
+    instPackage.status = Instance.status.INITIATED;
+    instPackage.isCustomised = false;
+    instPackageExt.step = 0;
+    this.setState({instPackage, instPackageExt});
   }
   confirmAddItinerary(ref) {
     console.log('>>>>MobileApp.confirmAddItinerary', ref);
@@ -916,7 +915,7 @@ class App extends React.Component {
       handleUnlock: this.handleFtBtnUnlock,
       handleStatus: this.handleFtBtnStatus,
       handleCustomise: this.enablePackageDiy,
-      handleCancelCustomise: this.handleFtBtnNoCustomise,
+      handleCancelCustomise: this.disablePackageDiy,
     };
     const itineraryActions = {
       handleSelectHotel: this.handleSelectHotel,
