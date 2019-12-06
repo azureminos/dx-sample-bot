@@ -16,6 +16,7 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
+import HotelCard from './hotel-card-v2';
 import CONSTANTS from '../../lib/constants';
 // Styles
 import IconHotel from '@material-ui/icons/Hotel';
@@ -33,6 +34,13 @@ const styles = (theme) => ({
   itemText: {
     fontSize: '1rem',
     fontWeight: 'bolder',
+  },
+  headerBar: {
+    position: 'absolute',
+    width: '100%',
+    height: 60,
+    top: 0,
+    bottom: 'auto',
   },
   footerBar: {
     position: 'absolute',
@@ -114,6 +122,9 @@ class HotelOverview extends React.Component {
         Close
       </Button>
     );
+    const divHotels = _.map(hotels, (h) => {
+      return <HotelCard item={h} doSelectHotel={this.doSelectHotel} />;
+    });
     const modal = open ? (
       <Dialog
         fullScreen
@@ -121,7 +132,21 @@ class HotelOverview extends React.Component {
         onClose={this.doCloseSelectHotel}
         TransitionComponent={Transition}
       >
-        <div>Hotels...</div>
+        <AppBar color='default' className={classes.headerBar}>
+          <Toolbar>
+            <IconButton
+              color='inherit'
+              onClick={this.doOpenSelectHotel}
+              aria-label='Close'
+            >
+              <CloseIcon />
+            </IconButton>
+            <Typography variant='h6' color='inherit'>
+              Select Hotel
+            </Typography>
+          </Toolbar>
+        </AppBar>
+        <div>{divHotels}</div>
         <AppBar position='fixed' color='default' className={classes.footerBar}>
           <Toolbar className={classes.footerToolbar}>{btnClose}</Toolbar>
         </AppBar>
