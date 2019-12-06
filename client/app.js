@@ -580,6 +580,8 @@ class App extends React.Component {
     instPackage.isCustomised = true;
     this.setState({
       instPackage: instPackage,
+      modalType: '',
+      modalRef: null,
     });
   }
   disablePackageDiy() {
@@ -588,7 +590,12 @@ class App extends React.Component {
     instPackage.status = Instance.status.INITIATED;
     instPackage.isCustomised = false;
     instPackageExt.step = 0;
-    this.setState({instPackage, instPackageExt});
+    this.setState({
+      instPackage,
+      instPackageExt,
+      modalType: '',
+      modalRef: null,
+    });
   }
   confirmAddItinerary(ref) {
     console.log('>>>>MobileApp.confirmAddItinerary', ref);
@@ -609,6 +616,7 @@ class App extends React.Component {
       this.setState({
         instPackage: instPackage,
         modalType: '',
+        modalRef: null,
       });
     } else {
       // Todo
@@ -628,6 +636,7 @@ class App extends React.Component {
     if (ref.isRequired) {
       this.setState({
         modalType: Modal.FAILED_DELETE_ITINERARY.key,
+        modalRef: null,
       });
     } else {
       const instPackage = PackageHelper.deleteItinerary(
@@ -639,6 +648,7 @@ class App extends React.Component {
         this.setState({
           instPackage: instPackage,
           modalType: '',
+          modalRef: null,
         });
       } else {
         // Todo
