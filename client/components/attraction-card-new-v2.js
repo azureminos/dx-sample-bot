@@ -183,7 +183,7 @@ class AttractionCard extends React.Component {
           </Typography>
           {modal}
         </div>
-        <CardActions onClick={() => this.doLikeAttraction(item)}>
+        <CardActions onClick={(e) => this.doLikeAttraction(e, item)}>
           <SolidCheckIcon
             style={{
               display: item.isLiked ? 'block' : 'none',
