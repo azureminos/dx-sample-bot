@@ -11,7 +11,8 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import IconCustomise from '@material-ui/icons/Ballot';
+import AddIcon from '@material-ui/icons/Add';
+import DeleteIcon from '@material-ui/icons/Delete';
 import AttractionSlider from './components/attraction-slider-new';
 import HotelOverview from './components/hotel-overview';
 import CONSTANTS from '../lib/constants';
@@ -74,7 +75,13 @@ class PackageItineraryNew extends React.Component {
     // Local variables
     const {classes, isCustomised, isOwner, status} = this.props;
     const {actions, rates, transport, itineraries} = this.props;
-    const {handleLikeAttraction} = this.props.actions;
+    const {
+      handleSelectHotel,
+      handleSelectCar,
+      handleLikeAttraction,
+      handleAddItinerary,
+      handleDeleteItinerary,
+    } = this.props.actions;
     const {tabSelected} = this.state;
     console.log('>>>>PackageItineraryNew.render', {
       isCustomised,
@@ -97,16 +104,26 @@ class PackageItineraryNew extends React.Component {
       const notLikedAttractions = _.filter(it.attractions, (a) => {
         return !a.isLiked;
       });
-      const selectedHotel = _.find(it.hotels, (h) => {
-        return !h.isLiked;
-      });
       const btnCustomise =
         isCustomised &&
         notLikedAttractions &&
         notLikedAttractions.length > 0 ? (
           <ListItemSecondaryAction>
-            <IconButton aria-label='Comments'>
-              <IconCustomise />
+            <IconButton
+              onClick={() => {
+                handleAddItinerary(it);
+              }}
+              aria-label='AddDay'
+            >
+              <AddIcon />
+            </IconButton>
+            <IconButton
+              onClick={() => {
+                handleDeleteItinerary(it);
+              }}
+              aria-label='DeleteDay'
+            >
+              <DeleteIcon />
             </IconButton>
           </ListItemSecondaryAction>
         ) : (
@@ -173,11 +190,18 @@ class PackageItineraryNew extends React.Component {
         ) : (
           ''
         );
-      const hotelSelected = selectedHotel ? (
-        <HotelOverview isCustomised={isCustomised} hotel={selectedHotel} />
-      ) : (
-        ''
-      );
+      const hotelSelected =
+        it.hotels && it.hotels.length > 0 ? (
+          <HotelOverview
+            isCustomised={isCustomised}
+            hotels={it.hotels}
+            handleSelectHotel={(hotel) => {
+              handleSelectHotel(it.dayNo, hotel);
+            }}
+          />
+        ) : (
+          ''
+        );
       return (
         <TabPanel key={it.dayNo} value={tabSelected} index={it.dayNo - 1}>
           <Typography component='div'>
