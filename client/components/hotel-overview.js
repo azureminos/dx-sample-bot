@@ -39,7 +39,6 @@ const styles = (theme) => ({
     position: 'absolute',
     left: 0,
     maxHeight: 515,
-    marginTop: 80,
     overflowY: 'auto',
     width: '100%',
   },
@@ -71,7 +70,10 @@ const styles = (theme) => ({
     // Aligns the content of the button vertically.
     flexDirection: 'column',
   },
-  bodyContent: {
+  spaceHeader: {
+    marginTop: 80,
+  },
+  spaceFooter: {
     marginTop: 80,
   },
 });
@@ -131,7 +133,9 @@ class HotelOverview extends React.Component {
       </Button>
     );
     const divHotels = _.map(hotels, (h) => {
-      return <HotelCard item={h} doSelectHotel={this.doSelectHotel} />;
+      return (
+        <HotelCard key={h.name} item={h} doSelectHotel={this.doSelectHotel} />
+      );
     });
     const modal = open ? (
       <Dialog
@@ -154,7 +158,9 @@ class HotelOverview extends React.Component {
             </Typography>
           </Toolbar>
         </AppBar>
+        <div className={classes.spaceHeader} />
         <div className={classes.modalBody}>{divHotels}</div>
+        <div className={classes.spaceFooter} />
         <AppBar position='fixed' color='default' className={classes.footerBar}>
           <Toolbar className={classes.footerToolbar}>{btnClose}</Toolbar>
         </AppBar>

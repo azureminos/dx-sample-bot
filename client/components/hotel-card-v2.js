@@ -8,7 +8,7 @@ import {Typography} from '@material-ui/core';
 
 const styles = (theme) => ({
   card: {
-    width: '100%',
+    width: '95%',
     margin: 8,
   },
   media: {
@@ -22,7 +22,7 @@ const styles = (theme) => ({
   cardTitle: {
     fontSize: 18,
     display: 'inline-block',
-    width: '20%',
+    width: '80%',
     textAlign: 'left',
   },
   cardPrice: {
@@ -48,7 +48,7 @@ class HotelCard extends React.Component {
     const {classes, item, doSelectHotel} = this.props;
     // console.log('>>>>HotelCard render()', item);
     return (
-      <Card key={item.name} className={classes.card}>
+      <Card className={classes.card}>
         <CardActionArea onClick={(e) => doSelectHotel(e, item)}>
           <CardMedia
             className={classes.media}
