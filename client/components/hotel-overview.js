@@ -36,7 +36,6 @@ const styles = (theme) => ({
     fontWeight: 'bolder',
   },
   modalBody: {
-    position: 'absolute',
     left: 0,
     maxHeight: 515,
     overflowY: 'auto',
@@ -74,7 +73,7 @@ const styles = (theme) => ({
     marginTop: 80,
   },
   spaceFooter: {
-    marginTop: 80,
+    marginBottom: 80,
   },
 });
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -117,7 +116,7 @@ class HotelOverview extends React.Component {
     const {open} = this.state;
     console.log('>>>>HotelOverview.render', {isCustomised, hotels});
     const selectedHotel = _.find(hotels, (h) => {
-      return !h.isLiked;
+      return h.isLiked;
     });
     const hotelLabel = selectedHotel ? `Stay at ${selectedHotel.name}` : '';
     // Sub Widgets
