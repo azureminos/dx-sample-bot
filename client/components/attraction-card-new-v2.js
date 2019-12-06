@@ -5,13 +5,8 @@ import CardMedia from '@material-ui/core/CardMedia';
 import CardActions from '@material-ui/core/CardActionArea';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import CloseIcon from '@material-ui/icons/Close';
-import grey from '@material-ui/core/colors/grey';
-import blue from '@material-ui/core/colors/blue';
-import CheckIcon from '@material-ui/icons/CheckCircleOutline';
-import SolidCheckIcon from '@material-ui/icons/CheckCircle';
 import Slide from '@material-ui/core/Slide';
 import Dialog from '@material-ui/core/Dialog';
 import List from '@material-ui/core/List';
@@ -19,6 +14,13 @@ import ListItem from '@material-ui/core/ListItem';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import Divider from '@material-ui/core/Divider';
+import CloseIcon from '@material-ui/icons/Close';
+import grey from '@material-ui/core/colors/grey';
+import blue from '@material-ui/core/colors/blue';
+import CheckIcon from '@material-ui/icons/CheckCircleOutline';
+import SolidCheckIcon from '@material-ui/icons/CheckCircle';
+import IconLock from '@material-ui/icons/Lock';
+import IconUnlock from '@material-ui/icons/LockOpen';
 
 const styles = {
   card: {
@@ -35,14 +37,27 @@ const styles = {
   cardText: {
     fontSize: '0.8rem',
     padding: 8,
-    color: 'white',
   },
   appBar: {
-    position: 'relative',
+    position: 'absolute',
+    width: '100%',
+    height: 60,
+    top: 'auto',
+    bottom: 0,
   },
-  title: {
-    marginLeft: 16,
-    flex: 1,
+  toolbar: {
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 0,
+  },
+  button: {
+    width: '100%',
+    height: '100%',
+    padding: 0,
+  },
+  label: {
+    // Aligns the content of the button vertically.
+    flexDirection: 'column',
   },
 };
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -73,6 +88,43 @@ class AttractionCard extends React.Component {
     const {open} = this.state;
     console.log('>>>>AttractionCard.render', item);
     // Sub Widget
+    const btnLike = !item.isLiked ? (
+      <Button
+        classes={{root: classes.button, label: classes.label}}
+        variant='contained'
+        disableRipple
+        onClick={() => doLikeAttraction(item)}
+      >
+        <IconLock />
+        Let's visit
+      </Button>
+    ) : (
+      ''
+    );
+    const btnUnlike = item.isLiked ? (
+      <Button
+        classes={{root: classes.button, label: classes.label}}
+        variant='contained'
+        disableRipple
+        onClick={() => doLikeAttraction(item)}
+      >
+        <IconUnlock />
+        Leave it next time
+      </Button>
+    ) : (
+      ''
+    );
+    const btnClose = (
+      <Button
+        classes={{root: classes.button, label: classes.label}}
+        variant='contained'
+        disableRipple
+        onClick={this.doHandleClose}
+      >
+        <CloseIcon />
+        Start DIY
+      </Button>
+    );
     const modal = (
       <Dialog
         fullScreen
@@ -80,26 +132,7 @@ class AttractionCard extends React.Component {
         onClose={this.doHandleClose}
         TransitionComponent={Transition}
       >
-        <AppBar className={classes.appBar}>
-          <Toolbar>
-            <IconButton
-              edge='start'
-              color='inherit'
-              onClick={this.doHandleClose}
-              aria-label='close'
-            >
-              <CloseIcon />
-            </IconButton>
-            <Typography variant='h6' className={classes.title}>
-              {item.name}
-            </Typography>
-          </Toolbar>
-        </AppBar>
         <List className={classes.root}>
-          <ListItem key={'attraction-description'} dense>
-            <Typography component='p'>{item.description}</Typography>
-          </ListItem>
-          <Divider />
           <ListItem key={'attraction-images'} dense>
             <GridList cellHeight={160} className={classes.gridList} cols={1}>
               <GridListTile cols={1}>
@@ -107,7 +140,18 @@ class AttractionCard extends React.Component {
               </GridListTile>
             </GridList>
           </ListItem>
+          <Divider />
+          <ListItem key={'attraction-description'} dense>
+            <Typography component='p'>{item.description}</Typography>
+          </ListItem>
         </List>
+        <AppBar position='fixed' color='default' className={classes.appBar}>
+          <Toolbar className={classes.toolbar}>
+            {btnLike}
+            {btnUnlike}
+            {btnClose}
+          </Toolbar>
+        </AppBar>
       </Dialog>
     );
     // Display Widget
