@@ -163,6 +163,7 @@ class PackageItineraryNew extends React.Component {
             >
               <AttractionSlider
                 dayNo={it.dayNo}
+                loop
                 timePlannable={it.timePlannable}
                 attractions={notLikedAttractions}
                 handleLikeAttraction={handleLikeAttraction}

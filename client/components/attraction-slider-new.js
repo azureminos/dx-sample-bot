@@ -48,10 +48,6 @@ class AttractionSlider extends React.Component {
         slidesPerView: attractions.length > 2 ? 3 : 2,
         spaceBetween: 8,
         loop: loop,
-        pagination: {
-          el: '.swiper-pagination',
-          clickable: true,
-        },
       };
       return <Swiper {...params}>{cards}</Swiper>;
     }
