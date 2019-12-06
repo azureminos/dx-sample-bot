@@ -31,14 +31,23 @@ const styles = (theme) => ({
   footerBar: {
     position: 'absolute',
     width: '100%',
-    height: 80,
-    top: 0,
-    bottom: 'auto',
+    height: 60,
+    top: 'auto',
+    bottom: 0,
   },
   footerToolbar: {
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: 0,
+  },
+  footerButton: {
+    width: '100%',
+    height: '100%',
+    padding: 0,
+  },
+  footerLabel: {
+    // Aligns the content of the button vertically.
+    flexDirection: 'column',
   },
 });
 // Helpers
@@ -375,7 +384,7 @@ class BotModal extends React.Component {
           onClick={() => {
             b.handleClick();
           }}
-          className={classes.button}
+          classes={{root: classes.footerButton, label: classes.footerLabel}}
         >
           {b.title}
         </Button>
