@@ -39,6 +39,7 @@ const styles = (theme) => ({
     position: 'absolute',
     left: 0,
     maxHeight: 515,
+    marginTop: 80,
     overflowY: 'auto',
     width: '100%',
   },

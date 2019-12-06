@@ -17,13 +17,24 @@ const styles = (theme) => ({
   },
   cardTextRoot: {
     padding: 8,
-    display: 'flex',
+    display: 'block',
   },
   cardTitle: {
-    fontSize: 14,
+    fontSize: 18,
+    display: 'inline-block',
+    width: '20%',
+    textAlign: 'left',
   },
   cardPrice: {
+    fontSize: 18,
+    display: 'inline-block',
+    width: '20%',
+    textAlign: 'right',
+    paddingRight: 16,
+  },
+  cardDescrition: {
     fontSize: 14,
+    paddingRight: 8,
   },
 });
 
