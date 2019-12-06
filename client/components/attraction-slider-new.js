@@ -29,7 +29,7 @@ class AttractionSlider extends React.Component {
       attractions,
       handleLikeAttraction,
     } = this.props;
-    const doLikeAttraction = (item) => {
+    const doHandleLikeAttraction = (item) => {
       handleLikeAttraction(dayNo, timePlannable, item, attractions);
     };
 
@@ -41,7 +41,7 @@ class AttractionSlider extends React.Component {
             key={idx}
             className={classes.slideRoot}
           >
-            <AttractionCard item={a} doLikeAttraction={doLikeAttraction} />
+            <AttractionCard item={a} likeAttraction={doHandleLikeAttraction} />
           </div>
         );
       });
