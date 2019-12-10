@@ -147,7 +147,7 @@ class HotelOverview extends React.Component {
           <Toolbar>
             <IconButton
               color='inherit'
-              onClick={this.doOpenSelectHotel}
+              onClick={this.doCloseSelectHotel}
               aria-label='Close'
             >
               <CloseIcon />

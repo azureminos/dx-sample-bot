@@ -26,12 +26,7 @@
           },
           function error(err) {
             console.log(">>>>MessengerExtensions.getContext Error", err);
-            window.attachApp({
-              viewerId: "<%= userId %>",
-              instId: "<%= instId %>",
-              packageId: "<%= packageId %>",
-              socketAddress: "<%= socketAddress %>"
-            });
+            window.attachApp();
           }
         );
       };

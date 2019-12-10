@@ -13,7 +13,7 @@
 const msgWelcome =
   'Hello, I am XYZ and can assist you with your holiday planning. How may I help you?';
 const packageUrl = (apiUri, userId, packageId) =>
-  `${apiUri}/${userId}/package2/${packageId}`;
+  `${apiUri}/${userId}/package/${packageId}`;
 const instPackageUrl = (apiUri, userId, instId) =>
   `${apiUri}/${userId}/instance/${instId}`;
 /*
