@@ -931,92 +931,90 @@ class App extends React.Component {
     const divWhitespaceBottom = <div className={classes.whitespaceBottom} />;
     let page = <div>Loading...</div>;
     if (instPackage) {
-      else {
-        // Variables
-        const carOptions = instPackage.isCustomised
-          ? Helper.getValidCarOptions(rates.carRates)
-          : [instPackage.carOption];
-        const departDates = _.map(
-          packageSummary.departureDate.split(','),
-          (d) => {
-            return d.trim();
-          }
-        );
-        const transport = {
-          departDates: departDates,
-          startDate: instPackage.startDate,
-          totalDays: instPackage.totalDays,
-          carOption: instPackage.carOption,
-          carOptions: carOptions,
-        };
-        const itineraries = PackageHelper.getFullItinerary({
-          isCustomised: instPackage.isCustomised,
-          cities: cities,
-          packageItems: instPackage.items,
-          packageHotels: instPackage.hotels,
-        });
-        // ======Web Elements======
-        // Dialog Share
-        const elDialogShare = (
-          <DialogShare
-            open={isOpenDialogShare}
-            viewerId={viewerId}
-            instId={instId}
-            title={packageSummary.name}
-            description={packageSummary.description}
-            imageUrl={packageSummary.imageUrl}
-            apiUri={apiUri}
-            pushToRemote={this.pushToRemote}
-            handleClose={this.handleDialogShareClose}
-            handleShare={this.handleShareOnMessenger}
+      // Variables
+      const carOptions = instPackage.isCustomised
+        ? Helper.getValidCarOptions(rates.carRates)
+        : [instPackage.carOption];
+      const departDates = _.map(
+        packageSummary.departureDate.split(','),
+        (d) => {
+          return d.trim();
+        }
+      );
+      const transport = {
+        departDates: departDates,
+        startDate: instPackage.startDate,
+        totalDays: instPackage.totalDays,
+        carOption: instPackage.carOption,
+        carOptions: carOptions,
+      };
+      const itineraries = PackageHelper.getFullItinerary({
+        isCustomised: instPackage.isCustomised,
+        cities: cities,
+        packageItems: instPackage.items,
+        packageHotels: instPackage.hotels,
+      });
+      // ======Web Elements======
+      // Dialog Share
+      const elDialogShare = (
+        <DialogShare
+          open={isOpenDialogShare}
+          viewerId={viewerId}
+          instId={instId}
+          title={packageSummary.name}
+          description={packageSummary.description}
+          imageUrl={packageSummary.imageUrl}
+          apiUri={apiUri}
+          pushToRemote={this.pushToRemote}
+          handleClose={this.handleDialogShareClose}
+          handleShare={this.handleShareOnMessenger}
+        />
+      );
+      // Bot Modal
+      const elModal = modalType ? (
+        <BotModal
+          modal={modalType}
+          actions={modalActions}
+          reference={modalRef}
+        />
+      ) : (
+        ''
+      );
+      page = (
+        <div>
+          <BotHeader
+            instPackage={instPackage}
+            instPackageExt={instPackageExt}
+            rates={rates}
+            actions={headerActions}
           />
-        );
-        // Bot Modal
-        const elModal = modalType ? (
-          <BotModal
-            modal={modalType}
-            actions={modalActions}
-            reference={modalRef}
-          />
-        ) : (
-          ''
-        );
-        page = (
-          <div>
-            <BotHeader
-              instPackage={instPackage}
-              instPackageExt={instPackageExt}
+          <div className={classes.appBody}>
+            {divWhitespaceTop}
+            <PackageItineraryNew
+              isCustomised={instPackage.isCustomised}
+              daySelected={daySelected}
+              isOwner={instPackageExt.isOwner}
               rates={rates}
-              actions={headerActions}
+              transport={transport}
+              itineraries={itineraries}
+              status={instPackage.status}
+              viewerId={viewerId}
+              packageSummary={packageSummary}
+              cities={cities}
+              actions={itineraryActions}
             />
-            <div className={classes.appBody}>
-              {divWhitespaceTop}
-              <PackageItineraryNew
-                isCustomised={instPackage.isCustomised}
-                daySelected={daySelected}
-                isOwner={instPackageExt.isOwner}
-                rates={rates}
-                transport={transport}
-                itineraries={itineraries}
-                status={instPackage.status}
-                viewerId={viewerId}
-                packageSummary={packageSummary}
-                cities={cities}
-                actions={itineraryActions}
-              />
-              {divWhitespaceBottom}
-            </div>
-            <BotFooter
-              instPackage={instPackage}
-              instPackageExt={instPackageExt}
-              rates={rates}
-              actions={footerActions}
-            />
-            {elModal}
-            {elDialogShare}
+            {divWhitespaceBottom}
           </div>
-        );
-      }
+          <BotFooter
+            instPackage={instPackage}
+            instPackageExt={instPackageExt}
+            rates={rates}
+            actions={footerActions}
+          />
+          {elModal}
+          {elDialogShare}
+        </div>
+      );
     } else if (packages && packages.length > 0) {
       page = (
         <PackageAll
