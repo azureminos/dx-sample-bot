@@ -15,6 +15,7 @@ import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AttractionSlider from './components/attraction-slider-new';
 import HotelOverview from './components/hotel-overview';
+import PackageSummary from './components/package-summary';
 import CONSTANTS from '../lib/constants';
 
 // Functions
@@ -61,9 +62,9 @@ class PackageItineraryNew extends React.Component {
     // Bind handler
     this.doHandleTabSelect = this.doHandleTabSelect.bind(this);
     // Init data
-    const tabSelected = (this.props.daySelected || 1) - 1;
+    const tabSelected = this.props.daySelected || 0;
     // Setup state
-    this.state = {tabSelected: 2};
+    this.state = {tabSelected};
   }
   // Event Handlers
   doHandleTabSelect = (event, newValue) => {
@@ -75,6 +76,7 @@ class PackageItineraryNew extends React.Component {
     // Local variables
     const {classes, isCustomised, isOwner, status} = this.props;
     const {actions, rates, transport, itineraries} = this.props;
+    const {viewerId, packageSummary, cities} = this.props;
     const {
       handleSelectHotel,
       handleSelectCar,
@@ -93,11 +95,26 @@ class PackageItineraryNew extends React.Component {
       itineraries,
     });
     // Sub Widgets
-    const tabLabels = _.map(itineraries, (it) => {
+    const tabLabels = [
+      <Tab key={'Summary'} label={'Summary'} {...a11yProps(0)} />,
+    ];
+    _.each(itineraries, (it) => {
       const label = `Day ${it.dayNo}`;
-      return <Tab key={label} label={label} {...a11yProps(it.dayNo - 1)} />;
+      tabLabels.push(
+        <Tab key={label} label={label} {...a11yProps(it.dayNo - 1)} />
+      );
     });
-    const tabPanels = _.map(itineraries, (it) => {
+    const tabPanels = [
+      <PackageSummary
+        key={'Summary'}
+        userId={viewerId}
+        packageSummary={packageSummary}
+        itineraries={itineraries}
+        cities={cities}
+      />,
+    ];
+
+    _.map(itineraries, (it) => {
       const likedAttractions = _.filter(it.attractions, (a) => {
         return a.isLiked;
       });

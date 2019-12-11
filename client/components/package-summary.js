@@ -11,7 +11,7 @@ import Divider from '@material-ui/core/Divider';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import Typography from '@material-ui/core/Typography';
-import packageHelper from '../lib/package-helper';
+import packageHelper from '../../lib/package-helper';
 // ====== Icons ======
 // Variables
 const styles = (theme) => ({
@@ -27,15 +27,8 @@ const styles = (theme) => ({
 class PackageSummary extends React.Component {
   constructor(props) {
     super(props);
-    this.doHandleAvailability = this.doHandleAvailability.bind(this);
   }
   // Event Handlers
-  doHandleAvailability(dayNo) {
-    console.log('>>>>PackageSummary.doHandleAvailability');
-    if (this.props.handleAvailability) {
-      this.props.handleAvailability({dayNo});
-    }
-  }
   // Display Widget
   render() {
     const {classes, userId, packageSummary, itineraries, cities} = this.props;
@@ -63,7 +56,7 @@ class PackageSummary extends React.Component {
             <GridListTile
               cols={1}
               onClick={() => {
-                this.doHandleAvailability(it.dayNo);
+                console.log('PackageSummary.DayClicked', it.dayNo);
               }}
             >
               <img src={cityImageUrl} alt={labelItinerary} />

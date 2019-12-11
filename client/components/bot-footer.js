@@ -14,7 +14,6 @@ import IconLock from '@material-ui/icons/Lock';
 import IconUnlock from '@material-ui/icons/LockOpen';
 import IconStatus from '@material-ui/icons/TrackChanges';
 import IconCustomise from '@material-ui/icons/Ballot';
-import IconSearch from '@material-ui/icons/ImageSearch';
 import IconCancelCustomise from '@material-ui/icons/Cancel';
 import CONSTANTS from '../../lib/constants';
 
@@ -47,9 +46,8 @@ const styles = (theme) => ({
   },
 });
 
-const calcVisibility = ({isViewSummary, instPackage, instPackageExt}) => {
+const calcVisibility = ({instPackage, instPackageExt}) => {
   const vs = {
-    BtnAvailability: {isHidden: true, isDisabled: false},
     BtnBackward: {isHidden: true, isDisabled: false},
     BtnForward: {isHidden: true, isDisabled: false},
     BtnShare: {isHidden: true, isDisabled: false},
@@ -63,82 +61,81 @@ const calcVisibility = ({isViewSummary, instPackage, instPackageExt}) => {
     BtnPayment: {isHidden: true, isDisabled: false},
   };
   // Logic starts here
-  if (isViewSummary) {
-    vs.BtnAvailability.isHidden = false;
-  } else {
-    if (!instPackage.isCustomised) {
-      if (instPackageExt.isOwner) {
-        if (instPackage.status === Instance.status.INITIATED ||
-          instPackage.status === Instance.status.IN_PROGRESS) {
-          vs.BtnShare.isHidden = false;
-          vs.BtnCustomise.isHidden = !instPackage.isCustomisable;
-          vs.BtnLock.isHidden = false;
-        } else if (instPackage.status === Instance.status.PENDING_PAYMENT) {
-          vs.BtnUnlock.isHidden = false;
-          vs.BtnPayment.isHidden = false;
-        } else {
-          vs.BtnStatus.isHidden = false;
-        }
-      } else if (instPackage.status === Instance.status.INITIATED ||
-        instPackage.status === Instance.status.IN_PROGRESS) {
-        vs.BtnShare.isHidden = false;
-        vs.BtnJoin.isHidden = instPackageExt.isJoined;
-        vs.BtnLeave.isHidden = !instPackageExt.isJoined;
-      } else if (instPackage.status === Instance.status.PENDING_PAYMENT) {
-        vs.BtnStatus.isHidden = false;
-      } else {
-        vs.BtnShare.isHidden = false;
-      }
-    } else if (instPackageExt.isOwner) {
+  if (!instPackage.isCustomised) {
+    if (instPackageExt.isOwner) {
       if (
         instPackage.status === Instance.status.INITIATED ||
-        instPackage.status === Instance.status.SELECT_ATTRACTION
+        instPackage.status === Instance.status.IN_PROGRESS
       ) {
-        vs.BtnForward.isHidden = false;
-        vs.BtnCancelCustomise.isHidden = false;
         vs.BtnShare.isHidden = false;
-      } else if (instPackage.status === Instance.status.SELECT_HOTEL) {
-        vs.BtnBackward.isHidden = false;
-        vs.BtnForward.isHidden = false;
-        vs.BtnShare.isHidden = false;
-        vs.BtnCancelCustomise.isHidden = false;
-      } else if (instPackage.status === Instance.status.REVIEW_ITINERARY) {
-        vs.BtnBackward.isHidden = false;
+        vs.BtnCustomise.isHidden = !instPackage.isCustomisable;
         vs.BtnLock.isHidden = false;
-        vs.BtnShare.isHidden = false;
-        vs.BtnCancelCustomise.isHidden = false;
       } else if (instPackage.status === Instance.status.PENDING_PAYMENT) {
         vs.BtnUnlock.isHidden = false;
         vs.BtnPayment.isHidden = false;
-      } else if (instPackage.status === Instance.status.DEPOSIT_PAID) {
-        vs.BtnShare.isHidden = false;
-        vs.BtnStatus.isHidden = false;
       } else {
-        vs.BtnShare.isHidden = false;
+        vs.BtnStatus.isHidden = false;
       }
-    } else if (!instPackageExt.statusMember || !instPackageExt.people) {
-      vs.BtnJoin.isHidden = false;
     } else if (
       instPackage.status === Instance.status.INITIATED ||
-      instPackage.status === Instance.status.SELECT_ATTRACTION ||
-      instPackage.status === Instance.status.SELECT_HOTEL ||
-      instPackage.status === Instance.status.REVIEW_ITINERARY
+      instPackage.status === Instance.status.IN_PROGRESS
     ) {
       vs.BtnShare.isHidden = false;
-      vs.BtnStatus.isHidden = false;
-      vs.BtnLeave.isHidden = false;
+      vs.BtnJoin.isHidden = instPackageExt.isJoined;
+      vs.BtnLeave.isHidden = !instPackageExt.isJoined;
     } else if (instPackage.status === Instance.status.PENDING_PAYMENT) {
-      vs.BtnShare.isHidden = false;
       vs.BtnStatus.isHidden = false;
-    } else if (instPackage.status === Instance.status.DEPOSIT_PAID) {
-      vs.BtnShare.isHidden = false;
-      vs.BtnStatus.isHidden = false;
-      vs.BtnPayment.isHidden = false;
     } else {
       vs.BtnShare.isHidden = false;
     }
+  } else if (instPackageExt.isOwner) {
+    if (
+      instPackage.status === Instance.status.INITIATED ||
+      instPackage.status === Instance.status.SELECT_ATTRACTION
+    ) {
+      vs.BtnForward.isHidden = false;
+      vs.BtnCancelCustomise.isHidden = false;
+      vs.BtnShare.isHidden = false;
+    } else if (instPackage.status === Instance.status.SELECT_HOTEL) {
+      vs.BtnBackward.isHidden = false;
+      vs.BtnForward.isHidden = false;
+      vs.BtnShare.isHidden = false;
+      vs.BtnCancelCustomise.isHidden = false;
+    } else if (instPackage.status === Instance.status.REVIEW_ITINERARY) {
+      vs.BtnBackward.isHidden = false;
+      vs.BtnLock.isHidden = false;
+      vs.BtnShare.isHidden = false;
+      vs.BtnCancelCustomise.isHidden = false;
+    } else if (instPackage.status === Instance.status.PENDING_PAYMENT) {
+      vs.BtnUnlock.isHidden = false;
+      vs.BtnPayment.isHidden = false;
+    } else if (instPackage.status === Instance.status.DEPOSIT_PAID) {
+      vs.BtnShare.isHidden = false;
+      vs.BtnStatus.isHidden = false;
+    } else {
+      vs.BtnShare.isHidden = false;
+    }
+  } else if (!instPackageExt.statusMember || !instPackageExt.people) {
+    vs.BtnJoin.isHidden = false;
+  } else if (
+    instPackage.status === Instance.status.INITIATED ||
+    instPackage.status === Instance.status.SELECT_ATTRACTION ||
+    instPackage.status === Instance.status.SELECT_HOTEL ||
+    instPackage.status === Instance.status.REVIEW_ITINERARY
+  ) {
+    vs.BtnShare.isHidden = false;
+    vs.BtnStatus.isHidden = false;
+    vs.BtnLeave.isHidden = false;
+  } else if (instPackage.status === Instance.status.PENDING_PAYMENT) {
+    vs.BtnShare.isHidden = false;
+    vs.BtnStatus.isHidden = false;
+  } else if (instPackage.status === Instance.status.DEPOSIT_PAID) {
+    vs.BtnShare.isHidden = false;
+    vs.BtnStatus.isHidden = false;
+    vs.BtnPayment.isHidden = false;
+  } else {
+    vs.BtnShare.isHidden = false;
   }
-
   return vs;
 };
 
@@ -152,9 +149,8 @@ class BotFooter extends React.Component {
   // Render footer bar, including buttons []
   render() {
     console.log('>>>>BotFooter.render', this.state);
-    const {classes, isViewSummary, instPackage, instPackageExt, rates, actions} = this.props;
+    const {classes, instPackage, instPackageExt, rates, actions} = this.props;
     const {
-      handleAvailability,
       handleBackward,
       handleForward,
       handleShare,
@@ -167,12 +163,8 @@ class BotFooter extends React.Component {
       handleCancelCustomise,
       handlePay,
     } = actions;
-    const vs = calcVisibility({isViewSummary, instPackage, instPackageExt});
+    const vs = calcVisibility({instPackage, instPackageExt});
     // ====== Event Handler ======
-    const doHandleAvailability = () => {
-      console.log('>>>>BotFooter.handleAvailability');
-      if (handleAvailability) handleAvailability();
-    };
     const doHandleBackward = () => {
       console.log('>>>>BotFooter.doHandleBackward');
       if (handleBackward) handleBackward(rates);
@@ -218,20 +210,6 @@ class BotFooter extends React.Component {
       if (handleCancelCustomise) handleCancelCustomise();
     };
     // ====== Web Elements ======
-    const btnAvailability = !vs.BtnAvailability.isHidden ? (
-      <Button
-        classes={{root: classes.button, label: classes.label}}
-        variant='contained'
-        disableRipple
-        disabled={vs.BtnAvailability.isDisabled}
-        onClick={doHandleAvailability}
-      >
-        <IconSearch />
-        Check Availability
-      </Button>
-    ) : (
-      ''
-    );
     const btnBackward = !vs.BtnBackward.isHidden ? (
       <Button
         classes={{root: classes.button, label: classes.label}}
@@ -390,7 +368,6 @@ class BotFooter extends React.Component {
     return (
       <AppBar position='fixed' color='default' className={classes.appBar}>
         <Toolbar className={classes.toolbar}>
-          {btnAvailability}
           {btnBackward}
           {btnShare}
           {btnCustomise}

@@ -16,11 +16,8 @@ import {CSSTransitionGroup} from 'react-transition-group';
 import BotModal from './components/bot-modal-v2';
 import BotHeader from './components/bot-header';
 import BotFooter from './components/bot-footer';
-// import ProgressBar from './components/progress-bar';
 import DialogShare from './components/dialog-share';
 import PackageAll from './package-all';
-import PackageSummary from './package-summary';
-// import PackageItinerary from './package-itinerary';
 import PackageItineraryNew from './package-itinerary-new';
 // ==== HELPERS =======================================
 import Helper from '../lib/helper';
@@ -64,7 +61,6 @@ class App extends React.Component {
     this.update = this.update.bind(this);
     this.showAll = this.showAll.bind(this);
     this.register = this.register.bind(this);
-    this.checkAvailability = this.checkAvailability.bind(this);
     this.handleDialogShareClose = this.handleDialogShareClose.bind(this);
     this.handleUserJoin = this.handleUserJoin.bind(this);
     this.handleUserLeave = this.handleUserLeave.bind(this);
@@ -101,7 +97,6 @@ class App extends React.Component {
       socketStatus: '',
       message: '',
       isOpenDialogShare: false,
-      isViewSummary: true,
       daySelected: null,
       modalType: '',
       modalRef: null,
@@ -158,16 +153,6 @@ class App extends React.Component {
       instPackageExt: null,
       rates: null,
     });
-  }
-  checkAvailability(input) {
-    console.log('>>>>MobileApp.checkAvailability', input);
-    const {packageId, totalDays, carOption} = this.state.instPackage;
-    const isViewSummary = false;
-    const senderId = this.props.viewerId;
-    const daySelected = input && input.dayNo ? input.dayNo : 1;
-    const req = {packageId, totalDays, carOption, senderId};
-    this.pushToRemote('package:create', req);
-    this.setState({daySelected, isViewSummary});
   }
   handleDialogShareClose() {
     console.log('>>>>MobileApp.handleDialogShareClose');
@@ -904,7 +889,7 @@ class App extends React.Component {
   render() {
     // Local Variables
     console.log('>>>>MobileApp.render', this.state);
-    const {instId, isViewSummary, isOpenDialogShare, daySelected} = this.state;
+    const {instId, isOpenDialogShare, daySelected} = this.state;
     const {packages, instPackage, instPackageExt, rates} = this.state;
     const {modalType, modalRef, reference} = this.state;
     const {cities, packageSummary} = reference;
@@ -914,7 +899,6 @@ class App extends React.Component {
       handleRoom: this.handleHdRoomChange,
     };
     const footerActions = {
-      handleAvailability: this.checkAvailability,
       handleBackward: this.handleFtBtnBackward,
       handleForward: this.handleFtBtnForward,
       handleShare: this.handleFtBtnShare,
@@ -947,35 +931,7 @@ class App extends React.Component {
     const divWhitespaceBottom = <div className={classes.whitespaceBottom} />;
     let page = <div>Loading...</div>;
     if (instPackage) {
-      if (isViewSummary) {
-        const itineraries = PackageHelper.getFullItinerary({
-          isCustomised: instPackage.isCustomised,
-          cities: cities,
-          packageItems: instPackage.items,
-          packageHotels: instPackage.hotels,
-        });
-        page = (
-          <div>
-            <div className={classes.appBody}>
-              <PackageSummary
-                userId={viewerId}
-                packageSummary={packageSummary}
-                itineraries={itineraries}
-                cities={cities}
-                handleAvailability={this.checkAvailability}
-              />
-              {divWhitespaceBottom}
-            </div>
-            <BotFooter
-              instPackage={instPackage}
-              instPackageExt={instPackageExt}
-              isViewSummary={isViewSummary}
-              rates={rates}
-              actions={footerActions}
-            />
-          </div>
-        );
-      } else {
+      else {
         // Variables
         const carOptions = instPackage.isCustomised
           ? Helper.getValidCarOptions(rates.carRates)
@@ -1043,6 +999,9 @@ class App extends React.Component {
                 transport={transport}
                 itineraries={itineraries}
                 status={instPackage.status}
+                viewerId={viewerId}
+                packageSummary={packageSummary}
+                cities={cities}
                 actions={itineraryActions}
               />
               {divWhitespaceBottom}
@@ -1050,7 +1009,6 @@ class App extends React.Component {
             <BotFooter
               instPackage={instPackage}
               instPackageExt={instPackageExt}
-              isViewSummary={isViewSummary}
               rates={rates}
               actions={footerActions}
             />
@@ -1058,41 +1016,6 @@ class App extends React.Component {
             {elDialogShare}
           </div>
         );
-        /* page = (
-          <div>
-            <BotHeader
-              instPackage={instPackage}
-              instPackageExt={instPackageExt}
-              rates={rates}
-              actions={headerActions}
-            />
-            <div className={classes.appBody}>
-              <ProgressBar
-                step={instPackageExt.step}
-                isOwner={instPackageExt.isOwner}
-                isCustomised={instPackage.isCustomised}
-              />
-              <PackageItinerary
-                isCustomised={instPackage.isCustomised}
-                isOwner={instPackageExt.isOwner}
-                rates={rates}
-                transport={transport}
-                itineraries={itineraries}
-                status={instPackage.status}
-                actions={itineraryActions}
-              />
-            </div>
-            <BotFooter
-              instPackage={instPackage}
-              instPackageExt={instPackageExt}
-              isViewSummary={isViewSummary}
-              rates={rates}
-              actions={footerActions}
-            />
-            {elModal}
-            {elDialogShare}
-          </div>
-        );*/
       }
     } else if (packages && packages.length > 0) {
       page = (
@@ -1103,7 +1026,6 @@ class App extends React.Component {
         />
       );
     }
-
     /* ----------  Animated Wrapper  ---------- */
     return (
       <div id='app'>
