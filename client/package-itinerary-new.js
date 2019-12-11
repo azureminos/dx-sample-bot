@@ -105,16 +105,17 @@ class PackageItineraryNew extends React.Component {
       );
     });
     const tabPanels = [
-      <PackageSummary
-        key={'Summary'}
-        userId={viewerId}
-        packageSummary={packageSummary}
-        itineraries={itineraries}
-        cities={cities}
-      />,
+      <TabPanel key={'Summary'} value={tabSelected} index={0}>
+        <PackageSummary
+          userId={viewerId}
+          packageSummary={packageSummary}
+          itineraries={itineraries}
+          cities={cities}
+        />
+      </TabPanel>,
     ];
 
-    _.map(itineraries, (it) => {
+    _.each(itineraries, (it) => {
       const likedAttractions = _.filter(it.attractions, (a) => {
         return a.isLiked;
       });
@@ -219,8 +220,8 @@ class PackageItineraryNew extends React.Component {
         ) : (
           ''
         );
-      return (
-        <TabPanel key={it.dayNo} value={tabSelected} index={it.dayNo - 1}>
+      tabPanels.push(
+        <TabPanel key={it.dayNo} value={tabSelected} index={it.dayNo}>
           <Typography component='div'>
             {attractionSelected}
             {attractionToSelect}
