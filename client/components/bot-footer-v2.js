@@ -203,6 +203,7 @@ class BotFooter extends React.Component {
                         text: classes.iconButtonText,
                       }}
                       aria-label='Add'
+                      disabled={isRoomDisabled}
                     >
                       <AddBoxOutlinedIcon className={classes.iconSmall} />
                     </IconButton>
@@ -212,6 +213,7 @@ class BotFooter extends React.Component {
                         text: classes.iconButtonText,
                       }}
                       aria-label='Remove'
+                      disabled={isRoomDisabled}
                     >
                       <MinusBoxOutlinedIcon className={classes.iconSmall} />
                     </IconButton>
