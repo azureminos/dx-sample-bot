@@ -36,7 +36,7 @@ const styles = (theme) => ({
     width: '100%',
   },
   whitespaceBottom: {
-    height: 60,
+    height: 100,
   },
 });
 const {Modal, Global, Instance, SocketChannel} = CONSTANTS.get();

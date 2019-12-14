@@ -44,18 +44,18 @@ class PackageSummary extends React.Component {
   doHandleSelectFlight(stStartDate) {
     console.log('>>>>PackageSummary.doHandleSelectFlight');
     const {transport, actions} = this.props;
+    const sDate = stStartDate
+      ? Moment(stStartDate, Global.dateFormat).toDate()
+      : null;
     if (actions && actions.handleSelectFlight) {
-      const sDate = stStartDate
-        ? Moment(stStartDate, Global.dateFormat).toDate()
-        : null;
       const eDate = stStartDate
         ? Moment(stStartDate, Global.dateFormat)
             .add(transport.totalDays, 'days')
             .toDate()
         : null;
       actions.handleSelectFlight(sDate, eDate);
-      this.setState({startDate: sDate});
     }
+    this.setState({startDate: sDate});
   }
   // Display Widget
   render() {

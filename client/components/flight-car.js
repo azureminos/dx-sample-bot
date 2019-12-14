@@ -14,7 +14,9 @@ const styles = (theme) => ({
     display: 'flex',
   },
   icon: {
-    paddingTop: 15,
+    marginTop: 6,
+    marginLeft: 4,
+    marginRight: 4,
   },
   form: {
     marginTop: 0,
