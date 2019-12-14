@@ -83,6 +83,7 @@ class PackageSummary extends React.Component {
           <ListItemText primary='Itinerary Details' secondary={labelDays} />
         </ListItem>
         {divDays}
+        <Divider />
         <ListItem key={'date-selector-2'}>
           <Typography component='p'>
             This is to select start/end date

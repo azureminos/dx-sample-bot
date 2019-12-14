@@ -60,8 +60,6 @@ class App extends React.Component {
     this.handleDialogShareClose = this.handleDialogShareClose.bind(this);
     this.handleUserJoin = this.handleUserJoin.bind(this);
     this.handleUserLeave = this.handleUserLeave.bind(this);
-    this.handleAddNotes = this.handleAddNotes.bind(this);
-    this.handleAddedNotes = this.handleAddedNotes.bind(this);
     this.handleHdPeopleChange = this.handleHdPeopleChange.bind(this);
     this.handleHdRoomChange = this.handleHdRoomChange.bind(this);
     this.handleFtBtnBackward = this.handleFtBtnBackward.bind(this);
@@ -762,13 +760,6 @@ class App extends React.Component {
     const {instPackage} = this.state;
     instPackage.carOption = carOption;
   }
-  // ----------  Notes  ----------
-  handleAddNotes(notes) {
-    console.log('>>>>MobileApp.handleAddNotes');
-  }
-  handleAddedNotes(note) {
-    console.log('>>>>MobileApp.handleAddedNotes');
-  }
   // ----------  Users  ----------
   setOnlineUsers(onlineUserFbIds = []) {
     const users = this.state.users.map((user) => {
@@ -825,7 +816,6 @@ class App extends React.Component {
     socket.on('init', this.init);
     socket.on('user:join', this.handleUserJoin);
     socket.on('user:leave', this.handleUserLeave);
-    socket.on('user:addNotes', this.handleAddedNotes);
     socket.on('package:update', this.update);
     socket.on('package:showAll', this.showAll);
 
@@ -911,8 +901,9 @@ class App extends React.Component {
       handlePayment: this.handleFtBtnPayment,
       handleCustomise: this.enablePackageDiy,
     };
+    // Update Webview Title
+    document.title = packageSummary.name;
     // Sub Components
-    const divWhitespaceTop = <div className={classes.whitespaceTop} />;
     const divWhitespaceBottom = <div className={classes.whitespaceBottom} />;
     let page = <div>Loading...</div>;
     if (instPackage) {
