@@ -4,11 +4,6 @@ import {withStyles} from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import Divider from '@material-ui/core/Divider';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 // ====== Icons ======
 import FlightTakeoff from '@material-ui/icons/FlightTakeoff';
 import DirectionsCar from '@material-ui/icons/DirectionsCar';
@@ -88,50 +83,48 @@ class FlightCar extends React.Component {
 
     // Web Elements
     const divFlightOptions = (
-      <ListItem>
-        <ListItemIcon>
+      <div>
+        <div>
           <FlightTakeoff color='primary' />
-        </ListItemIcon>
-        <ListItemSecondaryAction>
-          <div>
-            <FormControl className={classes.formControl} disabled={isDisabled}>
-              <Select
-                value={selectedDepartDate || ''}
-                onChange={this.handleFlightChange}
-                displayEmpty
-                inputProps={{
-                  name: 'departDate',
-                  id: 'depart-date',
-                }}
-              >
-                <MenuItem value='' disabled>
-                  <em>Fly Out</em>
-                </MenuItem>
-                {miDepartDates}
-              </Select>
-            </FormControl>
-            <FormControl className={classes.formControl}>
-              <Select value={selectedReturnDate || ''} displayEmpty disabled>
-                <MenuItem value='' disabled>
-                  <em>Fly Back</em>
-                </MenuItem>
-                {miReturnDates}
-              </Select>
-            </FormControl>
-            <FormControl className={classes.helpIcon}>
-              <HelpIcon />
-            </FormControl>
-          </div>
-        </ListItemSecondaryAction>
-      </ListItem>
+        </div>
+        <div>
+          <FormControl className={classes.formControl} disabled={isDisabled}>
+            <Select
+              value={selectedDepartDate || ''}
+              onChange={this.handleFlightChange}
+              displayEmpty
+              inputProps={{
+                name: 'departDate',
+                id: 'depart-date',
+              }}
+            >
+              <MenuItem value='' disabled>
+                <em>Fly Out</em>
+              </MenuItem>
+              {miDepartDates}
+            </Select>
+          </FormControl>
+          <FormControl className={classes.formControl}>
+            <Select value={selectedReturnDate || ''} displayEmpty disabled>
+              <MenuItem value='' disabled>
+                <em>Fly Back</em>
+              </MenuItem>
+              {miReturnDates}
+            </Select>
+          </FormControl>
+        </div>
+        <div className={classes.helpIcon}>
+          <HelpIcon />
+        </div>
+      </div>
     );
     const divCarOptions =
       miCarOptions && miCarOptions.length > 1 ? (
-        <ListItem>
-          <ListItemIcon>
+        <div>
+          <div>
             <DirectionsCar color='primary' />
-          </ListItemIcon>
-          <ListItemSecondaryAction>
+          </div>
+          <div>
             <FormControl
               className={classes.formControl}
               disabled={isReadonly || isDisabled}
@@ -151,21 +144,20 @@ class FlightCar extends React.Component {
                 {miCarOptions}
               </Select>
             </FormControl>
-            <FormControl className={classes.helpIcon}>
-              <HelpIcon />
-            </FormControl>
-          </ListItemSecondaryAction>
-        </ListItem>
+          </div>
+          <div className={classes.helpIcon}>
+            <HelpIcon />
+          </div>
+        </div>
       ) : (
         ''
       );
 
     return (
-      <List className={classes.list}>
+      <div className={classes.root}>
         {divFlightOptions}
-        {divCarOptions ? <Divider /> : ''}
         {divCarOptions}
-      </List>
+      </div>
     );
   }
 }
