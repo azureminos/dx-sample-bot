@@ -74,9 +74,8 @@ class PackageItineraryNew extends React.Component {
   // Display Widget
   render() {
     // Local variables
-    const {classes, isCustomised, isOwner, status} = this.props;
-    const {actions, rates, transport, itineraries} = this.props;
-    const {viewerId, packageSummary, cities} = this.props;
+    const {classes, isCustomised, viewerId} = this.props;
+    const {actions, transport, itineraries, cities} = this.props;
     const {
       handleSelectHotel,
       handleSelectCar,
@@ -84,13 +83,10 @@ class PackageItineraryNew extends React.Component {
       handleAddItinerary,
       handleDeleteItinerary,
     } = this.props.actions;
-    const {tabSelected} = this.state;
+    const {tabSelected, instPackage} = this.state;
     console.log('>>>>PackageItineraryNew.render', {
       isCustomised,
-      isOwner,
-      status,
       actions,
-      rates,
       transport,
       itineraries,
     });
@@ -107,8 +103,7 @@ class PackageItineraryNew extends React.Component {
     const tabPanels = [
       <TabPanel key={'Summary'} value={tabSelected} index={0}>
         <PackageSummary
-          userId={viewerId}
-          packageSummary={packageSummary}
+          transport={transport}
           itineraries={itineraries}
           cities={cities}
         />

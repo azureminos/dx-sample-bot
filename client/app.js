@@ -962,13 +962,10 @@ class App extends React.Component {
             <PackageItineraryNew
               isCustomised={instPackage.isCustomised}
               daySelected={daySelected}
-              isOwner={instPackageExt.isOwner}
               rates={rates}
               transport={transport}
               itineraries={itineraries}
-              status={instPackage.status}
               viewerId={viewerId}
-              packageSummary={packageSummary}
               cities={cities}
               actions={itineraryActions}
             />

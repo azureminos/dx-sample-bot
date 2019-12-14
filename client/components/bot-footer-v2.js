@@ -53,14 +53,14 @@ const styles = (theme) => ({
     padding: 0,
   },
   iconButtonRoot: {
-    minWidth: 20,
+    minWidth: 30,
   },
   iconButtonText: {
     margin: 2,
     padding: 0,
   },
   iconSmall: {
-    fontSize: 20,
+    fontSize: 24,
   },
 });
 
