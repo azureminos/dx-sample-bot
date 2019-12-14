@@ -10,24 +10,18 @@ import DirectionsCar from '@material-ui/icons/DirectionsCar';
 import HelpIcon from '@material-ui/icons/HelpOutlineRounded';
 
 const styles = (theme) => ({
-  root: {
+  flex: {
     display: 'flex',
-    flexWrap: 'wrap',
   },
-  formControl: {
-    margin: theme.spacing.unit,
-    minWidth: 120,
+  icon: {
+    paddingTop: 15,
   },
-  helpIcon: {
-    margin: theme.spacing.unit,
-  },
-  list: {
-    width: '100%',
-    minWidth: '330px',
-    backgroundColor: theme.palette.background.paper,
-  },
-  selectEmpty: {
-    marginTop: theme.spacing.unit * 2,
+  form: {
+    marginTop: 0,
+    marginLeft: 8,
+    marginRight: 8,
+    marginBottom: 0,
+    minWidth: 110,
   },
 });
 
@@ -83,12 +77,12 @@ class FlightCar extends React.Component {
 
     // Web Elements
     const divFlightOptions = (
-      <div>
-        <div>
+      <div className={classes.flex}>
+        <div className={classes.icon}>
           <FlightTakeoff color='primary' />
         </div>
         <div>
-          <FormControl className={classes.formControl} disabled={isDisabled}>
+          <FormControl className={classes.form} disabled={isDisabled}>
             <Select
               value={selectedDepartDate || ''}
               onChange={this.handleFlightChange}
@@ -104,7 +98,7 @@ class FlightCar extends React.Component {
               {miDepartDates}
             </Select>
           </FormControl>
-          <FormControl className={classes.formControl}>
+          <FormControl className={classes.form}>
             <Select value={selectedReturnDate || ''} displayEmpty disabled>
               <MenuItem value='' disabled>
                 <em>Fly Back</em>
@@ -113,20 +107,20 @@ class FlightCar extends React.Component {
             </Select>
           </FormControl>
         </div>
-        <div className={classes.helpIcon}>
+        <div className={classes.icon}>
           <HelpIcon />
         </div>
       </div>
     );
     const divCarOptions =
       miCarOptions && miCarOptions.length > 1 ? (
-        <div>
-          <div>
+        <div className={classes.flex}>
+          <div className={classes.icon}>
             <DirectionsCar color='primary' />
           </div>
           <div>
             <FormControl
-              className={classes.formControl}
+              className={classes.form}
               disabled={isReadonly || isDisabled}
             >
               <Select
@@ -145,7 +139,7 @@ class FlightCar extends React.Component {
               </Select>
             </FormControl>
           </div>
-          <div className={classes.helpIcon}>
+          <div className={classes.icon}>
             <HelpIcon />
           </div>
         </div>
