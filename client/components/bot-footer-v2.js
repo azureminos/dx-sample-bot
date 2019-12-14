@@ -32,6 +32,9 @@ const styles = (theme) => ({
     padding: 0,
   },
   table: {},
+  displayFlex: {
+    display: 'flex',
+  },
   colItem: {
     width: '20%',
     padding: '4px 0px 4px 8px',
@@ -152,7 +155,7 @@ class BotFooter extends React.Component {
                   {txtTotalPeople}
                 </TableCell>
                 <TableCell classes={{body: classes.colController}}>
-                  <div>
+                  <div className={classes.displayFlex}>
                     <IconButton
                       classes={{
                         root: classes.iconButtonRoot,
@@ -193,7 +196,7 @@ class BotFooter extends React.Component {
                   {txtTotalRooms}
                 </TableCell>
                 <TableCell classes={{body: classes.colController}}>
-                  <div>
+                  <div className={classes.displayFlex}>
                     <IconButton
                       classes={{
                         root: classes.iconButtonRoot,
