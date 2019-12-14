@@ -14,8 +14,7 @@ import {CSSTransitionGroup} from 'react-transition-group';
 
 // ==== COMPONENTS ========================================
 import BotModal from './components/bot-modal-v2';
-import BotHeader from './components/bot-header';
-import BotFooter from './components/bot-footer';
+import BotFooter from './components/bot-footer-v2';
 import DialogShare from './components/dialog-share';
 import PackageAll from './package-all';
 import PackageItineraryNew from './package-itinerary-new';
@@ -32,7 +31,7 @@ const styles = (theme) => ({
   appBody: {
     position: 'absolute',
     left: 0,
-    maxHeight: 515,
+    maxHeight: 800,
     overflowY: 'auto',
     width: '100%',
   },
@@ -894,22 +893,11 @@ class App extends React.Component {
     const {modalType, modalRef, reference} = this.state;
     const {cities, packageSummary} = reference;
     const {classes, apiUri, viewerId} = this.props;
-    const headerActions = {
+    const footerActions = {
       handlePeople: this.handleHdPeopleChange,
       handleRoom: this.handleHdRoomChange,
-    };
-    const footerActions = {
-      handleBackward: this.handleFtBtnBackward,
-      handleForward: this.handleFtBtnForward,
       handleShare: this.handleFtBtnShare,
       handlePay: this.confirmSubmitPayment,
-      handleJoin: this.handleFtBtnJoin,
-      handleLeave: this.handleFtBtnLeave,
-      handleLock: this.handleFtBtnLock,
-      handleUnlock: this.handleFtBtnUnlock,
-      handleStatus: this.handleFtBtnStatus,
-      handleCustomise: this.enablePackageDiy,
-      handleCancelCustomise: this.disablePackageDiy,
     };
     const itineraryActions = {
       handleSelectHotel: this.handleSelectHotel,
@@ -982,14 +970,7 @@ class App extends React.Component {
       );
       page = (
         <div>
-          <BotHeader
-            instPackage={instPackage}
-            instPackageExt={instPackageExt}
-            rates={rates}
-            actions={headerActions}
-          />
           <div className={classes.appBody}>
-            {divWhitespaceTop}
             <PackageItineraryNew
               isCustomised={instPackage.isCustomised}
               daySelected={daySelected}
