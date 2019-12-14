@@ -901,12 +901,12 @@ class App extends React.Component {
       handlePayment: this.handleFtBtnPayment,
       handleCustomise: this.enablePackageDiy,
     };
-    // Update Webview Title
-    document.title = packageSummary.name;
     // Sub Components
     const divWhitespaceBottom = <div className={classes.whitespaceBottom} />;
     let page = <div>Loading...</div>;
     if (instPackage) {
+      // Update Webview Title
+      document.title = packageSummary.name;
       // Variables
       const carOptions = instPackage.isCustomised
         ? Helper.getValidCarOptions(rates.carRates)
