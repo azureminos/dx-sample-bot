@@ -68,13 +68,10 @@ class PackageSummary extends React.Component {
     // Display Widget
     return (
       <List className={classes.root}>
-        <ListItem key={'package-title'}>
-          <Typography variant='h5' component='h3'>
-            {packageSummary.name}
+        <ListItem key={'date-selector-1'}>
+          <Typography component='p'>
+            This is to select start/end date
           </Typography>
-        </ListItem>
-        <ListItem key={'package-description'}>
-          <Typography component='p'>{packageSummary.description}</Typography>
         </ListItem>
         <Divider />
         <ListItem key={'package-Itinerary'}>
@@ -86,6 +83,11 @@ class PackageSummary extends React.Component {
           <ListItemText primary='Itinerary Details' secondary={labelDays} />
         </ListItem>
         {divDays}
+        <ListItem key={'date-selector-2'}>
+          <Typography component='p'>
+            This is to select start/end date
+          </Typography>
+        </ListItem>
       </List>
     );
   }

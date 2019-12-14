@@ -31,15 +31,12 @@ const styles = (theme) => ({
   appBody: {
     position: 'absolute',
     left: 0,
-    maxHeight: 800,
+    maxHeight: 600,
     overflowY: 'auto',
     width: '100%',
   },
-  whitespaceTop: {
-    height: 80,
-  },
   whitespaceBottom: {
-    height: 30,
+    height: 60,
   },
 });
 const {Modal, Global, Instance, SocketChannel} = CONSTANTS.get();

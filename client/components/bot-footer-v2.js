@@ -7,7 +7,7 @@ import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
-import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/Button';
 import CONSTANTS from '../../lib/constants';
 import IconShare from '@material-ui/icons/ShareOutlined';
 import IconPayment from '@material-ui/icons/PaymentOutlined';
@@ -23,7 +23,6 @@ const styles = (theme) => ({
   appBar: {
     position: 'absolute',
     width: '100%',
-    height: 60,
     top: 'auto',
     bottom: 0,
   },
@@ -32,8 +31,26 @@ const styles = (theme) => ({
     justifyContent: 'space-between',
     padding: 0,
   },
-  table: {
-    width: '100%',
+  table: {},
+  colItem: {
+    width: '20%',
+    padding: '4px 0px 4px 8px',
+    fontSize: 16,
+  },
+  colController: {
+    width: '10%',
+    padding: 0,
+  },
+  colDescription: {
+    padding: '4px 0px 4px 8px',
+    fontSize: 16,
+  },
+  colButton: {
+    width: '10%',
+    padding: 0,
+  },
+  btnController: {
+    margin: 2,
   },
 });
 
@@ -124,35 +141,57 @@ class BotFooter extends React.Component {
           <Table className={classes.table}>
             <TableBody>
               <TableRow key={'share'}>
-                <TableCell>{txtTotalPeople}</TableCell>
-                <TableCell>
+                <TableCell classes={{body: classes.colItem}}>
+                  {txtTotalPeople}
+                </TableCell>
+                <TableCell classes={{body: classes.colController}}>
                   <div>
-                    <AddBoxOutlinedIcon />
-                    <MinusBoxOutlinedIcon />
+                    <IconButton
+                      className={classes.btnController}
+                      aria-label='Add'
+                    >
+                      <AddBoxOutlinedIcon />
+                    </IconButton>
+                    <IconButton
+                      className={classes.btnController}
+                      aria-label='Remove'
+                    >
+                      <MinusBoxOutlinedIcon />
+                    </IconButton>
                   </div>
                 </TableCell>
-                <TableCell>{finalCost.price}</TableCell>
-                <TableCell>
-                  <Button variant='contained' disableRipple>
+                <TableCell classes={{body: classes.colDescription}}>
+                  {finalCost.price}
+                </TableCell>
+                <TableCell classes={{body: classes.colButton}}>
+                  <IconButton
+                    className={classes.btnController}
+                    aria-label='Share'
+                  >
                     <IconShare />
-                    Share
-                  </Button>
+                  </IconButton>
                 </TableCell>
               </TableRow>
               <TableRow key={'pay'}>
-                <TableCell>{txtTotalRooms}</TableCell>
-                <TableCell>
+                <TableCell classes={{body: classes.colItem}}>
+                  {txtTotalRooms}
+                </TableCell>
+                <TableCell classes={{body: classes.colController}}>
                   <div>
                     <AddBoxOutlinedIcon />
                     <MinusBoxOutlinedIcon />
                   </div>
                 </TableCell>
-                <TableCell>{finalCost.promo}</TableCell>
-                <TableCell>
-                  <Button variant='contained' disableRipple>
+                <TableCell classes={{body: classes.colDescription}}>
+                  {finalCost.promo}
+                </TableCell>
+                <TableCell classes={{body: classes.colButton}}>
+                  <IconButton
+                    className={classes.btnController}
+                    aria-label='Deposit'
+                  >
                     <IconPayment />
-                    Deposit
-                  </Button>
+                  </IconButton>
                 </TableCell>
               </TableRow>
             </TableBody>
