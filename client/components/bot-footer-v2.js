@@ -49,7 +49,10 @@ const styles = (theme) => ({
     width: '10%',
     padding: 0,
   },
-  iconButton: {
+  iconButtonRoot: {
+    minWidth: 20,
+  },
+  iconButtonText: {
     margin: 2,
     padding: 0,
   },
@@ -150,11 +153,20 @@ class BotFooter extends React.Component {
                 </TableCell>
                 <TableCell classes={{body: classes.colController}}>
                   <div>
-                    <IconButton className={classes.iconButton} aria-label='Add'>
+                    <IconButton
+                      classes={{
+                        root: classes.iconButtonRoot,
+                        text: classes.iconButtonText,
+                      }}
+                      aria-label='Add'
+                    >
                       <AddBoxOutlinedIcon className={classes.iconSmall} />
                     </IconButton>
                     <IconButton
-                      className={classes.iconButton}
+                      classes={{
+                        root: classes.iconButtonRoot,
+                        text: classes.iconButtonText,
+                      }}
                       aria-label='Remove'
                     >
                       <MinusBoxOutlinedIcon className={classes.iconSmall} />
@@ -165,7 +177,13 @@ class BotFooter extends React.Component {
                   {finalCost.price}
                 </TableCell>
                 <TableCell classes={{body: classes.colButton}}>
-                  <IconButton className={classes.iconButton} aria-label='Share'>
+                  <IconButton
+                    classes={{
+                      root: classes.iconButtonRoot,
+                      text: classes.iconButtonText,
+                    }}
+                    aria-label='Share'
+                  >
                     <IconShare />
                   </IconButton>
                 </TableCell>
@@ -176,11 +194,20 @@ class BotFooter extends React.Component {
                 </TableCell>
                 <TableCell classes={{body: classes.colController}}>
                   <div>
-                    <IconButton className={classes.iconButton} aria-label='Add'>
+                    <IconButton
+                      classes={{
+                        root: classes.iconButtonRoot,
+                        text: classes.iconButtonText,
+                      }}
+                      aria-label='Add'
+                    >
                       <AddBoxOutlinedIcon className={classes.iconSmall} />
                     </IconButton>
                     <IconButton
-                      className={classes.iconButton}
+                      classes={{
+                        root: classes.iconButtonRoot,
+                        text: classes.iconButtonText,
+                      }}
                       aria-label='Remove'
                     >
                       <MinusBoxOutlinedIcon className={classes.iconSmall} />
@@ -192,7 +219,10 @@ class BotFooter extends React.Component {
                 </TableCell>
                 <TableCell classes={{body: classes.colButton}}>
                   <IconButton
-                    className={classes.iconButton}
+                    classes={{
+                      root: classes.iconButtonRoot,
+                      text: classes.iconButtonText,
+                    }}
                     aria-label='Deposit'
                   >
                     <IconPayment />
