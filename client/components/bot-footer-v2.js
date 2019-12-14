@@ -51,6 +51,7 @@ const styles = (theme) => ({
   },
   btnController: {
     margin: 2,
+    padding: 0,
   },
 });
 
@@ -149,14 +150,16 @@ class BotFooter extends React.Component {
                     <IconButton
                       className={classes.btnController}
                       aria-label='Add'
+                      disableRipple
                     >
-                      <AddBoxOutlinedIcon />
+                      <AddBoxOutlinedIcon fontSize={20} />
                     </IconButton>
                     <IconButton
                       className={classes.btnController}
                       aria-label='Remove'
+                      disableRipple
                     >
-                      <MinusBoxOutlinedIcon />
+                      <MinusBoxOutlinedIcon fontSize={20} />
                     </IconButton>
                   </div>
                 </TableCell>
@@ -167,6 +170,7 @@ class BotFooter extends React.Component {
                   <IconButton
                     className={classes.btnController}
                     aria-label='Share'
+                    disableRipple
                   >
                     <IconShare />
                   </IconButton>
@@ -178,8 +182,20 @@ class BotFooter extends React.Component {
                 </TableCell>
                 <TableCell classes={{body: classes.colController}}>
                   <div>
-                    <AddBoxOutlinedIcon />
-                    <MinusBoxOutlinedIcon />
+                    <IconButton
+                      className={classes.btnController}
+                      aria-label='Add'
+                      disableRipple
+                    >
+                      <AddBoxOutlinedIcon />
+                    </IconButton>
+                    <IconButton
+                      className={classes.btnController}
+                      aria-label='Remove'
+                      disableRipple
+                    >
+                      <MinusBoxOutlinedIcon />
+                    </IconButton>
                   </div>
                 </TableCell>
                 <TableCell classes={{body: classes.colDescription}}>
@@ -189,6 +205,7 @@ class BotFooter extends React.Component {
                   <IconButton
                     className={classes.btnController}
                     aria-label='Deposit'
+                    disableRipple
                   >
                     <IconPayment />
                   </IconButton>
