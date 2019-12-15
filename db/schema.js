@@ -71,6 +71,7 @@ const scHotel = new mongoose.Schema({
   defaultRate: Schema.Types.Number,
   rateExtraBed: Schema.Types.Number,
   image: Schema.Types.Object,
+  carouselImages: [Schema.Types.Object],
   timeTraffic: Schema.Types.Number,
   nearByAttractions: {type: [Schema.Types.ObjectId], ref: 'Attraction'},
   notes: Schema.Types.String,
