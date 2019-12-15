@@ -74,7 +74,7 @@ class PackageItineraryNew extends React.Component {
   // Display Widget
   render() {
     // Local variables
-    const {actions, transport, itineraries, cities} = this.props;
+    const {classes, actions, transport, itineraries, cities} = this.props;
     const {
       handleSelectHotel,
       handleSelectCar,
