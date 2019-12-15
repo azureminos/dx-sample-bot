@@ -4,29 +4,29 @@ import {withStyles} from '@material-ui/core/styles';
 import Swiper from 'react-id-swiper';
 import Card from '@material-ui/core/Card';
 
-import {Typography} from '@material-ui/core';
-
 const styles = (theme) => ({
   card: {
     width: '95%',
     margin: 8,
   },
-  media: {
-    height: 0,
+  imgWrapper: {
+    position: 'relative',
     paddingTop: '56.25%', // 16:9
+  },
+  img: {
+    position: 'absolute',
+    objectFit: 'cover',
+    width: '100%',
+    height: '100%',
   },
   cardTextRoot: {
     padding: 8,
     display: 'block',
   },
   cardTitle: {
-    fontSize: 18,
+    fontSize: 14,
     display: 'inline-block',
     textAlign: 'left',
-  },
-  cardDescrition: {
-    fontSize: 14,
-    paddingRight: 8,
   },
 });
 
@@ -50,7 +50,12 @@ class HotelCard extends React.Component {
       },
     };
     const images = _.map(item.carouselImageUrls, (url, key) => {
-      return <img src={url} alt={`${item.name} Image ${key}`} />;
+      const alt = `${item.name} Image ${key}`;
+      return (
+        <div className={classes.imgWrapper}>
+          <img src={url} alt={alt} key={alt} className={classes.img} />
+        </div>
+      );
     });
     // console.log('>>>>HotelCard render()', item);
     return (
@@ -59,7 +64,6 @@ class HotelCard extends React.Component {
         <div className={classes.cardTextRoot}>
           <div className={classes.cardTitle}>{item.name}</div>
         </div>
-        <Typography component='p'>{item.description}</Typography>
       </Card>
     );
   }
