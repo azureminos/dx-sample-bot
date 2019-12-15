@@ -52,8 +52,8 @@ class HotelCard extends React.Component {
     const images = _.map(item.carouselImageUrls, (url, key) => {
       const alt = `${item.name} Image ${key}`;
       return (
-        <div className={classes.imgWrapper}>
-          <img src={url} alt={alt} key={alt} className={classes.img} />
+        <div key={alt} className={classes.imgWrapper}>
+          <img src={url} alt={alt} className={classes.img} />
         </div>
       );
     });
