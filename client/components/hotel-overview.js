@@ -190,15 +190,7 @@ class HotelOverview extends React.Component {
             {btnCustomise}
           </ListItem>
           <ListItem key={'hotel-description'} dense>
-            <Typography component='p'>{selectedHotel.description}</Typography>
-          </ListItem>
-          <Divider />
-          <ListItem key={'hotel-images'} dense>
-            <GridList cellHeight={160} className={classes.gridList} cols={1}>
-              <GridListTile cols={1}>
-                <img src={selectedHotel.imageUrl} alt={'hotel-image'} />
-              </GridListTile>
-            </GridList>
+            <HotelCard item={selectedHotel} isReadonly />
           </ListItem>
         </List>
         {modal}

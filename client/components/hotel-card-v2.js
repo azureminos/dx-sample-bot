@@ -1,8 +1,8 @@
+import _ from 'lodash';
 import React, {createElement} from 'react';
 import {withStyles} from '@material-ui/core/styles';
+import Swiper from 'react-id-swiper';
 import Card from '@material-ui/core/Card';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardActionArea from '@material-ui/core/CardActionArea';
 
 import {Typography} from '@material-ui/core';
 
@@ -37,21 +37,29 @@ class HotelCard extends React.Component {
   }
 
   render() {
-    const {classes, item, doSelectHotel} = this.props;
+    // Local Vairables
+    const {classes, item, isReadonly, doSelectHotel} = this.props;
+    const params = {
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+    };
+    const images = _.map(item.carouselImageUrls, (url, key) => {
+      return <img src={url} alt={`${item.name} Image ${key}`} />;
+    });
     // console.log('>>>>HotelCard render()', item);
     return (
       <Card className={classes.card}>
-        <CardActionArea onClick={(e) => doSelectHotel(e, item)}>
-          <CardMedia
-            className={classes.media}
-            image={item.imageUrl}
-            title={item.name}
-          />
-          <div className={classes.cardTextRoot}>
-            <div className={classes.cardTitle}>{item.name}</div>
-          </div>
-          <Typography component='p'>{item.description}</Typography>
-        </CardActionArea>
+        <Swiper {...params}>{images}</Swiper>
+        <div className={classes.cardTextRoot}>
+          <div className={classes.cardTitle}>{item.name}</div>
+        </div>
+        <Typography component='p'>{item.description}</Typography>
       </Card>
     );
   }
