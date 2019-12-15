@@ -960,12 +960,10 @@ class App extends React.Component {
         <div>
           <div className={classes.appBody}>
             <PackageItineraryNew
-              isCustomised={instPackage.isCustomised}
               daySelected={daySelected}
               rates={rates}
               transport={transport}
               itineraries={itineraries}
-              viewerId={viewerId}
               cities={cities}
               actions={itineraryActions}
             />

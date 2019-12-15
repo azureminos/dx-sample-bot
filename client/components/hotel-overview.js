@@ -112,9 +112,9 @@ class HotelOverview extends React.Component {
   // Display Widget
   render() {
     // Local variables
-    const {classes, isCustomised, hotels} = this.props;
+    const {classes, hotels} = this.props;
     const {open} = this.state;
-    console.log('>>>>HotelOverview.render', {isCustomised, hotels});
+    console.log('>>>>HotelOverview.render', hotels);
     const selectedHotel = _.find(hotels, (h) => {
       return h.isLiked;
     });
@@ -167,7 +167,7 @@ class HotelOverview extends React.Component {
     ) : (
       ''
     );
-    const btnCustomise = isCustomised ? (
+    const btnCustomise = (
       <ListItemSecondaryAction>
         <IconButton
           edge='end'
@@ -177,8 +177,6 @@ class HotelOverview extends React.Component {
           <IconHotel />
         </IconButton>
       </ListItemSecondaryAction>
-    ) : (
-      ''
     );
     // Display Widget
     return (

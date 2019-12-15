@@ -74,7 +74,6 @@ class PackageItineraryNew extends React.Component {
   // Display Widget
   render() {
     // Local variables
-    const {classes, isCustomised, viewerId} = this.props;
     const {actions, transport, itineraries, cities} = this.props;
     const {
       handleSelectHotel,
@@ -83,9 +82,8 @@ class PackageItineraryNew extends React.Component {
       handleAddItinerary,
       handleDeleteItinerary,
     } = this.props.actions;
-    const {tabSelected, instPackage} = this.state;
+    const {tabSelected} = this.state;
     console.log('>>>>PackageItineraryNew.render', {
-      isCustomised,
       actions,
       transport,
       itineraries,
@@ -118,9 +116,7 @@ class PackageItineraryNew extends React.Component {
         return !a.isLiked;
       });
       const btnCustomise =
-        isCustomised &&
-        notLikedAttractions &&
-        notLikedAttractions.length > 0 ? (
+        notLikedAttractions && notLikedAttractions.length > 0 ? (
           <ListItemSecondaryAction>
             <IconButton
               onClick={() => {
@@ -173,7 +169,6 @@ class PackageItineraryNew extends React.Component {
           ''
         );
       const attractionToSelect =
-        // isCustomised &&
         notLikedAttractions && notLikedAttractions.length > 0 ? (
           <List>
             <ListItem
@@ -206,7 +201,6 @@ class PackageItineraryNew extends React.Component {
       const hotelSelected =
         it.hotels && it.hotels.length > 0 ? (
           <HotelOverview
-            isCustomised={isCustomised}
             hotels={it.hotels}
             handleSelectHotel={(hotel) => {
               handleSelectHotel(it.dayNo, hotel);
