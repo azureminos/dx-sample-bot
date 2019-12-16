@@ -9,17 +9,19 @@ const styles = (theme) => ({
     width: '95%',
     margin: 8,
   },
-  imgContainer: {
-    width: '100%',
-  },
   imgWrapper: {
+    height: 0,
+    overflow: 'hidden',
+    paddingTop: '56.25%',
     position: 'relative',
-    paddingBottom: '56.2%',
   },
   imgItem: {
-    objectFit: 'cover',
+    top: 0,
+    left: 0,
     width: '100%',
     height: '100%',
+    objectFit: 'cover',
+    position: 'absolute',
   },
   cardTextRoot: {
     padding: 8,
@@ -50,15 +52,11 @@ class HotelCard extends React.Component {
         nextEl: '.swiper-button-next',
         prevEl: '.swiper-button-prev',
       },
-      pagination: {
-        el: '.swiper-pagination',
-        clickable: true,
-      },
     };
     const images = _.map(item.carouselImageUrls, (url, key) => {
       const alt = `${item.name} Image ${key}`;
       return (
-        <div className={classes.imgContainer}>
+        <div style={{width: '100%'}}>
           <div className={classes.imgWrapper}>
             <img src={url} alt={alt} key={alt} className={classes.imgItem} />
           </div>
