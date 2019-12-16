@@ -2,8 +2,6 @@
 import React, {createElement} from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardActions from '@material-ui/core/CardActionArea';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
@@ -28,17 +26,25 @@ const styles = (theme) => ({
   card: {
     maxWidth: 345,
   },
-  media: {
+  imgWrapper: {
     height: 0,
-    paddingTop: '56.25%', // 16:9
+    overflow: 'hidden',
+    paddingTop: '100%',
+    position: 'relative',
   },
-  cardContent: {
+  imgItem: {
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+    position: 'absolute',
+  },
+  cardTitle: {
+    padding: 8,
+    fontSize: '0.8rem',
     height: '130px',
     overflow: 'hidden',
-  },
-  cardText: {
-    fontSize: '0.8rem',
-    padding: 8,
   },
   appBar: {
     position: 'absolute',
@@ -167,36 +173,33 @@ class AttractionCard extends React.Component {
     // Display Widget
     return (
       <Card className={classes.card}>
-        <div className={classes.cardContent}>
-          <CardMedia
-            className={classes.media}
-            image={item.imageUrl}
-            title={item.name}
-            onClick={this.handleClick}
+        <div className={classes.imgWrapper} onClick={this.handleClick}>
+          <img
+            src={item.imageUrl}
+            alt={item.name}
+            className={classes.imgItem}
           />
-          <Typography
-            component='p'
-            className={classes.cardText}
-            onClick={this.handleClick}
-          >
-            {item.name}
-          </Typography>
-          {modal}
         </div>
-        <CardActions onClick={(e) => this.doLikeAttraction(e, item)}>
-          <SolidCheckIcon
-            style={{
-              display: item.isLiked ? 'block' : 'none',
-              color: blue[500],
-            }}
-          />
-          <CheckIcon
-            style={{
-              display: item.isLiked ? 'none' : 'block',
-              color: grey[500],
-            }}
-          />
-        </CardActions>
+        <div>
+          <div onClick={(e) => this.doLikeAttraction(e, item)}>
+            <SolidCheckIcon
+              style={{
+                display: item.isLiked ? 'block' : 'none',
+                color: blue[500],
+              }}
+            />
+            <CheckIcon
+              style={{
+                display: item.isLiked ? 'none' : 'block',
+                color: grey[500],
+              }}
+            />
+          </div>
+          <div onClick={this.handleClick} className={classes.cardTitle}>
+            {item.name}
+          </div>
+        </div>
+        {modal}
       </Card>
     );
   }
