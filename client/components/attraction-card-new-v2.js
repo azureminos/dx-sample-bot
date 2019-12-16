@@ -53,10 +53,10 @@ const styles = (theme) => ({
     position: 'absolute',
   },
   cardIcon: {
-    padding: '8 4 8 4',
+    padding: '8px 4px 8px 4px',
   },
   cardTitle: {
-    padding: '8 4 8 4',
+    padding: '8px 4px 8px 4px',
     fontSize: '0.7rem',
     height: '50px',
     overflow: 'hidden',

@@ -51,6 +51,9 @@ const styles = (theme) => ({
     width: '100%',
     backgroundColor: theme.palette.background.paper,
   },
+  listItem: {
+    padding: '8px 0px 8px 0px',
+  },
   itemText: {
     fontSize: '1rem',
     fontWeight: 'bolder',
@@ -142,9 +145,8 @@ class PackageItineraryNew extends React.Component {
         likedAttractions && likedAttractions.length > 0 ? (
           <List>
             <ListItem
+              className={classes.listItem}
               key={`Day ${it.dayNo}, Selected Attractions Label`}
-              role={undefined}
-              dense
             >
               <ListItemText
                 primary={'Attractions to visit'}
@@ -153,9 +155,8 @@ class PackageItineraryNew extends React.Component {
               {btnCustomise}
             </ListItem>
             <ListItem
+              className={classes.listItem}
               key={`Day ${it.dayNo}, Selected Attractions Slider`}
-              role={undefined}
-              dense
             >
               <AttractionSlider
                 dayNo={it.dayNo}
@@ -172,9 +173,8 @@ class PackageItineraryNew extends React.Component {
         notLikedAttractions && notLikedAttractions.length > 0 ? (
           <List>
             <ListItem
+              className={classes.listItem}
               key={`Day ${it.dayNo}, Unselected Attractions Label`}
-              role={undefined}
-              dense
             >
               <ListItemText
                 primary={'Other attractions you may be interested'}
@@ -182,9 +182,8 @@ class PackageItineraryNew extends React.Component {
               />
             </ListItem>
             <ListItem
+              className={classes.listItem}
               key={`Day ${it.dayNo}, Unselected Attractions Slider`}
-              role={undefined}
-              dense
             >
               <AttractionSlider
                 dayNo={it.dayNo}
