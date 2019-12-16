@@ -9,9 +9,17 @@ const styles = (theme) => ({
     width: '95%',
     margin: 8,
   },
-  media: {
-    height: 0,
-    paddingTop: '56.25%', // 16:9
+  imgContainer: {
+    width: '100%',
+  },
+  imgWrapper: {
+    position: 'relative',
+    paddingBottom: '56.2%',
+  },
+  imgItem: {
+    objectFit: 'cover',
+    width: '100%',
+    height: '100%',
   },
   cardTextRoot: {
     padding: 8,
@@ -49,7 +57,14 @@ class HotelCard extends React.Component {
     };
     const images = _.map(item.carouselImageUrls, (url, key) => {
       const alt = `${item.name} Image ${key}`;
-      return <img src={url} alt={alt} key={alt} />;
+      return (
+        <div className={classes.imgContainer}>
+          <div className={classes.imgWrapper}>
+            <img src={url} alt={alt} key={alt} className={classes.imgItem} />
+          </div>
+        </div>
+      );
+      // return <img src={url} alt={alt} key={alt} />;
     });
     // console.log('>>>>HotelCard render()', item);
     return (
