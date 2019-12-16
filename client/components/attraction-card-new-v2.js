@@ -23,8 +23,20 @@ import IconLock from '@material-ui/icons/Lock';
 import IconUnlock from '@material-ui/icons/LockOpen';
 
 const styles = (theme) => ({
-  card: {
-    maxWidth: 345,
+  flex: {
+    display: 'flex',
+  },
+  appBar: {
+    position: 'absolute',
+    width: '100%',
+    height: 60,
+    top: 'auto',
+    bottom: 0,
+  },
+  toolbar: {
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 0,
   },
   imgWrapper: {
     height: 0,
@@ -40,23 +52,14 @@ const styles = (theme) => ({
     objectFit: 'cover',
     position: 'absolute',
   },
+  cardIcon: {
+    padding: '8 4 8 4',
+  },
   cardTitle: {
-    padding: 8,
-    fontSize: '0.8rem',
-    height: '130px',
+    padding: '8 4 8 4',
+    fontSize: '0.7rem',
+    height: '50px',
     overflow: 'hidden',
-  },
-  appBar: {
-    position: 'absolute',
-    width: '100%',
-    height: 60,
-    top: 'auto',
-    bottom: 0,
-  },
-  toolbar: {
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: 0,
   },
   button: {
     width: '100%',
@@ -172,7 +175,7 @@ class AttractionCard extends React.Component {
     );
     // Display Widget
     return (
-      <Card className={classes.card}>
+      <Card>
         <div className={classes.imgWrapper} onClick={this.handleClick}>
           <img
             src={item.imageUrl}
@@ -180,8 +183,11 @@ class AttractionCard extends React.Component {
             className={classes.imgItem}
           />
         </div>
-        <div>
-          <div onClick={(e) => this.doLikeAttraction(e, item)}>
+        <div className={classes.flex}>
+          <div
+            className={classes.cardIcon}
+            onClick={(e) => this.doLikeAttraction(e, item)}
+          >
             <SolidCheckIcon
               style={{
                 display: item.isLiked ? 'block' : 'none',
