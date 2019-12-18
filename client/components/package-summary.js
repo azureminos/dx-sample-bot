@@ -85,9 +85,11 @@ class PackageSummary extends React.Component {
         selectedReturnDate={stEndDate}
         carOptions={carOptions}
         selectedCarOption={carOption}
-        handleSelectFlight={this.doHandleSelectFlight}
-        handleSelectCar={() => {
-          console.log('>>>>FlightCar.handleSelectCar');
+        actions={{
+          handleSelectFlight: this.doHandleSelectFlight,
+          handleSelectCar: () => {
+            console.log('>>>>FlightCar.handleSelectCar');
+          },
         }}
       />
     );

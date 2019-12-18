@@ -51,6 +51,9 @@ const styles = (theme) => ({
     width: '100%',
     backgroundColor: theme.palette.background.paper,
   },
+  list: {
+    padding: 8,
+  },
   listItem: {
     padding: '8px 0px 8px 0px',
   },
@@ -79,17 +82,16 @@ class PackageItineraryNew extends React.Component {
     // Local variables
     const {classes, actions, transport, itineraries, cities} = this.props;
     const {
-      handleSelectHotel,
       handleSelectCar,
       handleLikeAttraction,
       handleAddItinerary,
       handleDeleteItinerary,
-    } = this.props.actions;
+    } = actions;
     const {tabSelected} = this.state;
     console.log('>>>>PackageItineraryNew.render', {
-      actions,
       transport,
       itineraries,
+      tabSelected,
     });
     // Sub Widgets
     const tabLabels = [
@@ -143,7 +145,7 @@ class PackageItineraryNew extends React.Component {
         );
       const attractionSelected =
         likedAttractions && likedAttractions.length > 0 ? (
-          <List>
+          <List className={classes.list}>
             <ListItem
               className={classes.listItem}
               key={`Day ${it.dayNo}, Selected Attractions Label`}
@@ -171,7 +173,7 @@ class PackageItineraryNew extends React.Component {
         );
       const attractionToSelect =
         notLikedAttractions && notLikedAttractions.length > 0 ? (
-          <List>
+          <List className={classes.list}>
             <ListItem
               className={classes.listItem}
               key={`Day ${it.dayNo}, Unselected Attractions Label`}
@@ -202,7 +204,9 @@ class PackageItineraryNew extends React.Component {
           <HotelOverview
             hotels={it.hotels}
             handleSelectHotel={(hotel) => {
-              handleSelectHotel(it.dayNo, hotel);
+              if (actions && actions.handleSelectHotel) {
+                actions.handleSelectHotel(it.dayNo, hotel);
+              }
             }}
           />
         ) : (

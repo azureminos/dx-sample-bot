@@ -31,16 +31,22 @@ class FlightCar extends React.Component {
   constructor(props) {
     super(props);
 
-    this.handleCarChange = this.handleCarChange.bind(this);
-    this.handleFlightChange = this.handleFlightChange.bind(this);
+    this.doHandleCarChange = this.doHandleCarChange.bind(this);
+    this.doHandleFlightChange = this.doHandleFlightChange.bind(this);
   }
 
-  handleCarChange(event) {
-    this.props.handleSelectCar(event.target.value);
+  doHandleCarChange(event) {
+    const {actions} = this.props;
+    if (actions && actions.handleSelectCar) {
+      actions.handleSelectCar(event.target.value);
+    }
   }
 
-  handleFlightChange(event) {
-    this.props.handleSelectFlight(event.target.value);
+  doHandleFlightChange(event) {
+    const {actions} = this.props;
+    if (actions && actions.handleSelectFlight) {
+      actions.handleSelectFlight(event.target.value);
+    }
   }
   render() {
     console.log('>>>>FlightCar, render()', this.props);
@@ -87,7 +93,7 @@ class FlightCar extends React.Component {
           <FormControl className={classes.form} disabled={isDisabled}>
             <Select
               value={selectedDepartDate || ''}
-              onChange={this.handleFlightChange}
+              onChange={this.doHandleFlightChange}
               displayEmpty
               inputProps={{
                 name: 'departDate',
@@ -114,40 +120,37 @@ class FlightCar extends React.Component {
         </div>
       </div>
     );
-    const divCarOptions =
-      miCarOptions && miCarOptions.length > 1 ? (
-        <div className={classes.flex}>
-          <div className={classes.icon}>
-            <DirectionsCar color='primary' />
-          </div>
-          <div>
-            <FormControl
-              className={classes.form}
-              disabled={isReadonly || isDisabled}
-            >
-              <Select
-                value={selectedCarOption || ''}
-                onChange={this.handleCarChange}
-                displayEmpty
-                inputProps={{
-                  name: 'typeGroundTransport',
-                  id: 'typeGroundTransport-simple',
-                }}
-              >
-                <MenuItem value='' disabled>
-                  <em>Ground Transport</em>
-                </MenuItem>
-                {miCarOptions}
-              </Select>
-            </FormControl>
-          </div>
-          <div className={classes.icon}>
-            <HelpIcon />
-          </div>
+    const divCarOptions = (
+      <div className={classes.flex}>
+        <div className={classes.icon}>
+          <DirectionsCar color='primary' />
         </div>
-      ) : (
-        ''
-      );
+        <div>
+          <FormControl
+            className={classes.form}
+            disabled={isReadonly || isDisabled}
+          >
+            <Select
+              value={selectedCarOption || ''}
+              onChange={this.doHandleCarChange}
+              displayEmpty
+              inputProps={{
+                name: 'typeGroundTransport',
+                id: 'typeGroundTransport-simple',
+              }}
+            >
+              <MenuItem value='' disabled>
+                <em>Ground Transport</em>
+              </MenuItem>
+              {miCarOptions}
+            </Select>
+          </FormControl>
+        </div>
+        <div className={classes.icon}>
+          <HelpIcon />
+        </div>
+      </div>
+    );
 
     return (
       <div className={classes.root}>
