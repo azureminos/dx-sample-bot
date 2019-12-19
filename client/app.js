@@ -7,6 +7,7 @@
 
 // ==== MODULES ==========================================
 import _ from 'lodash';
+import Moment from 'moment';
 import io from 'socket.io-client';
 import React, {createElement} from 'react';
 import {withStyles} from '@material-ui/core/styles';
@@ -747,13 +748,13 @@ class App extends React.Component {
     this.setState({instPackage: instPackage});
   }
   // ----------  Package Instance Flight  ----------
-  handleSelectFlight(startDate) {
-    console.log('>>>>MobileApp.handleSelectFlight', startDate);
+  handleSelectFlight(stStartDate) {
+    console.log('>>>>MobileApp.handleSelectFlight', stStartDate);
     const {instPackage} = this.state;
-    instPackage.startDate = startDate;
-    const endDate = new Date(startDate.getTime());
-    endDate.setDate(endDate.getDate() + instPackage.totalDays);
-    instPackage.endDate = endDate;
+    const {totalDays} = instPackage;
+    const mStartDate = Moment(stStartDate, Global.dateFormat);
+    instPackage.startDate = mStartDate.toDate();
+    instPackage.endDate = mStartDate.add(totalDays, 'days').toDate();
     this.setState({instPackage: instPackage});
   }
   // ----------  Package Instance Car  ----------
