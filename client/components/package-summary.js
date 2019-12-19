@@ -32,35 +32,23 @@ class PackageSummary extends React.Component {
   constructor(props) {
     super(props);
     // Bind event handlers
-    this.doHandleSelectFlight = this.doHandleSelectFlight.bind(this);
+    this.doHandleClickDay = this.doHandleClickDay.bind(this);
     // Init data
-    const {startDate} = props.transport;
     // Setup state
-    this.state = {
-      startDate: startDate,
-    };
   }
   // Event Handlers
-  doHandleSelectFlight(stStartDate) {
-    console.log('>>>>PackageSummary.doHandleSelectFlight');
-    const {transport, actions} = this.props;
-    const sDate = stStartDate
-      ? Moment(stStartDate, Global.dateFormat).toDate()
-      : null;
-    if (actions && actions.handleSelectFlight) {
-      const eDate = stStartDate
-        ? Moment(stStartDate, Global.dateFormat)
-            .add(transport.totalDays, 'days')
-            .toDate()
-        : null;
-      actions.handleSelectFlight(sDate, eDate);
+  doHandleClickDay(dayNo) {
+    console.log('>>>>PackageSummary.doHandleClickDay', dayNo);
+    if (this.props.handleClickDay) {
+      this.props.handleClickDay(dayNo);
     }
-    this.setState({startDate: sDate});
   }
   // Display Widget
   render() {
+    const {handleSelectCar, handleSelectFlight} = this.props;
     const {classes, transport, itineraries, cities} = this.props;
-    const {totalDays, departDates, carOption, carOptions} = transport;
+    const {startDate, carOption} = transport;
+    const {totalDays, departDates, carOptions} = transport;
     console.log('>>>>PackageSummary, render()', {
       transport,
       itineraries,
@@ -68,29 +56,16 @@ class PackageSummary extends React.Component {
     });
     // Local Variables
     const labelDays = `${totalDays} Day${totalDays > 1 ? 's' : ''}`;
-    const {startDate} = this.state;
-    const stStartDate = startDate
-      ? Moment(startDate).format(Global.dateFormat)
-      : '';
-    const stEndDate = startDate
-      ? Moment(startDate)
-          .add(totalDays, 'days')
-          .format(Global.dateFormat)
-      : '';
     // Sub Components
     const secFlightCar = (
       <FlightCar
+        totalDays={totalDays}
         departDates={departDates}
-        selectedDepartDate={stStartDate}
-        selectedReturnDate={stEndDate}
         carOptions={carOptions}
-        selectedCarOption={carOption}
-        actions={{
-          handleSelectFlight: this.doHandleSelectFlight,
-          handleSelectCar: () => {
-            console.log('>>>>FlightCar.handleSelectCar');
-          },
-        }}
+        startDate={startDate}
+        carOption={carOption}
+        handleSelectCar={handleSelectCar}
+        handleSelectFlight={handleSelectFlight}
       />
     );
     const divDays = _.map(itineraries, (it) => {
@@ -105,7 +80,7 @@ class PackageSummary extends React.Component {
             <GridListTile
               cols={1}
               onClick={() => {
-                console.log('PackageSummary.DayClicked', it.dayNo);
+                this.doHandleClickDay(it.dayNo);
               }}
             >
               <img src={cityImageUrl} alt={labelItinerary} />

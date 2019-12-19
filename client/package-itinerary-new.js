@@ -62,7 +62,7 @@ const styles = (theme) => ({
     fontWeight: 'bolder',
   },
 });
-class PackageItineraryNew extends React.Component {
+class PackageItinerary extends React.Component {
   constructor(props) {
     super(props);
     // Bind handler
@@ -74,7 +74,7 @@ class PackageItineraryNew extends React.Component {
   }
   // Event Handlers
   doHandleTabSelect = (event, newValue) => {
-    // console.log('>>>>PackageItineraryNew.doHandleTabSelect', newValue);
+    // console.log('>>>>PackageItinerary.doHandleTabSelect', newValue);
     this.setState({tabSelected: newValue});
   };
   // Display Widget
@@ -83,12 +83,13 @@ class PackageItineraryNew extends React.Component {
     const {classes, actions, transport, itineraries, cities} = this.props;
     const {
       handleSelectCar,
+      handleSelectFlight,
       handleLikeAttraction,
       handleAddItinerary,
       handleDeleteItinerary,
     } = actions;
     const {tabSelected} = this.state;
-    console.log('>>>>PackageItineraryNew.render', {
+    console.log('>>>>PackageItinerary.render', {
       transport,
       itineraries,
       tabSelected,
@@ -109,6 +110,9 @@ class PackageItineraryNew extends React.Component {
           transport={transport}
           itineraries={itineraries}
           cities={cities}
+          handleSelectFlight={handleSelectFlight}
+          handleSelectCar={handleSelectCar}
+          handleClickDay={this.doHandleTabSelect}
         />
       </TabPanel>,
     ];
@@ -243,4 +247,4 @@ class PackageItineraryNew extends React.Component {
   }
 }
 
-export default withStyles(styles, {withTheme: true})(PackageItineraryNew);
+export default withStyles(styles, {withTheme: true})(PackageItinerary);

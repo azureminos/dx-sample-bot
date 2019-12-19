@@ -1,14 +1,17 @@
 import _ from 'lodash';
+import Moment from 'moment';
 import React, {createElement} from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-// ====== Icons ======
+import CONSTANTS from '../../lib/constants';
+// Icons
 import FlightTakeoff from '@material-ui/icons/FlightTakeoff';
 import DirectionsCar from '@material-ui/icons/DirectionsCar';
 import HelpIcon from '@material-ui/icons/HelpOutlineRounded';
-
+// Variables
+const {Global} = CONSTANTS.get();
 const styles = (theme) => ({
   flex: {
     display: 'flex',
@@ -30,37 +33,33 @@ const styles = (theme) => ({
 class FlightCar extends React.Component {
   constructor(props) {
     super(props);
-
     this.doHandleCarChange = this.doHandleCarChange.bind(this);
     this.doHandleFlightChange = this.doHandleFlightChange.bind(this);
   }
-
   doHandleCarChange(event) {
-    const {actions} = this.props;
-    if (actions && actions.handleSelectCar) {
-      actions.handleSelectCar(event.target.value);
+    if (this.props.handleSelectCar) {
+      this.props.handleSelectCar(event.target.value);
     }
   }
-
   doHandleFlightChange(event) {
-    const {actions} = this.props;
-    if (actions && actions.handleSelectFlight) {
-      actions.handleSelectFlight(event.target.value);
+    if (this.props.handleSelectFlight) {
+      this.props.handleSelectFlight(event.target.value);
     }
   }
   render() {
-    console.log('>>>>FlightCar, render()', this.props);
-    const {
-      classes,
-      isDisabled,
-      departDates,
-      carOptions,
-      selectedDepartDate,
-      selectedReturnDate,
-      selectedCarOption,
-    } = this.props;
-    // Reference
+    // Local Variables
+    const {classes, totalDays, departDates, carOptions} = this.props;
+    const {startDate, carOption, isDisabled} = this.props;
     const isReadonly = carOptions && carOptions.length === 1;
+    const stStartDate = startDate
+      ? Moment(startDate).format(Global.dateFormat)
+      : '';
+    const stEndDate = startDate
+      ? Moment(startDate)
+          .add(totalDays, 'days')
+          .format(Global.dateFormat)
+      : '';
+    // Sub Components
     const miDepartDates = _.map(departDates, (i) => {
       return (
         <MenuItem key={i} value={i}>
@@ -68,8 +67,8 @@ class FlightCar extends React.Component {
         </MenuItem>
       );
     });
-    const miReturnDates = selectedReturnDate ? (
-      <MenuItem value={selectedReturnDate}>{selectedReturnDate}</MenuItem>
+    const miReturnDates = stEndDate ? (
+      <MenuItem value={stEndDate}>{stEndDate}</MenuItem>
     ) : (
       ''
     );
@@ -92,7 +91,7 @@ class FlightCar extends React.Component {
         <div>
           <FormControl className={classes.form} disabled={isDisabled}>
             <Select
-              value={selectedDepartDate || ''}
+              value={stStartDate || ''}
               onChange={this.doHandleFlightChange}
               displayEmpty
               inputProps={{
@@ -107,7 +106,7 @@ class FlightCar extends React.Component {
             </Select>
           </FormControl>
           <FormControl className={classes.form}>
-            <Select value={selectedReturnDate || ''} displayEmpty disabled>
+            <Select value={stEndDate || ''} displayEmpty disabled>
               <MenuItem value='' disabled>
                 <em>Fly Back</em>
               </MenuItem>
@@ -131,7 +130,7 @@ class FlightCar extends React.Component {
             disabled={isReadonly || isDisabled}
           >
             <Select
-              value={selectedCarOption || ''}
+              value={carOption || ''}
               onChange={this.doHandleCarChange}
               displayEmpty
               inputProps={{

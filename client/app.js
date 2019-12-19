@@ -17,7 +17,7 @@ import BotModal from './components/bot-modal-v2';
 import BotFooter from './components/bot-footer-v2';
 import DialogShare from './components/dialog-share';
 import PackageAll from './package-all';
-import PackageItineraryNew from './package-itinerary-new';
+import PackageItinerary from './package-itinerary-new';
 // ==== HELPERS =======================================
 import Helper from '../lib/helper';
 import PackageHelper from '../lib/package-helper';
@@ -747,10 +747,12 @@ class App extends React.Component {
     this.setState({instPackage: instPackage});
   }
   // ----------  Package Instance Flight  ----------
-  handleSelectFlight(startDate, endDate) {
-    // console.log(`>>>>MobileApp.handleSelectFlight`, { startDate, endDate });
+  handleSelectFlight(startDate) {
+    console.log('>>>>MobileApp.handleSelectFlight', startDate);
     const {instPackage} = this.state;
     instPackage.startDate = startDate;
+    const endDate = new Date(startDate.getTime());
+    endDate.setDate(endDate.getDate() + instPackage.totalDays);
     instPackage.endDate = endDate;
     this.setState({instPackage: instPackage});
   }
@@ -959,7 +961,7 @@ class App extends React.Component {
       page = (
         <div>
           <div className={classes.appBody}>
-            <PackageItineraryNew
+            <PackageItinerary
               daySelected={daySelected}
               rates={rates}
               transport={transport}

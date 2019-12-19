@@ -62,9 +62,7 @@ class HotelCard extends React.Component {
           </div>
         </div>
       );
-      // return <img src={url} alt={alt} key={alt} />;
     });
-    // console.log('>>>>HotelCard render()', item);
     return (
       <Card className={classes.card}>
         <Swiper {...params}>{images}</Swiper>

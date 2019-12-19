@@ -26,7 +26,9 @@ class AttractionSlider extends React.Component {
       handleLikeAttraction,
     } = this.props;
     const doHandleLikeAttraction = (item) => {
-      handleLikeAttraction(dayNo, timePlannable, item, attractions);
+      if (handleLikeAttraction) {
+        handleLikeAttraction(dayNo, timePlannable, item, attractions);
+      }
     };
 
     if (attractions && attractions.length > 0) {
