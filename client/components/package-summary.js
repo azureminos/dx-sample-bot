@@ -73,7 +73,9 @@ class PackageSummary extends React.Component {
             <GridListTile
               cols={1}
               onClick={() => {
-                handleClickDay(it.dayNo);
+                if (handleClickDay) {
+                  handleClickDay(it.dayNo);
+                }
               }}
             >
               <img src={cityImageUrl} alt={labelItinerary} />

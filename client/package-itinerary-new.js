@@ -74,7 +74,7 @@ class PackageItinerary extends React.Component {
   }
   // Event Handlers
   doHandleTabSelect = (event, newValue) => {
-    // console.log('>>>>PackageItinerary.doHandleTabSelect', newValue);
+    console.log('>>>>PackageItinerary.doHandleTabSelect', newValue);
     this.setState({tabSelected: newValue});
   };
   // Display Widget
