@@ -74,7 +74,7 @@ class PackageSummary extends React.Component {
               cols={1}
               onClick={() => {
                 if (handleClickDay) {
-                  handleClickDay(it.dayNo);
+                  handleClickDay({}, it.dayNo);
                 }
               }}
             >
