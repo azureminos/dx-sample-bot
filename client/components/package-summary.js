@@ -32,20 +32,13 @@ class PackageSummary extends React.Component {
   constructor(props) {
     super(props);
     // Bind event handlers
-    this.doHandleClickDay = this.doHandleClickDay.bind(this);
     // Init data
     // Setup state
   }
   // Event Handlers
-  doHandleClickDay(dayNo) {
-    console.log('>>>>PackageSummary.doHandleClickDay', dayNo);
-    if (this.props.handleClickDay) {
-      this.props.handleClickDay(dayNo);
-    }
-  }
   // Display Widget
   render() {
-    const {handleSelectCar, handleSelectFlight} = this.props;
+    const {handleSelectCar, handleSelectFlight, handleClickDay} = this.props;
     const {classes, transport, itineraries, cities} = this.props;
     const {startDate, carOption} = transport;
     const {totalDays, departDates, carOptions} = transport;
@@ -80,7 +73,7 @@ class PackageSummary extends React.Component {
             <GridListTile
               cols={1}
               onClick={() => {
-                this.doHandleClickDay(it.dayNo);
+                handleClickDay(it.dayNo);
               }}
             >
               <img src={cityImageUrl} alt={labelItinerary} />
