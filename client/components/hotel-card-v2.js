@@ -71,6 +71,10 @@ const styles = (theme) => ({
     top: 0,
     bottom: 'auto',
   },
+  headerTitle: {
+    fontSize: 18,
+    paddingLeft: 8,
+  },
   footerBar: {
     position: 'absolute',
     width: '100%',
@@ -127,6 +131,7 @@ class HotelCard extends React.Component {
   render() {
     // Local Vairables
     const {classes, item, isReadonly, doSelectHotel} = this.props;
+    const {open} = this.state;
     const params = {
       navigation: {
         nextEl: '.swiper-button-next',
@@ -176,9 +181,7 @@ class HotelCard extends React.Component {
             >
               <IconClose />
             </IconButton>
-            <Typography variant='h6' color='inherit'>
-              {item.name}
-            </Typography>
+            <div className={classes.headerTitle}>{item.name}</div>
           </Toolbar>
         </AppBar>
         <div className={classes.spaceHeader} />
