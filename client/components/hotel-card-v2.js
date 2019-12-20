@@ -3,11 +3,16 @@ import React, {createElement} from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import Swiper from 'react-id-swiper';
 import Card from '@material-ui/core/Card';
+import IconLocation from '@material-ui/icons/LocationOn';
+import IconStar from '@material-ui/icons/StarRate';
 
 const styles = (theme) => ({
   card: {
     width: '95%',
     margin: 8,
+  },
+  flex: {
+    display: 'flex',
   },
   imgWrapper: {
     height: 0,
@@ -67,7 +72,36 @@ class HotelCard extends React.Component {
       <Card className={classes.card}>
         <Swiper {...params}>{images}</Swiper>
         <div className={classes.cardTextRoot}>
-          <div className={classes.cardTitle}>{item.name}</div>
+          <a
+            onClick={() => {
+              console.log('>>>>HotelCard.Name.Clicked', item);
+            }}
+          >
+            <div className={classes.cardTitle}>{item.name}</div>
+          </a>
+          <div className={classes.flex}>
+            <IconStar
+              style={{
+                color: 'yellow',
+              }}
+            />
+          </div>
+          <div>
+            <div>
+              <div className={classes.flex}>
+                <IconLocation />
+                <div>Address</div>
+              </div>
+              <div />
+            </div>
+            <a
+              onClick={() => {
+                console.log('>>>>HotelCard.Price.Clicked', item);
+              }}
+            >
+              <div>$ 999</div>
+            </a>
+          </div>
         </div>
       </Card>
     );
