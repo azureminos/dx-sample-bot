@@ -13,6 +13,7 @@ const styles = (theme) => ({
   },
   flex: {
     display: 'flex',
+    width: '100%',
   },
   imgWrapper: {
     height: 0,
@@ -32,14 +33,15 @@ const styles = (theme) => ({
     padding: 8,
     display: 'block',
   },
-  cardTitle: {
-    fontSize: 18,
-    display: 'inline-block',
-    textAlign: 'left',
+  hotelName: {
+    cursor: 'pointer',
   },
-  cardDescrition: {
-    fontSize: 14,
-    paddingRight: 8,
+  hotelAddress: {
+    width: '80%',
+  },
+  hotelRate: {
+    cursor: 'pointer',
+    width: '20%',
   },
 });
 
@@ -73,11 +75,12 @@ class HotelCard extends React.Component {
         <Swiper {...params}>{images}</Swiper>
         <div className={classes.cardTextRoot}>
           <a
+            className={classes.hotelName}
             onClick={() => {
               console.log('>>>>HotelCard.Name.Clicked', item);
             }}
           >
-            <div className={classes.cardTitle}>{item.name}</div>
+            <div>{item.name}</div>
           </a>
           <div className={classes.flex}>
             <IconStar
@@ -86,15 +89,19 @@ class HotelCard extends React.Component {
               }}
             />
           </div>
-          <div>
-            <div>
+          <div className={classes.flex}>
+            <div className={classes.hotelAddress}>
               <div className={classes.flex}>
-                <IconLocation />
-                <div>Address</div>
+                <IconLocation
+                  style={{
+                    fontSize: 18,
+                  }}
+                />
+                <div>{item.address || 'Address to be updated'}</div>
               </div>
-              <div />
             </div>
             <a
+              className={classes.hotelRate}
               onClick={() => {
                 console.log('>>>>HotelCard.Price.Clicked', item);
               }}
