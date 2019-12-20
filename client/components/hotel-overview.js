@@ -6,7 +6,6 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
-import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import Dialog from '@material-ui/core/Dialog';
 import AppBar from '@material-ui/core/AppBar';
@@ -14,13 +13,11 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Slide from '@material-ui/core/Slide';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
 import HotelCard from './hotel-card-v2';
 import CONSTANTS from '../../lib/constants';
-// Styles
-import IconHotel from '@material-ui/icons/Hotel';
-import CloseIcon from '@material-ui/icons/Close';
+// Styles and Icons
+import IconHotel from '@material-ui/icons/Tune';
+import IconClose from '@material-ui/icons/Close';
 // Functions
 // Variables
 const {Global, Instance} = CONSTANTS.get();
@@ -94,16 +91,13 @@ class HotelOverview extends React.Component {
     };
   }
   // Event Handlers
-  doOpenSelectHotel(e) {
-    e.preventDefault();
+  doOpenSelectHotel() {
     this.setState({open: true});
   }
-  doCloseSelectHotel(e) {
-    e.preventDefault();
+  doCloseSelectHotel() {
     this.setState({open: false});
   }
-  doSelectHotel(e, item) {
-    e.preventDefault();
+  doSelectHotel(item) {
     this.setState({open: false});
     if (this.props.handleSelectHotel) {
       this.props.handleSelectHotel(item);
@@ -127,7 +121,7 @@ class HotelOverview extends React.Component {
         disableRipple
         onClick={this.doCloseSelectHotel}
       >
-        <CloseIcon />
+        <IconClose />
         Close
       </Button>
     );
@@ -150,7 +144,7 @@ class HotelOverview extends React.Component {
               onClick={this.doCloseSelectHotel}
               aria-label='Close'
             >
-              <CloseIcon />
+              <IconClose />
             </IconButton>
             <Typography variant='h6' color='inherit'>
               Select Hotel

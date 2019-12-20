@@ -1,11 +1,21 @@
+// Components
 import _ from 'lodash';
 import React, {createElement} from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import Swiper from 'react-id-swiper';
 import Card from '@material-ui/core/Card';
+import Dialog from '@material-ui/core/Dialog';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Slide from '@material-ui/core/Slide';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+// Styles and Icons
 import IconLocation from '@material-ui/icons/LocationOn';
 import IconStar from '@material-ui/icons/StarRate';
-
+import IconClose from '@material-ui/icons/Close';
+// Variables
 const styles = (theme) => ({
   card: {
     width: '95%',
@@ -42,15 +52,78 @@ const styles = (theme) => ({
   hotelRate: {
     cursor: 'pointer',
     width: '20%',
+    textAlign: 'right',
   },
+  hotelStar: {
+    color: 'yellow',
+    padding: '0px 4px 0px 0px',
+  },
+  modalBody: {
+    left: 0,
+    maxHeight: 515,
+    overflowY: 'auto',
+    width: '100%',
+  },
+  headerBar: {
+    position: 'absolute',
+    width: '100%',
+    height: 60,
+    top: 0,
+    bottom: 'auto',
+  },
+  footerBar: {
+    position: 'absolute',
+    width: '100%',
+    height: 60,
+    top: 'auto',
+    bottom: 0,
+  },
+  footerToolbar: {
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 0,
+  },
+  footerButton: {
+    width: '100%',
+    height: '100%',
+    padding: 0,
+  },
+  footerLabel: {
+    // Aligns the content of the button vertically.
+    flexDirection: 'column',
+  },
+  spaceHeader: {
+    marginTop: 80,
+  },
+  spaceFooter: {
+    marginBottom: 80,
+  },
+});
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction='up' ref={ref} {...props} />;
 });
 
 class HotelCard extends React.Component {
   constructor(props) {
     // console.log('>>>>HotelCard, constructor()', props);
     super(props);
+    // Bind handler
+    this.doOpenHotelModal = this.doOpenHotelModal.bind(this);
+    this.doCloseHotelModal = this.doCloseHotelModal.bind(this);
+    // Init data
+    // Setup state
+    this.state = {
+      open: false,
+    };
   }
-
+  // Event Handlers
+  doOpenHotelModal() {
+    this.setState({open: true});
+  }
+  doCloseHotelModal() {
+    this.setState({open: false});
+  }
+  // Widget
   render() {
     // Local Vairables
     const {classes, item, isReadonly, doSelectHotel} = this.props;
@@ -60,6 +133,18 @@ class HotelCard extends React.Component {
         prevEl: '.swiper-button-prev',
       },
     };
+    // Sub Components
+    const btnClose = (
+      <Button
+        classes={{root: classes.footerButton, label: classes.footerLabel}}
+        variant='contained'
+        disableRipple
+        onClick={this.doCloseHotelModal}
+      >
+        <IconClose />
+        Close
+      </Button>
+    );
     const images = _.map(item.carouselImageUrls, (url, key) => {
       const alt = `${item.name} Image ${key}`;
       return (
@@ -70,6 +155,43 @@ class HotelCard extends React.Component {
         </div>
       );
     });
+    const stars = [];
+    const ctStars = item.stars || 3;
+    for (let i = 0; i < ctStars; i++) {
+      stars.push(<IconStar key={i} className={classes.hotelStar} />);
+    }
+    const modal = open ? (
+      <Dialog
+        fullScreen
+        open={open}
+        onClose={this.doCloseHotelModal}
+        TransitionComponent={Transition}
+      >
+        <AppBar color='default' className={classes.headerBar}>
+          <Toolbar>
+            <IconButton
+              color='inherit'
+              onClick={this.doCloseHotelModal}
+              aria-label='Close'
+            >
+              <IconClose />
+            </IconButton>
+            <Typography variant='h6' color='inherit'>
+              {item.name}
+            </Typography>
+          </Toolbar>
+        </AppBar>
+        <div className={classes.spaceHeader} />
+        <div className={classes.modalBody}>Hotel Details To Be Added!</div>
+        <div className={classes.spaceFooter} />
+        <AppBar position='fixed' color='default' className={classes.footerBar}>
+          <Toolbar className={classes.footerToolbar}>{btnClose}</Toolbar>
+        </AppBar>
+      </Dialog>
+    ) : (
+      ''
+    );
+    // Display Widget
     return (
       <Card className={classes.card}>
         <Swiper {...params}>{images}</Swiper>
@@ -78,17 +200,12 @@ class HotelCard extends React.Component {
             className={classes.hotelName}
             onClick={() => {
               console.log('>>>>HotelCard.Name.Clicked', item);
+              this.doOpenHotelModal();
             }}
           >
             <div>{item.name}</div>
           </a>
-          <div className={classes.flex}>
-            <IconStar
-              style={{
-                color: 'yellow',
-              }}
-            />
-          </div>
+          <div className={classes.flex}>{stars}</div>
           <div className={classes.flex}>
             <div className={classes.hotelAddress}>
               <div className={classes.flex}>
@@ -104,12 +221,18 @@ class HotelCard extends React.Component {
               className={classes.hotelRate}
               onClick={() => {
                 console.log('>>>>HotelCard.Price.Clicked', item);
+                if (isReadonly) {
+                  this.doOpenHotelModal();
+                } else {
+                  doSelectHotel(item);
+                }
               }}
             >
-              <div>$ 999</div>
+              <div>{`$ ${item.defaultRate}`}</div>
             </a>
           </div>
         </div>
+        {modal}
       </Card>
     );
   }
