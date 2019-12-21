@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import React, {createElement} from 'react';
-import Swiper from 'react-id-swiper';
+// import Swiper from 'react-id-swiper';
+import {Carousel} from 'react-responsive-carousel';
 import {withStyles} from '@material-ui/core/styles';
 import AttractionCard from './attraction-card-new-v2';
 
@@ -43,15 +44,11 @@ class AttractionSlider extends React.Component {
           </div>
         );
       });
-      if (attractions.length === 1) {
-        return <Swiper>{cards}</Swiper>;
-      }
-      const params = {
-        slidesPerView: attractions.length > 2 ? 3 : 2,
-        spaceBetween: 8,
-        loop: loop,
-      };
-      return <Swiper {...params}>{cards}</Swiper>;
+      return (
+        <Carousel centerMode centerSlidePercentage={50} emulateTouch>
+          {cards}
+        </Carousel>
+      );
     }
 
     return '';
