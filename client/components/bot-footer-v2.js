@@ -8,6 +8,8 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import IconButton from '@material-ui/core/Button';
+import Fade from '@material-ui/core/Fade';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import CONSTANTS from '../../lib/constants';
 import IconShare from '@material-ui/icons/ShareOutlined';
 import IconPayment from '@material-ui/icons/PaymentOutlined';
@@ -31,7 +33,9 @@ const styles = (theme) => ({
     justifyContent: 'space-between',
     padding: 0,
   },
-  table: {},
+  loader: {
+    width: '100%',
+  },
   displayFlex: {
     display: 'flex',
   },
@@ -136,7 +140,7 @@ class BotFooter extends React.Component {
   render() {
     console.log('>>>>BotFooter.render', this.state);
     // ====== Local Variables ======
-    const {classes, instPackage, instPackageExt} = this.props;
+    const {classes, instPackage, instPackageExt, updating} = this.props;
     const {curGap, curRate, nxtGap, nxtRate, max} = instPackageExt;
     const {people, otherPeople, rooms, otherRooms} = instPackageExt;
     const totalPeople = people + otherPeople;
@@ -168,7 +172,12 @@ class BotFooter extends React.Component {
     return (
       <AppBar position='fixed' color='default' className={classes.appBar}>
         <Toolbar className={classes.toolbar}>
-          <Table className={classes.table}>
+          <div className={classes.loader}>
+            <Fade in={updating} unmountOnExit>
+              <CircularProgress />
+            </Fade>
+          </div>
+          <Table>
             <TableBody>
               <TableRow key={'share'}>
                 <TableCell classes={{body: classes.colItem}}>
