@@ -82,12 +82,14 @@ class BotFooter extends React.Component {
     console.log('>>>>BotFooter.doHandleShare');
     const {actions} = this.props;
     if (actions && actions.handleShare) {
+      actions.handleShare();
     }
   }
   doHandlePayment() {
     console.log('>>>>BotFooter.doHandlePayment');
     const {actions} = this.props;
     if (actions && actions.handlePayment) {
+      actions.handlePayment();
     }
   }
   // Handle add people
@@ -140,16 +142,13 @@ class BotFooter extends React.Component {
     const totalPeople = people + otherPeople;
     const totalRooms = rooms + otherRooms;
     const txtTotalPeople =
-      totalPeople > 1
-        ? `${totalPeople}(${people}) People`
-        : `1(${people}) Person`;
-    const txtTotalRooms =
-      totalRooms > 1 ? `${totalRooms}(${rooms}) Rooms` : `1(${rooms}) Room`;
+      totalPeople > 1 ? `${totalPeople} People` : '1 Person';
+    const txtTotalRooms = totalRooms > 1 ? `${totalRooms} Rooms` : '1 Room';
     const finalCost = {price: 0, promo: ''};
     const isPeopleAddDisabled = totalPeople >= max;
-    const isPeopleMinusDisabled = people <= 0;
+    const isPeopleMinusDisabled = people <= 0 && totalPeople <= 1;
     const isRoomAddDisabled = totalRooms <= totalPeople;
-    const isRoomMinusDisabled = rooms <= 0;
+    const isRoomMinusDisabled = rooms <= 1 && totalRooms <= 1;
     const isRoomDisabled = !instPackage.isCustomised;
     if (curGap === 0) {
       finalCost.price = `${curRate} pp`;
