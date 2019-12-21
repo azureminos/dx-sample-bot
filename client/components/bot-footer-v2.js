@@ -72,13 +72,27 @@ class BotFooter extends React.Component {
     this.doRemovePeople = this.doRemovePeople.bind(this);
     this.doAddRoom = this.doAddRoom.bind(this);
     this.doRemoveRoom = this.doRemoveRoom.bind(this);
+    this.doHandleShare = this.doHandleShare.bind(this);
+    this.doHandlePayment = this.doHandlePayment.bind(this);
     // Set initial state
     this.state = {};
   }
   // ====== Event Handler ======
+  doHandleShare() {
+    console.log('>>>>BotFooter.doHandleShare');
+    const {actions} = this.props;
+    if (actions && actions.handleShare) {
+    }
+  }
+  doHandlePayment() {
+    console.log('>>>>BotFooter.doHandlePayment');
+    const {actions} = this.props;
+    if (actions && actions.handlePayment) {
+    }
+  }
   // Handle add people
-  doAddPeople(e) {
-    console.log('>>>>BotFooter.doAddPeople', e);
+  doAddPeople() {
+    console.log('>>>>BotFooter.doAddPeople');
     const {instPackageExt, actions, rates} = this.props;
     const {people} = instPackageExt;
     if (actions && actions.handlePeople) {
@@ -88,8 +102,8 @@ class BotFooter extends React.Component {
     }
   }
   // Handle remove people
-  doRemovePeople(e) {
-    console.log('>>>>BotFooter.doRemovePeople', e);
+  doRemovePeople() {
+    console.log('>>>>BotFooter.doRemovePeople');
     const {instPackageExt, actions, rates} = this.props;
     const {people} = instPackageExt;
     if (actions && actions.handlePeople) {
@@ -99,8 +113,8 @@ class BotFooter extends React.Component {
     }
   }
   // Handle add room
-  doAddRoom(e) {
-    console.log('>>>>BotFooter.doAddRoom', e);
+  doAddRoom() {
+    console.log('>>>>BotFooter.doAddRoom');
     const {instPackageExt, actions, rates} = this.props;
     const {rooms} = instPackageExt;
     if (actions && actions.handleRoom) {
@@ -108,8 +122,8 @@ class BotFooter extends React.Component {
     }
   }
   // Handle remove room
-  doRemoveRoom(e) {
-    console.log('>>>>BotFooter.doRemoveRoom', e);
+  doRemoveRoom() {
+    console.log('>>>>BotFooter.doRemoveRoom');
     const {instPackageExt, actions, rates} = this.props;
     const {rooms} = instPackageExt;
     if (actions && actions.handleRoom) {
@@ -126,9 +140,16 @@ class BotFooter extends React.Component {
     const totalPeople = people + otherPeople;
     const totalRooms = rooms + otherRooms;
     const txtTotalPeople =
-      totalPeople > 1 ? `${totalPeople} People` : '1 Person';
-    const txtTotalRooms = totalRooms > 1 ? `${totalRooms} Rooms` : '1 Room';
+      totalPeople > 1
+        ? `${totalPeople}(${people}) People`
+        : `1(${people}) Person`;
+    const txtTotalRooms =
+      totalRooms > 1 ? `${totalRooms}(${rooms}) Rooms` : `1(${rooms}) Room`;
     const finalCost = {price: 0, promo: ''};
+    const isPeopleAddDisabled = totalPeople >= max;
+    const isPeopleMinusDisabled = people <= 0;
+    const isRoomAddDisabled = totalRooms <= totalPeople;
+    const isRoomMinusDisabled = rooms <= 0;
     const isRoomDisabled = !instPackage.isCustomised;
     if (curGap === 0) {
       finalCost.price = `${curRate} pp`;
@@ -162,6 +183,8 @@ class BotFooter extends React.Component {
                         text: classes.iconButtonText,
                       }}
                       aria-label='Add'
+                      disabled={isPeopleAddDisabled}
+                      onClick={this.doAddPeople}
                     >
                       <AddBoxOutlinedIcon className={classes.iconSmall} />
                     </IconButton>
@@ -171,6 +194,8 @@ class BotFooter extends React.Component {
                         text: classes.iconButtonText,
                       }}
                       aria-label='Remove'
+                      disabled={isPeopleMinusDisabled}
+                      onClick={this.doRemovePeople}
                     >
                       <MinusBoxOutlinedIcon className={classes.iconSmall} />
                     </IconButton>
@@ -186,6 +211,7 @@ class BotFooter extends React.Component {
                       text: classes.iconButtonText,
                     }}
                     aria-label='Share'
+                    onClick={this.doHandleShare}
                   >
                     <IconShare />
                   </IconButton>
@@ -203,7 +229,8 @@ class BotFooter extends React.Component {
                         text: classes.iconButtonText,
                       }}
                       aria-label='Add'
-                      disabled={isRoomDisabled}
+                      disabled={isRoomDisabled || isRoomAddDisabled}
+                      onClick={this.doAddRooms}
                     >
                       <AddBoxOutlinedIcon className={classes.iconSmall} />
                     </IconButton>
@@ -213,7 +240,8 @@ class BotFooter extends React.Component {
                         text: classes.iconButtonText,
                       }}
                       aria-label='Remove'
-                      disabled={isRoomDisabled}
+                      disabled={isRoomDisabled || isRoomMinusDisabled}
+                      onClick={this.doRemoveRooms}
                     >
                       <MinusBoxOutlinedIcon className={classes.iconSmall} />
                     </IconButton>
@@ -229,6 +257,7 @@ class BotFooter extends React.Component {
                       text: classes.iconButtonText,
                     }}
                     aria-label='Deposit'
+                    onClick={this.doHandlePayment}
                   >
                     <IconPayment />
                   </IconButton>
