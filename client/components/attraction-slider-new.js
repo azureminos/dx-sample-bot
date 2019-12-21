@@ -45,7 +45,12 @@ class AttractionSlider extends React.Component {
         );
       });
       return (
-        <Carousel centerMode centerSlidePercentage={50} emulateTouch>
+        <Carousel
+          centerMode
+          centerSlidePercentage={50}
+          emulateTouch
+          showThumbs={false}
+        >
           {cards}
         </Carousel>
       );
