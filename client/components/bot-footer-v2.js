@@ -151,10 +151,10 @@ class BotFooter extends React.Component {
       totalPeople > 1 ? `${totalPeople} People` : '1 Person';
     const txtTotalRooms = totalRooms > 1 ? `${totalRooms} Rooms` : '1 Room';
     const finalCost = {price: 0, promo: ''};
-    const isPeopleAddDisabled = totalPeople >= max;
-    const isPeopleMinusDisabled = people <= 0 && totalPeople <= 1;
-    const isRoomAddDisabled = totalRooms <= totalPeople;
-    const isRoomMinusDisabled = rooms <= 1 && totalRooms <= 1;
+    const isPeopleAddDisabled = updating && (totalPeople >= max);
+    const isPeopleMinusDisabled = updating && (people <= 0 && totalPeople <= 1);
+    const isRoomAddDisabled = updating && (totalRooms <= totalPeople);
+    const isRoomMinusDisabled = updating && (rooms <= 1 && totalRooms <= 1);
     const isRoomDisabled = !instPackage.isCustomised;
     if (curGap === 0) {
       finalCost.price = `${curRate} pp`;
