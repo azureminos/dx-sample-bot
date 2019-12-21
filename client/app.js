@@ -308,6 +308,10 @@ class App extends React.Component {
         instPackage: instPackage,
         instPackageExt: {...instPackageExt, ...matchingRates},
       });
+    } else {
+      this.setState({
+        updating: false,
+      });
     }
   }
   // ----------  BotHeader  ----------

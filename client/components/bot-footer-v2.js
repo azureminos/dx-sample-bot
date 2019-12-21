@@ -29,12 +29,14 @@ const styles = (theme) => ({
     bottom: 0,
   },
   toolbar: {
+    display: 'block',
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: 0,
   },
   loader: {
     width: '100%',
+    textAlign: 'center',
   },
   displayFlex: {
     display: 'flex',
@@ -174,7 +176,7 @@ class BotFooter extends React.Component {
         <Toolbar className={classes.toolbar}>
           <div className={classes.loader}>
             <Fade in={updating} unmountOnExit>
-              <CircularProgress />
+              <CircularProgress size={20} />
             </Fade>
           </div>
           <Table>
