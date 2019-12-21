@@ -10,7 +10,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Slide from '@material-ui/core/Slide';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
 // Styles and Icons
 import IconLocation from '@material-ui/icons/LocationOn';
 import IconStar from '@material-ui/icons/StarRate';

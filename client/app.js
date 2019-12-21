@@ -59,12 +59,8 @@ class App extends React.Component {
     this.showAll = this.showAll.bind(this);
     this.register = this.register.bind(this);
     this.handleDialogShareClose = this.handleDialogShareClose.bind(this);
-    this.handleUserJoin = this.handleUserJoin.bind(this);
-    this.handleUserLeave = this.handleUserLeave.bind(this);
     this.handleHdPeopleChange = this.handleHdPeopleChange.bind(this);
     this.handleHdRoomChange = this.handleHdRoomChange.bind(this);
-    this.handleFtBtnBackward = this.handleFtBtnBackward.bind(this);
-    this.handleFtBtnForward = this.handleFtBtnForward.bind(this);
     this.handleFtBtnShare = this.handleFtBtnShare.bind(this);
     this.handleFtBtnPayment = this.handleFtBtnPayment.bind(this);
     this.confirmSubmitPayment = this.confirmSubmitPayment.bind(this);
@@ -87,11 +83,11 @@ class App extends React.Component {
 
     this.state = {
       updating: false,
+      isOpenDialogShare: false,
       instId: props.instId || '',
       user: null,
       socketStatus: '',
       message: '',
-      isOpenDialogShare: false,
       daySelected: null,
       modalType: '',
       modalRef: null,
@@ -143,6 +139,7 @@ class App extends React.Component {
   showAll(results) {
     console.log('>>>>Result from socket [package:showAll]', results);
     this.setState({
+      updating: false,
       packages: results,
       instPackage: null,
       instPackageExt: null,
@@ -307,6 +304,7 @@ class App extends React.Component {
         rates: rates,
       });
       this.setState({
+        updating: false,
         instPackage: instPackage,
         instPackageExt: {...instPackageExt, ...matchingRates},
       });
@@ -407,30 +405,6 @@ class App extends React.Component {
     }
   }
   // ----------  BotFooter  ----------
-  handleFtBtnBackward() {
-    console.log('>>>>MobileApp.handleFtBtnBackward');
-    const {instPackage, instPackageExt} = this.state;
-    instPackage.status = PackageHelper.getPreviousStatus(
-      instPackage.isCustomised,
-      instPackage.status
-    );
-    instPackageExt.step = instPackageExt.step - 1;
-    this.setState({instPackage, instPackageExt});
-  }
-  handleFtBtnForward() {
-    console.log('>>>>MobileApp.handleFtBtnForward');
-    const {instPackage, instPackageExt} = this.state;
-    if (PackageHelper.validateInstance(instPackage)) {
-      instPackage.status = PackageHelper.getNextStatus(
-        instPackage.isCustomised,
-        instPackage.status
-      );
-      instPackageExt.step = instPackageExt.step + 1;
-      this.setState({instPackage, instPackageExt});
-    } else {
-      // Todo
-    }
-  }
   handleFtBtnShare() {
     console.log('>>>>MobileApp.handleFtBtnShare');
     this.setState({
@@ -773,31 +747,6 @@ class App extends React.Component {
     });
     this.setState({users});
   }
-  handleUserJoin(newUser) {
-    console.log('>>>>Socket.handleUserJoin', newUser);
-    const {instPackage} = this.state;
-    const oldUsers = instPackage.members.slice();
-    const existing = oldUsers.find((user) => user.loginId === newUser.loginId);
-    let users;
-    if (existing) {
-      users = oldUsers.map((user) =>
-        user.fbId === newUser.fbId ? newUser : user
-      );
-    } else {
-      oldUsers.push(newUser);
-      users = oldUsers;
-    }
-    this.setState({instPackage: {...instPackage, members: users}});
-  }
-  handleUserLeave(userLeft) {
-    console.log('>>>>Socket.handleUserLeave', userLeft);
-    const {instPackage} = this.state;
-    const filteredUsers = _.filter(instPackage.members, (u) => {
-      return u.loginId !== userLeft;
-    });
-    this.setState({instPackage: {...instPackage, members: filteredUsers}});
-  }
-
   /* ==============================
      = React Lifecycle            =
      ============================== */
@@ -817,8 +766,6 @@ class App extends React.Component {
     });
     socket.on('connect', this.register);
     socket.on('init', this.init);
-    socket.on('user:join', this.handleUserJoin);
-    socket.on('user:leave', this.handleUserLeave);
     socket.on('package:update', this.update);
     socket.on('package:showAll', this.showAll);
 
@@ -880,14 +827,14 @@ class App extends React.Component {
     console.log('>>>>MobileApp.render', this.state);
     const {instId, isOpenDialogShare, daySelected} = this.state;
     const {packages, instPackage, instPackageExt, rates} = this.state;
-    const {modalType, modalRef, reference} = this.state;
+    const {modalType, modalRef, reference, updating} = this.state;
     const {cities, packageSummary} = reference;
     const {classes, apiUri, viewerId} = this.props;
     const footerActions = {
       handlePeople: this.handleHdPeopleChange,
       handleRoom: this.handleHdRoomChange,
       handleShare: this.handleFtBtnShare,
-      handlePay: this.confirmSubmitPayment,
+      handlePayment: this.confirmSubmitPayment,
     };
     const itineraryActions = {
       handleSelectHotel: this.handleSelectHotel,
@@ -977,6 +924,7 @@ class App extends React.Component {
             instPackageExt={instPackageExt}
             rates={rates}
             actions={footerActions}
+            updating={updating}
           />
           {elModal}
           {elDialogShare}
