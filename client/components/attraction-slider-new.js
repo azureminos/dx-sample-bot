@@ -10,8 +10,8 @@ const styles = (theme) => ({
   sliderRoot: {
     width: '100%',
   },
-  cardRoot: {
-    margin: 4,
+  slideRoot: {
+    padding: 4,
   },
 });
 
@@ -38,12 +38,9 @@ class AttractionSlider extends React.Component {
     if (attractions && attractions.length > 0) {
       const cards = _.map(attractions, (a, idx) => {
         return (
-          <AttractionCard
-            key={idx}
-            className={classes.cardRoot}
-            item={a}
-            likeAttraction={doHandleLikeAttraction}
-          />
+          <div key={idx} className={classes.slideRoot}>
+            <AttractionCard item={a} likeAttraction={doHandleLikeAttraction} />
+          </div>
         );
       });
       return (
