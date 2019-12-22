@@ -2,7 +2,7 @@
 import _ from 'lodash';
 import React, {createElement} from 'react';
 import {withStyles} from '@material-ui/core/styles';
-import Swiper from 'react-id-swiper';
+import {Carousel} from 'react-responsive-carousel';
 import Card from '@material-ui/core/Card';
 import Dialog from '@material-ui/core/Dialog';
 import AppBar from '@material-ui/core/AppBar';
@@ -131,12 +131,6 @@ class HotelCard extends React.Component {
     // Local Vairables
     const {classes, item, isReadonly, doSelectHotel} = this.props;
     const {open} = this.state;
-    const params = {
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-      },
-    };
     // Sub Components
     const btnClose = (
       <Button
@@ -196,7 +190,9 @@ class HotelCard extends React.Component {
     // Display Widget
     return (
       <Card className={classes.card}>
-        <Swiper {...params}>{images}</Swiper>
+        <Carousel showThumbs={false} showIndicators={false} showStatus={false}>
+          {images}
+        </Carousel>
         <div className={classes.cardTextRoot}>
           <a
             className={classes.hotelName}
