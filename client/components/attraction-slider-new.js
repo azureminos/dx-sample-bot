@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React, {createElement} from 'react';
 // import Swiper from 'react-id-swiper';
 // import {Carousel} from 'react-responsive-carousel';
-import Slider from 'react-slick';
+import Swiper from 'react-id-swiper';
 import {withStyles} from '@material-ui/core/styles';
 import AttractionCard from './attraction-card-new-v2';
 
@@ -31,11 +31,9 @@ class AttractionSlider extends React.Component {
       }
     };
     const settings = {
-      dots: false,
-      infinite: !!loop,
-      speed: 500,
-      slidesToShow: 3,
-      slidesToScroll: 1,
+      slidesPerView: 3,
+      spaceBetween: 16,
+      loop: !!loop,
     };
     if (attractions && attractions.length > 0) {
       const cards = _.map(attractions, (a, idx) => {
@@ -50,9 +48,9 @@ class AttractionSlider extends React.Component {
         );
       });
       return (
-        <Slider {...settings} className={classes.sliderRoot}>
+        <Swiper {...settings} className={classes.sliderRoot}>
           {cards}
-        </Slider>
+        </Swiper>
       );
     }
     return '';
