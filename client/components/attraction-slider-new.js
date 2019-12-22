@@ -49,7 +49,11 @@ class AttractionSlider extends React.Component {
           </div>
         );
       });
-      return <Slider {...settings}>{cards}</Slider>;
+      return (
+        <Slider {...settings} className={classes.sliderRoot}>
+          {cards}
+        </Slider>
+      );
     }
     return '';
   }
