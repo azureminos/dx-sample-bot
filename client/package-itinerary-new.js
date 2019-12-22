@@ -220,6 +220,7 @@ class PackageItinerary extends React.Component {
         <TabPanel key={it.dayNo} value={tabSelected} index={it.dayNo}>
           <Typography component='div'>
             {attractionSelected}
+            {attractionToSelect}
             {hotelSelected}
           </Typography>
         </TabPanel>

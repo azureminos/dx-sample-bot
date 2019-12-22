@@ -7,6 +7,9 @@ import {withStyles} from '@material-ui/core/styles';
 import AttractionCard from './attraction-card-new-v2';
 
 const styles = (theme) => ({
+  sliderRoot: {
+    width: '100%',
+  },
   slideRoot: {
     padding: 4,
   },
@@ -29,7 +32,7 @@ class AttractionSlider extends React.Component {
     };
     const settings = {
       dots: false,
-      infinite: false,
+      infinite: !!loop,
       speed: 500,
       slidesToShow: 3,
       slidesToScroll: 1,
