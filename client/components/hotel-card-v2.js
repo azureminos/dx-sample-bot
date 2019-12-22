@@ -2,7 +2,7 @@
 import _ from 'lodash';
 import React, {createElement} from 'react';
 import {withStyles} from '@material-ui/core/styles';
-import Swiper from 'react-id-swiper';
+import Slider from 'react-slick';
 import Card from '@material-ui/core/Card';
 import Dialog from '@material-ui/core/Dialog';
 import AppBar from '@material-ui/core/AppBar';
@@ -132,12 +132,11 @@ class HotelCard extends React.Component {
     const {classes, item, isReadonly, doSelectHotel} = this.props;
     const {open} = this.state;
     const settings = {
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-      },
-      spaceBetween: 16,
-      loop: true,
+      dots: false,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 1,
+      slidesToScroll: 1,
     };
     // Sub Components
     const btnClose = (
@@ -198,7 +197,7 @@ class HotelCard extends React.Component {
     // Display Widget
     return (
       <Card className={classes.card}>
-        <Swiper {...settings}>{images}</Swiper>
+        <Slider {...settings}>{images}</Slider>
         <div className={classes.cardTextRoot}>
           <a
             className={classes.hotelName}
