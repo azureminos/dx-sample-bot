@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import IconLocationOn from '@material-ui/icons/LocationOn';
 import IconChevronRight from '@material-ui/icons/ChevronRight';
-import Slider from 'react-slick';
+import Swiper from 'react-id-swiper';
 
 // Variables
 const styles = (theme) => ({
@@ -76,11 +76,13 @@ class PackageCard extends React.Component {
     const {classes, product} = this.props;
     console.log('>>>>PackageCard.render()', product);
     const settings = {
-      dots: false,
-      infinite: true,
-      speed: 500,
-      slidesToShow: 1,
-      slidesToScroll: 1,
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      loop: true,
+      slidesPerView: 1,
+      spaceBetween: 16,
     };
     // Sub Widget
     const itemsSwiper = _.map(product.carouselImageUrls, (img, idx) => {
@@ -103,7 +105,7 @@ class PackageCard extends React.Component {
           <Grid item xs={12}>
             <Grid container justify='center' spacing={0}>
               <Grid item xs={12}>
-                <Slider {...settings}>{itemsSwiper}</Slider>
+                <Swiper {...settings}>{itemsSwiper}</Swiper>
               </Grid>
             </Grid>
           </Grid>

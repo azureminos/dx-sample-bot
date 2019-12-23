@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import Moment from 'moment';
 import React, {createElement} from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
