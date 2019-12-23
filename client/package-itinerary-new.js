@@ -166,8 +166,9 @@ class PackageItinerary extends React.Component {
             >
               <AttractionSlider
                 dayNo={it.dayNo}
+                showLiked
                 timePlannable={it.timePlannable}
-                attractions={likedAttractions}
+                attractions={it.attractions}
                 handleLikeAttraction={handleLikeAttraction}
               />
             </ListItem>
@@ -195,7 +196,7 @@ class PackageItinerary extends React.Component {
                 dayNo={it.dayNo}
                 loop
                 timePlannable={it.timePlannable}
-                attractions={notLikedAttractions}
+                attractions={it.attractions}
                 handleLikeAttraction={handleLikeAttraction}
               />
             </ListItem>

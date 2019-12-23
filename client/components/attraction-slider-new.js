@@ -21,7 +21,7 @@ class AttractionSlider extends React.Component {
   render() {
     const {classes} = this.props;
     // console.log('>>>>AttractionSlider, render()', this.props);
-    const {dayNo, loop, timePlannable, attractions} = this.props;
+    const {dayNo, timePlannable, attractions, loop, showLiked} = this.props;
     const {handleLikeAttraction} = this.props;
     const doHandleLikeAttraction = (item) => {
       if (handleLikeAttraction) {
@@ -35,13 +35,19 @@ class AttractionSlider extends React.Component {
         nextEl: '.swiper-button-next',
         prevEl: '.swiper-button-prev',
       },
+      loop: !!loop,
     };
     if (attractions && attractions.length > 0) {
       const cards = _.map(attractions, (a, idx) => {
+        const display =
+          (showLiked && a.isLiked) || (!showLiked && !a.isLiked)
+            ? 'block'
+            : 'none';
         return (
           <div
             key={idx}
-            style={{width: 'unset', display: 'inline-block', padding: 4}}
+            className={classes.slideRoot}
+            style={{display: display}}
           >
             <AttractionCard item={a} likeAttraction={doHandleLikeAttraction} />
           </div>
