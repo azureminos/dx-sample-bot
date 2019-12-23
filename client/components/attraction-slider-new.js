@@ -35,7 +35,7 @@ class AttractionSlider extends React.Component {
         nextEl: '.swiper-button-next',
         prevEl: '.swiper-button-prev',
       },
-      loop: !!loop,
+      loop: false,
     };
     if (attractions && attractions.length > 0) {
       const cards = _.map(attractions, (a, idx) => {
