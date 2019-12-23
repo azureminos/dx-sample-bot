@@ -9,9 +9,6 @@ const styles = (theme) => ({
   sliderRoot: {
     width: '100%',
   },
-  slideRoot: {
-    padding: 4,
-  },
 });
 
 class AttractionSlider extends React.Component {
@@ -30,7 +27,7 @@ class AttractionSlider extends React.Component {
     };
     const settings = {
       slidesPerView: 3,
-      spaceBetween: 16,
+      spaceBetween: 8,
       navigation: {
         nextEl: '.swiper-button-next',
         prevEl: '.swiper-button-prev',
@@ -44,11 +41,7 @@ class AttractionSlider extends React.Component {
             ? 'block'
             : 'none';
         return (
-          <div
-            key={idx}
-            className={classes.slideRoot}
-            style={{display: display}}
-          >
+          <div key={idx} style={{display: display}}>
             <AttractionCard item={a} likeAttraction={doHandleLikeAttraction} />
           </div>
         );
