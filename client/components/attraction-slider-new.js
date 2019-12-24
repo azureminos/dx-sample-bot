@@ -41,7 +41,10 @@ class AttractionSlider extends React.Component {
             ? 'block'
             : 'none';
         return (
-          <div key={idx} style={{display: display}}>
+          <div
+            key={idx}
+            style={{display: display, marginLeft: 4, marginRight: 4}}
+          >
             <AttractionCard item={a} likeAttraction={doHandleLikeAttraction} />
           </div>
         );
