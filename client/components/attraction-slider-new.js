@@ -27,7 +27,7 @@ class AttractionSlider extends React.Component {
     };
     const settings = {
       slidesPerView: 3,
-      spaceBetween: 8,
+      spaceBetween: 0,
       navigation: {
         nextEl: '.swiper-button-next',
         prevEl: '.swiper-button-prev',
