@@ -39,16 +39,12 @@ class AttractionSlider extends React.Component {
     };
     if (attractions && attractions.length > 0) {
       const cards = _.map(attractions, (a, idx) => {
-        const display =
+        const cardStyle =
           (showLiked && a.isLiked) || (!showLiked && !a.isLiked)
-            ? 'block'
-            : 'none';
+            ? {display: 'block', width: '33.33%'}
+            : {display: 'none'};
         return (
-          <div
-            key={idx}
-            className={classes.slideRoot}
-            style={{display: display}}
-          >
+          <div key={idx} className={classes.slideRoot} style={cardStyle}>
             <AttractionCard item={a} likeAttraction={doHandleLikeAttraction} />
           </div>
         );
