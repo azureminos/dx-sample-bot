@@ -23,18 +23,33 @@ class AttractionSlider extends React.Component {
     // console.log('>>>>AttractionSlider, render()', this.props);
     const {dayNo, timePlannable, attractions, loop, showLiked} = this.props;
     const {handleLikeAttraction} = this.props;
+    let totalDisplay = 0;
     const doHandleLikeAttraction = (item) => {
       if (handleLikeAttraction) {
         handleLikeAttraction(dayNo, timePlannable, item, attractions);
       }
     };
+    const likedAttractions = _.filter(attractions, (a) => {
+      return a.isLiked;
+    });
+    const notLikedAttractions = _.filter(attractions, (a) => {
+      return !a.isLiked;
+    });
+    if (showLiked) {
+      totalDisplay = likedAttractions.length;
+    } else {
+      totalDisplay = notLikedAttractions.length;
+    }
     const settings = {
-      slidesPerView: 3,
+      slidesPerView: totalDisplay < 3 ? totalDisplay : 3,
       spaceBetween: 0,
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-      },
+      navigation:
+        totalDisplay <= 3
+          ? {}
+          : {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+          },
       loop: false,
     };
     if (attractions && attractions.length > 0) {
