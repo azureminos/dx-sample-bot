@@ -9,6 +9,9 @@ const styles = (theme) => ({
   sliderRoot: {
     width: '100%',
   },
+  slideRoot: {
+    margin: '2px 4px 2px 4px',
+  },
 });
 
 class AttractionSlider extends React.Component {
@@ -43,7 +46,8 @@ class AttractionSlider extends React.Component {
         return (
           <div
             key={idx}
-            style={{display: display, marginLeft: 4, marginRight: 4}}
+            className={classes.slideRoot}
+            style={{display: display}}
           >
             <AttractionCard item={a} likeAttraction={doHandleLikeAttraction} />
           </div>
