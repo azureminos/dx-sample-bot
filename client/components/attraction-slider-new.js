@@ -56,7 +56,7 @@ class AttractionSlider extends React.Component {
       const cards = _.map(attractions, (a, idx) => {
         const cardStyle =
           (showLiked && a.isLiked) || (!showLiked && !a.isLiked)
-            ? {display: 'block', width: '33.33%'}
+            ? {display: 'block', width: 'calc(33.33%)'}
             : {display: 'none'};
         return (
           <div key={idx} className={classes.slideRoot} style={cardStyle}>
