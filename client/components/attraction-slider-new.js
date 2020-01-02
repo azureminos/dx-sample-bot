@@ -54,15 +54,9 @@ class AttractionSlider extends React.Component {
     };
     if (attractions && attractions.length > 0) {
       const cards = _.map(attractions, (a, idx) => {
-        let width = '33.33%';
-        if (totalDisplay === 1) {
-          width = '100%';
-        } else if (totalDisplay === 2) {
-          width = '50%';
-        }
         const cardStyle =
           (showLiked && a.isLiked) || (!showLiked && !a.isLiked)
-            ? {display: 'block', width: width}
+            ? {display: 'block', width: '33.33%'}
             : {display: 'none'};
         return (
           <div key={idx} className={classes.slideRoot} style={cardStyle}>
