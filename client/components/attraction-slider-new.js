@@ -6,10 +6,7 @@ import {withStyles} from '@material-ui/core/styles';
 import AttractionCard from './attraction-card-new-v2';
 
 const styles = (theme) => ({
-  sliderRoot: {
-    width: '100%',
-  },
-  slideRoot: {
+  slideItem: {
     margin: '2px 4px 2px 4px',
   },
 });
@@ -56,19 +53,15 @@ class AttractionSlider extends React.Component {
       const cards = _.map(attractions, (a, idx) => {
         const cardStyle =
           (showLiked && a.isLiked) || (!showLiked && !a.isLiked)
-            ? {display: 'block', width: 'calc(33.33%)'}
+            ? {display: 'block', width: '33.33%'}
             : {display: 'none'};
         return (
-          <div key={idx} className={classes.slideRoot} style={cardStyle}>
+          <div key={idx} className={classes.slideItem} style={cardStyle}>
             <AttractionCard item={a} likeAttraction={doHandleLikeAttraction} />
           </div>
         );
       });
-      return (
-        <Swiper {...settings} className={classes.sliderRoot}>
-          {cards}
-        </Swiper>
-      );
+      return <Swiper {...settings}>{cards}</Swiper>;
     }
     return '';
   }
