@@ -14,12 +14,18 @@ const styles = (theme) => ({
 class AttractionSlider extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {width: null};
   }
-  render() {
-    const {classes} = this.props;
+  // Detect dimension
+  componentDidMount() {
+    this.setState({width: this.container.offsetWidth});
+  }
+  // Display Widget Content
+  renderContent() {
     // console.log('>>>>AttractionSlider, render()', this.props);
-    const {dayNo, timePlannable, attractions, loop, showLiked} = this.props;
-    const {handleLikeAttraction} = this.props;
+    const {width} = this.state;
+    const {classes, loop, dayNo, showLiked} = this.props;
+    const {timePlannable, attractions, handleLikeAttraction} = this.props;
     let totalDisplay = 0;
     const doHandleLikeAttraction = (item) => {
       if (handleLikeAttraction) {
@@ -53,7 +59,7 @@ class AttractionSlider extends React.Component {
       const cards = _.map(attractions, (a, idx) => {
         const cardStyle =
           (showLiked && a.isLiked) || (!showLiked && !a.isLiked)
-            ? {display: 'block', width: '33.33%'}
+            ? {display: 'block', width: `${(width / 3).toFixed()}px`}
             : {display: 'none'};
         return (
           <div key={idx} className={classes.slideItem} style={cardStyle}>
@@ -64,6 +70,16 @@ class AttractionSlider extends React.Component {
       return <Swiper {...settings}>{cards}</Swiper>;
     }
     return '';
+  }
+  // Display Widget
+  render() {
+    const {width} = this.state;
+
+    return (
+      <div ref={(el) => (this.container = el)}>
+        {width && this.renderContent()}
+      </div>
+    );
   }
 }
 
