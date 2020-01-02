@@ -38,7 +38,7 @@ class AttractionSlider extends React.Component {
       totalDisplay = notLikedAttractions.length;
     }
     const settings = {
-      slidesPerView: totalDisplay < 3 ? totalDisplay : 3,
+      slidesPerView: 3,
       spaceBetween: 0,
       navigation:
         totalDisplay <= 3
