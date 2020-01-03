@@ -18,7 +18,7 @@ class AttractionSlider extends React.Component {
   // Display Widget Content
   renderContent() {
     // console.log('>>>>AttractionSlider, render()', this.props);
-    const {classes, loop, dayNo, showLiked} = this.props;
+    const {classes, loop, width, dayNo, showLiked} = this.props;
     const {timePlannable, attractions, handleLikeAttraction} = this.props;
     let totalDisplay = 0;
     const doHandleLikeAttraction = (item) => {
@@ -53,7 +53,7 @@ class AttractionSlider extends React.Component {
       const cards = _.map(attractions, (a, idx) => {
         const cardStyle =
           (showLiked && a.isLiked) || (!showLiked && !a.isLiked)
-            ? {display: 'block', width: `${(355 / 3).toFixed()}px`}
+            ? {display: 'block', width: `${(width / 3).toFixed()}px`}
             : {display: 'none'};
         return (
           <div key={idx} className={classes.slideItem} style={cardStyle}>

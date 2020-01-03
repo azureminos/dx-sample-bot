@@ -20,6 +20,7 @@ window.attachApp = (params) => {
   console.log('>>>>window.attachApp()', params);
   const {viewerId, instId, packageId, socketAddress, threadType} = params;
   const apiUri = `https://${window.location.hostname}`;
+  const windowWidth = document.getElementById('content').offsetWidth;
   let app;
   if (viewerId) {
     app = (
@@ -31,6 +32,7 @@ window.attachApp = (params) => {
         apiUri={apiUri}
         socketAddress={socketAddress}
         threadType={threadType}
+        windowWidth={windowWidth}
       />
     );
   } else {

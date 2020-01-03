@@ -80,7 +80,8 @@ class PackageItinerary extends React.Component {
   // Display Widget
   render() {
     // Local variables
-    const {classes, actions, transport, itineraries, cities} = this.props;
+    const {classes, windowWidth} = this.props;
+    const {actions, transport, itineraries, cities} = this.props;
     const {
       handleSelectCar,
       handleSelectFlight,
@@ -166,6 +167,7 @@ class PackageItinerary extends React.Component {
             >
               <AttractionSlider
                 dayNo={it.dayNo}
+                width={windowWidth - 32}
                 showLiked
                 timePlannable={it.timePlannable}
                 attractions={it.attractions}
@@ -195,6 +197,7 @@ class PackageItinerary extends React.Component {
             >
               <AttractionSlider
                 dayNo={it.dayNo}
+                width={windowWidth - 32}
                 loop
                 timePlannable={it.timePlannable}
                 attractions={it.attractions}

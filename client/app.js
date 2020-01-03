@@ -837,7 +837,7 @@ class App extends React.Component {
     const {packages, instPackage, instPackageExt, rates} = this.state;
     const {modalType, modalRef, reference, updating} = this.state;
     const {cities, packageSummary} = reference;
-    const {classes, apiUri, viewerId} = this.props;
+    const {classes, apiUri, viewerId, windowWidth} = this.props;
     const footerActions = {
       handlePeople: this.handleHdPeopleChange,
       handleRoom: this.handleHdRoomChange,
@@ -924,6 +924,7 @@ class App extends React.Component {
               itineraries={itineraries}
               cities={cities}
               actions={itineraryActions}
+              windowWidth={windowWidth}
             />
             {divWhitespaceBottom}
           </div>
