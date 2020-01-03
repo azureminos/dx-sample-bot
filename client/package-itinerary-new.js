@@ -170,6 +170,7 @@ class PackageItinerary extends React.Component {
                 timePlannable={it.timePlannable}
                 attractions={it.attractions}
                 handleLikeAttraction={handleLikeAttraction}
+                ref={(el) => (this.container = el)}
               />
             </ListItem>
           </List>
