@@ -18,7 +18,7 @@ class AttractionSlider extends React.Component {
   }
   // Detect dimension
   componentDidMount() {
-    this.setState({width: this.container.offsetWidth});
+    this.setState({width: this.container.offsetParent.offsetWidth});
   }
   // Display Widget Content
   renderContent() {
