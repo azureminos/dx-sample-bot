@@ -252,6 +252,7 @@ const updateInstPackage = (input) => {
     console.log('>>>>Start to add new member');
     const member = {
       ...params,
+      instPackage: instId,
       createdAt: new Date(),
       createdBy: senderId,
     };
