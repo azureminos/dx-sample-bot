@@ -278,6 +278,8 @@ class App extends React.Component {
       }
     } else if (action === SocketAction.UPDATE_DATE) {
       console.log('>>>>Start to process date update');
+    } else if (action === SocketAction.ADD_MEMBER) {
+      console.log('>>>>Start to process new member');
     } else if (action === SocketAction.USER_JOIN) {
       console.log('>>>>Start to process user join');
       const {instPackage} = this.state;
@@ -319,6 +321,7 @@ class App extends React.Component {
   // ----------  BotHeader  ----------
   handleHdPeopleChange(input) {
     console.log('>>>>MobileApp.handleHdPeopleChange', input);
+    let tmpMember = null;
     const {viewerId} = this.props;
     const {instId, user} = this.state;
     const {instPackage, instPackageExt} = this.state;
@@ -333,7 +336,7 @@ class App extends React.Component {
         }
       }
     } else {
-      const member = {
+      tmpMember = {
         memberId: user.id,
         loginId: user.loginId,
         name: user.name,
@@ -342,7 +345,7 @@ class App extends React.Component {
         people: input.people,
         rooms: input.rooms,
       };
-      instPackage.members.push(member);
+      instPackage.members.push(tmpMember);
     }
 
     instPackageExt.people = input.people;
@@ -358,22 +361,28 @@ class App extends React.Component {
       instPackage: {...instPackage, rate: matchingRates.curRate},
       instPackageExt: {...instPackageExt, ...matchingRates},
     });
-
-    const req = {
-      senderId: viewerId,
-      instId: instId,
-      action: SocketAction.UPDATE_PEOPLE,
-      params: {
+    const action = isExist
+      ? SocketAction.UPDATE_PEOPLE
+      : SocketAction.ADD_MEMBER;
+    const params = isExist
+      ? {
         people: input.people,
         rooms: input.rooms,
         statusInstance: InstanceStatus.IN_PROGRESS,
         statusMember: InstanceStatus.IN_PROGRESS,
-      },
+      }
+      : tmpMember;
+    const req = {
+      senderId: viewerId,
+      instId: instId,
+      action: action,
+      params: params,
     };
     this.pushToRemote('package:update', req);
   }
   handleHdRoomChange(input) {
     console.log('>>>>MobileApp.handleHdRoomChange', input);
+    let tmpMember = null;
     const {viewerId} = this.props;
     const {instId, user} = this.state;
     const {instPackage, instPackageExt} = this.state;
@@ -387,7 +396,7 @@ class App extends React.Component {
         }
       }
     } else {
-      const member = {
+      tmpMember = {
         memberId: user.id,
         loginId: user.loginId,
         name: user.name,
@@ -396,7 +405,7 @@ class App extends React.Component {
         people: input.people,
         rooms: input.rooms,
       };
-      instPackage.members.push(member);
+      instPackage.members.push(tmpMember);
     }
 
     instPackageExt.rooms = input.rooms;
@@ -412,15 +421,21 @@ class App extends React.Component {
       instPackageExt: {...instPackageExt, ...matchingRates},
     });
     // Update status and sync to server
-    const req = {
-      senderId: viewerId,
-      instId: instId,
-      action: SocketAction.UPDATE_ROOMS,
-      params: {
+    const action = isExist
+      ? SocketAction.UPDATE_ROOMS
+      : SocketAction.ADD_MEMBER;
+    const params = isExist
+      ? {
         rooms: input.rooms,
         statusInstance: InstanceStatus.IN_PROGRESS,
         statusMember: InstanceStatus.IN_PROGRESS,
-      },
+      }
+      : tmpMember;
+    const req = {
+      senderId: viewerId,
+      instId: instId,
+      action: action,
+      params: params,
     };
     this.pushToRemote('package:update', req);
   }

@@ -248,6 +248,24 @@ const updateInstPackage = (input) => {
     );
   } else if (action === SocketAction.UPDATE_DATE) {
     console.log('>>>>Start to process date update');
+  } else if (action === SocketAction.ADD_MEMBER) {
+    console.log('>>>>Start to add new member');
+    const member = {
+      ...params,
+      createdAt: new Date(),
+      createdBy: senderId,
+    };
+    Model.createInstanceMembers(member, (err, result) => {
+      if (err) {
+        console.error('>>>>Database Error', err);
+        sendStatus(SocketStatus.DB_ERROR);
+      } else {
+        console.log(`>>>>Model.updatePackage[${action}] Result`, result);
+        output = {...request};
+        allInRoom(instId).emit('package:update', output);
+        sendStatus(SocketStatus.OK);
+      }
+    });
   }
 };
 
