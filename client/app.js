@@ -65,8 +65,6 @@ class App extends React.Component {
     this.handleFtBtnShare = this.handleFtBtnShare.bind(this);
     this.handleFtBtnPayment = this.handleFtBtnPayment.bind(this);
     this.confirmSubmitPayment = this.confirmSubmitPayment.bind(this);
-    this.handleFtBtnJoin = this.handleFtBtnJoin.bind(this);
-    this.handleFtBtnLeave = this.handleFtBtnLeave.bind(this);
     this.handleFtBtnLock = this.handleFtBtnLock.bind(this);
     this.handleFtBtnUnlock = this.handleFtBtnUnlock.bind(this);
     this.handleFtBtnStatus = this.handleFtBtnStatus.bind(this);
@@ -175,6 +173,7 @@ class App extends React.Component {
       cities,
       packageRates,
       flightRates,
+      user,
     } = results;
     const reference = {packageSummary, cities};
     const carRates = _.map(cities, (c) => {
@@ -223,6 +222,7 @@ class App extends React.Component {
       instPackageExt: {...instPackageExt, ...matchingRates},
       reference,
       rates,
+      user,
     });
   }
   update(results) {
@@ -321,12 +321,19 @@ class App extends React.Component {
     const {viewerId} = this.props;
     const {instId} = this.state;
     const {instPackage, instPackageExt} = this.state;
-    for (let i = 0; i < instPackage.members.length; i++) {
-      if (instPackage.members[i].loginId === viewerId) {
-        instPackage.members[i].people = input.people;
-        instPackage.members[i].rooms = input.rooms;
+    const isExist = !!_.find(instPackage.members, (m) => {
+      m.loginId === viewerId;
+    });
+    if (isExist) {
+      for (let i = 0; i < instPackage.members.length; i++) {
+        if (instPackage.members[i].loginId === viewerId) {
+          instPackage.members[i].people = input.people;
+          instPackage.members[i].rooms = input.rooms;
+        }
       }
+    } else {
     }
+
     instPackageExt.people = input.people;
     instPackageExt.rooms = input.rooms;
 
@@ -341,28 +348,26 @@ class App extends React.Component {
       instPackageExt: {...instPackageExt, ...matchingRates},
     });
     // Update status and sync to server
-    if (instPackageExt.isJoined) {
-      let status = instPackage.status;
-      if (instPackage.status === InstanceStatus.INITIATED) {
-        if (instPackage.isCustomised) {
-          status = InstanceStatus.SELECT_ATTRACTION;
-        } else {
-          status = InstanceStatus.IN_PROGRESS;
-        }
+    let status = instPackage.status;
+    if (instPackage.status === InstanceStatus.INITIATED) {
+      if (instPackage.isCustomised) {
+        status = InstanceStatus.SELECT_ATTRACTION;
+      } else {
+        status = InstanceStatus.IN_PROGRESS;
       }
-      const req = {
-        senderId: viewerId,
-        instId: instId,
-        action: SocketAction.UPDATE_PEOPLE,
-        params: {
-          people: input.people,
-          rooms: input.rooms,
-          statusInstance: status,
-          statusMember: InstanceStatus.IN_PROGRESS,
-        },
-      };
-      this.pushToRemote('package:update', req);
     }
+    const req = {
+      senderId: viewerId,
+      instId: instId,
+      action: SocketAction.UPDATE_PEOPLE,
+      params: {
+        people: input.people,
+        rooms: input.rooms,
+        statusInstance: status,
+        statusMember: InstanceStatus.IN_PROGRESS,
+      },
+    };
+    this.pushToRemote('package:update', req);
   }
   handleHdRoomChange(input) {
     console.log('>>>>MobileApp.handleHdRoomChange', input);
@@ -387,7 +392,7 @@ class App extends React.Component {
       instPackageExt: {...instPackageExt, ...matchingRates},
     });
     // Update status and sync to server
-    if (instPackageExt.isJoined) {
+    if (instPackageExt.people > 0) {
       let status = instPackage.status;
       if (instPackage.status === InstanceStatus.INITIATED) {
         if (instPackage.isCustomised) {
@@ -428,39 +433,6 @@ class App extends React.Component {
       });
     } else {
       // Todo
-    }
-  }
-  handleFtBtnJoin() {
-    console.log('>>>>MobileApp.handleFtBtnJoin');
-    const {viewerId} = this.props;
-    const {instId} = this.state;
-    const {instPackageExt} = this.state;
-    if (!instPackageExt.isJoined) {
-      instPackageExt.isJoined = true;
-      this.setState({instPackageExt});
-      const params = {
-        senderId: viewerId,
-        instId: instId,
-        people: instPackageExt.people,
-        rooms: instPackageExt.rooms,
-      };
-      this.pushToRemote('user:join', params);
-    }
-  }
-  handleFtBtnLeave() {
-    console.log('>>>>MobileApp.handleFtBtnLeave');
-    const {viewerId} = this.props;
-    const {instId, instPackageExt} = this.state;
-    if (instPackageExt.isJoined) {
-      instPackageExt.isJoined = false;
-      instPackageExt.people = 0;
-      instPackageExt.rooms = 0;
-      this.setState({instPackageExt});
-      const params = {
-        senderId: viewerId,
-        instId: instId,
-      };
-      this.pushToRemote('user:leave', params);
     }
   }
   handleFtBtnLock() {

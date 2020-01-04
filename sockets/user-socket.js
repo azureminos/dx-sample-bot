@@ -174,6 +174,9 @@ const view = (input) => {
                 flightRates: (callback) => {
                   Model.getFlightRatesByPackageId(pack.id, callback);
                 },
+                user: (callback) => {
+                  getUserDetails(senderId, callback);
+                },
               },
               function(err, results2) {
                 if (err) {
@@ -397,32 +400,11 @@ const leave = (input) => {
   allInRoom(instId).emit('users:setOnline', onlineUsers);*/
 };
 
-// Add notes
-const addNotes = (input) => {
-  const {
-    request: {userId, instId, text},
-    allInRoom,
-    sendStatus,
-  } = input;
-  console.log('>>>>Calling addNotes', {text, userId, instId});
-  const note = {
-    instId: instId,
-    userId: userId,
-    text: text,
-  };
-  /* CaseNotes.addNotes(note).then((rs) => {
-    console.log('>>>>addNotes.receiveAddedNotes', rs);
-    allInRoom(instId).emit('user:addNotes', rs);
-  });*/
-  sendStatus(SocketStatus.OK);
-};
-
 export default {
   register,
   view,
   joinPackage,
   leavePackage,
   leave,
-  addNotes,
   getUserDetails,
 };
