@@ -397,7 +397,7 @@ class App extends React.Component {
       }
     } else {
       tmpMember = {
-        memberId: user.id,
+        memberId: user._id,
         loginId: user.loginId,
         name: user.name,
         isOwner: false,
