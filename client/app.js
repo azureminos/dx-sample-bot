@@ -25,11 +25,8 @@ import PackageHelper from '../lib/package-helper';
 import CONSTANTS from '../lib/constants';
 
 // ==== CSS ==============================================
-// import 'react-id-swiper/src/styles/css/swiper.css';
-// import 'react-responsive-carousel/lib/styles/carousel.min.css';
-// import 'slick-carousel/slick/slick.css';
-// import 'slick-carousel/slick/slick-theme.css';
 import 'swiper/css/swiper.css';
+import '../public/style.css';
 
 // Variables
 const styles = (theme) => ({
