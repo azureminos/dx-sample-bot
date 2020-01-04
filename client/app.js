@@ -27,6 +27,7 @@ import CONSTANTS from '../lib/constants';
 // ==== CSS ==============================================
 import 'swiper/css/swiper.css';
 import '../public/style.css';
+import {isError} from 'util';
 
 // Variables
 const styles = (theme) => ({
@@ -319,7 +320,7 @@ class App extends React.Component {
   handleHdPeopleChange(input) {
     console.log('>>>>MobileApp.handleHdPeopleChange', input);
     const {viewerId} = this.props;
-    const {instId} = this.state;
+    const {instId, user} = this.state;
     const {instPackage, instPackageExt} = this.state;
     const isExist = !!_.find(instPackage.members, (m) => {
       m.loginId === viewerId;
@@ -332,6 +333,16 @@ class App extends React.Component {
         }
       }
     } else {
+      const member = {
+        memberId: user.id,
+        loginId: user.loginId,
+        name: user.name,
+        isOwner: false,
+        status: InstanceStatus.IN_PROGRESS,
+        people: input.people,
+        rooms: input.rooms,
+      };
+      instPackage.members.push(member);
     }
 
     instPackageExt.people = input.people;
@@ -347,15 +358,7 @@ class App extends React.Component {
       instPackage: {...instPackage, rate: matchingRates.curRate},
       instPackageExt: {...instPackageExt, ...matchingRates},
     });
-    // Update status and sync to server
-    let status = instPackage.status;
-    if (instPackage.status === InstanceStatus.INITIATED) {
-      if (instPackage.isCustomised) {
-        status = InstanceStatus.SELECT_ATTRACTION;
-      } else {
-        status = InstanceStatus.IN_PROGRESS;
-      }
-    }
+
     const req = {
       senderId: viewerId,
       instId: instId,
@@ -363,7 +366,7 @@ class App extends React.Component {
       params: {
         people: input.people,
         rooms: input.rooms,
-        statusInstance: status,
+        statusInstance: InstanceStatus.IN_PROGRESS,
         statusMember: InstanceStatus.IN_PROGRESS,
       },
     };
@@ -372,13 +375,30 @@ class App extends React.Component {
   handleHdRoomChange(input) {
     console.log('>>>>MobileApp.handleHdRoomChange', input);
     const {viewerId} = this.props;
-    const {instId} = this.state;
+    const {instId, user} = this.state;
     const {instPackage, instPackageExt} = this.state;
-    for (let i = 0; i < instPackage.members.length; i++) {
-      if (instPackage.members[i].loginId === viewerId) {
-        instPackage.members[i].rooms = input.rooms;
+    const isExist = !!_.find(instPackage.members, (m) => {
+      m.loginId === viewerId;
+    });
+    if (isExist) {
+      for (let i = 0; i < instPackage.members.length; i++) {
+        if (instPackage.members[i].loginId === viewerId) {
+          instPackage.members[i].rooms = input.rooms;
+        }
       }
+    } else {
+      const member = {
+        memberId: user.id,
+        loginId: user.loginId,
+        name: user.name,
+        isOwner: false,
+        status: InstanceStatus.IN_PROGRESS,
+        people: input.people,
+        rooms: input.rooms,
+      };
+      instPackage.members.push(member);
     }
+
     instPackageExt.rooms = input.rooms;
 
     const matchingRates = PackageHelper.doRating({
@@ -392,27 +412,17 @@ class App extends React.Component {
       instPackageExt: {...instPackageExt, ...matchingRates},
     });
     // Update status and sync to server
-    if (instPackageExt.people > 0) {
-      let status = instPackage.status;
-      if (instPackage.status === InstanceStatus.INITIATED) {
-        if (instPackage.isCustomised) {
-          status = InstanceStatus.SELECT_ATTRACTION;
-        } else {
-          status = InstanceStatus.IN_PROGRESS;
-        }
-      }
-      const req = {
-        senderId: viewerId,
-        instId: instId,
-        action: SocketAction.UPDATE_ROOMS,
-        params: {
-          rooms: input.rooms,
-          statusInstance: status,
-          statusMember: InstanceStatus.IN_PROGRESS,
-        },
-      };
-      this.pushToRemote('package:update', req);
-    }
+    const req = {
+      senderId: viewerId,
+      instId: instId,
+      action: SocketAction.UPDATE_ROOMS,
+      params: {
+        rooms: input.rooms,
+        statusInstance: InstanceStatus.IN_PROGRESS,
+        statusMember: InstanceStatus.IN_PROGRESS,
+      },
+    };
+    this.pushToRemote('package:update', req);
   }
   // ----------  BotFooter  ----------
   handleFtBtnShare() {
