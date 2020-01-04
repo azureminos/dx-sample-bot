@@ -326,7 +326,7 @@ class App extends React.Component {
     const {instId, user} = this.state;
     const {instPackage, instPackageExt} = this.state;
     const isExist = !!_.find(instPackage.members, (m) => {
-      m.loginId === viewerId;
+      return m.loginId === viewerId;
     });
     if (isExist) {
       for (let i = 0; i < instPackage.members.length; i++) {
@@ -387,7 +387,7 @@ class App extends React.Component {
     const {instId, user} = this.state;
     const {instPackage, instPackageExt} = this.state;
     const isExist = !!_.find(instPackage.members, (m) => {
-      m.loginId === viewerId;
+      return m.loginId === viewerId;
     });
     if (isExist) {
       for (let i = 0; i < instPackage.members.length; i++) {
