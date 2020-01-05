@@ -34,12 +34,9 @@ class PackageSummary extends React.Component {
     // Init data
     // Setup state
   }
-  myRef = React.createRef();
+  myRef = null;
   componentDidMount() {
-    this.myRef.current.scrollIntoView({
-      behavior: 'auto',
-      block: 'start',
-    });
+    window.scrollTo(0, this.myRef.offsetTop);
   }
   // Event Handlers
   // Display Widget
@@ -48,7 +45,6 @@ class PackageSummary extends React.Component {
     const {classes, transport, itineraries, cities} = this.props;
     const {startDate, carOption} = transport;
     const {totalDays, departDates, carOptions} = transport;
-    const ref = this.myRef;
     console.log('>>>>PackageSummary, render()', {
       transport,
       itineraries,
@@ -73,7 +69,9 @@ class PackageSummary extends React.Component {
       const cityImageUrl = packageHelper.getCityImage(it, cities) || '';
       return (
         <ListItem
-          ref={it.dayNo === 1 ? ref : null}
+          ref={(ref) => {
+            if (it.dayNo === 1) this.myRef = ref;
+          }}
           key={it.dayNo}
           className={classes.itinerary}
         >
