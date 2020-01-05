@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import React, {createElement} from 'react';
+import {Element, scroller} from 'react-scroll';
 import {withStyles} from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -34,9 +35,12 @@ class PackageSummary extends React.Component {
     // Init data
     // Setup state
   }
-  myRef = React.createRef();
   componentDidMount() {
-    window.scrollTo(0, this.myRef.offsetTop);
+    scroller.scrollTo('myScrollToElement', {
+      duration: 0,
+      delay: 0,
+      smooth: 'easeInOutQuart',
+    });
   }
   // Event Handlers
   // Display Widget
@@ -45,7 +49,6 @@ class PackageSummary extends React.Component {
     const {classes, transport, itineraries, cities} = this.props;
     const {startDate, carOption} = transport;
     const {totalDays, departDates, carOptions} = transport;
-    const ref = this.myRef;
     console.log('>>>>PackageSummary, render()', {
       transport,
       itineraries,
@@ -70,10 +73,12 @@ class PackageSummary extends React.Component {
       const cityImageUrl = packageHelper.getCityImage(it, cities) || '';
       if (it.dayNo === 1) {
         return (
-          <ListItem ref={ref} key={it.dayNo} className={classes.itinerary}>
-            <Typography variant='h6' component='h4'>
-              {labelItinerary}
-            </Typography>
+          <ListItem key={it.dayNo} className={classes.itinerary}>
+            <Element name='myScrollToElement'>
+              <Typography variant='h6' component='h4'>
+                {labelItinerary}
+              </Typography>
+            </Element>
             <GridList cellHeight={160} className={classes.gridList} cols={1}>
               <GridListTile
                 cols={1}
