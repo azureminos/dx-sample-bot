@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import React, {createElement, useRef} from 'react';
+import React, {createElement} from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -30,11 +30,11 @@ const styles = (theme) => ({
 class PackageSummary extends React.Component {
   constructor(props) {
     super(props);
+    this.myRef = React.createRef();
     // Bind event handlers
     // Init data
     // Setup state
   }
-  myRef = useRef(null);
   componentDidMount() {
     window.scrollTo(0, this.myRef.offsetTop);
   }
