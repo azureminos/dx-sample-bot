@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import React, {createElement} from 'react';
+import React, {createElement, useRef} from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -34,7 +34,7 @@ class PackageSummary extends React.Component {
     // Init data
     // Setup state
   }
-  myRef = null;
+  myRef = useRef(null);
   componentDidMount() {
     window.scrollTo(0, this.myRef.offsetTop);
   }
@@ -45,6 +45,7 @@ class PackageSummary extends React.Component {
     const {classes, transport, itineraries, cities} = this.props;
     const {startDate, carOption} = transport;
     const {totalDays, departDates, carOptions} = transport;
+    const ref = this.myRef;
     console.log('>>>>PackageSummary, render()', {
       transport,
       itineraries,
@@ -69,9 +70,7 @@ class PackageSummary extends React.Component {
       const cityImageUrl = packageHelper.getCityImage(it, cities) || '';
       return (
         <ListItem
-          ref={(ref) => {
-            if (it.dayNo === 1) this.myRef = ref;
-          }}
+          ref={it.dayNo === 1 ? ref : null}
           key={it.dayNo}
           className={classes.itinerary}
         >
