@@ -32,15 +32,19 @@ class PackageSummary extends React.Component {
   constructor(props) {
     super(props);
     // Bind event handlers
+    this.scrollTo = this.scrollTo.bind(this);
     // Init data
     // Setup state
   }
-  componentDidMount() {
+  scrollTo() {
     scroller.scrollTo('myScrollToElement', {
       duration: 0,
       delay: 0,
       smooth: 'easeInOutQuart',
     });
+  }
+  componentDidMount() {
+    this.scrollTo();
   }
   // Event Handlers
   // Display Widget
