@@ -392,14 +392,14 @@ class BotModal extends React.Component {
       <Dialog
         fullScreen
         open
-        onClose={this.handleClose}
+        onClose={actions.handleClose}
         TransitionComponent={Transition}
       >
         <AppBar color='default' className={classes.headerBar}>
           <Toolbar>
             <IconButton
               color='inherit'
-              onClick={this.handleClose}
+              onClick={actions.handleClose}
               aria-label='Close'
             >
               <CloseIcon />

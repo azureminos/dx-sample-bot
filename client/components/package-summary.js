@@ -34,6 +34,10 @@ class PackageSummary extends React.Component {
     // Init data
     // Setup state
   }
+  myRef = null;
+  componentDidMount() {
+    window.scrollTo(0, this.myRef.offsetTop);
+  }
   // Event Handlers
   // Display Widget
   render() {
@@ -63,8 +67,9 @@ class PackageSummary extends React.Component {
     const divDays = _.map(itineraries, (it) => {
       const labelItinerary = `Day ${it.dayNo}, ${it.cityVisit}`;
       const cityImageUrl = packageHelper.getCityImage(it, cities) || '';
+      const ref = it.dayNo === 1 ? (ref) => (this.myRef = ref) : null;
       return (
-        <ListItem key={it.dayNo} className={classes.itinerary}>
+        <ListItem ref={ref} key={it.dayNo} className={classes.itinerary}>
           <Typography variant='h6' component='h4'>
             {labelItinerary}
           </Typography>
