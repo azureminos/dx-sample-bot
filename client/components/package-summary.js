@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import React, {createElement, useRef} from 'react';
+import React, {createElement} from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -34,7 +34,7 @@ class PackageSummary extends React.Component {
     // Init data
     // Setup state
   }
-  myRef = useRef();
+  myRef = React.createRef();
   componentDidMount() {
     window.scrollTo(0, this.myRef.offsetTop);
   }
