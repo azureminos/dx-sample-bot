@@ -1,12 +1,8 @@
 import _ from 'lodash';
 import React, {createElement} from 'react';
-import {Element, scroller} from 'react-scroll';
 import {withStyles} from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemText from '@material-ui/core/ListItemText';
-import Avatar from '@material-ui/core/Avatar';
 import Divider from '@material-ui/core/Divider';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
@@ -15,9 +11,7 @@ import FlightCar from './flight-car';
 import packageHelper from '../../lib/package-helper';
 import CONSTANTS from '../../lib/constants';
 // ====== Icons ======
-import BeachAccessIcon from '@material-ui/icons/BeachAccess';
 // Variables
-const {Global} = CONSTANTS.get();
 const styles = (theme) => ({
   root: {
     width: '100%',
@@ -36,16 +30,7 @@ class PackageSummary extends React.Component {
     // Init data
     // Setup state
   }
-  scrollTo() {
-    scroller.scrollTo('myScrollToElement', {
-      duration: 0,
-      delay: 0,
-      smooth: 'easeInOutQuart',
-    });
-  }
-  componentDidMount() {
-    this.scrollTo();
-  }
+  componentDidMount() {}
   // Event Handlers
   // Display Widget
   render() {
@@ -59,7 +44,6 @@ class PackageSummary extends React.Component {
       cities,
     });
     // Local Variables
-    const labelDays = `${totalDays} Day${totalDays > 1 ? 's' : ''}`;
     // Sub Components
     const secFlightCar = (
       <FlightCar
@@ -75,29 +59,6 @@ class PackageSummary extends React.Component {
     const divDays = _.map(itineraries, (it) => {
       const labelItinerary = `Day ${it.dayNo}, ${it.cityVisit}`;
       const cityImageUrl = packageHelper.getCityImage(it, cities) || '';
-      if (it.dayNo === 1) {
-        return (
-          <ListItem key={it.dayNo} className={classes.itinerary}>
-            <Element name='myScrollToElement'>
-              <Typography variant='h6' component='h4'>
-                {labelItinerary}
-              </Typography>
-            </Element>
-            <GridList cellHeight={160} className={classes.gridList} cols={1}>
-              <GridListTile
-                cols={1}
-                onClick={() => {
-                  if (handleClickDay) {
-                    handleClickDay({}, it.dayNo);
-                  }
-                }}
-              >
-                <img src={cityImageUrl} alt={labelItinerary} />
-              </GridListTile>
-            </GridList>
-          </ListItem>
-        );
-      }
       return (
         <ListItem key={it.dayNo} className={classes.itinerary}>
           <Typography variant='h6' component='h4'>
@@ -123,14 +84,6 @@ class PackageSummary extends React.Component {
       <List className={classes.root}>
         <ListItem key={'date-selector-1'}>{secFlightCar}</ListItem>
         <Divider />
-        <ListItem key={'package-Itinerary'}>
-          <ListItemAvatar>
-            <Avatar>
-              <BeachAccessIcon />
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText primary='Itinerary Details' secondary={labelDays} />
-        </ListItem>
         {divDays}
         <Divider />
         <ListItem key={'date-selector-2'}>{secFlightCar}</ListItem>
