@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import React, {createElement} from 'react';
+import React, {createElement, useRef} from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -30,11 +30,11 @@ const styles = (theme) => ({
 class PackageSummary extends React.Component {
   constructor(props) {
     super(props);
-    this.myRef = React.createRef();
     // Bind event handlers
     // Init data
     // Setup state
   }
+  myRef = useRef();
   componentDidMount() {
     window.scrollTo(0, this.myRef.offsetTop);
   }
@@ -68,12 +68,29 @@ class PackageSummary extends React.Component {
     const divDays = _.map(itineraries, (it) => {
       const labelItinerary = `Day ${it.dayNo}, ${it.cityVisit}`;
       const cityImageUrl = packageHelper.getCityImage(it, cities) || '';
+      if (it.dayNo === 1) {
+        return (
+          <ListItem ref={ref} key={it.dayNo} className={classes.itinerary}>
+            <Typography variant='h6' component='h4'>
+              {labelItinerary}
+            </Typography>
+            <GridList cellHeight={160} className={classes.gridList} cols={1}>
+              <GridListTile
+                cols={1}
+                onClick={() => {
+                  if (handleClickDay) {
+                    handleClickDay({}, it.dayNo);
+                  }
+                }}
+              >
+                <img src={cityImageUrl} alt={labelItinerary} />
+              </GridListTile>
+            </GridList>
+          </ListItem>
+        );
+      }
       return (
-        <ListItem
-          ref={it.dayNo === 1 ? ref : null}
-          key={it.dayNo}
-          className={classes.itinerary}
-        >
+        <ListItem key={it.dayNo} className={classes.itinerary}>
           <Typography variant='h6' component='h4'>
             {labelItinerary}
           </Typography>

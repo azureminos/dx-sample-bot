@@ -223,11 +223,9 @@ class PackageItinerary extends React.Component {
         );
       tabPanels.push(
         <TabPanel key={it.dayNo} value={tabSelected} index={it.dayNo}>
-          <Typography component='div'>
-            {attractionSelected}
-            {attractionToSelect}
-            {hotelSelected}
-          </Typography>
+          {attractionSelected}
+          {attractionToSelect}
+          {hotelSelected}
         </TabPanel>
       );
     });
