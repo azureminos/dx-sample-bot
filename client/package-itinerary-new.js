@@ -51,12 +51,6 @@ const styles = (theme) => ({
     width: '100%',
     backgroundColor: theme.palette.background.paper,
   },
-  appBar: {
-    position: 'absolute',
-    width: '100%',
-    top: 0,
-    bottom: 'auto',
-  },
   list: {
     padding: 8,
   },
@@ -237,7 +231,7 @@ class PackageItinerary extends React.Component {
     });
     return (
       <div className={classes.root}>
-        <AppBar position='fixed' color='default' className={classes.appBar}>
+        <AppBar position='static' color='default'>
           <Tabs
             value={tabSelected}
             onChange={this.doHandleTabSelect}
