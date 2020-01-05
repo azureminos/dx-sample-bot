@@ -54,8 +54,8 @@ const styles = (theme) => ({
   appBar: {
     position: 'absolute',
     width: '100%',
-    top: 'auto',
-    bottom: 0,
+    top: 0,
+    bottom: 'auto',
   },
   list: {
     padding: 8,

@@ -26,7 +26,6 @@ class PackageSummary extends React.Component {
   constructor(props) {
     super(props);
     // Bind event handlers
-    this.scrollTo = this.scrollTo.bind(this);
     // Init data
     // Setup state
   }
