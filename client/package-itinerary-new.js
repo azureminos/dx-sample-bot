@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import React, {createElement} from 'react';
-import Moment from 'moment';
 import {withStyles} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -16,6 +15,9 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import AttractionSlider from './components/attraction-slider-new';
 import HotelOverview from './components/hotel-overview';
 import PackageSummary from './components/package-summary';
+import BotFooter from './components/bot-footer-v2';
+import Helper from '../lib/helper';
+import PackageHelper from '../lib/package-helper';
 import CONSTANTS from '../lib/constants';
 
 // Functions
@@ -51,6 +53,18 @@ const styles = (theme) => ({
     width: '100%',
     backgroundColor: theme.palette.background.paper,
   },
+  whitespaceTop: {
+    height: 100,
+  },
+  whitespaceBottom: {
+    height: 100,
+  },
+  headerBar: {
+    position: 'absolute',
+    width: '100%',
+    top: 'auto',
+    bottom: 0,
+  },
   list: {
     padding: 8,
   },
@@ -80,9 +94,14 @@ class PackageItinerary extends React.Component {
   // Display Widget
   render() {
     // Local variables
-    const {classes, windowWidth} = this.props;
-    const {actions, transport, itineraries, cities} = this.props;
+    const {classes, windowWidth, updating} = this.props;
+    const {packageSummary, cities, actions} = this.props;
+    const {instPackage, instPackageExt, rates} = this.props;
     const {
+      handlePeople,
+      handleRoom,
+      handleShare,
+      handlePayment,
       handleSelectCar,
       handleSelectFlight,
       handleLikeAttraction,
@@ -90,11 +109,31 @@ class PackageItinerary extends React.Component {
       handleDeleteItinerary,
     } = actions;
     const {tabSelected} = this.state;
-    console.log('>>>>PackageItinerary.render', {
-      transport,
-      itineraries,
-      tabSelected,
+    const carOptions = instPackage.isCustomised
+      ? Helper.getValidCarOptions(rates.carRates)
+      : [instPackage.carOption];
+    const departDates = _.map(packageSummary.departureDate.split(','), (d) => {
+      return d.trim();
     });
+    const transport = {
+      departDates: departDates,
+      startDate: instPackage.startDate,
+      totalDays: instPackage.totalDays,
+      carOption: instPackage.carOption,
+      carOptions: carOptions,
+    };
+    const itineraries = PackageHelper.getFullItinerary({
+      isCustomised: instPackage.isCustomised,
+      cities: cities,
+      packageItems: instPackage.items,
+      packageHotels: instPackage.hotels,
+    });
+    const footerActions = {
+      handlePeople: handlePeople,
+      handleRoom: handleRoom,
+      handleShare: handleShare,
+      handlePayment: handlePayment,
+    };
     // Sub Widgets
     const tabLabels = [
       <Tab key={'Summary'} label={'Summary'} {...a11yProps(0)} />,
@@ -231,7 +270,7 @@ class PackageItinerary extends React.Component {
     });
     return (
       <div className={classes.root}>
-        <AppBar position='static' color='default'>
+        <AppBar position='fixed' color='default' className={classes.headerBar}>
           <Tabs
             value={tabSelected}
             onChange={this.doHandleTabSelect}
@@ -244,7 +283,16 @@ class PackageItinerary extends React.Component {
             {tabLabels}
           </Tabs>
         </AppBar>
+        <div className={classes.whitespaceTop} />
         {tabPanels}
+        <div className={classes.whitespaceBottom} />
+        <BotFooter
+          instPackage={instPackage}
+          instPackageExt={instPackageExt}
+          rates={rates}
+          actions={footerActions}
+          updating={updating}
+        />
       </div>
     );
   }

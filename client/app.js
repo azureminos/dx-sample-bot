@@ -15,7 +15,6 @@ import {CSSTransitionGroup} from 'react-transition-group';
 
 // ==== COMPONENTS ========================================
 import BotModal from './components/bot-modal-v2';
-import BotFooter from './components/bot-footer-v2';
 import DialogShare from './components/dialog-share';
 import PackageAll from './package-all';
 import PackageItinerary from './package-itinerary-new';
@@ -27,21 +26,9 @@ import CONSTANTS from '../lib/constants';
 // ==== CSS ==============================================
 import 'swiper/css/swiper.css';
 import '../public/style.css';
-import {isError} from 'util';
 
 // Variables
-const styles = (theme) => ({
-  appBody: {
-    position: 'absolute',
-    left: 0,
-    maxHeight: 600,
-    overflowY: 'auto',
-    width: '100%',
-  },
-  whitespaceBottom: {
-    height: 100,
-  },
-});
+const styles = (theme) => ({});
 const {Modal, Global, Instance, SocketChannel} = CONSTANTS.get();
 const InstanceStatus = Instance.status;
 const SocketAction = SocketChannel.Action;
@@ -832,13 +819,11 @@ class App extends React.Component {
     const {modalType, modalRef, reference, updating} = this.state;
     const {cities, packageSummary} = reference;
     const {classes, apiUri, viewerId, windowWidth} = this.props;
-    const footerActions = {
+    const itineraryActions = {
       handlePeople: this.handleHdPeopleChange,
       handleRoom: this.handleHdRoomChange,
       handleShare: this.handleFtBtnShare,
       handlePayment: this.confirmSubmitPayment,
-    };
-    const itineraryActions = {
       handleSelectHotel: this.handleSelectHotel,
       handleSelectFlight: this.handleSelectFlight,
       handleSelectCar: this.handleSelectCar,
@@ -854,34 +839,11 @@ class App extends React.Component {
       handleCustomise: this.enablePackageDiy,
     };
     // Sub Components
-    const divWhitespaceBottom = <div className={classes.whitespaceBottom} />;
     let page = <div>Loading...</div>;
     if (instPackage) {
       // Update Webview Title
       document.title = packageSummary.name;
       // Variables
-      const carOptions = instPackage.isCustomised
-        ? Helper.getValidCarOptions(rates.carRates)
-        : [instPackage.carOption];
-      const departDates = _.map(
-        packageSummary.departureDate.split(','),
-        (d) => {
-          return d.trim();
-        }
-      );
-      const transport = {
-        departDates: departDates,
-        startDate: instPackage.startDate,
-        totalDays: instPackage.totalDays,
-        carOption: instPackage.carOption,
-        carOptions: carOptions,
-      };
-      const itineraries = PackageHelper.getFullItinerary({
-        isCustomised: instPackage.isCustomised,
-        cities: cities,
-        packageItems: instPackage.items,
-        packageHotels: instPackage.hotels,
-      });
       // ======Web Elements======
       // Dialog Share
       const elDialogShare = (
@@ -910,24 +872,16 @@ class App extends React.Component {
       );
       page = (
         <div>
-          <div className={classes.appBody}>
-            <PackageItinerary
-              daySelected={daySelected}
-              rates={rates}
-              transport={transport}
-              itineraries={itineraries}
-              cities={cities}
-              actions={itineraryActions}
-              windowWidth={windowWidth}
-            />
-            {divWhitespaceBottom}
-          </div>
-          <BotFooter
+          <PackageItinerary
+            updating={updating}
+            daySelected={daySelected}
             instPackage={instPackage}
             instPackageExt={instPackageExt}
             rates={rates}
-            actions={footerActions}
-            updating={updating}
+            cities={cities}
+            packageSummary={packageSummary}
+            actions={itineraryActions}
+            windowWidth={windowWidth}
           />
           {elModal}
           {elDialogShare}
