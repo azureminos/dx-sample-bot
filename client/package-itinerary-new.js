@@ -54,7 +54,7 @@ const styles = (theme) => ({
     backgroundColor: theme.palette.background.paper,
   },
   whitespaceTop: {
-    height: 100,
+    height: 50,
   },
   whitespaceBottom: {
     height: 100,
@@ -62,8 +62,8 @@ const styles = (theme) => ({
   headerBar: {
     position: 'absolute',
     width: '100%',
-    top: 'auto',
-    bottom: 0,
+    top: 0,
+    bottom: 'auto',
   },
   list: {
     padding: 8,
