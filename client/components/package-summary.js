@@ -35,6 +35,7 @@ class PackageSummary extends React.Component {
       duration: 0,
       delay: 0,
       smooth: 'easeInOutQuart',
+      offset: -50,
     });
   }
   // Event Handlers
