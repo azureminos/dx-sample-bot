@@ -64,11 +64,17 @@ class PackageSummary extends React.Component {
     );
     const divDays = _.map(itineraries, (it) => {
       const labelItinerary = `Day ${it.dayNo}, ${it.cityVisit}`;
+      const divLabelItinerary =
+        it.dayNo === 1 ? (
+          <Element name='myScrollToElement'>{labelItinerary}</Element>
+        ) : (
+          labelItinerary
+        );
       const cityImageUrl = packageHelper.getCityImage(it, cities) || '';
       return (
         <ListItem key={it.dayNo} className={classes.itinerary}>
           <Typography variant='h6' component='h4'>
-            <Element name='myScrollToElement'>{labelItinerary}</Element>
+            {divLabelItinerary}
           </Typography>
           <GridList cellHeight={160} className={classes.gridList} cols={1}>
             <GridListTile
