@@ -23,7 +23,7 @@ const {maxRoomCapacity, standardRoomCapacity} = Global;
 
 const styles = (theme) => ({
   appBar: {
-    position: 'absolute',
+    position: 'fixed',
     width: '100%',
     top: 'auto',
     bottom: 0,

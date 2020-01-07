@@ -60,7 +60,7 @@ const styles = (theme) => ({
     height: 100,
   },
   headerBar: {
-    position: 'absolute',
+    position: 'fixed',
     width: '100%',
     top: 0,
     bottom: 'auto',
