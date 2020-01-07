@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import React, {createElement} from 'react';
+import {Element, scroller} from 'react-scroll';
 import {withStyles} from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -29,7 +30,13 @@ class PackageSummary extends React.Component {
     // Init data
     // Setup state
   }
-  componentDidMount() {}
+  componentDidMount() {
+    scroller.scrollTo('myScrollToElement', {
+      duration: 0,
+      delay: 0,
+      smooth: 'easeInOutQuart',
+    });
+  }
   // Event Handlers
   // Display Widget
   render() {
@@ -61,7 +68,7 @@ class PackageSummary extends React.Component {
       return (
         <ListItem key={it.dayNo} className={classes.itinerary}>
           <Typography variant='h6' component='h4'>
-            {labelItinerary}
+            <Element name='myScrollToElement'>{labelItinerary}</Element>
           </Typography>
           <GridList cellHeight={160} className={classes.gridList} cols={1}>
             <GridListTile

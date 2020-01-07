@@ -44,9 +44,6 @@ const a11yProps = (index) => {
   };
 };
 // Variables
-const {Global, Instance} = CONSTANTS.get();
-const InstanceStatus = Instance.status;
-
 const styles = (theme) => ({
   root: {
     flexGrow: 1,

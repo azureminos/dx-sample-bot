@@ -171,14 +171,16 @@ class BotFooter extends React.Component {
     }
     // ====== Web Elements ======
     // ====== Display ======
+    /*
+      <div className={classes.loader}>
+        <Fade in={updating} unmountOnExit>
+          <CircularProgress size={20} />
+        </Fade>
+      </div>
+    */
     return (
       <AppBar position='fixed' color='default' className={classes.appBar}>
         <Toolbar className={classes.toolbar}>
-          <div className={classes.loader}>
-            <Fade in={updating} unmountOnExit>
-              <CircularProgress size={20} />
-            </Fade>
-          </div>
           <Table>
             <TableBody>
               <TableRow key={'share'}>
