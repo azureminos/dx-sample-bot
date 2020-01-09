@@ -1,20 +1,11 @@
-/**
- * Copyright 2017-present, Facebook, Inc. All rights reserved.
- *
- * This source code is licensed under the license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-/* eslint-disable react/react-in-jsx-scope */
-
-/* ----------  External Libraries  ---------- */
 // eslint-disable-next-line
-import React from 'react';
+import React, {createElement} from 'react';
 import ReactDOM from 'react-dom';
-
 /* ----------  Internal Components  ---------- */
 import App from './app';
 import Oops from './components/oops';
+// Styles
+import '../public/style.css';
 
 window.attachApp = (params) => {
   console.log('>>>>window.attachApp()', params);
