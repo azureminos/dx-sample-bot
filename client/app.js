@@ -71,11 +71,9 @@ class App extends React.Component {
     this.state = {
       updating: false,
       isOpenDialogShare: false,
-      instId: props.instId || '',
       user: null,
       socketStatus: '',
       message: '',
-      daySelected: null,
       modalType: '',
       modalRef: null,
       rates: null,
@@ -112,8 +110,7 @@ class App extends React.Component {
      ============================== */
   // ----------  App  ----------
   register() {
-    const {viewerId} = this.props;
-    const {instId} = this.state;
+    const {viewerId, instId} = this.props;
     console.log('>>>>MobileApp.register', {viewerId, instId});
     if (instId) {
       const params = {
@@ -205,7 +202,6 @@ class App extends React.Component {
 
     this.setState({
       updating: false, // Turn spinner off
-      instId: instPackage._id,
       instPackage: instPackage,
       instPackageExt: {...instPackageExt, ...matchingRates},
       reference,
@@ -310,8 +306,7 @@ class App extends React.Component {
     console.log('>>>>MobileApp.handleHdPeopleChange', input);
     let tmpMember = null;
     const {viewerId} = this.props;
-    const {instId, user} = this.state;
-    const {instPackage, instPackageExt} = this.state;
+    const {user, instPackage, instPackageExt} = this.state;
     const isExist = !!_.find(instPackage.members, (m) => {
       return m.loginId === viewerId;
     });
@@ -361,7 +356,7 @@ class App extends React.Component {
       : tmpMember;
     const req = {
       senderId: viewerId,
-      instId: instId,
+      instId: instPackage._id,
       action: action,
       params: params,
     };
@@ -371,8 +366,7 @@ class App extends React.Component {
     console.log('>>>>MobileApp.handleHdRoomChange', input);
     let tmpMember = null;
     const {viewerId} = this.props;
-    const {instId, user} = this.state;
-    const {instPackage, instPackageExt} = this.state;
+    const {user, instPackage, instPackageExt} = this.state;
     const isExist = !!_.find(instPackage.members, (m) => {
       return m.loginId === viewerId;
     });
@@ -420,7 +414,7 @@ class App extends React.Component {
       : tmpMember;
     const req = {
       senderId: viewerId,
-      instId: instId,
+      instId: instPackage._id,
       action: action,
       params: params,
     };
@@ -758,8 +752,7 @@ class App extends React.Component {
     socket.on('package:update', this.update);
     socket.on('package:showAll', this.showAll);
 
-    const {viewerId, packageId} = this.props;
-    const {instId} = this.state;
+    const {viewerId, packageId, instId} = this.props;
     const handleMount = (vid, iid, pid) => {
       if (vid && !pid && !iid) {
         console.log('>>>>Load All Package');
@@ -814,9 +807,9 @@ class App extends React.Component {
   render() {
     // Local Variables
     console.log('>>>>MobileApp.render', this.state);
-    const {instId, isOpenDialogShare, daySelected} = this.state;
+    const {isOpenDialogShare, updating} = this.state;
     const {packages, instPackage, instPackageExt, rates} = this.state;
-    const {modalType, modalRef, reference, updating} = this.state;
+    const {modalType, modalRef, reference} = this.state;
     const {cities, packageSummary} = reference;
     const {classes, apiUri, viewerId, windowWidth} = this.props;
     const itineraryActions = {
@@ -850,7 +843,7 @@ class App extends React.Component {
         <DialogShare
           open={isOpenDialogShare}
           viewerId={viewerId}
-          instId={instId}
+          instId={instPackage._id}
           title={packageSummary.name}
           description={packageSummary.description}
           imageUrl={packageSummary.imageUrl}
@@ -874,7 +867,6 @@ class App extends React.Component {
         <div>
           <PackageItinerary
             updating={updating}
-            daySelected={daySelected}
             instPackage={instPackage}
             instPackageExt={instPackageExt}
             rates={rates}

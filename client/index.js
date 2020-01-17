@@ -4,8 +4,6 @@ import ReactDOM from 'react-dom';
 /* ----------  Internal Components  ---------- */
 import App from './app';
 import Oops from './components/oops';
-// Styles
-import '../public/style.css';
 
 window.attachApp = (params) => {
   console.log('>>>>window.attachApp()', params);
