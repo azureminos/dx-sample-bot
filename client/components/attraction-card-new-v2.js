@@ -146,7 +146,6 @@ class AttractionCard extends React.Component {
     );
     const modal = (
       <Dialog
-        fullScreen
         open={open}
         onClose={this.doHandleClose}
         TransitionComponent={Transition}
