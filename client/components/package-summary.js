@@ -21,6 +21,9 @@ const styles = (theme) => ({
   itinerary: {
     display: 'block',
   },
+  image: {
+    width: '100%',
+  },
   imgCaption: {
     bottom: '100%',
     color: '#fff',
@@ -29,6 +32,7 @@ const styles = (theme) => ({
     marginBottom: 20,
     position: 'absolute',
     right: 15,
+    fontWeight: 'bold',
   },
 });
 
@@ -96,7 +100,7 @@ class PackageSummary extends React.Component {
                 <img
                   src={cityImageUrl}
                   alt={labelItinerary}
-                  style='width:100%'
+                  className={classes.image}
                 />
                 <figcaption className={classes.imgCaption}>
                   {divLabelItinerary}
