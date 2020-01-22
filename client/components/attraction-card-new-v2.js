@@ -6,6 +6,8 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import DialogContent from '@material-ui/core/DialogContent';
 import Slide from '@material-ui/core/Slide';
 import Dialog from '@material-ui/core/Dialog';
 import List from '@material-ui/core/List';
@@ -25,6 +27,16 @@ import IconUnlock from '@material-ui/icons/LockOpen';
 const styles = (theme) => ({
   flex: {
     display: 'flex',
+  },
+  bodyContent: {
+    marginTop: 80,
+  },
+  headerBar: {
+    position: 'absolute',
+    width: '100%',
+    height: 60,
+    top: 0,
+    bottom: 'auto',
   },
   appBar: {
     position: 'absolute',
@@ -150,19 +162,35 @@ class AttractionCard extends React.Component {
         onClose={this.doHandleClose}
         TransitionComponent={Transition}
       >
-        <List className={classes.root}>
-          <ListItem key={'attraction-images'} dense>
-            <GridList cellHeight={160} className={classes.gridList} cols={1}>
-              <GridListTile cols={1}>
-                <img src={item.imageUrl} alt={'attraction-image'} />
-              </GridListTile>
-            </GridList>
-          </ListItem>
-          <Divider />
-          <ListItem key={'attraction-description'} dense>
-            <Typography component='p'>{item.description}</Typography>
-          </ListItem>
-        </List>
+        <AppBar color='default' className={classes.headerBar}>
+          <Toolbar>
+            <IconButton
+              color='inherit'
+              onClick={this.doHandleClose}
+              aria-label='Close'
+            >
+              <CloseIcon />
+            </IconButton>
+            <Typography variant='h6' color='inherit'>
+              {item.name}
+            </Typography>
+          </Toolbar>
+        </AppBar>
+        <DialogContent classes={{root: classes.bodyContent}}>
+          <List className={classes.root}>
+            <ListItem key={'attraction-images'} dense>
+              <GridList cellHeight={160} className={classes.gridList} cols={1}>
+                <GridListTile cols={1}>
+                  <img src={item.imageUrl} alt={'attraction-image'} />
+                </GridListTile>
+              </GridList>
+            </ListItem>
+            <Divider />
+            <ListItem key={'attraction-description'} dense>
+              <Typography component='p'>{item.description}</Typography>
+            </ListItem>
+          </List>
+        </DialogContent>
         <AppBar position='fixed' color='default' className={classes.appBar}>
           <Toolbar className={classes.toolbar}>
             {btnLike}
