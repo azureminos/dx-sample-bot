@@ -164,6 +164,7 @@ class AttractionCard extends React.Component {
       >
         <AppBar color='default' className={classes.headerBar}>
           <Toolbar>
+            <div>{item.name}</div>
             <IconButton
               color='inherit'
               onClick={this.doHandleClose}
@@ -171,9 +172,6 @@ class AttractionCard extends React.Component {
             >
               <CloseIcon />
             </IconButton>
-            <Typography variant='h6' color='inherit'>
-              {item.name}
-            </Typography>
           </Toolbar>
         </AppBar>
         <DialogContent classes={{root: classes.bodyContent}}>
