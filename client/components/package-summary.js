@@ -21,6 +21,15 @@ const styles = (theme) => ({
   itinerary: {
     display: 'block',
   },
+  imgCaption: {
+    bottom: '100%',
+    color: '#fff',
+    left: 15,
+    marginTop: 0,
+    marginBottom: 20,
+    position: 'absolute',
+    right: 15,
+  },
 });
 
 class PackageSummary extends React.Component {
@@ -74,9 +83,6 @@ class PackageSummary extends React.Component {
       const cityImageUrl = packageHelper.getCityImage(it, cities) || '';
       return (
         <ListItem key={it.dayNo} className={classes.itinerary}>
-          <Typography variant='h6' component='h4'>
-            {divLabelItinerary}
-          </Typography>
           <GridList cellHeight={160} className={classes.gridList} cols={1}>
             <GridListTile
               cols={1}
@@ -86,7 +92,16 @@ class PackageSummary extends React.Component {
                 }
               }}
             >
-              <img src={cityImageUrl} alt={labelItinerary} />
+              <figure>
+                <img
+                  src={cityImageUrl}
+                  alt={labelItinerary}
+                  style='width:100%'
+                />
+                <figcaption className={classes.imgCaption}>
+                  {divLabelItinerary}
+                </figcaption>
+              </figure>
             </GridListTile>
           </GridList>
         </ListItem>
