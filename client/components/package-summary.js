@@ -21,6 +21,10 @@ const styles = (theme) => ({
   itinerary: {
     display: 'block',
   },
+  figure: {
+    marginInlineStart: 0,
+    marginInlineEnd: 0,
+  },
   imageWrapper: {
     display: 'block',
     height: 0,
@@ -112,7 +116,7 @@ class PackageSummary extends React.Component {
                 }
               }}
             >
-              <figure>
+              <figure className={classes.figure}>
                 <span className={classes.imageWrapper}>
                   <img
                     src={cityImageUrl}
