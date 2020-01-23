@@ -24,6 +24,7 @@ const styles = (theme) => ({
   figure: {
     marginInlineStart: 0,
     marginInlineEnd: 0,
+    cursor: 'pointer',
   },
   imageWrapper: {
     display: 'block',
