@@ -21,10 +21,26 @@ const styles = (theme) => ({
   itinerary: {
     display: 'block',
   },
+  imageWrapper: {
+    display: 'block',
+    height: 0,
+    paddingBottom: '100%',
+  },
   image: {
     width: '100%',
+    border: 0,
+    display: 'block',
+    maxWidth: '100%',
   },
-  imgCaption: {
+  captionWraper: {
+    height: '100%',
+    left: 0,
+    padding: '20px 15px',
+    position: 'absolute',
+    top: '100%',
+    width: '100%',
+  },
+  caption: {
     bottom: '100%',
     color: '#fff',
     left: 15,
@@ -97,13 +113,15 @@ class PackageSummary extends React.Component {
               }}
             >
               <figure>
-                <img
-                  src={cityImageUrl}
-                  alt={labelItinerary}
-                  className={classes.image}
-                />
-                <figcaption className={classes.imgCaption}>
-                  {divLabelItinerary}
+                <span className={classes.imageWrapper}>
+                  <img
+                    src={cityImageUrl}
+                    alt={labelItinerary}
+                    className={classes.image}
+                  />
+                </span>
+                <figcaption className={classes.captionWrapper}>
+                  <h4 className={classes.caption}>{divLabelItinerary}</h4>
                 </figcaption>
               </figure>
             </GridListTile>
