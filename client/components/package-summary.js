@@ -32,7 +32,7 @@ const styles = (theme) => ({
     display: 'block',
     maxWidth: '100%',
   },
-  captionWraper: {
+  captionWrapper: {
     height: '100%',
     left: 0,
     padding: '20px 15px',
