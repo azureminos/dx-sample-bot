@@ -605,7 +605,7 @@ class App extends React.Component {
         if(_.findIndex(existings[i].nearByAttractions, (aid) => {
           return aid === target.id;
         }) > -1) {
-          return true;
+          return true; 
         }
       }
       return false;
