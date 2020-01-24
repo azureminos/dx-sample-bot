@@ -80,6 +80,7 @@ class BotModal extends React.Component {
   render() {
     const {isTermsAgreed} = this.state;
     const {classes, modal, actions, reference} = this.props;
+    const {isSmallPopup} = reference;
 
     // Event Handler
     const checkTermsHandler = (e) => {
@@ -390,13 +391,16 @@ class BotModal extends React.Component {
     // Display Widget
     return (
       <Dialog
-        fullScreen
         open
+        fullScreen={!isSmallPopup}
         onClose={actions.handleClose}
         TransitionComponent={Transition}
       >
         <AppBar color='default' className={classes.headerBar}>
           <Toolbar>
+            <Typography variant='h6' color='inherit'>
+              {secModal.title}
+            </Typography>
             <IconButton
               color='inherit'
               onClick={actions.handleClose}
@@ -404,9 +408,6 @@ class BotModal extends React.Component {
             >
               <CloseIcon />
             </IconButton>
-            <Typography variant='h6' color='inherit'>
-              {secModal.title}
-            </Typography>
           </Toolbar>
         </AppBar>
         <DialogContent classes={{root: classes.bodyContent}}>

@@ -653,6 +653,7 @@ class App extends React.Component {
       // Package is not customised (DIY) yet, ask customer to confirm
       this.setState({
         modalType: Modal.ENABLE_DIY.key,
+        modalRef: {isSmallPopup: true},
       });
     } else {
       // Package is customised (DIY) already, move on with rest of logic
