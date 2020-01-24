@@ -600,39 +600,40 @@ class App extends React.Component {
       instPackage: this.state.instPackage,
     });
     // Functions
-    const hasNearBy = (target, idx, existings) => {
-      for(var i=0; i<idx && existings.length; i++) {
-        if(_.findIndex(existings[i].nearByAttractions, (aid) => {
-          return aid === target.id;
-        }) > -1) {
-          return true; 
+    const hasNearBy = (target, idx, existing) => {
+      for (let i = 0; i < idx && existing.length; i++) {
+        if (
+          _.findIndex(existing[i].nearByAttractions, (aid) => {
+            return aid === target.id;
+          }) > -1
+        ) {
+          return true;
         }
       }
       return false;
-    }
-    const isOverloaded = (existings, target) => {
+    };
+    const isOverloaded = (existing, target) => {
       if (timePlannable === 0) {
         return true;
       }
       let timePlanned = 0;
-      for (let i = 0; i < existings.length; i++) {
-        const attraction = existings[i];
+      for (let i = 0; i < existing.length; i++) {
+        const attraction = existing[i];
         timePlanned =
           timePlanned + attraction.timeTraffic + attraction.timeVisit;
-        if (i > 0 && hasNearBy(attraction, i, existings)) {
+        if (i > 0 && hasNearBy(attraction, i, existing)) {
           timePlanned = timePlanned - 1;
         }
       }
       if (timePlanned >= timePlannable) {
         return true;
-      } else {
-        timePlanned = timePlanned + target.timeTraffic + target.timeVisit;
-        if(hasNearBy(target, existings.length, existings)) {
-          timePlanned = timePlanned - 1;
-        }
-        if(timePlanned >= timePlannable + 1) {
-          return true;
-        }
+      }
+      timePlanned = timePlanned + target.timeTraffic + target.timeVisit;
+      if (hasNearBy(target, existing.length, existing)) {
+        timePlanned = timePlanned - 1;
+      }
+      if (timePlanned >= timePlannable + 1) {
+        return true;
       }
       return false;
     };
