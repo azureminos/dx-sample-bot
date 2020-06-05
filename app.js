@@ -147,7 +147,7 @@ app.use((err, req, res) => {
 ThreadSetup.domainWhitelisting();
 ThreadSetup.persistentMenu();
 ThreadSetup.getStartedButton();
-MessengerSetup.setHomeUrl();
+// MessengerSetup.setHomeUrl();
 
 /* =============================================
    =            Complete Configuration         =
