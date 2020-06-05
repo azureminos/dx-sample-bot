@@ -15,7 +15,10 @@
         MessengerExtensions.getContext(
           "<%= appId %>",
           function success(context) {
-            console.log(">>>>MessengerExtensions.getContext Success", context);
+            alert(
+              ">>>>MessengerExtensions.getContext Success: " +
+                JSON.stringify(context)
+            );
             window.attachApp({
               viewerId: context.psid ? context.psid : "<%= userId %>",
               instId: "<%= instId %>",
@@ -25,7 +28,9 @@
             });
           },
           function error(err) {
-            console.log(">>>>MessengerExtensions.getContext Error", err);
+            alert(
+              ">>>>MessengerExtensions.getContext Error: " + JSON.stringify(err)
+            );
             window.attachApp();
           }
         );
