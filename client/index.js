@@ -16,10 +16,10 @@ window.attachApp = (params) => {
   }, window.location: ${JSON.stringify(window.location)}`;*/
   const apiUri = `https://${window.location.hostname}`;
   const windowWidth = document.getElementById('content').offsetWidth;
-  document.getElementById(
+  /* document.getElementById(
     'message'
-  ).innerHTML = `>>>>window.attachApp() >> viewerId: ${viewerId}, instId: ${instId}, packageId: ${packageId}, socketAddress: ${socketAddress}, apiUri: ${apiUri}, threadType: ${threadType}, windowWidth: ${windowWidth}`;
-  /* let app;
+  ).innerHTML = `>>>>window.attachApp() >> viewerId: ${viewerId}, instId: ${instId}, packageId: ${packageId}, socketAddress: ${socketAddress}, apiUri: ${apiUri}, threadType: ${threadType}, windowWidth: ${windowWidth}`;*/
+  let app;
   if (viewerId) {
     app = (
       // The main show
@@ -37,5 +37,5 @@ window.attachApp = (params) => {
     app = <Oops />;
   }
 
-  ReactDOM.render(app, document.getElementById('content'));*/
+  ReactDOM.render(app, document.getElementById('content'));
 };
