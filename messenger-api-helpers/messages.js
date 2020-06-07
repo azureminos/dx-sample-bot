@@ -38,7 +38,7 @@ const openExistingPackageButton = (
   return {
     type: 'web_url',
     title: buttonText,
-    url: instanceUrl,
+    url: 'https://www.oculus.com/',
     messenger_extensions: true,
     webview_height_ratio: 'tall',
     webview_share_button: 'hide',
