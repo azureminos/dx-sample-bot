@@ -18,7 +18,7 @@ window.attachApp = (params) => {
   const windowWidth = document.getElementById('content').offsetWidth;
   document.getElementById(
     'message'
-  ).innerHTML = `>>>>window.attachApp() >> apiUri: ${apiUri}, windowWidth: ${windowWidth}`;
+  ).innerHTML = `>>>>window.attachApp() >> viewerId: ${viewerId}, instId: ${instId}, packageId: ${packageId}, socketAddress: ${socketAddress}, apiUri: ${apiUri}, threadType: ${threadType}, windowWidth: ${windowWidth}`;
   /* let app;
   if (viewerId) {
     app = (
