@@ -14,28 +14,28 @@
     <script>
       window.extAsyncInit = function() {
         alert(">>>>MessengerExtensions loaded");
-        /*MessengerExtensions.getContext(
-          "<%= appId %>",
+        MessengerExtensions.getContext(
+          "749657255797506",
           function success(context) {
             alert(
               ">>>>MessengerExtensions.getContext Success: " +
                 JSON.stringify(context)
             );
-            window.attachApp({
+            /*window.attachApp({
               viewerId: context.psid ? context.psid : "<%= userId %>",
               instId: "<%= instId %>",
               packageId: "<%= packageId %>",
               socketAddress: "<%= socketAddress %>",
               threadType: context.thread_type
-            });
+            });*/
           },
           function error(err) {
             alert(
               ">>>>MessengerExtensions.getContext Error: " + JSON.stringify(err)
             );
-            window.attachApp();
+            //window.attachApp();
           }
-        );*/
+        );
       };
 
       (function(d, s, id) {
