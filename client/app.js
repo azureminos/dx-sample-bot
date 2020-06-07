@@ -826,99 +826,105 @@ class App extends React.Component {
   render() {
     // Local Variables
     console.log('>>>>MobileApp.render', this.state);
-    const {isOpenDialogShare, updating} = this.state;
-    const {packages, instPackage, instPackageExt, rates} = this.state;
-    const {modalType, modalRef, reference} = this.state;
-    const {cities, packageSummary} = reference;
-    const {classes, apiUri, viewerId, windowWidth} = this.props;
-    const itineraryActions = {
-      handlePeople: this.handleHdPeopleChange,
-      handleRoom: this.handleHdRoomChange,
-      handleShare: this.handleFtBtnShare,
-      handlePayment: this.confirmSubmitPayment,
-      handleSelectHotel: this.handleSelectHotel,
-      handleSelectFlight: this.handleSelectFlight,
-      handleSelectCar: this.handleSelectCar,
-      handleLikeAttraction: this.handleLikeAttraction,
-      handleAddItinerary: this.confirmAddItinerary,
-      handleDeleteItinerary: this.confirmDeleteItinerary,
-    };
-    const modalActions = {
-      handleClose: this.handleModalClose,
-      handleDeleteItinerary: this.handleDeleteItinerary,
-      handleAddItinerary: this.handleAddItinerary,
-      handlePayment: this.handleFtBtnPayment,
-      handleCustomise: this.enablePackageDiy,
-    };
-    // Sub Components
-    let page = <div>Loading...</div>;
-    if (instPackage) {
-      // Update Webview Title
-      document.title = packageSummary.name;
-      // Variables
-      // ======Web Elements======
-      // Dialog Share
-      const elDialogShare = (
-        <DialogShare
-          open={isOpenDialogShare}
-          viewerId={viewerId}
-          instId={instPackage._id}
-          title={packageSummary.name}
-          description={packageSummary.description}
-          imageUrl={packageSummary.imageUrl}
-          apiUri={apiUri}
-          pushToRemote={this.pushToRemote}
-          handleClose={this.handleDialogShareClose}
-          handleShare={this.handleShareOnMessenger}
-        />
-      );
-      // Bot Modal
-      const elModal = modalType ? (
-        <BotModal
-          modal={modalType}
-          actions={modalActions}
-          reference={modalRef}
-        />
-      ) : (
-        ''
-      );
-      page = (
-        <div>
-          <PackageItinerary
-            updating={updating}
-            instPackage={instPackage}
-            instPackageExt={instPackageExt}
-            rates={rates}
-            cities={cities}
-            packageSummary={packageSummary}
-            actions={itineraryActions}
-            windowWidth={windowWidth}
+    document.getElementById('message').innerHTML = '>>>>MobileApp.render';
+    try {
+      const {isOpenDialogShare, updating} = this.state;
+      const {packages, instPackage, instPackageExt, rates} = this.state;
+      const {modalType, modalRef, reference} = this.state;
+      const {cities, packageSummary} = reference;
+      const {classes, apiUri, viewerId, windowWidth} = this.props;
+      const itineraryActions = {
+        handlePeople: this.handleHdPeopleChange,
+        handleRoom: this.handleHdRoomChange,
+        handleShare: this.handleFtBtnShare,
+        handlePayment: this.confirmSubmitPayment,
+        handleSelectHotel: this.handleSelectHotel,
+        handleSelectFlight: this.handleSelectFlight,
+        handleSelectCar: this.handleSelectCar,
+        handleLikeAttraction: this.handleLikeAttraction,
+        handleAddItinerary: this.confirmAddItinerary,
+        handleDeleteItinerary: this.confirmDeleteItinerary,
+      };
+      const modalActions = {
+        handleClose: this.handleModalClose,
+        handleDeleteItinerary: this.handleDeleteItinerary,
+        handleAddItinerary: this.handleAddItinerary,
+        handlePayment: this.handleFtBtnPayment,
+        handleCustomise: this.enablePackageDiy,
+      };
+      // Sub Components
+      let page = <div>Loading...</div>;
+      if (instPackage) {
+        // Update Webview Title
+        document.title = packageSummary.name;
+        // Variables
+        // ======Web Elements======
+        // Dialog Share
+        const elDialogShare = (
+          <DialogShare
+            open={isOpenDialogShare}
+            viewerId={viewerId}
+            instId={instPackage._id}
+            title={packageSummary.name}
+            description={packageSummary.description}
+            imageUrl={packageSummary.imageUrl}
+            apiUri={apiUri}
+            pushToRemote={this.pushToRemote}
+            handleClose={this.handleDialogShareClose}
+            handleShare={this.handleShareOnMessenger}
           />
-          {elModal}
-          {elDialogShare}
+        );
+        // Bot Modal
+        const elModal = modalType ? (
+          <BotModal
+            modal={modalType}
+            actions={modalActions}
+            reference={modalRef}
+          />
+        ) : (
+          ''
+        );
+        page = (
+          <div>
+            <PackageItinerary
+              updating={updating}
+              instPackage={instPackage}
+              instPackageExt={instPackageExt}
+              rates={rates}
+              cities={cities}
+              packageSummary={packageSummary}
+              actions={itineraryActions}
+              windowWidth={windowWidth}
+            />
+            {elModal}
+            {elDialogShare}
+          </div>
+        );
+      } else if (packages && packages.length > 0) {
+        page = (
+          <PackageAll
+            packages={packages}
+            viewerId={viewerId}
+            pushToRemote={this.pushToRemote}
+          />
+        );
+      }
+      /* ----------  Animated Wrapper  ---------- */
+      return (
+        <div id='app'>
+          <CSSTransitionGroup
+            transitionName='page'
+            transitionEnterTimeout={500}
+            transitionLeaveTimeout={500}
+          >
+            {page}
+          </CSSTransitionGroup>
         </div>
       );
-    } else if (packages && packages.length > 0) {
-      page = (
-        <PackageAll
-          packages={packages}
-          viewerId={viewerId}
-          pushToRemote={this.pushToRemote}
-        />
-      );
+    } catch (e) {
+      console.log('>>>>MobileApp.exception', e);
+      document.getElementById('message').innerHTML = `>>>>MobileApp.exception: ${JSON.stringify(e)}`;
     }
-    /* ----------  Animated Wrapper  ---------- */
-    return (
-      <div id='app'>
-        <CSSTransitionGroup
-          transitionName='page'
-          transitionEnterTimeout={500}
-          transitionLeaveTimeout={500}
-        >
-          {page}
-        </CSSTransitionGroup>
-      </div>
-    );
   }
 }
 
