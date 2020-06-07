@@ -256,15 +256,17 @@ const register = (input) => {
     return;
   }
   if (!instId) {
-    console.error('Invalid Package Instance ID');
+    console.error('>>>>Invalid Package Instance ID');
     if (sendStatus) sendStatus(SocketStatus.INVALID_INSTANCE);
     return;
   }
   // Persist socket details
+  console.error('>>>>Valid socket registration');
   if (!socketUsers.get(socket.id)) {
     socketUsers.set(socket.id, {instId, senderId});
     socket.join(instId);
   }
+  console.error('>>>>Socket registered');
   if (sendStatus) sendStatus(SocketStatus.OK);
 };
 
