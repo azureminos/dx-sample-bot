@@ -17,10 +17,9 @@
         MessengerExtensions.getContext(
           "749657255797506",
           function success(context) {
-            alert(
+            document.getElementById("message").innerHTML =
               ">>>>MessengerExtensions.getContext Success: " +
-                JSON.stringify(context)
-            );
+              JSON.stringify(context);
             /*window.attachApp({
               viewerId: context.psid ? context.psid : "<%= userId %>",
               instId: "<%= instId %>",
@@ -30,9 +29,9 @@
             });*/
           },
           function error(err) {
-            alert(
-              ">>>>MessengerExtensions.getContext Error: " + JSON.stringify(err)
-            );
+            document.getElementById("message").innerHTML =
+              ">>>>MessengerExtensions.getContext Error: " +
+              JSON.stringify(err);
             //window.attachApp();
           }
         );
