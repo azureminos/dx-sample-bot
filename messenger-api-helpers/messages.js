@@ -42,6 +42,7 @@ const openExistingPackageButton = (
     messenger_extensions: true,
     webview_height_ratio: 'tall',
     webview_share_button: 'hide',
+    fallback_url: 'https://www.google.com',
   };
 };
 

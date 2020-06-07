@@ -55,7 +55,7 @@ const callAPI = (endPoint, messageDataArray, queryParams = {}, retries = 5) => {
   const [messageToSend, ...queue] = castArray(messageDataArray);
   request(
     {
-      uri: `https://graph.facebook.com/me/${endPoint}`,
+      uri: `https://graph.facebook.com/v7.0/me/${endPoint}`,
       qs: query,
       method: 'POST',
       json: messageToSend,

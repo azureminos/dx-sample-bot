@@ -13,6 +13,7 @@
     <div id="content"></div>
     <script>
       window.extAsyncInit = function() {
+        alert(">>>>MessengerExtensions loaded");
         MessengerExtensions.getContext(
           "<%= appId %>",
           function success(context) {
