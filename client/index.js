@@ -7,15 +7,18 @@ import Oops from './components/oops';
 
 window.attachApp = (params) => {
   console.log('>>>>window.attachApp()', params);
-  document.getElementById(
+  /* document.getElementById(
     'message'
-  ).innerHTML = `>>>>window.attachApp() >>${JSON.stringify(params)}`;
+  ).innerHTML = `>>>>window.attachApp() >>${JSON.stringify(params)}`;*/
   const {viewerId, instId, packageId, socketAddress, threadType} = params;
-  document.getElementById('message').innerHTML = `>>>>window.attachApp() >> ${
+  /* document.getElementById('message').innerHTML = `>>>>window.attachApp() >> ${
     window && window.location ? window.location.hostname : 'Empty Host'
-  }, window.location: ${JSON.stringify(window.location)}`;
+  }, window.location: ${JSON.stringify(window.location)}`;*/
   const apiUri = `https://${window.location.hostname}`;
   const windowWidth = document.getElementById('content').offsetWidth;
+  document.getElementById(
+    'message'
+  ).innerHTML = `>>>>window.attachApp() >> apiUri: ${apiUri}, windowWidth: ${windowWidth}`;
   /* let app;
   if (viewerId) {
     app = (
