@@ -11,12 +11,12 @@ window.attachApp = (params) => {
     'message'
   ).innerHTML = `>>>>window.attachApp() >>${JSON.stringify(params)}`;
   const {viewerId, instId, packageId, socketAddress, threadType} = params;
-  document.getElementById('message').innerHTML = `>>>>window.attachApp() >>${
+  document.getElementById('message').innerHTML = `>>>>window.attachApp() >> ${
     window && window.location ? window.location.hostname : 'Empty Host'
-  }`;
+  }, window.location: ${JSON.stringify(window.location)}`;
   const apiUri = `https://${window.location.hostname}`;
   const windowWidth = document.getElementById('content').offsetWidth;
-  let app;
+  /* let app;
   if (viewerId) {
     app = (
       // The main show
@@ -31,12 +31,8 @@ window.attachApp = (params) => {
       />
     );
   } else {
-    /**
-     * MessengerExtensions are only available on iOS and Android,
-     * so show an error page if MessengerExtensions was unable to start
-     */
     app = <Oops />;
   }
 
-  ReactDOM.render(app, document.getElementById('content'));
+  ReactDOM.render(app, document.getElementById('content'));*/
 };
