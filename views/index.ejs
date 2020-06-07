@@ -13,13 +13,18 @@
     <div id="content"></div>
     <script>
       window.extAsyncInit = function() {
-        alert(">>>>MessengerExtensions loaded");
         MessengerExtensions.getContext(
           "749657255797506",
           function success(context) {
             document.getElementById("message").innerHTML =
               ">>>>MessengerExtensions.getContext Success: " +
-              JSON.stringify(context);
+              "viewerId: " +
+              context.psid +
+              "InstId: <%= instId %>" +
+              "packageId: <%= packageId %>" +
+              "socketAddress: <%= socketAddress %>" +
+              "threadType: " +
+              context.thread_type;
             /*window.attachApp({
               viewerId: context.psid ? context.psid : "<%= userId %>",
               instId: "<%= instId %>",
@@ -29,10 +34,10 @@
             });*/
           },
           function error(err) {
-            document.getElementById("message").innerHTML =
+            /*document.getElementById("message").innerHTML =
               ">>>>MessengerExtensions.getContext Error: " +
-              JSON.stringify(err);
-            //window.attachApp();
+              JSON.stringify(err);*/
+            window.attachApp();
           }
         );
       };
