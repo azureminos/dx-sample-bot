@@ -12,12 +12,10 @@ import express from 'express';
 import favicon from 'serve-favicon';
 import logger from 'morgan';
 import path from 'path';
-import SocketServer from 'socket.io';
-import {Server} from 'http';
 
 // ===== MESSENGER =============================================================
 import ThreadSetup from './messenger-api-helpers/thread-setup';
-import MessengerSetup from './messenger-api-helpers/messenger-setup';
+// import MessengerSetup from './messenger-api-helpers/messenger-setup';
 
 // ===== ROUTES ================================================================
 import index from './routes/index';
@@ -34,6 +32,7 @@ export const app = express();
 const appPort = process.env.PORT;
 const demo = process.env.DEMO || false;
 
+console.log(`====> RUNNING ON PORT ${appPort}`);
 if (demo) {
   console.log('====> RUNNING IN DEMO MODE');
 }
@@ -68,8 +67,11 @@ app.use(logger('dev'));
 /* ----------  Sockets  ---------- */
 
 // Sockets
-export const server = Server(app);
-const io = new SocketServer(server, {pingInterval: 2000, pingTimeout: 5000});
+export const server = require('http').createServer(app);
+const io = require('socket.io')(server, {
+  pingInterval: 2000,
+  pingTimeout: 30000,
+});
 
 attachSockets(io);
 
