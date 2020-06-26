@@ -36,35 +36,33 @@ app.set('port', port);
 
 // Event listener for HTTP server "error" event.
 const onError = (error) => {
+  console.log('>>>>server.onError', error);
   if (error.syscall !== 'listen') {
     throw error;
   }
 
-  const bind = typeof port === 'string'
-    ? `Pipe ${port}`
-    : `Port ${port}`;
+  const bind = typeof port === 'string' ? `Pipe ${port}` : `Port ${port}`;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
-  case 'EACCES':
-    console.error(`${bind} requires elevated privileges`);
-    process.exit(1);
-    break;
-  case 'EADDRINUSE':
-    console.error(`${bind} is already in use`);
-    process.exit(1);
-    break;
-  default:
-    throw error;
+    case 'EACCES':
+      console.error(`${bind} requires elevated privileges`);
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(`${bind} is already in use`);
+      process.exit(1);
+      break;
+    default:
+      throw error;
   }
 };
 
 // Event listener for HTTP server "listening" event.
 const onListening = () => {
+  console.log('>>>>server.onListening');
   const addr = server.address();
-  const bind = typeof addr === 'string'
-    ? `Pipe ${addr}`
-    : `Port ${addr.port}`;
+  const bind = typeof addr === 'string' ? `Pipe ${addr}` : `Port ${addr.port}`;
   console.log(`Listening on ${bind}`);
 };
 

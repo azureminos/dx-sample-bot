@@ -69,7 +69,7 @@ app.use(logger('dev'));
 // Sockets
 export const server = require('http').createServer(app);
 const io = require('socket.io')(server, {
-  pingInterval: 2000,
+  pingInterval: 10000,
   pingTimeout: 30000,
 });
 
@@ -100,13 +100,13 @@ app.use(function(req, res, next) {
 app.use('/', index);
 app.use('/webhook', webhooks);
 
-/* ----------  Errors  ----------
+/* ----------  Errors  ---------- */
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
   const err = new Error('Not Found');
   err.status = 404;
   next(err);
-});*/
+});
 
 app.use((err, req, res) => {
   // set locals, only providing error in development
@@ -154,6 +154,6 @@ ThreadSetup.getStartedButton();
    =            Complete Configuration         =
    ============================================= */
 
-server.listen(appPort);
+server.listen(appPort, () => console.log(`Listening on ${appPort}`));
 
 export default app;
