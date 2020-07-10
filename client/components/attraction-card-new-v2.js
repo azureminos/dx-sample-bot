@@ -34,6 +34,7 @@ const styles = (theme) => ({
   },
   bodyContent: {
     marginTop: 80,
+    marginBottom: 80,
   },
   headerBar: {
     position: 'absolute',
