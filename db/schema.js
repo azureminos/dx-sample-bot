@@ -49,6 +49,12 @@ const CarRate = mongoose.model('CarRate', scCarRate);
 const scAttraction = new Schema({
   name: Schema.Types.String,
   description: Schema.Types.String,
+  descIncluded: Schema.Types.String,
+  descSchedule: Schema.Types.String,
+  descWhatToExpect: Schema.Types.String,
+  descAddInfo: Schema.Types.String,
+  descCancelPolicy: Schema.Types.String,
+  descFreqQA: Schema.Types.String,
   city: {type: Schema.Types.ObjectId, ref: 'City'},
   image: Schema.Types.Object,
   cost: Schema.Types.Number,
