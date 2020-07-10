@@ -54,6 +54,9 @@ const styles = (theme) => ({
     justifyContent: 'space-between',
     padding: 0,
   },
+  descAccordion: {
+    display: 'block',
+  },
   imgWrapper: {
     height: 0,
     overflow: 'hidden',
@@ -98,11 +101,14 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 class AttractionCard extends React.Component {
   constructor() {
     super();
-    this.doHandleClose = this.doHandleClose.bind(this);
-    this.doLikeAttraction = this.doLikeAttraction.bind(this);
+    this.handleClose = this.handleClose.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.doHandleAcDescChange = this.doHandleAcDescChange.bind(this);
+    this.handleLikeAttraction = this.handleLikeAttraction.bind(this);
+
     this.state = {
       open: false,
+      acDescExpanded: 'pDescription',
     };
   }
   // Event Handlers
@@ -110,11 +116,18 @@ class AttractionCard extends React.Component {
     e.preventDefault();
     this.setState({open: true});
   }
-  doHandleClose(e) {
+  doHandleAcDescChange(panel) {
+    const handleAcDescChange = (e, isExpanded) => {
+      this.setState({acDescExpanded: isExpanded ? panel : false});
+    };
+    return handleAcDescChange;
+  }
+
+  handleClose(e) {
     e.preventDefault();
     this.setState({open: false});
   }
-  doLikeAttraction(e, item) {
+  handleLikeAttraction(e, item) {
     e.preventDefault();
     this.setState({open: false});
     if (this.props.likeAttraction) {
@@ -124,7 +137,7 @@ class AttractionCard extends React.Component {
 
   render() {
     const {classes, item} = this.props;
-    const {open} = this.state;
+    const {open, acDescExpanded} = this.state;
     console.log('>>>>AttractionCard.render', item);
     // Sub Widget
     const btnLike = !item.isLiked ? (
@@ -132,7 +145,7 @@ class AttractionCard extends React.Component {
         classes={{root: classes.button, label: classes.label}}
         variant='contained'
         disableRipple
-        onClick={(e) => this.doLikeAttraction(e, item)}
+        onClick={(e) => this.handleLikeAttraction(e, item)}
       >
         <IconLock />
         Add to itinerary
@@ -145,7 +158,7 @@ class AttractionCard extends React.Component {
         classes={{root: classes.button, label: classes.label}}
         variant='contained'
         disableRipple
-        onClick={(e) => this.doLikeAttraction(e, item)}
+        onClick={(e) => this.handleLikeAttraction(e, item)}
       >
         <IconUnlock />
         Remove from itinerary
@@ -158,16 +171,131 @@ class AttractionCard extends React.Component {
         classes={{root: classes.button, label: classes.label}}
         variant='contained'
         disableRipple
-        onClick={this.doHandleClose}
+        onClick={this.handleClose}
       >
         <CloseIcon />
         Close
       </Button>
     );
+    const asDescription = (
+      <Accordion
+        expanded={acDescExpanded === 'pDescription'}
+        onChange={this.doHandleAcDescChange('pDescription')}
+      >
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography className={classes.headingAccordion}>Overview</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Typography>{item.description}</Typography>
+        </AccordionDetails>
+      </Accordion>
+    );
+    const asDescIncluded = item.descIncluded ? (
+      <Accordion
+        expanded={acDescExpanded === 'pDescIncluded'}
+        onChange={this.doHandleAcDescChange('pDescIncluded')}
+      >
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography className={classes.headingAccordion}>
+            What's Included
+          </Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Typography>{item.descIncluded}</Typography>
+        </AccordionDetails>
+      </Accordion>
+    ) : (
+      ''
+    );
+    const asDescAddInfo = item.descAddInfo ? (
+      <Accordion
+        expanded={acDescExpanded === 'pDescAddInfo'}
+        onChange={this.doHandleAcDescChange('pDescAddInfo')}
+      >
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography className={classes.headingAccordion}>
+            Additional Info
+          </Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Typography>{item.descAddInfo}</Typography>
+        </AccordionDetails>
+      </Accordion>
+    ) : (
+      ''
+    );
+    const asDescSchedule = item.descSchedule ? (
+      <Accordion
+        expanded={acDescExpanded === 'pDescSchedule'}
+        onChange={this.doHandleAcDescChange('pDescSchedule')}
+      >
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography className={classes.headingAccordion}>
+            Departure & Return
+          </Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Typography>{item.descSchedule}</Typography>
+        </AccordionDetails>
+      </Accordion>
+    ) : (
+      ''
+    );
+    const asDescWhatToExpect = item.descWhatToExpect ? (
+      <Accordion
+        expanded={acDescExpanded === 'pDescWhatToExpect'}
+        onChange={this.doHandleAcDescChange('pDescWhatToExpect')}
+      >
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography className={classes.headingAccordion}>
+            What To Expect
+          </Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Typography>{item.descWhatToExpect}</Typography>
+        </AccordionDetails>
+      </Accordion>
+    ) : (
+      ''
+    );
+    const asDescCancelPolicy = item.descCancelPolicy ? (
+      <Accordion
+        expanded={acDescExpanded === 'pDescCancelPolicy'}
+        onChange={this.doHandleAcDescChange('pDescCancelPolicy')}
+      >
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography className={classes.headingAccordion}>
+            Cancellation Policy
+          </Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Typography>{item.descCancelPolicy}</Typography>
+        </AccordionDetails>
+      </Accordion>
+    ) : (
+      ''
+    );
+    const asDescFreqQA = item.descFreqQA ? (
+      <Accordion
+        expanded={acDescExpanded === 'pDescFreqQA'}
+        onChange={this.doHandleAcDescChange('pDescFreqQA')}
+      >
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography className={classes.headingAccordion}>
+            Frequently Asked Questions
+          </Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Typography>{item.descFreqQA}</Typography>
+        </AccordionDetails>
+      </Accordion>
+    ) : (
+      ''
+    );
     const modal = (
       <Dialog
         open={open}
-        onClose={this.doHandleClose}
+        onClose={this.handleClose}
         TransitionComponent={Transition}
       >
         <AppBar color='default' className={classes.headerBar}>
@@ -175,7 +303,7 @@ class AttractionCard extends React.Component {
             <div>{item.name}</div>
             <IconButton
               color='inherit'
-              onClick={this.doHandleClose}
+              onClick={this.handleClose}
               aria-label='Close'
             >
               <CloseIcon />
@@ -183,7 +311,7 @@ class AttractionCard extends React.Component {
           </Toolbar>
         </AppBar>
         <DialogContent classes={{root: classes.bodyContent}}>
-          <List className={classes.root}>
+          <List>
             <ListItem key={'attraction-images'} dense>
               <GridList cellHeight={160} className={classes.gridList} cols={1}>
                 <GridListTile cols={1}>
@@ -193,54 +321,15 @@ class AttractionCard extends React.Component {
             </ListItem>
             <Divider />
             <ListItem key={'attraction-description'} dense>
-              <Typography component='p'>{item.description}</Typography>
-              <Accordion>
-                <AccordionSummary
-                  expandIcon={<ExpandMoreIcon />}
-                  aria-controls='panel1a-content'
-                  id='panel1a-header'
-                >
-                  <Typography className={classes.headingAccordion}>
-                    Accordion 1
-                  </Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <Typography>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Suspendisse malesuada lacus ex, sit amet blandit leo
-                    lobortis eget.
-                  </Typography>
-                </AccordionDetails>
-              </Accordion>
-              <Accordion>
-                <AccordionSummary
-                  expandIcon={<ExpandMoreIcon />}
-                  aria-controls='panel2a-content'
-                  id='panel2a-header'
-                >
-                  <Typography className={classes.headingAccordion}>
-                    Accordion 2
-                  </Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <Typography>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Suspendisse malesuada lacus ex, sit amet blandit leo
-                    lobortis eget.
-                  </Typography>
-                </AccordionDetails>
-              </Accordion>
-              <Accordion disabled>
-                <AccordionSummary
-                  expandIcon={<ExpandMoreIcon />}
-                  aria-controls='panel3a-content'
-                  id='panel3a-header'
-                >
-                  <Typography className={classes.headingAccordion}>
-                    Disabled Accordion
-                  </Typography>
-                </AccordionSummary>
-              </Accordion>
+              <div className={classes.description}>
+                {asDescription}
+                {asDescIncluded}
+                {asDescSchedule}
+                {asDescWhatToExpect}
+                {asDescAddInfo}
+                {asDescCancelPolicy}
+                {asDescFreqQA}
+              </div>
             </ListItem>
           </List>
         </DialogContent>
@@ -266,7 +355,7 @@ class AttractionCard extends React.Component {
         <div className={classes.flex}>
           <div
             className={classes.cardIcon}
-            onClick={(e) => this.doLikeAttraction(e, item)}
+            onClick={(e) => this.handleLikeAttraction(e, item)}
           >
             <SolidCheckIcon
               style={{
