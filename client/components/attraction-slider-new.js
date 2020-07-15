@@ -6,6 +6,7 @@ import {withStyles} from '@material-ui/core/styles';
 import AttractionCard from './attraction-card-new-v2';
 import CONSTANTS from '../../lib/constants';
 
+const styles = (theme) => ({});
 class AttractionSlider extends React.Component {
   constructor(props) {
     super(props);
