@@ -71,6 +71,7 @@ export const server = require('http').createServer(app);
 const io = require('socket.io')(server, {
   pingInterval: 10000,
   pingTimeout: 30000,
+  transports: 'websocket',
 });
 
 attachSockets(io);
