@@ -13,14 +13,61 @@ import CONSTANTS from '../lib/constants';
 const {Global} = CONSTANTS.get();
 const router = express.Router();
 
+const handleDummy = (req, res) => {
+  const appId = Global.appId;
+  const {hostname} = req;
+  const {PORT, LOCAL} = process.env;
+  const socketAddress = LOCAL
+    ? `http://${hostname}:${PORT}`
+    : `wss://${hostname}`;
+
+  const userId = '2227811087234100';
+  const type = 'package';
+  const id = '5dd5f5de1a10bf000498e95e';
+
+  console.log('>>>>Printing input params', {type, id});
+
+  if (type === 'package') {
+    Model.getPackageById(id, (err, docs) => {
+      if (err) console.error('>>>>Model.getPackageById Error', err);
+      console.log('>>>>Model.getPackageById Success', docs);
+      const instance = {
+        packageId: id,
+        totalDays: docs.totalDays,
+        carOption: docs.carOption,
+        isCustomised: false,
+      };
+      Model.createInstanceByPackageId(instance, ({err, results}) => {
+        if (err) {
+          console.error('>>>>Model.createInstanceByPackageId Error', {
+            err,
+            results,
+          });
+        } else {
+          console.log('>>>>Model.createInstanceByPackageId Success', {
+            err,
+            results,
+          });
+          res.render('./index', {
+            instId: results.instance.id,
+            packageId: '',
+            appId,
+            userId,
+            socketAddress,
+          });
+        }
+      });
+    });
+  }
+};
+
 const handleWebviewAccess = (req, res) => {
   const appId = Global.appId;
   const {hostname} = req;
   const {PORT, LOCAL} = process.env;
-  const socketAddress = `http://${hostname}:${PORT}`;
-  /*const socketAddress = LOCAL
+  const socketAddress = LOCAL
     ? `http://${hostname}:${PORT}`
-    : `wss://${hostname}`;*/
+    : `wss://${hostname}`;
 
   const {userId, type, id} = req.params;
 
@@ -84,6 +131,7 @@ const handleWebviewAccess = (req, res) => {
   }
 };
 
+router.get('/', handleDummy);
 router.get('/:userId/:type', handleWebviewAccess);
 router.get('/:userId/:type/:id', handleWebviewAccess);
 

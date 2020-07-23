@@ -756,7 +756,7 @@ class App extends React.Component {
     // Connect to socket.
     socket = io.connect(this.props.socketAddress, {
       reconnect: true,
-      //secure: true,
+      secure: true,
     });
 
     // Add socket event handlers.
