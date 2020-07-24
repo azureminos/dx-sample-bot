@@ -380,7 +380,7 @@ const updateInstanceItems = (params, callback) => {
   InstPackageItem.update(params.query, params.update, callback);
 };
 const deleteAllInstanceItems = () => {
-  return InstPackageItem.remove({}, () => {
+  return InstPackageItem.deleteMany({}, () => {
     console.log('>>>>Function [deleteAllInstanceItems] executed');
   });
 };
@@ -400,7 +400,7 @@ const updateInstanceHotels = (params, callback) => {
   InstPackageHotel.update(params.query, params.update, callback);
 };
 const deleteAllInstanceHotels = () => {
-  return InstPackageHotel.remove({}, () => {
+  return InstPackageHotel.deleteMany({}, () => {
     console.log('>>>>Function [deleteAllInstanceHotels] executed');
   });
 };
@@ -426,7 +426,7 @@ const deleteInstanceByParams = (params, callback) => {
   return InstPackageMember.deleteMany(params, callback);
 };
 const deleteAllInstanceMembers = () => {
-  return InstPackageMember.remove({}, () => {
+  return InstPackageMember.deleteMany({}, () => {
     console.log('>>>>Function [deleteAllInstanceMembers] executed');
   });
 };
@@ -607,7 +607,7 @@ const archiveInstanceByUserId = (params, callback) => {
     });
 };
 const deleteAllInstances = () => {
-  return InstPackage.remove({}, () => {
+  return InstPackage.deleteMany({}, () => {
     console.log('>>>>Function [deleteAllInstances] executed');
   });
 };
