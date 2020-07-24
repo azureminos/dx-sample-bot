@@ -68,7 +68,10 @@ app.use(logger('dev'));
 
 // Sockets
 export const server = require('http').createServer(app);
-const io = require('socket.io')(server);
+const io = require('socket.io')(server, {
+  pingInterval: 10000,
+  pingTimeout: 20000,
+});
 
 attachSockets(io);
 
