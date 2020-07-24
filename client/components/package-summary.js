@@ -141,7 +141,6 @@ class PackageSummary extends React.Component {
         <Divider />
         {divDays}
         <Divider />
-        <ListItem key={'date-selector-2'}>{secFlightCar}</ListItem>
       </List>
     );
   }

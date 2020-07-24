@@ -752,7 +752,7 @@ class App extends React.Component {
   /* ==============================
      = React Lifecycle            =
      ============================== */
-  componentWillMount() {
+  componentDidMount() {
     // Connect to socket.
     socket = io.connect(this.props.socketAddress, {
       reconnect: true,
