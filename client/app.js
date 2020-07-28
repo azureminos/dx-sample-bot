@@ -828,7 +828,6 @@ class App extends React.Component {
   render() {
     // Local Variables
     console.log('>>>>MobileApp.render', this.state);
-    document.getElementById('message').innerHTML = '>>>>MobileApp.render';
     try {
       const {isOpenDialogShare, updating} = this.state;
       const {packages, instPackage, instPackageExt, rates} = this.state;
@@ -925,7 +924,6 @@ class App extends React.Component {
       );
     } catch (e) {
       console.log('>>>>MobileApp.exception', e);
-      document.getElementById('message').innerHTML = `>>>>MobileApp.exception: ${JSON.stringify(e)}`;
     }
   }
 }
