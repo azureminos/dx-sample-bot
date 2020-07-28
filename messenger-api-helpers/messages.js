@@ -62,12 +62,6 @@ const packageMessage = (apiUri, userId, packages) => {
       title: p.name,
       image_url: p.imageUrl,
       subtitle: p.description,
-      /* default_action: {
-        type: 'web_url',
-        url: urlToPackage,
-        messenger_extensions: true,
-        webview_share_button: 'hide',
-      },*/
       buttons: [openExistingPackageButton(urlToPackage)],
     };
   });
