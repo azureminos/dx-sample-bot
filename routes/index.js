@@ -67,7 +67,7 @@ const handleWebviewAccess = (req, res) => {
   const {PORT, LOCAL} = process.env;
   const socketAddress = LOCAL
     ? `http://${hostname}:${PORT}`
-    : `wss://${hostname}`;
+    : `https://${hostname}`;
 
   const {userId, type, id} = req.params;
 
