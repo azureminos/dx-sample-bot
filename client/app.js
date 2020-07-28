@@ -806,13 +806,17 @@ class App extends React.Component {
               if (response.isGranted) {
                 handleMount(viewerId, instId, packageId);
               } else {
-                // document.getElementById('message').innerHTML = '>>>>getPermissions isGranted: false';
+                document.getElementById('message').innerHTML = `${
+                  document.getElementById('message').innerHTML
+                }>>>>getPermissions isGranted: false`;
                 window.MessengerExtensions.requestCloseBrowser(null, null);
               }
             },
             function(errorCode, errorMessage) {
               console.error({errorCode, errorMessage});
-              // document.getElementById('message').innerHTML = `>>>>getPermissions Failed 1: ${errorCode} : ${errorMessage}`;
+              document.getElementById('message').innerHTML = `${
+                document.getElementById('message').innerHTML
+              }>>>>getPermissions Failed 1: ${errorCode} : ${errorMessage}`;
               // window.MessengerExtensions.requestCloseBrowser(null, null);
             },
             'user_profile'
@@ -821,7 +825,9 @@ class App extends React.Component {
       },
       function(errorCode, errorMessage) {
         console.error('>>>>getPermissions Failed 0', {errorCode, errorMessage});
-        // document.getElementById('message').innerHTML = `>>>>getPermissions Failed 0: ${errorCode} : ${errorMessage}`;
+        document.getElementById('message').innerHTML = `${
+          document.getElementById('message').innerHTML
+        }>>>>getPermissions Failed 0: ${errorCode} : ${errorMessage}`;
         // window.MessengerExtensions.requestCloseBrowser(null, null);
       }
     );
