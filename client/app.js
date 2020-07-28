@@ -806,20 +806,27 @@ class App extends React.Component {
               if (response.isGranted) {
                 handleMount(viewerId, instId, packageId);
               } else {
+                document.getElementById('message').innerHTML =
+                  '>>>>getPermissions isGranted: false';
                 window.MessengerExtensions.requestCloseBrowser(null, null);
               }
             },
             function(errorCode, errorMessage) {
               console.error({errorCode, errorMessage});
-              window.MessengerExtensions.requestCloseBrowser(null, null);
+              document.getElementById(
+                'message'
+              ).innerHTML = `>>>>getPermissions Failed 1: ${errorCode} : ${errorMessage}`;
+              // window.MessengerExtensions.requestCloseBrowser(null, null);
             },
             'user_profile'
           );
         }
       },
       function(errorCode, errorMessage) {
-        console.error('>>>>getPermissions Failed', {errorCode, errorMessage});
-        document.getElementById('message').innerHTML = `${errorCode} : ${errorMessage}`;
+        console.error('>>>>getPermissions Failed 0', {errorCode, errorMessage});
+        document.getElementById(
+          'message'
+        ).innerHTML = `>>>>getPermissions Failed 0: ${errorCode} : ${errorMessage}`;
         // window.MessengerExtensions.requestCloseBrowser(null, null);
       }
     );
