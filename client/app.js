@@ -754,6 +754,7 @@ class App extends React.Component {
      ============================== */
   componentDidMount() {
     // Connect to socket.
+    console.log('>>>>Socket connect to', this.props.socketAddress);
     socket = io.connect(this.props.socketAddress, {
       reconnect: true,
       secure: true,
@@ -817,8 +818,9 @@ class App extends React.Component {
         }
       },
       function(errorCode, errorMessage) {
-        console.error({errorCode, errorMessage});
-        window.MessengerExtensions.requestCloseBrowser(null, null);
+        console.error('>>>>getPermissions Failed', {errorCode, errorMessage});
+        document.getElementById('message').innerHTML = `${errorCode} : ${errorMessage}`;
+        // window.MessengerExtensions.requestCloseBrowser(null, null);
       }
     );
   }
@@ -832,7 +834,7 @@ class App extends React.Component {
       const {packages, instPackage, instPackageExt, rates} = this.state;
       const {modalType, modalRef, reference} = this.state;
       const {cities, packageSummary} = reference;
-      const {classes, apiUri, viewerId, windowWidth} = this.props;
+      const {apiUri, viewerId, windowWidth} = this.props;
       const itineraryActions = {
         handlePeople: this.handleHdPeopleChange,
         handleRoom: this.handleHdRoomChange,
