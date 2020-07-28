@@ -16,9 +16,9 @@
         MessengerExtensions.getContext(
           "749657255797506",
           function success(context) {
-            document.getElementById(
-              "message"
-            ).innerHTML = `>>>>Context ${context.psid}`;
+            document.getElementById("message").innerHTML = `${
+              document.getElementById("message").innerHTML
+            } >>>>Context ${context.psid}`;
             window.attachApp({
               viewerId: context.psid ? context.psid : "<%= userId %>",
               instId: "<%= instId %>",
