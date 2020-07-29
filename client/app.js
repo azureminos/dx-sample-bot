@@ -793,8 +793,9 @@ class App extends React.Component {
         console.log('>>>>NO viewerId');
       }
     };
+    handleMount(viewerId, instId, packageId);
     // Check for permission, ask if there is none
-    window.MessengerExtensions.getGrantedPermissions(
+    /*window.MessengerExtensions.getGrantedPermissions(
       function(response) {
         // check if permission exists
         const permissions = response.permissions;
@@ -830,7 +831,7 @@ class App extends React.Component {
         }>>>>getPermissions Failed 0: ${errorCode} : ${errorMessage}`;
         // window.MessengerExtensions.requestCloseBrowser(null, null);
       }
-    );
+    );*/
   }
 
   render() {
