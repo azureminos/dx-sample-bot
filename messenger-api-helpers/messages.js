@@ -187,30 +187,33 @@ const welcomeMessage = (lastInstance) => {
 // ===================== New Bot ==================== //
 const messageCreatePlan = (apiUri, userId) => {
   console.log('>>>>Message.messageCreatePlan', userId);
-  return {
+  const result = {
     attachment: {
       type: 'template',
       payload: {
         template_type: 'generic',
-        elements: {
-          title: 'Travel Plan',
-          image_url:
-            'https://www.eainsurance.com.au/wp-content/uploads/2020/05/Travel1.jpg',
-          subtitle: 'Travel Plan',
-          buttons: [
-            {
-              type: 'web_url',
-              title: 'New',
-              url: urlCreatePlan(apiUri, userId),
-              messenger_extensions: true,
-              webview_height_ratio: 'full',
-              webview_share_button: 'hide',
-            },
-          ],
-        },
+        elements: [
+          {
+            title: 'Travel Plan',
+            image_url:
+              'https://www.eainsurance.com.au/wp-content/uploads/2020/05/Travel1.jpg',
+            subtitle: '',
+            buttons: [
+              {
+                type: 'web_url',
+                title: 'New',
+                url: urlCreatePlan(apiUri, userId),
+                messenger_extensions: true,
+                webview_height_ratio: 'full',
+                webview_share_button: 'hide',
+              },
+            ],
+          },
+        ],
       },
     },
   };
+  return result;
 };
 
 export default {
