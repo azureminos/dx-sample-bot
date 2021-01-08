@@ -7,7 +7,10 @@ import Oops from './components/oops';
 
 window.attachApp = (params) => {
   console.log('>>>>window.attachApp()', params);
-  const {viewerId, planId, socketAddress, threadType} = params;
+  const {viewerId, instId, packageId, socketAddress, threadType} = params;
+  document.getElementById('message').innerHTML = `${
+    document.getElementById('message').innerHTML
+  }>>>>window.attachApp:${viewerId}:${packageId}:${socketAddress}:${threadType}`;
   const apiUri = `https://${window.location.hostname}`;
   const windowWidth = document.getElementById('content').offsetWidth;
   let app;
@@ -16,7 +19,8 @@ window.attachApp = (params) => {
       // The main show
       <App
         viewerId={viewerId}
-        planId={planId}
+        instId={instId}
+        packageId={packageId}
         apiUri={apiUri}
         socketAddress={socketAddress}
         threadType={threadType}

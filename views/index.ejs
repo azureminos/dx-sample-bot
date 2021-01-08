@@ -9,20 +9,15 @@
     <script src="/bundle.js"></script>
   </head>
   <body>
-    <div id="message">Hello All</div>
     <div id="content"></div>
     <script>
       window.extAsyncInit = function() {
         MessengerExtensions.getContext(
           "749657255797506",
           function success(context) {
-            document.getElementById("message").innerHTML = `${
-              document.getElementById("message").innerHTML
-            } >>>>Context ${context.psid}`;
             window.attachApp({
               viewerId: context.psid ? context.psid : "<%= userId %>",
-              instId: "<%= instId %>",
-              packageId: "<%= packageId %>",
+              planId: "<%= planId %>",
               socketAddress: "<%= socketAddress %>",
               threadType: context.thread_type
             });

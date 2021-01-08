@@ -16,6 +16,7 @@ const packageUrl = (apiUri, userId, packageId) =>
   `${apiUri}/${userId}/package/${packageId}`;
 const instPackageUrl = (apiUri, userId, instId) =>
   `${apiUri}/${userId}/instance/${instId}`;
+const urlCreatePlan = (apiUri, userId) => `${apiUri}/${userId}/plan/new`;
 /*
  * BUTTONS
  *
@@ -99,7 +100,7 @@ const sharePackageMessage = (
   description,
   imageUrl
 ) => {
-  console.log('>>>>sharePackageMessage(), start', {
+  console.log('>>>>sharePackageMessage, start', {
     apiUri: apiUri,
     userId: userId,
     instId: instId,
@@ -124,7 +125,7 @@ const sharePackageMessage = (
       },
     },
   };
-  console.log('>>>>sharePackageMessage(), complete', result);
+  console.log('>>>>sharePackageMessage, complete', result);
   return result;
 };
 
@@ -136,12 +137,12 @@ const sharePackageMessage = (
  * @returns {object} - Message to configure the customized sharing menu.
  */
 const quickReplyMessage = (title, items) => {
-  console.log('>>>>quickReplyMessage(), start', {title, items});
+  console.log('>>>>quickReplyMessage, start', {title, items});
   const result = {
     text: title,
     quick_replies: items,
   };
-  console.log('>>>>quickReplyMessage(), complete', result);
+  console.log('>>>>quickReplyMessage, complete', result);
   return result;
 };
 
@@ -152,18 +153,18 @@ const quickReplyMessage = (title, items) => {
  * @returns {object} - Message to configure the customized sharing menu.
  */
 const welcomeMessage = (lastInstance) => {
-  console.log('>>>>welcomeMessage(), start', lastInstance);
+  console.log('>>>>welcomeMessage, start', lastInstance);
   const replyItems = [];
 
   const iAllPromote = {
     content_type: 'text',
-    title: 'Holidays on Sale',
-    payload: 'promoted_packages',
+    title: 'Create travel plan',
+    payload: 'new_package',
   };
   const iMyRecent = lastInstance
     ? {
       content_type: 'text',
-      title: 'Recent Update',
+      title: 'My travel plans',
       payload: `my_recent@${lastInstance._id}`,
     }
     : null;
@@ -180,8 +181,36 @@ const welcomeMessage = (lastInstance) => {
   replyItems.push(iHandOver);
 
   const result = quickReplyMessage(msgWelcome, replyItems);
-  console.log('>>>>welcomeMessage(), complete', result);
+  console.log('>>>>welcomeMessage, complete', result);
   return result;
+};
+// ===================== New Bot ==================== //
+const messageCreatePlan = (apiUri, userId) => {
+  console.log('>>>>Message.messageCreatePlan');
+  return {
+    attachment: {
+      type: 'template',
+      payload: {
+        template_type: 'generic',
+        elements: {
+          title: 'Travel Plan',
+          image_url:
+            'https://www.eainsurance.com.au/wp-content/uploads/2020/05/Travel1.jpg',
+          subtitle: '',
+          buttons: [
+            {
+              type: 'web_url',
+              title: 'New',
+              url: urlCreatePlan(apiUri, userId),
+              messenger_extensions: true,
+              webview_height_ratio: 'full',
+              webview_share_button: 'hide',
+            },
+          ],
+        },
+      },
+    },
+  };
 };
 
 export default {
@@ -190,4 +219,5 @@ export default {
   packageMessage,
   sharePackageMessage,
   packageShareMessage,
+  messageCreatePlan,
 };

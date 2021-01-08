@@ -79,7 +79,7 @@ const handleReceiveMessage = (event) => {
   // - Chat to ABC, handover the chat thread to page inbox
   if (
     message.quick_reply &&
-    message.quick_reply.payload === 'promoted_packages'
+    message.quick_reply.payload === 'new_package'
   ) {
     // Show list of packages
     sendApi.sendPackageMessage(senderId);

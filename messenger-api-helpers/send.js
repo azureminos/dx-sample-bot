@@ -149,6 +149,11 @@ const sendPackageShareItem = (recipientId, params) => {
     ),
   ]);
 };
+// ===================== New Bot ==================== //
+// Send the message to create new travel plan.
+const sendMessageCreatePlan = (recipientId) => {
+  sendMessage(recipientId, messages.packageMessage(APP_URL, recipientId, docs));
+};
 
 export default {
   sendMessage,
@@ -159,4 +164,6 @@ export default {
   sendPackageShareItem,
   passThreadControl,
   takeThreadControl,
+  // ===================== New Bot ==================== //
+  sendMessageCreatePlan,
 };

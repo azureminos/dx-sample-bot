@@ -7,9 +7,7 @@
 
 // ===== SOCKETS ===============================================================
 import UserSocket from './user-socket';
-import PackageSocket from './package-socket';
-
-const socketUsers = new Map(); // {socketId: {userId, listId}}
+const socketUsers = new Map(); // {socketId: {userId, planId}}
 
 export default function attachSockets(io) {
   io.on('connection', (socket) => {
@@ -22,11 +20,11 @@ export default function attachSockets(io) {
           request,
           socketUsers,
         });
-        const {senderId, instId} = socketUsers.get(socket.id) || {};
+        const {senderId, planId} = socketUsers.get(socket.id) || {};
         let newRequest = {};
         console.log(`>>>>Socket Incoming Request [${typeof request}]`, {
           senderId,
-          instId,
+          planId,
         });
         if (typeof request === 'object') {
           newRequest = {...request};
@@ -37,16 +35,16 @@ export default function attachSockets(io) {
             );
             newRequest.senderId = senderId;
           }
-          if (!request.instId) {
+          if (!request.planId) {
             console.log(
-              `>>>>Socket Incoming Request.instId[${instId}]`,
+              `>>>>Socket Incoming Request.planId[${planId}]`,
               newRequest
             );
-            newRequest.instId = instId;
+            newRequest.planId = planId;
           }
         } else if (typeof request === 'string') {
           newRequest.senderId = senderId;
-          newRequest.instId = instId;
+          newRequest.planId = planId;
         }
         console.log('>>>>before handler', newRequest);
         handler({
@@ -64,7 +62,8 @@ export default function attachSockets(io) {
 
     channel('disconnect', UserSocket.leave);
     channel('push:register', UserSocket.register);
-    channel('push:user:view', UserSocket.view);
+    channel('push:plan:view', UserSocket.view);
+    /* channel('push:user:view', UserSocket.view);
     channel('push:user:join', UserSocket.joinPackage);
     channel('push:user:leave', UserSocket.leavePackage);
     channel('push:package:showAll', PackageSocket.showAllPackages);
@@ -72,6 +71,6 @@ export default function attachSockets(io) {
     channel('push:package:create', PackageSocket.createInstPackage);
     channel('push:package:share', PackageSocket.shareInstPackage);
     channel('push:package:update', PackageSocket.updateInstPackage);
-    channel('push:likedAttractions:update', UserSocket.updateLikedAttractions);
+    channel('push:likedAttractions:update', UserSocket.updateLikedAttractions);*/
   });
 }
