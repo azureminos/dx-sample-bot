@@ -122,12 +122,7 @@ class App extends React.Component {
 
     const {viewerId, planId} = this.props;
     const handleMount = (vid, pid) => {
-      if (vid && !pid) {
-        if (pid) {
-          console.log('>>>>Page[Main], Load All Package');
-        } else {
-          console.log('>>>>New => Page[Select Date], ID => Page[Display Trip]');
-        }
+      if (vid) {
         this.pushToRemote('plan:view', {
           senderId: vid,
           planId: pid,
@@ -180,7 +175,7 @@ class App extends React.Component {
   render() {
     // document.title = packageSummary.name;
     // Local Variables
-    console.log('>>>>MobileApp.render', this.state);
+    console.log('>>>>MobileApp.render', {state: this.state, props: this.props});
     const {apiUri, viewerId, windowWidth} = this.props;
     // Sub Components
     let page = <div>Loading...</div>;
