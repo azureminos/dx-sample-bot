@@ -186,7 +186,7 @@ const welcomeMessage = (lastInstance) => {
 };
 // ===================== New Bot ==================== //
 const messageCreatePlan = (apiUri, userId) => {
-  console.log('>>>>Message.messageCreatePlan');
+  console.log('>>>>Message.messageCreatePlan', userId);
   return {
     attachment: {
       type: 'template',
