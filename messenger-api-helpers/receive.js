@@ -77,12 +77,9 @@ const handleReceiveMessage = (event) => {
   // - Holiday Deals, all packages marked as on promote
   // - Recent Update, last updated package instance, display only when exists
   // - Chat to ABC, handover the chat thread to page inbox
-  if (
-    message.quick_reply &&
-    message.quick_reply.payload === 'new_package'
-  ) {
-    // Show list of packages
-    sendApi.sendPackageMessage(senderId);
+  if (message.quick_reply && message.quick_reply.payload === 'new_plan') {
+    // Create new travel plan
+    sendApi.sendMsgCreatePlan(senderId);
   } else if (
     message.quick_reply &&
     message.quick_reply.payload === 'get_started'

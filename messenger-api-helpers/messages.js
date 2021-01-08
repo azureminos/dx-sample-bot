@@ -159,7 +159,7 @@ const welcomeMessage = (lastInstance) => {
   const iAllPromote = {
     content_type: 'text',
     title: 'Create travel plan',
-    payload: 'new_package',
+    payload: 'new_plan',
   };
   const iMyRecent = lastInstance
     ? {
