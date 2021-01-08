@@ -14,7 +14,7 @@ const nCountry = new Schema({
   name: Schema.Types.String,
   region: Schema.Types.String,
 });
-const dbCountry = mongoose.model('Country', nCountry);
+const dbCountry = mongoose.model('RefCountry', nCountry);
 // Reference   - Destination
 const nDestination = new Schema({
   name: Schema.Types.String,
@@ -28,7 +28,7 @@ const nDestination = new Schema({
   location: Schema.Types.String,
   addrCarpark: Schema.Types.String,
 });
-const dbDestination = mongoose.model('Destination', nDestination);
+const dbDestination = mongoose.model('RefDestination', nDestination);
 // Reference   - Category
 const nCategory = new Schema({
   name: Schema.Types.String,
@@ -36,14 +36,14 @@ const nCategory = new Schema({
   thumbnailURL: Schema.Types.String,
   thumbnailHiResURL: Schema.Types.String,
 });
-const dbCategory = mongoose.model('Category', nCategory);
+const dbCategory = mongoose.model('RefCategory', nCategory);
 // Reference   - SubCategory
 const nSubCategory = new Schema({
   name: Schema.Types.String,
   itemId: Schema.Types.Number,
   parentId: Schema.Types.Number,
 });
-const dbSubCategory = mongoose.model('SubCategory', nSubCategory);
+const dbSubCategory = mongoose.model('RefSubCategory', nSubCategory);
 // Reference   - Product
 const nProduct = new Schema({
   productCode: Schema.Types.String,
@@ -67,12 +67,12 @@ const nProduct = new Schema({
   addrCheckIn: Schema.Types.String,
   tag: [Schema.Types.String],
 });
-const dbProduct = mongoose.model('Product', nProduct);
+const dbProduct = mongoose.model('RefProduct', nProduct);
 // Reference   - Attraction
 const nAttraction = new Schema({
   name: Schema.Types.String,
 });
-const dbAttraction = mongoose.model('Attraction', nAttraction);
+const dbAttraction = mongoose.model('RefAttraction', nAttraction);
 // Reference   - Day Plan
 const nDayPlan = new Schema({
   name: Schema.Types.String,
@@ -83,16 +83,16 @@ const nDayPlan = new Schema({
   otherCities: [Schema.Types.String],
   notes: Schema.Types.String,
 });
-const dbDayPlan = mongoose.model('DayPlan', nDayPlan);
+const dbDayPlan = mongoose.model('RefDayPlan', nDayPlan);
 // Reference   - Day Plan Item
 const nDayPlanItem = new Schema({
-  dayPlan: {type: Schema.Types.ObjectId, ref: 'DayPlan'},
+  dayPlan: {type: Schema.Types.ObjectId, ref: 'RefDayPlan'},
   daySeq: Schema.Types.Number,
   itemType: Schema.Types.String,
   itemId: Schema.Types.String,
   notes: Schema.Types.String,
 });
-const dbDayPlanItem = mongoose.model('DayPlanItem', nDayPlanItem);
+const dbDayPlanItem = mongoose.model('RefDayPlanItem', nDayPlanItem);
 // Transaction - Travel Plan
 const nTravelPlan = new mongoose.Schema({
   status: Schema.Types.String,
