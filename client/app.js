@@ -145,7 +145,6 @@ class App extends React.Component {
     const {homepage} = this.state;
     // Sub Components
     let page = <div>Loading...</div>;
-    page = <div>Loading...</div>;
     if (homepage === Page.MainPage) {
       page = <PageAllTravel />;
     } else if (homepage === Page.NewPlan) {
