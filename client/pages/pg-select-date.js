@@ -40,6 +40,7 @@ class PageSelectDate extends React.Component {
             focusedInput={this.state.focusedInput}
             onFocusChange={(focusedInput) => this.setState({focusedInput})}
             orientation={VERTICAL_ORIENTATION}
+            withFullScreenPortal
             keepOpenOnDateSelect
           />
         </div>
