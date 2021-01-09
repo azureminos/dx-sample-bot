@@ -72,9 +72,10 @@ class PageSelectDest extends React.Component {
     if (reference.destinations && reference.destinations.length > 0) {
       const getCityGrid = (c) => {
         return (
-          <GridListTile key={c.destinationId}>
+          <GridListTile cols={1} key={c.destinationId}>
             <div>
               <img
+                height='200'
                 src={
                   'https://www.eainsurance.com.au/wp-content/uploads/2020/05/Travel1.jpg'
                 }
@@ -100,7 +101,7 @@ class PageSelectDest extends React.Component {
         <div>
           <div>
             <div>{`${cities.length} Cit${
-              cities.length > 1 ? 'ies' : 't'
+              cities.length > 1 ? 'ies' : 'y'
             }`}</div>
             <div>{cities.length > 0 ? cities.toString() : ''}</div>
           </div>
