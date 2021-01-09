@@ -12,8 +12,9 @@ import io from 'socket.io-client';
 import React, {createElement} from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import {CSSTransitionGroup} from 'react-transition-group';
-
 // ==== COMPONENTS ========================================
+import PageAllTravel from './pages/pg-main';
+import PageSelectDate from './pages/pg-select-date';
 // ==== HELPERS =======================================
 import Helper from '../lib/helper';
 import PackageHelper from '../lib/package-helper';
@@ -25,7 +26,7 @@ import '../public/style.css';
 
 // Variables
 const styles = (theme) => ({});
-const {Modal, Global, Instance, SocketChannel} = CONSTANTS.get();
+const {Global, Instance, SocketChannel, Page} = CONSTANTS.get();
 const InstanceStatus = Instance.status;
 const SocketAction = SocketChannel.Action;
 
@@ -88,6 +89,8 @@ class App extends React.Component {
   /* ----------  Package Instance ------- */
   init(results) {
     console.log('>>>>Result from socket [init]', results);
+    const {user, homepage} = results;
+    this.setState({user, homepage});
   }
   // ----------  Users  ----------
   setOnlineUsers(onlineUserFbIds = []) {
@@ -132,44 +135,6 @@ class App extends React.Component {
       }
     };
     handleMount(viewerId, planId);
-    // Check for permission, ask if there is none
-    /* window.MessengerExtensions.getGrantedPermissions(
-      function(response) {
-        // check if permission exists
-        const permissions = response.permissions;
-        if (permissions.indexOf('user_profile') > -1) {
-          handleMount(viewerId, instId, packageId);
-        } else {
-          window.MessengerExtensions.askPermission(
-            function(response) {
-              if (response.isGranted) {
-                handleMount(viewerId, instId, packageId);
-              } else {
-                document.getElementById('message').innerHTML = `${
-                  document.getElementById('message').innerHTML
-                }>>>>getPermissions isGranted: false`;
-                window.MessengerExtensions.requestCloseBrowser(null, null);
-              }
-            },
-            function(errorCode, errorMessage) {
-              console.error({errorCode, errorMessage});
-              document.getElementById('message').innerHTML = `${
-                document.getElementById('message').innerHTML
-              }>>>>getPermissions Failed 1: ${errorCode} : ${errorMessage}`;
-              // window.MessengerExtensions.requestCloseBrowser(null, null);
-            },
-            'user_profile'
-          );
-        }
-      },
-      function(errorCode, errorMessage) {
-        console.error('>>>>getPermissions Failed 0', {errorCode, errorMessage});
-        document.getElementById('message').innerHTML = `${
-          document.getElementById('message').innerHTML
-        }>>>>getPermissions Failed 0: ${errorCode} : ${errorMessage}`;
-        // window.MessengerExtensions.requestCloseBrowser(null, null);
-      }
-    );*/
   }
 
   render() {
@@ -177,9 +142,15 @@ class App extends React.Component {
     // Local Variables
     console.log('>>>>MobileApp.render', {state: this.state, props: this.props});
     const {apiUri, viewerId, windowWidth} = this.props;
+    const {homepage} = this.state;
     // Sub Components
     let page = <div>Loading...</div>;
     page = <div>Loading...</div>;
+    if (homepage === Page.MainPage) {
+      page = <PageAllTravel />;
+    } else if (homepage === Page.NewPlan) {
+      page = <PageSelectDate />;
+    }
     /* ----------  Animated Wrapper  ---------- */
     return (
       <div id='app'>

@@ -16,7 +16,7 @@ import Model from '../db/schema';
 import userApi from '../messenger-api-helpers/user';
 
 // Variables
-const {Global, Instance, SocketChannel} = CONSTANTS.get();
+const {Global, Instance, SocketChannel, Page} = CONSTANTS.get();
 const InstanceStatus = Instance.status;
 const SocketAction = SocketChannel.Action;
 const SocketStatus = SocketChannel.Status;
@@ -109,13 +109,14 @@ const view = (input) => {
   }
   if (!planId || planId === 'new') {
     console.log('>>>>Socket.view, send back user details');
-    getUserDetails(senderId, (err, docs) => {
+    getUserDetails(senderId, (err, user) => {
       if (err) {
         console.error('>>>>Database Error', err);
         sendStatus(SocketStatus.DB_ERROR);
       } else {
-        console.log('>>>>Model.view Level 2 Result', docs);
-        socket.emit('init', docs);
+        console.log('>>>>Model.view Level 2 Result', user);
+        const homepage = planId === 'new' ? Page.NewPlan : Page.MainPage;
+        socket.emit('init', {user, homepage});
         sendStatus(SocketStatus.OK);
       }
     });

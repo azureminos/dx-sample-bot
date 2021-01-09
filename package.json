@@ -47,6 +47,7 @@
     "query-string": "^4.3.1",
     "react": "^16.8.1",
     "react-async-script-loader": "^0.3.0",
+    "react-dates": "^21.8.0",
     "react-dom": "^16.8.1",
     "react-id-swiper": "^2.4.0",
     "react-paypal-button": "^4.1.1",
