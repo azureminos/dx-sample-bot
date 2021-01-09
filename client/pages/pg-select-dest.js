@@ -10,6 +10,7 @@ import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 
 import StarBorderIcon from '@material-ui/icons/StarBorder';
+import StarIcon from '@material-ui/icons/Star';
 import SearchIcon from '@material-ui/icons/Search';
 
 import {fade, withStyles} from '@material-ui/core/styles';
@@ -74,16 +75,42 @@ const styles = (theme) => ({
 class PageSelectDest extends React.Component {
   constructor(props) {
     super(props);
+    this.handleAddCity = this.handleAddCity.bind(this);
+    this.state = {
+      cities: props.cities,
+    };
   }
+  // Event Handler
+  handleAddCity(e, c) {
+    console.log('>>>>PageSelectDest, handleAddCity()', c);
+    e.preventDefault();
+    const {cities} = this.state;
+    const isSelected = _.find(cities, function(o) {
+      return o === c.name;
+    });
+    if (!isSelected) {
+      cities.push(c.name);
+    } else {
+      _.remove(cities, function(o) {
+        return o === c.name;
+      });
+    }
+
+    this.setState({cities: cities});
+  }
+  // Display page
   render() {
     console.log('>>>>PageSelectDest, render()', this.props);
-    const {classes, plan, planExt, reference} = this.props;
-    const {cities, country} = planExt;
+    const {classes, reference} = this.props;
+    const {cities} = this.state;
     // Local Variables
     // Sub Components
     let body = <div>Empty destination list</div>;
     if (reference.destinations && reference.destinations.length > 0) {
       const getCityGrid = (c) => {
+        const isSelected = _.find(cities, function(o) {
+          return o === c.name;
+        });
         return (
           <GridListTile
             cols={1}
@@ -114,8 +141,15 @@ class PageSelectDest extends React.Component {
               }}
               actionPosition='left'
               actionIcon={
-                <IconButton aria-label={`star ${c.title}`}>
-                  <StarBorderIcon className={classes.cityTitle} />
+                <IconButton
+                  aria-label={`star ${c.title}`}
+                  onClick={(e) => this.handleAddCity(e, c)}
+                >
+                  {isSelected ? (
+                    <StarIcon style={{color: 'gold'}} />
+                  ) : (
+                    <StarBorderIcon className={classes.cityTitle} />
+                  )}
                 </IconButton>
               }
             />
