@@ -1,9 +1,12 @@
 import _ from 'lodash';
 import React, {createElement} from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  IconButton,
+} from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 
 import {fade, withStyles} from '@material-ui/core/styles';
@@ -19,6 +22,18 @@ const styles = (theme) => ({
       display: 'block',
     },
   },
+  appBarFooter: {
+    position: 'fixed',
+    width: '100%',
+    top: 'auto',
+    bottom: 0,
+  },
+  toolbarFooter: {
+    display: 'block',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 0,
+  },
 });
 
 class PageSelectDest extends React.Component {
@@ -32,7 +47,20 @@ class PageSelectDest extends React.Component {
     let body = <div>Empty destination list</div>;
 
     if (reference.destinations && reference.destinations > 0) {
-      body = <div>show destination list</div>;
+      const getDestItem = (d) => {
+        return <div key={d.destinationId}>{d.name}</div>;
+      };
+      body = (
+        <div>
+          <div>
+            <div>{`${cities.length} Cit${
+              cities.length > 1 ? 'ies' : 't'
+            }`}</div>
+            <div>{cities.length > 0 ? cities.toString() : ''}</div>
+          </div>
+          <div>{_.map(reference.destinations, getDestItem)}</div>
+        </div>
+      );
     }
     // Local Variables
     // Sub Components
@@ -55,7 +83,15 @@ class PageSelectDest extends React.Component {
           </Toolbar>
         </AppBar>
         {body}
-        <div>Footer - Create new travel plan</div>
+        <AppBar
+          position='fixed'
+          color='default'
+          className={classes.appBarFooter}
+        >
+          <Toolbar className={classes.toolbarFooter}>
+            <Button color='primary'>Next</Button>
+          </Toolbar>
+        </AppBar>
       </div>
     );
   }

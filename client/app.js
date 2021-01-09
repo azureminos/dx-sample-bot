@@ -119,7 +119,7 @@ class App extends React.Component {
   // --------  Reference  ---------
   handleRefDest(results) {
     console.log('>>>>Result from socket [ref:destination]', results);
-    const reference = this.state;
+    const {reference} = this.state;
     this.setState({
       updating: false,
       reference: {...reference, destinations: results},
