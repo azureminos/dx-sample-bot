@@ -166,7 +166,6 @@ class App extends React.Component {
         <PageSelectDest
           plan={plan}
           planExt={planExt}
-          updating={updating}
           reference={reference}
           pushToRemote={this.pushToRemote}
         />
