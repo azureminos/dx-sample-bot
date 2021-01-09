@@ -7,6 +7,7 @@
 
 // ===== SOCKETS ===============================================================
 import UserSocket from './user-socket';
+import RefSocket from './ref-socket';
 const socketUsers = new Map(); // {socketId: {userId, planId}}
 
 export default function attachSockets(io) {
@@ -63,6 +64,7 @@ export default function attachSockets(io) {
     channel('disconnect', UserSocket.leave);
     channel('push:register', UserSocket.register);
     channel('push:plan:view', UserSocket.view);
+    channel('push:ref:destination', RefSocket.getDestinationList);
     /* channel('push:user:view', UserSocket.view);
     channel('push:user:join', UserSocket.joinPackage);
     channel('push:user:leave', UserSocket.leavePackage);

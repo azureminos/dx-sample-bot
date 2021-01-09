@@ -8,7 +8,7 @@ const {Global, Instance} = CONSTANTS.get();
 const InstanceStatus = Instance.status;
 const Schema = mongoose.Schema;
 
-/* ============= Old Schemas ============= */
+/* ============= New Schemas ============= */
 // Reference   - Country
 const nCountry = new Schema({
   name: Schema.Types.String,
@@ -139,6 +139,17 @@ const nTravelPlanItem = new mongoose.Schema({
   updatedBy: Schema.Types.String,
 });
 const dbTravelPlanItem = mongoose.model('TravelPlanItem', nTravelPlanItem);
+/* ============= New Functions ============= */
+const getDestinationList = (country, callback) => {
+  console.log('>>>>Model.getDestinationList', country);
+  const cols = 'name description location destinationId type';
+  return dbDestination
+    .find({selectable: true, type: {$in: ['CITY', 'TOWN']}})
+    .select(cols)
+    .exec((err, docs) => {
+      callback(err, docs);
+    });
+};
 /* ============= Old Schemas ============= */
 // Members
 const scMember = new Schema({
@@ -777,4 +788,6 @@ export default {
   deleteAllInstanceMembers,
   deleteInstanceByParams,
   archiveInstanceByUserId,
+  // New Functions
+  getDestinationList,
 };

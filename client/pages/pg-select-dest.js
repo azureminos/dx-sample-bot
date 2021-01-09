@@ -27,7 +27,15 @@ class PageSelectDest extends React.Component {
   }
   render() {
     console.log('>>>>PageSelectDest, render()', this.props);
-    const {classes} = this.props;
+    const {classes, plan, planExt, reference, pushToRemote} = this.props;
+    const {cities, country} = planExt;
+    let body = <div>Loading destination list</div>;
+
+    if (!reference.destinations) {
+      pushToRemote('ref:destination', {country});
+    } else {
+      body = <div>Loading destination list</div>;
+    }
     // Local Variables
     // Sub Components
     // Display Widget
@@ -35,7 +43,12 @@ class PageSelectDest extends React.Component {
       <div className={classes.root}>
         <AppBar position='static'>
           <Toolbar>
-            <Typography className={classes.title} variant='h6' noWrap>
+            <Typography
+              align='center'
+              className={classes.title}
+              variant='h6'
+              noWrap
+            >
               Australia
             </Typography>
             <IconButton color='inherit'>
@@ -43,7 +56,7 @@ class PageSelectDest extends React.Component {
             </IconButton>
           </Toolbar>
         </AppBar>
-        <div>Body - List my travel plans</div>
+        {body}
         <div>Footer - Create new travel plan</div>
       </div>
     );

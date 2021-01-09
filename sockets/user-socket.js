@@ -99,7 +99,7 @@ const view = (input) => {
     socketUsers,
     userSocket,
   } = input;
-  console.log('>>>>Socket.view() start', {request, socketUsers, sendStatus});
+  console.log('>>>>Socket.view() start', {request, socketUsers});
   const {senderId, planId} = request;
   // Validate UserId and InstanceId
   if (!senderId) {
@@ -135,7 +135,7 @@ const view = (input) => {
 const register = (input) => {
   const {request, allInRoom, sendStatus, socketUsers, socket} = input;
   const {senderId, planId} = request;
-  console.log('>>>>Socket.register', {request, sendStatus});
+  console.log('>>>>Socket.register', {request, socketUsers});
   // Validate UserId and InstanceId
   if (!senderId) {
     console.error('Invalid user id');
@@ -167,7 +167,7 @@ const leavePackage = (input) => {
 // Notify users in room when user leaves.
 const leave = (input) => {
   const {request, allInRoom, socket, socketUsers, sendStatus} = input;
-  console.log('>>>>Socket.leave', {request, sendStatus});
+  console.log('>>>>Socket.leave', {request, socketUsers});
   /* const {senderId} = request;
   if (!senderId) {
     console.error('User not registered to socket');

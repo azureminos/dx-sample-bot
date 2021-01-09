@@ -43,13 +43,21 @@ class App extends React.Component {
     this.init = this.init.bind(this);
     this.register = this.register.bind(this);
     this.setOnlineUsers = this.setOnlineUsers.bind(this);
+    this.handleRefDest = this.handleRefDest.bind(this);
 
     this.state = {
       updating: false,
       user: null,
       socketStatus: '',
       plan: null,
-      reference: {},
+      planExt: {
+        country: 'Australia',
+        cities: [],
+      },
+      reference: {
+        destinations: null,
+        categories: null,
+      },
     };
   }
 
@@ -90,7 +98,7 @@ class App extends React.Component {
   init(results) {
     console.log('>>>>Result from socket [init]', results);
     const {user, homepage} = results;
-    this.setState({user, homepage});
+    this.setState({user, homepage, updating: false});
   }
   // ----------  Users  ----------
   setOnlineUsers(onlineUserFbIds = []) {
@@ -101,6 +109,10 @@ class App extends React.Component {
       return Object.assign({}, user, {online: isOnline});
     });
     this.setState({users});
+  }
+  // --------  Reference  ---------
+  handleRefDest(results) {
+    console.log('>>>>Result from socket [ref:destination]', results);
   }
   /* ==============================
      = React Lifecycle            =
@@ -122,6 +134,7 @@ class App extends React.Component {
     });
     socket.on('connect', this.register);
     socket.on('init', this.init);
+    socket.on('ref:destination', this.handleRefDest);
 
     const {viewerId, planId} = this.props;
     const handleMount = (vid, pid) => {
@@ -138,17 +151,25 @@ class App extends React.Component {
   }
 
   render() {
-    // document.title = packageSummary.name;
     // Local Variables
     console.log('>>>>MobileApp.render', {state: this.state, props: this.props});
     const {apiUri, viewerId, windowWidth} = this.props;
-    const {homepage} = this.state;
+    const {homepage, plan, planExt, reference} = this.state;
     // Sub Components
     let page = <div>Loading...</div>;
     if (homepage === Page.MainPage) {
+      document.title = 'My travel plans';
       page = <PageAllTravel />;
     } else if (homepage === Page.NewPlan) {
-      page = <PageSelectDest />;
+      document.title = 'Create new travel plan';
+      page = (
+        <PageSelectDest
+          plan={plan}
+          planExt={planExt}
+          reference={reference}
+          pushToRemote={this.pushToRemote}
+        />
+      );
     }
     /* ----------  Animated Wrapper  ---------- */
     return (
