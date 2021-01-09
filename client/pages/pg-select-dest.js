@@ -33,6 +33,7 @@ const styles = (theme) => ({
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: 0,
+    minHeight: '16px',
   },
 });
 
@@ -89,7 +90,9 @@ class PageSelectDest extends React.Component {
           className={classes.appBarFooter}
         >
           <Toolbar className={classes.toolbarFooter}>
-            <Button color='primary'>Next</Button>
+            <Button fullWidth color='inherit'>
+              Next
+            </Button>
           </Toolbar>
         </AppBar>
       </div>
