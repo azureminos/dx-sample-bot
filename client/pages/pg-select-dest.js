@@ -85,12 +85,12 @@ class PageSelectDest extends React.Component {
             </div>
             <GridListTileBar
               classes={{
-                root: classes.titleBar,
-                title: classes.title,
+                root: classes.cityTitleBar,
+                title: classes.cityTitle,
               }}
               actionIcon={
                 <IconButton aria-label={`star ${c.title}`}>
-                  <StarBorderIcon className={classes.title} />
+                  <StarBorderIcon className={classes.cityTitle} />
                 </IconButton>
               }
             />
