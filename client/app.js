@@ -14,7 +14,7 @@ import {withStyles} from '@material-ui/core/styles';
 import {CSSTransitionGroup} from 'react-transition-group';
 // ==== COMPONENTS ========================================
 import PageAllTravel from './pages/pg-main';
-import PageSelectDate from './pages/pg-select-date';
+import PageSelectDest from './pages/pg-select-dest';
 // ==== HELPERS =======================================
 import Helper from '../lib/helper';
 import PackageHelper from '../lib/package-helper';
