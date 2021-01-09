@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import React, {createElement} from 'react';
-import {DateRangePicker, constants} from 'react-dates';
+import {DateRangePicker} from 'react-dates';
+import {START_DATE, VERTICAL_ORIENTATION} from 'react-dates/constants';
 import {withStyles} from '@material-ui/core/styles';
 // ====== Icons ======
 // Variables
@@ -12,7 +13,7 @@ class PageSelectDate extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      focusedInput: constants.START_DATE,
+      focusedInput: START_DATE,
       startDate: null,
       endDate: null,
     };
@@ -36,7 +37,7 @@ class PageSelectDate extends React.Component {
             }
             focusedInput={this.state.focusedInput}
             onFocusChange={(focusedInput) => this.setState({focusedInput})}
-            orientation={constants.VERTICAL_ORIENTATION}
+            orientation={VERTICAL_ORIENTATION}
             keepOpenOnDateSelect
           />
         </div>
