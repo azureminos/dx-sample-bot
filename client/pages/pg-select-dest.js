@@ -77,7 +77,7 @@ class PageSelectDest extends React.Component {
     super(props);
     this.handleAddCity = this.handleAddCity.bind(this);
     this.state = {
-      cities: props.cities,
+      cities: props.cities || [],
     };
   }
   // Event Handler
