@@ -98,7 +98,7 @@ class App extends React.Component {
   init(results) {
     console.log('>>>>Result from socket [init]', results);
     const {user, homepage} = results;
-    this.setState({user, homepage, updating: false});
+    this.setState({user, homepage});
   }
   // ----------  Users  ----------
   setOnlineUsers(onlineUserFbIds = []) {

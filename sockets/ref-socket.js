@@ -33,7 +33,7 @@ const getDestinationList = (input) => {
       console.error('>>>>Model.getDestinationList error', err);
       sendStatus(SocketStatus.DB_ERROR);
     }
-    console.log('>>>>Model.getDestinationList result', docs);
+    console.log('>>>>Model.getDestinationList result', docs ? docs.length : 0);
     socket.emit('ref:destination', docs);
     sendStatus(SocketStatus.OK);
   });
