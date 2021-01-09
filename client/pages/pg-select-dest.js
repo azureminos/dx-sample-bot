@@ -105,7 +105,7 @@ class PageSelectDest extends React.Component {
             }`}</div>
             <div>{cities.length > 0 ? cities.toString() : ''}</div>
           </div>
-          <div className={classes.root}>
+          <div className={classes.cityGrid}>
             <GridList
               cellHeight={180}
               className={classes.cityGridList}
