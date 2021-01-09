@@ -154,7 +154,7 @@ class App extends React.Component {
     // Local Variables
     console.log('>>>>MobileApp.render', {state: this.state, props: this.props});
     const {apiUri, viewerId, windowWidth} = this.props;
-    const {homepage, plan, planExt, reference} = this.state;
+    const {homepage, plan, planExt, reference, updating} = this.state;
     // Sub Components
     let page = <div>Loading...</div>;
     if (homepage === Page.MainPage) {
@@ -166,6 +166,7 @@ class App extends React.Component {
         <PageSelectDest
           plan={plan}
           planExt={planExt}
+          updating={updating}
           reference={reference}
           pushToRemote={this.pushToRemote}
         />
