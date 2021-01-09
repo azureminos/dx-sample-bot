@@ -26,15 +26,13 @@ class PageSelectDest extends React.Component {
     super(props);
   }
   render() {
-    console.log('>>>>PageSelectDest, render()', this.props);
-    const {classes, plan, planExt, reference, pushToRemote} = this.props;
+    console.log('>>>>PageSelectDest, render()');
+    const {classes, plan, planExt, reference} = this.props;
     const {cities, country} = planExt;
-    let body = <div>Loading destination list</div>;
+    let body = <div>Empty destination list</div>;
 
-    if (!reference.destinations) {
-      pushToRemote('ref:destination', {country});
-    } else {
-      body = <div>Loading destination list</div>;
+    if (reference.destinations && reference.destinations > 0) {
+      body = <div>show destination list</div>;
     }
     // Local Variables
     // Sub Components

@@ -98,7 +98,13 @@ class App extends React.Component {
   init(results) {
     console.log('>>>>Result from socket [init]', results);
     const {user, homepage} = results;
-    this.setState({user, homepage});
+    this.setState({user, homepage, updating: false});
+    // Extra logic
+    if (homepage === Page.MainPage) {
+      this.pushToRemote('plan:list', this.props.viewerId);
+    } else if (homepage === Page.NewPlan) {
+      this.pushToRemote('ref:destination', this.state.planExt.country);
+    }
   }
   // ----------  Users  ----------
   setOnlineUsers(onlineUserFbIds = []) {
@@ -154,7 +160,7 @@ class App extends React.Component {
     // Local Variables
     console.log('>>>>MobileApp.render', {state: this.state, props: this.props});
     const {apiUri, viewerId, windowWidth} = this.props;
-    const {homepage, plan, planExt, reference, updating} = this.state;
+    const {homepage, plan, planExt, reference} = this.state;
     // Sub Components
     let page = <div>Loading...</div>;
     if (homepage === Page.MainPage) {
@@ -163,12 +169,7 @@ class App extends React.Component {
     } else if (homepage === Page.NewPlan) {
       document.title = 'Create new travel plan';
       page = (
-        <PageSelectDest
-          plan={plan}
-          planExt={planExt}
-          reference={reference}
-          pushToRemote={this.pushToRemote}
-        />
+        <PageSelectDest plan={plan} planExt={planExt} reference={reference} />
       );
     }
     /* ----------  Animated Wrapper  ---------- */
