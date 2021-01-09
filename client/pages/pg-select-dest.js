@@ -75,7 +75,7 @@ class PageSelectDest extends React.Component {
           <GridListTile cols={1} key={c.destinationId}>
             <div>
               <img
-                height='200'
+                height='100'
                 src={
                   'https://www.eainsurance.com.au/wp-content/uploads/2020/05/Travel1.jpg'
                 }
@@ -85,9 +85,10 @@ class PageSelectDest extends React.Component {
             </div>
             <GridListTileBar
               classes={{
-                root: classes.cityTitleBar,
+                // root: classes.cityTitleBar,
                 title: classes.cityTitle,
               }}
+              actionPosition='left'
               actionIcon={
                 <IconButton aria-label={`star ${c.title}`}>
                   <StarBorderIcon className={classes.cityTitle} />
@@ -105,16 +106,6 @@ class PageSelectDest extends React.Component {
             }`}</div>
             <div>{cities.length > 0 ? cities.toString() : ''}</div>
           </div>
-          <div className={classes.cityGrid}>
-            <GridList
-              cellHeight={180}
-              className={classes.cityGridList}
-              cols={1}
-            >
-              {reference.destinations.map(getCityGrid)}
-            </GridList>
-          </div>
-
           <div>{_.map(reference.destinations, getCityGrid)}</div>
         </div>
       );
