@@ -39,6 +39,9 @@ const styles = (theme) => ({
     padding: 0,
     minHeight: '16px',
   },
+  divSummary: {
+    display: 'flex',
+  },
   cityGrid: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -158,7 +161,7 @@ class PageSelectDest extends React.Component {
       };
       body = (
         <div>
-          <div>
+          <div className={classes.divSummary}>
             <div>{`${cities.length} Cit${
               cities.length > 1 ? 'ies' : 'y'
             }`}</div>
