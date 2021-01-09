@@ -149,7 +149,7 @@ class App extends React.Component {
     if (homepage === Page.MainPage) {
       page = <PageAllTravel />;
     } else if (homepage === Page.NewPlan) {
-      page = <PageSelectDate />;
+      page = <PageSelectDest />;
     }
     /* ----------  Animated Wrapper  ---------- */
     return (
