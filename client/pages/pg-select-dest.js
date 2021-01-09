@@ -49,6 +49,9 @@ const styles = (theme) => ({
     flexWrap: 'nowrap',
     transform: 'translateZ(0)',
   },
+  cityTile: {
+    padding: '0px',
+  },
   cityTitle: {
     color: theme.palette.primary.light,
   },
@@ -56,6 +59,16 @@ const styles = (theme) => ({
     background:
       'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
   },
+  cityItem: {
+    display: 'flex',
+    borderStyle: 'solid',
+    borderColor: 'blue',
+  },
+  cityText: {
+    display: 'block',
+  },
+  cityTextName: {},
+  cityTextDesc: {},
 });
 
 class PageSelectDest extends React.Component {
@@ -72,8 +85,14 @@ class PageSelectDest extends React.Component {
     if (reference.destinations && reference.destinations.length > 0) {
       const getCityGrid = (c) => {
         return (
-          <GridListTile cols={1} key={c.destinationId}>
-            <div>
+          <GridListTile
+            cols={1}
+            key={c.destinationId}
+            classes={{
+              root: classes.cityTile,
+            }}
+          >
+            <div className={classes.cityItem}>
               <img
                 height='100'
                 src={
@@ -81,11 +100,16 @@ class PageSelectDest extends React.Component {
                 }
                 alt={c.name}
               />
-              <div>{c.name}</div>
+              <div className={classes.cityText}>
+                <div className={classes.cityTextName}>{c.name}</div>
+                <div className={classes.cityTextDesc}>
+                  {'Best for 3 Days 2 nights'}
+                </div>
+              </div>
             </div>
             <GridListTileBar
               classes={{
-                // root: classes.cityTitleBar,
+                root: classes.cityTitleBar,
                 title: classes.cityTitle,
               }}
               actionPosition='left'
@@ -106,7 +130,12 @@ class PageSelectDest extends React.Component {
             }`}</div>
             <div>{cities.length > 0 ? cities.toString() : ''}</div>
           </div>
-          <GridList cols={1} spacing={4} className={classes.cityGrid}>
+          <GridList
+            cellHeight={'auto'}
+            cols={1}
+            spacing={4}
+            className={classes.cityGrid}
+          >
             {_.map(reference.destinations, getCityGrid)}
           </GridList>
         </div>
