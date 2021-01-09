@@ -106,7 +106,9 @@ class PageSelectDest extends React.Component {
             }`}</div>
             <div>{cities.length > 0 ? cities.toString() : ''}</div>
           </div>
-          <div>{_.map(reference.destinations, getCityGrid)}</div>
+          <GridList cols={1} spacing={4} className={classes.cityGrid}>
+            {_.map(reference.destinations, getCityGrid)}
+          </GridList>
         </div>
       );
     }
