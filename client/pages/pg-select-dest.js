@@ -45,9 +45,10 @@ class PageSelectDest extends React.Component {
     console.log('>>>>PageSelectDest, render()', this.props);
     const {classes, plan, planExt, reference} = this.props;
     const {cities, country} = planExt;
+    // Local Variables
+    // Sub Components
     let body = <div>Empty destination list</div>;
-
-    if (reference.destinations && reference.destinations > 0) {
+    if (reference.destinations && reference.destinations.length > 0) {
       const getDestItem = (d) => {
         return <div key={d.destinationId}>{d.name}</div>;
       };
@@ -63,8 +64,7 @@ class PageSelectDest extends React.Component {
         </div>
       );
     }
-    // Local Variables
-    // Sub Components
+
     // Display Widget
     return (
       <div className={classes.root}>
