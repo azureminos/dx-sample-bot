@@ -1,5 +1,7 @@
 import _ from 'lodash';
 import React, {createElement} from 'react';
+import 'react-dates/initialize';
+import 'react-dates/lib/css/_datepicker.css';
 import {DateRangePicker} from 'react-dates';
 import {START_DATE, VERTICAL_ORIENTATION} from 'react-dates/constants';
 import {withStyles} from '@material-ui/core/styles';
