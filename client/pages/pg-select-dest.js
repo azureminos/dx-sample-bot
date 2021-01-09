@@ -42,7 +42,7 @@ class PageSelectDest extends React.Component {
     super(props);
   }
   render() {
-    console.log('>>>>PageSelectDest, render()');
+    console.log('>>>>PageSelectDest, render()', this.props);
     const {classes, plan, planExt, reference} = this.props;
     const {cities, country} = planExt;
     let body = <div>Empty destination list</div>;
@@ -90,7 +90,7 @@ class PageSelectDest extends React.Component {
           className={classes.appBarFooter}
         >
           <Toolbar className={classes.toolbarFooter}>
-            <Button fullWidth color='inherit'>
+            <Button fullWidth color='primary'>
               Next
             </Button>
           </Toolbar>
