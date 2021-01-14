@@ -147,7 +147,9 @@ class PagePlanTrip extends React.Component {
                 startDateId='trip_start_date_id'
                 endDate={endDate}
                 endDateId='trip_end_date_id'
-                orientation={VERTICAL_ORIENTATION}
+                numberOfMonths={1}
+                small
+                showClearDates
                 onDatesChange={handleDateRangeChange}
                 focusedInput={focusedDateInput}
                 onFocusChange={(focusedInput) =>
