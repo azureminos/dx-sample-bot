@@ -44,6 +44,7 @@ class App extends React.Component {
     this.register = this.register.bind(this);
     this.setOnlineUsers = this.setOnlineUsers.bind(this);
     this.handleRefDest = this.handleRefDest.bind(this);
+    this.handleDateRangeChange = this.handleDateRangeChange.bind(this);
 
     this.state = {
       updating: false,
@@ -60,7 +61,12 @@ class App extends React.Component {
       },
     };
   }
-
+  /* ==============================
+     = Event Handlers             =
+     ============================== */
+  handleDateRangeChange({startDate, endDate}) {
+    console.log('>>>>handleDateRangeChange', {startDate, endDate});
+  }
   /* ==============================
      = Helper Methods             =
      ============================== */
@@ -172,14 +178,22 @@ class App extends React.Component {
       document.title = 'My travel plans';
       page = <PageAllTravel />;
     } else if (homepage === Page.NewPlan) {
-      const plan = this.state.plan ? this.state.plan : Helper.draftPlan();
       document.title = 'Create new travel plan';
+      let plan = this.state.plan;
+      if (!this.state.plan) {
+        plan = Helper.draftPlan();
+        this.setState({plan});
+      }
+      const actions = {
+        handleDateRangeChange: this.handleDateRangeChange,
+      };
+
       page = (
         <PagePlanTrip
           plan={plan}
           planExt={planExt}
           reference={reference}
-          actions={null}
+          actions={actions}
         />
       );
     }
