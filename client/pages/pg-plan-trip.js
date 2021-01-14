@@ -12,6 +12,53 @@ import {withStyles} from '@material-ui/core/styles';
 // ====== Icons ======
 import SearchIcon from '@material-ui/icons/Search';
 
+// Variables
+const styles = (theme) => ({
+  root: {
+    height: '100%',
+  },
+  whitespaceTop: {
+    height: 50,
+  },
+  whitespaceBottom: {
+    height: 50,
+  },
+  headerAppBar: {
+    position: 'fixed',
+    width: '100%',
+    top: 0,
+    bottom: 'auto',
+  },
+  headerToolbar: {
+    display: 'block',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 0,
+    minHeight: '16px',
+  },
+  bodyRoot: {
+    backgroundColor: theme.palette.background.paper,
+    display: 'flex',
+    height: '100%',
+  },
+  bodyTabs: {
+    borderRight: `1px solid ${theme.palette.divider}`,
+  },
+  footerAppBar: {
+    position: 'fixed',
+    width: '100%',
+    top: 'auto',
+    bottom: 0,
+  },
+  footerToolbar: {
+    display: 'block',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 0,
+    minHeight: '16px',
+  },
+});
+
 // Functions
 function TabPanel(props) {
   const {children, value, index, ...other} = props;
@@ -38,35 +85,6 @@ function a11yProps(index) {
     'aria-controls': `vertical-tabpanel-${index}`,
   };
 }
-
-// Variables
-const styles = (theme) => ({
-  root: {
-    height: '100%',
-  },
-  bodyRoot: {
-    backgroundColor: theme.palette.background.paper,
-    display: 'flex',
-    height: '100%',
-  },
-  bodyTabs: {
-    borderRight: `1px solid ${theme.palette.divider}`,
-  },
-  footerAppBar: {
-    position: 'fixed',
-    width: '100%',
-    top: 'auto',
-    bottom: 0,
-  },
-  footerToolbar: {
-    display: 'block',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: 0,
-    minHeight: '16px',
-  },
-});
-
 class PagePlanTrip extends React.Component {
   constructor(props) {
     super(props);
@@ -101,11 +119,6 @@ class PagePlanTrip extends React.Component {
         >
           <Tab label='Item One' {...a11yProps(0)} />
           <Tab label='Item Two' {...a11yProps(1)} />
-          <Tab label='Item Three' {...a11yProps(2)} />
-          <Tab label='Item Four' {...a11yProps(3)} />
-          <Tab label='Item Five' {...a11yProps(4)} />
-          <Tab label='Item Six' {...a11yProps(5)} />
-          <Tab label='Item Seven' {...a11yProps(6)} />
         </Tabs>
         <TabPanel value={tabSelected} index={0}>
           Item One
@@ -113,36 +126,23 @@ class PagePlanTrip extends React.Component {
         <TabPanel value={tabSelected} index={1}>
           Item Two
         </TabPanel>
-        <TabPanel value={tabSelected} index={2}>
-          Item Three
-        </TabPanel>
-        <TabPanel value={tabSelected} index={3}>
-          Item Four
-        </TabPanel>
-        <TabPanel value={tabSelected} index={4}>
-          Item Five
-        </TabPanel>
-        <TabPanel value={tabSelected} index={5}>
-          Item Six
-        </TabPanel>
-        <TabPanel value={tabSelected} index={6}>
-          Item Seven
-        </TabPanel>
       </div>
     );
 
     // Display Widget
     return (
       <div className={classes.root}>
-        <AppBar position='static'>
-          <Toolbar>
+        <AppBar position='fixed' color='default' className={classes.headerBar}>
+          <Toolbar className={classes.headerToolbar}>
             <div>
               <div>Date Selector</div>
               <div>Search</div>
             </div>
           </Toolbar>
         </AppBar>
+        <div className={classes.whitespaceTop} />
         {body}
+        <div className={classes.whitespaceBottom} />
         <AppBar
           position='fixed'
           color='default'
