@@ -14,7 +14,7 @@ import {withStyles} from '@material-ui/core/styles';
 import {CSSTransitionGroup} from 'react-transition-group';
 // ==== COMPONENTS ========================================
 import PageAllTravel from './pages/pg-main';
-import PageSelectDest from './pages/pg-select-dest';
+import PagePlanTrip from './pages/pg-plan-trip';
 // ==== HELPERS =======================================
 import Helper from '../lib/helper';
 import PackageHelper from '../lib/package-helper';
@@ -165,16 +165,22 @@ class App extends React.Component {
     // Local Variables
     console.log('>>>>MobileApp.render', {state: this.state, props: this.props});
     const {apiUri, viewerId, windowWidth} = this.props;
-    const {homepage, plan, planExt, reference} = this.state;
+    const {homepage, planExt, reference} = this.state;
     // Sub Components
     let page = <div>Loading...</div>;
     if (homepage === Page.MainPage) {
       document.title = 'My travel plans';
       page = <PageAllTravel />;
     } else if (homepage === Page.NewPlan) {
+      const plan = this.state.plan ? this.state.plan : Helper.draftPlan();
       document.title = 'Create new travel plan';
       page = (
-        <PageSelectDest plan={plan} planExt={planExt} reference={reference} />
+        <PagePlanTrip
+          plan={plan}
+          planExt={planExt}
+          reference={reference}
+          actions={null}
+        />
       );
     }
     /* ----------  Animated Wrapper  ---------- */
