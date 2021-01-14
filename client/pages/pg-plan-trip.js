@@ -45,7 +45,7 @@ const styles = (theme) => ({
   body: {
     backgroundColor: theme.palette.background.paper,
     display: 'flex',
-    height: 224,
+    height: '100%',
   },
   tabs: {
     borderRight: `1px solid ${theme.palette.divider}`,
@@ -72,7 +72,7 @@ class PagePlanTrip extends React.Component {
     this.doHandleTabSelect = this.doHandleTabSelect.bind(this);
     // Init state
     this.state = {
-      selectedTab: this.props.daySelected || 0,
+      tabSelected: this.props.daySelected || 0,
     };
   }
   // Event Handler
@@ -84,7 +84,7 @@ class PagePlanTrip extends React.Component {
   render() {
     console.log('>>>>PagePlanTrip, render()', this.props);
     const {classes} = this.props;
-    const {selectedTab} = this.state;
+    const {tabSelected} = this.state;
     // Local Variables
     // Sub Components
     const body = (
@@ -92,7 +92,7 @@ class PagePlanTrip extends React.Component {
         <Tabs
           orientation='vertical'
           variant='scrollable'
-          value={selectedTab}
+          value={tabSelected}
           onChange={this.doHandleTabSelect}
           aria-label='Vertical tabs example'
           className={classes.tabs}
@@ -105,25 +105,25 @@ class PagePlanTrip extends React.Component {
           <Tab label='Item Six' {...a11yProps(5)} />
           <Tab label='Item Seven' {...a11yProps(6)} />
         </Tabs>
-        <TabPanel value={selectedTab} index={0}>
+        <TabPanel value={tabSelected} index={0}>
           Item One
         </TabPanel>
-        <TabPanel value={selectedTab} index={1}>
+        <TabPanel value={tabSelected} index={1}>
           Item Two
         </TabPanel>
-        <TabPanel value={selectedTab} index={2}>
+        <TabPanel value={tabSelected} index={2}>
           Item Three
         </TabPanel>
-        <TabPanel value={selectedTab} index={3}>
+        <TabPanel value={tabSelected} index={3}>
           Item Four
         </TabPanel>
-        <TabPanel value={selectedTab} index={4}>
+        <TabPanel value={tabSelected} index={4}>
           Item Five
         </TabPanel>
-        <TabPanel value={selectedTab} index={5}>
+        <TabPanel value={tabSelected} index={5}>
           Item Six
         </TabPanel>
-        <TabPanel value={selectedTab} index={6}>
+        <TabPanel value={tabSelected} index={6}>
           Item Seven
         </TabPanel>
       </div>
