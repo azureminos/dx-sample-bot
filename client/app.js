@@ -66,6 +66,7 @@ class App extends React.Component {
      ============================== */
   handleDateRangeChange({startDate, endDate}) {
     console.log('>>>>handleDateRangeChange', {startDate, endDate});
+    this.setState({plan: {...this.state.plan, startDate, endDate}});
   }
   /* ==============================
      = Helper Methods             =

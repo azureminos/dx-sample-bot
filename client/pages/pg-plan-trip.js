@@ -11,7 +11,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 import {withStyles} from '@material-ui/core/styles';
-import {START_DATE, VERTICAL_ORIENTATION} from 'react-dates/constants';
+import {VERTICAL_ORIENTATION} from 'react-dates/constants';
 // ====== Icons && CSS ======
 import SearchIcon from '@material-ui/icons/Search';
 import 'react-dates/lib/css/_datepicker.css';
@@ -93,16 +93,16 @@ class PagePlanTrip extends React.Component {
   constructor(props) {
     super(props);
     // Bind handler
-    this.handleTabSelect = this.handleTabSelect.bind(this);
+    this.doHandleTabSelect = this.doHandleTabSelect.bind(this);
     // Init state
     this.state = {
       tabSelected: this.props.daySelected || 0,
-      focusedDateInput: START_DATE,
+      focusedDateInput: null,
     };
   }
   // Event Handler
-  handleTabSelect = (event, newValue) => {
-    console.log('>>>>PagePlanTrip.handleTabSelect', newValue);
+  doHandleTabSelect = (event, newValue) => {
+    console.log('>>>>PagePlanTrip.doHandleTabSelect', newValue);
     this.setState({tabSelected: newValue});
   };
   // Display page
@@ -120,7 +120,7 @@ class PagePlanTrip extends React.Component {
           orientation='vertical'
           variant='scrollable'
           value={tabSelected}
-          onChange={this.handleTabSelect}
+          onChange={this.doHandleTabSelect}
           aria-label='Vertical tabs example'
           className={classes.bodyTabs}
         >
