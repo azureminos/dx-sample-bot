@@ -41,22 +41,24 @@ function a11yProps(index) {
 
 // Variables
 const styles = (theme) => ({
-  root: {},
-  body: {
+  root: {
+    height: '100%',
+  },
+  bodyRoot: {
     backgroundColor: theme.palette.background.paper,
     display: 'flex',
     height: '100%',
   },
-  tabs: {
+  bodyTabs: {
     borderRight: `1px solid ${theme.palette.divider}`,
   },
-  appBarFooter: {
+  footerAppBar: {
     position: 'fixed',
     width: '100%',
     top: 'auto',
     bottom: 0,
   },
-  toolbarFooter: {
+  footerToolbar: {
     display: 'block',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -88,14 +90,14 @@ class PagePlanTrip extends React.Component {
     // Local Variables
     // Sub Components
     const body = (
-      <div className={classes.body}>
+      <div className={classes.bodyRoot}>
         <Tabs
           orientation='vertical'
           variant='scrollable'
           value={tabSelected}
           onChange={this.doHandleTabSelect}
           aria-label='Vertical tabs example'
-          className={classes.tabs}
+          className={classes.bodyTabs}
         >
           <Tab label='Item One' {...a11yProps(0)} />
           <Tab label='Item Two' {...a11yProps(1)} />
@@ -144,9 +146,9 @@ class PagePlanTrip extends React.Component {
         <AppBar
           position='fixed'
           color='default'
-          className={classes.appBarFooter}
+          className={classes.footerAppBar}
         >
-          <Toolbar className={classes.toolbarFooter}>
+          <Toolbar className={classes.footerToolbar}>
             <Button fullWidth color='primary'>
               Complete
             </Button>

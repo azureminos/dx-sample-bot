@@ -185,7 +185,7 @@ class App extends React.Component {
     }
     /* ----------  Animated Wrapper  ---------- */
     return (
-      <div id='app'>
+      <div id='app' style={{margin: '0px', height: '100%'}}>
         <CSSTransitionGroup
           transitionName='page'
           transitionEnterTimeout={500}
