@@ -22,7 +22,7 @@ class LocationSearchInput extends React.Component {
   render() {
     return (
       <PlacesAutocomplete
-        value={`${this.state.address} ${Global.defaultCountry}`}
+        value={this.state.address}
         onChange={this.handleChange}
         onSelect={this.handleSelect}
       >

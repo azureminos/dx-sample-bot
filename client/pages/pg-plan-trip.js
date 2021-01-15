@@ -49,9 +49,6 @@ const styles = (theme) => ({
     display: 'flex',
     height: '100%',
   },
-  bTabs: {
-    borderRight: `1px solid ${theme.palette.divider}`,
-  },
   fAppBar: {
     position: 'fixed',
     width: '100%',
@@ -119,11 +116,12 @@ class PagePlanTrip extends React.Component {
     // Local Variables
     // Sub Components
     let body = <div />;
+    let tabs = '';
     const isDateSelected =
       startDate && endDate && endDate.diff(startDate, 'days') > 0;
     if (isDateSelected) {
       const totalDays = endDate.diff(startDate, 'days');
-      const tabs = [<Tab key={0} label='Summary' {...a11yProps(0)} />];
+      const tabItems = [<Tab key={0} label='Summary' {...a11yProps(0)} />];
       const tabPanels = [
         <TabPanel key={0} value={tabSelected} index={0}>
           Trip Summary
@@ -131,28 +129,30 @@ class PagePlanTrip extends React.Component {
       ];
       for (let i = 0; i < totalDays; i++) {
         const day = i + 1;
-        tabs.push(<Tab key={day} label={`Day ${day}`} {...a11yProps(day)} />);
+        tabItems.push(
+          <Tab key={day} label={`Day ${day}`} {...a11yProps(day)} />
+        );
         tabPanels.push(
           <TabPanel key={day} value={tabSelected} index={day}>
             Trip Day Details
           </TabPanel>
         );
       }
-      body = (
-        <div className={classes.bRoot}>
-          <Tabs
-            orientation='vertical'
-            variant='scrollable'
-            value={tabSelected}
-            onChange={this.doHandleTabSelect}
-            aria-label='Vertical tabs example'
-            className={classes.bTabs}
-          >
-            {tabs}
-          </Tabs>
-          {tabPanels}
-        </div>
+      tabs = (
+        <Tabs
+          variant='scrollable'
+          value={tabSelected}
+          indicatorColor='primary'
+          textColor='primary'
+          variant='scrollable'
+          scrollButtons='auto'
+          onChange={this.doHandleTabSelect}
+          aria-label='trip plan tabs'
+        >
+          >{tabItems}
+        </Tabs>
       );
+      body = <div className={classes.bRoot}>{tabPanels}</div>;
     } else {
       body = (
         <div>
@@ -186,6 +186,7 @@ class PagePlanTrip extends React.Component {
                 />
               </div>
               <div>{isDateSelected ? <LocationSearchInput /> : ''}</div>
+              <div>{isDateSelected ? tabs : ''}</div>
             </div>
           </Toolbar>
         </AppBar>
