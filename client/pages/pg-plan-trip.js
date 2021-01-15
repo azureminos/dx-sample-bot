@@ -12,6 +12,7 @@ import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 import {withStyles} from '@material-ui/core/styles';
 import {VERTICAL_ORIENTATION} from 'react-dates/constants';
+import LocationSearchInput from '../components-v2/location-search-input';
 // ====== Icons && CSS ======
 import SearchIcon from '@material-ui/icons/Search';
 import 'react-dates/lib/css/_datepicker.css';
@@ -172,7 +173,9 @@ class PagePlanTrip extends React.Component {
                   }
                 />
               </div>
-              <div>Search</div>
+              <div>
+                <LocationSearchInput />
+              </div>
             </div>
           </Toolbar>
         </AppBar>
