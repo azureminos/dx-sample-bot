@@ -119,7 +119,25 @@ class PagePlanTrip extends React.Component {
     // Local Variables
     // Sub Components
     let body = <div />;
-    if (startDate && endDate && endDate.diff(startDate, 'days') > 0) {
+    const isDateSelected =
+      startDate && endDate && endDate.diff(startDate, 'days') > 0;
+    if (isDateSelected) {
+      const totalDays = endDate.diff(startDate, 'days');
+      const tabs = [<Tab key={0} label='Summary' {...a11yProps(0)} />];
+      const tabPanels = [
+        <TabPanel key={0} value={tabSelected} index={0}>
+          Trip Summary
+        </TabPanel>,
+      ];
+      for (let i = 0; i < totalDays; i++) {
+        const day = i + 1;
+        tabs.push(<Tab key={day} label={`Day ${day}`} {...a11yProps(day)} />);
+        tabPanels.push(
+          <TabPanel key={day} value={tabSelected} index={day}>
+            Trip Day Details
+          </TabPanel>
+        );
+      }
       body = (
         <div className={classes.bRoot}>
           <Tabs
@@ -130,15 +148,9 @@ class PagePlanTrip extends React.Component {
             aria-label='Vertical tabs example'
             className={classes.bTabs}
           >
-            <Tab label='Item One' {...a11yProps(0)} />
-            <Tab label='Item Two' {...a11yProps(1)} />
+            {tabs}
           </Tabs>
-          <TabPanel value={tabSelected} index={0}>
-            Item One
-          </TabPanel>
-          <TabPanel value={tabSelected} index={1}>
-            Item Two
-          </TabPanel>
+          {tabPanels}
         </div>
       );
     } else {
@@ -173,9 +185,7 @@ class PagePlanTrip extends React.Component {
                   }
                 />
               </div>
-              <div>
-                <LocationSearchInput />
-              </div>
+              <div>{isDateSelected ? <LocationSearchInput /> : ''}</div>
             </div>
           </Toolbar>
         </AppBar>

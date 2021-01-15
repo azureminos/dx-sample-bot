@@ -1,8 +1,9 @@
 import React, {createElement} from 'react';
-import PlacesAutocomplete, {
-  geocodeByAddress,
-  getLatLng,
-} from 'react-places-autocomplete';
+import PlacesAutocomplete from 'react-places-autocomplete';
+import CONSTANTS from '../../lib/constants';
+
+// Variables
+const {Global} = CONSTANTS.get();
 
 class LocationSearchInput extends React.Component {
   constructor(props) {
@@ -16,16 +17,12 @@ class LocationSearchInput extends React.Component {
 
   handleSelect = (address) => {
     console.log('Address Selected', address);
-    geocodeByAddress(address)
-      .then((results) => getLatLng(results[0]))
-      .then((latLng) => console.log('Success', latLng))
-      .catch((error) => console.error('Error', error));
   };
 
   render() {
     return (
       <PlacesAutocomplete
-        value={this.state.address}
+        value={`${this.state.address} ${Global.defaultCountry}`}
         onChange={this.handleChange}
         onSelect={this.handleSelect}
       >
@@ -33,7 +30,7 @@ class LocationSearchInput extends React.Component {
           <div>
             <input
               {...getInputProps({
-                placeholder: 'Search Places ...',
+                placeholder: 'Where to?',
                 className: 'location-search-input',
               })}
             />
