@@ -27,34 +27,37 @@ const styles = (theme) => ({
   whitespaceBottom: {
     height: 50,
   },
-  headerAppBar: {
+  hAppBar: {
     position: 'fixed',
     width: '100%',
     top: 0,
     bottom: 'auto',
   },
-  headerToolbar: {
+  hToolbar: {
     display: 'block',
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: 0,
     minHeight: '16px',
   },
-  bodyRoot: {
+  hDatePicker: {
+    display: 'flex',
+  },
+  bRoot: {
     backgroundColor: theme.palette.background.paper,
     display: 'flex',
     height: '100%',
   },
-  bodyTabs: {
+  bTabs: {
     borderRight: `1px solid ${theme.palette.divider}`,
   },
-  footerAppBar: {
+  fAppBar: {
     position: 'fixed',
     width: '100%',
     top: 'auto',
     bottom: 0,
   },
-  footerToolbar: {
+  fToolbar: {
     display: 'block',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -114,48 +117,61 @@ class PagePlanTrip extends React.Component {
     const {tabSelected, focusedDateInput} = this.state;
     // Local Variables
     // Sub Components
-    const body = (
-      <div className={classes.bodyRoot}>
-        <Tabs
-          orientation='vertical'
-          variant='scrollable'
-          value={tabSelected}
-          onChange={this.doHandleTabSelect}
-          aria-label='Vertical tabs example'
-          className={classes.bodyTabs}
-        >
-          <Tab label='Item One' {...a11yProps(0)} />
-          <Tab label='Item Two' {...a11yProps(1)} />
-        </Tabs>
-        <TabPanel value={tabSelected} index={0}>
-          Item One
-        </TabPanel>
-        <TabPanel value={tabSelected} index={1}>
-          Item Two
-        </TabPanel>
-      </div>
-    );
+    let body = <div />;
+    if (startDate && endDate && endDate.diff(startDate, 'days') > 0) {
+      body = (
+        <div className={classes.bRoot}>
+          <Tabs
+            orientation='vertical'
+            variant='scrollable'
+            value={tabSelected}
+            onChange={this.doHandleTabSelect}
+            aria-label='Vertical tabs example'
+            className={classes.bTabs}
+          >
+            <Tab label='Item One' {...a11yProps(0)} />
+            <Tab label='Item Two' {...a11yProps(1)} />
+          </Tabs>
+          <TabPanel value={tabSelected} index={0}>
+            Item One
+          </TabPanel>
+          <TabPanel value={tabSelected} index={1}>
+            Item Two
+          </TabPanel>
+        </div>
+      );
+    } else {
+      body = (
+        <div>
+          Please select start and end date. Page display to be discussed.
+        </div>
+      );
+    }
 
     // Display Widget
     return (
       <div className={classes.root}>
-        <AppBar position='fixed' color='default' className={classes.headerBar}>
-          <Toolbar className={classes.headerToolbar}>
+        <AppBar position='fixed' color='default' className={classes.hAppBar}>
+          <Toolbar className={classes.hToolbar}>
             <div>
-              <DateRangePicker
-                startDate={startDate}
-                startDateId='trip_start_date_id'
-                endDate={endDate}
-                endDateId='trip_end_date_id'
-                numberOfMonths={1}
-                small
-                showClearDates
-                onDatesChange={handleDateRangeChange}
-                focusedInput={focusedDateInput}
-                onFocusChange={(focusedInput) =>
-                  this.setState({focusedDateInput: focusedInput})
-                }
-              />
+              <div className={classes.hDatePicker}>
+                <label>Trip Date</label>
+                <DateRangePicker
+                  startDate={startDate}
+                  startDateId='trip_start_date_id'
+                  endDate={endDate}
+                  endDateId='trip_end_date_id'
+                  numberOfMonths={1}
+                  small
+                  showClearDates
+                  reopenPickerOnClearDates
+                  onDatesChange={handleDateRangeChange}
+                  focusedInput={focusedDateInput}
+                  onFocusChange={(focusedInput) =>
+                    this.setState({focusedDateInput: focusedInput})
+                  }
+                />
+              </div>
               <div>Search</div>
             </div>
           </Toolbar>
@@ -163,12 +179,8 @@ class PagePlanTrip extends React.Component {
         <div className={classes.whitespaceTop} />
         {body}
         <div className={classes.whitespaceBottom} />
-        <AppBar
-          position='fixed'
-          color='default'
-          className={classes.footerAppBar}
-        >
-          <Toolbar className={classes.footerToolbar}>
+        <AppBar position='fixed' color='default' className={classes.fAppBar}>
+          <Toolbar className={classes.fToolbar}>
             <Button fullWidth color='primary'>
               Complete
             </Button>
