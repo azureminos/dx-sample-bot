@@ -73,6 +73,22 @@ class App extends React.Component {
       plan: {...this.state.plan, startDate, endDate},
     });
   }
+  handleTagGroupChange(tagGroup) {
+    console.log('>>>>handleTagGroupChange', tagGroup);
+    const {selectedTagGroups} = this.state.planExt;
+    if (
+      !_.find(selectedTagGroups, (s) => {
+        return s === tagGroup;
+      })
+    ) {
+      selectedTagGroups.push(tagGroup);
+    } else {
+      _.pull(selectedTagGroups, tagGroup);
+    }
+    this.setState({
+      planExt: {...this.state.planExt, selectedTagGroups},
+    });
+  }
   /* ==============================
      = Helper Methods             =
      ============================== */
@@ -199,18 +215,20 @@ class App extends React.Component {
       page = <PageAllTravel />;
     } else if (homepage === Page.NewPlan) {
       document.title = 'Create new travel plan';
-      const actions = {
-        handleDateRangeChange: this.handleDateRangeChange,
-      };
-
-      page = (
-        <PagePlanTrip
-          plan={plan}
-          planExt={planExt}
-          reference={reference}
-          actions={actions}
-        />
-      );
+      if (reference.tagGroups) {
+        const actions = {
+          handleDateRangeChange: this.handleDateRangeChange,
+          handleTagGroupChange: this.handleTagGroupChange,
+        };
+        page = (
+          <PagePlanTrip
+            plan={plan}
+            planExt={planExt}
+            reference={reference}
+            actions={actions}
+          />
+        );
+      }
     }
     /* ----------  Animated Wrapper  ---------- */
     return (

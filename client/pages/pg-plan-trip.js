@@ -178,12 +178,12 @@ class PagePlanTrip extends React.Component {
         </AppBar>
       );
     } else {
-      const getGridTagGroup = (name) => {
+      const getGridTagGroup = (t) => {
         const isSelected = !!_.find(selectedTagGroups, (g) => {
-          return name === g;
+          return t.name === g;
         });
         return (
-          <Grid item xs={4}>
+          <Grid item xs={4} key={t._id} onClick={handleTagGroupChange}>
             <div
               className={
                 isSelected ? classes.bGridSelected : classes.bGridUnselected
