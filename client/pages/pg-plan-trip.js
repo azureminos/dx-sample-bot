@@ -194,12 +194,13 @@ class PagePlanTrip extends React.Component {
           </Grid>
         );
       };
+      console.log('>>>>PagePlanTrip generate grids', tagGroups);
       body = (
         <div>
           <div>Pick your interests</div>
           <Grid container spacing={2}>
             {_.map(tagGroups, (t) => {
-              getGridTagGroup(t.name);
+              return getGridTagGroup(t.name);
             })}
           </Grid>
         </div>
