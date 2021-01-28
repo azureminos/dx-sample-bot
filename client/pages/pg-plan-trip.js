@@ -109,12 +109,14 @@ class PagePlanTrip extends React.Component {
   // Display page
   render() {
     console.log('>>>>PagePlanTrip, render()', this.props);
-    const {classes, plan, actions} = this.props;
+    const {classes, plan, planExt, actions} = this.props;
     const {handleDateRangeChange} = actions;
     const {startDate, endDate} = plan;
+    const {selectedTagGroups} = planExt;
     const {tabSelected, focusedDateInput} = this.state;
     // Local Variables
     // Sub Components
+    const footer = <div />;
     let body = <div />;
     let tabs = '';
     const isDateSelected =
@@ -189,11 +191,17 @@ class PagePlanTrip extends React.Component {
         <div className={classes.whitespaceTop} />
         {body}
         <div className={classes.whitespaceBottom} />
+        {footer}
         <AppBar position='fixed' color='default' className={classes.fAppBar}>
           <Toolbar className={classes.fToolbar}>
-            <Button fullWidth color='primary'>
-              Complete
-            </Button>
+            <div>
+              <div>Show interests scroll bar</div>
+              <div>
+                <Button fullWidth color='primary'>
+                  Complete
+                </Button>
+              </div>
+            </div>
           </Toolbar>
         </AppBar>
       </div>

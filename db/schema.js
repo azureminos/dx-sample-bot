@@ -147,8 +147,8 @@ const nTravelPlanItem = new mongoose.Schema({
 });
 const dbTravelPlanItem = mongoose.model('TravelPlanItem', nTravelPlanItem);
 /* ============= New Functions ============= */
-const getDestinationList = (country, callback) => {
-  console.log('>>>>Model.getDestinationList', country);
+const getAllDestination = (country, callback) => {
+  console.log('>>>>Model.getAllDestination', country);
   const cols = 'name description location destinationId type';
   return dbDestination
     .find({selectable: true, type: {$in: ['CITY', 'TOWN']}})
@@ -157,8 +157,8 @@ const getDestinationList = (country, callback) => {
       callback(err, docs);
     });
 };
-const getTagGroupList = (input, callback) => {
-  console.log('>>>>Model.getTagGroupList', input);
+const getAllTagGroup = (input, callback) => {
+  console.log('>>>>Model.getAllTagGroup', input);
   const cols = 'name tags';
   return dbTagGroup
     .find({})
@@ -166,6 +166,35 @@ const getTagGroupList = (input, callback) => {
     .exec((err, docs) => {
       callback(err, docs);
     });
+};
+const getAllCategory = (input, callback) => {
+  console.log('>>>>Model.getAllCategory', input);
+  async.parallel(
+    {
+      cats: (callback) => {
+        const cols = 'name itemId thumbnailURL';
+        return dbCategory
+          .find({})
+          .select(cols)
+          .exec((err, docs) => {
+            callback(err, docs);
+          });
+      },
+      subcats: (callback) => {
+        const cols = 'name itemId parentId';
+        return dbSubCategory
+          .find({})
+          .select(cols)
+          .exec((err, docs) => {
+            callback(err, docs);
+          });
+      },
+    },
+    function(err, result) {
+      console.log('>>>>Model.getAllCategory Result', {err, result});
+      callback(null, []);
+    }
+  );
 };
 /* ============= Old Schemas ============= */
 // Members
@@ -806,6 +835,7 @@ export default {
   deleteInstanceByParams,
   archiveInstanceByUserId,
   // New Functions
-  getDestinationList,
-  getTagGroupList,
+  getAllDestination,
+  getAllTagGroup,
+  getAllCategory,
 };

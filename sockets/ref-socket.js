@@ -18,7 +18,7 @@ const {SocketChannel} = CONSTANTS.get();
 const SocketStatus = SocketChannel.Status;
 // ===== HANDLER ===============================================================
 
-const getDestinationList = (input) => {
+const getAllDestination = (input) => {
   const {
     request,
     allInRoom,
@@ -27,14 +27,14 @@ const getDestinationList = (input) => {
     socketUsers,
     userSocket,
   } = input;
-  console.log('>>>>Socket.getDestinationList() start', {request});
+  console.log('>>>>Socket.getAllDestination() start', {request});
   const {country} = request;
-  Model.getDestinationList(country, (err, docs) => {
+  Model.getAllDestination(country, (err, docs) => {
     if (err) {
-      console.error('>>>>Model.getDestinationList error', err);
+      console.error('>>>>Model.getAllDestination error', err);
       sendStatus(SocketStatus.DB_ERROR);
     }
-    console.log('>>>>Model.getDestinationList result', docs ? docs.length : 0);
+    console.log('>>>>Model.getAllDestination result', docs ? docs.length : 0);
     socket.emit('ref:destination', docs);
     sendStatus(SocketStatus.OK);
   });
@@ -55,10 +55,13 @@ const getAllReference = (input) => {
   async.parallel(
     {
       destinations: (callback) => {
-        Model.getDestinationList(country, callback);
+        Model.getAllDestination(country, callback);
       },
       tagGroups: (callback) => {
-        Model.getTagGroupList(null, callback);
+        Model.getAllTagGroup(null, callback);
+      },
+      categories: (callback) => {
+        Model.getAllCategory(null, callback);
       },
     },
     function(err, result) {
@@ -72,18 +75,18 @@ const getAllReference = (input) => {
     }
   );
 
-  Model.getDestinationList(country, (err, docs) => {
+  Model.getAllDestination(country, (err, docs) => {
     if (err) {
-      console.error('>>>>Model.getDestinationList error', err);
+      console.error('>>>>Model.getAllDestination error', err);
       sendStatus(SocketStatus.DB_ERROR);
     }
-    console.log('>>>>Model.getDestinationList result', docs ? docs.length : 0);
+    console.log('>>>>Model.getAllDestination result', docs ? docs.length : 0);
     socket.emit('ref:destination', docs);
     sendStatus(SocketStatus.OK);
   });
 };
 
 export default {
-  getDestinationList,
+  getAllDestination,
   getAllReference,
 };

@@ -55,10 +55,12 @@ class App extends React.Component {
       planExt: {
         country: 'Australia',
         cities: [],
+        selectedTagGroups: [],
       },
       reference: {
         destinations: null,
         categories: null,
+        tagGroups: null,
       },
     };
   }
@@ -134,11 +136,11 @@ class App extends React.Component {
   // --------  Reference  ---------
   handleRefAll(results) {
     console.log('>>>>Result from socket [ref:all]', results);
-    const {destinations, tagGroups} = results;
+    const {categories, destinations, tagGroups} = results;
     const {reference} = this.state;
     this.setState({
       updating: false,
-      reference: {...reference, destinations, tagGroups},
+      reference: {...reference, categories, destinations, tagGroups},
     });
   }
   handleRefDest(results) {
