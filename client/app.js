@@ -74,8 +74,7 @@ class App extends React.Component {
       plan: {...this.state.plan, startDate, endDate},
     });
   }
-  handleTagGroupChange(event) {
-    const tagGroup = event.target.value;
+  handleTagGroupChange(tagGroup) {
     console.log('>>>>handleTagGroupChange', tagGroup);
     const {selectedTagGroups} = this.state.planExt;
     if (

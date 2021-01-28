@@ -185,8 +185,8 @@ class PagePlanTrip extends React.Component {
         return (
           <Grid item xs={4} key={t._id}>
             <div
-              onClick={(e) => {
-                handleTagGroupChange(e);
+              onClick={() => {
+                handleTagGroupChange(t.name);
               }}
               className={
                 isSelected ? classes.bGridSelected : classes.bGridUnselected
@@ -197,7 +197,7 @@ class PagePlanTrip extends React.Component {
           </Grid>
         );
       };
-      console.log('>>>>PagePlanTrip generate grids', tagGroups);
+
       body = (
         <div>
           <div>Pick your interests</div>
