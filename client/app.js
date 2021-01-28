@@ -119,7 +119,6 @@ class App extends React.Component {
     if (homepage === Page.MainPage) {
       this.pushToRemote('plan:list', this.props.viewerId);
     } else if (homepage === Page.NewPlan) {
-      // this.pushToRemote('ref:destination', this.state.planExt.country);
       this.pushToRemote('ref:all', this.state.planExt.country);
     }
   }

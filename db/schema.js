@@ -196,8 +196,8 @@ const getAllCategory = (input, callback) => {
         const {cats, subcats} = result;
         categories = _.map(cats, (cat) => {
           return {
-            name: '',
-            it: '',
+            name: cat.name,
+            it: cat.itemId,
             subCategories: _.filter(subcats, (s) => {
               return s.parentId === cat.itemId;
             }),

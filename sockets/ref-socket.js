@@ -74,16 +74,6 @@ const getAllReference = (input) => {
       }
     }
   );
-
-  Model.getAllDestination(country, (err, docs) => {
-    if (err) {
-      console.error('>>>>Model.getAllDestination error', err);
-      sendStatus(SocketStatus.DB_ERROR);
-    }
-    // console.log('>>>>Model.getAllDestination result', docs ? docs.length : 0);
-    socket.emit('ref:destination', docs);
-    sendStatus(SocketStatus.OK);
-  });
 };
 
 export default {
