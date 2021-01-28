@@ -46,6 +46,7 @@ class App extends React.Component {
     this.handleRefAll = this.handleRefAll.bind(this);
     this.handleRefDest = this.handleRefDest.bind(this);
     this.handleDateRangeChange = this.handleDateRangeChange.bind(this);
+    this.handleTagGroupChange = this.handleTagGroupChange.bind(this);
 
     this.state = {
       updating: false,
