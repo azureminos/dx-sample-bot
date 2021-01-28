@@ -200,7 +200,7 @@ class PagePlanTrip extends React.Component {
           <div>Pick your interests</div>
           <Grid container spacing={2}>
             {_.map(tagGroups, (t) => {
-              return getGridTagGroup(t.name);
+              return getGridTagGroup(t);
             })}
           </Grid>
         </div>
