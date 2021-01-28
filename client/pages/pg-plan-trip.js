@@ -183,13 +183,20 @@ class PagePlanTrip extends React.Component {
           return t.name === g;
         });
         return (
-          <Grid item xs={4} key={t._id} onClick={handleTagGroupChange}>
+          <Grid
+            item
+            xs={4}
+            key={t._id}
+            onClick={(e) => {
+              handleTagGroupChange(e);
+            }}
+          >
             <div
               className={
                 isSelected ? classes.bGridSelected : classes.bGridUnselected
               }
             >
-              {name}
+              {t.name}
             </div>
           </Grid>
         );

@@ -73,9 +73,9 @@ class App extends React.Component {
       plan: {...this.state.plan, startDate, endDate},
     });
   }
-  handleTagGroupChange(tagGroup) {
-    console.log('>>>>handleTagGroupChange', tagGroup);
-    const {selectedTagGroups} = this.state.planExt;
+  handleTagGroupChange(event) {
+    console.log('>>>>handleTagGroupChange', event);
+    /* const {selectedTagGroups} = this.state.planExt;
     if (
       !_.find(selectedTagGroups, (s) => {
         return s === tagGroup;
@@ -87,7 +87,7 @@ class App extends React.Component {
     }
     this.setState({
       planExt: {...this.state.planExt, selectedTagGroups},
-    });
+    });*/
   }
   /* ==============================
      = Helper Methods             =
