@@ -154,11 +154,7 @@ class PagePlanTrip extends React.Component {
       );
       body = <div className={classes.bRoot}>{tabPanels}</div>;
     } else {
-      body = (
-        <div>
-          Please select start and end date. Page display to be discussed.
-        </div>
-      );
+      body = <div>Pick your interests</div>;
     }
 
     // Display Widget

@@ -29,6 +29,12 @@ const nDestination = new Schema({
   addrCarpark: Schema.Types.String,
 });
 const dbDestination = mongoose.model('RefDestination', nDestination);
+// Reference   - TagGroup
+const nTagGroup = new Schema({
+  name: Schema.Types.String,
+  tags: [Schema.Types.String],
+});
+const dbTagGroup = mongoose.model('RefTagGroup', nTagGroup);
 // Reference   - Category
 const nCategory = new Schema({
   name: Schema.Types.String,
@@ -146,6 +152,16 @@ const getDestinationList = (country, callback) => {
   const cols = 'name description location destinationId type';
   return dbDestination
     .find({selectable: true, type: {$in: ['CITY', 'TOWN']}})
+    .select(cols)
+    .exec((err, docs) => {
+      callback(err, docs);
+    });
+};
+const getTagGroupList = (input, callback) => {
+  console.log('>>>>Model.getTagGroupList', input);
+  const cols = 'name tags';
+  return dbTagGroup
+    .find({})
     .select(cols)
     .exec((err, docs) => {
       callback(err, docs);
@@ -791,4 +807,5 @@ export default {
   archiveInstanceByUserId,
   // New Functions
   getDestinationList,
+  getTagGroupList,
 };

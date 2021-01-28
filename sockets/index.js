@@ -64,6 +64,7 @@ export default function attachSockets(io) {
     channel('disconnect', UserSocket.leave);
     channel('push:register', UserSocket.register);
     channel('push:plan:view', UserSocket.view);
+    channel('push:ref:all', RefSocket.getAllReference);
     channel('push:ref:destination', RefSocket.getDestinationList);
     /* channel('push:user:view', UserSocket.view);
     channel('push:user:join', UserSocket.joinPackage);

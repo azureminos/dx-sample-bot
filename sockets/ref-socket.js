@@ -6,6 +6,7 @@
  */
 
 // ===== Module ================================================================
+import async from 'async';
 import CONSTANTS from '../lib/constants';
 import ObjectParser from '../lib/object-parser';
 // ===== DB ====================================================================
@@ -39,6 +40,50 @@ const getDestinationList = (input) => {
   });
 };
 
+const getAllReference = (input) => {
+  const {
+    request,
+    allInRoom,
+    sendStatus,
+    socket,
+    socketUsers,
+    userSocket,
+  } = input;
+  console.log('>>>>Socket.getAllReference() start', {request});
+  const {country} = request;
+
+  async.parallel(
+    {
+      destinations: (callback) => {
+        Model.getDestinationList(country, callback);
+      },
+      tagGroups: (callback) => {
+        Model.getTagGroupList(null, callback);
+      },
+    },
+    function(err, result) {
+      if (err) {
+        console.error('>>>>Database Error', err);
+        sendStatus(SocketStatus.DB_ERROR);
+      } else {
+        console.error('>>>>Database Results', result);
+        socket.emit('ref:all', result);
+      }
+    }
+  );
+
+  Model.getDestinationList(country, (err, docs) => {
+    if (err) {
+      console.error('>>>>Model.getDestinationList error', err);
+      sendStatus(SocketStatus.DB_ERROR);
+    }
+    console.log('>>>>Model.getDestinationList result', docs ? docs.length : 0);
+    socket.emit('ref:destination', docs);
+    sendStatus(SocketStatus.OK);
+  });
+};
+
 export default {
   getDestinationList,
+  getAllReference,
 };

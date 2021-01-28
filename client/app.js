@@ -43,6 +43,7 @@ class App extends React.Component {
     this.init = this.init.bind(this);
     this.register = this.register.bind(this);
     this.setOnlineUsers = this.setOnlineUsers.bind(this);
+    this.handleRefAll = this.handleRefAll.bind(this);
     this.handleRefDest = this.handleRefDest.bind(this);
     this.handleDateRangeChange = this.handleDateRangeChange.bind(this);
 
@@ -112,7 +113,8 @@ class App extends React.Component {
     if (homepage === Page.MainPage) {
       this.pushToRemote('plan:list', this.props.viewerId);
     } else if (homepage === Page.NewPlan) {
-      this.pushToRemote('ref:destination', this.state.planExt.country);
+      // this.pushToRemote('ref:destination', this.state.planExt.country);
+      this.pushToRemote('ref:all', this.state.planExt.country);
     }
   }
   // ----------  Users  ----------
@@ -126,6 +128,15 @@ class App extends React.Component {
     this.setState({users});
   }
   // --------  Reference  ---------
+  handleRefAll(results) {
+    console.log('>>>>Result from socket [ref:all]', results);
+    const {destinations, tagGroups} = results;
+    const {reference} = this.state;
+    this.setState({
+      updating: false,
+      reference: {...reference, destinations, tagGroups},
+    });
+  }
   handleRefDest(results) {
     console.log('>>>>Result from socket [ref:destination]', results);
     const {reference} = this.state;
@@ -154,6 +165,7 @@ class App extends React.Component {
     });
     socket.on('connect', this.register);
     socket.on('init', this.init);
+    socket.on('ref:all', this.handleRefAll);
     socket.on('ref:destination', this.handleRefDest);
 
     const {viewerId, planId} = this.props;
