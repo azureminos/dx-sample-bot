@@ -74,8 +74,9 @@ class App extends React.Component {
     });
   }
   handleTagGroupChange(event) {
-    console.log('>>>>handleTagGroupChange', event);
-    /* const {selectedTagGroups} = this.state.planExt;
+    const tagGroup = event.target.value;
+    console.log('>>>>handleTagGroupChange', tagGroup);
+    const {selectedTagGroups} = this.state.planExt;
     if (
       !_.find(selectedTagGroups, (s) => {
         return s === tagGroup;
@@ -87,7 +88,7 @@ class App extends React.Component {
     }
     this.setState({
       planExt: {...this.state.planExt, selectedTagGroups},
-    });*/
+    });
   }
   /* ==============================
      = Helper Methods             =
