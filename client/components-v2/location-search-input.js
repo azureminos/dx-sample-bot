@@ -23,6 +23,9 @@ class LocationSearchInput extends React.Component {
     geocodeByAddress(address)
       .then((results) => {
         console.log('Address Geocode', results);
+        console.log('Address lat', results[0].geometry.location.lat());
+        console.log('Address lng', results[0].geometry.location.lng());
+        console.log('Address geo', results[0].geometry.location.toString());
         getLatLng(results[0]);
       })
       .then((latLng) => console.log('Success', latLng))
