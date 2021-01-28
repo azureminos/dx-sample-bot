@@ -5,6 +5,7 @@ import {DateRangePicker} from 'react-dates';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Tabs from '@material-ui/core/Tabs';
@@ -48,6 +49,12 @@ const styles = (theme) => ({
     backgroundColor: theme.palette.background.paper,
     display: 'flex',
     height: '100%',
+  },
+  bGridSelected: {
+    border: '4px solid black',
+  },
+  bGridUnselected: {
+    border: 'none',
   },
   fAppBar: {
     position: 'fixed',
@@ -109,14 +116,15 @@ class PagePlanTrip extends React.Component {
   // Display page
   render() {
     console.log('>>>>PagePlanTrip, render()', this.props);
-    const {classes, plan, planExt, actions} = this.props;
-    const {handleDateRangeChange} = actions;
+    const {classes, plan, planExt, reference, actions} = this.props;
+    const {tagGroups} = reference;
+    const {handleDateRangeChange, handleTagGroupChange} = actions;
     const {startDate, endDate} = plan;
     const {selectedTagGroups} = planExt;
     const {tabSelected, focusedDateInput} = this.state;
     // Local Variables
     // Sub Components
-    const footer = <div />;
+    let footer = <div />;
     let body = <div />;
     let tabs = '';
     const isDateSelected =
@@ -155,8 +163,47 @@ class PagePlanTrip extends React.Component {
         </Tabs>
       );
       body = <div className={classes.bRoot}>{tabPanels}</div>;
+      footer = (
+        <AppBar position='fixed' color='default' className={classes.fAppBar}>
+          <Toolbar className={classes.fToolbar}>
+            <div>
+              <div>Show interests scroll bar</div>
+              <div>
+                <Button fullWidth color='primary'>
+                  Complete
+                </Button>
+              </div>
+            </div>
+          </Toolbar>
+        </AppBar>
+      );
     } else {
-      body = <div>Pick your interests</div>;
+      const getGridTagGroup = (name) => {
+        const isSelected = !!_.find(selectedTagGroups, (g) => {
+          return name === g;
+        });
+        return (
+          <Grid item xs={4}>
+            <div
+              className={
+                isSelected ? classes.bGridSelected : classes.bGridUnselected
+              }
+            >
+              {name}
+            </div>
+          </Grid>
+        );
+      };
+      body = (
+        <div>
+          <div>Pick your interests</div>
+          <Grid container spacing={2}>
+            {_.map(tagGroups, (t) => {
+              getGridTagGroup(t.name);
+            })}
+          </Grid>
+        </div>
+      );
     }
 
     // Display Widget
@@ -192,18 +239,6 @@ class PagePlanTrip extends React.Component {
         {body}
         <div className={classes.whitespaceBottom} />
         {footer}
-        <AppBar position='fixed' color='default' className={classes.fAppBar}>
-          <Toolbar className={classes.fToolbar}>
-            <div>
-              <div>Show interests scroll bar</div>
-              <div>
-                <Button fullWidth color='primary'>
-                  Complete
-                </Button>
-              </div>
-            </div>
-          </Toolbar>
-        </AppBar>
       </div>
     );
   }
