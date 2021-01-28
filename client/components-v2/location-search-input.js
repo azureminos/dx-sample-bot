@@ -11,31 +11,28 @@ const {Global} = CONSTANTS.get();
 class LocationSearchInput extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {address: ''};
   }
 
   handleChange = (address) => {
-    this.setState({address});
+    this.props.handleChange({address});
   };
 
   handleSelect = (address) => {
     console.log('Address Selected', address);
     geocodeByAddress(address)
       .then((results) => {
-        console.log('Address Geocode', results);
-        console.log('Address lat', results[0].geometry.location.lat());
-        console.log('Address lng', results[0].geometry.location.lng());
-        console.log('Address geo', results[0].geometry.location.toString());
-        getLatLng(results[0]);
+        if (results && results.length > 0) {
+          const {location} = results[0].geometry;
+          this.props.handleChange({address, location: location.toString()});
+        }
       })
-      .then((latLng) => console.log('Success', latLng))
       .catch((error) => console.error('Error', error));
   };
 
   render() {
     return (
       <PlacesAutocomplete
-        value={this.state.address}
+        value={this.props.address}
         onChange={this.handleChange}
         onSelect={this.handleSelect}
       >

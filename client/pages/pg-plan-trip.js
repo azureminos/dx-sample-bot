@@ -102,16 +102,23 @@ class PagePlanTrip extends React.Component {
     super(props);
     // Bind handler
     this.doHandleTabSelect = this.doHandleTabSelect.bind(this);
+    this.doHandleAddressChange = this.doHandleAddressChange.bind(this);
     // Init state
     this.state = {
       tabSelected: this.props.daySelected || 0,
       focusedDateInput: null,
+      selectedAddress: null,
+      selectedLocation: null,
     };
   }
   // Event Handler
   doHandleTabSelect = (event, newValue) => {
     console.log('>>>>PagePlanTrip.doHandleTabSelect', newValue);
     this.setState({tabSelected: newValue});
+  };
+  doHandleAddressChange = ({address, location}) => {
+    console.log('>>>>PagePlanTrip.doHandleAddressChange', {address, location});
+    this.setState({selectedAddress: address, selectedLocation: location});
   };
   // Display page
   render() {
@@ -234,7 +241,16 @@ class PagePlanTrip extends React.Component {
                   }
                 />
               </div>
-              <div>{isDateSelected ? <LocationSearchInput /> : ''}</div>
+              <div>
+                {isDateSelected ? (
+                  <LocationSearchInput
+                    handleChange={this.doHandleAddressChange}
+                    address={this.state.selectedAddress}
+                  />
+                ) : (
+                  ''
+                )}
+              </div>
               <div>{isDateSelected ? tabs : ''}</div>
             </div>
           </Toolbar>
