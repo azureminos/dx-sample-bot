@@ -34,7 +34,7 @@ const getAllDestination = (input) => {
       console.error('>>>>Model.getAllDestination error', err);
       sendStatus(SocketStatus.DB_ERROR);
     }
-    console.log('>>>>Model.getAllDestination result', docs ? docs.length : 0);
+    // console.log('>>>>Model.getAllDestination result', docs ? docs.length : 0);
     socket.emit('ref:destination', docs);
     sendStatus(SocketStatus.OK);
   });
@@ -58,10 +58,10 @@ const getAllReference = (input) => {
         Model.getAllDestination(country, callback);
       },
       tagGroups: (callback) => {
-        Model.getAllTagGroup(null, callback);
+        Model.getAllTagGroup(country, callback);
       },
       categories: (callback) => {
-        Model.getAllCategory(null, callback);
+        Model.getAllCategory(country, callback);
       },
     },
     function(err, result) {
@@ -69,7 +69,7 @@ const getAllReference = (input) => {
         console.error('>>>>Database Error', err);
         sendStatus(SocketStatus.DB_ERROR);
       } else {
-        console.error('>>>>Database Results', result);
+        // console.error('>>>>Database Results', result);
         socket.emit('ref:all', result);
       }
     }
@@ -80,7 +80,7 @@ const getAllReference = (input) => {
       console.error('>>>>Model.getAllDestination error', err);
       sendStatus(SocketStatus.DB_ERROR);
     }
-    console.log('>>>>Model.getAllDestination result', docs ? docs.length : 0);
+    // console.log('>>>>Model.getAllDestination result', docs ? docs.length : 0);
     socket.emit('ref:destination', docs);
     sendStatus(SocketStatus.OK);
   });

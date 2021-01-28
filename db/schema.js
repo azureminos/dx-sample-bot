@@ -191,8 +191,21 @@ const getAllCategory = (input, callback) => {
       },
     },
     function(err, result) {
-      console.log('>>>>Model.getAllCategory Result', {err, result});
-      callback(null, []);
+      let categories = [];
+      if (!err) {
+        const {cats, subcats} = result;
+        categories = _.map(cats, (cat) => {
+          return {
+            name: '',
+            it: '',
+            subCategories: _.filter(subcats, (s) => {
+              return s.parentId === cat.itemId;
+            }),
+          };
+        });
+        console.log('>>>>Model.getAllCategory Result', categories);
+      }
+      callback(err, categories);
     }
   );
 };
