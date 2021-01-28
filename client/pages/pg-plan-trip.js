@@ -107,8 +107,8 @@ class PagePlanTrip extends React.Component {
     this.state = {
       tabSelected: this.props.daySelected || 0,
       focusedDateInput: null,
-      selectedAddress: null,
-      selectedLocation: null,
+      selectedAddress: '',
+      selectedLocation: '',
     };
   }
   // Event Handler
