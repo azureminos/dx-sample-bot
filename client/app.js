@@ -108,7 +108,11 @@ class App extends React.Component {
   init(results) {
     console.log('>>>>Result from socket [init]', results);
     const {user, homepage} = results;
-    this.setState({user, homepage, updating: false});
+    let plan = this.state.plan;
+    if (homepage === Page.NewPlan) {
+      plan = Helper.draftPlan();
+    }
+    this.setState({plan, user, homepage, updating: false});
     // Extra logic
     if (homepage === Page.MainPage) {
       this.pushToRemote('plan:list', this.props.viewerId);
@@ -186,7 +190,7 @@ class App extends React.Component {
     // Local Variables
     console.log('>>>>MobileApp.render', {state: this.state, props: this.props});
     const {apiUri, viewerId, windowWidth} = this.props;
-    const {homepage, planExt, reference} = this.state;
+    const {homepage, plan, planExt, reference} = this.state;
     // Sub Components
     let page = <div>Loading...</div>;
     if (homepage === Page.MainPage) {
@@ -194,11 +198,6 @@ class App extends React.Component {
       page = <PageAllTravel />;
     } else if (homepage === Page.NewPlan) {
       document.title = 'Create new travel plan';
-      let plan = this.state.plan;
-      if (!this.state.plan) {
-        plan = Helper.draftPlan();
-        this.setState({plan});
-      }
       const actions = {
         handleDateRangeChange: this.handleDateRangeChange,
       };
