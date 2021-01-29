@@ -72,26 +72,31 @@ class App extends React.Component {
      ============================== */
   handleDateRangeChange({startDate, endDate}) {
     console.log('>>>>handleDateRangeChange', {startDate, endDate});
-    let {days} = this.state.plan;
-    const totalDays = endDate.diff(startDate, 'days');
-    if (!days || days.length === 0) {
-      days = [];
-      for (let i = 0; i < totalDays; i++) {
-        days.push({dayNo: i + 1, items: [], isCustomized: false});
+    if (startDate && endDate) {
+      let {days} = this.state.plan;
+      const totalDays = endDate.diff(startDate, 'days');
+      if (!days || days.length === 0) {
+        days = [];
+        for (let i = 0; i < totalDays; i++) {
+          days.push({dayNo: i + 1, items: [], isCustomized: false});
+        }
+      } else if (days.length > totalDays) {
+        // remove extra days in the array
+        days = _.slice(days, 0, totalDays);
+      } else if (days.length < totalDays) {
+        // add missing days in the array
+        for (let i = days.length; i < totalDays; i++) {
+          days.push({dayNo: i + 1, items: [], isCustomized: false});
+        }
       }
-    } else if (days.length > totalDays) {
-      // remove extra days in the array
-      days = _.slice(days, 0, totalDays);
-    } else if (days.length < totalDays) {
-      // add missing days in the array
-      for (let i = days.length; i < totalDays; i++) {
-        days.push({dayNo: i + 1, items: [], isCustomized: false});
-      }
+      this.setState({
+        plan: {...this.state.plan, totalDays, startDate, endDate, days},
+      });
+    } else {
+      this.setState({
+        plan: {...this.state.plan, startDate, endDate},
+      });
     }
-
-    this.setState({
-      plan: {...this.state.plan, totalDays, startDate, endDate, days},
-    });
   }
   handleTagGroupChange(tagGroup) {
     console.log('>>>>handleTagGroupChange', tagGroup);
