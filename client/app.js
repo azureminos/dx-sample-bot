@@ -47,8 +47,8 @@ class App extends React.Component {
     this.handleRefDest = this.handleRefDest.bind(this);
     this.handleDateRangeChange = this.handleDateRangeChange.bind(this);
     this.handleTagGroupChange = this.handleTagGroupChange.bind(this);
-    this.doHandleSetStartCity = this.doHandleSetStartCity.bind(this);
-    this.doHandleSetDestination = this.doHandleSetDestination.bind(this);
+    this.handleSetStartCity = this.handleSetStartCity.bind(this);
+    this.handleSetDestination = this.handleSetDestination.bind(this);
 
     this.state = {
       updating: false,
@@ -92,12 +92,12 @@ class App extends React.Component {
       planExt: {...this.state.planExt, selectedTagGroups},
     });
   }
-  doHandleSetStartCity(input) {
+  handleSetStartCity(input) {
     const {plan} = this.state;
     const {address, location} = input;
     console.log('>>>>doHandleSetStartCity', {input, plan});
   }
-  doHandleSetDestination(input) {
+  handleSetDestination(input) {
     const {plan} = this.state;
     const {address, location} = input;
     console.log('>>>>doHandleSetStartCity', {input, plan});
@@ -232,6 +232,8 @@ class App extends React.Component {
         const actions = {
           handleDateRangeChange: this.handleDateRangeChange,
           handleTagGroupChange: this.handleTagGroupChange,
+          handleSetStartCity: this.handleSetStartCity,
+          handleSetDestination: this.handleSetDestination,
         };
         page = (
           <PagePlanTrip

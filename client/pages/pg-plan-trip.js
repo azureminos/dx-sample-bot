@@ -125,12 +125,12 @@ class PagePlanTrip extends React.Component {
   doHandleSetStartCity = ({address, location}) => {
     console.log('>>>>PagePlanTrip.doHandleSetStartCity', {address, location});
     this.setState({selectedAddress: '', selectedLocation: ''});
-    this.props.actions.doHandleSetStartCity({address, location});
+    this.props.actions.handleSetStartCity({address, location});
   };
   doHandleSetDestination = ({address, location}) => {
     console.log('>>>>PagePlanTrip.doHandleSetDestination', {address, location});
     this.setState({selectedAddress: '', selectedLocation: ''});
-    this.props.actions.doHandleSetDestination({address, location});
+    this.props.actions.handleSetDestination({address, location});
   };
   // Display page
   render() {
