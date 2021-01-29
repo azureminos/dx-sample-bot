@@ -143,11 +143,12 @@ class App extends React.Component {
     const {plan} = this.state;
     const {address, location} = input;
     console.log('>>>>handleSetDestination', {input, plan});
-    const tmpEndCity = '';
+    let tmpEndCity = '';
     let toUpdate = false;
     for (let i = 0; i < plan.days.length - 1; i++) {
       const day = plan.days[i];
       if (toUpdate || !day.endCity || day.endCity === day.startCity) {
+        tmpEndCity = dummyCities.pop();
         plan.days[i].endCity = tmpEndCity;
         plan.days[i + 1].startCity = tmpEndCity;
         toUpdate = true;
