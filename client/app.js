@@ -137,21 +137,23 @@ class App extends React.Component {
     const {address, location} = input;
     console.log('>>>>doHandleSetStartCity', {input, plan});
     const dummyCities = [
-      'Hunter Valley',
-      'Port Stephens',
-      'Coffs Harbour',
-      'Byron Bay',
       'Gold Coast',
+      'Byron Bay',
+      'Coffs Harbour',
+      'Port Stephens',
+      'Hunter Valley',
     ];
     let tmpEndCity = '';
     let isUpdated = false;
     for (let i = 0; i < plan.days.length; i++) {
-      const day = plan.days[i];
-      if (!day.endCity || !day.isCustomized) {
-        tmpEndCity = dummyCities[i % dummyCities.length];
-        day.endCity = tmpEndCity;
-        day.isCustomized = !isUpdated;
-        isUpdated = !isUpdated;
+      if (!plan.days[i].endCity || !plan.days[i].isCustomized) {
+        tmpEndCity = tmpEndCity ? tmpEndCity : dummyCities.pop();
+        if (i < plan.days.length - 1) {
+          plan.days[i].endCity = tmpEndCity;
+          plan.days[i].isCustomized = !isUpdated;
+          plan.days[i + 1].startCity = tmpEndCity;
+          isUpdated = true;
+        }
       }
     }
     // Logic to add city to otherCities when all days have an end city
