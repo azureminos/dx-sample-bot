@@ -103,6 +103,8 @@ class PagePlanTrip extends React.Component {
     // Bind handler
     this.doHandleTabSelect = this.doHandleTabSelect.bind(this);
     this.doHandleAddressChange = this.doHandleAddressChange.bind(this);
+    this.doHandleSetStartCity = this.doHandleSetStartCity.bind(this);
+    this.doHandleSetDestination = this.doHandleSetDestination.bind(this);
     // Init state
     this.state = {
       tabSelected: this.props.daySelected || 0,
@@ -120,6 +122,16 @@ class PagePlanTrip extends React.Component {
     console.log('>>>>PagePlanTrip.doHandleAddressChange', {address, location});
     this.setState({selectedAddress: address, selectedLocation: location});
   };
+  doHandleSetStartCity = ({address, location}) => {
+    console.log('>>>>PagePlanTrip.doHandleSetStartCity', {address, location});
+    this.setState({selectedAddress: '', selectedLocation: ''});
+    this.props.actions.doHandleSetStartCity({address, location});
+  };
+  doHandleSetDestination = ({address, location}) => {
+    console.log('>>>>PagePlanTrip.doHandleSetDestination', {address, location});
+    this.setState({selectedAddress: '', selectedLocation: ''});
+    this.props.actions.doHandleSetDestination({address, location});
+  };
   // Display page
   render() {
     console.log('>>>>PagePlanTrip, render()', this.props);
@@ -129,10 +141,14 @@ class PagePlanTrip extends React.Component {
     const {startDate, endDate} = plan;
     const {selectedTagGroups} = planExt;
     const {tabSelected, focusedDateInput} = this.state;
+    const {selectedAddress, selectedLocation} = this.state;
     // Local Functions
     const getHeader = (isDateSelected) => {
       let header = <div />;
       let tabs = '';
+      let btnSearch = '';
+      let btnSetHome = '';
+      let btnSetDest = '';
       if (isDateSelected) {
         const totalDays = endDate.diff(startDate, 'days');
         const tabItems = [<Tab key={0} label='Summary' {...a11yProps(0)} />];
@@ -155,6 +171,26 @@ class PagePlanTrip extends React.Component {
           >
             >{tabItems}
           </Tabs>
+        );
+        btnSearch = (
+          <LocationSearchInput
+            handleChange={this.doHandleAddressChange}
+            address={this.state.selectedAddress}
+          />
+        );
+        btnSetHome = selectedLocation ? (
+          <Button color='primary' onClick={this.doHandleSetStartCity}>
+            Set as Start City
+          </Button>
+        ) : (
+          ''
+        );
+        btnSetDest = selectedLocation ? (
+          <Button color='primary' onClick={this.doHandleSetDestination}>
+            Add as Destination
+          </Button>
+        ) : (
+          ''
         );
       }
       header = (
@@ -180,14 +216,9 @@ class PagePlanTrip extends React.Component {
                 />
               </div>
               <div>
-                {isDateSelected ? (
-                  <LocationSearchInput
-                    handleChange={this.doHandleAddressChange}
-                    address={this.state.selectedAddress}
-                  />
-                ) : (
-                  ''
-                )}
+                {btnSearch}
+                {btnSetHome}
+                {btnSetDest}
               </div>
               <div>{isDateSelected ? tabs : ''}</div>
             </div>

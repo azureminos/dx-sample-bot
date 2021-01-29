@@ -47,6 +47,8 @@ class App extends React.Component {
     this.handleRefDest = this.handleRefDest.bind(this);
     this.handleDateRangeChange = this.handleDateRangeChange.bind(this);
     this.handleTagGroupChange = this.handleTagGroupChange.bind(this);
+    this.doHandleSetStartCity = this.doHandleSetStartCity.bind(this);
+    this.doHandleSetDestination = this.doHandleSetDestination.bind(this);
 
     this.state = {
       updating: false,
@@ -89,6 +91,16 @@ class App extends React.Component {
     this.setState({
       planExt: {...this.state.planExt, selectedTagGroups},
     });
+  }
+  doHandleSetStartCity(input) {
+    const {plan} = this.state;
+    const {address, location} = input;
+    console.log('>>>>doHandleSetStartCity', {input, plan});
+  }
+  doHandleSetDestination(input) {
+    const {plan} = this.state;
+    const {address, location} = input;
+    console.log('>>>>doHandleSetStartCity', {input, plan});
   }
   /* ==============================
      = Helper Methods             =
