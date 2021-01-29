@@ -29,6 +29,13 @@ const styles = (theme) => ({});
 const {Global, Instance, SocketChannel, Page} = CONSTANTS.get();
 const InstanceStatus = Instance.status;
 const SocketAction = SocketChannel.Action;
+const dummyCities = [
+  'Gold Coast',
+  'Byron Bay',
+  'Coffs Harbour',
+  'Port Stephens',
+  'Hunter Valley',
+];
 
 let socket;
 
@@ -136,13 +143,6 @@ class App extends React.Component {
     const {plan} = this.state;
     const {address, location} = input;
     console.log('>>>>doHandleSetStartCity', {input, plan});
-    const dummyCities = [
-      'Gold Coast',
-      'Byron Bay',
-      'Coffs Harbour',
-      'Port Stephens',
-      'Hunter Valley',
-    ];
     let tmpEndCity = '';
     let isUpdated = false;
     for (let i = 0; i < plan.days.length; i++) {
