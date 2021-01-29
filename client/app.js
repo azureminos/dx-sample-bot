@@ -127,12 +127,12 @@ class App extends React.Component {
     console.log('>>>>doHandleSetStartCity', {input, plan});
     const dummyCity = 'Sydney';
     plan.startCity = dummyCity;
-    if (!plan.endCity) plan.endCity = dummyCity;
+    plan.endCity = dummyCity;
     for (let i = 0; i < plan.days.length; i++) {
       if (i === 0) {
         plan.days[i].startCity = plan.startCity;
       }
-      if (i === plan.days.length - 1 && !plan.days[i].endCity) {
+      if (i === plan.days.length - 1) {
         plan.days[i].endCity = plan.endCity;
       }
     }
@@ -143,16 +143,14 @@ class App extends React.Component {
     const {plan} = this.state;
     const {address, location} = input;
     console.log('>>>>doHandleSetStartCity', {input, plan});
-    let tmpEndCity = '';
-    let isUpdated = false;
+    const tmpEndCity = '';
+    let toUpdate = false;
     for (let i = 0; i < plan.days.length; i++) {
-      if (!plan.days[i].endCity || !plan.days[i].isCustomized) {
-        tmpEndCity = tmpEndCity ? tmpEndCity : dummyCities.pop();
-        if (i < plan.days.length - 1) {
+      if (i < plan.days.length - 1) {
+        if (toUpdate || plan.days[i].endCity === plan.days[i].startCity) {
           plan.days[i].endCity = tmpEndCity;
-          plan.days[i].isCustomized = !isUpdated;
           plan.days[i + 1].startCity = tmpEndCity;
-          isUpdated = true;
+          toUpdate = true;
         }
       }
     }
