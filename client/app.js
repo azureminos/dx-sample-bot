@@ -85,7 +85,7 @@ class App extends React.Component {
       if (!days || days.length === 0) {
         days = [];
         for (let i = 0; i < totalDays; i++) {
-          days.push({dayNo: i + 1, items: [], isCustomized: false});
+          days.push({dayNo: i + 1, items: []});
         }
       } else if (days.length > totalDays) {
         // remove extra days in the array
@@ -93,7 +93,7 @@ class App extends React.Component {
       } else if (days.length < totalDays) {
         // add missing days in the array
         for (let i = days.length; i < totalDays; i++) {
-          days.push({dayNo: i + 1, items: [], isCustomized: false});
+          days.push({dayNo: i + 1, items: []});
         }
       }
       this.setState({
@@ -142,17 +142,15 @@ class App extends React.Component {
   handleSetDestination(input) {
     const {plan} = this.state;
     const {address, location} = input;
-    console.log('>>>>doHandleSetStartCity', {input, plan});
+    console.log('>>>>handleSetDestination', {input, plan});
     const tmpEndCity = '';
     let toUpdate = false;
-    for (let i = 0; i < plan.days.length; i++) {
-      if (i < plan.days.length - 1) {
-        const day = plan.days[i];
-        if (toUpdate || !day.endCity || day.endCity === day.startCity) {
-          plan.days[i].endCity = tmpEndCity;
-          plan.days[i + 1].startCity = tmpEndCity;
-          toUpdate = true;
-        }
+    for (let i = 0; i < plan.days.length - 1; i++) {
+      const day = plan.days[i];
+      if (toUpdate || !day.endCity || day.endCity === day.startCity) {
+        plan.days[i].endCity = tmpEndCity;
+        plan.days[i + 1].startCity = tmpEndCity;
+        toUpdate = true;
       }
     }
     // Logic to add city to otherCities when all days have an end city
