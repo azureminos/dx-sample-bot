@@ -147,7 +147,8 @@ class App extends React.Component {
     let toUpdate = false;
     for (let i = 0; i < plan.days.length; i++) {
       if (i < plan.days.length - 1) {
-        if (toUpdate || plan.days[i].endCity === plan.days[i].startCity) {
+        const day = plan.days[i];
+        if (toUpdate || !day.endCity || day.endCity === day.startCity) {
           plan.days[i].endCity = tmpEndCity;
           plan.days[i + 1].startCity = tmpEndCity;
           toUpdate = true;
