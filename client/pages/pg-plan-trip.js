@@ -129,97 +129,35 @@ class PagePlanTrip extends React.Component {
     const {startDate, endDate} = plan;
     const {selectedTagGroups} = planExt;
     const {tabSelected, focusedDateInput} = this.state;
-    // Local Variables
-    // Sub Components
-    let footer = <div />;
-    let body = <div />;
-    let tabs = '';
-    const isDateSelected =
-      startDate && endDate && endDate.diff(startDate, 'days') > 0;
-    if (isDateSelected) {
-      const totalDays = endDate.diff(startDate, 'days');
-      const tabItems = [<Tab key={0} label='Summary' {...a11yProps(0)} />];
-      const tabPanels = [
-        <TabPanel key={0} value={tabSelected} index={0}>
-          Trip Summary
-        </TabPanel>,
-      ];
-      for (let i = 0; i < totalDays; i++) {
-        const day = i + 1;
-        tabItems.push(
-          <Tab key={day} label={`Day ${day}`} {...a11yProps(day)} />
-        );
-        tabPanels.push(
-          <TabPanel key={day} value={tabSelected} index={day}>
-            Trip Day Details
-          </TabPanel>
+    // Local Functions
+    const getHeader = (isDateSelected) => {
+      let header = <div />;
+      let tabs = '';
+      if (isDateSelected) {
+        const totalDays = endDate.diff(startDate, 'days');
+        const tabItems = [<Tab key={0} label='Summary' {...a11yProps(0)} />];
+        for (let i = 0; i < totalDays; i++) {
+          const day = i + 1;
+          tabItems.push(
+            <Tab key={day} label={`Day ${day}`} {...a11yProps(day)} />
+          );
+        }
+        tabs = (
+          <Tabs
+            variant='scrollable'
+            value={tabSelected}
+            indicatorColor='primary'
+            textColor='primary'
+            variant='scrollable'
+            scrollButtons='auto'
+            onChange={this.doHandleTabSelect}
+            aria-label='trip plan tabs'
+          >
+            >{tabItems}
+          </Tabs>
         );
       }
-      tabs = (
-        <Tabs
-          variant='scrollable'
-          value={tabSelected}
-          indicatorColor='primary'
-          textColor='primary'
-          variant='scrollable'
-          scrollButtons='auto'
-          onChange={this.doHandleTabSelect}
-          aria-label='trip plan tabs'
-        >
-          >{tabItems}
-        </Tabs>
-      );
-      body = <div className={classes.bRoot}>{tabPanels}</div>;
-      footer = (
-        <AppBar position='fixed' color='default' className={classes.fAppBar}>
-          <Toolbar className={classes.fToolbar}>
-            <div>
-              <div>Show interests scroll bar</div>
-              <div>
-                <Button fullWidth color='primary'>
-                  Complete
-                </Button>
-              </div>
-            </div>
-          </Toolbar>
-        </AppBar>
-      );
-    } else {
-      const getGridTagGroup = (t) => {
-        const isSelected = !!_.find(selectedTagGroups, (g) => {
-          return t.name === g;
-        });
-        return (
-          <Grid item xs={4} key={t._id}>
-            <div
-              onClick={() => {
-                handleTagGroupChange(t.name);
-              }}
-              className={
-                isSelected ? classes.bGridSelected : classes.bGridUnselected
-              }
-            >
-              {t.name}
-            </div>
-          </Grid>
-        );
-      };
-
-      body = (
-        <div>
-          <div>Pick your interests</div>
-          <Grid container spacing={2}>
-            {_.map(tagGroups, (t) => {
-              return getGridTagGroup(t);
-            })}
-          </Grid>
-        </div>
-      );
-    }
-
-    // Display Widget
-    return (
-      <div className={classes.root}>
+      header = (
         <AppBar position='fixed' color='default' className={classes.hAppBar}>
           <Toolbar className={classes.hToolbar}>
             <div>
@@ -255,10 +193,94 @@ class PagePlanTrip extends React.Component {
             </div>
           </Toolbar>
         </AppBar>
+      );
+      return header;
+    };
+
+    const getBody = (isDateSelected) => {
+      let body = <div />;
+      if (isDateSelected) {
+        const totalDays = endDate.diff(startDate, 'days');
+        const tabPanels = [
+          <TabPanel key={0} value={tabSelected} index={0}>
+            Trip Summary
+          </TabPanel>,
+        ];
+        for (let i = 0; i < totalDays; i++) {
+          const day = i + 1;
+          tabPanels.push(
+            <TabPanel key={day} value={tabSelected} index={day}>
+              Trip Day Details
+            </TabPanel>
+          );
+        }
+        body = <div className={classes.bRoot}>{tabPanels}</div>;
+      } else {
+        const getGridTagGroup = (t) => {
+          const isSelected = !!_.find(selectedTagGroups, (g) => {
+            return t.name === g;
+          });
+          return (
+            <Grid item xs={4} key={t._id}>
+              <div
+                onClick={() => {
+                  handleTagGroupChange(t.name);
+                }}
+                className={
+                  isSelected ? classes.bGridSelected : classes.bGridUnselected
+                }
+              >
+                {t.name}
+              </div>
+            </Grid>
+          );
+        };
+
+        body = (
+          <div>
+            <div>Pick your interests</div>
+            <Grid container spacing={2}>
+              {_.map(tagGroups, (t) => {
+                return getGridTagGroup(t);
+              })}
+            </Grid>
+          </div>
+        );
+      }
+      return body;
+    };
+    const getFooter = (isDateSelected) => {
+      let footer = <div />;
+      if (isDateSelected) {
+        footer = (
+          <AppBar position='fixed' color='default' className={classes.fAppBar}>
+            <Toolbar className={classes.fToolbar}>
+              <div>
+                <div>Show interests scroll bar</div>
+                <div>
+                  <Button fullWidth color='primary'>
+                    Complete
+                  </Button>
+                </div>
+              </div>
+            </Toolbar>
+          </AppBar>
+        );
+      }
+      return footer;
+    };
+    // Local Variables
+    const isDateSelected =
+      startDate && endDate && endDate.diff(startDate, 'days') > 0;
+    // Sub Components
+    // Display Widget
+    return (
+      <div className={classes.root}>
+        {getHeader(isDateSelected)}
         <div className={classes.whitespaceTop} />
-        {body}
+        {getBody(isDateSelected)}
         <div className={classes.whitespaceBottom} />
-        {footer}
+        {getFooter(isDateSelected)}
       </div>
     );
   }

@@ -1,8 +1,5 @@
 import React, {createElement} from 'react';
-import PlacesAutocomplete, {
-  geocodeByAddress,
-  getLatLng,
-} from 'react-places-autocomplete';
+import PlacesAutocomplete, {geocodeByAddress} from 'react-places-autocomplete';
 import CONSTANTS from '../../lib/constants';
 
 // Variables
@@ -23,7 +20,8 @@ class LocationSearchInput extends React.Component {
       .then((results) => {
         if (results && results.length > 0) {
           const {location} = results[0].geometry;
-          this.props.handleChange({address, location: location.toString()});
+          const geoLoc = `${location.lat()}, ${location.lng()}`;
+          this.props.handleChange({address, location: geoLoc});
         }
       })
       .catch((error) => console.error('Error', error));
