@@ -150,7 +150,7 @@ class PagePlanTrip extends React.Component {
       let btnSetHome = '';
       let btnSetDest = '';
       if (isDateSelected) {
-        const totalDays = endDate.diff(startDate, 'days');
+        const totalDays = endDate.diff(startDate, 'days') + 1;
         const tabItems = [<Tab key={0} label='Summary' {...a11yProps(0)} />];
         for (let i = 0; i < totalDays; i++) {
           const day = i + 1;
@@ -231,7 +231,7 @@ class PagePlanTrip extends React.Component {
     const getBody = (isDateSelected) => {
       let body = <div />;
       if (isDateSelected) {
-        const totalDays = endDate.diff(startDate, 'days');
+        const totalDays = endDate.diff(startDate, 'days') + 1;
         const tabPanels = [
           <TabPanel key={0} value={tabSelected} index={0}>
             Trip Summary
@@ -302,7 +302,7 @@ class PagePlanTrip extends React.Component {
     };
     // Local Variables
     const isDateSelected =
-      startDate && endDate && endDate.diff(startDate, 'days') > 0;
+      startDate && endDate && endDate.diff(startDate, 'days') >= 0;
     // Sub Components
     // Display Widget
     return (

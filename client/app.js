@@ -81,11 +81,11 @@ class App extends React.Component {
     console.log('>>>>handleDateRangeChange', {startDate, endDate});
     if (startDate && endDate) {
       let {days} = this.state.plan;
-      const totalDays = endDate.diff(startDate, 'days');
+      const totalDays = endDate.diff(startDate, 'days') + 1;
       if (!days || days.length === 0) {
         days = [];
         for (let i = 0; i < totalDays; i++) {
-          days.push({dayNo: i + 1, items: []});
+          days.push({dayNo: i + 1, items: [], startCity: '', endCity: ''});
         }
       } else if (days.length > totalDays) {
         // remove extra days in the array
@@ -93,7 +93,7 @@ class App extends React.Component {
       } else if (days.length < totalDays) {
         // add missing days in the array
         for (let i = days.length; i < totalDays; i++) {
-          days.push({dayNo: i + 1, items: []});
+          days.push({dayNo: i + 1, items: [], startCity: '', endCity: ''});
         }
       }
       this.setState({
