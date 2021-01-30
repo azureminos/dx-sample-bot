@@ -74,10 +74,10 @@ class PackageSummary extends React.Component {
       console.log('>>>>DnD.getDayBlock', day);
       const {items} = day;
       return (
-        <div>
-          <div>{`Day ${day.dayNo}, ${day.startCity} >> ${day.endCity}`}</div>
-          <Droppable droppableId={`dnd-day-${day.dayNo}`}>
-            {(provided, snapshot) => (
+        <Droppable droppableId={`dnd-day-${day.dayNo}`}>
+          {(provided, snapshot) => (
+            <div>
+              <div>{`Day ${day.dayNo}, ${day.startCity} >> ${day.endCity}`}</div>
               <div
                 ref={provided.innerRef}
                 style={getListStyle(snapshot.isDraggingOver)}
@@ -87,9 +87,9 @@ class PackageSummary extends React.Component {
                 })}
                 {provided.placeholder}
               </div>
-            )}
-          </Droppable>
-        </div>
+            </div>
+          )}
+        </Droppable>
       );
     };
     // Local Variables
