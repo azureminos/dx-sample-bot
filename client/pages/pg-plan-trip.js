@@ -15,6 +15,7 @@ import {withStyles} from '@material-ui/core/styles';
 import {VERTICAL_ORIENTATION} from 'react-dates/constants';
 import LocationSearchInput from '../components-v2/location-search-input';
 import PackageSummary from '../components-v2/package-summary';
+import PackageDayPlanner from '../components-v2/package-day-planner';
 // ====== Icons && CSS ======
 import SearchIcon from '@material-ui/icons/Search';
 import 'react-dates/lib/css/_datepicker.css';
@@ -254,7 +255,13 @@ class PagePlanTrip extends React.Component {
           const day = i + 1;
           tabPanels.push(
             <TabPanel key={day} value={tabSelected} index={day}>
-              Trip Day Details
+              <PackageDayPlanner
+                plan={plan}
+                planExt={planExt}
+                reference={reference}
+                actions={{}}
+                daySelected={day}
+              />
             </TabPanel>
           );
         }
