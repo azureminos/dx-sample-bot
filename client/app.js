@@ -86,6 +86,46 @@ class App extends React.Component {
      ============================== */
   handleDragItem(result) {
     console.log('>>>>handleDateRangeChange', result);
+    const {source, destination} = result;
+    const reorder = (droppableId, idxSource, idxDestination) => {
+      const arr = droppableId.split('##');
+      const day = Number(arr[1]);
+      const {plan} = this.state;
+      const {items} = plan.days[day - 1];
+      const tmp = items[idxDestination];
+      items[idxDestination] = items[idxSource];
+      items[idxSource] = tmp;
+      this.setState({plan});
+    };
+    const move = (
+      source,
+      destination,
+      droppableSource,
+      droppableDestination
+    ) => {
+      const sarr = source.split('##');
+      const darr = destination.split('##');
+      const sday = Number(sarr[1]);
+      const dday = Number(darr[1]);
+      const {plan} = this.state;
+      const sourceClone = Array.from(plan.days[sday - 1].items);
+      const destClone = Array.from(plan.days[dday - 1].items);
+      const [removed] = sourceClone.splice(droppableSource.index, 1);
+      destClone.splice(droppableDestination.index, 0, removed);
+
+      plan.days[sday - 1].items = sourceClone;
+      plan.days[dday - 1].items = destClone;
+      this.setState({plan});
+    };
+    // dropped outside the list
+    if (!destination) {
+      return;
+    }
+    if (source.droppableId === destination.droppableId) {
+      reorder(source.droppableId, source.index, destination.index);
+    } else {
+      move(source.droppableId, destination.droppableId, source, destination);
+    }
   }
   handleSelectProduct({product, daySelected}) {
     console.log('>>>>handleSelectProduct', {product, daySelected});
@@ -144,7 +184,7 @@ class App extends React.Component {
         for (let i = days.length; i < totalDays; i++) {
           days.push({
             dayNo: i + 1,
-            items: getDummyItems(i + 1),
+            items: [],
             startCity: tmpCity,
             endCity: tmpCity,
           });

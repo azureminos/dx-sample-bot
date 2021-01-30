@@ -51,7 +51,7 @@ class PackageSummary extends React.Component {
     // Local Functions
     const getDayItemsBlock = (dayNo, item, index) => {
       // console.log('>>>>DnD.getDayItemsBlock', {item, index});
-      const uItemId = `dnd-item-${dayNo}-${item.itemId}`;
+      const uItemId = `item##${dayNo}##${item.itemId}`;
       return (
         <Draggable key={uItemId} draggableId={uItemId} index={index}>
           {(provided, snapshot) => (
@@ -74,10 +74,7 @@ class PackageSummary extends React.Component {
       // console.log('>>>>DnD.getDayBlock', day);
       const {items} = day;
       return (
-        <Droppable
-          key={`dnd-day-${day.dayNo}`}
-          droppableId={`dnd-day-${day.dayNo}`}
-        >
+        <Droppable key={`day##${day.dayNo}`} droppableId={`day##${day.dayNo}`}>
           {(provided, snapshot) => (
             <div>
               <div>{`Day ${day.dayNo}, ${day.startCity} >> ${day.endCity}`}</div>
