@@ -105,6 +105,7 @@ class App extends React.Component {
         itemType: DataModel.TravelPlanItemType.PRODUCT,
         itemId: product.productCode,
         totalPeople: 1,
+        unitPrice: product.price,
         notes: '',
       });
     } else {
@@ -116,16 +117,6 @@ class App extends React.Component {
   handleDateRangeChange({startDate, endDate}) {
     console.log('>>>>handleDateRangeChange', {startDate, endDate});
     const {plan} = this.state;
-    const getDummyItems = (dayNo) => {
-      const items = [];
-      for (let i = 0; i < 3; i++) {
-        items.push({
-          _id: `Day_${dayNo}_Item_${i}`,
-          name: `Day ${dayNo} Item ${i}`,
-        });
-      }
-      return items;
-    };
     if (startDate && endDate) {
       let {days} = this.state.plan;
       const totalDays = endDate.diff(startDate, 'days') + 1;
@@ -134,7 +125,7 @@ class App extends React.Component {
         for (let i = 0; i < totalDays; i++) {
           days.push({
             dayNo: i + 1,
-            items: getDummyItems(i + 1),
+            items: [],
             startCity: '',
             endCity: '',
           });

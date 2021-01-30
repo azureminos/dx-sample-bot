@@ -46,7 +46,7 @@ class ProductCard extends React.Component {
   }
   // Event Handlers
   doHandleSelectProduct(e, input) {
-    console.log('>>>>ProductCard.doHandleSelectProduct', input);
+    // console.log('>>>>ProductCard.doHandleSelectProduct', input);
     e.preventDefault();
     const {actions} = this.props;
     if (actions && actions.handleSelectProduct) {
@@ -56,7 +56,7 @@ class ProductCard extends React.Component {
 
   render() {
     const {classes, product, daySelected} = this.props;
-    console.log('>>>>ProductCard.render', product);
+    // console.log('>>>>ProductCard.render', product);
     // Sub Widget
     // Display Widget
     return (
