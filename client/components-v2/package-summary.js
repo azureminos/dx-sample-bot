@@ -74,7 +74,10 @@ class PackageSummary extends React.Component {
       // console.log('>>>>DnD.getDayBlock', day);
       const {items} = day;
       return (
-        <Droppable droppableId={`dnd-day-${day.dayNo}`}>
+        <Droppable
+          key={`dnd-day-${day.dayNo}`}
+          droppableId={`dnd-day-${day.dayNo}`}
+        >
           {(provided, snapshot) => (
             <div>
               <div>{`Day ${day.dayNo}, ${day.startCity} >> ${day.endCity}`}</div>
