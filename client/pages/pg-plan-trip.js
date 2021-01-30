@@ -25,10 +25,10 @@ const styles = (theme) => ({
     height: '100%',
   },
   whitespaceTop: {
-    height: 50,
+    height: 100,
   },
   whitespaceBottom: {
-    height: 50,
+    height: 100,
   },
   hAppBar: {
     position: 'fixed',
@@ -44,6 +44,9 @@ const styles = (theme) => ({
     minHeight: '16px',
   },
   hDatePicker: {
+    display: 'flex',
+  },
+  hAddressBar: {
     display: 'flex',
   },
   bRoot: {
@@ -185,14 +188,14 @@ class PagePlanTrip extends React.Component {
         );
         btnSetHome = selectedLocation ? (
           <Button color='primary' onClick={this.doHandleSetStartCity}>
-            Set as Start City
+            Home
           </Button>
         ) : (
           ''
         );
         btnSetDest = selectedLocation ? (
           <Button color='primary' onClick={this.doHandleSetDestination}>
-            Add as Destination
+            Destination
           </Button>
         ) : (
           ''
@@ -220,7 +223,7 @@ class PagePlanTrip extends React.Component {
                   }
                 />
               </div>
-              <div>
+              <div className={classes.hAddressBar}>
                 {btnSearch}
                 {btnSetHome}
                 {btnSetDest}
