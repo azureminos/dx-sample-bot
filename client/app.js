@@ -119,7 +119,8 @@ class App extends React.Component {
         }
       } else if (days.length < totalDays) {
         // add missing days in the array
-        const tmpCity = days[days.length - 1].endCity || '';
+        const tmpCity = days[days.length - 1].startCity || '';
+        days[days.length - 1].endCity = tmpCity;
         for (let i = days.length; i < totalDays; i++) {
           days.push({
             dayNo: i + 1,
