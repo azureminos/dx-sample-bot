@@ -21,7 +21,7 @@ import PackageHelper from '../lib/package-helper';
 import CONSTANTS from '../lib/constants';
 
 // ==== CSS ==============================================
-import 'swiper/css/swiper.css';
+// import 'swiper/css/swiper.css';
 import '../public/style.css';
 
 // Variables
@@ -45,13 +45,15 @@ let socket;
 class App extends React.Component {
   constructor(props) {
     super(props);
-    // Register event handler
+    // Register socket event handler
     this.pushToRemote = this.pushToRemote.bind(this);
     this.init = this.init.bind(this);
     this.register = this.register.bind(this);
     this.setOnlineUsers = this.setOnlineUsers.bind(this);
     this.handleRefAll = this.handleRefAll.bind(this);
-    this.handleRefDest = this.handleRefDest.bind(this);
+    this.handleRefActivity = this.handleRefActivity.bind(this);
+    this.handleRefDestination = this.handleRefDestination.bind(this);
+    // Register on-page event handler
     this.handleDateRangeChange = this.handleDateRangeChange.bind(this);
     this.handleTagGroupChange = this.handleTagGroupChange.bind(this);
     this.handleSetStartCity = this.handleSetStartCity.bind(this);
@@ -72,6 +74,7 @@ class App extends React.Component {
         destinations: null,
         categories: null,
         tagGroups: null,
+        activities: null,
       },
     };
   }
@@ -180,7 +183,10 @@ class App extends React.Component {
     }
     // Logic to add city to otherCities when all days have an end city
     console.log('>>>>handleSetDestination completed', plan);
-    this.pushToRemote('ref:activity', {city: tmpEndCity});
+    this.pushToRemote('ref:activity', {
+      city: tmpEndCity,
+      cityId: Helper.getCityIdByName(tmpEndCity),
+    });
     this.setState({plan});
   }
   /* ==============================
@@ -252,12 +258,25 @@ class App extends React.Component {
       reference: {...reference, categories, destinations, tagGroups},
     });
   }
-  handleRefDest(results) {
+  handleRefDestination(results) {
     console.log('>>>>Result from socket [ref:destination]', results);
     const {reference} = this.state;
     this.setState({
       updating: false,
       reference: {...reference, destinations: results},
+    });
+  }
+  handleRefActivity(results) {
+    console.log('>>>>Result from socket [ref:activity]', results);
+    const {reference} = this.state;
+    const {activities} = reference;
+    activities[results.city] = {
+      products: results.products,
+      attractions: results.attractions,
+    };
+    this.setState({
+      updating: false,
+      reference: {...reference, activities},
     });
   }
   /* ==============================
@@ -281,7 +300,8 @@ class App extends React.Component {
     socket.on('connect', this.register);
     socket.on('init', this.init);
     socket.on('ref:all', this.handleRefAll);
-    socket.on('ref:destination', this.handleRefDest);
+    socket.on('ref:activity', this.handleRefActivity);
+    socket.on('ref:destination', this.handleRefDestination);
 
     const {viewerId, planId} = this.props;
     const handleMount = (vid, pid) => {

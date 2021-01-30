@@ -86,16 +86,26 @@ const getAllActivity = (input) => {
     userSocket,
   } = input;
   console.log('>>>>Socket.getAllActivity() start', {request});
-  const {city} = request;
-  /* Model.getAllDestination(country, (err, docs) => {
-    if (err) {
-      console.error('>>>>Model.getAllDestination error', err);
-      sendStatus(SocketStatus.DB_ERROR);
+  const {city, cityId} = request;
+  async.parallel(
+    {
+      products: (callback) => {
+        Model.getAllProduct(cityId, callback);
+      },
+      attractions: (callback) => {
+        Model.getAllAttraction(cityId, callback);
+      },
+    },
+    function(err, result) {
+      if (err) {
+        console.error('>>>>Database Error', err);
+        sendStatus(SocketStatus.DB_ERROR);
+      } else {
+        // console.error('>>>>Database Results', result);
+        socket.emit('ref:activity', {...result, city});
+      }
     }
-    // console.log('>>>>Model.getAllDestination result', docs ? docs.length : 0);
-    socket.emit('ref:activity', docs);
-    sendStatus(SocketStatus.OK);
-  });*/
+  );
 };
 
 export default {

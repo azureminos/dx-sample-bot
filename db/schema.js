@@ -77,6 +77,23 @@ const dbProduct = mongoose.model('RefProduct', nProduct);
 // Reference   - Attraction
 const nAttraction = new Schema({
   name: Schema.Types.String,
+  seoId: Schema.Types.Number,
+  webURL: Schema.Types.String,
+  description: Schema.Types.String,
+  summary: Schema.Types.String,
+  primaryDestinationName: Schema.Types.String,
+  primaryDestinationId: Schema.Types.Number,
+  primaryGroupId: Schema.Types.Number,
+  thumbnailHiResURL: Schema.Types.String,
+  thumbnailURL: Schema.Types.String,
+  rating: Schema.Types.Number,
+  photoCount: Schema.Types.Number,
+  latitude: Schema.Types.String,
+  longitude: Schema.Types.String,
+  attractionStreetAddress: Schema.Types.String,
+  attractionCity: Schema.Types.String,
+  attractionState: Schema.Types.String,
+  tag: [Schema.Types.String],
 });
 const dbAttraction = mongoose.model('RefAttraction', nAttraction);
 // Reference   - Day Plan
@@ -152,6 +169,32 @@ const getAllDestination = (country, callback) => {
   const cols = 'name description location destinationId type';
   return dbDestination
     .find({selectable: true, type: {$in: ['CITY', 'TOWN']}})
+    .select(cols)
+    .exec((err, docs) => {
+      callback(err, docs);
+    });
+};
+const getAllProduct = (cityId, callback) => {
+  console.log('>>>>Model.getAllProduct', cityId);
+  const cols =
+    'productCode name shortTitle catIds subCatIds ' +
+    'shortDescription duration thumbnailURL rating ' +
+    'price currencyCode hotelPickup addrCheckIn';
+  return dbProduct
+    .find({primaryDestinationId: cityId})
+    .select(cols)
+    .exec((err, docs) => {
+      callback(err, docs);
+    });
+};
+const getAllAttraction = (cityId, callback) => {
+  console.log('>>>>Model.getAllAttraction', cityId);
+  const cols =
+    'name seoId description summary thumbnailURL ' +
+    'rating attractionStreetAddress attractionCity ' +
+    'attractionState';
+  return dbAttraction
+    .find({primaryDestinationId: cityId})
     .select(cols)
     .exec((err, docs) => {
       callback(err, docs);
@@ -851,4 +894,6 @@ export default {
   getAllDestination,
   getAllTagGroup,
   getAllCategory,
+  getAllProduct,
+  getAllAttraction,
 };
