@@ -46,6 +46,7 @@ class ProductCard extends React.Component {
   }
   // Event Handlers
   doHandleSelectProduct(e, input) {
+    console.log('>>>>ProductCard.doHandleSelectProduct', input);
     e.preventDefault();
     const {actions} = this.props;
     if (actions && actions.handleSelectProduct) {
