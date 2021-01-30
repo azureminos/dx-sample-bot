@@ -159,13 +159,25 @@ class PagePlanTrip extends React.Component {
       let btnSetHome = '';
       let btnSetDest = '';
       if (isDateSelected) {
+        const {days} = plan;
         const totalDays = endDate.diff(startDate, 'days') + 1;
         const tabItems = [<Tab key={0} label='Summary' {...a11yProps(0)} />];
         for (let i = 0; i < totalDays; i++) {
           const day = i + 1;
-          tabItems.push(
-            <Tab key={day} label={`Day ${day}`} {...a11yProps(day)} />
-          );
+          if (days[i].startCity && days[i].endCity) {
+            tabItems.push(
+              <Tab key={day} label={`Day ${day}`} {...a11yProps(day)} />
+            );
+          } else {
+            tabItems.push(
+              <Tab
+                key={day}
+                disabled
+                label={`Day ${day}`}
+                {...a11yProps(day)}
+              />
+            );
+          }
         }
         tabs = (
           <Tabs

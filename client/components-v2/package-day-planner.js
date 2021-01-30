@@ -12,6 +12,13 @@ const styles = (theme) => ({
     backgroundColor: theme.palette.background.paper,
   },
 });
+const responsive = {
+  mobile: {
+    breakpoint: {max: 464, min: 0},
+    items: 3,
+    paritialVisibilityGutter: 8,
+  },
+};
 
 class PackageDayPlanner extends React.Component {
   constructor(props) {
@@ -57,7 +64,12 @@ class PackageDayPlanner extends React.Component {
     return (
       <div>
         <div>{title}</div>
-        <Carousel partialVisbile itemClass='image-item'>
+        <Carousel
+          deviceType={'mobile'}
+          partialVisbile
+          itemClass='image-item'
+          responsive={responsive}
+        >
           {getProductsSwiper(products)}
         </Carousel>
       </div>
