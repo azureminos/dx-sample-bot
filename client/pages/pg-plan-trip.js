@@ -19,7 +19,7 @@ import {VERTICAL_ORIENTATION} from 'react-dates/constants';
 import LocationSearchInput from '../components-v2/location-search-input';
 import PackageSummary from '../components-v2/package-summary';
 import PackageDayPlanner from '../components-v2/package-day-planner';
-import PayPalButton from '../components-v2/paypal-button';
+import {PayPalButton} from 'react-paypal-button';
 import CONSTANTS from '../../lib/constants';
 // ====== Icons && CSS ======
 import SearchIcon from '@material-ui/icons/Search';
