@@ -42,7 +42,11 @@ class PackageDayPlanner extends React.Component {
       actions,
       daySelected,
     } = this.props;
-    console.log('>>>>PackageDayPlanner, render()', {plan, daySelected});
+    console.log('>>>>PackageDayPlanner, render()', {
+      plan,
+      daySelected,
+      actions,
+    });
     // Local Variables
     const day = plan.days[daySelected - 1];
     const {startCity, endCity, items} = day;
@@ -70,7 +74,7 @@ class PackageDayPlanner extends React.Component {
             key={p.productCode}
             product={p}
             daySelected={daySelected}
-            actions={handleSelectProduct}
+            actions={{handleSelectProduct}}
           />
         );
       });
