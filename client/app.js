@@ -62,6 +62,7 @@ class App extends React.Component {
     this.handleSetDestination = this.handleSetDestination.bind(this);
     this.handleDragItem = this.handleDragItem.bind(this);
     this.handleSelectProduct = this.handleSelectProduct.bind(this);
+    
 
     this.state = {
       updating: false,

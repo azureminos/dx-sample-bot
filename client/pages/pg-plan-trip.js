@@ -4,9 +4,12 @@ import 'react-dates/initialize';
 import {DateRangePicker} from 'react-dates';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import Dialog from '@material-ui/core/Dialog';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+import DialogContent from '@material-ui/core/DialogContent';
+import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -112,8 +115,11 @@ class PagePlanTrip extends React.Component {
     this.doHandleAddressChange = this.doHandleAddressChange.bind(this);
     this.doHandleSetStartCity = this.doHandleSetStartCity.bind(this);
     this.doHandleSetDestination = this.doHandleSetDestination.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+    this.handleBtnComplete = this.handleBtnComplete.bind(this);
     // Init state
     this.state = {
+      openModal: false,
       tabSelected: 0,
       focusedDateInput: null,
       selectedAddress: '',
@@ -121,6 +127,14 @@ class PagePlanTrip extends React.Component {
     };
   }
   // Event Handler
+  handleClose(e) {
+    e.preventDefault();
+    this.setState({openModal: false});
+  }
+  handleBtnComplete(e) {
+    e.preventDefault();
+    this.setState({openModal: true});
+  }
   doHandleTabSelect = (event, newValue) => {
     console.log('>>>>PagePlanTrip.doHandleTabSelect', newValue);
     this.setState({tabSelected: newValue});
@@ -324,7 +338,11 @@ class PagePlanTrip extends React.Component {
               <div>
                 <div>Show interests scroll bar</div>
                 <div>
-                  <Button fullWidth color='primary'>
+                  <Button
+                    fullWidth
+                    color='primary'
+                    onClick={this.handleBtnComplete}
+                  >
                     Complete
                   </Button>
                 </div>
@@ -334,6 +352,17 @@ class PagePlanTrip extends React.Component {
         );
       }
       return footer;
+    };
+    const getModalPayment = () => {
+      return (
+        <Dialog open={this.state.openModal} onClose={this.handleClose}>
+          <DialogContent>
+            <div>aaa</div>
+            <Divider />
+            <div>aaa</div>
+          </DialogContent>
+        </Dialog>
+      );
     };
     // Local Variables
     const isDateSelected =
@@ -347,6 +376,7 @@ class PagePlanTrip extends React.Component {
         {getBody(isDateSelected)}
         <div className={classes.whitespaceBottom} />
         {getFooter(isDateSelected)}
+        {getModalPayment()}
       </div>
     );
   }
