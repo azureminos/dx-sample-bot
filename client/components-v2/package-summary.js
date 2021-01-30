@@ -41,8 +41,10 @@ class PackageSummary extends React.Component {
   // Event Handlers
   doHandleDragItem(result) {
     console.log('>>>>PackageSummary.doHandleDragItem', result);
-    const {handleDragItem} = this.props.actions;
-    if (handleDragItem) handleDragItem(result);
+    const {actions} = this.props;
+    if (actions && actions.handleDragItem) {
+      actions.handleDragItem(result);
+    }
   }
   // Display Widget
   render() {

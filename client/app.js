@@ -406,6 +406,7 @@ class App extends React.Component {
           handleSetStartCity: this.handleSetStartCity,
           handleSetDestination: this.handleSetDestination,
           handleSelectProduct: this.handleSelectProduct,
+          handleDragItem: this.handleDragItem,
         };
         page = (
           <PagePlanTrip
