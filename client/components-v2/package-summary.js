@@ -47,7 +47,7 @@ class PackageSummary extends React.Component {
   // Display Widget
   render() {
     const {classes, plan, planExt, reference, actions} = this.props;
-    console.log('>>>>PackageSummary, render()', {});
+    console.log('>>>>PackageSummary, render()', {plan, actions});
     // Local Functions
     const getDayItemsBlock = (dayNo, item, index) => {
       console.log('>>>>DnD.getDayItemsBlock', {item, index});
@@ -98,7 +98,7 @@ class PackageSummary extends React.Component {
     return (
       <DragDropContext onDragEnd={this.doHandleDragItem}>
         {_.map(plan.days, (day) => {
-          getDayBlock(day);
+          return getDayBlock(day);
         })}
       </DragDropContext>
     );
