@@ -155,6 +155,7 @@ const nTravelPlanItem = new mongoose.Schema({
   itemType: Schema.Types.String,
   itemId: Schema.Types.String,
   totalPeople: Schema.Types.Number,
+  unitPrice: Schema.Types.Number,
   notes: Schema.Types.String,
   additionalField: Schema.Types.String,
   createdAt: Schema.Types.Date,

@@ -27,7 +27,7 @@ import '../public/style.css';
 
 // Variables
 const styles = (theme) => ({});
-const {Global, Instance, SocketChannel, Page} = CONSTANTS.get();
+const {Global, Instance, SocketChannel, Page, DataModel} = CONSTANTS.get();
 const InstanceStatus = Instance.status;
 const SocketAction = SocketChannel.Action;
 const dummyCities = [
@@ -89,6 +89,29 @@ class App extends React.Component {
   }
   handleSelectProduct({product, daySelected}) {
     console.log('>>>>handleSelectProduct', {product, daySelected});
+    const {plan} = this.state;
+    const day = plan.days[daySelected - 1];
+    const matcher = _.find(day.items, (i) => {
+      return i.itemId === product.productCode;
+    });
+    if (matcher) {
+      // Remove item from the list
+      _.filter(day.items, function(i) {
+        return !i.itemId === product.productCode;
+      });
+    } else if (day.items < 3) {
+      // Add item into the list
+      day.items.push({
+        itemType: DataModel.TravelPlanItemType.PRODUCT,
+        itemId: product.productCode,
+        totalPeople: 1,
+        notes: '',
+      });
+    } else {
+      console.warn('max 3 activities per day');
+      return;
+    }
+    this.setState({plan});
   }
   handleDateRangeChange({startDate, endDate}) {
     console.log('>>>>handleDateRangeChange', {startDate, endDate});

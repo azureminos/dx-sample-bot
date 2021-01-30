@@ -58,7 +58,7 @@ class PackageDayPlanner extends React.Component {
     _.each(products, (p) => {
       if (
         !_.find(items, (i) => {
-          return i.productCode === p.productCode;
+          return i.itemId === p.productCode;
         })
       ) {
         productUnselected.push({...p, isSelected: false});
