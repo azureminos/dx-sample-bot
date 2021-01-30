@@ -83,7 +83,7 @@ class PackageSummary extends React.Component {
                 style={getListStyle(snapshot.isDraggingOver)}
               >
                 {items.map((item, index) => {
-                  getDayItemsBlock(day.dayNo, item, index);
+                  return getDayItemsBlock(day.dayNo, item, index);
                 })}
                 {provided.placeholder}
               </div>
