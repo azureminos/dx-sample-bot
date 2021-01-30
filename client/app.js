@@ -102,6 +102,7 @@ class App extends React.Component {
     } else if (day.items.length < 3) {
       // Add item into the list
       day.items.push({
+        name: product.name,
         itemType: DataModel.TravelPlanItemType.PRODUCT,
         itemId: product.productCode,
         totalPeople: 1,
