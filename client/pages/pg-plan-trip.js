@@ -19,14 +19,21 @@ import {VERTICAL_ORIENTATION} from 'react-dates/constants';
 import LocationSearchInput from '../components-v2/location-search-input';
 import PackageSummary from '../components-v2/package-summary';
 import PackageDayPlanner from '../components-v2/package-day-planner';
+import PayPalButton from '../components-v2/paypal-button';
+import CONSTANTS from '../../lib/constants';
 // ====== Icons && CSS ======
 import SearchIcon from '@material-ui/icons/Search';
 import 'react-dates/lib/css/_datepicker.css';
 
 // Variables
+const {Payment} = CONSTANTS.get();
 const styles = (theme) => ({
   root: {
     height: '100%',
+  },
+  modalContent: {
+    marginTop: 80,
+    marginBottom: 80,
   },
   whitespaceTop: {
     height: 100,
@@ -353,13 +360,51 @@ class PagePlanTrip extends React.Component {
       }
       return footer;
     };
-    const getModalPayment = () => {
+    const getModalPayment = (plan) => {
+      const paypalOptions = {
+        clientId:
+          Payment.env === 'production' ? Payment.production : Payment.sandbox,
+        currency: Payment.currency,
+      };
+      const buttonStyles = {
+        layout: 'vertical',
+        color: 'gold',
+        shape: 'rect',
+        label: 'checkout',
+      };
+      const onSuccess = (outcome) => {
+        console.log('paypal integration success', outcome);
+      };
+      const onError = (error) => {
+        console.log('Erroneous payment OR failed to load script!', error);
+      };
+      const onCancel = (data) => {
+        console.log('Cancelled payment!', data);
+      };
+      const getTotalPrice = (days) => {
+        let total = 0;
+        for (let i = 0; i < days.length; i++) {
+          for (let m = 0; m < days[i].items.length; m++) {
+            const item = days[i].items[m];
+            total = total + item.unitPrice * item.totalPeople;
+          }
+        }
+        return total;
+      };
       return (
         <Dialog open={this.state.openModal} onClose={this.handleClose}>
-          <DialogContent>
-            <div>aaa</div>
+          <DialogContent classes={{root: classes.bodyContent}}>
+            <div>Deposit: 100 AUD</div>
+            <div>Total Price: {getTotalPrice(plan.days)}</div>
             <Divider />
-            <div>aaa</div>
+            <PayPalButton
+              paypalOptions={paypalOptions}
+              buttonStyles={buttonStyles}
+              amount={Payment.deposit}
+              onPaymentSuccess={onSuccess}
+              onPaymentSuccess={onError}
+              onPaymentCancel={onCancel}
+            />
           </DialogContent>
         </Dialog>
       );
@@ -376,7 +421,7 @@ class PagePlanTrip extends React.Component {
         {getBody(isDateSelected)}
         <div className={classes.whitespaceBottom} />
         {getFooter(isDateSelected)}
-        {getModalPayment()}
+        {getModalPayment(plan)}
       </div>
     );
   }
