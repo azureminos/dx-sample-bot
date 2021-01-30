@@ -22,6 +22,7 @@ import CONSTANTS from '../lib/constants';
 
 // ==== CSS ==============================================
 // import 'swiper/css/swiper.css';
+import 'react-multi-carousel/lib/styles.css';
 import '../public/style.css';
 
 // Variables
