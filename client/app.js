@@ -61,6 +61,7 @@ class App extends React.Component {
     this.handleSetStartCity = this.handleSetStartCity.bind(this);
     this.handleSetDestination = this.handleSetDestination.bind(this);
     this.handleDragItem = this.handleDragItem.bind(this);
+    this.selectProduct = this.selectProduct.bind(this);
 
     this.state = {
       updating: false,
@@ -85,6 +86,9 @@ class App extends React.Component {
      ============================== */
   handleDragItem(result) {
     console.log('>>>>handleDateRangeChange', result);
+  }
+  selectProduct({product, daySelected}) {
+    console.log('>>>>selectProduct', {product, daySelected});
   }
   handleDateRangeChange({startDate, endDate}) {
     console.log('>>>>handleDateRangeChange', {startDate, endDate});

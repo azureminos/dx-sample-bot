@@ -1,8 +1,7 @@
 import _ from 'lodash';
 import React, {createElement} from 'react';
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
 import Carousel from 'react-multi-carousel';
+import ProductCard from '../components-v2/product-card';
 import {withStyles} from '@material-ui/core/styles';
 // ====== Icons ======
 // Variables
@@ -12,14 +11,19 @@ const styles = (theme) => ({
     backgroundColor: theme.palette.background.paper,
   },
 });
-const responsive = {
+const responsive1 = {
   mobile: {
     breakpoint: {max: 464, min: 0},
     items: 3,
-    paritialVisibilityGutter: 8,
   },
 };
-
+const responsive2 = {
+  mobile: {
+    breakpoint: {max: 464, min: 0},
+    items: 3,
+    paritialVisibilityGutter: 30,
+  },
+};
 class PackageDayPlanner extends React.Component {
   constructor(props) {
     super(props);
@@ -41,26 +45,33 @@ class PackageDayPlanner extends React.Component {
     console.log('>>>>PackageDayPlanner, render()', {plan, daySelected});
     // Local Variables
     const day = plan.days[daySelected - 1];
-    const {startCity, endCity} = day;
+    const {startCity, endCity, items} = day;
     const {products, attractions} = reference.activities[day.endCity];
     const title = `Day ${daySelected}: ${startCity} >> ${endCity}`;
+    const productSelected = [];
+    const productUnselected = [];
+    const {selectProduct} = actions;
+    _.each(products, (p) => {
+      if (
+        !_.find(items, (i) => {
+          return i.productCode === p.productCode;
+        })
+      ) {
+        productUnselected.push({...p, isSelected: false});
+      } else {
+        productSelected.push({...p, isSelected: true});
+      }
+    });
     // Sub Components
-    const getProductsSwiper = (ps) => {
+    const getProductCards = (ps) => {
       return _.map(ps, (p) => {
         return (
-          <GridList
-            key={`${daySelected}_${p.productCode}`}
-            cellHeight={160}
-            cols={1}
-          >
-            <GridListTile cols={1}>
-              <img
-                src={p.thumbnailURL}
-                alt={'product-image'}
-                style={{width: '100%', height: '100%'}}
-              />
-            </GridListTile>
-          </GridList>
+          <ProductCard
+            key={p.productCode}
+            product={p}
+            daySelected={daySelected}
+            actions={selectProduct}
+          />
         );
       });
     };
@@ -68,14 +79,24 @@ class PackageDayPlanner extends React.Component {
     return (
       <div>
         <div>{title}</div>
+        <div>Activities Planned</div>
+        <Carousel
+          deviceType={'mobile'}
+          itemClass='image-item'
+          responsive={responsive1}
+        >
+          {getProductCards(productSelected)}
+        </Carousel>
+        <div>Things To Do</div>
         <Carousel
           deviceType={'mobile'}
           partialVisbile
           itemClass='image-item'
-          responsive={responsive}
+          responsive={responsive2}
         >
-          {getProductsSwiper(products)}
+          {getProductCards(productUnselected)}
         </Carousel>
+        <div>Local Attractions</div>
       </div>
     );
   }

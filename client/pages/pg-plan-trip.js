@@ -148,6 +148,7 @@ class PagePlanTrip extends React.Component {
       handleDateRangeChange,
       handleTagGroupChange,
       handleDragItem,
+      selectProduct,
     } = actions;
     const {startDate, endDate} = plan;
     const {selectedTagGroups} = planExt;
@@ -273,7 +274,7 @@ class PagePlanTrip extends React.Component {
                 plan={plan}
                 planExt={planExt}
                 reference={reference}
-                actions={{}}
+                actions={{selectProduct}}
                 daySelected={day}
               />
             </TabPanel>
