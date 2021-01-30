@@ -96,7 +96,7 @@ class App extends React.Component {
     });
     if (matcher) {
       // Remove item from the list
-      _.filter(day.items, function(i) {
+      day.items = _.filter(day.items, function(i) {
         return !i.itemId === product.productCode;
       });
     } else if (day.items.length < 3) {
