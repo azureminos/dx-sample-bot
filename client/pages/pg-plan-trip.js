@@ -54,6 +54,7 @@ const styles = (theme) => ({
     backgroundColor: theme.palette.background.paper,
     display: 'flex',
     height: 'fit-content',
+    width: '100%',
   },
   bGridSelected: {
     border: '4px solid black',
@@ -86,6 +87,7 @@ function TabPanel(props) {
       hidden={value !== index}
       id={`vertical-tabpanel-${index}`}
       aria-labelledby={`vertical-tab-${index}`}
+      style={{width: '100%'}}
       {...other}
     >
       {value === index && (

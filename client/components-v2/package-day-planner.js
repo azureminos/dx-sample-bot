@@ -43,7 +43,7 @@ class PackageDayPlanner extends React.Component {
     const day = plan.days[daySelected - 1];
     const {startCity, endCity} = day;
     const {products, attractions} = reference.activities[day.endCity];
-    const title = `Trip Plan Day ${daySelected}: ${startCity} >> ${endCity}`;
+    const title = `Day ${daySelected}: ${startCity} >> ${endCity}`;
     // Sub Components
     const getProductsSwiper = (ps) => {
       return _.map(ps, (p) => {
@@ -54,7 +54,11 @@ class PackageDayPlanner extends React.Component {
             cols={1}
           >
             <GridListTile cols={1}>
-              <img src={p.thumbnailURL} alt={'product-image'} />
+              <img
+                src={p.thumbnailURL}
+                alt={'product-image'}
+                style={{width: '100%', height: '100%'}}
+              />
             </GridListTile>
           </GridList>
         );
