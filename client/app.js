@@ -99,7 +99,7 @@ class App extends React.Component {
       _.filter(day.items, function(i) {
         return !i.itemId === product.productCode;
       });
-    } else if (day.items < 3) {
+    } else if (day.items.length < 3) {
       // Add item into the list
       day.items.push({
         itemType: DataModel.TravelPlanItemType.PRODUCT,
