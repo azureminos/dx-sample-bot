@@ -14,14 +14,14 @@ const styles = (theme) => ({
 const responsive1 = {
   mobile: {
     breakpoint: {max: 464, min: 0},
-    items: 3,
+    items: 2,
   },
 };
 const responsive2 = {
   mobile: {
     breakpoint: {max: 464, min: 0},
-    items: 3,
-    paritialVisibilityGutter: 30,
+    items: 2,
+    paritialVisibilityGutter: 8,
   },
 };
 class PackageDayPlanner extends React.Component {
@@ -90,7 +90,7 @@ class PackageDayPlanner extends React.Component {
         <div>Things To Do</div>
         <Carousel
           deviceType={'mobile'}
-          partialVisbile
+          partialVisible
           itemClass='image-item'
           responsive={responsive2}
         >
