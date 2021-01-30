@@ -87,6 +87,7 @@ class App extends React.Component {
   }
   handleDateRangeChange({startDate, endDate}) {
     console.log('>>>>handleDateRangeChange', {startDate, endDate});
+    const {plan} = this.state;
     const getDummyItems = (dayNo) => {
       const items = [];
       for (let i = 0; i < 3; i++) {
@@ -113,23 +114,30 @@ class App extends React.Component {
       } else if (days.length > totalDays) {
         // remove extra days in the array
         days = _.slice(days, 0, totalDays);
+        if (plan.endCity) {
+          days[days.length - 1].endCity = plan.endCity;
+        }
       } else if (days.length < totalDays) {
         // add missing days in the array
+        const tmpCity = days[days.length - 1].endCity || '';
         for (let i = days.length; i < totalDays; i++) {
           days.push({
             dayNo: i + 1,
             items: getDummyItems(i + 1),
-            startCity: '',
-            endCity: '',
+            startCity: tmpCity,
+            endCity: tmpCity,
           });
+        }
+        if (plan.endCity) {
+          days[days.length - 1].endCity = plan.endCity;
         }
       }
       this.setState({
-        plan: {...this.state.plan, totalDays, startDate, endDate, days},
+        plan: {...plan, totalDays, startDate, endDate, days},
       });
     } else {
       this.setState({
-        plan: {...this.state.plan, startDate, endDate},
+        plan: {...plan, startDate, endDate},
       });
     }
   }
