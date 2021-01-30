@@ -14,6 +14,7 @@ import Box from '@material-ui/core/Box';
 import {withStyles} from '@material-ui/core/styles';
 import {VERTICAL_ORIENTATION} from 'react-dates/constants';
 import LocationSearchInput from '../components-v2/location-search-input';
+import PackageSummary from '../components-v2/package-summary';
 // ====== Icons && CSS ======
 import SearchIcon from '@material-ui/icons/Search';
 import 'react-dates/lib/css/_datepicker.css';
@@ -137,7 +138,11 @@ class PagePlanTrip extends React.Component {
     console.log('>>>>PagePlanTrip, render()', this.props);
     const {classes, plan, planExt, reference, actions} = this.props;
     const {tagGroups} = reference;
-    const {handleDateRangeChange, handleTagGroupChange} = actions;
+    const {
+      handleDateRangeChange,
+      handleTagGroupChange,
+      handleDragItem,
+    } = actions;
     const {startDate, endDate} = plan;
     const {selectedTagGroups} = planExt;
     const {tabSelected, focusedDateInput} = this.state;
@@ -234,7 +239,12 @@ class PagePlanTrip extends React.Component {
         const totalDays = endDate.diff(startDate, 'days') + 1;
         const tabPanels = [
           <TabPanel key={0} value={tabSelected} index={0}>
-            Trip Summary
+            <PackageSummary
+              plan={plan}
+              planExt={planExt}
+              reference={reference}
+              actions={{handleDragItem}}
+            />
           </TabPanel>,
         ];
         for (let i = 0; i < totalDays; i++) {

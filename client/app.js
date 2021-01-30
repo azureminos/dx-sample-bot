@@ -56,6 +56,7 @@ class App extends React.Component {
     this.handleTagGroupChange = this.handleTagGroupChange.bind(this);
     this.handleSetStartCity = this.handleSetStartCity.bind(this);
     this.handleSetDestination = this.handleSetDestination.bind(this);
+    this.handleDragItem = this.handleDragItem.bind(this);
 
     this.state = {
       updating: false,
@@ -77,15 +78,33 @@ class App extends React.Component {
   /* ==============================
      = Event Handlers             =
      ============================== */
+  handleDragItem(result) {
+    console.log('>>>>handleDateRangeChange', result);
+  }
   handleDateRangeChange({startDate, endDate}) {
     console.log('>>>>handleDateRangeChange', {startDate, endDate});
+    const getDummyItems = (dayNo) => {
+      const items = [];
+      for (let i = 0; i < 3; i++) {
+        items.push({
+          _id: `Day_${dayNo}_Item_${i}`,
+          name: `Day ${dayNo} Item ${i}`,
+        });
+      }
+      return items;
+    };
     if (startDate && endDate) {
       let {days} = this.state.plan;
       const totalDays = endDate.diff(startDate, 'days') + 1;
       if (!days || days.length === 0) {
         days = [];
         for (let i = 0; i < totalDays; i++) {
-          days.push({dayNo: i + 1, items: [], startCity: '', endCity: ''});
+          days.push({
+            dayNo: i + 1,
+            items: getDummyItems(i + 1),
+            startCity: '',
+            endCity: '',
+          });
         }
       } else if (days.length > totalDays) {
         // remove extra days in the array
@@ -93,7 +112,12 @@ class App extends React.Component {
       } else if (days.length < totalDays) {
         // add missing days in the array
         for (let i = days.length; i < totalDays; i++) {
-          days.push({dayNo: i + 1, items: [], startCity: '', endCity: ''});
+          days.push({
+            dayNo: i + 1,
+            items: getDummyItems(i + 1),
+            startCity: '',
+            endCity: '',
+          });
         }
       }
       this.setState({
