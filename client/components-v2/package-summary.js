@@ -34,7 +34,7 @@ class PackageSummary extends React.Component {
   constructor(props) {
     super(props);
     // Bind event handlers
-    this.doHandleDrag = this.doHandleDrag.bind(this);
+    this.doHandleDragItem = this.doHandleDragItem.bind(this);
     // Init data
     // Setup state
   }
