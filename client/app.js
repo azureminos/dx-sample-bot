@@ -180,6 +180,7 @@ class App extends React.Component {
     }
     // Logic to add city to otherCities when all days have an end city
     console.log('>>>>handleSetDestination completed', plan);
+    this.pushToRemote('ref:activity', {city: tmpEndCity});
     this.setState({plan});
   }
   /* ==============================
@@ -226,9 +227,9 @@ class App extends React.Component {
     this.setState({plan, user, homepage, updating: false});
     // Extra logic
     if (homepage === Page.MainPage) {
-      this.pushToRemote('plan:list', this.props.viewerId);
+      this.pushToRemote('plan:list', {senderId: this.props.viewerId});
     } else if (homepage === Page.NewPlan) {
-      this.pushToRemote('ref:all', this.state.planExt.country);
+      this.pushToRemote('ref:all', {country: this.state.planExt.country});
     }
   }
   // ----------  Users  ----------

@@ -76,7 +76,30 @@ const getAllReference = (input) => {
   );
 };
 
+const getAllActivity = (input) => {
+  const {
+    request,
+    allInRoom,
+    sendStatus,
+    socket,
+    socketUsers,
+    userSocket,
+  } = input;
+  console.log('>>>>Socket.getAllActivity() start', {request});
+  const {city} = request;
+  /* Model.getAllDestination(country, (err, docs) => {
+    if (err) {
+      console.error('>>>>Model.getAllDestination error', err);
+      sendStatus(SocketStatus.DB_ERROR);
+    }
+    // console.log('>>>>Model.getAllDestination result', docs ? docs.length : 0);
+    socket.emit('ref:activity', docs);
+    sendStatus(SocketStatus.OK);
+  });*/
+};
+
 export default {
   getAllDestination,
   getAllReference,
+  getAllActivity,
 };

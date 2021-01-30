@@ -28,7 +28,7 @@ const styles = (theme) => ({
     height: 100,
   },
   whitespaceBottom: {
-    height: 100,
+    height: 50,
   },
   hAppBar: {
     position: 'fixed',
@@ -52,7 +52,7 @@ const styles = (theme) => ({
   bRoot: {
     backgroundColor: theme.palette.background.paper,
     display: 'flex',
-    height: '100%',
+    height: 'fit-content',
   },
   bGridSelected: {
     border: '4px solid black',
@@ -111,7 +111,7 @@ class PagePlanTrip extends React.Component {
     this.doHandleSetDestination = this.doHandleSetDestination.bind(this);
     // Init state
     this.state = {
-      tabSelected: this.props.daySelected || 0,
+      tabSelected: 0,
       focusedDateInput: null,
       selectedAddress: '',
       selectedLocation: '',

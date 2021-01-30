@@ -18,18 +18,10 @@ class PackageDayPlanner extends React.Component {
     // Init data
     // Setup state
   }
-  /* componentDidMount() {
-    scroller.scrollTo('myScrollToElement', {
-      duration: 0,
-      delay: 0,
-      smooth: 'easeInOutQuart',
-      offset: -50,
-    });
-  }*/
   // Event Handlers
   // Display Widget
   render() {
-    const {classes, plan, planExt, reference, actions} = this.props;
+    const {classes, plan, planExt, reference, actions, day} = this.props;
     console.log('>>>>PackageDayPlanner, render()', {});
     // Local Variables
     // Sub Components
