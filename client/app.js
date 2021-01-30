@@ -168,7 +168,7 @@ class App extends React.Component {
     this.setState({plan});
   }
   handleSetDestination(input) {
-    const {plan} = this.state;
+    const {plan, reference} = this.state;
     const {address, location} = input;
     console.log('>>>>handleSetDestination', {input, plan});
     let tmpEndCity = '';
@@ -186,7 +186,7 @@ class App extends React.Component {
     console.log('>>>>handleSetDestination completed', plan);
     this.pushToRemote('ref:activity', {
       city: tmpEndCity,
-      cityId: Helper.getCityIdByName(tmpEndCity),
+      cityId: Helper.getCityIdByName(tmpEndCity, reference.destinations),
     });
     this.setState({plan});
   }
