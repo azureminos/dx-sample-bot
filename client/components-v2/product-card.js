@@ -40,16 +40,16 @@ const styles = (theme) => ({
 class ProductCard extends React.Component {
   constructor() {
     super();
-    this.handleSelectProduct = this.handleSelectProduct.bind(this);
+    this.doHandleSelectProduct = this.doHandleSelectProduct.bind(this);
 
     this.state = {};
   }
   // Event Handlers
-  handleSelectProduct(e, input) {
+  doHandleSelectProduct(e, input) {
     e.preventDefault();
     const {actions} = this.props;
-    if (actions && actions.selectProduct) {
-      actions.selectProduct(input);
+    if (actions && actions.handleSelectProduct) {
+      actions.handleSelectProduct(input);
     }
   }
 
@@ -62,7 +62,7 @@ class ProductCard extends React.Component {
       <Card>
         <div
           className={classes.imgWrapper}
-          onClick={(e) => this.handleSelectProduct(e, {product, daySelected})}
+          onClick={(e) => this.doHandleSelectProduct(e, {product, daySelected})}
         >
           <img
             src={product.thumbnailURL}
@@ -73,7 +73,9 @@ class ProductCard extends React.Component {
         <div className={classes.flex}>
           <div
             className={classes.cardIcon}
-            onClick={(e) => this.handleSelectProduct(e, {product, daySelected})}
+            onClick={(e) =>
+              this.doHandleSelectProduct(e, {product, daySelected})
+            }
           >
             <SolidCheckIcon
               style={{

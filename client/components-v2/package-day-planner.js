@@ -50,7 +50,7 @@ class PackageDayPlanner extends React.Component {
     const title = `Day ${daySelected}: ${startCity} >> ${endCity}`;
     const productSelected = [];
     const productUnselected = [];
-    const {selectProduct} = actions;
+    const {handleSelectProduct} = actions;
     _.each(products, (p) => {
       if (
         !_.find(items, (i) => {
@@ -70,7 +70,7 @@ class PackageDayPlanner extends React.Component {
             key={p.productCode}
             product={p}
             daySelected={daySelected}
-            actions={selectProduct}
+            actions={handleSelectProduct}
           />
         );
       });
