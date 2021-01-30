@@ -34,6 +34,7 @@ const dummyCities = [
   'Byron Bay',
   'Coffs Harbour',
   'Port Stephens',
+  'Newcastle',
   'Hunter Valley',
 ];
 
@@ -71,10 +72,10 @@ class App extends React.Component {
         selectedTagGroups: [],
       },
       reference: {
-        destinations: null,
-        categories: null,
-        tagGroups: null,
-        activities: null,
+        destinations: [],
+        categories: [],
+        tagGroups: [],
+        activities: {},
       },
     };
   }
