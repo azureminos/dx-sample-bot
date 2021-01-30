@@ -97,7 +97,7 @@ class App extends React.Component {
     if (matcher) {
       // Remove item from the list
       day.items = _.filter(day.items, function(i) {
-        return !i.itemId === product.productCode;
+        return i.itemId !== product.productCode;
       });
     } else if (day.items.length < 3) {
       // Add item into the list
