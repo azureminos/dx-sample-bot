@@ -29,10 +29,7 @@ class LocationSearchInput extends React.Component {
 
   render() {
     const searchOptions = {
-      location: '-34,151',
-      radius: 2000,
-      types: ['address'],
-      // components: 'country:au',
+      componentRestrictions: {country: 'AU'},
     };
     return (
       <PlacesAutocomplete
@@ -40,7 +37,6 @@ class LocationSearchInput extends React.Component {
         onChange={this.handleChange}
         onSelect={this.handleSelect}
         searchOptions={searchOptions}
-        debounce={100}
       >
         {({getInputProps, suggestions, getSuggestionItemProps, loading}) => (
           <div>
