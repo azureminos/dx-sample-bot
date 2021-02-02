@@ -33,7 +33,7 @@ class LocationSearchInput extends React.Component {
         value={this.props.address}
         onChange={this.handleChange}
         onSelect={this.handleSelect}
-        searchOptions={{components: ['country:au']}}
+        searchOptions={{components: 'country:au'}}
         debounce={100}
       >
         {({getInputProps, suggestions, getSuggestionItemProps, loading}) => (
