@@ -11,7 +11,9 @@ class LocationSearchInput extends React.Component {
   }
 
   handleChange = (address) => {
-    this.props.handleChange({address, location: ''});
+    if (this.props.handleChange) {
+      this.props.handleChange({address, location: ''});
+    }
   };
 
   handleSelect = (address) => {
@@ -21,7 +23,9 @@ class LocationSearchInput extends React.Component {
         if (results && results.length > 0) {
           const {location} = results[0].geometry;
           const geoLoc = `${location.lat()}, ${location.lng()}`;
-          this.props.handleChange({address, location: geoLoc});
+          if (this.props.handleChange) {
+            this.props.handleChange({address, location: geoLoc});
+          }
         }
       })
       .catch((error) => console.error('Error', error));

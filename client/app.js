@@ -14,6 +14,7 @@ import {withStyles} from '@material-ui/core/styles';
 import {CSSTransitionGroup} from 'react-transition-group';
 // ==== COMPONENTS ========================================
 import PageAllTravel from './pages/pg-main';
+import PageStartTrip from './pages/pg-start-trip';
 import PagePlanTrip from './pages/pg-plan-trip';
 // ==== HELPERS =======================================
 import Helper from '../lib/helper';
@@ -62,8 +63,7 @@ class App extends React.Component {
     this.handleSetDestination = this.handleSetDestination.bind(this);
     this.handleDragItem = this.handleDragItem.bind(this);
     this.handleSelectProduct = this.handleSelectProduct.bind(this);
-    
-
+    // State
     this.state = {
       updating: false,
       user: null,
@@ -399,18 +399,15 @@ class App extends React.Component {
       document.title = 'My travel plans';
       page = <PageAllTravel />;
     } else if (homepage === Page.NewPlan) {
-      document.title = 'Create new travel plan';
+      document.title = 'Start My Holiday';
       if (reference.tagGroups) {
         const actions = {
           handleDateRangeChange: this.handleDateRangeChange,
           handleTagGroupChange: this.handleTagGroupChange,
           handleSetStartCity: this.handleSetStartCity,
-          handleSetDestination: this.handleSetDestination,
-          handleSelectProduct: this.handleSelectProduct,
-          handleDragItem: this.handleDragItem,
         };
         page = (
-          <PagePlanTrip
+          <PageStartTrip
             plan={plan}
             planExt={planExt}
             reference={reference}
