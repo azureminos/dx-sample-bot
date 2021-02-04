@@ -80,6 +80,7 @@ class PageStartTrip extends React.Component {
     this.doHandleAddressChange = this.doHandleAddressChange.bind(this);
     this.doHandleDateRangeChange = this.doHandleDateRangeChange.bind(this);
     this.doHandleTagGroupChange = this.doHandleTagGroupChange.bind(this);
+    this.handlePopupClose = this.handlePopupClose.bind(this);
     // Init state
     this.state = {
       focusedDateInput: null,
@@ -95,6 +96,11 @@ class PageStartTrip extends React.Component {
   // Event Handler
   doHandleBtnStartTrip(e) {
     console.log('>>>>PageStartTrip.doHandleBtnStartTrip', e);
+  }
+  handlePopupClose() {
+    console.log('>>>>PageStartTrip.handlePopupClose');
+    const popup = {open: false, title: '', message: ''};
+    this.setState({popup});
   }
   doHandleAddressChange = ({address, location, destinations}) => {
     console.log('>>>>PageStartTrip.doHandleAddressChange', {address, location});
@@ -194,6 +200,7 @@ class PageStartTrip extends React.Component {
               </div>
               <PopupMessage
                 open={popup.open}
+                handleClose={this.handlePopupClose}
                 title={popup.title}
                 message={popup.message}
               />

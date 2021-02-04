@@ -15,25 +15,20 @@ class PopupMessage extends React.Component {
     console.log('>>>>PopupMessage.constructor', props);
     super(props);
     // Bind handler
-    this.handleClose = this.handleClose.bind(this);
     // Set initial state
-    this.state = {open: props.open};
   }
   // ====== Event Handler ======
-  handleClose() {
-    this.setState({open: false});
-  }
   // Render web widget
   render() {
     console.log('>>>>PopupMessage.render');
     // ====== Local Variables ======
-    const {title, message} = this.props;
+    const {open, handleClose, title, message} = this.props;
     // ====== Web Elements ======
     // ====== Display ======
     return (
       <Dialog
-        open={this.state.open}
-        onClose={this.handleClose}
+        open={open}
+        onClose={handleClose}
         aria-labelledby='alert-dialog-title'
         aria-describedby='alert-dialog-description'
       >
