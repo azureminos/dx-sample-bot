@@ -198,7 +198,7 @@ class App extends React.Component {
       return {totalDays, days};
     };
     const {days, totalDays} =
-      (startDate && endDate) ? plan : getDays(startDate, endDate, plan);
+      startDate && endDate ? getDays(startDate, endDate, plan) : plan;
     this.setState({
       plan: {...plan, startDate, endDate, totalDays, days},
     });
