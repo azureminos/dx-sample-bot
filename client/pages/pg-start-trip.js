@@ -94,18 +94,22 @@ class PageStartTrip extends React.Component {
     console.log('>>>>PageStartTrip.doHandleAddressChange', {address, location});
     if (location) {
       const closeCity = Helper.findCloseCity(location, destinations);
+      console.log(
+        '>>>>PageStartTrip.doHandleAddressChange Close City',
+        closeCity
+      );
       if (!closeCity) {
         // Enter a new location
         this.setState({selectedAddress: '', selectedLocation: ''});
-        const {actions} = this.props;
-        if (actions && actions.handleSetStartCity) {
-          actions.handleSetStartCity(closeCity);
-        }
       } else {
         this.setState({
           selectedAddress: closeCity.name,
           selectedLocation: location,
         });
+        const {actions} = this.props;
+        if (actions && actions.handleSetStartCity) {
+          actions.handleSetStartCity(closeCity);
+        }
       }
     } else {
       this.setState({selectedAddress: address, selectedLocation: location});
