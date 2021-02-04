@@ -220,9 +220,11 @@ class App extends React.Component {
     });
   }
   handleSetStartCity(input) {
-    const {plan} = this.state;
+    const {plan, reference} = this.state;
     const {address, location} = input;
     console.log('>>>>doHandleSetStartCity', {input, plan});
+    const closeCity = Helper.findCloseCity(input, reference.destinations);
+    console.log('>>>>doHandleSetStartCity Result', closeCity);
     const dummyCity = 'Sydney';
     plan.startCity = dummyCity;
     plan.endCity = dummyCity;
