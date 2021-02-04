@@ -166,13 +166,17 @@ class App extends React.Component {
       if (!days || days.length === 0) {
         days = [];
         for (let i = 0; i < totalDays; i++) {
+          const startCity = i === 0 ? plan.startCity : '';
+          const startCityId = i === 0 ? plan.startCityId : null;
+          const endCity = i === totalDays - 1 ? plan.endCity : '';
+          const endCityId = i === totalDays - 1 ? plan.endCityId : null;
           days.push({
             dayNo: i + 1,
             items: [],
-            startCity: '',
-            startCityId: -1,
-            endCity: '',
-            endCityId: -1,
+            startCity: startCity || '',
+            startCityId: startCityId || 0,
+            endCity: endCity || '',
+            endCityId: endCityId || 0,
           });
         }
       } else if (days.length > totalDays) {
@@ -184,7 +188,7 @@ class App extends React.Component {
       } else if (days.length < totalDays) {
         // add missing days in the array
         const tmpCity = days[days.length - 1].startCity || '';
-        const tmpCityId = days[days.length - 1].startCityId || -1;
+        const tmpCityId = days[days.length - 1].startCityId || 0;
         days[days.length - 1].endCity = tmpCity;
         days[days.length - 1].endCityId = tmpCityId;
         for (let i = days.length; i < totalDays; i++) {

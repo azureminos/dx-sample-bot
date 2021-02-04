@@ -8,6 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import {withStyles} from '@material-ui/core/styles';
 import LocationSearchInput from '../components-v2/location-search-input';
+import PopupMessage from '../components-v2/popup-message';
 import Helper from '../../lib/helper';
 // ====== Icons && CSS ======
 import 'react-dates/lib/css/_datepicker.css';
@@ -84,6 +85,11 @@ class PageStartTrip extends React.Component {
       focusedDateInput: null,
       selectedAddress: '',
       selectedLocation: '',
+      popup: {
+        open: false,
+        title: '',
+        messge: '',
+      },
     };
   }
   // Event Handler
@@ -100,11 +106,22 @@ class PageStartTrip extends React.Component {
       );
       if (!closeCity) {
         // Enter a new location
-        this.setState({selectedAddress: '', selectedLocation: ''});
+        const popup = {
+          open: true,
+          title: 'Home city not found',
+          message: 'Please enter a valid address for the home city',
+        };
+        this.setState({selectedAddress: '', selectedLocation: '', popup});
       } else {
+        const popup = {
+          open: true,
+          title: 'Home city found',
+          message: `Home city has been updated as the nearest city ${closeCity.name}`,
+        };
         this.setState({
           selectedAddress: closeCity.name,
           selectedLocation: location,
+          popup,
         });
         const {actions} = this.props;
         if (actions && actions.handleSetStartCity) {
@@ -112,7 +129,7 @@ class PageStartTrip extends React.Component {
         }
       }
     } else {
-      this.setState({selectedAddress: address, selectedLocation: location});
+      this.setState({selectedAddress: address, selectedLocation: ''});
     }
   };
   doHandleDateRangeChange(input) {
@@ -136,7 +153,7 @@ class PageStartTrip extends React.Component {
     const {tagGroups, destinations} = reference;
     const {startDate, endDate} = plan;
     const {selectedTagGroups} = planExt;
-    const {focusedDateInput, selectedAddress} = this.state;
+    const {focusedDateInput, selectedAddress, popup} = this.state;
     // Local Functions
     const getHeader = () => {
       let header = <div />;
@@ -163,7 +180,7 @@ class PageStartTrip extends React.Component {
                 />
               </div>
               <div className={classes.hAddressBar}>
-                <label>Start City</label>
+                <label>Home City</label>
                 <LocationSearchInput
                   handleChange={({address, location}) => {
                     this.doHandleAddressChange({
@@ -175,6 +192,11 @@ class PageStartTrip extends React.Component {
                   address={selectedAddress}
                 />
               </div>
+              <PopupMessage
+                open={popup.open}
+                title={popup.title}
+                message={popup.message}
+              />
             </div>
           </Toolbar>
         </AppBar>
