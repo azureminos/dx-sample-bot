@@ -35,6 +35,7 @@ class LocationSearchInput extends React.Component {
     const searchOptions = {
       componentRestrictions: {country: 'AU'},
     };
+    const styleInput = this.props.fullwidth ? {width: '100%'} : {};
     return (
       <PlacesAutocomplete
         value={this.props.address}
@@ -43,7 +44,7 @@ class LocationSearchInput extends React.Component {
         searchOptions={searchOptions}
       >
         {({getInputProps, suggestions, getSuggestionItemProps, loading}) => (
-          <div>
+          <div style={styleInput}>
             <input
               {...getInputProps({
                 placeholder: 'Where to?',

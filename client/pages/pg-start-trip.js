@@ -149,6 +149,7 @@ class PageStartTrip extends React.Component {
                 <LocationSearchInput
                   handleChange={this.doHandleAddressChange}
                   address={selectedAddress}
+                  fullWidth
                 />
               </div>
             </div>
