@@ -97,18 +97,18 @@ class PageStartTrip extends React.Component {
       actions.handleSetStartCity({address, location});
     }
   };
-  doHandleDateRangeChange(e) {
-    console.log('>>>>PageStartTrip.doHandleDateRangeChange', e);
+  doHandleDateRangeChange(input) {
+    console.log('>>>>PageStartTrip.doHandleDateRangeChange', input);
     const {actions} = this.props;
     if (actions && actions.handleDateRangeChange) {
-      actions.handleDateRangeChange();
+      actions.handleDateRangeChange(input);
     }
   }
-  doHandleTagGroupChange(e) {
-    console.log('>>>>PageStartTrip.doHandleTagGroupChange', e);
+  doHandleTagGroupChange(name) {
+    console.log('>>>>PageStartTrip.doHandleTagGroupChange', name);
     const {actions} = this.props;
     if (actions && actions.handleTagGroupChange) {
-      actions.handleTagGroupChange();
+      actions.handleTagGroupChange(name);
     }
   }
   // Display page
@@ -167,7 +167,7 @@ class PageStartTrip extends React.Component {
           <Grid item xs={4} key={t._id}>
             <div
               onClick={() => {
-                this.handleTagGroupChange(t.name);
+                this.doHandleTagGroupChange(t.name);
               }}
               className={
                 isSelected ? classes.bGridSelected : classes.bGridUnselected

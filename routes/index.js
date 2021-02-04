@@ -103,11 +103,4 @@ router.get('/', handleWebviewAccess);
 router.get('/:userId/:type', handleWebviewAccess);
 router.get('/:userId/:type/:id', handleWebviewAccess);
 
-if (process.env.IS_CLEANUP === 'true') {
-  Model.deleteAllInstanceMembers();
-  Model.deleteAllInstanceItems();
-  Model.deleteAllInstanceHotels();
-  Model.deleteAllInstances();
-}
-
 export default router;

@@ -25,6 +25,7 @@ import CONSTANTS from '../lib/constants';
 // import 'swiper/css/swiper.css';
 import 'react-multi-carousel/lib/styles.css';
 import '../public/style.css';
+import {getDynamicStyles} from 'jss';
 
 // Variables
 const styles = (theme) => ({});
@@ -86,7 +87,7 @@ class App extends React.Component {
      = Event Handlers             =
      ============================== */
   handleDragItem(result) {
-    console.log('>>>>handleDateRangeChange', result);
+    console.log('>>>>handleDragItem', result);
     const {source, destination} = result;
     const reorder = (droppableId, idxSource, idxDestination) => {
       const arr = droppableId.split('##');
@@ -159,8 +160,8 @@ class App extends React.Component {
   handleDateRangeChange({startDate, endDate}) {
     console.log('>>>>handleDateRangeChange', {startDate, endDate});
     const {plan} = this.state;
-    if (startDate && endDate) {
-      let {days} = this.state.plan;
+    const getDays = (startDate, endDate, plan) => {
+      let {days} = plan;
       const totalDays = endDate.diff(startDate, 'days') + 1;
       if (!days || days.length === 0) {
         days = [];
@@ -194,14 +195,13 @@ class App extends React.Component {
           days[days.length - 1].endCity = plan.endCity;
         }
       }
-      this.setState({
-        plan: {...plan, totalDays, startDate, endDate, days},
-      });
-    } else {
-      this.setState({
-        plan: {...plan, startDate, endDate},
-      });
-    }
+      return {totalDays, days};
+    };
+    const {days, totalDays} =
+      startDate && endDate ? plan : getDays(startDate, endDate, plan);
+    this.setState({
+      plan: {...plan, startDate, endDate, totalDays, days},
+    });
   }
   handleTagGroupChange(tagGroup) {
     console.log('>>>>handleTagGroupChange', tagGroup);
