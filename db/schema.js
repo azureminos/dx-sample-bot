@@ -101,8 +101,8 @@ const nDayPlan = new Schema({
   name: Schema.Types.String,
   description: Schema.Types.String,
   type: Schema.Types.String,
-  startCity: Schema.Types.String,
-  endCity: Schema.Types.String,
+  startCityId: Schema.Types.Number,
+  endCityId: Schema.Types.Number,
   otherCities: [Schema.Types.String],
   notes: Schema.Types.String,
 });
@@ -121,8 +121,8 @@ const nTravelPlan = new mongoose.Schema({
   status: Schema.Types.String,
   startDate: Schema.Types.Date,
   endDate: Schema.Types.Date,
-  startCity: Schema.Types.String,
-  endCity: Schema.Types.String,
+  startCityId: Schema.Types.Number,
+  endCityId: Schema.Types.Number,
   totalPeople: Schema.Types.Number,
   rate: Schema.Types.Number,
   notes: Schema.Types.String,
@@ -137,9 +137,9 @@ const dbTravelPlan = mongoose.model('TravelPlan', nTravelPlan);
 const nTravelPlanDay = new mongoose.Schema({
   travelPlan: {type: Schema.Types.ObjectId, ref: 'TravelPlan'},
   dayNo: Schema.Types.Number,
-  startCity: Schema.Types.String,
-  endCity: Schema.Types.String,
-  otherCities: [Schema.Types.String],
+  startCityId: Schema.Types.Number,
+  endCityId: Schema.Types.Number,
+  otherCityIds: [Schema.Types.Number],
   notes: Schema.Types.String,
   additionalField: Schema.Types.String,
   createdAt: Schema.Types.Date,
@@ -167,9 +167,9 @@ const dbTravelPlanItem = mongoose.model('TravelPlanItem', nTravelPlanItem);
 /* ============= New Functions ============= */
 const getAllDestination = (country, callback) => {
   console.log('>>>>Model.getAllDestination', country);
-  const cols = 'name description location destinationId type';
+  const cols = 'name description location destinationId type lookupId';
   return dbDestination
-    .find({selectable: true, type: {$in: ['CITY', 'TOWN']}})
+    .find({selectable: true, type: {$in: ['CITY', 'TOWN', 'REGION']}})
     .select(cols)
     .exec((err, docs) => {
       callback(err, docs);

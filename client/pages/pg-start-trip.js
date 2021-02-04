@@ -8,6 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import {withStyles} from '@material-ui/core/styles';
 import LocationSearchInput from '../components-v2/location-search-input';
+import Helper from '../../lib/helper';
 // ====== Icons && CSS ======
 import 'react-dates/lib/css/_datepicker.css';
 
@@ -89,12 +90,25 @@ class PageStartTrip extends React.Component {
   doHandleBtnStartTrip(e) {
     console.log('>>>>PageStartTrip.doHandleBtnStartTrip', e);
   }
-  doHandleAddressChange = ({address, location}) => {
+  doHandleAddressChange = ({address, location, destinations}) => {
     console.log('>>>>PageStartTrip.doHandleAddressChange', {address, location});
-    this.setState({selectedAddress: address, selectedLocation: location});
-    const {actions} = this.props;
-    if (location && actions && actions.handleSetStartCity) {
-      actions.handleSetStartCity({address, location});
+    if (location) {
+      const closeCity = Helper.findCloseCity(location, destinations);
+      if (!closeCity) {
+        // Enter a new location
+        this.setState({selectedAddress: '', selectedLocation: ''});
+        const {actions} = this.props;
+        if (actions && actions.handleSetStartCity) {
+          actions.handleSetStartCity(closeCity);
+        }
+      } else {
+        this.setState({
+          selectedAddress: closeCity.name,
+          selectedLocation: location,
+        });
+      }
+    } else {
+      this.setState({selectedAddress: address, selectedLocation: location});
     }
   };
   doHandleDateRangeChange(input) {
@@ -115,7 +129,7 @@ class PageStartTrip extends React.Component {
   render() {
     console.log('>>>>PageStartTrip, render()', this.props);
     const {classes, plan, planExt, reference} = this.props;
-    const {tagGroups} = reference;
+    const {tagGroups, destinations} = reference;
     const {startDate, endDate} = plan;
     const {selectedTagGroups} = planExt;
     const {focusedDateInput, selectedAddress} = this.state;
@@ -147,7 +161,13 @@ class PageStartTrip extends React.Component {
               <div className={classes.hAddressBar}>
                 <label>Start City</label>
                 <LocationSearchInput
-                  handleChange={this.doHandleAddressChange}
+                  handleChange={({address, location}) => {
+                    this.doHandleAddressChange({
+                      address,
+                      location,
+                      destinations,
+                    });
+                  }}
                   address={selectedAddress}
                 />
               </div>

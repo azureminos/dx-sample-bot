@@ -170,7 +170,9 @@ class App extends React.Component {
             dayNo: i + 1,
             items: [],
             startCity: '',
+            startCityId: -1,
             endCity: '',
+            endCityId: -1,
           });
         }
       } else if (days.length > totalDays) {
@@ -182,13 +184,17 @@ class App extends React.Component {
       } else if (days.length < totalDays) {
         // add missing days in the array
         const tmpCity = days[days.length - 1].startCity || '';
+        const tmpCityId = days[days.length - 1].startCityId || -1;
         days[days.length - 1].endCity = tmpCity;
+        days[days.length - 1].endCityId = tmpCityId;
         for (let i = days.length; i < totalDays; i++) {
           days.push({
             dayNo: i + 1,
             items: [],
             startCity: tmpCity,
+            startCityId: tmpCityId,
             endCity: tmpCity,
+            endCityId: tmpCityId,
           });
         }
         if (plan.endCity) {
@@ -220,20 +226,21 @@ class App extends React.Component {
     });
   }
   handleSetStartCity(input) {
-    const {plan, reference} = this.state;
-    const {address, location} = input;
-    console.log('>>>>doHandleSetStartCity', {input, plan});
-    const closeCity = Helper.findCloseCity(input, reference.destinations);
-    console.log('>>>>doHandleSetStartCity Result', closeCity);
-    const dummyCity = 'Sydney';
-    plan.startCity = dummyCity;
-    plan.endCity = dummyCity;
+    console.log('>>>>handleSetStartCity', input);
+    const {plan} = this.state;
+    const {destinationId, name} = input;
+    plan.startCity = name;
+    plan.startCityId = destinationId;
+    plan.endCity = name;
+    plan.endCityId = destinationId;
     for (let i = 0; i < plan.days.length; i++) {
       if (i === 0) {
         plan.days[i].startCity = plan.startCity;
+        plan.days[i].startCityId = plan.startCityId;
       }
       if (i === plan.days.length - 1) {
         plan.days[i].endCity = plan.endCity;
+        plan.days[i].endCityId = plan.endCityId;
       }
     }
     console.log('>>>>doHandleSetStartCity completed', plan);
