@@ -7,7 +7,6 @@
 
 // ==== MODULES ==========================================
 import _ from 'lodash';
-import Moment from 'moment';
 import io from 'socket.io-client';
 import React, {createElement} from 'react';
 import {withStyles} from '@material-ui/core/styles';
@@ -18,7 +17,6 @@ import PageStartTrip from './pages/pg-start-trip';
 import PagePlanTrip from './pages/pg-plan-trip';
 // ==== HELPERS =======================================
 import Helper from '../lib/helper';
-import PackageHelper from '../lib/package-helper';
 import CONSTANTS from '../lib/constants';
 
 // ==== CSS ==============================================
@@ -58,6 +56,7 @@ class App extends React.Component {
     this.handleRefDestination = this.handleRefDestination.bind(this);
     // Register on-page event handler
     this.handleDateRangeChange = this.handleDateRangeChange.bind(this);
+    this.handlePeopleChange = this.handlePeopleChange.bind(this);
     this.handleTagGroupChange = this.handleTagGroupChange.bind(this);
     this.handleSetStartCity = this.handleSetStartCity.bind(this);
     this.handleBtnStartTrip = this.handleBtnStartTrip.bind(this);
@@ -217,6 +216,12 @@ class App extends React.Component {
     this.setState({
       plan: {...plan, startDate, endDate, totalDays, days},
     });
+  }
+  handlePeopleChange(delta) {
+    // console.log('>>>>handlePeopleChange', people);
+    const {plan} = this.state;
+    plan.totalPeople = plan.totalPeople + delta;
+    this.setState({plan});
   }
   handleTagGroupChange(tagGroup) {
     // console.log('>>>>handleTagGroupChange', tagGroup);
@@ -422,11 +427,13 @@ class App extends React.Component {
           handleDateRangeChange: this.handleDateRangeChange,
           handleTagGroupChange: this.handleTagGroupChange,
           handleSetStartCity: this.handleSetStartCity,
+          handlePeopleChange: this.handlePeopleChange,
         };
         const actionsPlanTrip = {
           handleDateRangeChange: this.handleDateRangeChange,
           handleTagGroupChange: this.handleTagGroupChange,
           handleSetStartCity: this.handleSetStartCity,
+          handlePeopleChange: this.handlePeopleChange,
         };
         page =
           plan.status === Instance.status.DRAFT ? (

@@ -11,6 +11,7 @@ import {withStyles} from '@material-ui/core/styles';
 import LocationSearchInput from '../components-v2/location-search-input';
 import PopupMessage from '../components-v2/popup-message';
 import Helper from '../../lib/helper';
+import CONSTANTS from '../../lib/constants';
 // ====== Icons && CSS ======
 import HomeWorkIcon from '@material-ui/icons/HomeWork';
 import DateRangeIcon from '@material-ui/icons/DateRange';
@@ -20,6 +21,7 @@ import MinusBoxOutlinedIcon from '@material-ui/icons/IndeterminateCheckBoxOutlin
 import 'react-dates/lib/css/_datepicker.css';
 
 // Variables
+const {Global} = CONSTANTS.get();
 const styles = (theme) => ({
   root: {
     height: '100%',
@@ -92,6 +94,7 @@ class PageStartTrip extends React.Component {
     this.doHandleAddressChange = this.doHandleAddressChange.bind(this);
     this.doHandleDateRangeChange = this.doHandleDateRangeChange.bind(this);
     this.doHandleTagGroupChange = this.doHandleTagGroupChange.bind(this);
+    this.doHandlePeopleChange = this.doHandlePeopleChange.bind(this);
     this.handlePopupClose = this.handlePopupClose.bind(this);
     // Init state
     this.state = {
@@ -106,6 +109,11 @@ class PageStartTrip extends React.Component {
     };
   }
   // Event Handler
+  handlePopupClose() {
+    console.log('>>>>PageStartTrip.handlePopupClose');
+    const popup = {open: false, title: '', message: ''};
+    this.setState({popup});
+  }
   doHandleBtnStartTrip(plan) {
     console.log('>>>>PageStartTrip.doHandleBtnStartTrip', plan);
     const {startDate, endDate, startCity} = plan;
@@ -129,11 +137,6 @@ class PageStartTrip extends React.Component {
         actions.handleBtnStartTrip();
       }
     }
-  }
-  handlePopupClose() {
-    console.log('>>>>PageStartTrip.handlePopupClose');
-    const popup = {open: false, title: '', message: ''};
-    this.setState({popup});
   }
   doHandleAddressChange = ({address, location, destinations}) => {
     console.log('>>>>PageStartTrip.doHandleAddressChange', {address, location});
@@ -178,6 +181,13 @@ class PageStartTrip extends React.Component {
       actions.handleDateRangeChange(input);
     }
   }
+  doHandlePeopleChange(input) {
+    console.log('>>>>PageStartTrip.doHandlePeopleChange', input);
+    const {actions} = this.props;
+    if (actions && actions.handlePeopleChange) {
+      actions.handlePeopleChange(input);
+    }
+  }
   doHandleTagGroupChange(name) {
     console.log('>>>>PageStartTrip.doHandleTagGroupChange', name);
     const {actions} = this.props;
@@ -193,24 +203,30 @@ class PageStartTrip extends React.Component {
     const {startDate, endDate, totalPeople} = plan;
     const {selectedTagGroups} = planExt;
     const {focusedDateInput, selectedAddress, popup} = this.state;
+    const isAllowAdd = totalPeople < Global.maxPeopleSelection;
+    const isAllowRemove = totalPeople > 1;
     // Local Functions
     const getPeopleControl = () => {
       return (
         <div className={classes.hDivFlex}>
-          <div className={classes.hDivPeople}>
+          <div className={classes.hDivPeopleDisplay}>
             <PeopleIcon color='primary' fontSize='medium' />
           </div>
           <div className={classes.hDivPeopleDisplay}>{totalPeople}</div>
           <IconButton
-            disabled={false}
-            onClick={this.doAddPeople}
+            disabled={isAllowAdd}
+            onClick={() => {
+              this.doHandlePeopleChange(1);
+            }}
             className={classes.hDivPeopleControl}
           >
             <AddBoxOutlinedIcon color='primary' fontSize='medium' />
           </IconButton>
           <IconButton
-            disabled={false}
-            onClick={this.doRemovePeople}
+            disabled={isAllowRemove}
+            onClick={() => {
+              this.doHandlePeopleChange(-1);
+            }}
             className={classes.hDivPeopleControl}
           >
             <MinusBoxOutlinedIcon color='primary' fontSize='medium' />
@@ -302,9 +318,9 @@ class PageStartTrip extends React.Component {
         <div>
           <div>Pick your interests</div>
           <Grid container spacing={2}>
-            {/* _.map(tagGroups, (t) => {
+            {_.map(tagGroups, (t) => {
               return getGridTagGroup(t);
-            }) */}
+            })}
           </Grid>
           <PopupMessage
             open={popup.open}
