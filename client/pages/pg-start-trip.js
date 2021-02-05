@@ -203,8 +203,8 @@ class PageStartTrip extends React.Component {
     const {startDate, endDate, totalPeople} = plan;
     const {selectedTagGroups} = planExt;
     const {focusedDateInput, selectedAddress, popup} = this.state;
-    const isAllowAdd = totalPeople < Global.maxPeopleSelection;
-    const isAllowRemove = totalPeople > 1;
+    const isNotAllowAdd = totalPeople >= Global.maxPeopleSelection;
+    const isNotAllowRemove = totalPeople <= 1;
     // Local Functions
     const getPeopleControl = () => {
       return (
@@ -214,7 +214,7 @@ class PageStartTrip extends React.Component {
           </div>
           <div className={classes.hDivPeopleDisplay}>{totalPeople}</div>
           <IconButton
-            disabled={isAllowAdd}
+            disabled={isNotAllowAdd}
             onClick={() => {
               this.doHandlePeopleChange(1);
             }}
@@ -223,7 +223,7 @@ class PageStartTrip extends React.Component {
             <AddBoxOutlinedIcon color='primary' fontSize='medium' />
           </IconButton>
           <IconButton
-            disabled={isAllowRemove}
+            disabled={isNotAllowRemove}
             onClick={() => {
               this.doHandlePeopleChange(-1);
             }}
