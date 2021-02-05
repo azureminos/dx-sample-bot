@@ -58,8 +58,8 @@ class App extends React.Component {
     this.handlePeopleChange = this.handlePeopleChange.bind(this);
     this.handleTagGroupChange = this.handleTagGroupChange.bind(this);
     this.handleSetStartCity = this.handleSetStartCity.bind(this);
-    this.handleBtnStartHoliday = this.handleBtnStartHoliday.bind(this);
     this.handleSetDestination = this.handleSetDestination.bind(this);
+    this.handleBtnStartHoliday = this.handleBtnStartHoliday.bind(this);
     this.handleDragItem = this.handleDragItem.bind(this);
     this.handleSelectProduct = this.handleSelectProduct.bind(this);
     // State
@@ -260,23 +260,28 @@ class App extends React.Component {
   }
   handleSetDestination(input) {
     const {plan, reference} = this.state;
+    const {destinationId, name} = input;
     console.log('>>>>handleSetDestination', {input, plan});
     let tmpEndCity = '';
+    let tmpEndCityId = 0;
     let toUpdate = false;
     for (let i = 0; i < plan.days.length - 1; i++) {
       const day = plan.days[i];
       if (toUpdate || !day.endCity || day.endCity === day.startCity) {
-        tmpEndCity = !toUpdate ? dummyCities.pop() : tmpEndCity;
+        tmpEndCity = !toUpdate ? name : tmpEndCity;
+        tmpEndCityId = !toUpdate ? destinationId : tmpEndCityId;
         plan.days[i].endCity = tmpEndCity;
+        plan.days[i].endCityId = tmpEndCityId;
         plan.days[i + 1].startCity = tmpEndCity;
+        plan.days[i + 1].startCityId = tmpEndCityId;
         toUpdate = true;
       }
     }
     // Logic to add city to otherCities when all days have an end city
     console.log('>>>>handleSetDestination completed', plan);
     this.pushToRemote('ref:activity', {
-      city: tmpEndCity,
-      cityId: Helper.getCityIdByName(tmpEndCity, reference.destinations),
+      city: name,
+      cityId: destinationId,
     });
     this.setState({plan});
   }

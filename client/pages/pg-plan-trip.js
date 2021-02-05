@@ -14,6 +14,7 @@ import LocationSearchInput from '../components-v2/location-search-input';
 import PopupMessage from '../components-v2/popup-message';
 import PackageSummary from '../components-v2/package-summary';
 import PackageDayPlanner from '../components-v2/package-day-planner';
+import Helper from '../../lib/helper';
 import CONSTANTS from '../../lib/constants';
 // ====== Icons && CSS ======
 import PlaceIcon from '@material-ui/icons/Place';
@@ -150,8 +151,37 @@ class PagePlanTrip extends React.Component {
     console.log('>>>>PagePlanTrip.doHandleTabSelect', newValue);
     this.setState({tabSelected: newValue});
   };
-  doHandleAddressChange = (input) => {
-    console.log('>>>>PagePlanTrip.doHandleAddressChange', input);
+  doHandleAddressChange = ({address, location, destinations}) => {
+    // console.log('>>>>PageStartTrip.doHandleAddressChange', {address, location});
+    if (location) {
+      const closeCity = Helper.findCloseCity(location, destinations);
+      if (!closeCity) {
+        // Enter a new location
+        const popup = {
+          open: true,
+          title: 'destination city not found',
+          message: 'Please enter a valid address for the destination city',
+        };
+        this.setState({selectedAddress: '', selectedLocation: '', popup});
+      } else {
+        const popup = {
+          open: true,
+          title: 'destination city found',
+          message: `destination city has been updated as the nearest city ${closeCity.name}`,
+        };
+        this.setState({
+          selectedAddress: closeCity.name,
+          selectedLocation: location,
+          popup,
+        });
+        const {actions} = this.props;
+        if (actions && actions.handleSetDestination) {
+          actions.handleSetDestination(closeCity);
+        }
+      }
+    } else {
+      this.setState({selectedAddress: address, selectedLocation: ''});
+    }
   };
   doHandleDateRangeChange(input) {
     console.log('>>>>PagePlanTrip.doHandleDateRangeChange', input);
@@ -268,7 +298,7 @@ class PagePlanTrip extends React.Component {
                   </td>
                   <td>
                     <LocationSearchInput
-                      hints={'Where from?'}
+                      hints={'Where to?'}
                       fullWidth
                       handleChange={({address, location}) => {
                         this.doHandleAddressChange({
