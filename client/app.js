@@ -87,6 +87,7 @@ class App extends React.Component {
 
       if ((dayTo === totalDays && isMoveAfter) || dayFrom === totalDays) {
         // Invalid move, do nothing
+        console.log('>>>>handleDragItem invalid move');
       } else {
         const sCity = _.find(destinations, (d) => {
           return d.destinationId === cityId;
@@ -436,6 +437,7 @@ class App extends React.Component {
           handleDateRangeChange: this.handleDateRangeChange,
           handleSetDestination: this.handleSetDestination,
           handlePeopleChange: this.handlePeopleChange,
+          handleDragItem: this.handleDragItem,
         };
         page =
           plan.status === Instance.status.DRAFT ? (
