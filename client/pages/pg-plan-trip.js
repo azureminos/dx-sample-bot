@@ -4,29 +4,27 @@ import 'react-dates/initialize';
 import {DateRangePicker} from 'react-dates';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Dialog from '@material-ui/core/Dialog';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import DialogContent from '@material-ui/core/DialogContent';
-import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 import {withStyles} from '@material-ui/core/styles';
-import {VERTICAL_ORIENTATION} from 'react-dates/constants';
 import LocationSearchInput from '../components-v2/location-search-input';
+import PopupMessage from '../components-v2/popup-message';
 import PackageSummary from '../components-v2/package-summary';
 import PackageDayPlanner from '../components-v2/package-day-planner';
-import {PayPalButton} from 'react-paypal-button';
 import CONSTANTS from '../../lib/constants';
 // ====== Icons && CSS ======
-import SearchIcon from '@material-ui/icons/Search';
+import PlaceIcon from '@material-ui/icons/Place';
+import DateRangeIcon from '@material-ui/icons/DateRange';
+import PeopleIcon from '@material-ui/icons/People';
+import AddBoxIcon from '@material-ui/icons/AddBoxOutlined';
+import MinusBoxIcon from '@material-ui/icons/IndeterminateCheckBoxOutlined';
 import 'react-dates/lib/css/_datepicker.css';
 
 // Variables
-const {Payment} = CONSTANTS.get();
+const {Global} = CONSTANTS.get();
 const styles = (theme) => ({
   root: {
     height: '100%',
@@ -120,308 +118,236 @@ class PagePlanTrip extends React.Component {
     // Bind handler
     this.doHandleTabSelect = this.doHandleTabSelect.bind(this);
     this.doHandleAddressChange = this.doHandleAddressChange.bind(this);
-    this.doHandleSetStartCity = this.doHandleSetStartCity.bind(this);
-    this.doHandleSetDestination = this.doHandleSetDestination.bind(this);
-    this.handleClose = this.handleClose.bind(this);
-    this.handleBtnComplete = this.handleBtnComplete.bind(this);
+    this.doHandleDateRangeChange = this.doHandleDateRangeChange.bind(this);
+    this.doHandlePeopleChange = this.doHandlePeopleChange.bind(this);
+    this.handlePopupClose = this.handlePopupClose.bind(this);
     // Init state
     this.state = {
-      openModal: false,
       tabSelected: 0,
       focusedDateInput: null,
       selectedAddress: '',
       selectedLocation: '',
+      popup: {
+        open: false,
+        title: '',
+        message: '',
+      },
     };
   }
   // Event Handler
-  handleClose(e) {
-    e.preventDefault();
-    this.setState({openModal: false});
+  handlePopupClose() {
+    console.log('>>>>PagePlanTrip.handlePopupClose');
+    const popup = {open: false, title: '', message: ''};
+    this.setState({popup});
   }
-  handleBtnComplete(e) {
-    e.preventDefault();
-    this.setState({openModal: true});
+  handleBtnComplete() {
+    // e.preventDefault();
+    // this.setState({openModal: true});
   }
   doHandleTabSelect = (event, newValue) => {
     console.log('>>>>PagePlanTrip.doHandleTabSelect', newValue);
     this.setState({tabSelected: newValue});
   };
-  doHandleAddressChange = ({address, location}) => {
-    console.log('>>>>PagePlanTrip.doHandleAddressChange', {address, location});
-    this.setState({selectedAddress: address, selectedLocation: location});
+  doHandleAddressChange = (input) => {
+    console.log('>>>>PagePlanTrip.doHandleAddressChange', input);
   };
-  doHandleSetStartCity = ({address, location}) => {
-    console.log('>>>>PagePlanTrip.doHandleSetStartCity', {address, location});
-    this.setState({selectedAddress: '', selectedLocation: ''});
-    this.props.actions.handleSetStartCity({address, location});
-  };
-  doHandleSetDestination = ({address, location}) => {
-    console.log('>>>>PagePlanTrip.doHandleSetDestination', {address, location});
-    this.setState({selectedAddress: '', selectedLocation: ''});
-    this.props.actions.handleSetDestination({address, location});
-  };
+  doHandleDateRangeChange(input) {
+    console.log('>>>>PagePlanTrip.doHandleDateRangeChange', input);
+    const {actions} = this.props;
+    if (actions && actions.handleDateRangeChange) {
+      actions.handleDateRangeChange(input);
+    }
+  }
+  doHandlePeopleChange(input) {
+    console.log('>>>>PagePlanTrip.doHandlePeopleChange', input);
+    const {actions} = this.props;
+    if (actions && actions.handlePeopleChange) {
+      actions.handlePeopleChange(input);
+    }
+  }
   // Display page
   render() {
     console.log('>>>>PagePlanTrip, render()', this.props);
-    const {classes, plan, planExt, reference, actions} = this.props;
-    const {tagGroups} = reference;
-    const {
-      handleDateRangeChange,
-      handleTagGroupChange,
-      handleDragItem,
-      handleSelectProduct,
-    } = actions;
-    const {startDate, endDate} = plan;
-    const {selectedTagGroups} = planExt;
-    const {tabSelected, focusedDateInput} = this.state;
-    const {selectedAddress, selectedLocation} = this.state;
+    const {classes, plan, planExt, reference} = this.props;
+    const {tagGroups, destinations} = reference;
+    const {startDate, endDate, totalPeople} = plan;
+    const {focusedDateInput, selectedAddress, popup} = this.state;
+    const isNotAllowAdd = totalPeople >= Global.maxPeopleSelection;
+    const isNotAllowRemove = totalPeople <= 1;
     // Local Functions
-    const getHeader = (isDateSelected) => {
-      let header = <div />;
-      let tabs = '';
-      let btnSearch = '';
-      let btnSetHome = '';
-      let btnSetDest = '';
-      if (isDateSelected) {
-        const {days} = plan;
-        const totalDays = endDate.diff(startDate, 'days') + 1;
-        const tabItems = [<Tab key={0} label='Summary' {...a11yProps(0)} />];
-        for (let i = 0; i < totalDays; i++) {
-          const day = i + 1;
-          if (days[i].startCity && days[i].endCity) {
-            tabItems.push(
-              <Tab key={day} label={`Day ${day}`} {...a11yProps(day)} />
-            );
-          } else {
-            tabItems.push(
-              <Tab
-                key={day}
-                disabled
-                label={`Day ${day}`}
-                {...a11yProps(day)}
-              />
-            );
-          }
-        }
-        tabs = (
-          <Tabs
-            variant='scrollable'
-            value={tabSelected}
-            indicatorColor='primary'
-            textColor='primary'
-            variant='scrollable'
-            scrollButtons='auto'
-            onChange={this.doHandleTabSelect}
-            aria-label='trip plan tabs'
+    const getPeopleControl = () => {
+      return (
+        <div className={classes.hDivFlex}>
+          <div className={classes.hDivPeopleDisplay}>
+            <PeopleIcon color='primary' fontSize='default' />
+          </div>
+          <div className={classes.hDivPeopleDisplay}>{totalPeople}</div>
+          <IconButton
+            disabled={isNotAllowAdd}
+            onClick={() => {
+              this.doHandlePeopleChange(1);
+            }}
+            className={classes.hDivPeopleControl}
           >
-            >{tabItems}
-          </Tabs>
-        );
-        btnSearch = (
-          <LocationSearchInput
-            handleChange={this.doHandleAddressChange}
-            address={this.state.selectedAddress}
-          />
-        );
-        btnSetHome = selectedLocation ? (
-          <Button color='primary' onClick={this.doHandleSetStartCity}>
-            Home
-          </Button>
-        ) : (
-          ''
-        );
-        btnSetDest = selectedLocation ? (
-          <Button color='primary' onClick={this.doHandleSetDestination}>
-            Destination
-          </Button>
-        ) : (
-          ''
-        );
+            <AddBoxIcon color='primary' fontSize='default' />
+          </IconButton>
+          <IconButton
+            disabled={isNotAllowRemove}
+            onClick={() => {
+              this.doHandlePeopleChange(-1);
+            }}
+            className={classes.hDivPeopleControl}
+          >
+            <MinusBoxIcon color='primary' fontSize='default' />
+          </IconButton>
+        </div>
+      );
+    };
+    const getHeader = () => {
+      const tabItems = [<Tab key={0} label='Summary' {...a11yProps(0)} />];
+      for (let i = 0; i < plan.totalDays; i++) {
+        const day = i + 1;
+        if (plan.days[i].startCity && plan.days[i].endCity) {
+          tabItems.push(
+            <Tab key={day} label={`Day ${day}`} {...a11yProps(day)} />
+          );
+        } else {
+          tabItems.push(
+            <Tab key={day} disabled label={`Day ${day}`} {...a11yProps(day)} />
+          );
+        }
       }
-      header = (
+      const tabs = (
+        <Tabs
+          variant='scrollable'
+          value={this.state.tabSelected}
+          indicatorColor='primary'
+          textColor='primary'
+          variant='scrollable'
+          scrollButtons='auto'
+          onChange={this.doHandleTabSelect}
+          aria-label='trip plan tabs'
+        >
+          >{tabItems}
+        </Tabs>
+      );
+
+      return (
         <AppBar position='fixed' color='default' className={classes.hAppBar}>
           <Toolbar className={classes.hToolbar}>
+            <table style={{width: '100%'}}>
+              <tbody>
+                <tr>
+                  <td>
+                    <DateRangeIcon color='primary' fontSize='default' />
+                  </td>
+                  <td>
+                    <div className={classes.hDivFlex}>
+                      <DateRangePicker
+                        startDate={startDate}
+                        startDateId='trip_start_date_id'
+                        endDate={endDate}
+                        endDateId='trip_end_date_id'
+                        numberOfMonths={1}
+                        small
+                        onDatesChange={this.doHandleDateRangeChange}
+                        focusedInput={focusedDateInput}
+                        onFocusChange={(focusedInput) =>
+                          this.setState({focusedDateInput: focusedInput})
+                        }
+                      />
+                      {getPeopleControl()}
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <PlaceIcon color='primary' fontSize='default' />
+                  </td>
+                  <td>
+                    <LocationSearchInput
+                      hints={'Where from?'}
+                      fullWidth
+                      handleChange={({address, location}) => {
+                        this.doHandleAddressChange({
+                          address,
+                          location,
+                          destinations,
+                        });
+                      }}
+                      address={selectedAddress}
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            {tabs}
+          </Toolbar>
+        </AppBar>
+      );
+    };
+
+    const getBody = () => {
+      const totalDays = endDate.diff(startDate, 'days') + 1;
+      const tabPanels = [
+        <TabPanel key={0} value={this.state.tabSelected} index={0} />,
+      ];
+      for (let i = 0; i < totalDays; i++) {
+        const day = i + 1;
+        tabPanels.push(
+          <TabPanel key={day} value={this.state.tabSelected} index={day}>
+            <PackageDayPlanner
+              plan={plan}
+              planExt={planExt}
+              reference={reference}
+              actions={{}}
+              daySelected={day}
+            />
+          </TabPanel>
+        );
+      }
+      return (
+        <div className={classes.bRoot}>
+          {tabPanels}
+          <PopupMessage
+            open={popup.open}
+            handleClose={this.handlePopupClose}
+            title={popup.title}
+            message={popup.message}
+          />
+        </div>
+      );
+    };
+    const getFooter = () => {
+      return (
+        <AppBar position='fixed' color='default' className={classes.fAppBar}>
+          <Toolbar className={classes.fToolbar}>
             <div>
-              <div className={classes.hDatePicker}>
-                <label>Trip Date</label>
-                <DateRangePicker
-                  startDate={startDate}
-                  startDateId='trip_start_date_id'
-                  endDate={endDate}
-                  endDateId='trip_end_date_id'
-                  numberOfMonths={1}
-                  small
-                  showClearDates
-                  reopenPickerOnClearDates
-                  onDatesChange={handleDateRangeChange}
-                  focusedInput={focusedDateInput}
-                  onFocusChange={(focusedInput) =>
-                    this.setState({focusedDateInput: focusedInput})
-                  }
-                />
+              <div>Show interests scroll bar</div>
+              <div>
+                <Button
+                  fullWidth
+                  color='primary'
+                  onClick={this.handleBtnComplete}
+                >
+                  Complete
+                </Button>
               </div>
-              <div className={classes.hAddressBar}>
-                {btnSearch}
-                {btnSetHome}
-                {btnSetDest}
-              </div>
-              <div>{isDateSelected ? tabs : ''}</div>
             </div>
           </Toolbar>
         </AppBar>
       );
-      return header;
-    };
-
-    const getBody = (isDateSelected) => {
-      let body = <div />;
-      if (isDateSelected) {
-        const totalDays = endDate.diff(startDate, 'days') + 1;
-        const tabPanels = [
-          <TabPanel key={0} value={tabSelected} index={0}>
-            <PackageSummary
-              plan={plan}
-              planExt={planExt}
-              reference={reference}
-              actions={{handleDragItem}}
-            />
-          </TabPanel>,
-        ];
-        for (let i = 0; i < totalDays; i++) {
-          const day = i + 1;
-          tabPanels.push(
-            <TabPanel key={day} value={tabSelected} index={day}>
-              <PackageDayPlanner
-                plan={plan}
-                planExt={planExt}
-                reference={reference}
-                actions={{handleSelectProduct}}
-                daySelected={day}
-              />
-            </TabPanel>
-          );
-        }
-        body = <div className={classes.bRoot}>{tabPanels}</div>;
-      } else {
-        const getGridTagGroup = (t) => {
-          const isSelected = !!_.find(selectedTagGroups, (g) => {
-            return t.name === g;
-          });
-          return (
-            <Grid item xs={4} key={t._id}>
-              <div
-                onClick={() => {
-                  handleTagGroupChange(t.name);
-                }}
-                className={
-                  isSelected ? classes.bGridSelected : classes.bGridUnselected
-                }
-              >
-                {t.name}
-              </div>
-            </Grid>
-          );
-        };
-
-        body = (
-          <div>
-            <div>Pick your interests</div>
-            <Grid container spacing={2}>
-              {_.map(tagGroups, (t) => {
-                return getGridTagGroup(t);
-              })}
-            </Grid>
-          </div>
-        );
-      }
-      return body;
-    };
-    const getFooter = (isDateSelected) => {
-      let footer = <div />;
-      if (isDateSelected) {
-        footer = (
-          <AppBar position='fixed' color='default' className={classes.fAppBar}>
-            <Toolbar className={classes.fToolbar}>
-              <div>
-                <div>Show interests scroll bar</div>
-                <div>
-                  <Button
-                    fullWidth
-                    color='primary'
-                    onClick={this.handleBtnComplete}
-                  >
-                    Complete
-                  </Button>
-                </div>
-              </div>
-            </Toolbar>
-          </AppBar>
-        );
-      }
-      return footer;
-    };
-    const getModalPayment = (plan) => {
-      const paypalOptions = {
-        clientId:
-          Payment.env === 'production' ? Payment.production : Payment.sandbox,
-        currency: Payment.currency,
-      };
-      const buttonStyles = {
-        layout: 'vertical',
-        color: 'gold',
-        shape: 'rect',
-        label: 'checkout',
-      };
-      const onSuccess = (outcome) => {
-        console.log('paypal integration success', outcome);
-      };
-      const onError = (error) => {
-        console.log('Erroneous payment OR failed to load script!', error);
-      };
-      const onCancel = (data) => {
-        console.log('Cancelled payment!', data);
-      };
-      const getTotalPrice = (days) => {
-        let total = 0;
-        for (let i = 0; i < days.length; i++) {
-          for (let m = 0; m < days[i].items.length; m++) {
-            const item = days[i].items[m];
-            total = total + item.unitPrice * item.totalPeople;
-          }
-        }
-        return total;
-      };
-      return (
-        <Dialog open={this.state.openModal} onClose={this.handleClose}>
-          <DialogContent classes={{root: classes.bodyContent}}>
-            <div>Deposit: 100 AUD</div>
-            <div>Total Price: {getTotalPrice(plan.days)}</div>
-            <Divider />
-            <PayPalButton
-              paypalOptions={paypalOptions}
-              buttonStyles={buttonStyles}
-              amount={Payment.deposit}
-              onPaymentSuccess={onSuccess}
-              onPaymentSuccess={onError}
-              onPaymentCancel={onCancel}
-            />
-          </DialogContent>
-        </Dialog>
-      );
     };
     // Local Variables
-    const isDateSelected =
-      startDate && endDate && endDate.diff(startDate, 'days') >= 0;
     // Sub Components
     // Display Widget
     return (
       <div className={classes.root}>
-        {getHeader(isDateSelected)}
+        {getHeader()}
         <div className={classes.whitespaceTop} />
-        {getBody(isDateSelected)}
+        {getBody()}
         <div className={classes.whitespaceBottom} />
-        {getFooter(isDateSelected)}
-        {getModalPayment(plan)}
+        {getFooter()}
       </div>
     );
   }

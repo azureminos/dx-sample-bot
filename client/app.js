@@ -430,8 +430,7 @@ class App extends React.Component {
         };
         const actionsPlanTrip = {
           handleDateRangeChange: this.handleDateRangeChange,
-          handleTagGroupChange: this.handleTagGroupChange,
-          handleSetStartCity: this.handleSetStartCity,
+          handleSetDestination: this.handleSetDestination,
           handlePeopleChange: this.handlePeopleChange,
         };
         page =

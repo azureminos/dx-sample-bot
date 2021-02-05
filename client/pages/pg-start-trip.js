@@ -16,8 +16,8 @@ import CONSTANTS from '../../lib/constants';
 import HomeWorkIcon from '@material-ui/icons/HomeWork';
 import DateRangeIcon from '@material-ui/icons/DateRange';
 import PeopleIcon from '@material-ui/icons/People';
-import AddBoxOutlinedIcon from '@material-ui/icons/AddBoxOutlined';
-import MinusBoxOutlinedIcon from '@material-ui/icons/IndeterminateCheckBoxOutlined';
+import AddBoxIcon from '@material-ui/icons/AddBoxOutlined';
+import MinusBoxIcon from '@material-ui/icons/IndeterminateCheckBoxOutlined';
 import 'react-dates/lib/css/_datepicker.css';
 
 // Variables
@@ -104,18 +104,18 @@ class PageStartTrip extends React.Component {
       popup: {
         open: false,
         title: '',
-        messge: '',
+        message: '',
       },
     };
   }
   // Event Handler
   handlePopupClose() {
-    console.log('>>>>PageStartTrip.handlePopupClose');
+    // console.log('>>>>PageStartTrip.handlePopupClose');
     const popup = {open: false, title: '', message: ''};
     this.setState({popup});
   }
   dohandleBtnStartHoliday(plan) {
-    console.log('>>>>PageStartTrip.dohandleBtnStartHoliday', plan);
+    // console.log('>>>>PageStartTrip.dohandleBtnStartHoliday', plan);
     const {startDate, endDate, startCity} = plan;
     if (!startDate || !endDate) {
       const popup = {
@@ -139,7 +139,7 @@ class PageStartTrip extends React.Component {
     }
   }
   doHandleAddressChange = ({address, location, destinations}) => {
-    console.log('>>>>PageStartTrip.doHandleAddressChange', {address, location});
+    // console.log('>>>>PageStartTrip.doHandleAddressChange', {address, location});
     if (location) {
       const closeCity = Helper.findCloseCity(location, destinations);
       console.log(
@@ -175,21 +175,21 @@ class PageStartTrip extends React.Component {
     }
   };
   doHandleDateRangeChange(input) {
-    console.log('>>>>PageStartTrip.doHandleDateRangeChange', input);
+    // console.log('>>>>PageStartTrip.doHandleDateRangeChange', input);
     const {actions} = this.props;
     if (actions && actions.handleDateRangeChange) {
       actions.handleDateRangeChange(input);
     }
   }
   doHandlePeopleChange(input) {
-    console.log('>>>>PageStartTrip.doHandlePeopleChange', input);
+    // console.log('>>>>PageStartTrip.doHandlePeopleChange', input);
     const {actions} = this.props;
     if (actions && actions.handlePeopleChange) {
       actions.handlePeopleChange(input);
     }
   }
   doHandleTagGroupChange(name) {
-    console.log('>>>>PageStartTrip.doHandleTagGroupChange', name);
+    // console.log('>>>>PageStartTrip.doHandleTagGroupChange', name);
     const {actions} = this.props;
     if (actions && actions.handleTagGroupChange) {
       actions.handleTagGroupChange(name);
@@ -197,7 +197,7 @@ class PageStartTrip extends React.Component {
   }
   // Display page
   render() {
-    console.log('>>>>PageStartTrip, render()', this.props);
+    // console.log('>>>>PageStartTrip, render()', this.props);
     const {classes, plan, planExt, reference} = this.props;
     const {tagGroups, destinations} = reference;
     const {startDate, endDate, totalPeople} = plan;
@@ -220,7 +220,7 @@ class PageStartTrip extends React.Component {
             }}
             className={classes.hDivPeopleControl}
           >
-            <AddBoxOutlinedIcon color='primary' fontSize='default' />
+            <AddBoxIcon color='primary' fontSize='default' />
           </IconButton>
           <IconButton
             disabled={isNotAllowRemove}
@@ -229,14 +229,13 @@ class PageStartTrip extends React.Component {
             }}
             className={classes.hDivPeopleControl}
           >
-            <MinusBoxOutlinedIcon color='primary' fontSize='default' />
+            <MinusBoxIcon color='primary' fontSize='default' />
           </IconButton>
         </div>
       );
     };
     const getHeader = () => {
-      let header = <div />;
-      header = (
+      return (
         <AppBar position='fixed' color='default' className={classes.hAppBar}>
           <Toolbar className={classes.hToolbar}>
             <table style={{width: '100%'}}>
@@ -254,8 +253,6 @@ class PageStartTrip extends React.Component {
                         endDateId='trip_end_date_id'
                         numberOfMonths={1}
                         small
-                        showClearDates
-                        reopenPickerOnClearDates
                         onDatesChange={this.doHandleDateRangeChange}
                         focusedInput={focusedDateInput}
                         onFocusChange={(focusedInput) =>
@@ -290,7 +287,6 @@ class PageStartTrip extends React.Component {
           </Toolbar>
         </AppBar>
       );
-      return header;
     };
 
     const getBody = () => {
