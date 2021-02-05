@@ -200,7 +200,7 @@ class PagePlanTrip extends React.Component {
   // Display page
   render() {
     console.log('>>>>PagePlanTrip, render()', this.props);
-    const {classes, plan, planExt, reference} = this.props;
+    const {classes, plan, planExt, reference, actions} = this.props;
     const {tagGroups, destinations} = reference;
     const {startDate, endDate, totalPeople} = plan;
     const {focusedDateInput, selectedAddress, popup} = this.state;
@@ -322,7 +322,14 @@ class PagePlanTrip extends React.Component {
     const getBody = () => {
       const totalDays = endDate.diff(startDate, 'days') + 1;
       const tabPanels = [
-        <TabPanel key={0} value={this.state.tabSelected} index={0} />,
+        <TabPanel key={0} value={this.state.tabSelected} index={0}>
+          <PackageSummary
+            plan={plan}
+            planExt={planExt}
+            reference={reference}
+            actions={actions}
+          />
+        </TabPanel>,
       ];
       for (let i = 0; i < totalDays; i++) {
         const day = i + 1;
@@ -332,7 +339,7 @@ class PagePlanTrip extends React.Component {
               plan={plan}
               planExt={planExt}
               reference={reference}
-              actions={{}}
+              actions={actions}
               daySelected={day}
             />
           </TabPanel>
