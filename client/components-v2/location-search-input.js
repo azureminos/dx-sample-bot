@@ -32,6 +32,7 @@ class LocationSearchInput extends React.Component {
   };
 
   render() {
+    const hints = this.props.hints || 'Where to?';
     const searchOptions = {
       componentRestrictions: {country: 'AU'},
     };
@@ -41,6 +42,7 @@ class LocationSearchInput extends React.Component {
       fontSize: '15px',
       lineHeight: '18px',
       letterSpacing: '.2px',
+      width: '-webkit-fill-available',
     };
     return (
       <PlacesAutocomplete
@@ -53,7 +55,7 @@ class LocationSearchInput extends React.Component {
           <div style={styleInputRoot}>
             <input
               {...getInputProps({
-                placeholder: 'Where to?',
+                placeholder: {hints},
                 className: 'location-search-input',
               })}
               style={styleInputDiv}

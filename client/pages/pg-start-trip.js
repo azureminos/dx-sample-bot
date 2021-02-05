@@ -11,6 +11,9 @@ import LocationSearchInput from '../components-v2/location-search-input';
 import PopupMessage from '../components-v2/popup-message';
 import Helper from '../../lib/helper';
 // ====== Icons && CSS ======
+import HomeWorkIcon from '@material-ui/icons/HomeWork';
+import DateRangeIcon from '@material-ui/icons/DateRange';
+import PeopleIcon from '@material-ui/icons/People';
 import 'react-dates/lib/css/_datepicker.css';
 
 // Variables
@@ -188,7 +191,7 @@ class PageStartTrip extends React.Component {
               <tbody>
                 <tr>
                   <td>
-                    <label>Holiday Dates</label>
+                    <DateRangeIcon color='primary' fontSize='large' />
                   </td>
                   <td>
                     <div className={classes.hDivFlex}>
@@ -213,10 +216,11 @@ class PageStartTrip extends React.Component {
                 </tr>
                 <tr>
                   <td>
-                    <label>Home City</label>
+                    <HomeWorkIcon color='primary' fontSize='large' />
                   </td>
                   <td>
                     <LocationSearchInput
+                      hints={'Where from?'}
                       fullWidth
                       handleChange={({address, location}) => {
                         this.doHandleAddressChange({
