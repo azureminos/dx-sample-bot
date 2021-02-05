@@ -30,7 +30,6 @@ import {getDynamicStyles} from 'jss';
 // Variables
 const styles = (theme) => ({});
 const {Global, Instance, SocketChannel, Page, DataModel} = CONSTANTS.get();
-const InstanceStatus = Instance.status;
 const SocketAction = SocketChannel.Action;
 const dummyCities = [
   'Gold Coast',
@@ -61,6 +60,7 @@ class App extends React.Component {
     this.handleDateRangeChange = this.handleDateRangeChange.bind(this);
     this.handleTagGroupChange = this.handleTagGroupChange.bind(this);
     this.handleSetStartCity = this.handleSetStartCity.bind(this);
+    this.handleBtnStartTrip = this.handleBtnStartTrip.bind(this);
     this.handleSetDestination = this.handleSetDestination.bind(this);
     this.handleDragItem = this.handleDragItem.bind(this);
     this.handleSelectProduct = this.handleSelectProduct.bind(this);
@@ -157,8 +157,13 @@ class App extends React.Component {
     }
     this.setState({plan});
   }
+  handleBtnStartTrip() {
+    const {plan} = this.state;
+    plan.status = Instance.status.INITIATED;
+    this.setState({plan});
+  }
   handleDateRangeChange({startDate, endDate}) {
-    console.log('>>>>handleDateRangeChange', {startDate, endDate});
+    // console.log('>>>>handleDateRangeChange', {startDate, endDate});
     const {plan} = this.state;
     const getDays = (startDate, endDate, plan) => {
       let {days} = plan;
@@ -214,7 +219,7 @@ class App extends React.Component {
     });
   }
   handleTagGroupChange(tagGroup) {
-    console.log('>>>>handleTagGroupChange', tagGroup);
+    // console.log('>>>>handleTagGroupChange', tagGroup);
     const {selectedTagGroups} = this.state.planExt;
     if (
       !_.find(selectedTagGroups, (s) => {
@@ -230,7 +235,7 @@ class App extends React.Component {
     });
   }
   handleSetStartCity(input) {
-    console.log('>>>>handleSetStartCity', input);
+    // console.log('>>>>handleSetStartCity', input);
     const {plan} = this.state;
     const {destinationId, name} = input;
     plan.startCity = name;
@@ -247,7 +252,6 @@ class App extends React.Component {
         plan.days[i].endCityId = plan.endCityId;
       }
     }
-    console.log('>>>>doHandleSetStartCity completed', plan);
     this.setState({plan});
   }
   handleSetDestination(input) {
@@ -409,24 +413,37 @@ class App extends React.Component {
     // Sub Components
     let page = <div>Loading...</div>;
     if (homepage === Page.MainPage) {
-      document.title = 'My travel plans';
+      document.title = 'My Holiday Plans';
       page = <PageAllTravel />;
     } else if (homepage === Page.NewPlan) {
       document.title = 'Start My Holiday';
       if (reference.tagGroups) {
-        const actions = {
+        const actionsStartTrip = {
           handleDateRangeChange: this.handleDateRangeChange,
           handleTagGroupChange: this.handleTagGroupChange,
           handleSetStartCity: this.handleSetStartCity,
         };
-        page = (
-          <PageStartTrip
-            plan={plan}
-            planExt={planExt}
-            reference={reference}
-            actions={actions}
-          />
-        );
+        const actionsPlanTrip = {
+          handleDateRangeChange: this.handleDateRangeChange,
+          handleTagGroupChange: this.handleTagGroupChange,
+          handleSetStartCity: this.handleSetStartCity,
+        };
+        page =
+          plan.status === Instance.status.DRAFT ? (
+            <PageStartTrip
+              plan={plan}
+              planExt={planExt}
+              reference={reference}
+              actions={actionsStartTrip}
+            />
+          ) : (
+            <PagePlanTrip
+              plan={plan}
+              planExt={planExt}
+              reference={reference}
+              actions={actionsPlanTrip}
+            />
+          );
       }
     }
     /* ----------  Animated Wrapper  ---------- */

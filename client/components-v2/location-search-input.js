@@ -35,7 +35,13 @@ class LocationSearchInput extends React.Component {
     const searchOptions = {
       componentRestrictions: {country: 'AU'},
     };
-    const styleInput = this.props.fullWidth ? {width: '100%'} : {};
+    const styleInputRoot = this.props.fullWidth ? {width: '100%'} : {};
+    const styleInputDiv = {
+      padding: '7px 7px 5px',
+      fontSize: '15px',
+      lineHeight: '18px',
+      letterSpacing: '.2px',
+    };
     return (
       <PlacesAutocomplete
         value={this.props.address}
@@ -44,12 +50,13 @@ class LocationSearchInput extends React.Component {
         searchOptions={searchOptions}
       >
         {({getInputProps, suggestions, getSuggestionItemProps, loading}) => (
-          <div style={styleInput}>
+          <div style={styleInputRoot}>
             <input
               {...getInputProps({
                 placeholder: 'Where to?',
                 className: 'location-search-input',
               })}
+              style={styleInputDiv}
             />
             <div className='autocomplete-dropdown-container'>
               {loading && <div>Loading...</div>}

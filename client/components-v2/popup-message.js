@@ -20,9 +20,9 @@ class PopupMessage extends React.Component {
   // ====== Event Handler ======
   // Render web widget
   render() {
-    console.log('>>>>PopupMessage.render');
     // ====== Local Variables ======
     const {open, handleClose, title, message} = this.props;
+    console.log('>>>>PopupMessage.render', {open, title, message});
     // ====== Web Elements ======
     // ====== Display ======
     return (
@@ -39,7 +39,7 @@ class PopupMessage extends React.Component {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={this.handleClose} color='primary' autoFocus>
+          <Button onClick={handleClose} color='primary' autoFocus>
             Close
           </Button>
         </DialogActions>

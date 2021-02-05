@@ -37,10 +37,7 @@ const styles = (theme) => ({
     padding: 0,
     minHeight: '16px',
   },
-  hDatePicker: {
-    display: 'flex',
-  },
-  hAddressBar: {
+  hDivFlex: {
     display: 'flex',
   },
   bRoot: {
@@ -94,8 +91,29 @@ class PageStartTrip extends React.Component {
     };
   }
   // Event Handler
-  doHandleBtnStartTrip(e) {
-    console.log('>>>>PageStartTrip.doHandleBtnStartTrip', e);
+  doHandleBtnStartTrip(plan) {
+    console.log('>>>>PageStartTrip.doHandleBtnStartTrip', plan);
+    const {startDate, endDate, startCity} = plan;
+    if (!startDate || !endDate) {
+      const popup = {
+        open: true,
+        title: 'Holiday dates not selected',
+        message: 'Please select the holiday start and end date',
+      };
+      this.setState({popup});
+    } else if (!startCity) {
+      const popup = {
+        open: true,
+        title: 'Home city not found',
+        message: 'Please enter a valid address for the home city',
+      };
+      this.setState({popup});
+    } else {
+      const {actions} = this.props;
+      if (actions && actions.handleBtnStartTrip) {
+        actions.handleBtnStartTrip();
+      }
+    }
   }
   handlePopupClose() {
     console.log('>>>>PageStartTrip.handlePopupClose');
@@ -166,45 +184,53 @@ class PageStartTrip extends React.Component {
       header = (
         <AppBar position='fixed' color='default' className={classes.hAppBar}>
           <Toolbar className={classes.hToolbar}>
-            <div>
-              <div className={classes.hDatePicker}>
-                <label>Trip Dates</label>
-                <DateRangePicker
-                  startDate={startDate}
-                  startDateId='trip_start_date_id'
-                  endDate={endDate}
-                  endDateId='trip_end_date_id'
-                  numberOfMonths={1}
-                  small
-                  showClearDates
-                  reopenPickerOnClearDates
-                  onDatesChange={this.doHandleDateRangeChange}
-                  focusedInput={focusedDateInput}
-                  onFocusChange={(focusedInput) =>
-                    this.setState({focusedDateInput: focusedInput})
-                  }
-                />
-              </div>
-              <div className={classes.hAddressBar}>
-                <label>Home City</label>
-                <LocationSearchInput
-                  handleChange={({address, location}) => {
-                    this.doHandleAddressChange({
-                      address,
-                      location,
-                      destinations,
-                    });
-                  }}
-                  address={selectedAddress}
-                />
-              </div>
-              <PopupMessage
-                open={popup.open}
-                handleClose={this.handlePopupClose}
-                title={popup.title}
-                message={popup.message}
-              />
-            </div>
+            <table style={{width: '100%'}}>
+              <tbody>
+                <tr>
+                  <td>
+                    <label>Holiday Dates</label>
+                  </td>
+                  <td>
+                    <div className={classes.hDivFlex}>
+                      <DateRangePicker
+                        startDate={startDate}
+                        startDateId='trip_start_date_id'
+                        endDate={endDate}
+                        endDateId='trip_end_date_id'
+                        numberOfMonths={1}
+                        small
+                        showClearDates
+                        reopenPickerOnClearDates
+                        onDatesChange={this.doHandleDateRangeChange}
+                        focusedInput={focusedDateInput}
+                        onFocusChange={(focusedInput) =>
+                          this.setState({focusedDateInput: focusedInput})
+                        }
+                      />
+                      <div>People</div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <label>Home City</label>
+                  </td>
+                  <td>
+                    <LocationSearchInput
+                      fullWidth
+                      handleChange={({address, location}) => {
+                        this.doHandleAddressChange({
+                          address,
+                          location,
+                          destinations,
+                        });
+                      }}
+                      address={selectedAddress}
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </Toolbar>
         </AppBar>
       );
@@ -236,10 +262,16 @@ class PageStartTrip extends React.Component {
         <div>
           <div>Pick your interests</div>
           <Grid container spacing={2}>
-            {_.map(tagGroups, (t) => {
+            {/* _.map(tagGroups, (t) => {
               return getGridTagGroup(t);
-            })}
+            }) */}
           </Grid>
+          <PopupMessage
+            open={popup.open}
+            handleClose={this.handlePopupClose}
+            title={popup.title}
+            message={popup.message}
+          />
         </div>
       );
       return body;
@@ -253,7 +285,9 @@ class PageStartTrip extends React.Component {
               <Button
                 fullWidth
                 color='primary'
-                onClick={this.handleBtnComplete}
+                onClick={() => {
+                  this.doHandleBtnStartTrip(plan);
+                }}
               >
                 Start My Holiday
               </Button>
