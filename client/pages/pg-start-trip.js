@@ -45,6 +45,11 @@ const styles = (theme) => ({
   },
   hDivFlex: {
     display: 'flex',
+    margin: 'auto',
+  },
+  hDivPeople: {
+    padding: '4px',
+    margin: 'auto',
   },
   bRoot: {
     backgroundColor: theme.palette.background.paper,
@@ -188,14 +193,28 @@ class PageStartTrip extends React.Component {
     const getPeopleControl = () => {
       return (
         <div className={classes.hDivFlex}>
-          <div>
+          <div className={classes.hDivPeople}>
             <PeopleIcon color='primary' fontSize='medium' />
           </div>
-          <div>{totalPeople}</div>
-          <IconButton disabled={false} onClick={this.doAddPeople}>
+          <div className={classes.hDivPeople}>{totalPeople}</div>
+          <IconButton
+            disabled={false}
+            onClick={this.doAddPeople}
+            classes={{
+              root: {minWidth: '32px'},
+              text: {padding: '4px'},
+            }}
+          >
             <AddBoxOutlinedIcon color='primary' fontSize='medium' />
           </IconButton>
-          <IconButton disabled={false} onClick={this.doRemovePeople}>
+          <IconButton
+            disabled={false}
+            onClick={this.doRemovePeople}
+            classes={{
+              root: {minWidth: '32px'},
+              text: {padding: '4px'},
+            }}
+          >
             <MinusBoxOutlinedIcon color='primary' fontSize='medium' />
           </IconButton>
         </div>
