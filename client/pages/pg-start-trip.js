@@ -6,6 +6,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/Button';
 import {withStyles} from '@material-ui/core/styles';
 import LocationSearchInput from '../components-v2/location-search-input';
 import PopupMessage from '../components-v2/popup-message';
@@ -14,6 +15,8 @@ import Helper from '../../lib/helper';
 import HomeWorkIcon from '@material-ui/icons/HomeWork';
 import DateRangeIcon from '@material-ui/icons/DateRange';
 import PeopleIcon from '@material-ui/icons/People';
+import AddBoxOutlinedIcon from '@material-ui/icons/AddBoxOutlined';
+import MinusBoxOutlinedIcon from '@material-ui/icons/IndeterminateCheckBoxOutlined';
 import 'react-dates/lib/css/_datepicker.css';
 
 // Variables
@@ -178,10 +181,26 @@ class PageStartTrip extends React.Component {
     console.log('>>>>PageStartTrip, render()', this.props);
     const {classes, plan, planExt, reference} = this.props;
     const {tagGroups, destinations} = reference;
-    const {startDate, endDate} = plan;
+    const {startDate, endDate, totalPeople} = plan;
     const {selectedTagGroups} = planExt;
     const {focusedDateInput, selectedAddress, popup} = this.state;
     // Local Functions
+    const getPeopleControl = () => {
+      return (
+        <div className={classes.hDivFlex}>
+          <div>
+            <PeopleIcon color='primary' fontSize='medium' />
+          </div>
+          <div>{totalPeople}</div>
+          <IconButton disabled={false} onClick={this.doAddPeople}>
+            <AddBoxOutlinedIcon color='primary' fontSize='medium' />
+          </IconButton>
+          <IconButton disabled={false} onClick={this.doRemovePeople}>
+            <MinusBoxOutlinedIcon color='primary' fontSize='medium' />
+          </IconButton>
+        </div>
+      );
+    };
     const getHeader = () => {
       let header = <div />;
       header = (
@@ -191,7 +210,7 @@ class PageStartTrip extends React.Component {
               <tbody>
                 <tr>
                   <td>
-                    <DateRangeIcon color='primary' fontSize='large' />
+                    <DateRangeIcon color='primary' fontSize='medium' />
                   </td>
                   <td>
                     <div className={classes.hDivFlex}>
@@ -210,13 +229,13 @@ class PageStartTrip extends React.Component {
                           this.setState({focusedDateInput: focusedInput})
                         }
                       />
-                      <div>People</div>
+                      {getPeopleControl()}
                     </div>
                   </td>
                 </tr>
                 <tr>
                   <td>
-                    <HomeWorkIcon color='primary' fontSize='large' />
+                    <HomeWorkIcon color='primary' fontSize='medium' />
                   </td>
                   <td>
                     <LocationSearchInput

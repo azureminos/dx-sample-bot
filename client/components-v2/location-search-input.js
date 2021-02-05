@@ -55,7 +55,7 @@ class LocationSearchInput extends React.Component {
           <div style={styleInputRoot}>
             <input
               {...getInputProps({
-                placeholder: {hints},
+                placeholder: hints,
                 className: 'location-search-input',
               })}
               style={styleInputDiv}
