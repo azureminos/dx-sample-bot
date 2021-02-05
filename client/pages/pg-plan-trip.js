@@ -31,7 +31,7 @@ const styles = (theme) => ({
     height: '100%',
   },
   whitespaceTop: {
-    height: 100,
+    height: 120,
   },
   whitespaceBottom: {
     height: 50,

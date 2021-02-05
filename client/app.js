@@ -23,22 +23,11 @@ import CONSTANTS from '../lib/constants';
 // import 'swiper/css/swiper.css';
 import 'react-multi-carousel/lib/styles.css';
 import '../public/style.css';
-import {getDynamicStyles} from 'jss';
 
 // Variables
+let socket;
 const styles = (theme) => ({});
 const {Instance, SocketChannel, Page, DataModel} = CONSTANTS.get();
-const dummyCities = [
-  'Gold Coast',
-  'Byron Bay',
-  'Coffs Harbour',
-  'Port Stephens',
-  'Newcastle',
-  'Hunter Valley',
-];
-
-let socket;
-
 /* ==============================
    = React Application          =
    ============================== */
@@ -86,46 +75,56 @@ class App extends React.Component {
      ============================== */
   handleDragItem(result) {
     console.log('>>>>handleDragItem', result);
-    /*const {source, destination} = result;
-    const reorder = (droppableId, idxSource, idxDestination) => {
-      const arr = droppableId.split('##');
-      const day = Number(arr[1]);
+    const {draggableId, source, destination} = result;
+    const {destinations} = this.state.reference;
+    const move = (drag, src, dst) => {
+      const cityId = Number(drag.split('##')[2]);
+      const isMoveAfter = dst.index === 1;
+      const dayFrom = Number(src.droppableId.split('##')[1]);
+      const dayTo = Number(dst.droppableId.split('##')[1]);
       const {plan} = this.state;
-      const {items} = plan.days[day - 1];
-      const tmp = items[idxDestination];
-      items[idxDestination] = items[idxSource];
-      items[idxSource] = tmp;
-      this.setState({plan});
-    };
-    const move = (
-      source,
-      destination,
-      droppableSource,
-      droppableDestination
-    ) => {
-      const sarr = source.split('##');
-      const darr = destination.split('##');
-      const sday = Number(sarr[1]);
-      const dday = Number(darr[1]);
-      const {plan} = this.state;
-      const sourceClone = Array.from(plan.days[sday - 1].items);
-      const destClone = Array.from(plan.days[dday - 1].items);
-      const [removed] = sourceClone.splice(droppableSource.index, 1);
-      destClone.splice(droppableDestination.index, 0, removed);
+      const {totalDays, days} = plan;
 
-      plan.days[sday - 1].items = sourceClone;
-      plan.days[dday - 1].items = destClone;
-      this.setState({plan});
+      if ((dayTo === totalDays && isMoveAfter) || dayFrom === totalDays) {
+        // Invalid move, do nothing
+      } else {
+        const sCity = _.find(destinations, (d) => {
+          return d.destinationId === cityId;
+        });
+        console.log('>>>>handleDragItem found city', {sCity, days});
+        days[dayFrom].endCity = '';
+        days[dayFrom].endCityId = 0;
+        days[dayFrom + 1].startCity = '';
+        days[dayFrom + 1].startCityId = 0;
+        if (!isMoveAfter) {
+          const otherCities = days[dayTo].otherCities || [];
+          otherCities.push({
+            name: sCity.name,
+            destinationId: sCity.destinationId,
+          });
+          days[dayTo].otherCities = otherCities;
+        } else {
+          const otherCities = days[dayTo].otherCities || [];
+          otherCities.push({
+            name: days[dayTo].endCity,
+            destinationId: days[dayTo].endCityId,
+          });
+          days[dayTo].otherCities = otherCities;
+          days[dayTo].endCity = sCity.name;
+          days[dayTo].endCityId = sCity.destinationId;
+          days[dayTo + 1].startCity = sCity.name;
+          days[dayTo + 1].startCityId = sCity.destinationId;
+        }
+        this.setState({plan});
+      }
     };
     // dropped outside the list
     if (!destination) {
       return;
     }
-    if (source.droppableId === destination.droppableId) {
-      reorder(source.droppableId, source.index, destination.index);
-    } else {
-      move(source.droppableId, destination.droppableId, source, destination);
-    }*/
+    if (source.droppableId !== destination.droppableId) {
+      move(draggableId, source, destination);
+    }
   }
   handleSelectProduct({product, daySelected}) {
     console.log('>>>>handleSelectProduct', {product, daySelected});

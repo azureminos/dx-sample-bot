@@ -103,7 +103,7 @@ const nDayPlan = new Schema({
   type: Schema.Types.String,
   startCityId: Schema.Types.Number,
   endCityId: Schema.Types.Number,
-  otherCities: [Schema.Types.String],
+  otherCityIds: [Schema.Types.Number],
   notes: Schema.Types.String,
 });
 const dbDayPlan = mongoose.model('RefDayPlan', nDayPlan);
