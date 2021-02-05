@@ -27,8 +27,7 @@ import {getDynamicStyles} from 'jss';
 
 // Variables
 const styles = (theme) => ({});
-const {Global, Instance, SocketChannel, Page, DataModel} = CONSTANTS.get();
-const SocketAction = SocketChannel.Action;
+const {Instance, SocketChannel, Page, DataModel} = CONSTANTS.get();
 const dummyCities = [
   'Gold Coast',
   'Byron Bay',
@@ -59,7 +58,7 @@ class App extends React.Component {
     this.handlePeopleChange = this.handlePeopleChange.bind(this);
     this.handleTagGroupChange = this.handleTagGroupChange.bind(this);
     this.handleSetStartCity = this.handleSetStartCity.bind(this);
-    this.handleBtnStartTrip = this.handleBtnStartTrip.bind(this);
+    this.handleBtnStartHoliday = this.handleBtnStartHoliday.bind(this);
     this.handleSetDestination = this.handleSetDestination.bind(this);
     this.handleDragItem = this.handleDragItem.bind(this);
     this.handleSelectProduct = this.handleSelectProduct.bind(this);
@@ -156,7 +155,7 @@ class App extends React.Component {
     }
     this.setState({plan});
   }
-  handleBtnStartTrip() {
+  handleBtnStartHoliday() {
     const {plan} = this.state;
     plan.status = Instance.status.INITIATED;
     this.setState({plan});
@@ -261,7 +260,6 @@ class App extends React.Component {
   }
   handleSetDestination(input) {
     const {plan, reference} = this.state;
-    const {address, location} = input;
     console.log('>>>>handleSetDestination', {input, plan});
     let tmpEndCity = '';
     let toUpdate = false;
@@ -306,7 +304,7 @@ class App extends React.Component {
   // ----------  App  ----------
   register() {
     const {viewerId, instId} = this.props;
-    console.log('>>>>MobileApp.register', {viewerId, instId});
+    // console.log('>>>>MobileApp.register', {viewerId, instId});
     if (instId) {
       const params = {
         senderId: viewerId,
@@ -317,7 +315,7 @@ class App extends React.Component {
   }
   /* ----------  Package Instance ------- */
   init(results) {
-    console.log('>>>>Result from socket [init]', results);
+    // console.log('>>>>Result from socket [init]', results);
     const {user, homepage} = results;
     let plan = this.state.plan;
     if (homepage === Page.NewPlan) {
@@ -343,7 +341,7 @@ class App extends React.Component {
   }
   // --------  Reference  ---------
   handleRefAll(results) {
-    console.log('>>>>Result from socket [ref:all]', results);
+    // console.log('>>>>Result from socket [ref:all]', results);
     const {categories, destinations, tagGroups} = results;
     const {reference} = this.state;
     this.setState({
@@ -352,7 +350,7 @@ class App extends React.Component {
     });
   }
   handleRefDestination(results) {
-    console.log('>>>>Result from socket [ref:destination]', results);
+    // console.log('>>>>Result from socket [ref:destination]', results);
     const {reference} = this.state;
     this.setState({
       updating: false,
@@ -360,7 +358,7 @@ class App extends React.Component {
     });
   }
   handleRefActivity(results) {
-    console.log('>>>>Result from socket [ref:activity]', results);
+    // console.log('>>>>Result from socket [ref:activity]', results);
     const {reference} = this.state;
     const {activities} = reference;
     activities[results.city] = {
@@ -428,6 +426,7 @@ class App extends React.Component {
           handleTagGroupChange: this.handleTagGroupChange,
           handleSetStartCity: this.handleSetStartCity,
           handlePeopleChange: this.handlePeopleChange,
+          handleBtnStartHoliday: this.handleBtnStartHoliday,
         };
         const actionsPlanTrip = {
           handleDateRangeChange: this.handleDateRangeChange,

@@ -90,7 +90,7 @@ class PageStartTrip extends React.Component {
   constructor(props) {
     super(props);
     // Bind handler
-    this.doHandleBtnStartTrip = this.doHandleBtnStartTrip.bind(this);
+    this.dohandleBtnStartHoliday = this.dohandleBtnStartHoliday.bind(this);
     this.doHandleAddressChange = this.doHandleAddressChange.bind(this);
     this.doHandleDateRangeChange = this.doHandleDateRangeChange.bind(this);
     this.doHandleTagGroupChange = this.doHandleTagGroupChange.bind(this);
@@ -114,8 +114,8 @@ class PageStartTrip extends React.Component {
     const popup = {open: false, title: '', message: ''};
     this.setState({popup});
   }
-  doHandleBtnStartTrip(plan) {
-    console.log('>>>>PageStartTrip.doHandleBtnStartTrip', plan);
+  dohandleBtnStartHoliday(plan) {
+    console.log('>>>>PageStartTrip.dohandleBtnStartHoliday', plan);
     const {startDate, endDate, startCity} = plan;
     if (!startDate || !endDate) {
       const popup = {
@@ -133,8 +133,8 @@ class PageStartTrip extends React.Component {
       this.setState({popup});
     } else {
       const {actions} = this.props;
-      if (actions && actions.handleBtnStartTrip) {
-        actions.handleBtnStartTrip();
+      if (actions && actions.handleBtnStartHoliday) {
+        actions.handleBtnStartHoliday();
       }
     }
   }
@@ -210,7 +210,7 @@ class PageStartTrip extends React.Component {
       return (
         <div className={classes.hDivFlex}>
           <div className={classes.hDivPeopleDisplay}>
-            <PeopleIcon color='primary' fontSize='medium' />
+            <PeopleIcon color='primary' fontSize='default' />
           </div>
           <div className={classes.hDivPeopleDisplay}>{totalPeople}</div>
           <IconButton
@@ -220,7 +220,7 @@ class PageStartTrip extends React.Component {
             }}
             className={classes.hDivPeopleControl}
           >
-            <AddBoxOutlinedIcon color='primary' fontSize='medium' />
+            <AddBoxOutlinedIcon color='primary' fontSize='default' />
           </IconButton>
           <IconButton
             disabled={isNotAllowRemove}
@@ -229,7 +229,7 @@ class PageStartTrip extends React.Component {
             }}
             className={classes.hDivPeopleControl}
           >
-            <MinusBoxOutlinedIcon color='primary' fontSize='medium' />
+            <MinusBoxOutlinedIcon color='primary' fontSize='default' />
           </IconButton>
         </div>
       );
@@ -243,7 +243,7 @@ class PageStartTrip extends React.Component {
               <tbody>
                 <tr>
                   <td>
-                    <DateRangeIcon color='primary' fontSize='medium' />
+                    <DateRangeIcon color='primary' fontSize='default' />
                   </td>
                   <td>
                     <div className={classes.hDivFlex}>
@@ -268,7 +268,7 @@ class PageStartTrip extends React.Component {
                 </tr>
                 <tr>
                   <td>
-                    <HomeWorkIcon color='primary' fontSize='medium' />
+                    <HomeWorkIcon color='primary' fontSize='default' />
                   </td>
                   <td>
                     <LocationSearchInput
@@ -342,7 +342,7 @@ class PageStartTrip extends React.Component {
                 fullWidth
                 color='primary'
                 onClick={() => {
-                  this.doHandleBtnStartTrip(plan);
+                  this.dohandleBtnStartHoliday(plan);
                 }}
               >
                 Start My Holiday
