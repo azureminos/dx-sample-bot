@@ -86,7 +86,7 @@ class App extends React.Component {
      ============================== */
   handleDragItem(result) {
     console.log('>>>>handleDragItem', result);
-    const {source, destination} = result;
+    /*const {source, destination} = result;
     const reorder = (droppableId, idxSource, idxDestination) => {
       const arr = droppableId.split('##');
       const day = Number(arr[1]);
@@ -125,7 +125,7 @@ class App extends React.Component {
       reorder(source.droppableId, source.index, destination.index);
     } else {
       move(source.droppableId, destination.droppableId, source, destination);
-    }
+    }*/
   }
   handleSelectProduct({product, daySelected}) {
     console.log('>>>>handleSelectProduct', {product, daySelected});

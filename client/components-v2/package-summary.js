@@ -51,42 +51,39 @@ class PackageSummary extends React.Component {
     const {classes, plan, planExt, reference, actions} = this.props;
     console.log('>>>>PackageSummary, render()', {plan, actions});
     // Local Functions
-    const getDayItemsBlock = (dayNo, item, index) => {
-      // console.log('>>>>DnD.getDayItemsBlock', {item, index});
-      const uItemId = `item##${dayNo}##${item.itemId}`;
-      return (
-        <Draggable key={uItemId} draggableId={uItemId} index={index}>
-          {(provided, snapshot) => (
-            <div
-              ref={provided.innerRef}
-              {...provided.draggableProps}
-              {...provided.dragHandleProps}
-              style={getItemStyle(
-                snapshot.isDragging,
-                provided.draggableProps.style
-              )}
-            >
-              {item.name}
-            </div>
-          )}
-        </Draggable>
-      );
-    };
     const getDayBlock = (day) => {
       // console.log('>>>>DnD.getDayBlock', day);
-      const {items} = day;
+      let sOtherCities = '';
+      for (let i = 0; i < day.otherCities; i++) {
+        const c = day.otherCities[i];
+        sOtherCities = `${sOtherCities}${c.name} >> `;
+      }
+      const sCities = `${day.startCity} >> ${sOtherCities}${day.endCity}`;
+      const uItemId = `item##${day.dayNo}##${day.endCityId}`;
       return (
         <Droppable key={`day##${day.dayNo}`} droppableId={`day##${day.dayNo}`}>
           {(provided, snapshot) => (
             <div>
-              <div>{`Day ${day.dayNo}, ${day.startCity} >> ${day.endCity}`}</div>
+              <div>{`Day ${day.dayNo}, ${sCities}`}</div>
               <div
                 ref={provided.innerRef}
                 style={getListStyle(snapshot.isDraggingOver)}
               >
-                {items.map((item, index) => {
-                  return getDayItemsBlock(day.dayNo, item, index);
-                })}
+                <Draggable key={uItemId} draggableId={uItemId} index={0}>
+                  {(provided, snapshot) => (
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                      style={getItemStyle(
+                        snapshot.isDragging,
+                        provided.draggableProps.style
+                      )}
+                    >
+                      {`${sOtherCities}${day.endCity}`}
+                    </div>
+                  )}
+                </Draggable>
                 {provided.placeholder}
               </div>
             </div>
