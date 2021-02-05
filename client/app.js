@@ -93,28 +93,28 @@ class App extends React.Component {
           return d.destinationId === cityId;
         });
         console.log('>>>>handleDragItem found city', {sCity, days});
-        days[dayFrom].endCity = '';
-        days[dayFrom].endCityId = 0;
-        days[dayFrom + 1].startCity = '';
-        days[dayFrom + 1].startCityId = 0;
+        days[dayFrom - 1].endCity = '';
+        days[dayFrom - 1].endCityId = 0;
+        days[dayFrom].startCity = '';
+        days[dayFrom].startCityId = 0;
         if (!isMoveAfter) {
-          const otherCities = days[dayTo].otherCities || [];
+          const otherCities = days[dayTo - 1].otherCities || [];
           otherCities.push({
             name: sCity.name,
             destinationId: sCity.destinationId,
           });
-          days[dayTo].otherCities = otherCities;
+          days[dayTo - 1].otherCities = otherCities;
         } else {
-          const otherCities = days[dayTo].otherCities || [];
+          const otherCities = days[dayTo - 1].otherCities || [];
           otherCities.push({
-            name: days[dayTo].endCity,
-            destinationId: days[dayTo].endCityId,
+            name: days[dayTo - 1].endCity,
+            destinationId: days[dayTo - 1].endCityId,
           });
-          days[dayTo].otherCities = otherCities;
-          days[dayTo].endCity = sCity.name;
-          days[dayTo].endCityId = sCity.destinationId;
-          days[dayTo + 1].startCity = sCity.name;
-          days[dayTo + 1].startCityId = sCity.destinationId;
+          days[dayTo - 1].otherCities = otherCities;
+          days[dayTo - 1].endCity = sCity.name;
+          days[dayTo - 1].endCityId = sCity.destinationId;
+          days[dayTo].startCity = sCity.name;
+          days[dayTo].startCityId = sCity.destinationId;
         }
         this.setState({plan});
       }
