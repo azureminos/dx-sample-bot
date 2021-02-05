@@ -29,10 +29,6 @@ const styles = (theme) => ({
   root: {
     height: '100%',
   },
-  modalContent: {
-    marginTop: 80,
-    marginBottom: 80,
-  },
   whitespaceTop: {
     height: 100,
   },
@@ -52,11 +48,17 @@ const styles = (theme) => ({
     padding: 0,
     minHeight: '16px',
   },
-  hDatePicker: {
+  hDivFlex: {
     display: 'flex',
+    margin: 'auto',
   },
-  hAddressBar: {
-    display: 'flex',
+  hDivPeopleDisplay: {
+    padding: '4px',
+    margin: 'auto',
+  },
+  hDivPeopleControl: {
+    minWidth: '32px',
+    padding: '4px',
   },
   bRoot: {
     backgroundColor: theme.palette.background.paper,
