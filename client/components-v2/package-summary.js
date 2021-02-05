@@ -54,7 +54,7 @@ class PackageSummary extends React.Component {
     const getDayBlock = (day) => {
       // console.log('>>>>DnD.getDayBlock', day);
       let sOtherCities = '';
-      for (let i = 0; i < day.otherCities.length; i++) {
+      for (let i = 0; day.otherCities && i < day.otherCities.length; i++) {
         const c = day.otherCities[i];
         sOtherCities = `${sOtherCities}${c.name} >> `;
       }
