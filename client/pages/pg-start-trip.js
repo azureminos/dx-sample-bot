@@ -317,7 +317,7 @@ class PageStartTrip extends React.Component {
               this.doHandleTagGroupChange(t.name);
             }}
           >
-            <img src={t.imgUrl} alt={t.name} />
+            <img src={t.imgUrl || Global.defaultImgUrl} alt={t.name} />
             <GridListTileBar
               title={t.name}
               titlePosition='top'
@@ -339,7 +339,6 @@ class PageStartTrip extends React.Component {
 
       const body = (
         <div>
-          <div>Pick your interests</div>
           <div className={classes.bGridListRoot}>
             <GridList
               cellHeight={200}
