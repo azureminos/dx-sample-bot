@@ -345,13 +345,12 @@ class PageStartTrip extends React.Component {
               cellHeight={200}
               spacing={1}
               className={classes.bGridListDiv}
-            />
+            >
+              {_.map(tagGroups, (t) => {
+                return getGridTagGroup(t);
+              })}
+            </GridList>
           </div>
-          <Grid container spacing={2}>
-            {_.map(tagGroups, (t) => {
-              return getGridTagGroup(t);
-            })}
-          </Grid>
           <PopupMessage
             open={popup.open}
             handleClose={this.handlePopupClose}
