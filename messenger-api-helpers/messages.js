@@ -8,8 +8,9 @@
 /* eslint-disable camelcase */
 /* eslint-disable max-len */
 // import _ from 'lodash';
-
+import CONSTANTS from '../lib/constants';
 /* ============  Local Variables  =============*/
+const {Global} = CONSTANTS.get();
 const msgWelcome =
   'Hello, I am XYZ and can assist you with your holiday planning. How may I help you?';
 const packageUrl = (apiUri, userId, packageId) =>
@@ -195,8 +196,7 @@ const messageCreatePlan = (apiUri, userId) => {
         elements: [
           {
             title: 'Travel Plan',
-            image_url:
-              'https://www.eainsurance.com.au/wp-content/uploads/2020/05/Travel1.jpg',
+            image_url: Global.defaultImgUrl,
             subtitle: '',
             buttons: [
               {

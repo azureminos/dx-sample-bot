@@ -6,7 +6,10 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/Button';
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
+import GridListTileBar from '@material-ui/core/GridListTileBar';
+import IconButton from '@material-ui/core/IconButton';
 import {withStyles} from '@material-ui/core/styles';
 import LocationSearchInput from '../components-v2/location-search-input';
 import PopupMessage from '../components-v2/popup-message';
@@ -18,6 +21,8 @@ import DateRangeIcon from '@material-ui/icons/DateRange';
 import PeopleIcon from '@material-ui/icons/People';
 import AddBoxIcon from '@material-ui/icons/AddBoxOutlined';
 import MinusBoxIcon from '@material-ui/icons/IndeterminateCheckBoxOutlined';
+import StarBorderIcon from '@material-ui/icons/StarBorder';
+import StarIcon from '@material-ui/icons/Star';
 import 'react-dates/lib/css/_datepicker.css';
 
 // Variables
@@ -63,11 +68,20 @@ const styles = (theme) => ({
     height: 'fit-content',
     width: '100%',
   },
-  bGridSelected: {
-    border: '4px solid black',
+  bGridListRoot: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    overflow: 'hidden',
   },
-  bGridUnselected: {
-    border: 'none',
+  bGridListDiv: {
+    width: 500,
+    height: 450,
+  },
+  bGridItemTitleBar: {
+    background:
+      'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, ' +
+      'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
   },
   fAppBar: {
     position: 'fixed',
@@ -295,24 +309,44 @@ class PageStartTrip extends React.Component {
           return t.name === g;
         });
         return (
-          <Grid item xs={4} key={t._id}>
-            <div
-              onClick={() => {
-                this.doHandleTagGroupChange(t.name);
-              }}
-              className={
-                isSelected ? classes.bGridSelected : classes.bGridUnselected
+          <GridListTile
+            key={t._id}
+            cols={t.featured ? 2 : 1}
+            rows={t.featured ? 2 : 1}
+            onClick={() => {
+              this.doHandleTagGroupChange(t.name);
+            }}
+          >
+            <img src={t.imgUrl} alt={t.name} />
+            <GridListTileBar
+              title={t.name}
+              titlePosition='top'
+              actionIcon={
+                <IconButton aria-label={`star ${t.name}`}>
+                  {isSelected ? (
+                    <StarIcon style={{color: 'yellow'}} />
+                  ) : (
+                    <StarBorderIcon style={{color: 'white'}} />
+                  )}
+                </IconButton>
               }
-            >
-              {t.name}
-            </div>
-          </Grid>
+              actionPosition='left'
+              className={classes.bGridItemTitleBar}
+            />
+          </GridListTile>
         );
       };
 
       const body = (
         <div>
           <div>Pick your interests</div>
+          <div className={classes.bGridListRoot}>
+            <GridList
+              cellHeight={200}
+              spacing={1}
+              className={classes.bGridListDiv}
+            />
+          </div>
           <Grid container spacing={2}>
             {_.map(tagGroups, (t) => {
               return getGridTagGroup(t);

@@ -203,9 +203,9 @@ const getAllAttraction = (cityId, callback) => {
 };
 const getAllTagGroup = (input, callback) => {
   console.log('>>>>Model.getAllTagGroup', input);
-  const cols = 'name tags';
+  const cols = 'name tags imgUrl';
   return dbTagGroup
-    .find({})
+    .find({selectable: true})
     .select(cols)
     .exec((err, docs) => {
       callback(err, docs);
