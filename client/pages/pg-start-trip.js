@@ -153,7 +153,7 @@ class PageStartTrip extends React.Component {
     }
   }
   doHandleAddressChange = ({address, location, destinations}) => {
-    // console.log('>>>>PageStartTrip.doHandleAddressChange', {address, location});
+    console.log('>>>>PageStartTrip.doHandleAddressChange', {address, location});
     if (location) {
       const closeCity = Helper.findCloseCity(location, destinations);
       console.log(
