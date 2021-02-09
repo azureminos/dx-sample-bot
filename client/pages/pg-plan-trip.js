@@ -139,7 +139,7 @@ class PagePlanTrip extends React.Component {
   }
   // Event Handler
   handlePopupClose() {
-    console.log('>>>>PagePlanTrip.handlePopupClose');
+    // console.log('>>>>PagePlanTrip.handlePopupClose');
     const popup = {open: false, title: '', message: ''};
     this.setState({popup});
   }
@@ -148,30 +148,32 @@ class PagePlanTrip extends React.Component {
     // this.setState({openModal: true});
   }
   doHandleTabSelect = (event, newValue) => {
-    console.log('>>>>PagePlanTrip.doHandleTabSelect', newValue);
+    // console.log('>>>>PagePlanTrip.doHandleTabSelect', newValue);
     this.setState({tabSelected: newValue});
   };
-  doHandleAddressChange = ({address, location, destinations}) => {
-    // console.log('>>>>PageStartTrip.doHandleAddressChange', {address, location});
+  doHandleAddressChange = (input) => {
+    const {address, location, destinations} = input;
+    console.log('>>>>PagePlanTrip.doHandleAddressChange', input);
     if (location) {
       const closeCity = Helper.findCloseCity(location, destinations);
       if (!closeCity) {
         // Enter a new location
         const popup = {
           open: true,
-          title: 'destination city not found',
+          title: 'Destination city not found',
           message: 'Please enter a valid address for the destination city',
         };
         this.setState({selectedAddress: '', selectedLocation: '', popup});
       } else {
+        const strCity = `${closeCity.name} ${closeCity.state}`;
         const popup = {
           open: true,
-          title: 'destination city found',
-          message: `destination city has been updated as the nearest city ${closeCity.name}`,
+          title: 'Destination city found',
+          message: `Destination got updated as the nearest city ${strCity}`,
         };
         this.setState({
-          selectedAddress: closeCity.name,
-          selectedLocation: location,
+          selectedAddress: '',
+          selectedLocation: '',
           popup,
         });
         const {actions} = this.props;
@@ -184,14 +186,14 @@ class PagePlanTrip extends React.Component {
     }
   };
   doHandleDateRangeChange(input) {
-    console.log('>>>>PagePlanTrip.doHandleDateRangeChange', input);
+    // console.log('>>>>PagePlanTrip.doHandleDateRangeChange', input);
     const {actions} = this.props;
     if (actions && actions.handleDateRangeChange) {
       actions.handleDateRangeChange(input);
     }
   }
   doHandlePeopleChange(input) {
-    console.log('>>>>PagePlanTrip.doHandlePeopleChange', input);
+    // console.log('>>>>PagePlanTrip.doHandlePeopleChange', input);
     const {actions} = this.props;
     if (actions && actions.handlePeopleChange) {
       actions.handlePeopleChange(input);

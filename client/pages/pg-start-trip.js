@@ -152,14 +152,12 @@ class PageStartTrip extends React.Component {
       }
     }
   }
-  doHandleAddressChange = ({address, location, destinations}) => {
-    console.log('>>>>PageStartTrip.doHandleAddressChange', {address, location});
+  doHandleAddressChange = (input) => {
+    const {address, location, destinations} = input;
+    // console.log('>>>>PageStartTrip.doHandleAddressChange', input);
     if (location) {
       const closeCity = Helper.findCloseCity(location, destinations);
-      console.log(
-        '>>>>PageStartTrip.doHandleAddressChange Close City',
-        closeCity
-      );
+      // console.log('>>>>PageStartTrip.doHandleAddressChange rs', closeCity);
       if (!closeCity) {
         // Enter a new location
         const popup = {
@@ -178,7 +176,7 @@ class PageStartTrip extends React.Component {
           const popup = {
             open: true,
             title: 'Home city found',
-            message: `Home city has been updated as the nearest city ${closeCity.name}`,
+            message: `Home got updated as the nearest city ${closeCity.name}`,
           };
           this.setState({
             selectedAddress: address,
