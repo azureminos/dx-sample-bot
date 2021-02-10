@@ -36,11 +36,7 @@ const handleReceivePostback = (event) => {
     // Send my list
   } else if (type.substring(0, 11) === 'get_started') {
     // Greeting and quick reply
-    Model.getLatestInstByUserId(senderId, (err, docs) => {
-      if (err) console.log('>>>>Error.Model.getLatestInstByUserId', err);
-      console.log('>>>>Model.getLatestInstByUserId', docs);
-      sendApi.sendWelcomeMessage(senderId, docs);
-    });
+    sendApi.sendWelcomeMessage(senderId, null);
   } else if (type.substring(0, 15) === 'handover_thread') {
     // Handover to page inbox
   } else if (type.substring(0, 10) === 'my_recent@') {
@@ -85,11 +81,7 @@ const handleReceiveMessage = (event) => {
     message.quick_reply.payload === 'get_started'
   ) {
     // Greeting and quick reply
-    Model.getLatestInstByUserId(senderId, (err, docs) => {
-      if (err) console.log('>>>>Error.Model.getLatestInstByUserId', err);
-      console.log('>>>>Model.getLatestInstByUserId', docs);
-      sendApi.sendWelcomeMessage(senderId, docs);
-    });
+    sendApi.sendWelcomeMessage(senderId, null);
   } else if (
     message.quick_reply &&
     message.quick_reply.payload === 'handover_thread'
@@ -110,11 +102,7 @@ const handleReceiveMessage = (event) => {
       sendApi.sendPackageInst(senderId, docs._id, packageSummary);
     });
   } else if (message.text) {
-    Model.getLatestInstByUserId(senderId, (err, docs) => {
-      if (err) console.log('>>>>Error.Model.getLatestInstByUserId', err);
-      console.log('>>>>Model.getLatestInstByUserId', docs);
-      sendApi.sendWelcomeMessage(senderId, docs);
-    });
+    sendApi.sendWelcomeMessage(senderId, null);
   } else {
     sendApi.sendMessage(senderId, 'Unknown Message');
   }
