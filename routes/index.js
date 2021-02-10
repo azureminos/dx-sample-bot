@@ -41,66 +41,11 @@ const handleWebviewAccess = (req, res) => {
       userId,
       socketAddress,
     });
-  } else if (type === 'package') {
-    Model.getPackageById(id, (err, docs) => {
-      if (err) console.error('>>>>Model.getPackageById Error', err);
-      console.log('>>>>Model.getPackageById Success', docs);
-      const instance = {
-        packageId: id,
-        totalDays: docs.totalDays,
-        carOption: docs.carOption,
-        isCustomised: false,
-      };
-      Model.createInstanceByPackageId(instance, ({err, results}) => {
-        if (err) {
-          console.error('>>>>Model.createInstanceByPackageId Error', {
-            err,
-            results,
-          });
-        } else {
-          console.log('>>>>Model.createInstanceByPackageId Success', {
-            err,
-            results,
-          });
-          res.render('./index', {
-            instId: results.instance.id,
-            packageId: '',
-            appId,
-            userId,
-            socketAddress,
-          });
-        }
-      });
-    });
-  } else if (type === 'package2') {
-    res.render('./index', {
-      instId: '',
-      packageId: id,
-      appId,
-      userId,
-      socketAddress,
-    });
-  } else if (type === 'home') {
-    res.render('./index', {
-      instId: '',
-      packageId: '',
-      appId,
-      userId: '',
-      socketAddress,
-    });
-  } else if (type === 'instance') {
-    res.render('./index', {
-      instId: id,
-      packageId: '',
-      appId,
-      userId,
-      socketAddress,
-    });
   }
 };
 
-router.get('/', handleWebviewAccess);
-router.get('/:userId/:type', handleWebviewAccess);
-router.get('/:userId/:type/:id', handleWebviewAccess);
+router.get('/web', handleWebviewAccess);
+router.get('/web/:userId/:type', handleWebviewAccess);
+router.get('/web/:userId/:type/:id', handleWebviewAccess);
 
 export default router;

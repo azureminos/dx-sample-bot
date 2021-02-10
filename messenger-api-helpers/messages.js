@@ -14,10 +14,10 @@ const {Global} = CONSTANTS.get();
 const msgWelcome =
   'Hello, I am XYZ and can assist you with your holiday planning. How may I help you?';
 const packageUrl = (apiUri, userId, packageId) =>
-  `${apiUri}/${userId}/package/${packageId}`;
+  `${apiUri}/web/${userId}/package/${packageId}`;
 const instPackageUrl = (apiUri, userId, instId) =>
-  `${apiUri}/${userId}/instance/${instId}`;
-const urlCreatePlan = (apiUri, userId) => `${apiUri}/${userId}/plan/new`;
+  `${apiUri}/web/${userId}/instance/${instId}`;
+const urlCreatePlan = (apiUri, userId) => `${apiUri}/web/${userId}/plan/new`;
 /*
  * BUTTONS
  *
