@@ -147,11 +147,11 @@ class PagePlanTrip extends React.Component {
     // e.preventDefault();
     // this.setState({openModal: true});
   }
-  doHandleTabSelect = (event, newValue) => {
+  doHandleTabSelect(event, newValue) {
     // console.log('>>>>PagePlanTrip.doHandleTabSelect', newValue);
     this.setState({tabSelected: newValue});
-  };
-  doHandleAddressChange = async (input) => {
+  }
+  async doHandleAddressChange(input) {
     const {address, location, destinations} = input;
     console.log('>>>>PagePlanTrip.doHandleAddressChange', input);
     const response = await fetch(`/api/tool/matchActivity/${address}`);
@@ -187,7 +187,7 @@ class PagePlanTrip extends React.Component {
     } else {
       this.setState({selectedAddress: address, selectedLocation: ''});
     }
-  };
+  }
   doHandleDateRangeChange(input) {
     // console.log('>>>>PagePlanTrip.doHandleDateRangeChange', input);
     const {actions} = this.props;
