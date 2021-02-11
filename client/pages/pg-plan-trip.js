@@ -151,42 +151,44 @@ class PagePlanTrip extends React.Component {
     // console.log('>>>>PagePlanTrip.doHandleTabSelect', newValue);
     this.setState({tabSelected: newValue});
   }
-  async doHandleAddressChange(input) {
+  doHandleAddressChange(input) {
     const {address, location, destinations} = input;
     console.log('>>>>PagePlanTrip.doHandleAddressChange', input);
-    const response = await fetch(`/api/tool/matchActivity/${address}`);
-    const json = await response.json();
-    console.log('>>>>doHandleAddressChange.matchActivity', json);
-    if (location) {
-      const closeCity = Helper.findCloseCity(location, destinations);
-      if (!closeCity) {
-        // Enter a new location
-        const popup = {
-          open: true,
-          title: 'Destination city not found',
-          message: 'Please enter a valid address for the destination city',
-        };
-        this.setState({selectedAddress: '', selectedLocation: '', popup});
-      } else {
-        const strCity = `${closeCity.name} ${closeCity.state}`;
-        const popup = {
-          open: true,
-          title: 'Destination city found',
-          message: `Destination got updated as the nearest city ${strCity}`,
-        };
-        this.setState({
-          selectedAddress: '',
-          selectedLocation: '',
-          popup,
-        });
-        const {actions} = this.props;
-        if (actions && actions.handleSetDestination) {
-          actions.handleSetDestination(closeCity);
+    fetch(`/api/tool/matchActivity/${address}`)
+      .then((response) => response.json())
+      .then((json) => {
+        console.log('>>>>doHandleAddressChange.matchActivity', json);
+        if (location) {
+          const closeCity = Helper.findCloseCity(location, destinations);
+          if (!closeCity) {
+            // Enter a new location
+            const popup = {
+              open: true,
+              title: 'Destination city not found',
+              message: 'Please enter a valid address for the destination city',
+            };
+            this.setState({selectedAddress: '', selectedLocation: '', popup});
+          } else {
+            const strCity = `${closeCity.name} ${closeCity.state}`;
+            const popup = {
+              open: true,
+              title: 'Destination city found',
+              message: `Destination got updated as the nearest city ${strCity}`,
+            };
+            this.setState({
+              selectedAddress: '',
+              selectedLocation: '',
+              popup,
+            });
+            const {actions} = this.props;
+            if (actions && actions.handleSetDestination) {
+              actions.handleSetDestination(closeCity);
+            }
+          }
+        } else {
+          this.setState({selectedAddress: address, selectedLocation: ''});
         }
-      }
-    } else {
-      this.setState({selectedAddress: address, selectedLocation: ''});
-    }
+      });
   }
   doHandleDateRangeChange(input) {
     // console.log('>>>>PagePlanTrip.doHandleDateRangeChange', input);
