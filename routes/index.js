@@ -44,8 +44,15 @@ const handleWebviewAccess = (req, res) => {
   }
 };
 
+const handleToolMatchActivity = (req, res) => {
+  const {name} = req.params;
+  console.log('>>>>Route.handleToolMatchActivity', {name});
+  res.send({error: 'david test'});
+};
+
 router.get('/web', handleWebviewAccess);
 router.get('/web/:userId/:type', handleWebviewAccess);
 router.get('/web/:userId/:type/:id', handleWebviewAccess);
+router.get('/api/tool/matchActivity/:name', handleToolMatchActivity);
 
 export default router;

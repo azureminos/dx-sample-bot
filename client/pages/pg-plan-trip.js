@@ -151,9 +151,12 @@ class PagePlanTrip extends React.Component {
     // console.log('>>>>PagePlanTrip.doHandleTabSelect', newValue);
     this.setState({tabSelected: newValue});
   };
-  doHandleAddressChange = (input) => {
+  doHandleAddressChange = async (input) => {
     const {address, location, destinations} = input;
     console.log('>>>>PagePlanTrip.doHandleAddressChange', input);
+    const response = await fetch(`/api/tool/matchActivity/${address}`);
+    const json = await response.json();
+    console.log('>>>>doHandleAddressChange.matchActivity', json);
     if (location) {
       const closeCity = Helper.findCloseCity(location, destinations);
       if (!closeCity) {
