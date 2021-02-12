@@ -53,6 +53,7 @@ const handleToolMatchActivity = (req, res) => {
 router.get('/web', handleWebviewAccess);
 router.get('/web/:userId/:type', handleWebviewAccess);
 router.get('/web/:userId/:type/:id', handleWebviewAccess);
+router.get('/api/tool/matchActivity/', handleToolMatchActivity);
 router.get('/api/tool/matchActivity/:name', handleToolMatchActivity);
 
 export default router;

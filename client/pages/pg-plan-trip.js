@@ -154,11 +154,11 @@ class PagePlanTrip extends React.Component {
   doHandleAddressChange(input) {
     const {address, location, destinations} = input;
     console.log('>>>>PagePlanTrip.doHandleAddressChange', input);
-    fetch(`/api/tool/matchActivity/${address}`)
-      .then((response) => response.json())
-      .then((json) => {
-        console.log('>>>>doHandleAddressChange.matchActivity', json);
-        if (location) {
+    if (location) {
+      fetch(`/api/tool/matchActivity/${address}`)
+        .then((response) => response.json())
+        .then((json) => {
+          console.log('>>>>doHandleAddressChange.matchActivity', json);
           const closeCity = Helper.findCloseCity(location, destinations);
           if (!closeCity) {
             // Enter a new location
@@ -185,10 +185,10 @@ class PagePlanTrip extends React.Component {
               actions.handleSetDestination(closeCity);
             }
           }
-        } else {
-          this.setState({selectedAddress: address, selectedLocation: ''});
-        }
-      });
+        });
+    } else {
+      this.setState({selectedAddress: address, selectedLocation: ''});
+    }
   }
   doHandleDateRangeChange(input) {
     // console.log('>>>>PagePlanTrip.doHandleDateRangeChange', input);
