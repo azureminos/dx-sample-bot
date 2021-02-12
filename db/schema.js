@@ -281,13 +281,15 @@ const getAttractionByName = (name, callback) => {
 };
 const getAttractionByNameBlur = (keys, callback) => {
   console.log('>>>>Model.getAttractionByName', keys);
-  const regex = new RegExp(_.join(keys, '|'), 'i');
+  const rs = _.map(keys, (k) => {
+    return {name: new RegExp(k, 'i')};
+  });
   const cols =
     'name seoId description summary thumbnailURL ' +
     'rating attractionStreetAddress attractionCity ' +
     'attractionState';
   return dbAttraction
-    .find({name: regex})
+    .find({$and: rs})
     .select(cols)
     .exec((err, docs) => {
       callback(err, docs);
