@@ -180,7 +180,7 @@ const getAllProduct = (cityId, callback) => {
   const cols =
     'productCode name shortTitle catIds subCatIds ' +
     'shortDescription duration thumbnailURL rating ' +
-    'price currencyCode hotelPickup addrCheckIn';
+    'price currencyCode hotelPickup addrCheckIn tags';
   return dbProduct
     .find({primaryDestinationId: cityId})
     .select(cols)
@@ -193,7 +193,7 @@ const getAllAttraction = (cityId, callback) => {
   const cols =
     'name seoId description summary thumbnailURL ' +
     'rating attractionStreetAddress attractionCity ' +
-    'attractionState';
+    'attractionState tags';
   return dbAttraction
     .find({primaryDestinationId: cityId})
     .select(cols)
