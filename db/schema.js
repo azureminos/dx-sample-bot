@@ -258,7 +258,8 @@ const getProductByName = (name, callback) => {
   const cols =
     'productCode name shortTitle catIds subCatIds ' +
     'shortDescription duration thumbnailURL rating ' +
-    'price currencyCode hotelPickup addrCheckIn';
+    'price currencyCode hotelPickup addrCheckIn ' +
+    'primaryDestinationId';
   return dbProduct
     .find({name: name})
     .select(cols)
@@ -271,7 +272,7 @@ const getAttractionByName = (name, callback) => {
   const cols =
     'name seoId description summary thumbnailURL ' +
     'rating attractionStreetAddress attractionCity ' +
-    'attractionState';
+    'attractionState primaryDestinationId';
   return dbAttraction
     .find({name: name})
     .select(cols)
@@ -287,7 +288,7 @@ const getAttractionByNameBlur = (keys, callback) => {
   const cols =
     'name seoId description summary thumbnailURL ' +
     'rating attractionStreetAddress attractionCity ' +
-    'attractionState';
+    'attractionState primaryDestinationId';
   return dbAttraction
     .find({$and: rs})
     .select(cols)

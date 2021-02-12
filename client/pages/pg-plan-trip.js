@@ -173,11 +173,10 @@ class PagePlanTrip extends React.Component {
             };
             this.setState({selectedAddress: '', selectedLocation: '', popup});
           } else {
-            const strCity = `${closeCity.name} ${closeCity.state}`;
             const popup = {
               open: true,
               title: 'Destination city found',
-              message: `Destination got updated as the nearest city ${strCity}`,
+              message: `Destination got updated as the nearest city ${closeCity.name}`,
             };
             this.setState({
               selectedAddress: '',

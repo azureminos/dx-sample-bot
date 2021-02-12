@@ -52,7 +52,13 @@ const handleSearchAttraction = (req, res) => {
       console.log('>>>>Route.handleSearchAttraction Result', attractions);
       if (attractions && attractions.length > 0) {
         const a = attractions[0];
-        return res.send({attraction: {name: a.name, _id: a._id}});
+        return res.send({
+          attraction: {
+            _id: a._id,
+            name: a.name,
+            destId: a.primaryDestinationId,
+          },
+        });
       }
     }
     return res.send({error: 'no match'});

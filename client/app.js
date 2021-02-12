@@ -260,13 +260,19 @@ class App extends React.Component {
     this.setState({plan});
   }
   handleSetDestination(input) {
-    const {plan, planExt} = this.state;
+    const {plan, planExt, reference} = this.state;
     const {preferAttractions} = planExt;
+    const {activities} = reference;
     const {city, attraction} = input;
     const {destinationId, name} = city;
     console.log('>>>>handleSetDestination', {input, plan});
-    if (attraction) {
-      preferAttractions.push(attraction);
+    if (
+      attraction &&
+      !_.find(preferAttractions, (a) => {
+        return a._id === attraction._id;
+      })
+    ) {
+      preferAttractions.push({...attraction, destName: name});
     }
     let tmpEndCity = '';
     let tmpEndCityId = 0;
@@ -285,10 +291,14 @@ class App extends React.Component {
     }
     // Logic to add city to otherCities when all days have an end city
     console.log('>>>>handleSetDestination completed', plan);
-    this.pushToRemote('ref:activity', {
-      city: name,
-      cityId: destinationId,
-    });
+    // Load related activity if new destination
+    if (!activities[name]) {
+      this.pushToRemote('ref:activity', {
+        city: name,
+        cityId: destinationId,
+      });
+    }
+    // Update State
     this.setState({plan, planExt});
   }
   /* ==============================
@@ -370,12 +380,39 @@ class App extends React.Component {
   }
   handleRefActivity(results) {
     // console.log('>>>>Result from socket [ref:activity]', results);
-    const {reference} = this.state;
+    const {plan, planExt, reference} = this.state;
+    const {days} = plan;
+    const {preferAttractions} = planExt;
     const {activities} = reference;
-    activities[results.city] = {
-      products: results.products,
-      attractions: results.attractions,
-    };
+    const {products, attractions} = results;
+    // Update reference
+    activities[results.city] = {products, attractions};
+    // Check user preferred attraction
+    const dAttractions = _.filter(preferAttractions, (p) => {
+      return p.destName === results.city;
+    });
+    const dDays = _.filter(days, (d) => {
+      return d.endCity === results.city;
+    });
+    // Add attractions one by one to each days
+    for (let i = 0; i < dAttractions.length; i++) {
+      const a = _.find(attractions, (att) => {
+        return att._id === dAttractions[i]._id;
+      });
+      const dIdx = dDays.length >= dAttractions.length ? i : i % dDays.length;
+      dDays[dIdx].items = [];
+      dDays[dIdx].items.push({
+        name: a.name,
+        itemType: DataModel.TravelPlanItemType.ATTRACTION,
+        itemId: a.seoId,
+        totalPeople: plan.totalPeople,
+        unitPrice: 0,
+        notes: '',
+      });
+    }
+    // Fill the day with products (max 3 items per day)
+
+    // Update state
     this.setState({
       updating: false,
       reference: {...reference, activities},
