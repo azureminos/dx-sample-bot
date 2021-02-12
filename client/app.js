@@ -415,6 +415,7 @@ class App extends React.Component {
     // Update state
     this.setState({
       updating: false,
+      plan: plan,
       reference: {...reference, activities},
     });
   }
