@@ -253,6 +253,32 @@ const getAllCategory = (input, callback) => {
     }
   );
 };
+const getProductByName = (name, callback) => {
+  console.log('>>>>Model.getProductByName', name);
+  const cols =
+    'productCode name shortTitle catIds subCatIds ' +
+    'shortDescription duration thumbnailURL rating ' +
+    'price currencyCode hotelPickup addrCheckIn';
+  return dbProduct
+    .find({name: name})
+    .select(cols)
+    .exec((err, docs) => {
+      callback(err, docs);
+    });
+};
+const getAttractionByName = (name, callback) => {
+  console.log('>>>>Model.getAttractionByName', name);
+  const cols =
+    'name seoId description summary thumbnailURL ' +
+    'rating attractionStreetAddress attractionCity ' +
+    'attractionState';
+  return dbAttraction
+    .find({name: name})
+    .select(cols)
+    .exec((err, docs) => {
+      callback(err, docs);
+    });
+};
 /* ============= Old Schemas ============= */
 // Members
 const scMember = new Schema({
@@ -286,4 +312,6 @@ export default {
   getAllCategory,
   getAllProduct,
   getAllAttraction,
+  getProductByName,
+  getAttractionByName,
 };

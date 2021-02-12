@@ -6,6 +6,7 @@
  */
 
 // ===== MODULES ===============================================================
+import async from 'async';
 import express from 'express';
 import Model from '../db/schema';
 import CONSTANTS from '../lib/constants';
@@ -45,15 +46,29 @@ const handleWebviewAccess = (req, res) => {
 };
 
 const handleToolMatchActivity = (req, res) => {
-  const {name} = req.params;
+  const {name} = req.body;
   console.log('>>>>Route.handleToolMatchActivity', {name});
-  res.send({error: 'david test'});
+  async.parallel(
+    {
+      product: (callback) => {
+        Model.getProductByName(name, callback);
+      },
+      attraction: (callback) => {
+        Model.getAttractionByName(name, callback);
+      },
+    },
+    function(err, result) {
+      if (!err) {
+        console.log('>>>>Route.handleToolMatchActivity Result', result);
+      }
+      res.send({error: 'david test'});
+    }
+  );
 };
 
 router.get('/web', handleWebviewAccess);
 router.get('/web/:userId/:type', handleWebviewAccess);
 router.get('/web/:userId/:type/:id', handleWebviewAccess);
-router.get('/api/tool/matchActivity/', handleToolMatchActivity);
-router.get('/api/tool/matchActivity/:name', handleToolMatchActivity);
+router.post('/api/tool/matchActivity/', handleToolMatchActivity);
 
 export default router;
