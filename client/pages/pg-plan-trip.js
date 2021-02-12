@@ -186,7 +186,7 @@ class PagePlanTrip extends React.Component {
             });
             const {actions} = this.props;
             if (actions && actions.handleSetDestination) {
-              actions.handleSetDestination(closeCity);
+              actions.handleSetDestination({city: closeCity, ...json});
             }
           }
         });

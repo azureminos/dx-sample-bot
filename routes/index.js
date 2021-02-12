@@ -60,8 +60,16 @@ const handleToolMatchActivity = (req, res) => {
     function(err, result) {
       if (!err) {
         console.log('>>>>Route.handleToolMatchActivity Result', result);
+        const {product, attraction} = result;
+        if (product && product.length > 0) {
+          const p = product[0];
+          return res.send({product: {name: p.name, _id: p._id}});
+        } else if (attraction && attraction.length > 0) {
+          const a = attraction[0];
+          return res.send({attraction: {name: a.name, _id: a._id}});
+        }
       }
-      res.send({error: 'david test'});
+      return res.send({error: 'no match'});
     }
   );
 };

@@ -260,7 +260,8 @@ class App extends React.Component {
   }
   handleSetDestination(input) {
     const {plan, reference} = this.state;
-    const {destinationId, name} = input;
+    const {city, product, attraction} = input;
+    const {destinationId, name} = city;
     console.log('>>>>handleSetDestination', {input, plan});
     let tmpEndCity = '';
     let tmpEndCityId = 0;
