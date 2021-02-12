@@ -155,7 +155,7 @@ class PagePlanTrip extends React.Component {
     const {address, location, destinations} = input;
     console.log('>>>>PagePlanTrip.doHandleAddressChange', input);
     if (location) {
-      fetch('/api/tool/matchActivity/', {
+      fetch('/api/tool/searchAttraction/', {
         method: 'POST',
         body: JSON.stringify({name: address.split(',')[0]}),
         headers: {'Content-Type': 'application/json'},

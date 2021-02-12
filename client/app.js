@@ -61,6 +61,7 @@ class App extends React.Component {
         country: 'Australia',
         cities: [],
         selectedTagGroups: [],
+        preferAttractions: [],
       },
       reference: {
         destinations: [],
@@ -259,10 +260,14 @@ class App extends React.Component {
     this.setState({plan});
   }
   handleSetDestination(input) {
-    const {plan, reference} = this.state;
-    const {city, product, attraction} = input;
+    const {plan, planExt} = this.state;
+    const {preferAttractions} = planExt;
+    const {city, attraction} = input;
     const {destinationId, name} = city;
     console.log('>>>>handleSetDestination', {input, plan});
+    if (attraction) {
+      preferAttractions.push(attraction);
+    }
     let tmpEndCity = '';
     let tmpEndCityId = 0;
     let toUpdate = false;
@@ -284,7 +289,7 @@ class App extends React.Component {
       city: name,
       cityId: destinationId,
     });
-    this.setState({plan});
+    this.setState({plan, planExt});
   }
   /* ==============================
      = Helper Methods             =

@@ -279,6 +279,20 @@ const getAttractionByName = (name, callback) => {
       callback(err, docs);
     });
 };
+const getAttractionByNameBlur = (keys, callback) => {
+  console.log('>>>>Model.getAttractionByName', keys);
+  const regex = new RegExp(_.join(keys, '|'), 'i');
+  const cols =
+    'name seoId description summary thumbnailURL ' +
+    'rating attractionStreetAddress attractionCity ' +
+    'attractionState';
+  return dbAttraction
+    .find({name: regex})
+    .select(cols)
+    .exec((err, docs) => {
+      callback(err, docs);
+    });
+};
 /* ============= Old Schemas ============= */
 // Members
 const scMember = new Schema({
@@ -314,4 +328,5 @@ export default {
   getAllAttraction,
   getProductByName,
   getAttractionByName,
+  getAttractionByNameBlur,
 };

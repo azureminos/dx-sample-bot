@@ -6,7 +6,6 @@
  */
 
 // ===== MODULES ===============================================================
-import async from 'async';
 import express from 'express';
 import Model from '../db/schema';
 import CONSTANTS from '../lib/constants';
@@ -45,38 +44,24 @@ const handleWebviewAccess = (req, res) => {
   }
 };
 
-const handleToolMatchActivity = (req, res) => {
+const handleSearchAttraction = (req, res) => {
   const {name} = req.body;
-  console.log('>>>>Route.handleToolMatchActivity', {name});
-  async.parallel(
-    {
-      product: (callback) => {
-        Model.getProductByName(name, callback);
-      },
-      attraction: (callback) => {
-        Model.getAttractionByName(name, callback);
-      },
-    },
-    function(err, result) {
-      if (!err) {
-        console.log('>>>>Route.handleToolMatchActivity Result', result);
-        const {product, attraction} = result;
-        if (product && product.length > 0) {
-          const p = product[0];
-          return res.send({product: {name: p.name, _id: p._id}});
-        } else if (attraction && attraction.length > 0) {
-          const a = attraction[0];
-          return res.send({attraction: {name: a.name, _id: a._id}});
-        }
+  console.log('>>>>Route.handleSearchAttraction', {name});
+  Model.getAttractionByNameBlur(name.split(' '), function(err, attractions) {
+    if (!err) {
+      console.log('>>>>Route.handleSearchAttraction Result', attractions);
+      if (attractions && attractions.length > 0) {
+        const a = attractions[0];
+        return res.send({attraction: {name: a.name, _id: a._id}});
       }
-      return res.send({error: 'no match'});
     }
-  );
+    return res.send({error: 'no match'});
+  });
 };
 
 router.get('/web', handleWebviewAccess);
 router.get('/web/:userId/:type', handleWebviewAccess);
 router.get('/web/:userId/:type/:id', handleWebviewAccess);
-router.post('/api/tool/matchActivity/', handleToolMatchActivity);
+router.post('/api/tool/searchAttraction/', handleSearchAttraction);
 
 export default router;
