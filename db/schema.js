@@ -166,7 +166,7 @@ const dbTravelPlanItem = mongoose.model('TravelPlanItem', nTravelPlanItem);
 /* ============= New Functions ============= */
 const getAllDestination = (country, callback) => {
   console.log('>>>>Model.getAllDestination', country);
-  const cols = 'name description location destinationId type lookupId';
+  const cols = 'name location destinationId type lookupId';
   async.parallel(
     {
       states: (callback1) => {
@@ -196,10 +196,15 @@ const getAllDestination = (country, callback) => {
         console.log('>>>>Model.getAllDestination city', c);
         const ids = c.lookupId.split(',');
         const sid = ids[ids.length - 2];
-        // return {...c, state: mState[sid]};
+        return {
+          name: c.name,
+          location: c.location,
+          destinationId: c.destinationId,
+          state: mState[sid],
+        };
       });
-      // console.log('>>>>Model.getAllDestination result', cities);
-      // callback(err, cities);
+      console.log('>>>>Model.getAllDestination result', cities);
+      callback(err, cities);
     }
   );
 };
