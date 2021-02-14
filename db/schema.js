@@ -191,13 +191,15 @@ const getAllDestination = (country, callback) => {
       _.each(result.states, (s) => {
         mState[String(s.destinationId)] = s.name;
       });
+      console.log('>>>>Model.getAllDestination mState', mState);
       const cities = _.map(result.cities, (c) => {
+        console.log('>>>>Model.getAllDestination city', c);
         const ids = c.lookupId.split(',');
         const sid = ids[ids.length - 2];
-        return {...c, state: mState[sid]};
+        // return {...c, state: mState[sid]};
       });
-      console.log('>>>>Model.getAllDestination result', cities);
-      callback(err, cities);
+      // console.log('>>>>Model.getAllDestination result', cities);
+      // callback(err, cities);
     }
   );
 };
