@@ -187,16 +187,17 @@ const getAllDestination = (country, callback) => {
       },
     },
     function(err, result) {
-      console.log('>>>>Model.getAllDestination result', result);
       const mState = {};
       _.each(result.states, (s) => {
         mState[String(s.destinationId)] = s.name;
       });
-      _.map(result.cities, (c) => {
+      const cities = _.map(result.cities, (c) => {
         const ids = c.lookupId.split(',');
         const sid = ids[ids.length - 2];
         return {...c, state: mState[sid]};
       });
+      console.log('>>>>Model.getAllDestination result', cities);
+      callback(err, cities);
     }
   );
 };
