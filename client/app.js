@@ -276,7 +276,8 @@ class App extends React.Component {
       } else if (!day.isCustomized && isUpdate) {
         day.cities = [city, plan.endCity];
       } else {
-        day.cities = day.cities.slice(0, day.cities.length-1);
+        // TODO: find nearest city and add
+        day.cities = day.cities.slice(0, day.cities.length - 1);
         day.cities.push(city);
         day.cities.push(plan.endCity);
       }
