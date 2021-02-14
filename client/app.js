@@ -76,7 +76,7 @@ class App extends React.Component {
      ============================== */
   handleDragItem(result) {
     console.log('>>>>handleDragItem', result);
-    const {draggableId, source, destination} = result;
+    /* const {draggableId, source, destination} = result;
     const {destinations} = this.state.reference;
     const move = (drag, src, dst) => {
       const cityId = Number(drag.split('##')[2]);
@@ -126,7 +126,7 @@ class App extends React.Component {
     }
     if (source.droppableId !== destination.droppableId) {
       move(draggableId, source, destination);
-    }
+    }*/
   }
   handleSelectProduct({product, daySelected}) {
     console.log('>>>>handleSelectProduct', {product, daySelected});
@@ -170,39 +170,37 @@ class App extends React.Component {
       if (!days || days.length === 0) {
         days = [];
         for (let i = 0; i < totalDays; i++) {
-          const startCity = i === 0 ? plan.startCity : '';
-          const startCityId = i === 0 ? plan.startCityId : null;
-          const endCity = i === totalDays - 1 ? plan.endCity : '';
-          const endCityId = i === totalDays - 1 ? plan.endCityId : null;
+          const startCity = i === 0 ? plan.startCity : null;
+          const endCity = i === totalDays - 1 ? plan.endCity : null;
           days.push({
             dayNo: i + 1,
             items: [],
-            startCity: startCity || '',
-            startCityId: startCityId || 0,
-            endCity: endCity || '',
-            endCityId: endCityId || 0,
+            startCity: startCity,
+            endCity: endCity,
           });
         }
       } else if (days.length > totalDays) {
         // remove extra days in the array
         days = _.slice(days, 0, totalDays);
         if (plan.endCity) {
-          days[days.length - 1].endCity = plan.endCity;
+          let tmpCities = days[days.length - 1].cities;
+          if (tmpCities && tmpCities.length > 0) {
+            tmpCities = _.slice(tmpCities, 0, tmpCities.length - 1);
+            tmpCities.push(plan.endCity);
+          } else {
+            tmpCities = [plan.endCity];
+          }
+          days[days.length - 1].cities = tmpCities;
         }
       } else if (days.length < totalDays) {
         // add missing days in the array
-        const tmpCity = days[days.length - 1].startCity || '';
-        const tmpCityId = days[days.length - 1].startCityId || 0;
+        const tmpCity = days[days.length - 1].startCity;
         days[days.length - 1].endCity = tmpCity;
-        days[days.length - 1].endCityId = tmpCityId;
         for (let i = days.length; i < totalDays; i++) {
           days.push({
             dayNo: i + 1,
             items: [],
-            startCity: tmpCity,
-            startCityId: tmpCityId,
-            endCity: tmpCity,
-            endCityId: tmpCityId,
+            cities: tmpCity ? [tmpCity] : [],
           });
         }
         if (plan.endCity) {
@@ -221,6 +219,7 @@ class App extends React.Component {
     // console.log('>>>>handlePeopleChange', people);
     const {plan} = this.state;
     plan.totalPeople = plan.totalPeople + delta;
+    // TODO: Need to notify user of the change to TotalPeople
     this.setState({plan});
   }
   handleTagGroupChange(tagGroup) {
@@ -239,23 +238,14 @@ class App extends React.Component {
       planExt: {...this.state.planExt, selectedTagGroups},
     });
   }
-  handleSetStartCity(input) {
-    // console.log('>>>>handleSetStartCity', input);
+  handleSetStartCity(city) {
+    console.log('>>>>handleSetStartCity', city);
     const {plan} = this.state;
-    const {destinationId, name} = input;
-    plan.startCity = name;
-    plan.startCityId = destinationId;
-    plan.endCity = name;
-    plan.endCityId = destinationId;
-    for (let i = 0; i < plan.days.length; i++) {
-      if (i === 0) {
-        plan.days[i].startCity = plan.startCity;
-        plan.days[i].startCityId = plan.startCityId;
-      }
-      if (i === plan.days.length - 1) {
-        plan.days[i].endCity = plan.endCity;
-        plan.days[i].endCityId = plan.endCityId;
-      }
+    plan.startCity = city;
+    plan.endCity = city;
+    if (plan.days && plan.days.length > 0) {
+      plan.days[0].cities = [city];
+      plan.days[plan.days.length - 1].cities = [city];
     }
     this.setState({plan});
   }
@@ -274,19 +264,21 @@ class App extends React.Component {
     ) {
       preferAttractions.push({...attraction, destName: name});
     }
-    let tmpEndCity = '';
-    let tmpEndCityId = 0;
-    let toUpdate = false;
+
+    let isUpdate = false;
     for (let i = 0; i < plan.days.length - 1; i++) {
       const day = plan.days[i];
-      if (toUpdate || !day.endCity || day.endCity === day.startCity) {
-        tmpEndCity = !toUpdate ? name : tmpEndCity;
-        tmpEndCityId = !toUpdate ? destinationId : tmpEndCityId;
-        plan.days[i].endCity = tmpEndCity;
-        plan.days[i].endCityId = tmpEndCityId;
-        plan.days[i + 1].startCity = tmpEndCity;
-        plan.days[i + 1].startCityId = tmpEndCityId;
-        toUpdate = true;
+      if (!day.cities || day.cities.length === 0) {
+        day.cities = [city];
+      } else if (!day.isCustomized && day.cities.length === 1 && !isUpdate) {
+        day.cities.push(city);
+        isUpdate = true;
+      } else if (!day.isCustomized && isUpdate) {
+        day.cities = [city, plan.endCity];
+      } else {
+        day.cities = day.cities.slice(0, day.cities.length-1);
+        day.cities.push(city);
+        day.cities.push(plan.endCity);
       }
     }
     // Logic to add city to otherCities when all days have an end city
@@ -381,9 +373,8 @@ class App extends React.Component {
   handleRefActivity(results) {
     // console.log('>>>>Result from socket [ref:activity]', results);
     const {plan, planExt, reference} = this.state;
-    const {days} = plan;
-    const {preferAttractions} = planExt;
-    const {activities} = reference;
+    const {preferAttractions, selectedTagGroups} = planExt;
+    const {activities, dayPlans} = reference;
     const {products, attractions} = results;
     // Update reference
     activities[results.city] = {products, attractions};
@@ -391,7 +382,7 @@ class App extends React.Component {
     const dAttractions = _.filter(preferAttractions, (p) => {
       return p.destName === results.city;
     });
-    const dDays = _.filter(days, (d) => {
+    const dDays = _.filter(plan.days, (d) => {
       return d.endCity === results.city;
     });
     // Add attractions one by one to each days
@@ -405,10 +396,18 @@ class App extends React.Component {
         name: a.name,
         itemType: DataModel.TravelPlanItemType.ATTRACTION,
         itemId: a.seoId,
+        isUserSelected: true,
         totalPeople: plan.totalPeople,
         unitPrice: 0,
         notes: '',
       });
+      plan.days = Helper.fillDays(
+        plan.days,
+        results.city,
+        selectedTagGroups,
+        activities,
+        dayPlans
+      );
     }
     // Fill the day with products (max 3 items per day)
 

@@ -55,6 +55,7 @@ const nProduct = new Schema({
   productCode: Schema.Types.String,
   name: Schema.Types.String,
   shortTitle: Schema.Types.String,
+  primaryDestinationName: Schema.Types.String,
   primaryDestinationId: Schema.Types.Number,
   catIds: [Schema.Types.String],
   subCatIds: [Schema.Types.String],
@@ -121,8 +122,8 @@ const nTravelPlan = new mongoose.Schema({
   status: Schema.Types.String,
   startDate: Schema.Types.Date,
   endDate: Schema.Types.Date,
-  startCityId: Schema.Types.Number,
-  endCityId: Schema.Types.Number,
+  startCity: Schema.Types.Mixed,
+  endCity: Schema.Types.Mixed,
   totalPeople: Schema.Types.Number,
   rate: Schema.Types.Number,
   notes: Schema.Types.String,
@@ -137,9 +138,7 @@ const dbTravelPlan = mongoose.model('TravelPlan', nTravelPlan);
 const nTravelPlanDay = new mongoose.Schema({
   travelPlan: {type: Schema.Types.ObjectId, ref: 'TravelPlan'},
   dayNo: Schema.Types.Number,
-  startCityId: Schema.Types.Number,
-  endCityId: Schema.Types.Number,
-  otherCityIds: [Schema.Types.Number],
+  cities: Schema.Types.Mixed,
   notes: Schema.Types.String,
   additionalField: Schema.Types.String,
   createdAt: Schema.Types.Date,
@@ -180,6 +179,7 @@ const getAllProduct = (cityId, callback) => {
   const cols =
     'productCode name shortTitle catIds subCatIds ' +
     'shortDescription duration thumbnailURL rating ' +
+    'primaryDestinationName primaryDestinationId ' +
     'price currencyCode hotelPickup addrCheckIn tags';
   return dbProduct
     .find({primaryDestinationId: cityId})
@@ -193,6 +193,7 @@ const getAllAttraction = (cityId, callback) => {
   const cols =
     'name seoId description summary thumbnailURL ' +
     'rating attractionStreetAddress attractionCity ' +
+    'primaryDestinationName primaryDestinationId ' +
     'attractionState tags';
   return dbAttraction
     .find({primaryDestinationId: cityId})
@@ -257,9 +258,9 @@ const getProductByName = (name, callback) => {
   console.log('>>>>Model.getProductByName', name);
   const cols =
     'productCode name shortTitle catIds subCatIds ' +
+    'primaryDestinationName primaryDestinationId ' +
     'shortDescription duration thumbnailURL rating ' +
-    'price currencyCode hotelPickup addrCheckIn ' +
-    'primaryDestinationId';
+    'price currencyCode hotelPickup addrCheckIn ';
   return dbProduct
     .find({name: name})
     .select(cols)
@@ -272,7 +273,8 @@ const getAttractionByName = (name, callback) => {
   const cols =
     'name seoId description summary thumbnailURL ' +
     'rating attractionStreetAddress attractionCity ' +
-    'attractionState primaryDestinationId';
+    'primaryDestinationName primaryDestinationId ' +
+    'attractionState';
   return dbAttraction
     .find({name: name})
     .select(cols)
@@ -288,7 +290,8 @@ const getAttractionByNameBlur = (keys, callback) => {
   const cols =
     'name seoId description summary thumbnailURL ' +
     'rating attractionStreetAddress attractionCity ' +
-    'attractionState primaryDestinationId';
+    'primaryDestinationName primaryDestinationId ' +
+    'attractionState';
   return dbAttraction
     .find({$and: rs})
     .select(cols)
