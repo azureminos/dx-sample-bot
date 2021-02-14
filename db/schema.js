@@ -194,7 +194,7 @@ const getAllDestination = (country, callback) => {
       console.log('>>>>Model.getAllDestination mState', mState);
       const cities = _.map(result.cities, (c) => {
         console.log('>>>>Model.getAllDestination city', c);
-        const ids = c.lookupId.split(',');
+        const ids = c.lookupId.split('.');
         const sid = ids[ids.length - 2];
         return {
           name: c.name,
