@@ -53,13 +53,12 @@ class PackageSummary extends React.Component {
     // Local Functions
     const getDayBlock = (day) => {
       // console.log('>>>>DnD.getDayBlock', day);
-      let sOtherCities = '';
-      for (let i = 0; day.otherCities && i < day.otherCities.length; i++) {
-        const c = day.otherCities[i];
-        sOtherCities = `${sOtherCities}${c.name} >> `;
+      let sCities = '';
+      for (let i = 0; day.cities && i < day.cities.length; i++) {
+        const c = day.cities[i];
+        sCities = `${sCities}${c.name}, `;
       }
-      const sCities = `${day.startCity} >> ${sOtherCities}${day.endCity}`;
-      const uItemId = `item##${day.dayNo}##${day.endCityId}`;
+      sCities = sCities ? sCities.substring(0, sCities.length - 2) : '';
       return (
         <Droppable key={`day##${day.dayNo}`} droppableId={`day##${day.dayNo}`}>
           {(provided, snapshot) => (
@@ -69,21 +68,6 @@ class PackageSummary extends React.Component {
                 ref={provided.innerRef}
                 style={getListStyle(snapshot.isDraggingOver)}
               >
-                <Draggable key={uItemId} draggableId={uItemId} index={0}>
-                  {(provided, snapshot) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                      style={getItemStyle(
-                        snapshot.isDragging,
-                        provided.draggableProps.style
-                      )}
-                    >
-                      {`${sOtherCities}${day.endCity}`}
-                    </div>
-                  )}
-                </Draggable>
                 {provided.placeholder}
               </div>
             </div>

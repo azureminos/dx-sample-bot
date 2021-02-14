@@ -165,7 +165,7 @@ const nTravelPlanItem = new mongoose.Schema({
 const dbTravelPlanItem = mongoose.model('TravelPlanItem', nTravelPlanItem);
 /* ============= New Functions ============= */
 const getAllDestination = (country, callback) => {
-  console.log('>>>>Model.getAllDestination', country);
+  // console.log('>>>>Model.getAllDestination', country);
   const cols = 'name location destinationId type lookupId';
   async.parallel(
     {
@@ -191,9 +191,8 @@ const getAllDestination = (country, callback) => {
       _.each(result.states, (s) => {
         mState[String(s.destinationId)] = s.name;
       });
-      console.log('>>>>Model.getAllDestination mState', mState);
+      // console.log('>>>>Model.getAllDestination mState', mState);
       const cities = _.map(result.cities, (c) => {
-        console.log('>>>>Model.getAllDestination city', c);
         const ids = c.lookupId.split('.');
         const sid = ids[ids.length - 2];
         return {
@@ -203,13 +202,13 @@ const getAllDestination = (country, callback) => {
           state: mState[sid],
         };
       });
-      console.log('>>>>Model.getAllDestination result', cities);
+      // console.log('>>>>Model.getAllDestination result', cities);
       callback(err, cities);
     }
   );
 };
 const getAllProduct = (cityId, callback) => {
-  console.log('>>>>Model.getAllProduct', cityId);
+  // console.log('>>>>Model.getAllProduct', cityId);
   const cols =
     'productCode name shortTitle catIds subCatIds ' +
     'shortDescription duration thumbnailURL rating ' +
@@ -223,7 +222,7 @@ const getAllProduct = (cityId, callback) => {
     });
 };
 const getAllAttraction = (cityId, callback) => {
-  console.log('>>>>Model.getAllAttraction', cityId);
+  // console.log('>>>>Model.getAllAttraction', cityId);
   const cols =
     'name seoId description summary thumbnailURL ' +
     'rating attractionStreetAddress attractionCity ' +
@@ -237,7 +236,7 @@ const getAllAttraction = (cityId, callback) => {
     });
 };
 const getAllTagGroup = (input, callback) => {
-  console.log('>>>>Model.getAllTagGroup', input);
+  // console.log('>>>>Model.getAllTagGroup', input);
   const cols = 'name tags imgUrl';
   return dbTagGroup
     .find({selectable: true})
@@ -247,7 +246,7 @@ const getAllTagGroup = (input, callback) => {
     });
 };
 const getAllCategory = (input, callback) => {
-  console.log('>>>>Model.getAllCategory', input);
+  // console.log('>>>>Model.getAllCategory', input);
   async.parallel(
     {
       cats: (callback) => {
@@ -282,14 +281,14 @@ const getAllCategory = (input, callback) => {
             }),
           };
         });
-        console.log('>>>>Model.getAllCategory Result', categories);
+        // console.log('>>>>Model.getAllCategory Result', categories);
       }
       callback(err, categories);
     }
   );
 };
 const getProductByName = (name, callback) => {
-  console.log('>>>>Model.getProductByName', name);
+  // console.log('>>>>Model.getProductByName', name);
   const cols =
     'productCode name shortTitle catIds subCatIds ' +
     'primaryDestinationName primaryDestinationId ' +
@@ -303,7 +302,7 @@ const getProductByName = (name, callback) => {
     });
 };
 const getAttractionByName = (name, callback) => {
-  console.log('>>>>Model.getAttractionByName', name);
+  // console.log('>>>>Model.getAttractionByName', name);
   const cols =
     'name seoId description summary thumbnailURL ' +
     'rating attractionStreetAddress attractionCity ' +
@@ -317,7 +316,7 @@ const getAttractionByName = (name, callback) => {
     });
 };
 const getAttractionByNameBlur = (keys, callback) => {
-  console.log('>>>>Model.getAttractionByName', keys);
+  // console.log('>>>>Model.getAttractionByName', keys);
   const rs = _.map(keys, (k) => {
     return {name: new RegExp(k, 'i')};
   });
