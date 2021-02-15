@@ -188,7 +188,6 @@ class App extends React.Component {
         if (plan.endCity) {
           let tmpCities = days[days.length - 1].cities;
           if (tmpCities && tmpCities.length > 0) {
-            tmpCities = _.slice(tmpCities, 0, tmpCities.length - 1);
             tmpCities.push(plan.endCity);
           } else {
             tmpCities = [plan.endCity];
@@ -397,13 +396,13 @@ class App extends React.Component {
           unitPrice: 0,
           notes: '',
         });
-        plan.days = Helper.fillDays(
+        /* plan.days = Helper.fillDays(
           plan.days,
           results.city,
           selectedTagGroups,
           activities,
           dayPlans
-        );
+        );*/
       }
     }
     // Fill the day with products (max 3 items per day)
