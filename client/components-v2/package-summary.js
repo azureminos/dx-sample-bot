@@ -71,7 +71,7 @@ class PackageSummary extends React.Component {
       return (
         <div className={classes.divCities}>
           {_.map(day.cities, (cc, index) => {
-            const uItemId = `item##${day.dayNo}##${cc.destinationId}`;
+            const uItemId = `item##${day.dayNo}##${cc.destinationId}##${index}`;
             return (
               <Draggable key={uItemId} draggableId={uItemId} index={index}>
                 {(provided, snapshot) => (
