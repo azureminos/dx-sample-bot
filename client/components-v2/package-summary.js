@@ -16,7 +16,7 @@ const styles = (theme) => ({
     flexWrap: 'wrap',
     justifyContent: 'space-around',
     overflow: 'hidden',
-    height: '120px',
+    maxHeight: '120px',
   },
   divGridList: {
     flexWrap: 'nowrap',
@@ -86,7 +86,6 @@ class PackageSummary extends React.Component {
               })}
             </GridList>
           </div>
-          <div>{`Day ${day.dayNo}, ${sCities}`}</div>
           <div>
             <Droppable droppableId={`day##${day.dayNo}`}>
               {(provided, snapshot) => (
