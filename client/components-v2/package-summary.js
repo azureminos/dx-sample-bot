@@ -22,19 +22,20 @@ const styles = (theme) => ({
     flexWrap: 'nowrap',
     transform: 'translateZ(0)',
   },
+  divStyle: {
+    marginTop: 4,
+    marginBottom: 4,
+  },
 });
 const grid = 8;
 
 const getItemStyle = (isDragging, draggableStyle) => ({
   // some basic styles to make the items look a bit nicer
   userSelect: 'none',
-  padding: grid * 2,
+  padding: 0,
   margin: `0 0 ${grid}px 0`,
-
-  // change background colour if dragging
   background: isDragging ? 'lightgreen' : 'grey',
-
-  // styles we need to apply on draggables
+  width: '100%',
   ...draggableStyle,
 });
 
@@ -74,7 +75,7 @@ class PackageSummary extends React.Component {
       sCities = sCities ? sCities.substring(0, sCities.length - 2) : '';
       return (
         <div key={`day##${day.dayNo}`}>
-          <div>{`Day ${day.dayNo}`}</div>
+          <div className={classes.divStyle}>{`Day ${day.dayNo}`}</div>
           <div className={classes.rootGridList}>
             <GridList className={classes.divGridList} cols={3}>
               {_.map(day.items, (item) => {
@@ -86,7 +87,7 @@ class PackageSummary extends React.Component {
               })}
             </GridList>
           </div>
-          <div>
+          <div className={classes.divStyle}>
             <Droppable droppableId={`day##${day.dayNo}`}>
               {(provided, snapshot) => (
                 <div>
