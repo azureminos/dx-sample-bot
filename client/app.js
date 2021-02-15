@@ -82,7 +82,7 @@ class App extends React.Component {
       const day = plan.days[dayNo - 1];
       day.isCustomized = true;
       const tmpCity = day.cities[idxSrc];
-      const IDX_DAY_START = 1;
+      const IDX_DAY_START = 0;
       const IDX_DAY_END = plan.days[dayNo - 1].cities.length - 1;
       day.cities[idxSrc] = day.cities[idxDst];
       day.cities[idxDst] = tmpCity;
@@ -123,8 +123,8 @@ class App extends React.Component {
 
     const FIRST_DAY = 'day##1';
     const LAST_DAY = `day##${plan.days.length}`;
-    const IDX_PLAN_START = 1;
-    const IDX_PLAN_END = plan.days[LAST_DAY - 1].cities.length - 1;
+    const IDX_PLAN_START = 0;
+    const IDX_PLAN_END = plan.days[plan.days.length - 1].cities.length - 1;
 
     if (!destination) {
       // dropped outside the list, no action
