@@ -260,7 +260,7 @@ class PagePlanTrip extends React.Component {
       const tabItems = [<Tab key={0} label='Summary' {...a11yProps(0)} />];
       for (let i = 0; i < plan.totalDays; i++) {
         const day = i + 1;
-        if (plan.days[i].startCity && plan.days[i].endCity) {
+        if (plan.days[i].cities && plan.days[i].cities.length > 0) {
           tabItems.push(
             <Tab key={day} label={`Day ${day}`} {...a11yProps(day)} />
           );

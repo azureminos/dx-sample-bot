@@ -118,7 +118,9 @@ class App extends React.Component {
         } else if (dst.index === dstCities.length - 1) {
           // Set as the first city of next day if moved last city of the day
         }
+        return true;
       }
+      return false;
     };
 
     const FIRST_DAY = 'day##1';
@@ -161,8 +163,7 @@ class App extends React.Component {
       this.setState({plan});
     }
     if (source.droppableId !== destination.droppableId) {
-      move(source, destination);
-      this.setState({plan});
+      if (move(source, destination)) this.setState({plan});
     }
   }
   handleSelectProduct({product, daySelected}) {
