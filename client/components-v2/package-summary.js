@@ -3,8 +3,6 @@ import React, {createElement} from 'react';
 import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
-import Card from '@material-ui/core/Card';
-import CardMedia from '@material-ui/core/CardMedia';
 import {withStyles} from '@material-ui/core/styles';
 // ====== Icons ======
 // Variables & Functions
@@ -23,8 +21,7 @@ const styles = (theme) => ({
     flexWrap: 'nowrap',
     transform: 'translateZ(0)',
   },
-  divCard: {},
-  media: {
+  divImage: {
     top: 0,
     left: 0,
     width: '100%',
@@ -90,13 +87,11 @@ class PackageSummary extends React.Component {
               {_.map(day.items, (item) => {
                 return (
                   <GridListTile key={`day##${day.dayNo}##${item.itemId}`}>
-                    <Card className={classes.divCard}>
-                      <CardMedia
-                        className={classes.divMedia}
-                        image={item.imgUrl}
-                        title={item.name}
-                      />
-                    </Card>
+                    <img
+                      src={item.imgUrl}
+                      alt={item.name}
+                      className={classes.divImage}
+                    />
                   </GridListTile>
                 );
               })}
