@@ -424,6 +424,7 @@ class App extends React.Component {
             isUserSelected: true,
             totalPeople: plan.totalPeople,
             unitPrice: 0,
+            imgUrl: a.thumbnailURL,
             notes: '',
           });
         }
