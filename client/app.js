@@ -403,9 +403,10 @@ class App extends React.Component {
       return p.destName === results.city;
     });
     const dDays = _.filter(plan.days, (d) => {
-      return !!_.find(d.cities, (c) => {
-        c.name === results.city;
+      const matcher = _.find(d.cities, (c) => {
+        return c.name === results.city;
       });
+      return !!matcher;
     });
     // Add attractions one by one to each days
     for (let i = 0; i < dAttractions.length; i++) {
