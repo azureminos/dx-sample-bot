@@ -186,13 +186,13 @@ class App extends React.Component {
         // remove extra days in the array
         days = _.slice(days, 0, totalDays);
         if (plan.endCity) {
-          let tmpCities = days[days.length - 1].cities;
+          const tmpCities = days[days.length - 1].cities;
           if (tmpCities && tmpCities.length > 0) {
-            tmpCities.push(plan.endCity);
+            days[days.length - 1].cities.push(plan.endCity);
           } else {
-            tmpCities = [plan.endCity];
+            days[days.length - 1].cities = [plan.endCity];
+            days[days.length - 1].items = [];
           }
-          days[days.length - 1].cities = tmpCities;
         }
       } else if (days.length < totalDays) {
         // TODO: add missing days in the array
@@ -235,14 +235,16 @@ class App extends React.Component {
     plan.endCity = city;
     if (plan.days && plan.days.length > 0) {
       plan.days[0].cities = [city];
+      plan.days[0].items = [];
       plan.days[plan.days.length - 1].cities = [city];
+      plan.days[plan.days.length - 1].items = [];
     }
     this.setState({plan});
   }
   handleSetDestination(input) {
     const {plan, planExt, reference} = this.state;
-    const {preferAttractions} = planExt;
-    const {activities} = reference;
+    const {preferAttractions, selectedTagGroups} = planExt;
+    const {activities, dayPlans} = reference;
     const {city, attraction} = input;
     const {destinationId, name} = city;
     console.log('>>>>handleSetDestination', {input, plan});
@@ -269,6 +271,7 @@ class App extends React.Component {
       }
       if (!day.cities || day.cities.length === 0) {
         day.cities = [city];
+        day.items = [];
         isAdded = true;
       } else if (!day.isCustomized && day.cities.length === 1 && !isUpdate) {
         day.cities.push(city);
@@ -277,8 +280,10 @@ class App extends React.Component {
       } else if (!day.isCustomized && isUpdate) {
         if (i === plan.days.length - 1) {
           day.cities = [city, plan.endCity];
+          day.items = [];
         } else {
           day.cities = [city];
+          day.items = [];
         }
       }
     }
@@ -287,8 +292,6 @@ class App extends React.Component {
     } else if (!isAdded) {
       // TODO: add nearest city if not added
     }
-
-    // Logic to add city to otherCities when all days have an end city
     console.log('>>>>handleSetDestination completed', plan);
     // Load related activity if new destination
     if (!activities[name]) {
@@ -296,6 +299,15 @@ class App extends React.Component {
         city: name,
         cityId: destinationId,
       });
+    } else {
+      // Fill the days
+      plan.days = Helper.fillDays(
+        plan.days,
+        name,
+        selectedTagGroups,
+        activities,
+        dayPlans
+      );
     }
     // Update State
     this.setState({plan, planExt});
@@ -407,6 +419,7 @@ class App extends React.Component {
             name: a.name,
             itemType: DataModel.TravelPlanItemType.ATTRACTION,
             itemId: a.seoId,
+            destName: a.primaryDestinationName,
             isUserSelected: true,
             totalPeople: plan.totalPeople,
             unitPrice: 0,
@@ -414,13 +427,13 @@ class App extends React.Component {
           });
         }
 
-        /* plan.days = Helper.fillDays(
+        plan.days = Helper.fillDays(
           plan.days,
           results.city,
           selectedTagGroups,
           activities,
           dayPlans
-        );*/
+        );
       }
     }
     // Fill the day with products (max 3 items per day)
