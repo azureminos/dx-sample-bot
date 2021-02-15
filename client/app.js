@@ -254,11 +254,19 @@ class App extends React.Component {
     ) {
       preferAttractions.push({...attraction, destName: name});
     }
-
+    // Ignore existing
+    let isExist = false;
     let isUpdate = false;
     let isAdded = false;
     for (let i = 0; i < plan.days.length; i++) {
       const day = plan.days[i];
+      const matcher = _.find(day.cities, (cc) => {
+        return cc.name === name;
+      });
+      if (matcher) {
+        isExist = true;
+        break;
+      }
       if (!day.cities || day.cities.length === 0) {
         day.cities = [city];
         isAdded = true;
@@ -274,7 +282,9 @@ class App extends React.Component {
         }
       }
     }
-    if (!isAdded) {
+    if (isExist) {
+      return;
+    } else if (!isAdded) {
       // TODO: add nearest city if not added
     }
 

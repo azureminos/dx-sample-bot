@@ -173,16 +173,23 @@ class PagePlanTrip extends React.Component {
             };
             this.setState({selectedAddress: '', selectedLocation: '', popup});
           } else {
-            const popup = {
-              open: true,
-              title: 'Destination city found',
-              message: `Destination got updated as the nearest city ${closeCity.name}`,
-            };
-            this.setState({
-              selectedAddress: '',
-              selectedLocation: '',
-              popup,
-            });
+            if (address.indexOf(closeCity.name) > -1) {
+              this.setState({
+                selectedAddress: '',
+                selectedLocation: '',
+              });
+            } else {
+              const popup = {
+                open: true,
+                title: 'Destination city found',
+                message: `Destination got updated as the nearest city ${closeCity.name}`,
+              };
+              this.setState({
+                selectedAddress: '',
+                selectedLocation: '',
+                popup,
+              });
+            }
             const {actions} = this.props;
             if (actions && actions.handleSetDestination) {
               actions.handleSetDestination({city: closeCity, ...json});
