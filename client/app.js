@@ -100,7 +100,7 @@ class App extends React.Component {
     };
     const move = (src, dst) => {
       const srcDay = Number(src.droppableId.split('##')[1]);
-      const srcCity = plan.days[srcDay - 1][src.index];
+      const srcCity = plan.days[srcDay - 1].cities[src.index];
       const dstDay = Number(dst.droppableId.split('##')[1]);
       const dstCities = plan.days[dstDay - 1].cities;
       const matcher = _.find(dstCities, (c) => {
