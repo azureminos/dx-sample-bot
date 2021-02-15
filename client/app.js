@@ -257,7 +257,7 @@ class App extends React.Component {
     }
 
     let isUpdate = false;
-    for (let i = 0; i < plan.days.length - 1; i++) {
+    for (let i = 0; i < plan.days.length; i++) {
       const day = plan.days[i];
       if (!day.cities || day.cities.length === 0) {
         day.cities = [city];
@@ -271,6 +271,7 @@ class App extends React.Component {
         day.cities = day.cities.slice(0, day.cities.length - 1);
         day.cities.push(city);
         day.cities.push(plan.endCity);
+        break;
       }
     }
     // Logic to add city to otherCities when all days have an end city
