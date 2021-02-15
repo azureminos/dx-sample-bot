@@ -47,7 +47,7 @@ const handleWebviewAccess = (req, res) => {
 const handleSearchAttraction = (req, res) => {
   const {name} = req.body;
   console.log('>>>>Route.handleSearchAttraction', {name});
-  Model.getAttractionByNameBlur(name.split(' '), function(err, attractions) {
+  Model.getAttractionByName(name, function(err, attractions) {
     if (!err) {
       console.log('>>>>Route.handleSearchAttraction Result', attractions);
       if (attractions && attractions.length > 0) {

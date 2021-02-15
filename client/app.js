@@ -256,23 +256,24 @@ class App extends React.Component {
     }
 
     let isUpdate = false;
+    let isAdded = false;
     for (let i = 0; i < plan.days.length; i++) {
       const day = plan.days[i];
       if (!day.cities || day.cities.length === 0) {
         day.cities = [city];
+        isAdded = true;
       } else if (!day.isCustomized && day.cities.length === 1 && !isUpdate) {
         day.cities.push(city);
         isUpdate = true;
+        isAdded = true;
       } else if (!day.isCustomized && isUpdate) {
         day.cities = [city, plan.endCity];
-      } else {
-        // TODO: find nearest city and add
-        day.cities = day.cities.slice(0, day.cities.length - 1);
-        day.cities.push(city);
-        day.cities.push(plan.endCity);
-        break;
       }
     }
+    if (!isAdded) {
+      // TODO: add nearest city if not added
+    }
+
     // Logic to add city to otherCities when all days have an end city
     console.log('>>>>handleSetDestination completed', plan);
     // Load related activity if new destination
@@ -386,16 +387,19 @@ class App extends React.Component {
       });
       if (a) {
         const dIdx = dDays.length >= dAttractions.length ? i : i % dDays.length;
-        dDays[dIdx].items = [];
-        dDays[dIdx].items.push({
-          name: a.name,
-          itemType: DataModel.TravelPlanItemType.ATTRACTION,
-          itemId: a.seoId,
-          isUserSelected: true,
-          totalPeople: plan.totalPeople,
-          unitPrice: 0,
-          notes: '',
-        });
+        if (dDays[dIdx]) {
+          dDays[dIdx].items = [];
+          dDays[dIdx].items.push({
+            name: a.name,
+            itemType: DataModel.TravelPlanItemType.ATTRACTION,
+            itemId: a.seoId,
+            isUserSelected: true,
+            totalPeople: plan.totalPeople,
+            unitPrice: 0,
+            notes: '',
+          });
+        }
+
         /* plan.days = Helper.fillDays(
           plan.days,
           results.city,
