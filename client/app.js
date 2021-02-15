@@ -170,13 +170,16 @@ class App extends React.Component {
       if (!days || days.length === 0) {
         days = [];
         for (let i = 0; i < totalDays; i++) {
-          const startCity = i === 0 ? plan.startCity : null;
-          const endCity = i === totalDays - 1 ? plan.endCity : null;
+          let tmpCity = null;
+          if (i === 0) {
+            tmpCity = plan.startCity;
+          } else if (i === totalDays - 1) {
+            tmpCity = plan.endCity;
+          }
           days.push({
             dayNo: i + 1,
             items: [],
-            startCity: startCity,
-            endCity: endCity,
+            cities: tmpCity ? [tmpCity] : [],
           });
         }
       } else if (days.length > totalDays) {
@@ -193,19 +196,7 @@ class App extends React.Component {
           days[days.length - 1].cities = tmpCities;
         }
       } else if (days.length < totalDays) {
-        // add missing days in the array
-        const tmpCity = days[days.length - 1].startCity;
-        days[days.length - 1].endCity = tmpCity;
-        for (let i = days.length; i < totalDays; i++) {
-          days.push({
-            dayNo: i + 1,
-            items: [],
-            cities: tmpCity ? [tmpCity] : [],
-          });
-        }
-        if (plan.endCity) {
-          days[days.length - 1].endCity = plan.endCity;
-        }
+        // TODO: add missing days in the array
       }
       return {totalDays, days};
     };
@@ -384,7 +375,9 @@ class App extends React.Component {
       return p.destName === results.city;
     });
     const dDays = _.filter(plan.days, (d) => {
-      return d.endCity === results.city;
+      return !!_.fill(d.cities, (c) => {
+        c.name === results.city;
+      });
     });
     // Add attractions one by one to each days
     for (let i = 0; i < dAttractions.length; i++) {
