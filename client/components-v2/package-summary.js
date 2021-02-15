@@ -1,6 +1,8 @@
 import _ from 'lodash';
 import React, {createElement} from 'react';
 import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
 import {withStyles} from '@material-ui/core/styles';
 // ====== Icons ======
 // Variables & Functions
@@ -8,6 +10,16 @@ const styles = (theme) => ({
   root: {
     width: '100%',
     backgroundColor: theme.palette.background.paper,
+  },
+  rootGridList: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    overflow: 'hidden',
+  },
+  divGridList: {
+    flexWrap: 'nowrap',
+    transform: 'translateZ(0)',
   },
 });
 const grid = 8;
@@ -60,19 +72,35 @@ class PackageSummary extends React.Component {
       }
       sCities = sCities ? sCities.substring(0, sCities.length - 2) : '';
       return (
-        <Droppable key={`day##${day.dayNo}`} droppableId={`day##${day.dayNo}`}>
-          {(provided, snapshot) => (
-            <div>
-              <div>{`Day ${day.dayNo}, ${sCities}`}</div>
-              <div
-                ref={provided.innerRef}
-                style={getListStyle(snapshot.isDraggingOver)}
-              >
-                {provided.placeholder}
-              </div>
-            </div>
-          )}
-        </Droppable>
+        <div key={`day##${day.dayNo}`}>
+          <div>{`Day ${day.dayNo}`}</div>
+          <div className={classes.rootGridList}>
+            <GridList className={classes.divGridList} cols={3}>
+              {_.map(day.items, (item) => {
+                return (
+                  <GridListTile key={`day##${day.dayNo}##${item.itemId}`}>
+                    <img src={item.imgUrl} alt={item.name} />
+                  </GridListTile>
+                );
+              })}
+            </GridList>
+          </div>
+          <div>{`Day ${day.dayNo}, ${sCities}`}</div>
+          <div>
+            <Droppable droppableId={`day##${day.dayNo}`}>
+              {(provided, snapshot) => (
+                <div>
+                  <div
+                    ref={provided.innerRef}
+                    style={getListStyle(snapshot.isDraggingOver)}
+                  >
+                    {provided.placeholder}
+                  </div>
+                </div>
+              )}
+            </Droppable>
+          </div>
+        </div>
       );
     };
     // Local Variables
