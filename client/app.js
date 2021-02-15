@@ -384,24 +384,26 @@ class App extends React.Component {
       const a = _.find(attractions, (att) => {
         return att._id === dAttractions[i]._id;
       });
-      const dIdx = dDays.length >= dAttractions.length ? i : i % dDays.length;
-      dDays[dIdx].items = [];
-      dDays[dIdx].items.push({
-        name: a.name,
-        itemType: DataModel.TravelPlanItemType.ATTRACTION,
-        itemId: a.seoId,
-        isUserSelected: true,
-        totalPeople: plan.totalPeople,
-        unitPrice: 0,
-        notes: '',
-      });
-      plan.days = Helper.fillDays(
-        plan.days,
-        results.city,
-        selectedTagGroups,
-        activities,
-        dayPlans
-      );
+      if (a) {
+        const dIdx = dDays.length >= dAttractions.length ? i : i % dDays.length;
+        dDays[dIdx].items = [];
+        dDays[dIdx].items.push({
+          name: a.name,
+          itemType: DataModel.TravelPlanItemType.ATTRACTION,
+          itemId: a.seoId,
+          isUserSelected: true,
+          totalPeople: plan.totalPeople,
+          unitPrice: 0,
+          notes: '',
+        });
+        plan.days = Helper.fillDays(
+          plan.days,
+          results.city,
+          selectedTagGroups,
+          activities,
+          dayPlans
+        );
+      }
     }
     // Fill the day with products (max 3 items per day)
 
