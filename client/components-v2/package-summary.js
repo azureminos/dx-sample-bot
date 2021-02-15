@@ -26,6 +26,9 @@ const styles = (theme) => ({
     marginTop: 4,
     marginBottom: 4,
   },
+  divCities: {
+    display: 'flex',
+  },
 });
 const grid = 8;
 
@@ -65,6 +68,32 @@ class PackageSummary extends React.Component {
     const {classes, plan, planExt, reference, actions} = this.props;
     console.log('>>>>PackageSummary, render()', {plan, actions});
     // Local Functions
+    const getCityItems = (day) => {
+      return (
+        <div className={classes.divCities}>
+          {_.map(day.cities, (cc, index) => {
+            const uItemId = `item##${day.dayNo}##${cc.destinationId}`;
+            return (
+              <Draggable key={uItemId} draggableId={uItemId} index={index}>
+                {(provided, snapshot) => (
+                  <div
+                    ref={provided.innerRef}
+                    {...provided.draggableProps}
+                    {...provided.dragHandleProps}
+                    style={getItemStyle(
+                      snapshot.isDragging,
+                      provided.draggableProps.style
+                    )}
+                  >
+                    {cc.name}
+                  </div>
+                )}
+              </Draggable>
+            );
+          })}
+        </div>
+      );
+    };
     const getDayBlock = (day) => {
       // console.log('>>>>DnD.getDayBlock', day);
       let sCities = '';
@@ -95,6 +124,7 @@ class PackageSummary extends React.Component {
                     ref={provided.innerRef}
                     style={getListStyle(snapshot.isDraggingOver)}
                   >
+                    {getCityItems(day)}
                     {provided.placeholder}
                   </div>
                 </div>
