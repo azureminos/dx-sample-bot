@@ -96,6 +96,10 @@ const styles = (theme) => ({
     padding: 0,
     minHeight: '16px',
   },
+  fBtnLabel: {
+    alignItems: 'baseline',
+    height: 45,
+  },
 });
 
 // Functions
@@ -374,7 +378,7 @@ class PageStartTrip extends React.Component {
               <Button
                 fullWidth
                 color='primary'
-                classes={{label: {alignItems: 'baseline', height: 45}}}
+                classes={{label: classes.fBtnLabel}}
                 onClick={() => {
                   this.dohandleBtnStartHoliday(plan);
                 }}

@@ -86,6 +86,10 @@ const styles = (theme) => ({
     padding: 0,
     minHeight: '16px',
   },
+  fBtnLabel: {
+    alignItems: 'baseline',
+    height: 45,
+  },
 });
 
 // Functions
@@ -385,7 +389,7 @@ class PagePlanTrip extends React.Component {
                   fullWidth
                   color='primary'
                   onClick={this.handleBtnComplete}
-                  classes={{label: {alignItems: 'baseline', height: 45}}}
+                  classes={{label: classes.fBtnLabel}}
                 >
                   Complete
                 </Button>
