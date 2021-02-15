@@ -16,18 +16,11 @@ const styles = (theme) => ({
     flexWrap: 'wrap',
     justifyContent: 'space-around',
     overflow: 'hidden',
+    height: '120px',
   },
   divGridList: {
     flexWrap: 'nowrap',
     transform: 'translateZ(0)',
-  },
-  divImage: {
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    objectFit: 'cover',
-    position: 'absolute',
   },
 });
 const grid = 8;
@@ -87,11 +80,7 @@ class PackageSummary extends React.Component {
               {_.map(day.items, (item) => {
                 return (
                   <GridListTile key={`day##${day.dayNo}##${item.itemId}`}>
-                    <img
-                      src={item.imgUrl}
-                      alt={item.name}
-                      className={classes.divImage}
-                    />
+                    <img src={item.imgUrl} alt={item.name} />
                   </GridListTile>
                 );
               })}
