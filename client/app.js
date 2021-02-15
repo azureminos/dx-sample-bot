@@ -303,6 +303,7 @@ class App extends React.Component {
       // Fill the days
       plan.days = Helper.fillDays(
         plan.days,
+        plan.totalPeople,
         name,
         selectedTagGroups,
         activities,
@@ -429,6 +430,7 @@ class App extends React.Component {
 
         plan.days = Helper.fillDays(
           plan.days,
+          plan.totalPeople,
           results.city,
           selectedTagGroups,
           activities,
