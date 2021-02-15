@@ -76,57 +76,94 @@ class App extends React.Component {
      ============================== */
   handleDragItem(result) {
     console.log('>>>>handleDragItem', result);
-    /* const {draggableId, source, destination} = result;
-    const {destinations} = this.state.reference;
-    const move = (drag, src, dst) => {
-      const cityId = Number(drag.split('##')[2]);
-      const isMoveAfter = dst.index === 1;
-      const dayFrom = Number(src.droppableId.split('##')[1]);
-      const dayTo = Number(dst.droppableId.split('##')[1]);
-      const {plan} = this.state;
-      const {totalDays, days} = plan;
-
-      if ((dayTo === totalDays && isMoveAfter) || dayFrom === totalDays) {
-        // Invalid move, do nothing
-        console.log('>>>>handleDragItem invalid move');
-      } else {
-        const sCity = _.find(destinations, (d) => {
-          return d.destinationId === cityId;
-        });
-        console.log('>>>>handleDragItem found city', {sCity, days});
-        days[dayFrom - 1].endCity = '';
-        days[dayFrom - 1].endCityId = 0;
-        days[dayFrom].startCity = '';
-        days[dayFrom].startCityId = 0;
-        if (!isMoveAfter) {
-          const otherCities = days[dayTo - 1].otherCities || [];
-          otherCities.push({
-            name: sCity.name,
-            destinationId: sCity.destinationId,
-          });
-          days[dayTo - 1].otherCities = otherCities;
-        } else {
-          const otherCities = days[dayTo - 1].otherCities || [];
-          otherCities.push({
-            name: days[dayTo - 1].endCity,
-            destinationId: days[dayTo - 1].endCityId,
-          });
-          days[dayTo - 1].otherCities = otherCities;
-          days[dayTo - 1].endCity = sCity.name;
-          days[dayTo - 1].endCityId = sCity.destinationId;
-          days[dayTo].startCity = sCity.name;
-          days[dayTo].startCityId = sCity.destinationId;
-        }
-        this.setState({plan});
+    const {draggableId, source, destination} = result;
+    const {plan} = this.state;
+    const reorg = (dayNo, idxSrc, idxDst) => {
+      const day = plan.days[dayNo - 1];
+      day.isCustomized = true;
+      const tmpCity = day.cities[idxSrc];
+      const IDX_DAY_START = 1;
+      const IDX_DAY_END = plan.days[dayNo - 1].cities.length - 1;
+      day.cities[idxSrc] = day.cities[idxDst];
+      day.cities[idxDst] = tmpCity;
+      // Extended logic
+      if (idxSrc === IDX_DAY_START || idxDst === IDX_DAY_START) {
+        // Set as the last city of previous day if moved first city of the day
+        plan.days[dayNo - 2].cities.push(day.cities[0]);
+      } else if (idxSrc === IDX_DAY_END || idxDst === IDX_DAY_END) {
+        // Set as the first city of next day if moved last city of the day
+        plan.days[dayNo].cities = _.concat(
+          [day.cities[day.cities.length - 1]],
+          plan.days[dayNo].cities
+        );
       }
     };
-    // dropped outside the list
+    const move = (src, dst) => {
+      const srcDay = Number(src.droppableId.split('##')[1]);
+      const srcCity = plan.days[srcDay - 1][src.index];
+      const dstDay = Number(dst.droppableId.split('##')[1]);
+      const dstCities = plan.days[dstDay - 1].cities;
+      const matcher = _.find(dstCities, (c) => {
+        return c.name === srcCity.name;
+      });
+      if (!matcher) {
+        // Only add city when it doesn't exist in target list
+        plan.days[dstDay - 1].cities = _.concat(
+          dstCities.slice(0, dst.index),
+          [srcCity],
+          dstCities.slice(dst.index, dstCities.length)
+        );
+        if (dst.index === 0) {
+          // Set as the last city of previous day if moved first city of the day
+        } else if (dst.index === dstCities.length - 1) {
+          // Set as the first city of next day if moved last city of the day
+        }
+      }
+    };
+
+    const FIRST_DAY = 'day##1';
+    const LAST_DAY = `day##${plan.days.length}`;
+    const IDX_PLAN_START = 1;
+    const IDX_PLAN_END = plan.days[LAST_DAY - 1].cities.length - 1;
+
     if (!destination) {
+      // dropped outside the list, no action
       return;
+    } else if (
+      source.droppableId === FIRST_DAY &&
+      source.index === IDX_PLAN_START
+    ) {
+      // moved start city of first day, no action
+      return;
+    } else if (
+      source.droppableId === LAST_DAY &&
+      source.index === IDX_PLAN_END
+    ) {
+      // moved end city of last day, no action
+      return;
+    } else if (
+      destination.droppableId === FIRST_DAY &&
+      source.index === IDX_PLAN_START
+    ) {
+      // moved item in front of start city of first day, no action
+      return;
+    } else if (
+      destination.droppableId === LAST_DAY &&
+      destination.index === IDX_PLAN_END
+    ) {
+      // moved item after of end city of last day, no action
+      return;
+    } else if (source.droppableId === destination.droppableId) {
+      const idxSrc = source.index;
+      const idxDst = destination.index;
+      const dayNo = Number(draggableId.split('##')[1]);
+      reorg(dayNo, idxSrc, idxDst);
+      this.setState({plan});
     }
     if (source.droppableId !== destination.droppableId) {
-      move(draggableId, source, destination);
-    }*/
+      move(source, destination);
+      this.setState({plan});
+    }
   }
   handleSelectProduct({product, daySelected}) {
     console.log('>>>>handleSelectProduct', {product, daySelected});
