@@ -375,7 +375,7 @@ class App extends React.Component {
       return p.destName === results.city;
     });
     const dDays = _.filter(plan.days, (d) => {
-      return !!_.fill(d.cities, (c) => {
+      return !!_.find(d.cities, (c) => {
         c.name === results.city;
       });
     });
