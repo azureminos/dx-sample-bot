@@ -143,7 +143,7 @@ class App extends React.Component {
       return;
     } else if (
       destination.droppableId === FIRST_DAY &&
-      source.index === IDX_PLAN_START
+      destination.index === IDX_PLAN_START
     ) {
       // moved item in front of start city of first day, no action
       return;
