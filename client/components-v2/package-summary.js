@@ -30,13 +30,12 @@ const styles = (theme) => ({
     display: 'flex',
   },
 });
-const grid = 8;
 
 const getItemStyle = (isDragging, draggableStyle) => ({
   // some basic styles to make the items look a bit nicer
   userSelect: 'none',
-  padding: grid * 2,
-  margin: `0 0 ${grid}px 0`,
+  padding: 4,
+  margin: 4,
   background: isDragging ? 'lightgreen' : 'grey',
   ...draggableStyle,
 });
@@ -117,7 +116,7 @@ class PackageSummary extends React.Component {
             </GridList>
           </div>
           <div className={classes.divStyle}>
-            <Droppable droppableId={`day##${day.dayNo}`}>
+            <Droppable droppableId={`day##${day.dayNo}`} direction='horizontal'>
               {(provided, snapshot) => (
                 <div>
                   <div

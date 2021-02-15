@@ -385,6 +385,7 @@ class PagePlanTrip extends React.Component {
                   fullWidth
                   color='primary'
                   onClick={this.handleBtnComplete}
+                  classes={{label: {alignItems: 'baseline', height: 45}}}
                 >
                   Complete
                 </Button>

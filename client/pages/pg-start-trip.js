@@ -374,6 +374,7 @@ class PageStartTrip extends React.Component {
               <Button
                 fullWidth
                 color='primary'
+                classes={{label: {alignItems: 'baseline', height: 45}}}
                 onClick={() => {
                   this.dohandleBtnStartHoliday(plan);
                 }}
