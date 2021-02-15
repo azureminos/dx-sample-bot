@@ -267,7 +267,11 @@ class App extends React.Component {
         isUpdate = true;
         isAdded = true;
       } else if (!day.isCustomized && isUpdate) {
-        day.cities = [city, plan.endCity];
+        if (i === plan.days.length - 1) {
+          day.cities = [city, plan.endCity];
+        } else {
+          day.cities = [city];
+        }
       }
     }
     if (!isAdded) {
