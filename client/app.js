@@ -428,19 +428,17 @@ class App extends React.Component {
             notes: '',
           });
         }
-
-        plan.days = Helper.fillDays(
-          plan.days,
-          plan.totalPeople,
-          results.city,
-          selectedTagGroups,
-          activities,
-          dayPlans
-        );
       }
     }
     // Fill the day with products (max 3 items per day)
-
+    plan.days = Helper.fillDays(
+      plan.days,
+      plan.totalPeople,
+      results.city,
+      selectedTagGroups,
+      activities,
+      dayPlans
+    );
     // Update state
     this.setState({
       updating: false,
