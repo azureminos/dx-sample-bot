@@ -95,12 +95,6 @@ class PackageSummary extends React.Component {
     };
     const getDayBlock = (day) => {
       // console.log('>>>>DnD.getDayBlock', day);
-      let sCities = '';
-      for (let i = 0; day.cities && i < day.cities.length; i++) {
-        const c = day.cities[i];
-        sCities = `${sCities}${c.name}, `;
-      }
-      sCities = sCities ? sCities.substring(0, sCities.length - 2) : '';
       return (
         <div key={`day##${day.dayNo}`}>
           <div className={classes.divStyle}>{`Day ${day.dayNo}`}</div>

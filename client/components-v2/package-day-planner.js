@@ -49,12 +49,19 @@ class PackageDayPlanner extends React.Component {
     });
     // Local Variables
     const day = plan.days[daySelected - 1];
-    const {startCity, endCity, items} = day;
-    if (!reference.activities[day.endCity]) {
+    const {cities, items} = day;
+    const selectedCity = cities[cities.length - 1].name;
+    if (!reference.activities[selectedCity]) {
       return <div>Loading</div>;
     }
-    const {products, attractions} = reference.activities[day.endCity];
-    const title = `Day ${daySelected}: ${startCity} >> ${endCity}`;
+    const {products, attractions} = reference.activities[selectedCity];
+    const sCities = _.join(
+      _.map(cities, (c) => {
+        return c.name;
+      }),
+      ', '
+    );
+    const title = `Day ${daySelected}: ${sCities}`;
     const productSelected = [];
     const productUnselected = [];
     const {handleSelectProduct} = actions;
