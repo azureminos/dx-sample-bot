@@ -360,7 +360,7 @@ class PagePlanTrip extends React.Component {
               plan={plan}
               planExt={planExt}
               reference={reference}
-              actions={actions}
+              actions={{...actions, handleTabSelect: this.doHandleTabSelect}}
               daySelected={day}
             />
           </TabPanel>
@@ -383,17 +383,14 @@ class PagePlanTrip extends React.Component {
         <AppBar position='fixed' color='default' className={classes.fAppBar}>
           <Toolbar className={classes.fToolbar}>
             <div>
-              <div>Show interests scroll bar</div>
-              <div>
-                <Button
-                  fullWidth
-                  color='primary'
-                  onClick={this.handleBtnComplete}
-                  classes={{label: classes.fBtnLabel}}
-                >
-                  Complete
-                </Button>
-              </div>
+              <Button
+                fullWidth
+                color='primary'
+                onClick={this.handleBtnComplete}
+                classes={{label: classes.fBtnLabel}}
+              >
+                Complete
+              </Button>
             </div>
           </Toolbar>
         </AppBar>

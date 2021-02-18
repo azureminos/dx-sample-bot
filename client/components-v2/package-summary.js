@@ -62,6 +62,13 @@ class PackageSummary extends React.Component {
       actions.handleDragItem(result);
     }
   }
+  doHandleTabSelect(event, newValue) {
+    console.log('>>>>PackageSummary.doHandleTabSelect', newValue);
+    const {actions} = this.props;
+    if (actions && actions.handleTabSelect) {
+      actions.handleTabSelect(event, newValue);
+    }
+  }
   // Display Widget
   render() {
     const {classes, plan, planExt, reference, actions} = this.props;
@@ -103,7 +110,11 @@ class PackageSummary extends React.Component {
               {_.map(day.items, (item) => {
                 return (
                   <GridListTile key={`day##${day.dayNo}##${item.itemId}`}>
-                    <img src={item.imgUrl} alt={item.name} />
+                    <img
+                      src={item.imgUrl}
+                      alt={item.name}
+                      onClick={this.doHandleTabSelect}
+                    />
                   </GridListTile>
                 );
               })}
