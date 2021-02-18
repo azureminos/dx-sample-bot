@@ -348,7 +348,7 @@ class PagePlanTrip extends React.Component {
             plan={plan}
             planExt={planExt}
             reference={reference}
-            actions={actions}
+            actions={{...actions, handleTabSelect: this.doHandleTabSelect}}
           />
         </TabPanel>,
       ];
@@ -360,7 +360,7 @@ class PagePlanTrip extends React.Component {
               plan={plan}
               planExt={planExt}
               reference={reference}
-              actions={{...actions, handleTabSelect: this.doHandleTabSelect}}
+              actions={actions}
               daySelected={day}
             />
           </TabPanel>
