@@ -51,6 +51,7 @@ class PackageSummary extends React.Component {
     super(props);
     // Bind event handlers
     this.doHandleDragItem = this.doHandleDragItem.bind(this);
+    this.doHandleTabSelect = this.doHandleTabSelect.bind(this);
     // Init data
     // Setup state
   }
@@ -113,7 +114,9 @@ class PackageSummary extends React.Component {
                     <img
                       src={item.imgUrl}
                       alt={item.name}
-                      onClick={this.doHandleTabSelect}
+                      onClick={(e) => {
+                        this.doHandleTabSelect(e, day.dayNo);
+                      }}
                     />
                   </GridListTile>
                 );
