@@ -92,10 +92,18 @@ class App extends React.Component {
     const popup = {open: false, title: '', message: ''};
     const {plan} = this.state;
     const day = plan.days[dayNo - 1];
+    const isEndCity = day.cities.length - 1 === index;
     day.cities = _.concat(
       day.cities.slice(0, index),
       day.cities.slice(index + 1, day.cities.length)
     );
+    if (isEndCity) {
+      const dayNext = plan.days[dayNo];
+      dayNext.cities = _.concat(
+        [day.cities[day.cities.length - 1]],
+        dayNext.cities
+      );
+    }
     this.setState({plan, popup});
   }
   handleDragItem(result) {
