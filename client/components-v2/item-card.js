@@ -49,7 +49,6 @@ class ItemCard extends React.Component {
   // Event Handlers
   doHandleSelectItem(input) {
     console.log('>>>>ItemCard.doHandleSelectItem', input);
-    e.preventDefault();
     const {actions} = this.props;
     if (actions && actions.handleSelectItem) {
       // actions.handleSelectItem(input);

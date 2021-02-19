@@ -15,6 +15,7 @@ const styles = (theme) => ({
   },
   divTitle: {
     display: 'flex',
+    alignItems: 'center',
   },
 });
 const responsive1 = {
@@ -86,14 +87,14 @@ class PackageDayPlanner extends React.Component {
       });
       if (pMatcher) {
         itemSelected.push({...i, product: pMatcher});
-        break;
+        continue;
       }
       const aMatcher = _.find(attractions, (a) => {
         return i.itemId === a.seoId;
       });
       if (aMatcher) {
         itemSelected.push({...i, attraction: aMatcher});
-        break;
+        continue;
       }
     }
     // Local Functions
@@ -121,10 +122,11 @@ class PackageDayPlanner extends React.Component {
     };
     const getBtnCity = (cts) => {
       return _.map(cts, (c) => {
-        const isSelected = this.state.selectedCity === c.name;
+        const isSelected = selectedCity === c.name;
         return (
           <Button
             color={isSelected ? 'primary' : 'default'}
+            size='small'
             variant='contained'
             classes={{label: classes.fBtnLabel}}
             onClick={() => {
