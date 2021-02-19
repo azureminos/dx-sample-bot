@@ -89,13 +89,14 @@ class App extends React.Component {
   }
   handleRemoveCity(dayNo, index) {
     console.log('>>>>handleRemoveCity', {dayNo, index});
+    const popup = {open: false, title: '', message: ''};
     const {plan} = this.state;
     const day = plan.days[dayNo - 1];
     day.cities = _.concat(
       day.cities.slice(0, index),
       day.cities.slice(index + 1, day.cities.length)
     );
-    this.setState({plan});
+    this.setState({plan, popup});
   }
   handleDragItem(result) {
     console.log('>>>>handleDragItem', result);
@@ -169,7 +170,7 @@ class App extends React.Component {
       const dayNo = Number(draggableId.split('##')[1]);
       const {days} = this.state.plan;
       if (days[dayNo - 1].cities && days[dayNo - 1].cities.length > 1) {
-        const cityName = days[dayNo - 1].cities[idxSrc];
+        const cityName = days[dayNo - 1].cities[idxSrc].name;
         const popup = {
           open: true,
           title: 'Remove city from the itinerary',
