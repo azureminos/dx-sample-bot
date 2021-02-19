@@ -51,7 +51,7 @@ class ItemCard extends React.Component {
     console.log('>>>>ItemCard.doHandleSelectItem', input);
     const {actions} = this.props;
     if (actions && actions.handleSelectItem) {
-      // actions.handleSelectItem(input);
+      actions.handleSelectItem(input);
     }
   }
 
