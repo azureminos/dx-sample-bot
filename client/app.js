@@ -227,32 +227,48 @@ class App extends React.Component {
   }
   handleSelectItem(input) {
     console.log('>>>>handleSelectItem', input);
-    /*const {product, daySelected} = input;
+    const {item, type, isSelected, daySelected} = input;
     const {plan} = this.state;
     const day = plan.days[daySelected - 1];
-    const matcher = _.find(day.items, (i) => {
-      return i.itemId === product.productCode;
-    });
-    if (matcher) {
-      // Remove item from the list
-      day.items = _.filter(day.items, function(i) {
-        return i.itemId !== product.productCode;
+    if (isSelected) {
+      // Item to remove
+      day.isCustomized = true;
+      day.items = _.filter(day.items, (it) => {
+        return it.itemId !== item.itemId;
       });
-    } else if (day.items.length < 3) {
-      // Add item into the list
-      day.items.push({
-        name: product.name,
-        itemType: DataModel.TravelPlanItemType.PRODUCT,
-        itemId: product.productCode,
-        totalPeople: 1,
-        unitPrice: product.price,
-        notes: '',
-      });
+    } else if (!isSelected && day.items.length < 3) {
+      // Item to add
+      day.isCustomized = true;
+      const it =
+        type === DataModel.TravelPlanItemType.PRODUCT
+          ? {
+            name: item.name,
+            itemType: DataModel.TravelPlanItemType.PRODUCT,
+            itemId: item.productCode,
+            destName: item.primaryDestinationName,
+            isUserSelected: true,
+            totalPeople: plan.totalPeople,
+            unitPrice: item.price,
+            imgUrl: item.thumbnailURL,
+            notes: '',
+          }
+          : {
+            name: item.name,
+            itemType: DataModel.TravelPlanItemType.ATTRACTION,
+            itemId: item.seoId,
+            destName: item.primaryDestinationName,
+            isUserSelected: true,
+            totalPeople: plan.totalPeople,
+            unitPrice: 0,
+            imgUrl: item.thumbnailURL,
+            notes: '',
+          };
+      day.items.push(it);
     } else {
       console.warn('max 3 activities per day');
       return;
     }
-    this.setState({plan});*/
+    this.setState({plan});
   }
   handleBtnStartHoliday() {
     const {plan} = this.state;

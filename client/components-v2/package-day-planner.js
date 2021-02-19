@@ -132,6 +132,7 @@ class PackageDayPlanner extends React.Component {
         const isSelected = selectedCity === c.name;
         return (
           <Button
+            key={`${daySelected}##${c.name}`}
             color={isSelected ? 'primary' : 'default'}
             size='small'
             variant='contained'
