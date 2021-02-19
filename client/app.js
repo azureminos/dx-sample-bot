@@ -51,7 +51,7 @@ class App extends React.Component {
     this.handleSetDestination = this.handleSetDestination.bind(this);
     this.handleBtnStartHoliday = this.handleBtnStartHoliday.bind(this);
     this.handleDragItem = this.handleDragItem.bind(this);
-    this.handleSelectProduct = this.handleSelectProduct.bind(this);
+    this.handleSelectItem = this.handleSelectItem.bind(this);
     this.handlePopupClose = this.handlePopupClose.bind(this);
     this.handleRemoveCity = this.handleRemoveCity.bind(this);
     // State
@@ -92,12 +92,14 @@ class App extends React.Component {
     const popup = {open: false, title: '', message: ''};
     const {plan} = this.state;
     const day = plan.days[dayNo - 1];
-    const isEndCity = day.cities.length - 1 === index;
     day.cities = _.concat(
       day.cities.slice(0, index),
       day.cities.slice(index + 1, day.cities.length)
     );
-    if (isEndCity) {
+    if (index === 0) {
+      const dayLast = plan.days[dayNo - 2];
+      dayLast.cities = _.slice(dayLast.cities, 0, dayLast.cities.length - 1);
+    } else if (day.cities.length - 1 === index) {
       const dayNext = plan.days[dayNo];
       dayNext.cities = _.concat(
         [day.cities[day.cities.length - 1]],
@@ -223,8 +225,9 @@ class App extends React.Component {
       if (move(source, destination)) this.setState({plan});
     }
   }
-  handleSelectProduct({product, daySelected}) {
-    console.log('>>>>handleSelectProduct', {product, daySelected});
+  handleSelectItem(input) {
+    console.log('>>>>handleSelectItem', input);
+    /*const {product, daySelected} = input;
     const {plan} = this.state;
     const day = plan.days[daySelected - 1];
     const matcher = _.find(day.items, (i) => {
@@ -249,7 +252,7 @@ class App extends React.Component {
       console.warn('max 3 activities per day');
       return;
     }
-    this.setState({plan});
+    this.setState({plan});*/
   }
   handleBtnStartHoliday() {
     const {plan} = this.state;
@@ -605,6 +608,7 @@ class App extends React.Component {
           handleSetDestination: this.handleSetDestination,
           handlePeopleChange: this.handlePeopleChange,
           handleDragItem: this.handleDragItem,
+          handleSelectItem: this.handleSelectItem,
         };
         page =
           plan.status === Instance.status.DRAFT ? (
