@@ -5,6 +5,7 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import {withStyles} from '@material-ui/core/styles';
 // ====== Icons ======
+import HotelIcon from '@material-ui/icons/Hotel';
 // Variables & Functions
 const styles = (theme) => ({
   root: {
