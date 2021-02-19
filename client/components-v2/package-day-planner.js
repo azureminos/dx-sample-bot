@@ -2,6 +2,7 @@ import _ from 'lodash';
 import React, {createElement} from 'react';
 import Carousel from 'react-multi-carousel';
 import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
 import ItemCard from '../components-v2/item-card';
 import {withStyles} from '@material-ui/core/styles';
 import CONSTANTS from '../../lib/constants';
@@ -13,9 +14,15 @@ const styles = (theme) => ({
     width: '100%',
     backgroundColor: theme.palette.background.paper,
   },
-  divTitle: {
+  divTitleRoot: {
     display: 'flex',
     alignItems: 'center',
+  },
+  divTitleItem: {
+    margin: 4,
+  },
+  fBtnRoot: {
+    margin: 4,
   },
 });
 const responsive1 = {
@@ -128,7 +135,7 @@ class PackageDayPlanner extends React.Component {
             color={isSelected ? 'primary' : 'default'}
             size='small'
             variant='contained'
-            classes={{label: classes.fBtnLabel}}
+            classes={{root: classes.fBtnRoot}}
             onClick={() => {
               this.doHandleSelectCity(c.name);
             }}
@@ -141,11 +148,12 @@ class PackageDayPlanner extends React.Component {
     // Display Widget
     return (
       <div>
-        <div className={classes.divTitle}>
-          <div>{title}</div>
+        <div className={classes.divTitleRoot}>
+          <div className={classes.divTitleItem}>{title}</div>
           {getBtnCity(cities)}
         </div>
-        <div>Activities Planned</div>
+        <Divider />
+        <div className={classes.divTitleItem}>Activities Planned</div>
         <Carousel
           deviceType={'mobile'}
           itemClass='image-item'
@@ -153,7 +161,7 @@ class PackageDayPlanner extends React.Component {
         >
           {getItemCards(itemSelected, true)}
         </Carousel>
-        <div>Things To Do</div>
+        <div className={classes.divTitleItem}>Things To Do</div>
         <Carousel
           deviceType={'mobile'}
           partialVisible
@@ -162,7 +170,7 @@ class PackageDayPlanner extends React.Component {
         >
           {getItemCards(productUnselected, false, TravelPlanItemType.PRODUCT)}
         </Carousel>
-        <div>Local Attractions</div>
+        <div className={classes.divTitleItem}>Local Attractions</div>
         <Carousel
           deviceType={'mobile'}
           partialVisible
