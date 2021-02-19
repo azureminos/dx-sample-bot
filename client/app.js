@@ -15,6 +15,7 @@ import {CSSTransitionGroup} from 'react-transition-group';
 import PageAllTravel from './pages/pg-main';
 import PageStartTrip from './pages/pg-start-trip';
 import PagePlanTrip from './pages/pg-plan-trip';
+import PopupMessage from './components-v2/popup-message';
 // ==== HELPERS =======================================
 import Helper from '../lib/helper';
 import CONSTANTS from '../lib/constants';
@@ -51,6 +52,8 @@ class App extends React.Component {
     this.handleBtnStartHoliday = this.handleBtnStartHoliday.bind(this);
     this.handleDragItem = this.handleDragItem.bind(this);
     this.handleSelectProduct = this.handleSelectProduct.bind(this);
+    this.handlePopupClose = this.handlePopupClose.bind(this);
+    this.handleRemoveCity = this.handleRemoveCity.bind(this);
     // State
     this.state = {
       updating: false,
@@ -69,11 +72,31 @@ class App extends React.Component {
         tagGroups: [],
         activities: {},
       },
+      popup: {
+        open: false,
+        title: '',
+        message: '',
+      },
     };
   }
   /* ==============================
      = Event Handlers             =
      ============================== */
+  handlePopupClose() {
+    // console.log('>>>>handlePopupClose');
+    const popup = {open: false, title: '', message: ''};
+    this.setState({popup});
+  }
+  handleRemoveCity(dayNo, index) {
+    console.log('>>>>handleRemoveCity', {dayNo, index});
+    const {plan} = this.state;
+    const day = plan.days[dayNo - 1];
+    day.cities = _.concat(
+      day.cities.slice(0, index),
+      day.cities.slice(index + 1, day.cities.length)
+    );
+    this.setState({plan});
+  }
   handleDragItem(result) {
     console.log('>>>>handleDragItem', result);
     const {draggableId, source, destination} = result;
@@ -90,13 +113,16 @@ class App extends React.Component {
       if (idxSrc === IDX_DAY_START || idxDst === IDX_DAY_START) {
         // Set as the last city of previous day if moved first city of the day
         plan.days[dayNo - 2].cities.push(day.cities[0]);
+        return true;
       } else if (idxSrc === IDX_DAY_END || idxDst === IDX_DAY_END) {
         // Set as the first city of next day if moved last city of the day
         plan.days[dayNo].cities = _.concat(
           [day.cities[day.cities.length - 1]],
           plan.days[dayNo].cities
         );
+        return true;
       }
+      return false;
     };
     const move = (src, dst) => {
       const srcDay = Number(src.droppableId.split('##')[1]);
@@ -128,13 +154,7 @@ class App extends React.Component {
     const IDX_PLAN_START = 0;
     const IDX_PLAN_END = plan.days[plan.days.length - 1].cities.length - 1;
 
-    if (!destination) {
-      // dropped outside the list, no action
-      return;
-    } else if (
-      source.droppableId === FIRST_DAY &&
-      source.index === IDX_PLAN_START
-    ) {
+    if (source.droppableId === FIRST_DAY && source.index === IDX_PLAN_START) {
       // moved start city of first day, no action
       return;
     } else if (
@@ -142,6 +162,35 @@ class App extends React.Component {
       source.index === IDX_PLAN_END
     ) {
       // moved end city of last day, no action
+      return;
+    } else if (!destination) {
+      // dropped outside the list, popup to confirm remove city
+      const idxSrc = source.index;
+      const dayNo = Number(draggableId.split('##')[1]);
+      const {days} = this.state.plan;
+      if (days[dayNo - 1].cities && days[dayNo - 1].cities.length > 1) {
+        const cityName = days[dayNo - 1].cities[idxSrc];
+        const popup = {
+          open: true,
+          title: 'Remove city from the itinerary',
+          message: `Confirm to remove city ${cityName} from Day ${dayNo}`,
+          buttons: [
+            {
+              name: 'No',
+              click: () => {
+                this.handlePopupClose();
+              },
+            },
+            {
+              name: 'Yes',
+              click: () => {
+                this.handleRemoveCity(dayNo, idxSrc);
+              },
+            },
+          ],
+        };
+        this.setState({popup});
+      }
       return;
     } else if (
       destination.droppableId === FIRST_DAY &&
@@ -159,8 +208,7 @@ class App extends React.Component {
       const idxSrc = source.index;
       const idxDst = destination.index;
       const dayNo = Number(draggableId.split('##')[1]);
-      reorg(dayNo, idxSrc, idxDst);
-      this.setState({plan});
+      if (reorg(dayNo, idxSrc, idxDst)) this.setState({plan});
     }
     if (source.droppableId !== destination.droppableId) {
       if (move(source, destination)) this.setState({plan});
@@ -527,7 +575,7 @@ class App extends React.Component {
     // Local Variables
     console.log('>>>>MobileApp.render', {state: this.state, props: this.props});
     const {apiUri, viewerId, windowWidth} = this.props;
-    const {homepage, plan, planExt, reference} = this.state;
+    const {homepage, plan, planExt, reference, popup} = this.state;
     // Sub Components
     let page = <div>Loading...</div>;
     if (homepage === Page.MainPage) {
@@ -576,6 +624,13 @@ class App extends React.Component {
           transitionLeaveTimeout={500}
         >
           {page}
+          <PopupMessage
+            open={popup.open}
+            handleClose={this.handlePopupClose}
+            title={popup.title}
+            message={popup.message}
+            buttons={popup.buttons}
+          />
         </CSSTransitionGroup>
       </div>
     );

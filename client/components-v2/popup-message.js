@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React, {createElement} from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -21,8 +22,25 @@ class PopupMessage extends React.Component {
   // Render web widget
   render() {
     // ====== Local Variables ======
-    const {open, handleClose, title, message} = this.props;
+    const {open, handleClose, title, message, buttons} = this.props;
     console.log('>>>>PopupMessage.render', {open, title, message});
+    // ====== Local Functions ======
+    const getButtons = (btns) => {
+      if (btns && btns.length > 0) {
+        return _.map(btns, (b) => {
+          return (
+            <Button key={b.name} onClick={b.click} color='primary'>
+              {b.name}
+            </Button>
+          );
+        });
+      }
+      return (
+        <Button onClick={handleClose} color='primary' autoFocus>
+          Close
+        </Button>
+      );
+    };
     // ====== Web Elements ======
     // ====== Display ======
     return (
@@ -38,11 +56,7 @@ class PopupMessage extends React.Component {
             {message}
           </DialogContentText>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color='primary' autoFocus>
-            Close
-          </Button>
-        </DialogActions>
+        <DialogActions>{getButtons(buttons)}</DialogActions>
       </Dialog>
     );
   }
