@@ -46,6 +46,8 @@ class LocationSearchInput extends React.Component {
               } else {
                 tmpAddress = `${address.split(', ')[0]}, ${tmpAddress}`;
               }
+            } else {
+              tmpAddress = address;
             }
             this.props.handleChange({
               type: helper.validateAddressType(results[0].types),
