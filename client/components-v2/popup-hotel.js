@@ -50,7 +50,7 @@ class PopupHotel extends React.Component {
   doHandleAddressChange(input) {
     // console.log('>>>>PopupHotel.doHandleAddressChange', input);
     const {address, location, type} = input;
-    if (location && type !== 'locality') {
+    if (location) {
       if (type !== 'locality') {
         this.setState({
           error: '',
