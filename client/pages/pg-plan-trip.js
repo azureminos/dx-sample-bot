@@ -129,6 +129,7 @@ class PagePlanTrip extends React.Component {
     this.doHandleDateRangeChange = this.doHandleDateRangeChange.bind(this);
     this.doHandlePeopleChange = this.doHandlePeopleChange.bind(this);
     this.handlePopupClose = this.handlePopupClose.bind(this);
+    this.handleBtnHotel = this.handleBtnHotel.bind(this);
     this.handleHotelClose = this.handleHotelClose.bind(this);
     // Init state
     this.state = {
@@ -157,6 +158,10 @@ class PagePlanTrip extends React.Component {
   handleHotelClose() {
     // console.log('>>>>PageStartTrip.handleHotelClose');
     const popupHotel = {open: false, message: '', dayNo: null};
+    this.setState({popupHotel});
+  }
+  handleBtnHotel(dayNo) {
+    const popupHotel = {open: true, message: '', dayNo: dayNo};
     this.setState({popupHotel});
   }
   handleBtnComplete() {
@@ -360,7 +365,11 @@ class PagePlanTrip extends React.Component {
             plan={plan}
             planExt={planExt}
             reference={reference}
-            actions={{...actions, handleTabSelect: this.doHandleTabSelect}}
+            actions={{
+              ...actions,
+              handleBtnHotel: this.handleBtnHotel,
+              handleTabSelect: this.doHandleTabSelect,
+            }}
           />
         </TabPanel>,
       ];
