@@ -25,8 +25,7 @@ const styles = (theme) => ({
     transform: 'translateZ(0)',
   },
   divStyle: {
-    marginTop: 4,
-    marginBottom: 4,
+    margin: '4px 0px',
   },
   divFlex: {
     display: 'flex',
@@ -36,7 +35,7 @@ const styles = (theme) => ({
     justifyContent: 'space-between',
   },
   divBtnHotel: {
-    padding: 4,
+    padding: 0,
   },
 });
 
