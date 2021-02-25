@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React, {createElement} from 'react';
 import PlacesAutocomplete, {geocodeByAddress} from 'react-places-autocomplete';
 import CONSTANTS from '../../lib/constants';
@@ -31,9 +32,24 @@ class LocationSearchInput extends React.Component {
           const {location} = results[0].geometry;
           const geoLoc = `${location.lat()}, ${location.lng()}`;
           if (this.props.handleChange) {
+            const tmpType = helper.validateAddressType(results[0].types);
+            const fistTypes = results[0].address_components[0].types;
+            let tmpAddress = results[0].formatted_address;
+            if (tmpType === 'establishment') {
+              const matcher = _.find(fistTypes, (t) => {
+                return t === 'establishment';
+              });
+              if (matcher) {
+                tmpAddress = `${address.split(', ')[0]}, ${tmpAddress.substring(
+                  tmpAddress.indexOf(', ') + 2
+                )}`;
+              } else {
+                tmpAddress = `${address.split(', ')[0]}, ${tmpAddress}`;
+              }
+            }
             this.props.handleChange({
               type: helper.validateAddressType(results[0].types),
-              address: results[0].formatted_address,
+              address: tmpAddress,
               location: geoLoc,
             });
           }
