@@ -31,6 +31,10 @@ const styles = (theme) => ({
   divFlex: {
     display: 'flex',
   },
+  divDayTitle: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
   divBtnHotel: {},
 });
 
@@ -116,7 +120,7 @@ class PackageSummary extends React.Component {
       // console.log('>>>>DnD.getDayBlock', day);
       return (
         <div key={`day##${day.dayNo}`}>
-          <div className={classes.divFlex}>
+          <div className={classes.divDayTitle}>
             <div className={classes.divStyle}>{`Day ${day.dayNo}`}</div>
             <IconButton
               onClick={() => {
@@ -124,7 +128,7 @@ class PackageSummary extends React.Component {
               }}
               className={classes.divBtnHotel}
             >
-              <HotelIcon color='primary' fontSize='default' />
+              <HotelIcon color='primary' fontSize='small' />
             </IconButton>
           </div>
           <div className={classes.rootGridList}>
