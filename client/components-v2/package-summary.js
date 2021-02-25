@@ -35,7 +35,9 @@ const styles = (theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
   },
-  divBtnHotel: {},
+  divBtnHotel: {
+    padding: 4,
+  },
 });
 
 const getItemStyle = (isDragging, draggableStyle) => ({
@@ -126,9 +128,9 @@ class PackageSummary extends React.Component {
               onClick={() => {
                 this.doHandleBtnHotel(day.dayNo);
               }}
-              className={classes.divBtnHotel}
+              classes={{root: classes.divBtnHotel}}
             >
-              <HotelIcon color='primary' fontSize='small' />
+              <HotelIcon color='primary' fontSize='default' />
             </IconButton>
           </div>
           <div className={classes.rootGridList}>
