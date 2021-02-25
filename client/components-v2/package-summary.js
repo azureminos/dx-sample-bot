@@ -64,7 +64,7 @@ class PackageSummary extends React.Component {
     console.log('>>>>PackageSummary.doHandleBtnHotel', dayNo);
     const {actions} = this.props;
     if (actions && actions.handleBtnHotel) {
-      actions.handleDragItem(dayNo);
+      actions.handleBtnHotel(dayNo);
     }
   }
   doHandleDragItem(result) {
