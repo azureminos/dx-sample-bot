@@ -21,36 +21,42 @@ class PopupHotel extends React.Component {
     this.doHandleAddressChange = this.doHandleAddressChange.bind(this);
     // Set initial state
     this.state = {
-      selectedAddress: '',
-      selectedLocation: '',
+      sAddress: '',
+      sLocation: '',
+      sAddressType: '',
     };
   }
   // ====== Event Handler ======
   doHandleClose() {
     // console.log('>>>>PopupHotel.doHandleClose');
-    this.setState({selectedAddress: '', selectedLocation: ''});
+    this.setState({sAddress: '', sLocation: '', sAddressType: ''});
     if (this.props.handleClose) {
       this.props.handleClose();
     }
   }
   doHandleUpdateHotel() {
     console.log('>>>>PopupHotel.doHandleUpdateHotel', this.state);
-    const {selectedAddress, selectedLocation} = this.state;
+    const {sAddress, sLocation, sAddressType} = this.state;
     if (this.props.handleUpdateHotel) {
       this.props.handleUpdateHotel({
-        address: selectedAddress,
-        location: selectedLocation,
+        address: sAddress,
+        type: sAddressType,
+        location: sLocation,
         dayNo: this.props.dayNo,
       });
     }
   }
   doHandleAddressChange(input) {
-    const {address, location} = input;
     console.log('>>>>PopupHotel.doHandleAddressChange', input);
-    if (location) {
-      this.setState({selectedAddress: address, selectedLocation: location});
+    const {address, location, type} = input;
+    if (location && type !== 'locality') {
+      this.setState({
+        sAddress: address,
+        sLocation: location,
+        sAddressType: type,
+      });
     } else {
-      this.setState({selectedAddress: address, selectedLocation: ''});
+      this.setState({sAddress: address, sLocation: '', sAddressType: ''});
     }
   }
   // Render web widget
@@ -59,7 +65,7 @@ class PopupHotel extends React.Component {
     console.log('>>>>PopupHotel.render', this.props);
     const {classes, open, message, hotel} = this.props;
     const hotelAddress = hotel ? hotel.address : '';
-    const selectedAddress = this.state.selectedAddress || hotelAddress;
+    const sAddress = this.state.sAddress || hotelAddress;
     // ====== Local Functions ======
     const getMessage = (msg) => {
       if (msg) {
@@ -83,13 +89,8 @@ class PopupHotel extends React.Component {
             <LocationSearchInput
               hints={'Where to stay?'}
               fullWidth
-              handleChange={({address, location}) => {
-                this.doHandleAddressChange({
-                  address,
-                  location,
-                });
-              }}
-              address={selectedAddress}
+              handleChange={this.doHandleAddressChange}
+              address={sAddress}
             />
           </div>
         </DialogContent>

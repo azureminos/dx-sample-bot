@@ -338,12 +338,8 @@ class PagePlanTrip extends React.Component {
                     <LocationSearchInput
                       hints={'Where to?'}
                       fullWidth
-                      handleChange={({address, location}) => {
-                        this.doHandleAddressChange({
-                          address,
-                          location,
-                          destinations,
-                        });
+                      handleChange={(input) => {
+                        this.doHandleAddressChange({...input, destinations});
                       }}
                       address={selectedAddress}
                     />

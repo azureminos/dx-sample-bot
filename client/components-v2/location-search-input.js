@@ -1,6 +1,7 @@
 import React, {createElement} from 'react';
 import PlacesAutocomplete, {geocodeByAddress} from 'react-places-autocomplete';
 import CONSTANTS from '../../lib/constants';
+import helper from '../../lib/helper';
 
 // Variables
 const {Global} = CONSTANTS.get();
@@ -10,27 +11,31 @@ class LocationSearchInput extends React.Component {
     super(props);
   }
 
-  handleChange = (address) => {
+  handleChange(address) {
     if (this.props.handleChange) {
       this.props.handleChange({address, location: ''});
     }
-  };
+  }
 
-  handleSelect = (address) => {
+  handleSelect(address) {
     // console.log('Address Selected', address);
     geocodeByAddress(address)
       .then((results) => {
-        console.log('>>>>geocodeByAddress', results);
+        // console.log('>>>>geocodeByAddress', results);
         if (results && results.length > 0) {
           const {location} = results[0].geometry;
           const geoLoc = `${location.lat()}, ${location.lng()}`;
           if (this.props.handleChange) {
-            this.props.handleChange({address, location: geoLoc});
+            this.props.handleChange({
+              type: helper.validateAddressType(results[0].types),
+              address: results[0].formatted_address,
+              location: geoLoc,
+            });
           }
         }
       })
       .catch((error) => console.error('Error', error));
-  };
+  }
 
   render() {
     const hints = this.props.hints || 'Where to?';

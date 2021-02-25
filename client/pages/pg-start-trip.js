@@ -156,8 +156,8 @@ class PageStartTrip extends React.Component {
     }
   }
   doHandleAddressChange(input) {
-    const {address, location, destinations} = input;
     // console.log('>>>>PageStartTrip.doHandleAddressChange', input);
+    const {address, location, destinations} = input;
     if (location) {
       const closeCity = Helper.findCloseCity(location, destinations);
       // console.log('>>>>PageStartTrip.doHandleAddressChange rs', closeCity);
@@ -293,12 +293,8 @@ class PageStartTrip extends React.Component {
                     <LocationSearchInput
                       hints={'Where from?'}
                       fullWidth
-                      handleChange={({address, location}) => {
-                        this.doHandleAddressChange({
-                          address,
-                          location,
-                          destinations,
-                        });
+                      handleChange={(input) => {
+                        this.doHandleAddressChange({...input, destinations});
                       }}
                       address={selectedAddress}
                     />
