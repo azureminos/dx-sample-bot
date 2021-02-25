@@ -102,9 +102,8 @@ const nDayPlan = new Schema({
   name: Schema.Types.String,
   description: Schema.Types.String,
   type: Schema.Types.String,
-  startCityId: Schema.Types.Number,
-  endCityId: Schema.Types.Number,
-  otherCityIds: [Schema.Types.Number],
+  cities: Schema.Types.Mixed,
+  hotel: Schema.Types.Mixed,
   notes: Schema.Types.String,
 });
 const dbDayPlan = mongoose.model('RefDayPlan', nDayPlan);
@@ -139,6 +138,7 @@ const nTravelPlanDay = new mongoose.Schema({
   travelPlan: {type: Schema.Types.ObjectId, ref: 'TravelPlan'},
   dayNo: Schema.Types.Number,
   cities: Schema.Types.Mixed,
+  hotel: Schema.Types.Mixed,
   notes: Schema.Types.String,
   additionalField: Schema.Types.String,
   createdAt: Schema.Types.Date,

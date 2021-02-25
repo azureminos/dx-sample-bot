@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import React, {createElement} from 'react';
 import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
+import IconButton from '@material-ui/core/IconButton';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import {withStyles} from '@material-ui/core/styles';
@@ -27,9 +28,10 @@ const styles = (theme) => ({
     marginTop: 4,
     marginBottom: 4,
   },
-  divCities: {
+  divFlex: {
     display: 'flex',
   },
+  divBtnHotel: {},
 });
 
 const getItemStyle = (isDragging, draggableStyle) => ({
@@ -53,10 +55,18 @@ class PackageSummary extends React.Component {
     // Bind event handlers
     this.doHandleDragItem = this.doHandleDragItem.bind(this);
     this.doHandleTabSelect = this.doHandleTabSelect.bind(this);
+    this.doHandleBtnHotel = this.doHandleBtnHotel.bind(this);
     // Init data
     // Setup state
   }
   // Event Handlers
+  doHandleBtnHotel(dayNo) {
+    console.log('>>>>PackageSummary.doHandleBtnHotel', dayNo);
+    const {actions} = this.props;
+    if (actions && actions.handleBtnHotel) {
+      actions.handleDragItem(dayNo);
+    }
+  }
   doHandleDragItem(result) {
     console.log('>>>>PackageSummary.doHandleDragItem', result);
     const {actions} = this.props;
@@ -78,7 +88,7 @@ class PackageSummary extends React.Component {
     // Local Functions
     const getCityItems = (day) => {
       return (
-        <div className={classes.divCities}>
+        <div className={classes.divFlex}>
           {_.map(day.cities, (cc, index) => {
             const uItemId = `item##${day.dayNo}##${cc.destinationId}##${index}`;
             return (
@@ -106,7 +116,17 @@ class PackageSummary extends React.Component {
       // console.log('>>>>DnD.getDayBlock', day);
       return (
         <div key={`day##${day.dayNo}`}>
-          <div className={classes.divStyle}>{`Day ${day.dayNo}`}</div>
+          <div className={classes.divFlex}>
+            <div className={classes.divStyle}>{`Day ${day.dayNo}`}</div>
+            <IconButton
+              onClick={() => {
+                this.doHandleBtnHotel(day.dayNo);
+              }}
+              className={classes.divBtnHotel}
+            >
+              <HotelIcon color='primary' fontSize='default' />
+            </IconButton>
+          </div>
           <div className={classes.rootGridList}>
             <GridList className={classes.divGridList} cols={3}>
               {_.map(day.items, (item) => {

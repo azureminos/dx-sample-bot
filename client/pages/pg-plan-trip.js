@@ -14,6 +14,7 @@ import LocationSearchInput from '../components-v2/location-search-input';
 import PopupMessage from '../components-v2/popup-message';
 import PackageSummary from '../components-v2/package-summary';
 import PackageDayPlanner from '../components-v2/package-day-planner';
+import PopupHotel from '../components-v2/popup-hotel';
 import Helper from '../../lib/helper';
 import CONSTANTS from '../../lib/constants';
 // ====== Icons && CSS ======
@@ -123,11 +124,13 @@ class PagePlanTrip extends React.Component {
   constructor(props) {
     super(props);
     // Bind handler
+    this.doHandleBtnHotel = this.doHandleBtnHotel.bind(this);
     this.doHandleTabSelect = this.doHandleTabSelect.bind(this);
     this.doHandleAddressChange = this.doHandleAddressChange.bind(this);
     this.doHandleDateRangeChange = this.doHandleDateRangeChange.bind(this);
     this.doHandlePeopleChange = this.doHandlePeopleChange.bind(this);
     this.handlePopupClose = this.handlePopupClose.bind(this);
+    this.handleHotelClose = this.handleHotelClose.bind(this);
     // Init state
     this.state = {
       tabSelected: 0,
@@ -139,6 +142,11 @@ class PagePlanTrip extends React.Component {
         title: '',
         message: '',
       },
+      popupHotel: {
+        open: false,
+        message: '',
+        dayNo: null,
+      },
     };
   }
   // Event Handler
@@ -146,6 +154,11 @@ class PagePlanTrip extends React.Component {
     // console.log('>>>>PagePlanTrip.handlePopupClose');
     const popup = {open: false, title: '', message: ''};
     this.setState({popup});
+  }
+  handleHotelClose() {
+    // console.log('>>>>PageStartTrip.handleHotelClose');
+    const popupHotel = {open: false, message: '', dayNo: null};
+    this.setState({popupHotel});
   }
   handleBtnComplete() {
     // e.preventDefault();
@@ -222,9 +235,9 @@ class PagePlanTrip extends React.Component {
   render() {
     console.log('>>>>PagePlanTrip, render()', this.props);
     const {classes, plan, planExt, reference, actions} = this.props;
-    const {tagGroups, destinations} = reference;
+    const {destinations} = reference;
     const {startDate, endDate, totalPeople} = plan;
-    const {focusedDateInput, selectedAddress, popup} = this.state;
+    const {focusedDateInput, selectedAddress, popup, popupHotel} = this.state;
     const isNotAllowAdd = totalPeople >= Global.maxPeopleSelection;
     const isNotAllowRemove = totalPeople <= 1;
     // Local Functions
@@ -374,6 +387,14 @@ class PagePlanTrip extends React.Component {
             handleClose={this.handlePopupClose}
             title={popup.title}
             message={popup.message}
+          />
+          <PopupHotel
+            open={popupHotel.open}
+            message={popupHotel.message}
+            dayNo={popupHotel.dayNo}
+            hotel={popupHotel.dayNo ? plan.days[popupHotel.dayNo].hotel : null}
+            handleClose={this.handleHotelClose}
+            handleUpdateHotel={actions.handleUpdateHotel}
           />
         </div>
       );

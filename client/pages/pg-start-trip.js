@@ -4,7 +4,6 @@ import 'react-dates/initialize';
 import {DateRangePicker} from 'react-dates';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
@@ -108,7 +107,7 @@ class PageStartTrip extends React.Component {
   constructor(props) {
     super(props);
     // Bind handler
-    this.dohandleBtnStartHoliday = this.dohandleBtnStartHoliday.bind(this);
+    this.doHandleBtnStartHoliday = this.doHandleBtnStartHoliday.bind(this);
     this.doHandleAddressChange = this.doHandleAddressChange.bind(this);
     this.doHandleDateRangeChange = this.doHandleDateRangeChange.bind(this);
     this.doHandleTagGroupChange = this.doHandleTagGroupChange.bind(this);
@@ -132,8 +131,8 @@ class PageStartTrip extends React.Component {
     const popup = {open: false, title: '', message: ''};
     this.setState({popup});
   }
-  dohandleBtnStartHoliday(plan) {
-    // console.log('>>>>PageStartTrip.dohandleBtnStartHoliday', plan);
+  doHandleBtnStartHoliday(plan) {
+    // console.log('>>>>PageStartTrip.doHandleBtnStartHoliday', plan);
     const {startDate, endDate, startCity} = plan;
     if (!startDate || !endDate) {
       const popup = {
@@ -156,7 +155,7 @@ class PageStartTrip extends React.Component {
       }
     }
   }
-  doHandleAddressChange = (input) => {
+  doHandleAddressChange(input) {
     const {address, location, destinations} = input;
     // console.log('>>>>PageStartTrip.doHandleAddressChange', input);
     if (location) {
@@ -196,7 +195,7 @@ class PageStartTrip extends React.Component {
     } else {
       this.setState({selectedAddress: address, selectedLocation: ''});
     }
-  };
+  }
   doHandleDateRangeChange(input) {
     // console.log('>>>>PageStartTrip.doHandleDateRangeChange', input);
     const {actions} = this.props;
@@ -380,7 +379,7 @@ class PageStartTrip extends React.Component {
                 color='primary'
                 classes={{label: classes.fBtnLabel}}
                 onClick={() => {
-                  this.dohandleBtnStartHoliday(plan);
+                  this.doHandleBtnStartHoliday(plan);
                 }}
               >
                 Start My Holiday

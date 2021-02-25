@@ -54,6 +54,7 @@ class App extends React.Component {
     this.handleSelectItem = this.handleSelectItem.bind(this);
     this.handlePopupClose = this.handlePopupClose.bind(this);
     this.handleRemoveCity = this.handleRemoveCity.bind(this);
+    this.handleUpdateHotel = this.handleUpdateHotel.bind(this);
     // State
     this.state = {
       updating: false,
@@ -86,6 +87,9 @@ class App extends React.Component {
     // console.log('>>>>handlePopupClose');
     const popup = {open: false, title: '', message: ''};
     this.setState({popup});
+  }
+  handleUpdateHotel(input) {
+    console.log('>>>>handleUpdateHotel', input);
   }
   handleRemoveCity(dayNo, index) {
     console.log('>>>>handleRemoveCity', {dayNo, index});
@@ -294,6 +298,7 @@ class App extends React.Component {
             dayNo: i + 1,
             items: [],
             cities: tmpCity ? [tmpCity] : [],
+            hotel: null,
           });
         }
       } else if (days.length > totalDays) {
@@ -625,6 +630,7 @@ class App extends React.Component {
           handlePeopleChange: this.handlePeopleChange,
           handleDragItem: this.handleDragItem,
           handleSelectItem: this.handleSelectItem,
+          handleUpdateHotel: this.handleUpdateHotel,
         };
         page =
           plan.status === Instance.status.DRAFT ? (
