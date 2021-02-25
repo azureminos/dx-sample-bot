@@ -124,7 +124,6 @@ class PagePlanTrip extends React.Component {
   constructor(props) {
     super(props);
     // Bind handler
-    this.doHandleBtnHotel = this.doHandleBtnHotel.bind(this);
     this.doHandleTabSelect = this.doHandleTabSelect.bind(this);
     this.doHandleAddressChange = this.doHandleAddressChange.bind(this);
     this.doHandleDateRangeChange = this.doHandleDateRangeChange.bind(this);
