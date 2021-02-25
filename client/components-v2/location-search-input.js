@@ -9,6 +9,11 @@ const {Global} = CONSTANTS.get();
 class LocationSearchInput extends React.Component {
   constructor(props) {
     super(props);
+    // Bind event handlers
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSelect = this.handleSelect.bind(this);
+    // Init data
+    // Setup state
   }
 
   handleChange(address) {
