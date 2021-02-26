@@ -128,6 +128,7 @@ class PagePlanTrip extends React.Component {
     this.doHandleAddressChange = this.doHandleAddressChange.bind(this);
     this.doHandleDateRangeChange = this.doHandleDateRangeChange.bind(this);
     this.doHandlePeopleChange = this.doHandlePeopleChange.bind(this);
+    this.doHandleUpdateHotel = this.doHandleUpdateHotel.bind(this);
     this.handlePopupClose = this.handlePopupClose.bind(this);
     this.handleBtnHotel = this.handleBtnHotel.bind(this);
     this.handleHotelClose = this.handleHotelClose.bind(this);
@@ -171,6 +172,15 @@ class PagePlanTrip extends React.Component {
   doHandleTabSelect(event, newValue) {
     // console.log('>>>>PagePlanTrip.doHandleTabSelect', newValue);
     this.setState({tabSelected: newValue});
+  }
+  doHandleUpdateHotel(input) {
+    // console.log('>>>>PagePlanTrip.doHandleUpdateHotel', input);
+    const popupHotel = {open: false, message: '', dayNo: null};
+    this.setState({popupHotel});
+    const {actions} = this.props;
+    if (actions && actions.handleUpdateHotel) {
+      actions.handleUpdateHotel(input);
+    }
   }
   doHandleAddressChange(input) {
     const {address, location, destinations} = input;
