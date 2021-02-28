@@ -90,6 +90,16 @@ class App extends React.Component {
   }
   handleUpdateHotel(input) {
     console.log('>>>>handleUpdateHotel', input);
+    const {dayNo, type, address, location} = input;
+    const {destinations} = this.state.reference;
+    const {country} = this.state.planExt;
+    const hotel = Helper.validateAddressType(
+      type,
+      address,
+      country,
+      destinations
+    );
+    console.log('>>>>handleUpdateHotel rs', hotel);
   }
   handleRemoveCity(dayNo, index) {
     console.log('>>>>handleRemoveCity', {dayNo, index});

@@ -35,9 +35,9 @@ class LocationSearchInput extends React.Component {
             const tmpType = helper.validateAddressType(results[0].types);
             const fistTypes = results[0].address_components[0].types;
             let tmpAddress = results[0].formatted_address;
-            if (tmpType === 'establishment') {
+            if (tmpType === Global.ADDR_TYPE_ESTBSH) {
               const matcher = _.find(fistTypes, (t) => {
-                return t === 'establishment';
+                return t === Global.ADDR_TYPE_ESTBSH;
               });
               if (matcher) {
                 tmpAddress = `${address.split(', ')[0]}, ${tmpAddress.substring(

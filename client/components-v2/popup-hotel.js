@@ -6,9 +6,11 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import LocationSearchInput from '../components-v2/location-search-input';
+import CONSTANTS from '../../lib/constants';
 import {withStyles} from '@material-ui/core/styles';
 
 // Variables
+const {Global} = CONSTANTS.get();
 const styles = (theme) => ({});
 
 class PopupHotel extends React.Component {
@@ -51,7 +53,7 @@ class PopupHotel extends React.Component {
     // console.log('>>>>PopupHotel.doHandleAddressChange', input);
     const {address, location, type} = input;
     if (location) {
-      if (type !== 'locality') {
+      if (type !== Global.ADDR_TYPE_LOCALT) {
         this.setState({
           error: '',
           sAddress: address,
