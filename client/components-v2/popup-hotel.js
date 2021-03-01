@@ -40,6 +40,7 @@ class PopupHotel extends React.Component {
   doHandleUpdateHotel() {
     // console.log('>>>>PopupHotel.doHandleUpdateHotel', this.state);
     const {sAddress, sLocation, sAddressType} = this.state;
+    this.setState({error: '', sAddress: '', sLocation: '', sAddressType: ''});
     if (this.props.handleUpdateHotel) {
       this.props.handleUpdateHotel({
         address: sAddress,

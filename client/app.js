@@ -93,7 +93,7 @@ class App extends React.Component {
     const {dayNo, type, address, location} = input;
     const {destinations} = this.state.reference;
     const {country} = this.state.planExt;
-    const hotel = Helper.validateAddressType(
+    const hotel = Helper.getHotelFromAddress(
       type,
       address,
       country,
