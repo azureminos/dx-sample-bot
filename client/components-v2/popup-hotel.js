@@ -85,7 +85,9 @@ class PopupHotel extends React.Component {
     console.log('>>>>PopupHotel.render', this.props);
     const {open, message, hotel} = this.props;
     const {error, sLocation} = this.state;
-    const hotelAddress = hotel ? hotel.address : '';
+    const hotelAddress = hotel
+      ? `${hotel.name || ''}${hotel.name ? ', ' : ''}${hotel.address}`
+      : '';
     const sAddress = this.state.sAddress || hotelAddress;
     // ====== Local Functions ======
     const getMessage = (msg) => {

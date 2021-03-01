@@ -91,6 +91,7 @@ class App extends React.Component {
   handleUpdateHotel(input) {
     console.log('>>>>handleUpdateHotel', input);
     const {dayNo, type, address, location} = input;
+    const {plan} = this.state;
     const {destinations} = this.state.reference;
     const {country} = this.state.planExt;
     const hotel = Helper.getHotelFromAddress(
@@ -100,6 +101,8 @@ class App extends React.Component {
       destinations
     );
     console.log('>>>>handleUpdateHotel rs', hotel);
+    plan.days[dayNo].hotel = {...hotel, location};
+    this.state.set({plan});
   }
   handleRemoveCity(dayNo, index) {
     console.log('>>>>handleRemoveCity', {dayNo, index});
