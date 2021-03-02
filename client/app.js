@@ -102,25 +102,50 @@ class App extends React.Component {
     );
     console.log('>>>>handleUpdateHotel rs', hotel);
     plan.days[dayNo].hotel = {...hotel, location};
-    this.state.set({plan});
+    this.setState({plan});
   }
   handleRemoveCity(dayNo, index) {
     console.log('>>>>handleRemoveCity', {dayNo, index});
     const popup = {open: false, title: '', message: ''};
-    const {plan} = this.state;
-    const day = plan.days[dayNo - 1];
+    const {activities, dayPlans} = this.state.reference;
+    const tags = this.state.planExt.selectedTagGroups;
+    const plan = this.state.plan;
+    const {totalPeople, days} = plan;
+
+    const day = days[dayNo - 1];
     day.cities = _.concat(
       day.cities.slice(0, index),
       day.cities.slice(index + 1, day.cities.length)
     );
+    day.items = Helper.checkDayActivity(
+      day,
+      totalPeople,
+      tags,
+      activities,
+      dayPlans
+    );
     if (index === 0) {
-      const dayLast = plan.days[dayNo - 2];
-      dayLast.cities = _.slice(dayLast.cities, 0, dayLast.cities.length - 1);
+      const dayPrev = plan.days[dayNo - 2];
+      dayPrev.cities = _.slice(dayPrev.cities, 0, dayPrev.cities.length - 1);
+      dayPrev.items = Helper.checkDayActivity(
+        dayPrev,
+        totalPeople,
+        tags,
+        activities,
+        dayPlans
+      );
     } else if (day.cities.length - 1 === index) {
       const dayNext = plan.days[dayNo];
       dayNext.cities = _.concat(
         [day.cities[day.cities.length - 1]],
         dayNext.cities
+      );
+      dayNext.items = Helper.checkDayActivity(
+        dayNext,
+        totalPeople,
+        tags,
+        activities,
+        dayPlans
       );
     }
     this.setState({plan, popup});
