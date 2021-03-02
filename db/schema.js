@@ -332,6 +332,18 @@ const getAttractionByNameBlur = (keys, callback) => {
       callback(err, docs);
     });
 };
+const savePlan = (plan, callback) => {
+  // console.log('>>>>Model.savePlan', plan);
+  callback();
+};
+const savePlanDay = (day, callback) => {
+  // console.log('>>>>Model.savePlanDay', plan);
+  callback();
+};
+const savePlanDayItem = (item, callback) => {
+  // console.log('>>>>Model.savePlanDayItem', plan);
+  callback();
+};
 /* ============= Old Schemas ============= */
 // Members
 const scMember = new Schema({
@@ -368,4 +380,8 @@ export default {
   getProductByName,
   getAttractionByName,
   getAttractionByNameBlur,
+  // Transactional Functions
+  savePlan,
+  savePlanDay,
+  savePlanDayItem,
 };
