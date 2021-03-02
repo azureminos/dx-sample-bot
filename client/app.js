@@ -315,9 +315,10 @@ class App extends React.Component {
   }
   handleBtnStartHoliday() {
     const {plan} = this.state;
+    const {viewerId} = this.props;
     plan.status = Instance.status.INITIATED;
     this.setState({plan});
-    this.pushToRemote('plan:save', {plan});
+    this.pushToRemote('plan:save', {plan, senderId: viewerId});
   }
   handleDateRangeChange({startDate, endDate}) {
     // console.log('>>>>handleDateRangeChange', {startDate, endDate});
