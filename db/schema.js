@@ -150,6 +150,7 @@ const nTravelPlanDay = new mongoose.Schema({
 const DbTravelPlanDay = mongoose.model('TravelPlanDay', nTravelPlanDay);
 // Transaction - Travel Plan Item
 const nTravelPlanItem = new mongoose.Schema({
+  travelPlan: {type: Schema.Types.ObjectId, ref: 'TravelPlan'},
   travelPlanDay: {type: Schema.Types.ObjectId, ref: 'TravelPlanDay'},
   daySeq: Schema.Types.Number,
   itemType: Schema.Types.String,
@@ -323,18 +324,23 @@ const getAttractionByNameBlur = (keys, callback) => {
       callback(err, docs);
     });
 };
-const createPlan = (plan, callback) => {
-  console.log('>>>>Model.createPlan', plan);
-  const inst = new DbTravelPlan(plan);
+const createPlan = (input, callback) => {
+  console.log('>>>>Model.createPlan', input);
+  const inst = new DbTravelPlan(input);
   inst.save(callback);
 };
 const updatePlan = (plan, callback) => {
   // console.log('>>>>Model.updatePlan', plan);
   callback();
 };
-const createPlanDay = (day, callback) => {
+const createPlanDay = (input, callback) => {
   // console.log('>>>>Model.createPlanDay', plan);
-  callback();
+  if (Array.isArray(input)) {
+    DbTravelPlanDay.insertMany(input, callback);
+  } else {
+    const day = new DbTravelPlanDay(input);
+    day.save(callback);
+  }
 };
 const updatePlanDay = (day, callback) => {
   // console.log('>>>>Model.updatePlanDay', plan);

@@ -28,15 +28,32 @@ const PackageStatus = TravelPackage.status;
 const savePlan = (input) => {
   const {request, sendStatus, socket, socketUsers} = input;
   console.log('>>>>Socket.savePlan', {request, socketUsers});
-  const {plan, senderId, planId} = request;
+  const {plan, senderId} = request;
+  let planId = request.planId;
   if (!planId) {
     // create full record in DB for Plan, PlanDay and PlanDayItem
     plan.createdAt = new Date();
     plan.createdBy = senderId;
     plan.updatedAt = new Date();
     plan.updatedBy = senderId;
-    Model.createPlan(plan, (err, docs) => {
-      console.log('>>>>Model.createPlan, Plan Saved', {err, docs});
+    Model.createPlan(plan, (err, tmpPlan) => {
+      console.log('>>>>Model.createPlan, Plan Saved', {err, tmpPlan});
+      planId = tmpPlan._id;
+      const days = _.map(plan.days, (d) => {
+        return {
+          travelPlan: planId,
+          dayNo: d.dayNo,
+          cities: d.cities,
+          hotel: d.hotel,
+          createdAt: new Date(),
+          createdBy: senderId,
+          updatedAt: new Date(),
+          updatedBy: senderId,
+        };
+      });
+      Model.createPlanDay(days, (err, tmpDays) => {
+        console.log('>>>>Model.createPlan, PlanDay Saved', {err, tmpDays});
+      });
     });
   } else {
     // only update Plan in DB
