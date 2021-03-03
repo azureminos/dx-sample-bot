@@ -34,8 +34,8 @@ const savePlan = (input) => {
     const resp = {};
     const oPlan = {
       status: plan.status,
-      startDate: plan.startDate.toDate(),
-      endDate: plan.endDate.toDate(),
+      startDate: plan.startDate,
+      endDate: plan.endDate,
       startCity: plan.startCity,
       endCity: plan.endCity,
       totalPeople: plan.totalPeople,
