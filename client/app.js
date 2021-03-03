@@ -319,15 +319,7 @@ class App extends React.Component {
     this.setState({plan});
     // Sync to server
     const senderId = this.props.viewerId;
-    const oPlan = {
-      status: plan.status,
-      startDate: plan.startDate.toDate(),
-      endDate: plan.endDate.toDate(),
-      startCity: plan.startCity,
-      endCity: plan.endCity,
-      totalPeople: plan.totalPeople,
-    };
-    this.pushToRemote('plan:save', {plan: oPlan, senderId});
+    this.pushToRemote('plan:save', {plan, senderId});
   }
   handleDateRangeChange({startDate, endDate}) {
     // console.log('>>>>handleDateRangeChange', {startDate, endDate});
