@@ -29,19 +29,33 @@ const savePlan = (input) => {
   const {request, sendStatus, socket, socketUsers} = input;
   console.log('>>>>Socket.savePlan', {request, socketUsers});
   const {plan, senderId} = request;
-  let planId = request.planId;
-  if (!planId) {
+  if (!plan._id) {
     // create full record in DB for Plan, PlanDay and PlanDayItem
-    plan.createdAt = new Date();
-    plan.createdBy = senderId;
-    plan.updatedAt = new Date();
-    plan.updatedBy = senderId;
-    Model.createPlan(plan, (err, tmpPlan) => {
-      console.log('>>>>Model.createPlan, Plan Saved', {err, tmpPlan});
-      planId = tmpPlan._id;
-      const days = _.map(plan.days, (d) => {
+    const resp = {};
+    const oPlan = {
+      status: plan.status,
+      startDate: plan.startDate.toDate(),
+      endDate: plan.endDate.toDate(),
+      startCity: plan.startCity,
+      endCity: plan.endCity,
+      totalPeople: plan.totalPeople,
+      createdAt: new Date(),
+      createdBy: senderId,
+      updatedAt: new Date(),
+      updatedBy: senderId,
+    };
+    Model.createPlan(oPlan, (err, tmpPlan) => {
+      // console.log('>>>>Model.createPlan Saved', {err, tmpPlan});
+      if (err) {
+        console.error('>>>>Model.createPlan Failed', {err, oPlan});
+        return;
+      }
+      plan._id = tmpPlan._id;
+      resp._id = tmpPlan._id;
+      resp.days = [];
+      const oDays = _.map(plan.days, (d) => {
         return {
-          travelPlan: planId,
+          travelPlan: plan._id,
           dayNo: d.dayNo,
           cities: d.cities,
           hotel: d.hotel,
@@ -51,8 +65,54 @@ const savePlan = (input) => {
           updatedBy: senderId,
         };
       });
-      Model.createPlanDay(days, (err, tmpDays) => {
-        console.log('>>>>Model.createPlan, PlanDay Saved', {err, tmpDays});
+      Model.createPlanDay(oDays, (err, tmpDays) => {
+        // console.log('>>>>Model.createPlan Saved', {err, tmpDays});
+        if (err) {
+          console.error('>>>>Model.createPlanDay Failed', {err, oDays});
+          return;
+        }
+        const oItems = [];
+        for (let i = 0; i < plan.days.length; i++) {
+          const matcher = _.find(tmpDays, (td) => {
+            return td.dayNo === plan.days[i].dayNo;
+          });
+          if (matcher) {
+            plan.days[i]._id = matcher._id;
+            resp.days.push({_id: matcher._id, dayNo: matcher.dayNo, items: []});
+            _.each(plan.days[i].items, (it, idx) => {
+              oItems.push({
+                travelPlan: plan._id,
+                travelPlanDay: plan.days[i]._id,
+                daySeq: idx,
+                itemType: it.itemType,
+                itemId: it.itemId,
+                totalPeople: it.totalPeople,
+                unitPrice: it.unitPrice,
+                createdAt: new Date(),
+                createdBy: senderId,
+                updatedAt: new Date(),
+                updatedBy: senderId,
+              });
+            });
+          }
+        }
+        if (oItems && oItems.length > 0) {
+          Model.createPlanDayItem(oItems, (err, tmpItems) => {
+            console.log('>>>>Model.createPlanDayItem Saved', {err, tmpItems});
+            if (err) {
+              console.error('>>>>Model.createPlanDayItem Failed', {
+                err,
+                oItems,
+              });
+              return;
+            }
+            // Update object id and send updated object back
+            socket.emit('plan:save', resp);
+          });
+        } else {
+          // Send updated object back
+          socket.emit('plan:save', resp);
+        }
       });
     });
   } else {
@@ -71,9 +131,12 @@ const listAllPlan = (input) => {
   console.log('>>>>Socket.showAllPlans', {request, socketUsers});
   const params = {isSnapshot: true, status: PackageStatus.PUBLISHED};
   Model.getFilteredPackages(params, (err, docs) => {
-    if (err) console.log('>>>>Error.Model.getFilteredPackages', err);
-    console.log('>>>>Model.getFilteredPackages result', docs);
-    socket.emit('package:showAll', docs);
+    if (err) {
+      console.log('>>>>Error.Model.getFilteredPackages', err);
+    } else {
+      console.log('>>>>Model.getFilteredPackages result', docs);
+      socket.emit('package:showAll', docs);
+    }
   });
 };
 

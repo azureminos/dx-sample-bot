@@ -40,7 +40,8 @@ class App extends React.Component {
     this.init = this.init.bind(this);
     this.register = this.register.bind(this);
     this.setOnlineUsers = this.setOnlineUsers.bind(this);
-    this.handlePlanUpdate = this.handlePlanUpdate.bind(this);
+    this.handlePlanSave = this.handlePlanSave.bind(this);
+    this.handlePlanDaySave = this.handlePlanDaySave.bind(this);
     this.handleRefAll = this.handleRefAll.bind(this);
     this.handleRefActivity = this.handleRefActivity.bind(this);
     this.handleRefDestination = this.handleRefDestination.bind(this);
@@ -523,7 +524,12 @@ class App extends React.Component {
       this.pushToRemote('ref:all', {country: this.state.planExt.country});
     }
   }
-  handlePlanUpdate(result) {}
+  handlePlanSave(result) {
+    console.log('>>>>Result from socket [plan:save]', result);
+  }
+  handlePlanDaySave(result) {
+    console.log('>>>>Result from socket [planDay:save]', result);
+  }
   // ----------  Users  ----------
   setOnlineUsers(onlineUserFbIds = []) {
     const users = this.state.users.map((user) => {
@@ -632,7 +638,8 @@ class App extends React.Component {
     socket.on('ref:all', this.handleRefAll);
     socket.on('ref:activity', this.handleRefActivity);
     socket.on('ref:destination', this.handleRefDestination);
-    socket.on('plan:save', this.handlePlanUpdate);
+    socket.on('plan:save', this.handlePlanSave);
+    socket.on('planDay:save', this.handlePlanDaySave);
 
     const {viewerId, planId} = this.props;
     const handleMount = (vid, pid) => {
