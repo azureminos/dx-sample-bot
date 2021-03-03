@@ -35,8 +35,8 @@ const savePlan = (input) => {
     plan.createdBy = senderId;
     plan.updatedAt = new Date();
     plan.updatedBy = senderId;
-    Model.createPlan(plan, (rs) => {
-      console.log('>>>>Model.createPlan, Plan Saved', rs);
+    Model.createPlan(plan, (err, docs) => {
+      console.log('>>>>Model.createPlan, Plan Saved', {err, docs});
     });
   } else {
     // only update Plan in DB
