@@ -14,7 +14,7 @@ const nCountry = new Schema({
   name: Schema.Types.String,
   region: Schema.Types.String,
 });
-const dbCountry = mongoose.model('RefCountry', nCountry);
+const DbCountry = mongoose.model('RefCountry', nCountry);
 // Reference   - Destination
 const nDestination = new Schema({
   name: Schema.Types.String,
@@ -28,13 +28,13 @@ const nDestination = new Schema({
   location: Schema.Types.String,
   addrCarpark: Schema.Types.String,
 });
-const dbDestination = mongoose.model('RefDestination', nDestination);
+const DbDestination = mongoose.model('RefDestination', nDestination);
 // Reference   - TagGroup
 const nTagGroup = new Schema({
   name: Schema.Types.String,
   tags: [Schema.Types.String],
 });
-const dbTagGroup = mongoose.model('RefTagGroup', nTagGroup);
+const DbTagGroup = mongoose.model('RefTagGroup', nTagGroup);
 // Reference   - Category
 const nCategory = new Schema({
   name: Schema.Types.String,
@@ -42,14 +42,14 @@ const nCategory = new Schema({
   thumbnailURL: Schema.Types.String,
   thumbnailHiResURL: Schema.Types.String,
 });
-const dbCategory = mongoose.model('RefCategory', nCategory);
+const DbCategory = mongoose.model('RefCategory', nCategory);
 // Reference   - SubCategory
 const nSubCategory = new Schema({
   name: Schema.Types.String,
   itemId: Schema.Types.Number,
   parentId: Schema.Types.Number,
 });
-const dbSubCategory = mongoose.model('RefSubCategory', nSubCategory);
+const DbSubCategory = mongoose.model('RefSubCategory', nSubCategory);
 // Reference   - Product
 const nProduct = new Schema({
   productCode: Schema.Types.String,
@@ -72,9 +72,9 @@ const nProduct = new Schema({
   specialOfferAvailable: Schema.Types.Boolean,
   hotelPickup: Schema.Types.Boolean,
   addrCheckIn: Schema.Types.String,
-  tag: [Schema.Types.String],
+  tags: [Schema.Types.String],
 });
-const dbProduct = mongoose.model('RefProduct', nProduct);
+const DbProduct = mongoose.model('RefProduct', nProduct);
 // Reference   - Attraction
 const nAttraction = new Schema({
   name: Schema.Types.String,
@@ -94,9 +94,9 @@ const nAttraction = new Schema({
   attractionStreetAddress: Schema.Types.String,
   attractionCity: Schema.Types.String,
   attractionState: Schema.Types.String,
-  tag: [Schema.Types.String],
+  tags: [Schema.Types.String],
 });
-const dbAttraction = mongoose.model('RefAttraction', nAttraction);
+const DbAttraction = mongoose.model('RefAttraction', nAttraction);
 // Reference   - Day Plan
 const nDayPlan = new Schema({
   name: Schema.Types.String,
@@ -106,7 +106,7 @@ const nDayPlan = new Schema({
   hotel: Schema.Types.Mixed,
   notes: Schema.Types.String,
 });
-const dbDayPlan = mongoose.model('RefDayPlan', nDayPlan);
+const DbDayPlan = mongoose.model('RefDayPlan', nDayPlan);
 // Reference   - Day Plan Item
 const nDayPlanItem = new Schema({
   dayPlan: {type: Schema.Types.ObjectId, ref: 'RefDayPlan'},
@@ -115,7 +115,7 @@ const nDayPlanItem = new Schema({
   itemId: Schema.Types.String,
   notes: Schema.Types.String,
 });
-const dbDayPlanItem = mongoose.model('RefDayPlanItem', nDayPlanItem);
+const DbDayPlanItem = mongoose.model('RefDayPlanItem', nDayPlanItem);
 // Transaction - Travel Plan
 const nTravelPlan = new mongoose.Schema({
   status: Schema.Types.String,
@@ -126,13 +126,14 @@ const nTravelPlan = new mongoose.Schema({
   totalPeople: Schema.Types.Number,
   rate: Schema.Types.Number,
   notes: Schema.Types.String,
+  tagGroups: [Schema.Types.String],
   additionalField: Schema.Types.String,
   createdAt: Schema.Types.Date,
   createdBy: Schema.Types.String,
   updatedAt: Schema.Types.Date,
   updatedBy: Schema.Types.String,
 });
-const dbTravelPlan = mongoose.model('TravelPlan', nTravelPlan);
+const DbTravelPlan = mongoose.model('TravelPlan', nTravelPlan);
 // Transaction - Travel Plan Day
 const nTravelPlanDay = new mongoose.Schema({
   travelPlan: {type: Schema.Types.ObjectId, ref: 'TravelPlan'},
@@ -146,7 +147,7 @@ const nTravelPlanDay = new mongoose.Schema({
   updatedAt: Schema.Types.Date,
   updatedBy: Schema.Types.String,
 });
-const dbTravelPlanDay = mongoose.model('TravelPlanDay', nTravelPlanDay);
+const DbTravelPlanDay = mongoose.model('TravelPlanDay', nTravelPlanDay);
 // Transaction - Travel Plan Item
 const nTravelPlanItem = new mongoose.Schema({
   travelPlanDay: {type: Schema.Types.ObjectId, ref: 'TravelPlanDay'},
@@ -162,7 +163,7 @@ const nTravelPlanItem = new mongoose.Schema({
   updatedAt: Schema.Types.Date,
   updatedBy: Schema.Types.String,
 });
-const dbTravelPlanItem = mongoose.model('TravelPlanItem', nTravelPlanItem);
+const DbTravelPlanItem = mongoose.model('TravelPlanItem', nTravelPlanItem);
 /* ============= New Functions ============= */
 const getAllDestination = (country, callback) => {
   // console.log('>>>>Model.getAllDestination', country);
@@ -170,16 +171,14 @@ const getAllDestination = (country, callback) => {
   async.parallel(
     {
       states: (callback1) => {
-        dbDestination
-          .find({type: 'REGION'})
+        DbDestination.find({type: 'REGION'})
           .select('name destinationId')
           .exec((err, docs) => {
             callback1(err, docs);
           });
       },
       cities: (callback1) => {
-        dbDestination
-          .find({selectable: true, type: {$in: ['CITY', 'TOWN']}})
+        DbDestination.find({selectable: true, type: {$in: ['CITY', 'TOWN']}})
           .select(cols)
           .exec((err, docs) => {
             callback1(err, docs);
@@ -214,8 +213,7 @@ const getAllProduct = (cityId, callback) => {
     'shortDescription duration thumbnailURL rating ' +
     'primaryDestinationName primaryDestinationId ' +
     'price currencyCode hotelPickup addrCheckIn tags';
-  return dbProduct
-    .find({primaryDestinationId: cityId})
+  return DbProduct.find({primaryDestinationId: cityId})
     .select(cols)
     .exec((err, docs) => {
       callback(err, docs);
@@ -228,8 +226,7 @@ const getAllAttraction = (cityId, callback) => {
     'rating attractionStreetAddress attractionCity ' +
     'primaryDestinationName primaryDestinationId ' +
     'attractionState tags';
-  return dbAttraction
-    .find({primaryDestinationId: cityId})
+  return DbAttraction.find({primaryDestinationId: cityId})
     .select(cols)
     .exec((err, docs) => {
       callback(err, docs);
@@ -238,8 +235,7 @@ const getAllAttraction = (cityId, callback) => {
 const getAllTagGroup = (input, callback) => {
   // console.log('>>>>Model.getAllTagGroup', input);
   const cols = 'name tags imgUrl';
-  return dbTagGroup
-    .find({selectable: true})
+  return DbTagGroup.find({selectable: true})
     .select(cols)
     .exec((err, docs) => {
       callback(err, docs);
@@ -251,8 +247,7 @@ const getAllCategory = (input, callback) => {
     {
       cats: (callback) => {
         const cols = 'name itemId thumbnailURL';
-        return dbCategory
-          .find({})
+        return DbCategory.find({})
           .select(cols)
           .exec((err, docs) => {
             callback(err, docs);
@@ -260,8 +255,7 @@ const getAllCategory = (input, callback) => {
       },
       subcats: (callback) => {
         const cols = 'name itemId parentId';
-        return dbSubCategory
-          .find({})
+        return DbSubCategory.find({})
           .select(cols)
           .exec((err, docs) => {
             callback(err, docs);
@@ -293,9 +287,8 @@ const getProductByName = (name, callback) => {
     'productCode name shortTitle catIds subCatIds ' +
     'primaryDestinationName primaryDestinationId ' +
     'shortDescription duration thumbnailURL rating ' +
-    'price currencyCode hotelPickup addrCheckIn ';
-  return dbProduct
-    .find({name: name})
+    'price currencyCode hotelPickup addrCheckIn tags';
+  return DbProduct.find({name: name})
     .select(cols)
     .exec((err, docs) => {
       callback(err, docs);
@@ -307,9 +300,8 @@ const getAttractionByName = (name, callback) => {
     'name seoId description summary thumbnailURL ' +
     'rating attractionStreetAddress attractionCity ' +
     'primaryDestinationName primaryDestinationId ' +
-    'attractionState';
-  return dbAttraction
-    .find({name: name})
+    'attractionState tags';
+  return DbAttraction.find({name: name})
     .select(cols)
     .exec((err, docs) => {
       callback(err, docs);
@@ -325,23 +317,35 @@ const getAttractionByNameBlur = (keys, callback) => {
     'rating attractionStreetAddress attractionCity ' +
     'primaryDestinationName primaryDestinationId ' +
     'attractionState';
-  return dbAttraction
-    .find({$and: rs})
+  return DbAttraction.find({$and: rs})
     .select(cols)
     .exec((err, docs) => {
       callback(err, docs);
     });
 };
-const savePlan = (plan, callback) => {
-  // console.log('>>>>Model.savePlan', plan);
+const createPlan = (plan, callback) => {
+  console.log('>>>>Model.createPlan', plan);
+  const inst = new DbTravelPlan(plan);
+  inst.save(callback);
+};
+const updatePlan = (plan, callback) => {
+  // console.log('>>>>Model.updatePlan', plan);
   callback();
 };
-const savePlanDay = (day, callback) => {
-  // console.log('>>>>Model.savePlanDay', plan);
+const createPlanDay = (day, callback) => {
+  // console.log('>>>>Model.createPlanDay', plan);
   callback();
 };
-const savePlanDayItem = (item, callback) => {
-  // console.log('>>>>Model.savePlanDayItem', plan);
+const updatePlanDay = (day, callback) => {
+  // console.log('>>>>Model.updatePlanDay', plan);
+  callback();
+};
+const createPlanDayItem = (item, callback) => {
+  // console.log('>>>>Model.createPlanDayItem', plan);
+  callback();
+};
+const updatePlanDayItem = (item, callback) => {
+  // console.log('>>>>Model.updatePlanDayItem', plan);
   callback();
 };
 /* ============= Old Schemas ============= */
@@ -381,7 +385,10 @@ export default {
   getAttractionByName,
   getAttractionByNameBlur,
   // Transactional Functions
-  savePlan,
-  savePlanDay,
-  savePlanDayItem,
+  createPlan,
+  createPlanDay,
+  createPlanDayItem,
+  updatePlan,
+  updatePlanDay,
+  updatePlanDayItem,
 };
