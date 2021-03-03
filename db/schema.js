@@ -138,7 +138,7 @@ const DbTravelPlan = mongoose.model('TravelPlan', nTravelPlan);
 const nTravelPlanDay = new mongoose.Schema({
   travelPlan: {type: Schema.Types.ObjectId, ref: 'TravelPlan'},
   dayNo: Schema.Types.Number,
-  cities: Schema.Types.Mixed,
+  cities: [Schema.Types.Mixed],
   hotel: Schema.Types.Mixed,
   notes: Schema.Types.String,
   additionalField: Schema.Types.String,
@@ -334,7 +334,7 @@ const updatePlan = (plan, callback) => {
   callback();
 };
 const createPlanDay = (input, callback) => {
-  // console.log('>>>>Model.createPlanDay', plan);
+  console.log('>>>>Model.createPlanDay', input);
   if (Array.isArray(input)) {
     DbTravelPlanDay.insertMany(input, callback);
   } else {
