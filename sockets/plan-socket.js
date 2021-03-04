@@ -29,6 +29,7 @@ const savePlan = (input) => {
   const {request, sendStatus, socket, socketUsers} = input;
   console.log('>>>>Socket.savePlan', {request, socketUsers});
   const {plan, senderId} = request;
+  console.log('>>>>Socket.savePlan 2', plan.days);
   if (!plan._id) {
     // create full record in DB for Plan, PlanDay and PlanDayItem
     const oPlan = {
