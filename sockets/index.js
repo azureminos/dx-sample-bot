@@ -61,8 +61,8 @@ export default function attachSockets(io) {
     channel('push:ref:destination', RefSocket.getAllDestination);
     channel('push:ref:activity', RefSocket.getAllActivity);
     // Transaction
-    channel('push:plan:all', UserSocket.listAllPlan);
     channel('push:plan:view', UserSocket.view);
+    channel('push:plan:all', PlanSocket.listAllPlan);
     channel('push:plan:save', PlanSocket.savePlan);
     channel('push:planDay:save', PlanSocket.savePlanDay);
     channel('push:planItem:add', PlanSocket.addPlanItem);

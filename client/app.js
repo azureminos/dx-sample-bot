@@ -43,6 +43,7 @@ class App extends React.Component {
     this.setOnlineUsers = this.setOnlineUsers.bind(this);
     this.handlePlanSave = this.handlePlanSave.bind(this);
     this.handlePlanAll = this.handlePlanAll.bind(this);
+    this.handlePlanLoad = this.handlePlanLoad.bind(this);
     this.handleRefAll = this.handleRefAll.bind(this);
     this.handleRefActivity = this.handleRefActivity.bind(this);
     this.handleRefDestination = this.handleRefDestination.bind(this);
@@ -61,8 +62,8 @@ class App extends React.Component {
     this.handleClickPlanCard = this.handleClickPlanCard.bind(this);
     // State
     this.state = {
+      homepage: '',
       user: null,
-      socketStatus: '',
       plans: null,
       plan: null,
       planExt: {
@@ -92,8 +93,15 @@ class App extends React.Component {
     const popup = {open: false, title: '', message: ''};
     this.setState({popup});
   }
-  handleClickPlanCard(input) {
-    console.log('>>>>handleClickPlanCard', input);
+  handleClickPlanCard(planId) {
+    console.log('>>>>handleClickPlanCard', planId);
+    const senderId = this.props.viewerId;
+    this.pushToRemote('plan:view', {senderId, planId});
+  }
+  handlePlanLoad(input) {
+    console.log('>>>>handlePlanLoad', input);
+    const {homepage, plan} = input;
+    this.setState({homepage, plan, plans: null});
   }
   handleUpdateHotel(input) {
     // console.log('>>>>handleUpdateHotel', input);
@@ -705,6 +713,7 @@ class App extends React.Component {
     socket.on('ref:destination', this.handleRefDestination);
     socket.on('plan:save', this.handlePlanSave);
     socket.on('plan:all', this.handlePlanAll);
+    socket.on('plan:view', this.handlePlanLoad);
 
     const {viewerId, planId} = this.props;
     const handleMount = (vid, pid) => {

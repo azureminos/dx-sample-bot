@@ -207,25 +207,6 @@ const saveHotel = (input) => {
     console.log('>>>>Socket.saveHotel completed', {err, result});
   });
 };
-const listAllPlan = (input) => {
-  const {request, allInRoom, sendStatus, socket, socketUsers} = input;
-  console.log('>>>>Socket.showAllPlans', {request, socketUsers});
-  const params = {isSnapshot: true, status: PackageStatus.PUBLISHED};
-  Model.getFilteredPackages(params, (err, docs) => {
-    if (err) {
-      console.log('>>>>Error.Model.getFilteredPackages', err);
-    } else {
-      console.log('>>>>Model.getFilteredPackages result', docs);
-      socket.emit('package:showAll', docs);
-    }
-  });
-};
-
-const loadPlan = (input) => {
-  const {request, allInRoom, sendStatus, socket, socketUsers} = input;
-  console.log('>>>>Socket.loadPlan', {request, socketUsers});
-  const {senderId, packageId} = request;
-};
 
 const addPlanItem = (input) => {
   const {request, allInRoom, sendStatus, socket, socketUsers} = input;
@@ -262,6 +243,22 @@ const removePlanItem = (input) => {
   });
 };
 
+const listAllPlan = (input) => {
+  const {request, socket, socketUsers} = input;
+  console.log('>>>>Socket.listAllPlan() start', {request, socketUsers});
+  const filter = {
+    createdBy: request.senderId,
+    status: {$in: [InstanceStatus.INITIATED, InstanceStatus.IN_PROGRESS]},
+  };
+  Model.findPlan(filter, (err, plans) => {
+    if (err) {
+      console.error('>>>>Model.findPlan failed', err);
+    }
+    console.log('>>>>Model.findPlan completed', plans);
+    socket.emit('plan:all', plans);
+  });
+};
+
 export default {
   savePlan,
   savePlanDay,
@@ -270,5 +267,4 @@ export default {
   savePeople,
   saveHotel,
   listAllPlan,
-  loadPlan,
 };

@@ -13,6 +13,7 @@ const {Global} = CONSTANTS.get();
 const styles = (theme) => ({
   root: {
     maxWidth: 345,
+    margin: '8px auto',
   },
   media: {
     height: 0,
@@ -47,6 +48,7 @@ class PlanCard extends React.Component {
     return (
       <Card
         className={classes.root}
+        raised
         onClick={() => {
           this.doHandleClickCard(plan._id);
         }}

@@ -129,30 +129,16 @@ const view = (input) => {
     }
     // Get travel plan by ID
     const homepage = Page.ShowPlan;
+    Model.findFullPlan(planId, (err, plan) => {
+      if (err) {
+        console.error('>>>>Database Error', err);
+        sendStatus(SocketStatus.DB_ERROR);
+      } else {
+        sendStatus(SocketStatus.OK);
+      }
+      socket.emit('plan:view', {homepage, plan});
+    });
   }
-};
-
-const listAllPlan = (input) => {
-  const {
-    request,
-    allInRoom,
-    sendStatus,
-    socket,
-    socketUsers,
-    userSocket,
-  } = input;
-  console.log('>>>>Socket.listAllPlan() start', {request, socketUsers});
-  const filter = {
-    createdBy: request.senderId,
-    status: {$in: [InstanceStatus.INITIATED, InstanceStatus.IN_PROGRESS]},
-  };
-  Model.findPlan(filter, (err, plans) => {
-    if (err) {
-      console.error('>>>>Model.findPlan failed', err);
-    }
-    console.log('>>>>Model.findPlan completed', plans);
-    socket.emit('plan:all', plans);
-  });
 };
 
 // Register User to Socket
@@ -214,7 +200,6 @@ const leave = (input) => {
 
 export default {
   register,
-  listAllPlan,
   view,
   joinPlan,
   leavePackage,

@@ -428,11 +428,27 @@ const findPlan = (filter, callback) => {
     if (callback) callback(err, docs);
   });
 };
-const findFullPlan = (filter, callback) => {
-  return DbTravelPlan.find(filter, (err, docs) => {
-    console.log('>>>>Function [findFullPlan] executed', {err, docs});
-    if (callback) callback(err, docs);
-  });
+const findFullPlan = (planId, callback) => {
+  async.parallel(
+    {
+      instance: (callback) => {
+        const filter = {_id: planId};
+        return DbTravelPlan.find(filter, callback);
+      },
+      days: (callback) => {
+        const filter = {travelPlan: planId};
+        return DbTravelPlanDay.find(filter, callback);
+      },
+      items: (callback) => {
+        const filter = {travelPlan: planId};
+        return DbTravelPlanItem.update(filter, callback);
+      },
+    },
+    function(err, res) {
+      console.log('>>>>Model.updatePlanPeople completed', {err, res});
+      callback(err, res);
+    }
+  );
 };
 /* ============= Old Schemas ============= */
 // Members
