@@ -42,7 +42,7 @@ class PlanCard extends React.Component {
     const thumbnailURL = Global.defaultImgUrl;
     const dtStart = plan.startDate.format('DD/MM/YYYY');
     const dtEnd = plan.endDate.format('DD/MM/YYYY');
-    const dtUpdated = plan.updatedAt.format('DD/MM/YYYY');
+    const dtUpdated = plan.updatedAt.format('DD/MM/YYYY HH:mm');
     // Sub Widget
     // Display Widget
     return (

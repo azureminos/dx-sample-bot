@@ -423,10 +423,11 @@ const findPlanDay = (filter, callback) => {
   });
 };
 const findPlan = (filter, callback) => {
-  return DbTravelPlan.find(filter, (err, docs) => {
-    // console.log('>>>>Function [findPlan] executed', {err, docs});
-    if (callback) callback(err, docs);
-  });
+  return DbTravelPlan.find(filter)
+    .sort({updatedAt: 'asc'})
+    .exec((err, docs) => {
+      if (callback) callback(err, docs);
+    });
 };
 const findFullPlan = (planId, callback) => {
   console.log('>>>>Function [findFullPlan]', planId);
@@ -446,7 +447,9 @@ const findFullPlan = (planId, callback) => {
       },
     },
     function(err, res) {
-      console.log('>>>>Model.updatePlanPeople completed', {err, res});
+      console.log('>>>>Model.updatePlanPeople instance', res.instance);
+      console.log('>>>>Model.updatePlanPeople days', res.days);
+      console.log('>>>>Model.updatePlanPeople items', res.items);
       callback(err, res);
     }
   );
