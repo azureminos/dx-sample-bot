@@ -353,7 +353,7 @@ const updatePlanPeople = (input, callback) => {
           updatedBy: senderId,
           updatedAt: new Date(),
         };
-        return DbTravelPlan.update(filter, doc, callback);
+        return DbTravelPlan.updateOne(filter, doc, callback);
       },
       items: (callback) => {
         const filter = {travelPlan: planId};
@@ -362,7 +362,7 @@ const updatePlanPeople = (input, callback) => {
           updatedBy: senderId,
           updatedAt: new Date(),
         };
-        return DbTravelPlanItem.update(filter, doc, callback);
+        return DbTravelPlanItem.updateMany(filter, doc, callback);
       },
     },
     function(err, res) {
@@ -396,39 +396,40 @@ const updatePlanDayHotel = (input, callback) => {
     updatedBy: senderId,
     updatedAt: new Date(),
   };
-  return DbTravelPlanDay.update(filter, doc, callback);
+  return DbTravelPlanDay.updateOne(filter, doc, callback);
 };
 const deletePlan = (filter, callback) => {
   return DbTravelPlan.deleteMany(filter, (err, docs) => {
-    console.log('>>>>Function [deletePlan] executed', {err, docs});
+    // console.log('>>>>Function [deletePlan] executed', {err, docs});
     if (callback) callback(err, docs);
   });
 };
 const deletePlanDay = (filter, callback) => {
   return DbTravelPlanDay.deleteMany(filter, (err, docs) => {
-    console.log('>>>>Function [deletePlanDay] executed', {err, docs});
+    // console.log('>>>>Function [deletePlanDay] executed', {err, docs});
     if (callback) callback(err, docs);
   });
 };
 const deletePlanItem = (filter, callback) => {
   return DbTravelPlanItem.deleteMany(filter, (err, docs) => {
-    console.log('>>>>Function [deletePlanItem] executed', {err, docs});
+    // console.log('>>>>Function [deletePlanItem] executed', {err, docs});
     if (callback) callback(err, docs);
   });
 };
 const findPlanDay = (filter, callback) => {
   return DbTravelPlanDay.find(filter, (err, docs) => {
-    console.log('>>>>Function [findPlanDay] executed', {err, docs});
+    // console.log('>>>>Function [findPlanDay] executed', {err, docs});
     if (callback) callback(err, docs);
   });
 };
 const findPlan = (filter, callback) => {
   return DbTravelPlan.find(filter, (err, docs) => {
-    console.log('>>>>Function [findPlan] executed', {err, docs});
+    // console.log('>>>>Function [findPlan] executed', {err, docs});
     if (callback) callback(err, docs);
   });
 };
 const findFullPlan = (planId, callback) => {
+  console.log('>>>>Function [findFullPlan]', planId);
   async.parallel(
     {
       instance: (callback) => {
@@ -441,7 +442,7 @@ const findFullPlan = (planId, callback) => {
       },
       items: (callback) => {
         const filter = {travelPlan: planId};
-        return DbTravelPlanItem.update(filter, callback);
+        return DbTravelPlanItem.find(filter, callback);
       },
     },
     function(err, res) {
