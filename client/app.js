@@ -103,7 +103,7 @@ class App extends React.Component {
     this.setState({plan});
     // Socket Update Hotel
     const senderId = this.props.viewerId;
-    const planId = this.props.viewerId;
+    const planId = plan._id;
     this.pushToRemote('hotel:save', {senderId, planId, dayNo, hotel});
   }
   handleRemoveCity(dayNo, index) {
