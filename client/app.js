@@ -569,7 +569,8 @@ class App extends React.Component {
     this.setState({plan, user, homepage});
     // Extra logic
     if (homepage === Page.MainPage) {
-      this.pushToRemote('plan:list', {senderId: this.props.viewerId});
+      this.setState({user, homepage});
+      this.pushToRemote('plan:all', {senderId: this.props.viewerId});
     } else if (homepage === Page.NewPlan) {
       this.pushToRemote('ref:all', {country: this.state.planExt.country});
     }
@@ -580,8 +581,9 @@ class App extends React.Component {
     plan._id = result.planId;
     this.setState({plan});
   }
-  handlePlanAll(results) {
-    console.log('>>>>Result from socket [plan:all]', results);
+  handlePlanAll(plans) {
+    console.log('>>>>Result from socket [plan:all]', plans);
+    this.setState({plans});
   }
   // ----------  Users  ----------
   setOnlineUsers(onlineUserFbIds = []) {
@@ -695,14 +697,10 @@ class App extends React.Component {
     const {viewerId, planId} = this.props;
     const handleMount = (vid, pid) => {
       if (vid) {
-        if (pid === 'all') {
-          this.pushToRemote('plan:all', {senderId: vid});
-        } else {
-          this.pushToRemote('plan:view', {
-            senderId: vid,
-            planId: pid,
-          });
-        }
+        this.pushToRemote('plan:view', {
+          senderId: vid,
+          planId: pid,
+        });
       } else {
         console.log('>>>>NO viewerId');
       }
@@ -719,7 +717,7 @@ class App extends React.Component {
     let page = <div>Loading...</div>;
     if (homepage === Page.MainPage) {
       document.title = 'My Holiday Plans';
-      page = <PageAllTravel />;
+      page = <PageAllTravel plans={this.state.plans} />;
     } else if (homepage === Page.NewPlan) {
       document.title = 'Start My Holiday';
       if (reference.tagGroups) {
