@@ -99,7 +99,17 @@ const handleReceiveMessage = (event) => {
     message.quick_reply.payload === 'get_started'
   ) {
     // Greeting and quick reply
-    sendApi.sendWelcomeMessage(senderId, null);
+    const filter = {
+      createdBy: senderId,
+      status: {$in: [InstanceStatus.INITIATED, InstanceStatus.IN_PROGRESS]},
+    };
+    Model.findPlan(filter, (err, res) => {
+      if (err) {
+        console.error('>>>>Model.findPlan failed', err);
+      }
+      console.log('>>>>Model.findPlan completed', res);
+      sendApi.sendWelcomeMessage(senderId, res);
+    });
   } else if (
     message.quick_reply &&
     message.quick_reply.payload === 'handover_thread'
@@ -120,7 +130,17 @@ const handleReceiveMessage = (event) => {
       sendApi.sendPackageInst(senderId, docs._id, packageSummary);
     });
   } else if (message.text) {
-    sendApi.sendWelcomeMessage(senderId, null);
+    const filter = {
+      createdBy: senderId,
+      status: {$in: [InstanceStatus.INITIATED, InstanceStatus.IN_PROGRESS]},
+    };
+    Model.findPlan(filter, (err, res) => {
+      if (err) {
+        console.error('>>>>Model.findPlan failed', err);
+      }
+      console.log('>>>>Model.findPlan completed', res);
+      sendApi.sendWelcomeMessage(senderId, res);
+    });
   } else {
     sendApi.sendMessage(senderId, 'Unknown Message');
   }
@@ -129,7 +149,17 @@ const handleReceiveMessage = (event) => {
 const handleThreadBack = (event) => {
   console.log('>>>>Received message event', event);
   const senderId = event.sender.id;
-  sendApi.sendWelcomeMessage(senderId);
+  const filter = {
+    createdBy: senderId,
+    status: {$in: [InstanceStatus.INITIATED, InstanceStatus.IN_PROGRESS]},
+  };
+  Model.findPlan(filter, (err, res) => {
+    if (err) {
+      console.error('>>>>Model.findPlan failed', err);
+    }
+    console.log('>>>>Model.findPlan completed', res);
+    sendApi.sendWelcomeMessage(senderId, res);
+  });
 };
 
 export default {
