@@ -657,6 +657,9 @@ class App extends React.Component {
       plan: plan,
       reference: {...reference, activities},
     });
+    // Socket update plan
+    const senderId = this.props.viewerId;
+    this.pushToRemote('plan:save', {senderId, plan});
   }
   /* ==============================
      = React Lifecycle            =

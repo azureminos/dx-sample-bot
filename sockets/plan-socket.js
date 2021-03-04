@@ -28,8 +28,8 @@ const PackageStatus = TravelPackage.status;
 const savePlan = (input) => {
   const {request, sendStatus, socket, socketUsers} = input;
   console.log('>>>>Socket.savePlan', {request, socketUsers});
+  console.log('>>>>Socket.savePlan Days', plan.days);
   const {plan, senderId} = request;
-  console.log('>>>>Socket.savePlan 2', plan.days);
   if (!plan._id) {
     // create full record in DB for Plan, PlanDay and PlanDayItem
     const oPlan = {
@@ -147,13 +147,11 @@ const savePlan = (input) => {
             return;
           }
           console.log('>>>>Model.createPlanDay Saved', tmpDays);
-          console.log('>>>>David 0', plan.days);
           const oItems = [];
           for (let i = 0; i < plan.days.length; i++) {
             const matcher = _.find(tmpDays, (td) => {
               return td.dayNo === plan.days[i].dayNo;
             });
-            console.log('>>>>David 1', matcher);
             if (matcher) {
               plan.days[i]._id = matcher._id;
               _.each(plan.days[i].items, (it) => {
