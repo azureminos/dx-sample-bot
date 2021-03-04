@@ -146,11 +146,13 @@ const savePlan = (input) => {
             return;
           }
           console.log('>>>>Model.createPlanDay Saved', tmpDays);
+          console.log('>>>>David 0', plan.days);
           const oItems = [];
           for (let i = 0; i < plan.days.length; i++) {
             const matcher = _.find(tmpDays, (td) => {
               return td.dayNo === plan.days[i].dayNo;
             });
+            console.log('>>>>David 1', matcher);
             if (matcher) {
               plan.days[i]._id = matcher._id;
               _.each(plan.days[i].items, (it) => {
