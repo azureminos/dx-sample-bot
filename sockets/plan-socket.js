@@ -63,7 +63,7 @@ const savePlan = (input) => {
         };
       });
       Model.createPlanDay(oDays, (err, tmpDays) => {
-        // console.log('>>>>Model.createPlan Saved', {err, tmpDays});
+        // console.log('>>>>Model.createPlanDay Saved', {err, tmpDays});
         if (err) {
           console.error('>>>>Model.createPlanDay Failed', {err, oDays});
           return;
@@ -141,7 +141,7 @@ const savePlan = (input) => {
           };
         });
         Model.createPlanDay(oDays, (err, tmpDays) => {
-          console.log('>>>>Model.createPlan Saved', {err, tmpDays});
+          // console.log('>>>>Model.createPlanDay Saved', {err, tmpDays});
           if (err) {
             console.error('>>>>Model.createPlanDay Failed', {err, oDays});
             return;

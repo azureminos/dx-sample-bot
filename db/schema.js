@@ -374,9 +374,14 @@ const updatePlanDay = (day, callback) => {
   // console.log('>>>>Model.updatePlanDay', plan);
   callback();
 };
-const createPlanDayItem = (item, callback) => {
-  // console.log('>>>>Model.createPlanDayItem', plan);
-  callback();
+const createPlanDayItem = (input, callback) => {
+  console.log('>>>>Model.createPlanDayItem', input);
+  if (Array.isArray(input)) {
+    DbTravelPlanItem.insertMany(input, callback);
+  } else {
+    const item = new DbTravelPlanItem(input);
+    item.save(callback);
+  }
 };
 const updatePlanDayItem = (item, callback) => {
   // console.log('>>>>Model.updatePlanDayItem', plan);
