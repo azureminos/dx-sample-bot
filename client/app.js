@@ -41,6 +41,7 @@ class App extends React.Component {
     this.register = this.register.bind(this);
     this.setOnlineUsers = this.setOnlineUsers.bind(this);
     this.handlePlanSave = this.handlePlanSave.bind(this);
+    this.handlePlanAll = this.handlePlanAll.bind(this);
     this.handleRefAll = this.handleRefAll.bind(this);
     this.handleRefActivity = this.handleRefActivity.bind(this);
     this.handleRefDestination = this.handleRefDestination.bind(this);
@@ -60,6 +61,7 @@ class App extends React.Component {
     this.state = {
       user: null,
       socketStatus: '',
+      plans: null,
       plan: null,
       planExt: {
         country: 'Australia',
@@ -578,6 +580,9 @@ class App extends React.Component {
     plan._id = result.planId;
     this.setState({plan});
   }
+  handlePlanAll(results) {
+    console.log('>>>>Result from socket [plan:all]', results);
+  }
   // ----------  Users  ----------
   setOnlineUsers(onlineUserFbIds = []) {
     const users = this.state.users.map((user) => {
@@ -685,14 +690,19 @@ class App extends React.Component {
     socket.on('ref:activity', this.handleRefActivity);
     socket.on('ref:destination', this.handleRefDestination);
     socket.on('plan:save', this.handlePlanSave);
+    socket.on('plan:all', this.handlePlanAll);
 
     const {viewerId, planId} = this.props;
     const handleMount = (vid, pid) => {
       if (vid) {
-        this.pushToRemote('plan:view', {
-          senderId: vid,
-          planId: pid,
-        });
+        if (pid === 'all') {
+          this.pushToRemote('plan:all', {senderId: vid});
+        } else {
+          this.pushToRemote('plan:view', {
+            senderId: vid,
+            planId: pid,
+          });
+        }
       } else {
         console.log('>>>>NO viewerId');
       }

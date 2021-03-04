@@ -74,8 +74,8 @@ const sendReadReceipt = (recipientId) => {
 };
 
 // Send the initial welcoming message with quick reply options.
-const sendWelcomeMessage = (recipientId, lastInstance) => {
-  sendMessage(recipientId, messages.welcomeMessage(lastInstance));
+const sendWelcomeMessage = (recipientId, plans) => {
+  sendMessage(recipientId, messages.welcomeMessage(plans));
 };
 
 // Send the initial message welcoming & describing the bot.
@@ -154,6 +154,9 @@ const sendPackageShareItem = (recipientId, params) => {
 const sendMsgCreatePlan = (recipientId) => {
   sendMessage(recipientId, messages.messageCreatePlan(APP_URL, recipientId));
 };
+const sendMsgAllPlan = (recipientId) => {
+  sendMessage(recipientId, messages.messageAllPlan(APP_URL, recipientId));
+};
 
 export default {
   sendMessage,
@@ -166,4 +169,5 @@ export default {
   takeThreadControl,
   // ===================== New Bot ==================== //
   sendMsgCreatePlan,
+  sendMsgAllPlan,
 };

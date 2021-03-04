@@ -131,6 +131,56 @@ const view = (input) => {
   }
 };
 
+const listAllPlan = (input) => {
+  const {
+    request,
+    allInRoom,
+    sendStatus,
+    socket,
+    socketUsers,
+    userSocket,
+  } = input;
+  console.log('>>>>Socket.listAllPlan() start', {request, socketUsers});
+  const {senderId, planId} = request;
+  // Validate UserId and InstanceId
+  if (!senderId) {
+    console.error('User not registered to socket');
+    sendStatus(SocketStatus.INVALID_USER);
+    return;
+  }
+  if (!planId || planId === 'new') {
+    console.log('>>>>Socket.listAllPlan, send back user details');
+    getUserDetails(senderId, (err, user) => {
+      if (err) {
+        console.error('>>>>Database Error', err);
+        sendStatus(SocketStatus.DB_ERROR);
+      } else {
+        console.log('>>>>Model.listAllPlan Level 2 Result', user);
+        const filter = {
+          createdBy: senderId,
+          status: {$in: [InstanceStatus.INITIATED, InstanceStatus.IN_PROGRESS]},
+        };
+        Model.findPlan(filter, (err, res) => {
+          if (err) {
+            console.error('>>>>Model.findPlan failed', err);
+          }
+          console.log('>>>>Model.findPlan completed', res);
+          const homepage = Page.MainPage;
+          socket.emit('plan:all', {user, homepage, plans: res});
+        });
+      }
+    });
+  } else {
+    console.log('>>>>Socket.view, prepare page[display trip]');
+    // Persist socket details
+    if (!socketUsers.get(socket.id)) {
+      socketUsers.set(socket.id, {planId, senderId});
+      socket.join(planId);
+    }
+    // Get travel plan by ID
+  }
+};
+
 // Register User to Socket
 const register = (input) => {
   const {request, allInRoom, sendStatus, socketUsers, socket} = input;
@@ -190,6 +240,7 @@ const leave = (input) => {
 
 export default {
   register,
+  listAllPlan,
   view,
   joinPlan,
   leavePackage,

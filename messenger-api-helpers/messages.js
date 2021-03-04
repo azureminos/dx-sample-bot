@@ -18,6 +18,7 @@ const packageUrl = (apiUri, userId, packageId) =>
 const instPackageUrl = (apiUri, userId, instId) =>
   `${apiUri}/web/${userId}/instance/${instId}`;
 const urlCreatePlan = (apiUri, userId) => `${apiUri}/web/${userId}/plan/new`;
+const urlAllPlan = (apiUri, userId) => `${apiUri}/web/${userId}/plan/all`;
 /*
  * BUTTONS
  *
@@ -153,8 +154,8 @@ const quickReplyMessage = (title, items) => {
  * @param {string} lastInstanceId - instance id of last updated package
  * @returns {object} - Message to configure the customized sharing menu.
  */
-const welcomeMessage = (lastInstance) => {
-  console.log('>>>>welcomeMessage, start', lastInstance);
+const welcomeMessage = (plans) => {
+  console.log('>>>>welcomeMessage, start', plans);
   const replyItems = [];
 
   const iAllPromote = {
@@ -162,11 +163,11 @@ const welcomeMessage = (lastInstance) => {
     title: 'Create travel plan',
     payload: 'new_plan',
   };
-  const iMyRecent = lastInstance
+  const iMyRecent = plans && plans.length > 0
     ? {
       content_type: 'text',
       title: 'My travel plans',
-      payload: `my_recent@${lastInstance._id}`,
+      payload: 'all_plan',
     }
     : null;
   const iHandOver = {
@@ -216,6 +217,36 @@ const messageCreatePlan = (apiUri, userId) => {
   return result;
 };
 
+const messageAllPlan = (apiUri, userId) => {
+  console.log('>>>>Message.messageAllPlan', userId);
+  const result = {
+    attachment: {
+      type: 'template',
+      payload: {
+        template_type: 'generic',
+        elements: [
+          {
+            title: 'Recent Travel Plans',
+            image_url: Global.defaultImgUrl,
+            subtitle: '',
+            buttons: [
+              {
+                type: 'web_url',
+                title: 'Open',
+                url: urlAllPlan(apiUri, userId),
+                messenger_extensions: true,
+                webview_height_ratio: 'full',
+                webview_share_button: 'hide',
+              },
+            ],
+          },
+        ],
+      },
+    },
+  };
+  return result;
+};
+
 export default {
   welcomeMessage,
   quickReplyMessage,
@@ -223,4 +254,5 @@ export default {
   sharePackageMessage,
   packageShareMessage,
   messageCreatePlan,
+  messageAllPlan,
 };

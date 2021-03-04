@@ -11,7 +11,9 @@ import sendApi from './send';
 import Model from '../db/schema';
 // ===== HELPERS =============================================================
 import ObjectParser from '../lib/object-parser';
+import CONSTANTS from '../lib/constants';
 
+const InstanceStatus = CONSTANTS.get().Instance.status;
 /*
  * handleReceivePostback — Postback event handler triggered by a postback
  * action you, the developer, specify on a button in a template. Read more at:
@@ -36,7 +38,17 @@ const handleReceivePostback = (event) => {
     // Send my list
   } else if (type.substring(0, 11) === 'get_started') {
     // Greeting and quick reply
-    sendApi.sendWelcomeMessage(senderId, null);
+    const filter = {
+      createdBy: senderId,
+      status: {$in: [InstanceStatus.INITIATED, InstanceStatus.IN_PROGRESS]},
+    };
+    Model.findPlan(filter, (err, res) => {
+      if (err) {
+        console.error('>>>>Model.findPlan failed', err);
+      }
+      console.log('>>>>Model.findPlan completed', res);
+      sendApi.sendWelcomeMessage(senderId, res);
+    });
   } else if (type.substring(0, 15) === 'handover_thread') {
     // Handover to page inbox
   } else if (type.substring(0, 10) === 'my_recent@') {
@@ -76,6 +88,12 @@ const handleReceiveMessage = (event) => {
   if (message.quick_reply && message.quick_reply.payload === 'new_plan') {
     // Create new travel plan
     sendApi.sendMsgCreatePlan(senderId);
+  } else if (
+    message.quick_reply &&
+    message.quick_reply.payload === 'all_plan'
+  ) {
+    // Create new travel plan
+    sendApi.sendMsgAllPlan(senderId);
   } else if (
     message.quick_reply &&
     message.quick_reply.payload === 'get_started'

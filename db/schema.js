@@ -422,6 +422,18 @@ const findPlanDay = (filter, callback) => {
     if (callback) callback(err, docs);
   });
 };
+const findPlan = (filter, callback) => {
+  return DbTravelPlan.find(filter, (err, docs) => {
+    console.log('>>>>Function [findPlan] executed', {err, docs});
+    if (callback) callback(err, docs);
+  });
+};
+const findFullPlan = (filter, callback) => {
+  return DbTravelPlan.find(filter, (err, docs) => {
+    console.log('>>>>Function [findFullPlan] executed', {err, docs});
+    if (callback) callback(err, docs);
+  });
+};
 /* ============= Old Schemas ============= */
 // Members
 const scMember = new Schema({
@@ -471,4 +483,6 @@ export default {
   deletePlanDay,
   deletePlanItem,
   findPlanDay,
+  findPlan,
+  findFullPlan,
 };
