@@ -110,7 +110,6 @@ const DbDayPlan = mongoose.model('RefDayPlan', nDayPlan);
 // Reference   - Day Plan Item
 const nDayPlanItem = new Schema({
   dayPlan: {type: Schema.Types.ObjectId, ref: 'RefDayPlan'},
-  daySeq: Schema.Types.Number,
   itemType: Schema.Types.String,
   itemId: Schema.Types.String,
   notes: Schema.Types.String,
@@ -153,7 +152,6 @@ const nTravelPlanItem = new mongoose.Schema({
   travelPlan: {type: Schema.Types.ObjectId, ref: 'TravelPlan'},
   travelPlanDay: {type: Schema.Types.ObjectId, ref: 'TravelPlanDay'},
   dayNo: Schema.Types.Number,
-  daySeq: Schema.Types.Number,
   itemType: Schema.Types.String,
   itemId: Schema.Types.String,
   totalPeople: Schema.Types.Number,
@@ -395,6 +393,30 @@ const updatePlanDayHotel = (input, callback) => {
   };
   return DbTravelPlanDay.update(filter, doc, callback);
 };
+const deletePlan = (filter, callback) => {
+  return DbTravelPlan.deleteMany(filter, (err, docs) => {
+    console.log('>>>>Function [deletePlan] executed', {err, docs});
+    if (callback) callback(err, docs);
+  });
+};
+const deletePlanDay = (filter, callback) => {
+  return DbTravelPlanDay.deleteMany(filter, (err, docs) => {
+    console.log('>>>>Function [deletePlanDay] executed', {err, docs});
+    if (callback) callback(err, docs);
+  });
+};
+const deletePlanItem = (filter, callback) => {
+  return DbTravelPlanItem.deleteMany(filter, (err, docs) => {
+    console.log('>>>>Function [deletePlanItem] executed', {err, docs});
+    if (callback) callback(err, docs);
+  });
+};
+const findPlanDay = (filter, callback) => {
+  return DbTravelPlanDay.find(filter, (err, docs) => {
+    console.log('>>>>Function [findPlanDay] executed', {err, docs});
+    if (callback) callback(err, docs);
+  });
+};
 /* ============= Old Schemas ============= */
 // Members
 const scMember = new Schema({
@@ -440,4 +462,8 @@ export default {
   updatePlanDayItem,
   updatePlanPeople,
   updatePlanDayHotel,
+  deletePlan,
+  deletePlanDay,
+  deletePlanItem,
+  findPlanDay,
 };

@@ -293,6 +293,14 @@ class App extends React.Component {
       day.items = _.filter(day.items, (it) => {
         return it.itemId !== item.itemId;
       });
+      // Socket update plan item
+      const req = {
+        senderId: this.props.viewerId,
+        planId: plan._id,
+        dayNo: daySelected,
+        itemId: item.itemId,
+      };
+      this.pushToRemote('planItem:remove', req);
     } else if (!isSelected && day.items.length < 3) {
       // Item to add
       day.isCustomized = true;
@@ -321,14 +329,19 @@ class App extends React.Component {
             notes: '',
           };
       day.items.push(it);
+      // Socket update plan item
+      const req = {
+        senderId: this.props.viewerId,
+        planId: plan._id,
+        dayNo: daySelected,
+        item: it,
+      };
+      this.pushToRemote('planItem:add', req);
     } else {
       console.warn('max 3 activities per day');
       return;
     }
     this.setState({plan});
-    // Socket update plan
-    const senderId = this.props.viewerId;
-    this.pushToRemote('plan:save', {senderId, plan});
   }
   handleBtnStartHoliday() {
     const {plan, planExt} = this.state;
@@ -509,7 +522,7 @@ class App extends React.Component {
     this.setState({plan, planExt});
     // Socket update plan
     const senderId = this.props.viewerId;
-    this.pushToRemote('people:save', {senderId, plan});
+    this.pushToRemote('plan:save', {senderId, plan});
   }
   /* ==============================
      = Helper Methods             =

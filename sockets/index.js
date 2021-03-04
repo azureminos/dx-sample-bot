@@ -8,7 +8,7 @@
 // ===== SOCKETS ===============================================================
 import UserSocket from './user-socket';
 import RefSocket from './ref-socket';
-import InstSocket from './plan-socket';
+import PlanSocket from './plan-socket';
 const socketUsers = new Map(); // {socketId: {userId, planId}}
 
 export default function attachSockets(io) {
@@ -62,10 +62,12 @@ export default function attachSockets(io) {
     channel('push:ref:activity', RefSocket.getAllActivity);
     // Transaction
     channel('push:plan:view', UserSocket.view);
-    channel('push:plan:save', InstSocket.savePlan);
-    channel('push:planDay:save', InstSocket.savePlanDay);
-    channel('push:people:save', InstSocket.savePeople);
-    channel('push:hotel:save', InstSocket.saveHotel);
+    channel('push:plan:save', PlanSocket.savePlan);
+    channel('push:planDay:save', PlanSocket.savePlanDay);
+    channel('push:planItem:add', PlanSocket.addPlanItem);
+    channel('push:planItem:remove', PlanSocket.removePlanItem);
+    channel('push:people:save', PlanSocket.savePeople);
+    channel('push:hotel:save', PlanSocket.saveHotel);
     /* channel('push:user:view', UserSocket.view);
     channel('push:user:join', UserSocket.joinPackage);
     channel('push:user:leave', UserSocket.leavePackage);

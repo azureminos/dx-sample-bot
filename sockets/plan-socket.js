@@ -75,11 +75,10 @@ const savePlan = (input) => {
           });
           if (matcher) {
             plan.days[i]._id = matcher._id;
-            _.each(plan.days[i].items, (it, idx) => {
+            _.each(plan.days[i].items, (it) => {
               oItems.push({
                 travelPlan: plan._id,
                 travelPlanDay: plan.days[i]._id,
-                daySeq: idx,
                 itemType: it.itemType,
                 itemId: it.itemId,
                 totalPeople: it.totalPeople,
@@ -112,7 +111,78 @@ const savePlan = (input) => {
       });
     });
   } else {
-    // Get plan from DB and then compare with web plan
+    // TODO: Get plan from DB and then compare with web plan
+    // ToBeReplaced: delete all days and items, then re-create
+    async.parallel(
+      {
+        days: (callback) => {
+          Model.deletePlanDay({travelPlan: plan._id}, callback);
+        },
+        items: (callback) => {
+          Model.deletePlanItem({travelPlan: plan._id}, callback);
+        },
+      },
+      function(err) {
+        if (err) {
+          console.error('>>>>Model plan${plan._id} days/items delete Failed');
+          return;
+        }
+        console.log(`>>>>Model plan${plan._id} days/items deleted`);
+        const oDays = _.map(plan.days, (d) => {
+          return {
+            travelPlan: plan._id,
+            dayNo: d.dayNo,
+            cities: d.cities,
+            hotel: d.hotel,
+            createdAt: new Date(),
+            createdBy: senderId,
+            updatedAt: new Date(),
+            updatedBy: senderId,
+          };
+        });
+        Model.createPlanDay(oDays, (err, tmpDays) => {
+          // console.log('>>>>Model.createPlan Saved', {err, tmpDays});
+          if (err) {
+            console.error('>>>>Model.createPlanDay Failed', {err, oDays});
+            return;
+          }
+          const oItems = [];
+          for (let i = 0; i < plan.days.length; i++) {
+            const matcher = _.find(tmpDays, (td) => {
+              return td.dayNo === plan.days[i].dayNo;
+            });
+            if (matcher) {
+              plan.days[i]._id = matcher._id;
+              _.each(plan.days[i].items, (it) => {
+                oItems.push({
+                  travelPlan: plan._id,
+                  travelPlanDay: plan.days[i]._id,
+                  itemType: it.itemType,
+                  itemId: it.itemId,
+                  totalPeople: it.totalPeople,
+                  unitPrice: it.unitPrice,
+                  createdAt: new Date(),
+                  createdBy: senderId,
+                  updatedAt: new Date(),
+                  updatedBy: senderId,
+                });
+              });
+            }
+          }
+          if (oItems && oItems.length > 0) {
+            Model.createPlanDayItem(oItems, (err) => {
+              if (err) {
+                console.error('>>>>Model.createPlanDayItem Failed', {
+                  err,
+                  oItems,
+                });
+                return;
+              }
+            });
+          }
+        });
+      }
+    );
   }
 };
 
@@ -157,9 +227,46 @@ const loadPlan = (input) => {
   const {senderId, packageId} = request;
 };
 
+const addPlanItem = (input) => {
+  const {request, allInRoom, sendStatus, socket, socketUsers} = input;
+  console.log('>>>>Socket.addPlanItem', {request, socketUsers});
+  const {senderId, planId, dayNo, item} = request;
+  const filter = {
+    travelPlan: planId,
+    dayNo: dayNo,
+  };
+  Model.findPlanDay(filter, (err, docs) => {
+    if (err) {
+      console.log('>>>>Model.findPlanDay failed', err);
+      return;
+    }
+    console.log('>>>>Model.findPlanDay result', docs);
+  });
+};
+
+const removePlanItem = (input) => {
+  const {request, allInRoom, sendStatus, socket, socketUsers} = input;
+  console.log('>>>>Socket.removePlanItem', {request, socketUsers});
+  const {planId, dayNo, itemId} = request;
+  const filter = {
+    travelPlan: planId,
+    dayNo: dayNo,
+    itemIditemId: itemId,
+  };
+  Model.deletePlanItem(filter, (err) => {
+    if (err) {
+      console.log('>>>>Model.deletePlanItem failed', err);
+      return;
+    }
+    console.log('>>>>Model.deletePlanItem completed');
+  });
+};
+
 export default {
   savePlan,
   savePlanDay,
+  addPlanItem,
+  removePlanItem,
   savePeople,
   saveHotel,
   listAllPlan,
