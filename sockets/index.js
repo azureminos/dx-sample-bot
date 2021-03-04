@@ -22,12 +22,12 @@ export default function attachSockets(io) {
           request,
           socketUsers,
         });
-        const {senderId, planId} = socketUsers.get(socket.id) || {};
+        const {senderId} = socketUsers.get(socket.id) || {};
         let newRequest = {};
-        console.log(`>>>>Socket Incoming Request [${typeof request}]`, {
-          senderId,
-          planId,
-        });
+        console.log(
+          `>>>>Socket Incoming Request [${typeof request}]`,
+          senderId
+        );
         if (typeof request === 'object') {
           newRequest = {...request};
           if (!request.senderId) {
@@ -37,16 +37,8 @@ export default function attachSockets(io) {
             );
             newRequest.senderId = senderId;
           }
-          if (!request.planId) {
-            console.log(
-              `>>>>Socket Incoming Request.planId[${planId}]`,
-              newRequest
-            );
-            newRequest.planId = planId;
-          }
         } else if (typeof request === 'string') {
           newRequest.senderId = senderId;
-          newRequest.planId = planId;
         }
         console.log('>>>>before handler', newRequest);
         handler({
@@ -72,6 +64,8 @@ export default function attachSockets(io) {
     channel('push:plan:view', UserSocket.view);
     channel('push:plan:save', InstSocket.savePlan);
     channel('push:planDay:save', InstSocket.savePlanDay);
+    channel('push:people:save', InstSocket.savePeople);
+    channel('push:hotel:save', InstSocket.saveHotel);
     /* channel('push:user:view', UserSocket.view);
     channel('push:user:join', UserSocket.joinPackage);
     channel('push:user:leave', UserSocket.leavePackage);

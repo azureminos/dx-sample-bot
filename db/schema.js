@@ -152,6 +152,7 @@ const DbTravelPlanDay = mongoose.model('TravelPlanDay', nTravelPlanDay);
 const nTravelPlanItem = new mongoose.Schema({
   travelPlan: {type: Schema.Types.ObjectId, ref: 'TravelPlan'},
   travelPlanDay: {type: Schema.Types.ObjectId, ref: 'TravelPlanDay'},
+  dayNo: Schema.Types.Number,
   daySeq: Schema.Types.Number,
   itemType: Schema.Types.String,
   itemId: Schema.Types.String,
@@ -342,6 +343,35 @@ const createPlanDay = (input, callback) => {
     day.save(callback);
   }
 };
+const updatePlanPeople = (input, callback) => {
+  console.log('>>>>Model.updatePlanPeople', input);
+  const {senderId, planId, totalPeople} = input;
+  async.parallel(
+    {
+      instance: (callback) => {
+        const filter = {_id: planId};
+        const doc = {
+          totalPeople: totalPeople,
+          updatedBy: senderId,
+          updatedAt: new Date(),
+        };
+        return DbTravelPlan.update(filter, doc, callback);
+      },
+      items: (callback) => {
+        const filter = {travelPlan: planId};
+        const doc = {
+          totalPeople: totalPeople,
+          updatedBy: senderId,
+          updatedAt: new Date(),
+        };
+        return DbTravelPlanItem.update(filter, doc, callback);
+      },
+    },
+    function(err, results) {
+      console.log('>>>>Socket.savePeople completed', {err, results});
+    }
+  );
+};
 const updatePlanDay = (day, callback) => {
   // console.log('>>>>Model.updatePlanDay', plan);
   callback();
@@ -353,6 +383,17 @@ const createPlanDayItem = (item, callback) => {
 const updatePlanDayItem = (item, callback) => {
   // console.log('>>>>Model.updatePlanDayItem', plan);
   callback();
+};
+const updatePlanDayHotel = (input, callback) => {
+  console.log('>>>>Model.updatePlanDayHotel', input);
+  const {senderId, planId, dayNo, hotel} = input;
+  const filter = {travelPlan: planId, dayNo: dayNo};
+  const doc = {
+    hotel: hotel,
+    updatedBy: senderId,
+    updatedAt: new Date(),
+  };
+  return DbTravelPlanDay.update(filter, doc, callback);
 };
 /* ============= Old Schemas ============= */
 // Members
@@ -397,4 +438,6 @@ export default {
   updatePlan,
   updatePlanDay,
   updatePlanDayItem,
+  updatePlanPeople,
+  updatePlanDayHotel,
 };

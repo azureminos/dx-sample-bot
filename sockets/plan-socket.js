@@ -31,7 +31,6 @@ const savePlan = (input) => {
   const {plan, senderId} = request;
   if (!plan._id) {
     // create full record in DB for Plan, PlanDay and PlanDayItem
-    const resp = {};
     const oPlan = {
       status: plan.status,
       startDate: plan.startDate,
@@ -51,8 +50,6 @@ const savePlan = (input) => {
         return;
       }
       plan._id = tmpPlan._id;
-      resp._id = tmpPlan._id;
-      resp.days = [];
       const oDays = _.map(plan.days, (d) => {
         return {
           travelPlan: plan._id,
@@ -78,7 +75,6 @@ const savePlan = (input) => {
           });
           if (matcher) {
             plan.days[i]._id = matcher._id;
-            resp.days.push({_id: matcher._id, dayNo: matcher.dayNo, items: []});
             _.each(plan.days[i].items, (it, idx) => {
               oItems.push({
                 travelPlan: plan._id,
@@ -106,17 +102,17 @@ const savePlan = (input) => {
               });
               return;
             }
-            // Update object id and send updated object back
-            socket.emit('plan:save', resp);
+            // TODO: Send back updated object id
+            socket.emit('plan:save', {planId: plan._id});
           });
         } else {
-          // Send updated object back
-          socket.emit('plan:save', resp);
+          // TODO: Send back updated object id
+          socket.emit('plan:save', {planId: plan._id});
         }
       });
     });
   } else {
-    // only update Plan in DB
+    // Get plan from DB and then compare with web plan
   }
 };
 
@@ -126,6 +122,21 @@ const savePlanDay = (input) => {
   const {packageId, totalDays, carOption, senderId} = request;
 };
 
+const savePeople = (input) => {
+  const {request, sendStatus, socket, socketUsers} = input;
+  console.log('>>>>Socket.savePeople', {request, socketUsers});
+  Model.updatePlanPeople(request, (err, result) => {
+    console.log('>>>>Socket.savePeople completed', {err, result});
+  });
+};
+
+const saveHotel = (input) => {
+  const {request, sendStatus, socket, socketUsers} = input;
+  console.log('>>>>Socket.saveHotel', {request, socketUsers});
+  Model.updatePlanDayHotel(request, (err, result) => {
+    console.log('>>>>Socket.saveHotel completed', {err, result});
+  });
+};
 const listAllPlan = (input) => {
   const {request, allInRoom, sendStatus, socket, socketUsers} = input;
   console.log('>>>>Socket.showAllPlans', {request, socketUsers});
@@ -149,6 +160,8 @@ const loadPlan = (input) => {
 export default {
   savePlan,
   savePlanDay,
+  savePeople,
+  saveHotel,
   listAllPlan,
   loadPlan,
 };

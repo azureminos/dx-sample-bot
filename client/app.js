@@ -41,7 +41,6 @@ class App extends React.Component {
     this.register = this.register.bind(this);
     this.setOnlineUsers = this.setOnlineUsers.bind(this);
     this.handlePlanSave = this.handlePlanSave.bind(this);
-    this.handlePlanDaySave = this.handlePlanDaySave.bind(this);
     this.handleRefAll = this.handleRefAll.bind(this);
     this.handleRefActivity = this.handleRefActivity.bind(this);
     this.handleRefDestination = this.handleRefDestination.bind(this);
@@ -91,20 +90,22 @@ class App extends React.Component {
     this.setState({popup});
   }
   handleUpdateHotel(input) {
-    console.log('>>>>handleUpdateHotel', input);
+    // console.log('>>>>handleUpdateHotel', input);
     const {dayNo, type, address, location} = input;
     const {plan} = this.state;
     const {destinations} = this.state.reference;
     const {country} = this.state.planExt;
-    const hotel = Helper.getHotelFromAddress(
-      type,
-      address,
-      country,
-      destinations
-    );
-    console.log('>>>>handleUpdateHotel rs', hotel);
-    plan.days[dayNo].hotel = {...hotel, location};
+    const hotel = {
+      ...Helper.getHotelFromAddress(type, address, country, destinations),
+      location,
+    };
+    // console.log('>>>>handleUpdateHotel rs', hotel);
+    plan.days[dayNo].hotel = hotel;
     this.setState({plan});
+    // Socket Update Hotel
+    const senderId = this.props.viewerId;
+    const planId = this.props.viewerId;
+    this.pushToRemote('hotel:save', {senderId, planId, dayNo, hotel});
   }
   handleRemoveCity(dayNo, index) {
     console.log('>>>>handleRemoveCity', {dayNo, index});
@@ -151,6 +152,9 @@ class App extends React.Component {
       );
     }
     this.setState({plan, popup});
+    // Socket update plan
+    const senderId = this.props.viewerId;
+    this.pushToRemote('plan:save', {senderId, plan});
   }
   handleDragItem(result) {
     console.log('>>>>handleDragItem', result);
@@ -263,10 +267,20 @@ class App extends React.Component {
       const idxSrc = source.index;
       const idxDst = destination.index;
       const dayNo = Number(draggableId.split('##')[1]);
-      if (reorg(dayNo, idxSrc, idxDst)) this.setState({plan});
+      if (reorg(dayNo, idxSrc, idxDst)) {
+        this.setState({plan});
+        // Socket update plan
+        const senderId = this.props.viewerId;
+        this.pushToRemote('plan:save', {senderId, plan});
+      }
     }
     if (source.droppableId !== destination.droppableId) {
-      if (move(source, destination)) this.setState({plan});
+      if (move(source, destination)) {
+        this.setState({plan});
+        // Socket update plan
+        const senderId = this.props.viewerId;
+        this.pushToRemote('plan:save', {senderId, plan});
+      }
     }
   }
   handleSelectItem(input) {
@@ -313,6 +327,9 @@ class App extends React.Component {
       return;
     }
     this.setState({plan});
+    // Socket update plan
+    const senderId = this.props.viewerId;
+    this.pushToRemote('plan:save', {senderId, plan});
   }
   handleBtnStartHoliday() {
     const {plan, planExt} = this.state;
@@ -324,7 +341,7 @@ class App extends React.Component {
   }
   handleDateRangeChange({startDate, endDate}) {
     // console.log('>>>>handleDateRangeChange', {startDate, endDate});
-    const {plan} = this.state;
+    let plan = this.state.plan;
     const getDays = (startDate, endDate, plan) => {
       let {days} = plan;
       const totalDays = endDate.diff(startDate, 'days') + 1;
@@ -363,16 +380,33 @@ class App extends React.Component {
     };
     const {days, totalDays} =
       startDate && endDate ? getDays(startDate, endDate, plan) : plan;
-    this.setState({
-      plan: {...plan, startDate, endDate, totalDays, days},
-    });
+    plan = {...plan, startDate, endDate, totalDays, days};
+    this.setState({plan});
+    // Socket update plan when plan id exists
+    if (plan._id) {
+      const senderId = this.props.viewerId;
+      this.pushToRemote('plan:save', {senderId, plan});
+    }
   }
   handlePeopleChange(delta) {
     // console.log('>>>>handlePeopleChange', people);
     const {plan} = this.state;
     plan.totalPeople = plan.totalPeople + delta;
+    for (let i = 0; plan.days && i < plan.days.length; i++) {
+      const day = plan.days[i];
+      for (let m = 0; day.items && m < day.items.length; m++) {
+        day.items[m].totalPeople = plan.totalPeople;
+      }
+    }
     // TODO: Need to notify user of the change to TotalPeople
     this.setState({plan});
+    // Socket update totalPeople when plan id exists
+    if (plan._id) {
+      const senderId = this.props.viewerId;
+      const totalPeople = plan.totalPeople;
+      const planId = plan._id;
+      this.pushToRemote('people:save', {senderId, planId, totalPeople});
+    }
   }
   handleTagGroupChange(tagGroup) {
     // console.log('>>>>handleTagGroupChange', tagGroup);
@@ -474,6 +508,9 @@ class App extends React.Component {
     }
     // Update State
     this.setState({plan, planExt});
+    // Socket update plan
+    const senderId = this.props.viewerId;
+    this.pushToRemote('people:save', {senderId, plan});
   }
   /* ==============================
      = Helper Methods             =
@@ -526,9 +563,6 @@ class App extends React.Component {
   }
   handlePlanSave(result) {
     console.log('>>>>Result from socket [plan:save]', result);
-  }
-  handlePlanDaySave(result) {
-    console.log('>>>>Result from socket [planDay:save]', result);
   }
   // ----------  Users  ----------
   setOnlineUsers(onlineUserFbIds = []) {
@@ -639,7 +673,6 @@ class App extends React.Component {
     socket.on('ref:activity', this.handleRefActivity);
     socket.on('ref:destination', this.handleRefDestination);
     socket.on('plan:save', this.handlePlanSave);
-    socket.on('planDay:save', this.handlePlanDaySave);
 
     const {viewerId, planId} = this.props;
     const handleMount = (vid, pid) => {
