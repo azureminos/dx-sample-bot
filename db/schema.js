@@ -342,7 +342,7 @@ const createPlanDay = (input, callback) => {
   }
 };
 const updatePlanPeople = (input, callback) => {
-  console.log('>>>>Model.updatePlanPeople', input);
+  // console.log('>>>>Model.updatePlanPeople', input);
   const {senderId, planId, totalPeople} = input;
   async.parallel(
     {
@@ -365,8 +365,8 @@ const updatePlanPeople = (input, callback) => {
         return DbTravelPlanItem.update(filter, doc, callback);
       },
     },
-    function(err, results) {
-      console.log('>>>>Socket.savePeople completed', {err, results});
+    function(err, res) {
+      // console.log('>>>>Model.updatePlanPeople completed', {err, res});
     }
   );
 };

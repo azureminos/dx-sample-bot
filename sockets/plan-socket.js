@@ -27,7 +27,7 @@ const PackageStatus = TravelPackage.status;
 // ===== HANDLER ===============================================================
 const savePlan = (input) => {
   const {request, sendStatus, socket, socketUsers} = input;
-  console.log('>>>>Socket.savePlan', {request, socketUsers});
+  // console.log('>>>>Socket.savePlan', {request, socketUsers});
   const {plan, senderId} = request;
   if (!plan._id) {
     // create full record in DB for Plan, PlanDay and PlanDayItem
@@ -124,10 +124,10 @@ const savePlan = (input) => {
       },
       function(err) {
         if (err) {
-          console.error('>>>>Model plan${plan._id} days/items delete Failed');
+          console.error(`>>>>Model plan[${plan._id}] days/items delete Failed`);
           return;
         }
-        console.log(`>>>>Model plan${plan._id} days/items deleted`);
+        console.log(`>>>>Model plan[${plan._id}] days/items deleted`);
         const oDays = _.map(plan.days, (d) => {
           return {
             travelPlan: plan._id,
@@ -141,7 +141,7 @@ const savePlan = (input) => {
           };
         });
         Model.createPlanDay(oDays, (err, tmpDays) => {
-          // console.log('>>>>Model.createPlan Saved', {err, tmpDays});
+          console.log('>>>>Model.createPlan Saved', {err, tmpDays});
           if (err) {
             console.error('>>>>Model.createPlanDay Failed', {err, oDays});
             return;
@@ -187,16 +187,16 @@ const savePlan = (input) => {
 };
 
 const savePlanDay = (input) => {
-  console.log('>>>>Socket.savePlanDay', {request, socketUsers});
+  // console.log('>>>>Socket.savePlanDay', {request, socketUsers});
   const {request, sendStatus, socket, socketUsers} = input;
   const {packageId, totalDays, carOption, senderId} = request;
 };
 
 const savePeople = (input) => {
   const {request, sendStatus, socket, socketUsers} = input;
-  console.log('>>>>Socket.savePeople', {request, socketUsers});
+  // console.log('>>>>Socket.savePeople', {request, socketUsers});
   Model.updatePlanPeople(request, (err, result) => {
-    console.log('>>>>Socket.savePeople completed', {err, result});
+    // console.log('>>>>Socket.savePeople completed', {err, result});
   });
 };
 
