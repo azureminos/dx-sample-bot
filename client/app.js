@@ -7,6 +7,7 @@
 
 // ==== MODULES ==========================================
 import _ from 'lodash';
+import moment from 'moment';
 import io from 'socket.io-client';
 import React, {createElement} from 'react';
 import {withStyles} from '@material-ui/core/styles';
@@ -57,6 +58,7 @@ class App extends React.Component {
     this.handlePopupClose = this.handlePopupClose.bind(this);
     this.handleRemoveCity = this.handleRemoveCity.bind(this);
     this.handleUpdateHotel = this.handleUpdateHotel.bind(this);
+    this.handleClickPlanCard = this.handleClickPlanCard.bind(this);
     // State
     this.state = {
       user: null,
@@ -89,6 +91,9 @@ class App extends React.Component {
     // console.log('>>>>handlePopupClose');
     const popup = {open: false, title: '', message: ''};
     this.setState({popup});
+  }
+  handleClickPlanCard(input) {
+    console.log('>>>>handleClickPlanCard', input);
   }
   handleUpdateHotel(input) {
     // console.log('>>>>handleUpdateHotel', input);
@@ -583,6 +588,13 @@ class App extends React.Component {
   }
   handlePlanAll(plans) {
     console.log('>>>>Result from socket [plan:all]', plans);
+    for (let i = 0; plans && i < plans.length; i++) {
+      const plan = plans[i];
+      if (plan.startDate) plan.startDate = moment(plan.startDate);
+      if (plan.endDate) plan.endDate = moment(plan.endDate);
+      if (plan.createdAt) plan.createdAt = moment(plan.createdAt);
+      if (plan.updatedAt) plan.updatedAt = moment(plan.updatedAt);
+    }
     this.setState({plans});
   }
   // ----------  Users  ----------
@@ -717,7 +729,10 @@ class App extends React.Component {
     let page = <div>Loading...</div>;
     if (homepage === Page.MainPage) {
       document.title = 'My Holiday Plans';
-      page = <PageAllTravel plans={this.state.plans} />;
+      const actionsAllPlan = {
+        handleClickPlanCard: this.handleClickPlanCard,
+      };
+      page = <PageAllTravel plans={this.state.plans} actions={actionsAllPlan}/>;
     } else if (homepage === Page.NewPlan) {
       document.title = 'Start My Holiday';
       if (reference.tagGroups) {
