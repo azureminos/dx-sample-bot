@@ -94,7 +94,7 @@ const savePlan = (input) => {
         }
         if (oItems && oItems.length > 0) {
           Model.createPlanDayItem(oItems, (err, tmpItems) => {
-            console.log('>>>>Model.createPlanDayItem Saved', {err, tmpItems});
+            // console.log('>>>>Model.createPlanDayItem Saved', {err, tmpItems});
             if (err) {
               console.error('>>>>Model.createPlanDayItem Failed', {
                 err,
@@ -117,8 +117,8 @@ const savePlan = (input) => {
 };
 
 const savePlanDay = (input) => {
-  const {request, sendStatus, socket, socketUsers} = input;
   console.log('>>>>Socket.savePlanDay', {request, socketUsers});
+  const {request, sendStatus, socket, socketUsers} = input;
   const {packageId, totalDays, carOption, senderId} = request;
 };
 

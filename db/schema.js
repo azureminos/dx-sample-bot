@@ -326,7 +326,7 @@ const getAttractionByNameBlur = (keys, callback) => {
     });
 };
 const createPlan = (input, callback) => {
-  console.log('>>>>Model.createPlan', input);
+  // console.log('>>>>Model.createPlan', input);
   const inst = new DbTravelPlan(input);
   inst.save(callback);
 };
@@ -335,7 +335,7 @@ const updatePlan = (plan, callback) => {
   callback();
 };
 const createPlanDay = (input, callback) => {
-  console.log('>>>>Model.createPlanDay', input);
+  // console.log('>>>>Model.createPlanDay', input);
   if (Array.isArray(input)) {
     DbTravelPlanDay.insertMany(input, callback);
   } else {

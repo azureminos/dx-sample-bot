@@ -58,7 +58,6 @@ class App extends React.Component {
     this.handleUpdateHotel = this.handleUpdateHotel.bind(this);
     // State
     this.state = {
-      updating: false,
       user: null,
       socketStatus: '',
       plan: null,
@@ -521,7 +520,6 @@ class App extends React.Component {
      ============================== */
   pushToRemote(channel, message) {
     console.log(`>>>>Push event[${channel}] with message`, message);
-    this.setState({updating: true}); // Set the updating spinner
     socket.emit(`push:${channel}`, message, (status) => {
       // Finished successfully with a special 'ok' message from socket server
       if (status !== 'ok') {
@@ -553,7 +551,7 @@ class App extends React.Component {
     if (homepage === Page.NewPlan) {
       plan = Helper.draftPlan();
     }
-    this.setState({plan, user, homepage, updating: false});
+    this.setState({plan, user, homepage});
     // Extra logic
     if (homepage === Page.MainPage) {
       this.pushToRemote('plan:list', {senderId: this.props.viewerId});
@@ -563,6 +561,9 @@ class App extends React.Component {
   }
   handlePlanSave(result) {
     console.log('>>>>Result from socket [plan:save]', result);
+    const {plan} = this.state;
+    plan._id = result.planId;
+    this.setState({plan});
   }
   // ----------  Users  ----------
   setOnlineUsers(onlineUserFbIds = []) {
@@ -580,17 +581,13 @@ class App extends React.Component {
     const {categories, destinations, tagGroups} = results;
     const {reference} = this.state;
     this.setState({
-      updating: false,
       reference: {...reference, categories, destinations, tagGroups},
     });
   }
   handleRefDestination(results) {
     // console.log('>>>>Result from socket [ref:destination]', results);
     const {reference} = this.state;
-    this.setState({
-      updating: false,
-      reference: {...reference, destinations: results},
-    });
+    this.setState({reference: {...reference, destinations: results}});
   }
   handleRefActivity(results) {
     // console.log('>>>>Result from socket [ref:activity]', results);
@@ -644,7 +641,6 @@ class App extends React.Component {
     );
     // Update state
     this.setState({
-      updating: false,
       plan: plan,
       reference: {...reference, activities},
     });
