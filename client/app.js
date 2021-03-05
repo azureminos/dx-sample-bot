@@ -579,9 +579,13 @@ class App extends React.Component {
       this.pushToRemote('ref:all', {country: this.state.planExt.country});
     } else if (homepage === Page.ShowPlan) {
       const plan = results.plan;
+      const reference = {
+        ...this.state.reference,
+        activities: results.activities,
+      };
       if (plan.startDate) plan.startDate = moment(plan.startDate);
       if (plan.endDate) plan.endDate = moment(plan.endDate);
-      this.setState({plan, user, homepage, plans: []});
+      this.setState({plan, user, homepage, plans: [], reference});
     }
   }
   handlePlanSave(result) {

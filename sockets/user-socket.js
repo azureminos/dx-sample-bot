@@ -171,12 +171,24 @@ const view = (input) => {
                   console.error('>>>>Database Error', err);
                   sendStatus(SocketStatus.DB_ERROR);
                 } else {
-                  console.error('>>>>Database Results', result);
+                  // console.error('>>>>Database Results', result);
+                  _.each(cities, (it) => {
+                    const tmpProduct = _.filter(result.products, (p) => {
+                      return p.primaryDestinationId === it.cityId;
+                    });
+                    const tmpAttraction = _.filter(result.attractions, (a) => {
+                      return a.primaryDestinationId === it.cityId;
+                    });
+                    activities[it.city] = {
+                      products: tmpProduct || [],
+                      attractions: tmpAttraction || [],
+                    };
+                  });
+                  socket.emit('init', {user, homepage, plan, activities});
+                  sendStatus(SocketStatus.OK);
                 }
               }
             );
-            // socket.emit('init', {user, homepage, plan});
-            // sendStatus(SocketStatus.OK);
           }
         });
       }
