@@ -576,6 +576,7 @@ class App extends React.Component {
     } else if (homepage === Page.MainPage) {
       this.setState({user, homepage});
       this.pushToRemote('plan:all', {senderId: this.props.viewerId});
+      this.pushToRemote('ref:all', {country: this.state.planExt.country});
     } else if (homepage === Page.ShowPlan) {
       const plan = results.plan;
       if (plan.startDate) plan.startDate = moment(plan.startDate);
