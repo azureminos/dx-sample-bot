@@ -499,7 +499,7 @@ const findFullPlan = (planId, callback) => {
           plan.days.push(day);
         });
       }
-      callback(err, res);
+      callback(err, plan);
     }
   );
 };
