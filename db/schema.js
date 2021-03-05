@@ -497,7 +497,7 @@ const findFullPlan = (planId, callback) => {
             items: [],
           };
           const its = _.filter(res.items, (item) => {
-            return d._id === item.travelPlanDay;
+            return d.dayNo === item.dayNo;
           });
           console.log(`>>>>Model.findFullPlan Day[${d.dayNo}]`, its);
           _.each(its, (it) => {
