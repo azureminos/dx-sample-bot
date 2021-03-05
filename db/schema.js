@@ -469,9 +469,9 @@ const findFullPlan = (planId, callback) => {
       },
     },
     function(err, res) {
-      // console.log('>>>>Model.updatePlanPeople instance', res.instance);
-      // console.log('>>>>Model.updatePlanPeople days', res.days);
-      // console.log('>>>>Model.updatePlanPeople items', res.items);
+      console.log('>>>>Model.updatePlanPeople instance', res.instance);
+      console.log('>>>>Model.updatePlanPeople days', res.days);
+      console.log('>>>>Model.updatePlanPeople items', res.items);
       let plan = null;
       if (!err && res.instance && res.instance.length > 0) {
         const tmpPlan = res.instance[0];
