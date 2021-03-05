@@ -113,15 +113,15 @@ const savePlan = (input) => {
   } else {
     // TODO: Get plan from DB and then compare with web plan
     // ToBeReplaced: delete all days and items, then re-create
-    async.parallel(
-      {
-        days: (callback) => {
+    async.series(
+      [
+        (callback) => {
           Model.deletePlanDay({travelPlan: plan._id}, callback);
         },
-        items: (callback) => {
+        (callback) => {
           Model.deletePlanItem({travelPlan: plan._id}, callback);
         },
-      },
+      ],
       function(err) {
         if (err) {
           console.error(`>>>>Model plan[${plan._id}] days/items delete Failed`);
