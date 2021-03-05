@@ -578,6 +578,8 @@ class App extends React.Component {
       this.pushToRemote('plan:all', {senderId: this.props.viewerId});
     } else if (homepage === Page.ShowPlan) {
       const plan = results.plan;
+      if (plan.startDate) plan.startDate = moment(plan.startDate);
+      if (plan.endDate) plan.endDate = moment(plan.endDate);
       this.setState({plan, user, homepage, plans: []});
     }
   }
@@ -733,7 +735,9 @@ class App extends React.Component {
       const actionsAllPlan = {
         handleClickPlanCard: this.handleClickPlanCard,
       };
-      page = <PageAllTravel plans={this.state.plans} actions={actionsAllPlan}/>;
+      page = (
+        <PageAllTravel plans={this.state.plans} actions={actionsAllPlan} />
+      );
     } else if (homepage === Page.NewPlan) {
       document.title = 'Start My Holiday';
       if (reference.tagGroups) {
@@ -768,6 +772,23 @@ class App extends React.Component {
               actions={actionsPlanTrip}
             />
           );
+      } else if (homepage === Page.ShowPlan) {
+        const actionsPlanTrip = {
+          handleDateRangeChange: this.handleDateRangeChange,
+          handleSetDestination: this.handleSetDestination,
+          handlePeopleChange: this.handlePeopleChange,
+          handleDragItem: this.handleDragItem,
+          handleSelectItem: this.handleSelectItem,
+          handleUpdateHotel: this.handleUpdateHotel,
+        };
+        page = (
+          <PagePlanTrip
+            plan={plan}
+            planExt={planExt}
+            reference={reference}
+            actions={actionsPlanTrip}
+          />
+        );
       }
     }
     /* ----------  Animated Wrapper  ---------- */
