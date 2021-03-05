@@ -210,27 +210,41 @@ const getAllDestination = (country, callback) => {
     }
   );
 };
-const getAllProduct = (cityId, callback) => {
-  // console.log('>>>>Model.getAllProduct', cityId);
+const getAllProduct = (input, callback) => {
+  // console.log('>>>>Model.getAllProduct', input);
   const cols =
     'productCode name shortTitle catIds subCatIds ' +
     'shortDescription duration thumbnailURL rating ' +
     'primaryDestinationName primaryDestinationId ' +
     'price currencyCode hotelPickup addrCheckIn tags';
-  return DbProduct.find({primaryDestinationId: cityId})
+  if (Array.isArray(input)) {
+    return DbProduct.find({primaryDestinationId: {$in: input}})
+      .select(cols)
+      .exec((err, docs) => {
+        callback(err, docs);
+      });
+  }
+  return DbProduct.find({primaryDestinationId: input})
     .select(cols)
     .exec((err, docs) => {
       callback(err, docs);
     });
 };
-const getAllAttraction = (cityId, callback) => {
-  // console.log('>>>>Model.getAllAttraction', cityId);
+const getAllAttraction = (input, callback) => {
+  // console.log('>>>>Model.getAllAttraction', input);
   const cols =
     'name seoId description summary thumbnailURL ' +
     'rating attractionStreetAddress attractionCity ' +
     'primaryDestinationName primaryDestinationId ' +
     'attractionState tags';
-  return DbAttraction.find({primaryDestinationId: cityId})
+  if (Array.isArray(input)) {
+    return DbAttraction.find({primaryDestinationId: {$in: input}})
+      .select(cols)
+      .exec((err, docs) => {
+        callback(err, docs);
+      });
+  }
+  return DbAttraction.find({primaryDestinationId: input})
     .select(cols)
     .exec((err, docs) => {
       callback(err, docs);

@@ -108,20 +108,20 @@ const view = (input) => {
     return;
   }
   if (!planId || planId === 'new' || planId === 'all') {
-    console.log('>>>>Socket.view, send back user details');
+    // console.log('>>>>Socket.view, send back user details');
     getUserDetails(senderId, (err, user) => {
       if (err) {
         console.error('>>>>Database Error', err);
         sendStatus(SocketStatus.DB_ERROR);
       } else {
-        console.log('>>>>Model.view Level 2 Result', user);
+        // console.log('>>>>Model.view Level 2 Result', user);
         const homepage = planId === 'new' ? Page.NewPlan : Page.MainPage;
         socket.emit('init', {user, homepage});
         sendStatus(SocketStatus.OK);
       }
     });
   } else {
-    console.log('>>>>Socket.view, prepare page[display trip]');
+    // console.log('>>>>Socket.view, prepare page[display trip]');
     // Persist socket details
     if (!socketUsers.get(socket.id)) {
       socketUsers.set(socket.id, {senderId});
@@ -132,16 +132,51 @@ const view = (input) => {
         console.error('>>>>Database Error', err);
         sendStatus(SocketStatus.DB_ERROR);
       } else {
-        console.log('>>>>Model.view Level 2 Result', user);
+        // console.log('>>>>Model.view Level 2 Result', user);
         const homepage = Page.ShowPlan;
         Model.findFullPlan(planId, (err, plan) => {
           if (err) {
             console.error('>>>>Database Error', err);
             sendStatus(SocketStatus.DB_ERROR);
           } else {
-            console.log('>>>>Model.view retrieved plan', plan);
-            socket.emit('init', {user, homepage, plan});
-            sendStatus(SocketStatus.OK);
+            // console.log('>>>>Model.view retrieved plan', plan);
+            const activities = {};
+            const cities = [];
+            const cityIds = [];
+            _.each(plan.days, (d) => {
+              _.each(d.cities, (dc) => {
+                const matcher = _.find(cities, (c) => {
+                  return c.destinationId === dc.destinationId;
+                });
+                if (!matcher) {
+                  cityIds.push(dc.destinationId);
+                  cities.push({
+                    city: dc.name,
+                    cityId: dc.destinationId,
+                  });
+                }
+              });
+            });
+            async.parallel(
+              {
+                products: (callback) => {
+                  Model.getAllProduct(cityIds, callback);
+                },
+                attractions: (callback) => {
+                  Model.getAllAttraction(cityIds, callback);
+                },
+              },
+              function(err, result) {
+                if (err) {
+                  console.error('>>>>Database Error', err);
+                  sendStatus(SocketStatus.DB_ERROR);
+                } else {
+                  console.error('>>>>Database Results', result);
+                }
+              }
+            );
+            // socket.emit('init', {user, homepage, plan});
+            // sendStatus(SocketStatus.OK);
           }
         });
       }

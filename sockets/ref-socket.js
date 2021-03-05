@@ -85,7 +85,7 @@ const getAllActivity = (input) => {
     socketUsers,
     userSocket,
   } = input;
-  console.log('>>>>Socket.getAllActivity() start', {request});
+  console.log('>>>>Socket.getAllActivity() start', request);
   const {city, cityId} = request;
   async.parallel(
     {
