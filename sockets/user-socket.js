@@ -145,16 +145,6 @@ const view = (input) => {
           }
         });
       }
-    // Get travel plan by ID
-    const homepage = Page.ShowPlan;
-    Model.findFullPlan(planId, (err, plan) => {
-      if (err) {
-        console.error('>>>>Database Error', err);
-        sendStatus(SocketStatus.DB_ERROR);
-      } else {
-        sendStatus(SocketStatus.OK);
-      }
-      socket.emit('plan:view', {homepage, plan});
     });
   }
 };
