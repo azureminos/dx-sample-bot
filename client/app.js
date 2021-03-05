@@ -772,24 +772,24 @@ class App extends React.Component {
               actions={actionsPlanTrip}
             />
           );
-      } else if (homepage === Page.ShowPlan) {
-        const actionsPlanTrip = {
-          handleDateRangeChange: this.handleDateRangeChange,
-          handleSetDestination: this.handleSetDestination,
-          handlePeopleChange: this.handlePeopleChange,
-          handleDragItem: this.handleDragItem,
-          handleSelectItem: this.handleSelectItem,
-          handleUpdateHotel: this.handleUpdateHotel,
-        };
-        page = (
-          <PagePlanTrip
-            plan={plan}
-            planExt={planExt}
-            reference={reference}
-            actions={actionsPlanTrip}
-          />
-        );
       }
+    } else if (homepage === Page.ShowPlan) {
+      const actionsPlanTrip = {
+        handleDateRangeChange: this.handleDateRangeChange,
+        handleSetDestination: this.handleSetDestination,
+        handlePeopleChange: this.handlePeopleChange,
+        handleDragItem: this.handleDragItem,
+        handleSelectItem: this.handleSelectItem,
+        handleUpdateHotel: this.handleUpdateHotel,
+      };
+      page = (
+        <PagePlanTrip
+          plan={plan}
+          planExt={planExt}
+          reference={reference}
+          actions={actionsPlanTrip}
+        />
+      );
     }
     /* ----------  Animated Wrapper  ---------- */
     return (
