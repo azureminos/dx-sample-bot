@@ -69,9 +69,9 @@ router.get('/web', handleWebviewAccess);
 router.get('/web/:userId/:type', handleWebviewAccess);
 router.get('/web/:userId/:type/:id', handleWebviewAccess);
 router.post('/api/tool/searchAttraction/', handleSearchAttraction);
-/*
+
 Model.deletePlanItem({});
 Model.deletePlanDay({});
 Model.deletePlan({});
-*/
+
 export default router;
