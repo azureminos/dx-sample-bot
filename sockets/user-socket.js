@@ -127,6 +127,24 @@ const view = (input) => {
       socketUsers.set(socket.id, {senderId});
       socket.join(planId);
     }
+    getUserDetails(senderId, (err, user) => {
+      if (err) {
+        console.error('>>>>Database Error', err);
+        sendStatus(SocketStatus.DB_ERROR);
+      } else {
+        console.log('>>>>Model.view Level 2 Result', user);
+        const homepage = Page.ShowPlan;
+        Model.findFullPlan(planId, (err, plan) => {
+          if (err) {
+            console.error('>>>>Database Error', err);
+            sendStatus(SocketStatus.DB_ERROR);
+          } else {
+            console.log('>>>>Model.view retrieved plan', plan);
+            socket.emit('init', {user, homepage, plan});
+            sendStatus(SocketStatus.OK);
+          }
+        });
+      }
     // Get travel plan by ID
     const homepage = Page.ShowPlan;
     Model.findFullPlan(planId, (err, plan) => {

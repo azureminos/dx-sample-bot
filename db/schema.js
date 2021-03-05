@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import async from 'async';
+import moment from 'moment';
 import mongoose from './mongoose';
 import ObjectParser from '../lib/object-parser';
 import CONSTANTS from '../lib/constants';
@@ -154,6 +155,9 @@ const nTravelPlanItem = new mongoose.Schema({
   dayNo: Schema.Types.Number,
   itemType: Schema.Types.String,
   itemId: Schema.Types.String,
+  name: Schema.Types.String,
+  destName: Schema.Types.String,
+  imgUrl: Schema.Types.String,
   totalPeople: Schema.Types.Number,
   unitPrice: Schema.Types.Number,
   notes: Schema.Types.String,
@@ -424,7 +428,7 @@ const findPlanDay = (filter, callback) => {
 };
 const findPlan = (filter, callback) => {
   return DbTravelPlan.find(filter)
-    .sort({updatedAt: 'asc'})
+    .sort({updatedAt: 'desc'})
     .exec((err, docs) => {
       if (callback) callback(err, docs);
     });
@@ -439,7 +443,11 @@ const findFullPlan = (planId, callback) => {
       },
       days: (callback) => {
         const filter = {travelPlan: planId};
-        return DbTravelPlanDay.find(filter, callback);
+        return DbTravelPlanDay.find(filter)
+          .sort({dayNo: 'asc'})
+          .exec((err, docs) => {
+            if (callback) callback(err, docs);
+          });
       },
       items: (callback) => {
         const filter = {travelPlan: planId};
@@ -450,6 +458,47 @@ const findFullPlan = (planId, callback) => {
       console.log('>>>>Model.updatePlanPeople instance', res.instance);
       console.log('>>>>Model.updatePlanPeople days', res.days);
       console.log('>>>>Model.updatePlanPeople items', res.items);
+      if (!err && res.instance && res.instance.length > 0) {
+        const tmpPlan = res.instance[0];
+        const mStartDate = moment(tmpPlan.startDate);
+        const mEndDate = moment(tmpPlan.endDate);
+        const plan = {
+          _id: tmpPlan._id,
+          tagGroups: tmpPlan.tagGroups,
+          status: tmpPlan.status,
+          startDate: tmpPlan.startDate,
+          endDate: tmpPlan.endDate,
+          totalDays: mEndDate.diff(mStartDate, 'days') + 1,
+          startCity: tmpPlan.startCity,
+          endCity: tmpPlan.endCity,
+          totalPeople: tmpPlan.totalPeople,
+          days: [],
+        };
+        _.each(res.days, (d) => {
+          const day = {
+            dayNo: d.dayNo,
+            hotel: d.hotel,
+            cities: d.cities,
+            items: [],
+          };
+          const its = _.filter(res.items, (item) => {
+            return d._id === item.travelPlanDay;
+          });
+          _.each(its, (it) => {
+            day.items.push({
+              itemType: it.itemType,
+              itemId: it.itemId,
+              totalPeople: it.totalPeople,
+              unitPrice: it.unitPrice,
+              destName: it.destName,
+              name: it.name,
+              imgUrl: it.imgUrl,
+              isUserSelected: true,
+            });
+          });
+          plan.days.push(day);
+        });
+      }
       callback(err, res);
     }
   );

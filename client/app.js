@@ -43,7 +43,6 @@ class App extends React.Component {
     this.setOnlineUsers = this.setOnlineUsers.bind(this);
     this.handlePlanSave = this.handlePlanSave.bind(this);
     this.handlePlanAll = this.handlePlanAll.bind(this);
-    this.handlePlanLoad = this.handlePlanLoad.bind(this);
     this.handleRefAll = this.handleRefAll.bind(this);
     this.handleRefActivity = this.handleRefActivity.bind(this);
     this.handleRefDestination = this.handleRefDestination.bind(this);
@@ -97,11 +96,6 @@ class App extends React.Component {
     console.log('>>>>handleClickPlanCard', planId);
     const senderId = this.props.viewerId;
     this.pushToRemote('plan:view', {senderId, planId});
-  }
-  handlePlanLoad(input) {
-    console.log('>>>>handlePlanLoad', input);
-    const {homepage, plan} = input;
-    this.setState({homepage, plan, plans: null});
   }
   handleUpdateHotel(input) {
     // console.log('>>>>handleUpdateHotel', input);
@@ -575,17 +569,16 @@ class App extends React.Component {
   init(results) {
     // console.log('>>>>Result from socket [init]', results);
     const {user, homepage} = results;
-    let plan = this.state.plan;
     if (homepage === Page.NewPlan) {
-      plan = Helper.draftPlan();
-    }
-    this.setState({plan, user, homepage});
-    // Extra logic
-    if (homepage === Page.MainPage) {
+      const plan = Helper.draftPlan();
+      this.setState({plan, user, homepage});
+      this.pushToRemote('ref:all', {country: this.state.planExt.country});
+    } else if (homepage === Page.MainPage) {
       this.setState({user, homepage});
       this.pushToRemote('plan:all', {senderId: this.props.viewerId});
-    } else if (homepage === Page.NewPlan) {
-      this.pushToRemote('ref:all', {country: this.state.planExt.country});
+    } else if (homepage === Page.ShowPlan) {
+      const plan = results.plan;
+      this.setState({plan, user, homepage, plans: []});
     }
   }
   handlePlanSave(result) {
@@ -713,7 +706,6 @@ class App extends React.Component {
     socket.on('ref:destination', this.handleRefDestination);
     socket.on('plan:save', this.handlePlanSave);
     socket.on('plan:all', this.handlePlanAll);
-    socket.on('plan:view', this.handlePlanLoad);
 
     const {viewerId, planId} = this.props;
     const handleMount = (vid, pid) => {

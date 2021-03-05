@@ -158,8 +158,12 @@ const savePlan = (input) => {
                 oItems.push({
                   travelPlan: plan._id,
                   travelPlanDay: plan.days[i]._id,
+                  dayNo: plan.days[i].dayNo,
                   itemType: it.itemType,
                   itemId: it.itemId,
+                  name: it.name,
+                  destName: it.destName,
+                  imgUrl: it.imgUrl,
                   totalPeople: it.totalPeople,
                   unitPrice: it.unitPrice,
                   createdAt: new Date(),
