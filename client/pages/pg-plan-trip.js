@@ -406,7 +406,9 @@ class PagePlanTrip extends React.Component {
             open={popupHotel.open}
             message={popupHotel.message}
             dayNo={popupHotel.dayNo}
-            hotel={popupHotel.dayNo ? plan.days[popupHotel.dayNo].hotel : null}
+            hotel={
+              popupHotel.dayNo ? plan.days[popupHotel.dayNo - 1].hotel : null
+            }
             handleClose={this.handleHotelClose}
             handleUpdateHotel={this.doHandleUpdateHotel}
           />
