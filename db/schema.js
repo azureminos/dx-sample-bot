@@ -458,11 +458,12 @@ const findFullPlan = (planId, callback) => {
       console.log('>>>>Model.updatePlanPeople instance', res.instance);
       console.log('>>>>Model.updatePlanPeople days', res.days);
       console.log('>>>>Model.updatePlanPeople items', res.items);
+      let plan = null;
       if (!err && res.instance && res.instance.length > 0) {
         const tmpPlan = res.instance[0];
         const mStartDate = moment(tmpPlan.startDate);
         const mEndDate = moment(tmpPlan.endDate);
-        const plan = {
+        plan = {
           _id: tmpPlan._id,
           tagGroups: tmpPlan.tagGroups,
           status: tmpPlan.status,
