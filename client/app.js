@@ -457,6 +457,10 @@ class App extends React.Component {
       plan.days[plan.days.length - 1].items = [];
     }
     this.setState({plan});
+    this.pushToRemote('ref:activity', {
+      city: city.name,
+      cityId: city.destinationId,
+    });
   }
   handleSetDestination(input) {
     const {plan, planExt, reference} = this.state;
