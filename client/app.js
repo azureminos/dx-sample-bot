@@ -145,7 +145,7 @@ class App extends React.Component {
         activities,
         dayPlans
       );
-    } else if (day.cities.length - 1 === index) {
+    } else if (index === day.cities.length - 1) {
       const dayNext = plan.days[dayNo];
       dayNext.cities = _.concat(
         [day.cities[day.cities.length - 1]],
