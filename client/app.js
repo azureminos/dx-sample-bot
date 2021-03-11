@@ -137,27 +137,31 @@ class App extends React.Component {
     );
     if (index === 0) {
       const dayPrev = plan.days[dayNo - 2];
-      dayPrev.cities = _.slice(dayPrev.cities, 0, dayPrev.cities.length - 1);
-      dayPrev.items = Helper.checkDayActivity(
-        dayPrev,
-        totalPeople,
-        tags,
-        activities,
-        dayPlans
-      );
+      if (dayPrev.cities && dayPrev.cities.length > 1) {
+        dayPrev.cities = _.slice(dayPrev.cities, 0, dayPrev.cities.length - 1);
+        dayPrev.items = Helper.checkDayActivity(
+          dayPrev,
+          totalPeople,
+          tags,
+          activities,
+          dayPlans
+        );
+      }
     } else if (index === day.cities.length - 1) {
       const dayNext = plan.days[dayNo];
-      dayNext.cities = _.concat(
-        [day.cities[day.cities.length - 1]],
-        dayNext.cities
-      );
-      dayNext.items = Helper.checkDayActivity(
-        dayNext,
-        totalPeople,
-        tags,
-        activities,
-        dayPlans
-      );
+      if (dayNext.cities && dayNext.cities.length > 1) {
+        dayNext.cities = _.concat(
+          [day.cities[day.cities.length - 1]],
+          dayNext.cities
+        );
+        dayNext.items = Helper.checkDayActivity(
+          dayNext,
+          totalPeople,
+          tags,
+          activities,
+          dayPlans
+        );
+      }
     }
     this.setState({plan, popup});
     // Socket update plan
