@@ -388,6 +388,10 @@ const updatePlanPeople = (input, callback) => {
     }
   );
 };
+const updatePlanStatus = (filter, update, callback) => {
+  // console.log('>>>>Model.updatePlanStatus', {filter, update});
+  DbTravelPlan.updateOne(filter, update, callback);
+};
 const updatePlanDay = (day, callback) => {
   // console.log('>>>>Model.updatePlanDay', plan);
   callback();
@@ -562,6 +566,7 @@ export default {
   createPlanDayItem,
   updatePlan,
   updatePlanDay,
+  updatePlanStatus,
   updatePlanDayItem,
   updatePlanPeople,
   updatePlanDayHotel,

@@ -42,6 +42,7 @@ class App extends React.Component {
     this.init = this.init.bind(this);
     this.register = this.register.bind(this);
     this.setOnlineUsers = this.setOnlineUsers.bind(this);
+    this.handlePageClose = this.handlePageClose.bind(this);
     this.handlePlanSave = this.handlePlanSave.bind(this);
     this.handlePlanAll = this.handlePlanAll.bind(this);
     this.handleRefAll = this.handleRefAll.bind(this);
@@ -95,8 +96,17 @@ class App extends React.Component {
      ============================== */
   handlePayment(result) {
     console.log('>>>>handlePayment', result);
+    const {plan} = this.state;
+    plan.status = result.status;
     const payment = {open: false};
-    this.setState({payment});
+    this.setState({payment, plan});
+    // Socket Update Plan Status
+    const req = {
+      senderId: this.props.viewerId,
+      planId: plan._id,
+      status: result.status,
+    };
+    this.pushToRemote('plan:updateStatus', req);
   }
   handleBtnComplete() {
     // console.log('>>>>handleBtnComplete');
@@ -589,6 +599,9 @@ class App extends React.Component {
       this.pushToRemote('register', params);
     }
   }
+  handlePageClose() {
+    window.MessengerExtensions.requestCloseBrowser(null, null);
+  }
   /* ----------  Package Instance ------- */
   init(results) {
     // console.log('>>>>Result from socket [init]', results);
@@ -741,6 +754,7 @@ class App extends React.Component {
     });
     socket.on('connect', this.register);
     socket.on('init', this.init);
+    socket.on('page:close', this.handlePageClose);
     socket.on('ref:all', this.handleRefAll);
     socket.on('ref:activity', this.handleRefActivity);
     socket.on('ref:destination', this.handleRefDestination);

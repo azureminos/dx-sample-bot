@@ -78,7 +78,7 @@ class PopupPayment extends React.Component {
       >
         <DialogTitle id='alert-dialog-title'>Payment</DialogTitle>
         <DialogContent>
-          <DialogContentText id='alert-dialog-description'>
+          <div>
             <table>
               <tbody>
                 <tr>
@@ -115,7 +115,7 @@ class PopupPayment extends React.Component {
               onError={this.handlePayError}
               onCancel={this.handlePayCancel}
             />
-          </DialogContentText>
+          </div>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color='primary' autoFocus>

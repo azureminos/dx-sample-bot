@@ -18,7 +18,7 @@ import UserSocket from './user-socket';
 import sendApi from '../messenger-api-helpers/send';
 
 // Variables
-const {Global, Instance, SocketChannel, TravelPackage} = CONSTANTS.get();
+const {Instance, SocketChannel, TravelPackage} = CONSTANTS.get();
 const InstanceStatus = Instance.status;
 const SocketAction = SocketChannel.Action;
 const SocketStatus = SocketChannel.Status;
@@ -27,9 +27,9 @@ const PackageStatus = TravelPackage.status;
 // ===== HANDLER ===============================================================
 const savePlan = (input) => {
   const {request, sendStatus, socket, socketUsers} = input;
-  console.log('>>>>Socket.savePlan', {request, socketUsers});
+  // console.log('>>>>Socket.savePlan', {request, socketUsers});
   const {plan, senderId} = request;
-  console.log('>>>>Socket.savePlan Days', plan.days);
+  // console.log('>>>>Socket.savePlan Days', plan.days);
   if (!plan._id) {
     // create full record in DB for Plan, PlanDay and PlanDayItem
     const oPlan = {
@@ -63,13 +63,13 @@ const savePlan = (input) => {
           updatedBy: senderId,
         };
       });
-      console.log('>>>>Model.createPlanDay', oDays);
+      // console.log('>>>>Model.createPlanDay', oDays);
       Model.createPlanDay(oDays, (err, tmpDays) => {
         if (err) {
           console.error('>>>>Model.createPlanDay Failed', {err, oDays});
           return;
         }
-        console.log('>>>>Model.createPlanDay Saved', {err, tmpDays});
+        // console.log('>>>>Model.createPlanDay Saved', {err, tmpDays});
         const oItems = [];
         for (let i = 0; i < plan.days.length; i++) {
           const matcher = _.find(tmpDays, (td) => {
@@ -98,13 +98,13 @@ const savePlan = (input) => {
           }
         }
         if (oItems && oItems.length > 0) {
-          console.log('>>>>Model.createPlanDayItem', oItems);
+          // console.log('>>>>Model.createPlanDayItem', oItems);
           Model.createPlanDayItem(oItems, (err, tmpItems) => {
             if (err) {
               console.error('>>>>Model.createPlanDayItem Failed', err);
               return;
             }
-            console.log('>>>>Model.createPlanDayItem Saved', tmpItems);
+            // console.log('>>>>Model.createPlanDayItem Saved', tmpItems);
             // TODO: Send back updated object id
             socket.emit('plan:save', {planId: plan._id});
           });
@@ -131,7 +131,7 @@ const savePlan = (input) => {
           console.error(`>>>>Model plan[${plan._id}] days/items delete Failed`);
           return;
         }
-        console.log(`>>>>Model plan[${plan._id}] days/items deleted`);
+        // console.log(`>>>>Model plan[${plan._id}] days/items deleted`);
         const oDays = _.map(plan.days, (d) => {
           return {
             travelPlan: plan._id,
@@ -144,13 +144,13 @@ const savePlan = (input) => {
             updatedBy: senderId,
           };
         });
-        console.log('>>>>Model.createPlanDay', oDays);
+        // console.log('>>>>Model.createPlanDay', oDays);
         Model.createPlanDay(oDays, (err, tmpDays) => {
           if (err) {
             console.error('>>>>Model.createPlanDay Failed', err);
             return;
           }
-          console.log('>>>>Model.createPlanDay Saved', tmpDays);
+          // console.log('>>>>Model.createPlanDay Saved', tmpDays);
           const oItems = [];
           for (let i = 0; i < plan.days.length; i++) {
             const matcher = _.find(tmpDays, (td) => {
@@ -179,13 +179,13 @@ const savePlan = (input) => {
             }
           }
           if (oItems && oItems.length > 0) {
-            console.log('>>>>Model.createPlanDayItem', oItems);
+            // console.log('>>>>Model.createPlanDayItem', oItems);
             Model.createPlanDayItem(oItems, (err, tmpItems) => {
               if (err) {
                 console.error('>>>>Model.createPlanDayItem Failed', err);
                 return;
               }
-              console.log('>>>>Model.createPlanDayItem Saved', tmpItems);
+              // console.log('>>>>Model.createPlanDayItem Saved', tmpItems);
             });
           }
         });
@@ -210,15 +210,15 @@ const savePeople = (input) => {
 
 const saveHotel = (input) => {
   const {request, sendStatus, socket, socketUsers} = input;
-  console.log('>>>>Socket.saveHotel', {request, socketUsers});
+  // console.log('>>>>Socket.saveHotel', {request, socketUsers});
   Model.updatePlanDayHotel(request, (err, result) => {
-    console.log('>>>>Socket.saveHotel completed', {err, result});
+    // console.log('>>>>Socket.saveHotel completed', {err, result});
   });
 };
 
 const addPlanItem = (input) => {
   const {request, allInRoom, sendStatus, socket, socketUsers} = input;
-  console.log('>>>>Socket.addPlanItem', {request, socketUsers});
+  // console.log('>>>>Socket.addPlanItem', {request, socketUsers});
   const {senderId, planId, dayNo, item} = request;
   const filter = {
     travelPlan: planId,
@@ -229,7 +229,7 @@ const addPlanItem = (input) => {
       console.log('>>>>Model.findPlanDay failed', err);
       return;
     }
-    console.log('>>>>Model.findPlanDay result', docs);
+    // console.log('>>>>Model.findPlanDay result', docs);
     if (docs && docs.length > 0) {
       const dayId = docs[0]._id;
       const oItem = {
@@ -253,7 +253,7 @@ const addPlanItem = (input) => {
           console.log('>>>>Model.createPlanDayItem failed', err);
           return;
         }
-        console.log('>>>>Model.createPlanDayItem completed');
+        // console.log('>>>>Model.createPlanDayItem completed');
       });
     }
   });
@@ -261,7 +261,7 @@ const addPlanItem = (input) => {
 
 const removePlanItem = (input) => {
   const {request, allInRoom, sendStatus, socket, socketUsers} = input;
-  console.log('>>>>Socket.removePlanItem', {request, socketUsers});
+  // console.log('>>>>Socket.removePlanItem', {request, socketUsers});
   const {planId, dayNo, itemId} = request;
   const filter = {
     travelPlan: planId,
@@ -273,13 +273,13 @@ const removePlanItem = (input) => {
       console.log('>>>>Model.deletePlanItem failed', err);
       return;
     }
-    console.log('>>>>Model.deletePlanItem completed');
+    // console.log('>>>>Model.deletePlanItem completed');
   });
 };
 
 const listAllPlan = (input) => {
   const {request, socket, socketUsers} = input;
-  console.log('>>>>Socket.listAllPlan() start', {request, socketUsers});
+  // console.log('>>>>Socket.listAllPlan() start', {request, socketUsers});
   const filter = {
     createdBy: request.senderId,
     status: {$in: [InstanceStatus.INITIATED, InstanceStatus.IN_PROGRESS]},
@@ -288,8 +288,30 @@ const listAllPlan = (input) => {
     if (err) {
       console.error('>>>>Model.findPlan failed', err);
     }
-    console.log('>>>>Model.findPlan completed', plans);
+    // console.log('>>>>Model.findPlan completed', plans);
     socket.emit('plan:all', plans);
+  });
+};
+
+const updatePlanStatus = (input) => {
+  const {request, socket, socketUsers} = input;
+  console.log('>>>>Socket.updatePlanStatus() start', {request, socketUsers});
+  const filter = {
+    _id: request.planId,
+  };
+  const update = {
+    status: request.status,
+    updatedAt: new Date(),
+    updatedBy: request.senderId,
+  };
+  Model.updatePlanStatus(filter, update, (err) => {
+    if (err) {
+      console.error('>>>>Model.updatePlanStatus failed', err);
+    }
+    console.log('>>>>Socket.updatePlanStatus completed');
+    if (request.status === InstanceStatus.DEPOSIT_PAID) {
+      socket.emit('page:close', {});
+    }
   });
 };
 
@@ -301,4 +323,5 @@ export default {
   savePeople,
   saveHotel,
   listAllPlan,
+  updatePlanStatus,
 };

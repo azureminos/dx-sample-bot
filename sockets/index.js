@@ -64,6 +64,7 @@ export default function attachSockets(io) {
     channel('push:plan:view', UserSocket.view);
     channel('push:plan:all', PlanSocket.listAllPlan);
     channel('push:plan:save', PlanSocket.savePlan);
+    channel('push:plan:updateStatus', PlanSocket.updatePlanStatus);
     channel('push:planDay:save', PlanSocket.savePlanDay);
     channel('push:planItem:add', PlanSocket.addPlanItem);
     channel('push:planItem:remove', PlanSocket.removePlanItem);
