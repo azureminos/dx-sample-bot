@@ -34,9 +34,7 @@ const handleReceivePostback = (event) => {
   const senderId = event.sender.id;
 
   // Perform an action based on the type of payload received.
-  if (type.substring(0, 11) === 'owned_lists') {
-    // Send my list
-  } else if (type.substring(0, 11) === 'get_started') {
+  if (type.substring(0, 11) === 'get_started') {
     // Greeting and quick reply
     const filter = {
       createdBy: senderId,
@@ -53,14 +51,14 @@ const handleReceivePostback = (event) => {
     });
   } else if (type.substring(0, 15) === 'handover_thread') {
     // Handover to page inbox
-  } else if (type.substring(0, 10) === 'my_recent@') {
-    // Show recent package instance
-    const instId = type.split('@')[1];
-    Model.getInstanceByInstId(instId, (err, docs) => {
-      if (err) console.log('>>>>Error.Model.getInstanceByInstId', err);
-      console.log('>>>>Model.getInstanceByInstId', docs);
-      const packageSummary = ObjectParser.parseTravelPackage(docs.package);
-      sendApi.sendPackageInst(senderId, docs._id, packageSummary);
+  } else if (type.startsWith('FB##')) {
+    const planId = type.substring(4);
+    Model.findFullPlan(planId, (err, res) => {
+      if (err) {
+        console.error('>>>>Model.findFullPlan failed', err);
+      }
+      console.log('>>>>Model.findFullPlan completed', res);
+      sendApi.sendPlanDayMessage(senderId, res);
     });
   } else {
     sendApi.sendMessage(senderId, `Unknown Postback called: ${type}`);
