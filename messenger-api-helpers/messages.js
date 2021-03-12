@@ -271,12 +271,15 @@ const messageAllPlan = (apiUri, userId) => {
 const depositPaidMessage = (plans) => {
   console.log('>>>>Message.depositPaidMessage', plans);
   const elements = _.map(plans, (p) => {
-    const dtStart = moment(p.startDate).format('DD/MM/YYYY');
+    const startDate = moment(p.startDate);
+    const endDate = moment(p.endDate);
+    const dtStart = startDate.format('DD/MM/YYYY');
+    const totalDays = endDate.diff(startDate, 'days') + 1;
     const dtUpdated = moment(p.updatedAt).format('DD/MM/YYYY HH:mm');
     return {
       title: `Deposit Paid on ${dtUpdated}`,
       image_url: Global.defaultImgUrl,
-      subtitle: `Leaving ${p.startCity.name} on ${dtStart}, Total ${p.totalDays} Days`,
+      subtitle: `Leaving ${p.startCity.name} on ${dtStart}, Total ${totalDays} Days`,
       buttons: [
         {
           type: 'postback',
