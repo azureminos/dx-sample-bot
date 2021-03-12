@@ -81,8 +81,12 @@ const savePlan = (input) => {
               oItems.push({
                 travelPlan: plan._id,
                 travelPlanDay: plan.days[i]._id,
+                dayNo: plan.days[i].dayNo,
                 itemType: it.itemType,
                 itemId: it.itemId,
+                name: it.name,
+                destName: it.destName,
+                imgUrl: it.imgUrl,
                 totalPeople: it.totalPeople,
                 unitPrice: it.unitPrice,
                 createdAt: new Date(),
@@ -226,6 +230,32 @@ const addPlanItem = (input) => {
       return;
     }
     console.log('>>>>Model.findPlanDay result', docs);
+    if (docs && docs.length > 0) {
+      const dayId = docs[0]._id;
+      const oItem = {
+        travelPlan: planId,
+        travelPlanDay: dayId,
+        dayNo: dayNo,
+        itemType: item.itemType,
+        itemId: item.itemId,
+        name: item.name,
+        destName: item.destName,
+        imgUrl: item.imgUrl,
+        totalPeople: item.totalPeople,
+        unitPrice: item.unitPrice,
+        createdAt: new Date(),
+        createdBy: senderId,
+        updatedAt: new Date(),
+        updatedBy: senderId,
+      };
+      Model.createPlanDayItem(oItem, (err) => {
+        if (err) {
+          console.log('>>>>Model.createPlanDayItem failed', err);
+          return;
+        }
+        console.log('>>>>Model.createPlanDayItem completed');
+      });
+    }
   });
 };
 
@@ -236,7 +266,7 @@ const removePlanItem = (input) => {
   const filter = {
     travelPlan: planId,
     dayNo: dayNo,
-    itemIditemId: itemId,
+    itemId: itemId,
   };
   Model.deletePlanItem(filter, (err) => {
     if (err) {

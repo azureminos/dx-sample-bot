@@ -6,6 +6,7 @@
  */
 
 // ===== MODULES ===============================================================
+import async from 'async';
 import express from 'express';
 import Model from '../db/schema';
 import CONSTANTS from '../lib/constants';
@@ -70,8 +71,19 @@ router.get('/web/:userId/:type', handleWebviewAccess);
 router.get('/web/:userId/:type/:id', handleWebviewAccess);
 router.post('/api/tool/searchAttraction/', handleSearchAttraction);
 
-Model.deletePlanItem({});
-Model.deletePlanDay({});
-Model.deletePlan({});
+async.series(
+  [
+    (callback) => {
+      Model.deletePlanDay({}, callback);
+    },
+    (callback) => {
+      Model.deletePlanItem({}, callback);
+    },
+    (callback) => {
+      Model.deletePlan({}, callback);
+    },
+  ],
+  function() {}
+);
 
 export default router;
