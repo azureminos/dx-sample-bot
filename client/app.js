@@ -116,7 +116,8 @@ class App extends React.Component {
   handlePopupClose() {
     // console.log('>>>>handlePopupClose');
     const popup = {open: false, title: '', message: ''};
-    this.setState({popup});
+    const payment = {open: false};
+    this.setState({popup, payment});
   }
   handleClickPlanCard(planId) {
     console.log('>>>>handleClickPlanCard', planId);
