@@ -8,9 +8,11 @@
 /* eslint-disable camelcase */
 /* eslint-disable max-len */
 // import _ from 'lodash';
+import _ from 'lodash';
+import moment from 'moment';
 import CONSTANTS from '../lib/constants';
 /* ============  Local Variables  =============*/
-const {Global} = CONSTANTS.get();
+const {Global, Instance} = CONSTANTS.get();
 const msgWelcome =
   'Hello, I am XYZ and can assist you with your holiday planning. How may I help you?';
 const packageUrl = (apiUri, userId, packageId) =>
@@ -156,20 +158,35 @@ const quickReplyMessage = (title, items) => {
  */
 const welcomeMessage = (plans) => {
   console.log('>>>>welcomeMessage, start', plans);
+  const planInit = _.filter(plans, (p) => {
+    return p.status === Instance.status.INITIATED;
+  });
+  const planDepo = _.filter(plans, (p) => {
+    return p.status === Instance.status.DEPOSIT_PAID;
+  });
   const replyItems = [];
 
   const iAllPromote = {
     content_type: 'text',
-    title: 'Create travel plan',
+    title: 'New travel plan',
     payload: 'new_plan',
   };
-  const iMyRecent = plans && plans.length > 0
-    ? {
-      content_type: 'text',
-      title: 'My travel plans',
-      payload: 'all_plan',
-    }
-    : null;
+  const iMyRecent =
+    planInit && planInit.length > 0
+      ? {
+        content_type: 'text',
+        title: 'Existing travel plans',
+        payload: 'existing_plan',
+      }
+      : null;
+  const iDepoPaid =
+    planDepo && planDepo.length > 0
+      ? {
+        content_type: 'text',
+        title: 'Finalize paid plans',
+        payload: 'deposit_paid',
+      }
+      : null;
   const iHandOver = {
     content_type: 'text',
     title: 'Live Chat',
@@ -179,6 +196,9 @@ const welcomeMessage = (plans) => {
   replyItems.push(iAllPromote);
   if (iMyRecent) {
     replyItems.push(iMyRecent);
+  }
+  if (iDepoPaid) {
+    replyItems.push(iDepoPaid);
   }
   replyItems.push(iHandOver);
 
@@ -247,10 +267,55 @@ const messageAllPlan = (apiUri, userId) => {
   return result;
 };
 
+const depositPaidMessage = (plans) => {
+  console.log('>>>>Message.depositPaidMessage', plans);
+  const elements = _.map(plans, (p) => {
+    const dtStart = moment(p.startDate).format('DD/MM/YYYY');
+    const dtUpdated = moment(p.updatedAt).format('DD/MM/YYYY HH:mm');
+    const getTitle = (plan) => {
+      const cities = [plan.startCity.name];
+      _.each(plan.days, (d) => {
+        _.each(d.cities, (c) => {
+          if (cities[cities.length - 1] !== c.name) {
+            cities.push(c.name);
+          }
+        });
+      });
+      if (cities[cities.length - 1] !== plan.endCity.name) {
+        cities.push(plan.endCity.name);
+      }
+      return _.join(cities, ' > ');
+    };
+    return {
+      title: getTitle(p),
+      image_url: Global.defaultImgUrl,
+      subtitle: `Leaving on ${dtStart}, Total ${p.totalDays} Days, Deposit Paid on ${dtUpdated}`,
+      buttons: [
+        {
+          type: 'postback',
+          title: 'Finalise Booking',
+          payload: `FB##${p._id}`,
+        },
+      ],
+    };
+  });
+  const result = {
+    attachment: {
+      type: 'template',
+      payload: {
+        template_type: 'generic',
+        elements: elements,
+      },
+    },
+  };
+  return result;
+};
+
 export default {
   welcomeMessage,
   quickReplyMessage,
   packageMessage,
+  depositPaidMessage,
   sharePackageMessage,
   packageShareMessage,
   messageCreatePlan,

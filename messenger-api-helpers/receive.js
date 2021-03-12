@@ -40,7 +40,9 @@ const handleReceivePostback = (event) => {
     // Greeting and quick reply
     const filter = {
       createdBy: senderId,
-      status: {$in: [InstanceStatus.INITIATED, InstanceStatus.IN_PROGRESS]},
+      status: {
+        $in: [InstanceStatus.INITIATED, InstanceStatus.DEPOSIT_PAID],
+      },
     };
     Model.findPlan(filter, (err, res) => {
       if (err) {
@@ -90,7 +92,7 @@ const handleReceiveMessage = (event) => {
     sendApi.sendMsgCreatePlan(senderId);
   } else if (
     message.quick_reply &&
-    message.quick_reply.payload === 'all_plan'
+    message.quick_reply.payload === 'existing_plan'
   ) {
     // Create new travel plan
     sendApi.sendMsgAllPlan(senderId);
@@ -101,7 +103,7 @@ const handleReceiveMessage = (event) => {
     // Greeting and quick reply
     const filter = {
       createdBy: senderId,
-      status: {$in: [InstanceStatus.INITIATED, InstanceStatus.IN_PROGRESS]},
+      status: {$in: [InstanceStatus.INITIATED, InstanceStatus.DEPOSIT_PAID]},
     };
     Model.findPlan(filter, (err, res) => {
       if (err) {
@@ -109,6 +111,22 @@ const handleReceiveMessage = (event) => {
       }
       console.log('>>>>Model.findPlan completed', res);
       sendApi.sendWelcomeMessage(senderId, res);
+    });
+  } else if (
+    message.quick_reply &&
+    message.quick_reply.payload === 'deposit_paid'
+  ) {
+    // Greeting and quick reply
+    const filter = {
+      createdBy: senderId,
+      status: InstanceStatus.DEPOSIT_PAID,
+    };
+    Model.findPlan(filter, (err, res) => {
+      if (err) {
+        console.error('>>>>Model.findPlan failed', err);
+      }
+      console.log('>>>>Model.findPlan completed', res);
+      sendApi.sendDepositPaidMessage(senderId, res);
     });
   } else if (
     message.quick_reply &&
@@ -132,7 +150,7 @@ const handleReceiveMessage = (event) => {
   } else if (message.text) {
     const filter = {
       createdBy: senderId,
-      status: {$in: [InstanceStatus.INITIATED, InstanceStatus.IN_PROGRESS]},
+      status: {$in: [InstanceStatus.INITIATED, InstanceStatus.DEPOSIT_PAID]},
     };
     Model.findPlan(filter, (err, res) => {
       if (err) {
@@ -151,7 +169,7 @@ const handleThreadBack = (event) => {
   const senderId = event.sender.id;
   const filter = {
     createdBy: senderId,
-    status: {$in: [InstanceStatus.INITIATED, InstanceStatus.IN_PROGRESS]},
+    status: {$in: [InstanceStatus.INITIATED, InstanceStatus.DEPOSIT_PAID]},
   };
   Model.findPlan(filter, (err, res) => {
     if (err) {

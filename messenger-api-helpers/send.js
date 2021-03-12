@@ -77,7 +77,10 @@ const sendReadReceipt = (recipientId) => {
 const sendWelcomeMessage = (recipientId, plans) => {
   sendMessage(recipientId, messages.welcomeMessage(plans));
 };
-
+// Send the deposit paid plans message with quick reply options.
+const sendDepositPaidMessage = (recipientId, plans) => {
+  sendMessage(recipientId, messages.depositPaidMessage(plans));
+};
 // Send the initial message welcoming & describing the bot.
 const sendPackageMessage = (recipientId) => {
   const params = {isSnapshot: true, status: PackageStatus.PUBLISHED};
@@ -168,6 +171,7 @@ export default {
   passThreadControl,
   takeThreadControl,
   // ===================== New Bot ==================== //
-  sendMsgCreatePlan,
   sendMsgAllPlan,
+  sendMsgCreatePlan,
+  sendDepositPaidMessage,
 };

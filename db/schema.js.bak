@@ -678,7 +678,6 @@ const deleteAllInstanceMembers = () => {
 // Inst Package
 const getLatestInstByUserId = (userId, callback) => {
   const listStatus = [
-    InstanceStatus.IN_PROGRESS,
     InstanceStatus.SELECT_ATTRACTION,
     InstanceStatus.SELECT_HOTEL,
     InstanceStatus.REVIEW_ITINERARY,

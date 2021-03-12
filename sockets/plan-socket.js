@@ -282,7 +282,7 @@ const listAllPlan = (input) => {
   // console.log('>>>>Socket.listAllPlan() start', {request, socketUsers});
   const filter = {
     createdBy: request.senderId,
-    status: {$in: [InstanceStatus.INITIATED, InstanceStatus.IN_PROGRESS]},
+    status: InstanceStatus.INITIATED,
   };
   Model.findPlan(filter, (err, plans) => {
     if (err) {
