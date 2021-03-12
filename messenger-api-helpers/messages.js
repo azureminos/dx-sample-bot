@@ -11,6 +11,7 @@
 import _ from 'lodash';
 import moment from 'moment';
 import CONSTANTS from '../lib/constants';
+import Model from '../db/schema';
 /* ============  Local Variables  =============*/
 const {Global, Instance} = CONSTANTS.get();
 const msgWelcome =
@@ -272,24 +273,10 @@ const depositPaidMessage = (plans) => {
   const elements = _.map(plans, (p) => {
     const dtStart = moment(p.startDate).format('DD/MM/YYYY');
     const dtUpdated = moment(p.updatedAt).format('DD/MM/YYYY HH:mm');
-    const getTitle = (plan) => {
-      const cities = [plan.startCity.name];
-      _.each(plan.days, (d) => {
-        _.each(d.cities, (c) => {
-          if (cities[cities.length - 1] !== c.name) {
-            cities.push(c.name);
-          }
-        });
-      });
-      if (cities[cities.length - 1] !== plan.endCity.name) {
-        cities.push(plan.endCity.name);
-      }
-      return _.join(cities, ' > ');
-    };
     return {
-      title: getTitle(p),
+      title: `Deposit Paid on ${dtUpdated}`,
       image_url: Global.defaultImgUrl,
-      subtitle: `Leaving on ${dtStart}, Total ${p.totalDays} Days, Deposit Paid on ${dtUpdated}`,
+      subtitle: `Leaving ${p.startCity.name} on ${dtStart}, Total ${p.totalDays} Days`,
       buttons: [
         {
           type: 'postback',
