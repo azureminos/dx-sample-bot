@@ -62,8 +62,10 @@ class PackageDayPlanner extends React.Component {
     // Local Variables
     const day = plan.days[daySelected - 1];
     const {cities, items} = day;
+    const isLastDay = daySelected === plan.days.length;
     const selectedCity =
-      this.state.selectedCity || cities[cities.length - 1].name;
+      this.state.selectedCity ||
+      (isLastDay ? cities[0].name : cities[cities.length - 1].name);
     if (!reference.activities[selectedCity]) {
       return <div>Loading</div>;
     }

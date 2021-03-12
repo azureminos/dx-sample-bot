@@ -132,6 +132,7 @@ class PagePlanTrip extends React.Component {
     this.handlePopupClose = this.handlePopupClose.bind(this);
     this.handleBtnHotel = this.handleBtnHotel.bind(this);
     this.handleHotelClose = this.handleHotelClose.bind(this);
+    this.doHandleBtnComplete = this.doHandleBtnComplete.bind(this);
     // Init state
     this.state = {
       tabSelected: 0,
@@ -165,13 +166,16 @@ class PagePlanTrip extends React.Component {
     const popupHotel = {open: true, message: '', dayNo: dayNo};
     this.setState({popupHotel});
   }
-  handleBtnComplete() {
-    // e.preventDefault();
-    // this.setState({openModal: true});
-  }
   doHandleTabSelect(event, newValue) {
     // console.log('>>>>PagePlanTrip.doHandleTabSelect', newValue);
     this.setState({tabSelected: newValue});
+  }
+  doHandleBtnComplete() {
+    // console.log('>>>>PagePlanTrip.doHandleBtnComplete', this.props);
+    const {actions} = this.props;
+    if (actions && actions.handleBtnComplete) {
+      actions.handleUpdateHotel();
+    }
   }
   doHandleUpdateHotel(input) {
     // console.log('>>>>PagePlanTrip.doHandleUpdateHotel', input);
@@ -423,7 +427,7 @@ class PagePlanTrip extends React.Component {
               <Button
                 fullWidth
                 color='primary'
-                onClick={this.handleBtnComplete}
+                onClick={this.doHandleBtnComplete}
                 classes={{label: classes.fBtnLabel}}
               >
                 Complete

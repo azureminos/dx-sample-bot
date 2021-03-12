@@ -17,6 +17,7 @@ import PageAllTravel from './pages/pg-main';
 import PageStartTrip from './pages/pg-start-trip';
 import PagePlanTrip from './pages/pg-plan-trip';
 import PopupMessage from './components-v2/popup-message';
+import PopupPayment from './components-v2/popup-payment';
 // ==== HELPERS =======================================
 import Helper from '../lib/helper';
 import CONSTANTS from '../lib/constants';
@@ -59,6 +60,8 @@ class App extends React.Component {
     this.handleRemoveCity = this.handleRemoveCity.bind(this);
     this.handleUpdateHotel = this.handleUpdateHotel.bind(this);
     this.handleClickPlanCard = this.handleClickPlanCard.bind(this);
+    this.handleBtnComplete = this.handleBtnComplete.bind(this);
+    this.handlePayment = this.handlePayment.bind(this);
     // State
     this.state = {
       homepage: '',
@@ -82,11 +85,24 @@ class App extends React.Component {
         title: '',
         message: '',
       },
+      payment: {
+        open: false,
+      },
     };
   }
   /* ==============================
      = Event Handlers             =
      ============================== */
+  handlePayment(result) {
+    console.log('>>>>handlePayment', result);
+    const payment = {open: false};
+    this.setState({payment});
+  }
+  handleBtnComplete() {
+    // console.log('>>>>handleBtnComplete');
+    const payment = {open: true};
+    this.setState({payment});
+  }
   handlePopupClose() {
     // console.log('>>>>handlePopupClose');
     const popup = {open: false, title: '', message: ''};
@@ -777,6 +793,7 @@ class App extends React.Component {
           handleDragItem: this.handleDragItem,
           handleSelectItem: this.handleSelectItem,
           handleUpdateHotel: this.handleUpdateHotel,
+          handleBtnComplete: this.handleBtnComplete,
         };
         page =
           plan.status === Instance.status.DRAFT ? (
@@ -803,6 +820,7 @@ class App extends React.Component {
         handleDragItem: this.handleDragItem,
         handleSelectItem: this.handleSelectItem,
         handleUpdateHotel: this.handleUpdateHotel,
+        handleBtnComplete: this.handleBtnComplete,
       };
       page = (
         <PagePlanTrip
@@ -825,6 +843,14 @@ class App extends React.Component {
           <PopupMessage
             open={popup.open}
             handleClose={this.handlePopupClose}
+            title={popup.title}
+            message={popup.message}
+            buttons={popup.buttons}
+          />
+          <PopupPayment
+            open={popup.open}
+            handleClose={this.handlePopupClose}
+            handlePayment={this.handlePayment}
             title={popup.title}
             message={popup.message}
             buttons={popup.buttons}
