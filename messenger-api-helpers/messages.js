@@ -301,11 +301,48 @@ const depositPaidMessage = (plans) => {
   return result;
 };
 
+const planDayMessage = (plan) => {
+  console.log('>>>>Message.planDayMessage', plan);
+  const elements = _.map(plan.days, (d) => {
+    const getCities = (cities) => {
+      const cs = _.map(cities, (c) => {
+        return c.name;
+      });
+      return _.join(cs, ' > ');
+    };
+    const buttons = _.map(d.items, (it) => {
+      return {
+        type: 'postback',
+        title: it.name,
+        payload: `FBT##${it._id}`,
+      };
+    });
+    const day = {
+      title: `Day ${d.dayNo}`,
+      image_url: Global.defaultImgUrl,
+      subtitle: getCities(d.cities),
+      buttons: buttons,
+    };
+    return day;
+  });
+  const result = {
+    attachment: {
+      type: 'template',
+      payload: {
+        template_type: 'generic',
+        elements: elements,
+      },
+    },
+  };
+  return result;
+};
+
 export default {
   welcomeMessage,
   quickReplyMessage,
   packageMessage,
   depositPaidMessage,
+  planDayMessage,
   sharePackageMessage,
   packageShareMessage,
   messageCreatePlan,

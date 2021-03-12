@@ -73,14 +73,6 @@ const sendReadReceipt = (recipientId) => {
   api.callMessagesAPI(messageData);
 };
 
-// Send the initial welcoming message with quick reply options.
-const sendWelcomeMessage = (recipientId, plans) => {
-  sendMessage(recipientId, messages.welcomeMessage(plans));
-};
-// Send the deposit paid plans message with quick reply options.
-const sendDepositPaidMessage = (recipientId, plans) => {
-  sendMessage(recipientId, messages.depositPaidMessage(plans));
-};
 // Send the initial message welcoming & describing the bot.
 const sendPackageMessage = (recipientId) => {
   const params = {isSnapshot: true, status: PackageStatus.PUBLISHED};
@@ -153,12 +145,24 @@ const sendPackageShareItem = (recipientId, params) => {
   ]);
 };
 // ===================== New Bot ==================== //
+// Send the initial welcoming message with quick reply options.
+const sendWelcomeMessage = (recipientId, plans) => {
+  sendMessage(recipientId, messages.welcomeMessage(plans));
+};
 // Send the message to create new travel plan.
 const sendMsgCreatePlan = (recipientId) => {
   sendMessage(recipientId, messages.messageCreatePlan(APP_URL, recipientId));
 };
 const sendMsgAllPlan = (recipientId) => {
   sendMessage(recipientId, messages.messageAllPlan(APP_URL, recipientId));
+};
+// Send the deposit paid plans message with quick reply options.
+const sendDepositPaidMessage = (recipientId, plans) => {
+  sendMessage(recipientId, messages.depositPaidMessage(plans));
+};
+// Send the deposit paid plans message with quick reply options.
+const sendPlanDayMessage = (recipientId, plan) => {
+  sendMessage(recipientId, messages.planDayMessage(plan));
 };
 
 export default {
@@ -174,4 +178,5 @@ export default {
   sendMsgAllPlan,
   sendMsgCreatePlan,
   sendDepositPaidMessage,
+  sendPlanDayMessage,
 };

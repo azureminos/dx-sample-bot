@@ -98,6 +98,19 @@ const handleReceiveMessage = (event) => {
     sendApi.sendMsgAllPlan(senderId);
   } else if (
     message.quick_reply &&
+    message.quick_reply.payload.startsWith('FB##')
+  ) {
+    const {payload} = message.quick_reply;
+    const planId = payload.substring(4);
+    Model.findFullPlan(planId, (err, res) => {
+      if (err) {
+        console.error('>>>>Model.findFullPlan failed', err);
+      }
+      console.log('>>>>Model.findFullPlan completed', res);
+      sendApi.sendPlanDayMessage(senderId, res);
+    });
+  } else if (
+    message.quick_reply &&
     message.quick_reply.payload === 'get_started'
   ) {
     // Greeting and quick reply
@@ -116,7 +129,6 @@ const handleReceiveMessage = (event) => {
     message.quick_reply &&
     message.quick_reply.payload === 'deposit_paid'
   ) {
-    // Greeting and quick reply
     const filter = {
       createdBy: senderId,
       status: InstanceStatus.DEPOSIT_PAID,
