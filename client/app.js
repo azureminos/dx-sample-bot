@@ -851,6 +851,7 @@ class App extends React.Component {
           {payment.open ?
             <PopupPayment
               open={payment.open}
+              plan={plan}
               handleClose={this.handlePopupClose}
               handlePayment={this.handlePayment}
             /> : ''}
