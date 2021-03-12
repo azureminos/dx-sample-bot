@@ -12,7 +12,6 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import Grid from '@material-ui/core/Grid';
 import Checkbox from '@material-ui/core/Checkbox';
-import {PayPalButton} from 'react-paypal-button';
 import CONSTANTS from '../../lib/constants';
 // Styles
 import CloseIcon from '@material-ui/icons/Close';
@@ -215,7 +214,7 @@ class BotModal extends React.Component {
       );
 
       const divPayment = isTermsAgreed ? (
-        <PayPalButton
+        <div
           paypalOptions={paypalOptions}
           buttonStyles={buttonStyles}
           amount={Payment.deposit}

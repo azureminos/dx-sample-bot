@@ -7,7 +7,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import {withStyles} from '@material-ui/core/styles';
-import {PayPalButton} from 'react-paypal-button';
+import {PayPalButton} from 'react-paypal-button-v2';
 import CONSTANTS from '../../lib/constants';
 
 // Variables
@@ -25,9 +25,9 @@ class PopupPayment extends React.Component {
     // Set initial state
   }
   // ====== Event Handler ======
-  handlePaySuccess(outcome) {
-    console.log('paypal integration success', outcome);
-    if (outcome.status === 'COMPLETED') {
+  handlePaySuccess(details, data) {
+    console.log('paypal integration success', {details, data});
+    if (details.status === 'COMPLETED') {
       const result = {
         status: Instance.status.DEPOSIT_PAID,
       };
@@ -47,7 +47,7 @@ class PopupPayment extends React.Component {
     // ====== Local Variables ======
     const {open, handleClose, plan} = this.props;
     console.log('>>>>PopupPayment.render', {open, plan});
-    const paypalOptions = {
+    const ppOptions = {
       clientId:
         Payment.env === 'production' ? Payment.production : Payment.sandbox,
       currency: Payment.currency,
@@ -108,12 +108,12 @@ class PopupPayment extends React.Component {
               </tbody>
             </table>
             <PayPalButton
-              paypalOptions={paypalOptions}
-              buttonStyles={buttonStyles}
               amount={Payment.deposit}
-              onPaymentSuccess={this.handlePaySuccess}
-              onPaymentError={this.handlePayError}
-              onPaymentCancel={this.handlePayCancel}
+              options={ppOptions}
+              buttonStyles={buttonStyles}
+              onSuccess={this.handlePaySuccess}
+              onError={this.handlePayError}
+              onCancel={this.handlePayCancel}
             />
           </DialogContentText>
         </DialogContent>
