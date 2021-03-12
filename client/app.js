@@ -765,7 +765,7 @@ class App extends React.Component {
     // Local Variables
     console.log('>>>>MobileApp.render', {state: this.state, props: this.props});
     const {apiUri, viewerId, windowWidth} = this.props;
-    const {homepage, plan, planExt, reference, popup} = this.state;
+    const {homepage, plan, planExt, reference, popup, payment} = this.state;
     // Sub Components
     let page = <div>Loading...</div>;
     if (homepage === Page.MainPage) {
@@ -840,21 +840,20 @@ class App extends React.Component {
           transitionLeaveTimeout={500}
         >
           {page}
-          <PopupMessage
-            open={popup.open}
-            handleClose={this.handlePopupClose}
-            title={popup.title}
-            message={popup.message}
-            buttons={popup.buttons}
-          />
-          <PopupPayment
-            open={popup.open}
-            handleClose={this.handlePopupClose}
-            handlePayment={this.handlePayment}
-            title={popup.title}
-            message={popup.message}
-            buttons={popup.buttons}
-          />
+          {popup.open ?
+            <PopupMessage
+              open={popup.open}
+              handleClose={this.handlePopupClose}
+              title={popup.title}
+              message={popup.message}
+              buttons={popup.buttons}
+            /> : ''}
+          {payment.open ?
+            <PopupPayment
+              open={payment.open}
+              handleClose={this.handlePopupClose}
+              handlePayment={this.handlePayment}
+            /> : ''}
         </CSSTransitionGroup>
       </div>
     );
