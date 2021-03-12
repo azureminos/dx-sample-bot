@@ -174,7 +174,7 @@ class PagePlanTrip extends React.Component {
     // console.log('>>>>PagePlanTrip.doHandleBtnComplete', this.props);
     const {actions} = this.props;
     if (actions && actions.handleBtnComplete) {
-      actions.handleUpdateHotel();
+      actions.handleBtnComplete();
     }
   }
   doHandleUpdateHotel(input) {
