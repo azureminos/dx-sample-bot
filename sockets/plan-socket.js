@@ -69,7 +69,10 @@ const savePlan = (input) => {
           console.error('>>>>Model.createPlanDay Failed', {err, oDays});
           return;
         }
-        // console.log('>>>>Model.createPlanDay Saved', {err, tmpDays});
+        console.log(
+          `>>>>Model.createPlanDay Saved ${tmpDays.length}`,
+          oDays.length
+        );
         const oItems = [];
         for (let i = 0; i < plan.days.length; i++) {
           const matcher = _.find(tmpDays, (td) => {
@@ -104,7 +107,10 @@ const savePlan = (input) => {
               console.error('>>>>Model.createPlanDayItem Failed', err);
               return;
             }
-            // console.log('>>>>Model.createPlanDayItem Saved', tmpItems);
+            console.log(
+              `>>>>Model.createPlanDayItem Saved ${tmpItems.length}`,
+              oItems.length
+            );
             // TODO: Send back updated object id
             socket.emit('plan:save', {planId: plan._id});
           });
