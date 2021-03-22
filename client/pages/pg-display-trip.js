@@ -210,6 +210,8 @@ class PageDisplayTrip extends React.Component {
                         numberOfMonths={1}
                         small
                         readOnly
+                        onDatesChange={() => {}}
+                        onFocusChange={() => {}}
                       />
                       {getPeopleControl()}
                     </div>
