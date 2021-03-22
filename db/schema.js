@@ -68,6 +68,8 @@ const nProduct = new Schema({
   reviewCount: Schema.Types.Number,
   photoCount: Schema.Types.Number,
   price: Schema.Types.Number,
+  pricePlan: [Schema.Types.Mixed],
+  isInstantBooking: Schema.Types.Boolean,
   currencyCode: Schema.Types.String,
   onSale: Schema.Types.Boolean,
   specialOfferAvailable: Schema.Types.Boolean,
@@ -76,6 +78,38 @@ const nProduct = new Schema({
   tags: [Schema.Types.String],
 });
 const DbProduct = mongoose.model('RefProduct', nProduct);
+/* Rate Plan
+    [
+        {
+            "id": 36612,
+            "sessionName": "9.30am Quad Bike Tour (January School Holidays)",
+            "productOptions": [
+                {
+                    "id": 105530,
+                    "name": "Adult",
+                    "price": 110.00,
+                    "retailPrice": 110.00,
+                    "sameDayPrice": null,
+                    "type": "ADULT",
+                    "maxQty": 20,
+                    "minQty": 1,
+                    "defaultQty": 0,
+                    "multiple": 1,
+                    "weight": 1,
+                    "hasDateVariablePricing": false,
+                    "isFromPrice": true
+                }
+            ],
+            "tourHour": 9,
+            "tourMinute": 30,
+            "tourDuration": 60,
+            "hasPickups": "none",
+            "levy": 0.0,
+            "isExtra": false
+        }
+    ]
+*/
+
 // Reference   - Attraction
 const nAttraction = new Schema({
   name: Schema.Types.String,
@@ -159,7 +193,9 @@ const nTravelPlanItem = new mongoose.Schema({
   destName: Schema.Types.String,
   imgUrl: Schema.Types.String,
   totalPeople: Schema.Types.Number,
-  unitPrice: Schema.Types.Number,
+  totalAdults: Schema.Types.Number,
+  totalKids: Schema.Types.Number,
+  totalPrice: Schema.Types.Number,
   notes: Schema.Types.String,
   additionalField: Schema.Types.String,
   createdAt: Schema.Types.Date,
@@ -509,7 +545,7 @@ const findFullPlan = (planId, callback) => {
               itemType: it.itemType,
               itemId: it.itemId,
               totalPeople: it.totalPeople,
-              unitPrice: it.unitPrice,
+              totalPrice: it.totalPrice,
               destName: it.destName,
               name: it.name,
               imgUrl: it.imgUrl,

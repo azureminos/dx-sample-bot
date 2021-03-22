@@ -16,6 +16,7 @@ import {CSSTransitionGroup} from 'react-transition-group';
 import PageAllTravel from './pages/pg-main';
 import PageStartTrip from './pages/pg-start-trip';
 import PagePlanTrip from './pages/pg-plan-trip';
+import PageDisplayTrip from './pages/pg-display-trip';
 import PopupMessage from './components-v2/popup-message';
 import PopupPayment from './components-v2/popup-payment';
 // ==== HELPERS =======================================
@@ -61,6 +62,8 @@ class App extends React.Component {
     this.handleRemoveCity = this.handleRemoveCity.bind(this);
     this.handleUpdateHotel = this.handleUpdateHotel.bind(this);
     this.handleClickPlanCard = this.handleClickPlanCard.bind(this);
+    this.handleBtnBack = this.handleBtnBack.bind(this);
+    this.handleBtnNext = this.handleBtnNext.bind(this);
     this.handleBtnComplete = this.handleBtnComplete.bind(this);
     this.handlePayment = this.handlePayment.bind(this);
     // State
@@ -112,6 +115,14 @@ class App extends React.Component {
     // console.log('>>>>handleBtnComplete');
     const payment = {open: true};
     this.setState({payment});
+  }
+  handleBtnBack() {
+    // console.log('>>>>handleBtnBack');
+    this.setState({homepage: Page.ShowPlan});
+  }
+  handleBtnNext() {
+    // console.log('>>>>handleBtnNext');
+    this.setState({homepage: Page.FinalizePlan});
   }
   handlePopupClose() {
     // console.log('>>>>handlePopupClose');
@@ -353,7 +364,6 @@ class App extends React.Component {
             destName: item.primaryDestinationName,
             isUserSelected: true,
             totalPeople: plan.totalPeople,
-            unitPrice: item.price,
             imgUrl: item.thumbnailURL,
             notes: '',
           }
@@ -364,7 +374,7 @@ class App extends React.Component {
             destName: item.primaryDestinationName,
             isUserSelected: true,
             totalPeople: plan.totalPeople,
-            unitPrice: 0,
+            totalPrice: 0,
             imgUrl: item.thumbnailURL,
             notes: '',
           };
@@ -709,7 +719,7 @@ class App extends React.Component {
               destName: a.primaryDestinationName,
               isUserSelected: true,
               totalPeople: plan.totalPeople,
-              unitPrice: 0,
+              totalPrice: 0,
               imgUrl: a.thumbnailURL,
               notes: '',
             });
@@ -808,7 +818,7 @@ class App extends React.Component {
           handleDragItem: this.handleDragItem,
           handleSelectItem: this.handleSelectItem,
           handleUpdateHotel: this.handleUpdateHotel,
-          handleBtnComplete: this.handleBtnComplete,
+          handleBtnComplete: this.handleBtnNext,
         };
         page =
           plan.status === Instance.status.DRAFT ? (
@@ -835,7 +845,7 @@ class App extends React.Component {
         handleDragItem: this.handleDragItem,
         handleSelectItem: this.handleSelectItem,
         handleUpdateHotel: this.handleUpdateHotel,
-        handleBtnComplete: this.handleBtnComplete,
+        handleBtnComplete: this.handleBtnNext,
       };
       page = (
         <PagePlanTrip
@@ -843,6 +853,20 @@ class App extends React.Component {
           planExt={planExt}
           reference={reference}
           actions={actionsPlanTrip}
+        />
+      );
+    } else if (homepage === Page.FinalizePlan) {
+      const actionsDisplayTrip = {
+        handleBtnComplete: this.handleBtnComplete,
+        handleBtnBack: this.handleBtnBack,
+      };
+      page = (
+        <PageDisplayTrip
+          hasBtnBack
+          plan={plan}
+          planExt={planExt}
+          reference={reference}
+          actions={actionsDisplayTrip}
         />
       );
     }
