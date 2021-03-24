@@ -41,8 +41,8 @@ class PackageDayOrganizer extends React.Component {
   }
   // Event Handlers
   doClickItem() {
-    // console.log('>>>>PackageDayOrganizer.doHandleSelectCity');
-    this.setState({selectedItem: ''});
+    console.log('>>>>PackageDayOrganizer.doClickItem');
+    // this.setState({selectedItem: ''});
   }
   // Display Widget
   render() {
@@ -57,7 +57,7 @@ class PackageDayOrganizer extends React.Component {
       return (
         <Accordion
           key={`${dayNo}#${item.itemId}`}
-          expanded={selectedItem === 'panel1' || selectedItem === ''}
+          expanded={selectedItem === 'panel1'}
           onChange={this.doClickItem('panel1')}
         >
           <AccordionSummary

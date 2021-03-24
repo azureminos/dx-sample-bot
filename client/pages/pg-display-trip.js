@@ -166,16 +166,21 @@ class PageDisplayTrip extends React.Component {
       );
     };
     const getHeader = () => {
-      const tabItems = [<Tab key={0} label='Summary' {...a11yProps(0)} />];
+      const tabItems = [];
       for (let i = 0; i < plan.totalDays; i++) {
-        const day = i + 1;
+        const dayNo = i + 1;
         if (plan.days[i].cities && plan.days[i].cities.length > 0) {
           tabItems.push(
-            <Tab key={day} label={`Day ${day}`} {...a11yProps(day)} />
+            <Tab key={dayNo} label={`Day ${dayNo}`} {...a11yProps(dayNo)} />
           );
         } else {
           tabItems.push(
-            <Tab key={day} disabled label={`Day ${day}`} {...a11yProps(day)} />
+            <Tab
+              key={dayNo}
+              disabled
+              label={`Day ${dayNo}`}
+              {...a11yProps(dayNo)}
+            />
           );
         }
       }
