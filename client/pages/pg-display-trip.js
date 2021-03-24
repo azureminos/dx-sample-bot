@@ -150,7 +150,8 @@ class PageDisplayTrip extends React.Component {
   // Display page
   render() {
     console.log('>>>>PageDisplayTrip, render()', this.props);
-    const {classes, plan, planExt, reference, actions, hasBtnBack} = this.props;
+    const {classes, reference, actions} = this.props;
+    const {plan, planExt, hasBtnBack, dayNo} = this.props;
     const {destinations} = reference;
     const {startDate, endDate, totalPeople} = plan;
 
@@ -169,25 +170,19 @@ class PageDisplayTrip extends React.Component {
       const tabItems = [];
       for (let i = 0; i < plan.totalDays; i++) {
         const dayNo = i + 1;
-        if (plan.days[i].cities && plan.days[i].cities.length > 0) {
-          tabItems.push(
-            <Tab key={dayNo} label={`Day ${dayNo}`} {...a11yProps(dayNo)} />
-          );
-        } else {
-          tabItems.push(
-            <Tab
-              key={dayNo}
-              disabled
-              label={`Day ${dayNo}`}
-              {...a11yProps(dayNo)}
-            />
-          );
-        }
+        tabItems.push(
+          <Tab
+            key={dayNo}
+            disabled={plan.days[i].cities && plan.days[i].cities.length > 0}
+            label={`Day ${dayNo}`}
+            {...a11yProps(dayNo)}
+          />
+        );
       }
       const tabs = (
         <Tabs
           variant='scrollable'
-          value={this.state.tabSelected}
+          value={dayNo || this.state.tabSelected}
           indicatorColor='primary'
           textColor='primary'
           variant='scrollable'
@@ -239,7 +234,7 @@ class PageDisplayTrip extends React.Component {
       for (let i = 0; i < totalDays; i++) {
         const dayNo = i + 1;
         tabPanels.push(
-          <TabPanel key={dayNo} value={this.state.tabSelected} index={dayNo}>
+          <TabPanel key={dayNo} value={this.state.tabSelected} index={i}>
             <PackageDayOrganizer
               plan={plan}
               planExt={planExt}
