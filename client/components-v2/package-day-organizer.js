@@ -42,9 +42,9 @@ class PackageDayOrganizer extends React.Component {
   // Event Handlers
   changeAccordion(name) {
     console.log('>>>>PackageDayOrganizer.changeAccordion', name);
-    if (this.state.selectedItem !== name) {
+    /* if (this.state.selectedItem !== name) {
       this.setState({selectedItem: name});
-    }
+    }*/
   }
   // Display Widget
   render() {
@@ -55,11 +55,11 @@ class PackageDayOrganizer extends React.Component {
     // Local Variables
     const day = plan.days[dayNo - 1];
     // Local Functions
+    // expanded={selectedItem === item.name}
     const getItem = (item) => {
       return (
         <Accordion
           key={`${dayNo}#${item.name}`}
-          expanded={selectedItem === item.name}
           onChange={this.changeAccordion(item.name)}
         >
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
