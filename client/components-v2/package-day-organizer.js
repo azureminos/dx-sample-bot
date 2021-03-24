@@ -32,7 +32,7 @@ class PackageDayOrganizer extends React.Component {
   constructor(props) {
     super(props);
     // Bind event handlers
-    this.doClickItem = this.doClickItem.bind(this);
+    this.changeTab = this.changeTab.bind(this);
     // Init data
     // Setup state
     this.state = {
@@ -40,9 +40,9 @@ class PackageDayOrganizer extends React.Component {
     };
   }
   // Event Handlers
-  doClickItem() {
-    console.log('>>>>PackageDayOrganizer.doClickItem');
-    // this.setState({selectedItem: ''});
+  changeTab(name) {
+    console.log('>>>>PackageDayOrganizer.changeTab', name);
+    this.setState({selectedItem: name});
   }
   // Display Widget
   render() {
@@ -53,19 +53,16 @@ class PackageDayOrganizer extends React.Component {
     // Local Variables
     const day = plan.days[dayNo - 1];
     // Local Functions
-    const getItem = (item) => {
+    const getItem = (item, index) => {
       return (
         <Accordion
-          key={`${dayNo}#${item.itemId}`}
-          expanded={selectedItem === 'panel1'}
-          onChange={this.doClickItem('panel1')}
+          key={`${dayNo}#${item.name}`}
+          expanded={selectedItem === item.name || index === 0}
+          onChange={this.changeTab(item.name)}
         >
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls='panel1bh-content'
-            id='panel1bh-header'
-          >
-            <div className={classes.heading}>General settings</div>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <div className={classes.heading}>{item.name}</div>
+            <div className={classes.heading}>Secondary Widget</div>
           </AccordionSummary>
           <AccordionDetails>
             {item ? <ProductGrid /> : <AttractionGrid />}

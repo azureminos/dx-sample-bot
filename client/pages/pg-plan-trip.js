@@ -430,7 +430,7 @@ class PagePlanTrip extends React.Component {
                 onClick={this.doHandleBtnComplete}
                 classes={{label: classes.fBtnLabel}}
               >
-                Complete
+                Next
               </Button>
             </div>
           </Toolbar>
