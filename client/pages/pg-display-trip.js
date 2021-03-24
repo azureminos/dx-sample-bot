@@ -173,7 +173,7 @@ class PageDisplayTrip extends React.Component {
         tabItems.push(
           <Tab
             key={dayNo}
-            disabled={plan.days[i].cities && plan.days[i].cities.length > 0}
+            disabled={!(plan.days[i].cities && plan.days[i].cities.length > 0)}
             label={`Day ${dayNo}`}
             {...a11yProps(dayNo)}
           />
