@@ -2,8 +2,8 @@
   "name": "make-my-holiday",
   "version": "0.1.0",
   "engines": {
-    "node": ">12.14.1",
-    "npm": ">6.13.4"
+    "node": ">15.12.0",
+    "npm": ">7.6.3"
   },
   "description": "Design best practices demo for Chat Extensions on the Messenger Platform.",
   "author": "Facebook Inc.",
