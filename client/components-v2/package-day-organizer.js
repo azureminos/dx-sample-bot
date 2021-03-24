@@ -53,11 +53,11 @@ class PackageDayOrganizer extends React.Component {
     // Local Variables
     const day = plan.days[dayNo - 1];
     // Local Functions
-    const getItem = (item, index) => {
+    const getItem = (item) => {
       return (
         <Accordion
           key={`${dayNo}#${item.name}`}
-          expanded={selectedItem === item.name || index === 0}
+          expanded={selectedItem === item.name}
           onChange={this.changeTab(item.name)}
         >
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
