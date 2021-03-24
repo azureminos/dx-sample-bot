@@ -32,7 +32,7 @@ class PackageDayOrganizer extends React.Component {
   constructor(props) {
     super(props);
     // Bind event handlers
-    this.changeTab = this.changeTab.bind(this);
+    this.changeAccordion = this.changeAccordion.bind(this);
     // Init data
     // Setup state
     this.state = {
@@ -40,9 +40,11 @@ class PackageDayOrganizer extends React.Component {
     };
   }
   // Event Handlers
-  changeTab(name) {
-    console.log('>>>>PackageDayOrganizer.changeTab', name);
-    this.setState({selectedItem: name});
+  changeAccordion(name) {
+    console.log('>>>>PackageDayOrganizer.changeAccordion', name);
+    if (this.state.selectedItem !== name) {
+      this.setState({selectedItem: name});
+    }
   }
   // Display Widget
   render() {
@@ -58,7 +60,7 @@ class PackageDayOrganizer extends React.Component {
         <Accordion
           key={`${dayNo}#${item.name}`}
           expanded={selectedItem === item.name}
-          onChange={this.changeTab(item.name)}
+          onChange={this.changeAccordion(item.name)}
         >
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <div className={classes.heading}>{item.name}</div>
