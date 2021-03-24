@@ -58,7 +58,7 @@ class ItemCard extends React.Component {
   render() {
     // console.log('>>>>ItemCard.render', this.props);
     // Local Variables
-    const {classes, item, type, isSelected, daySelected} = this.props;
+    const {classes, item, type, isSelected, dayNo} = this.props;
     const name = item.name;
     const thumbnailURL =
       type === PRODUCT || type === ATTRACTION ? item.thumbnailURL : item.imgUrl;
@@ -69,7 +69,7 @@ class ItemCard extends React.Component {
         <div
           className={classes.imgWrapper}
           onClick={() =>
-            this.doHandleSelectItem({item, type, isSelected, daySelected})
+            this.doHandleSelectItem({item, type, isSelected, dayNo})
           }
         >
           <img src={thumbnailURL} alt={name} className={classes.imgItem} />
@@ -78,7 +78,7 @@ class ItemCard extends React.Component {
           <div
             className={classes.cardIcon}
             onClick={() =>
-              this.doHandleSelectItem({item, type, isSelected, daySelected})
+              this.doHandleSelectItem({item, type, isSelected, dayNo})
             }
           >
             <SolidCheckIcon

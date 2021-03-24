@@ -74,7 +74,6 @@ class App extends React.Component {
       plan: null,
       planExt: {
         country: 'Australia',
-        cities: [],
         selectedTagGroups: [],
         preferAttractions: [],
       },

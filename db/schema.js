@@ -387,7 +387,7 @@ const updatePlan = (plan, callback) => {
   callback();
 };
 const createPlanDay = (input, callback) => {
-  console.log('>>>>Model.createPlanDay', input);
+  // console.log('>>>>Model.createPlanDay', input);
   if (Array.isArray(input)) {
     DbTravelPlanDay.insertMany(input, callback);
   } else {
@@ -433,7 +433,7 @@ const updatePlanDay = (day, callback) => {
   callback();
 };
 const createPlanDayItem = (input, callback) => {
-  console.log('>>>>Model.createPlanDayItem', input);
+  // console.log('>>>>Model.createPlanDayItem', input);
   if (Array.isArray(input)) {
     DbTravelPlanItem.insertMany(input, callback);
   } else {

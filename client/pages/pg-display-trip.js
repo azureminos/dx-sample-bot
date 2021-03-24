@@ -84,6 +84,9 @@ const styles = (theme) => ({
     alignItems: 'baseline',
     height: 45,
   },
+  fButtons: {
+    display: 'flex',
+  },
 });
 
 // Functions
@@ -237,7 +240,7 @@ class PageDisplayTrip extends React.Component {
               planExt={planExt}
               reference={reference}
               actions={actions}
-              daySelected={dayNo}
+              dayNo={dayNo}
             />
           </TabPanel>
         );
@@ -248,7 +251,7 @@ class PageDisplayTrip extends React.Component {
       return (
         <AppBar position='fixed' color='default' className={classes.fAppBar}>
           <Toolbar className={classes.fToolbar}>
-            <div>
+            <div className={classes.fButtons}>
               {hasBtnBack ? (
                 <Button
                   fullWidth

@@ -1,12 +1,14 @@
 import _ from 'lodash';
 import React, {createElement} from 'react';
-import Carousel from 'react-multi-carousel';
-import Button from '@material-ui/core/Button';
-import Divider from '@material-ui/core/Divider';
-import ItemCard from './item-card';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
 import {withStyles} from '@material-ui/core/styles';
+import ProductGrid from '../components-v2/product-grid';
+import AttractionGrid from '../components-v2/attraction-grid';
 import CONSTANTS from '../../lib/constants';
 // ====== Icons ======
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 // Variables
 const {TravelPlanItemType} = CONSTANTS.get().DataModel;
 const styles = (theme) => ({
@@ -30,26 +32,55 @@ class PackageDayOrganizer extends React.Component {
   constructor(props) {
     super(props);
     // Bind event handlers
-    // this.doHandleSelectCity = this.doHandleSelectCity.bind(this);
+    this.doClickItem = this.doClickItem.bind(this);
     // Init data
     // Setup state
-    this.state = {};
+    this.state = {
+      selectedItem: '',
+    };
   }
   // Event Handlers
-  /* doHandleSelectCity(city) {
+  doClickItem() {
     // console.log('>>>>PackageDayOrganizer.doHandleSelectCity');
-    this.setState({selectedCity: city});
-  }*/
+    this.setState({selectedItem: ''});
+  }
   // Display Widget
   render() {
     const {classes, plan, planExt} = this.props;
-    const {reference, actions, daySelected} = this.props;
-    console.log('>>>>PackageDayOrganizer, render()', {plan, daySelected});
+    const {reference, actions, dayNo} = this.props;
+    const {selectedItem} = this.state;
+    console.log('>>>>PackageDayOrganizer, render()', {plan, dayNo});
     // Local Variables
-    const day = plan.days[daySelected - 1];
+    const day = plan.days[dayNo - 1];
     // Local Functions
+    const getItem = (item) => {
+      return (
+        <Accordion
+          key={`${dayNo}#${item.itemId}`}
+          expanded={selectedItem === 'panel1' || selectedItem === ''}
+          onChange={this.doClickItem('panel1')}
+        >
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls='panel1bh-content'
+            id='panel1bh-header'
+          >
+            <div className={classes.heading}>General settings</div>
+          </AccordionSummary>
+          <AccordionDetails>
+            {item ? <ProductGrid /> : <AttractionGrid />}
+          </AccordionDetails>
+        </Accordion>
+      );
+    };
     // Display Widget
-    return <div>Day Organizer</div>;
+    return (
+      <div>
+        {_.map(day.items, (it) => {
+          return getItem(it);
+        })}
+      </div>
+    );
   }
 }
 

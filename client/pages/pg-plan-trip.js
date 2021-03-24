@@ -384,15 +384,15 @@ class PagePlanTrip extends React.Component {
         </TabPanel>,
       ];
       for (let i = 0; i < totalDays; i++) {
-        const day = i + 1;
+        const dayNo = i + 1;
         tabPanels.push(
-          <TabPanel key={day} value={this.state.tabSelected} index={day}>
+          <TabPanel key={dayNo} value={this.state.tabSelected} index={dayNo}>
             <PackageDayPlanner
               plan={plan}
               planExt={planExt}
               reference={reference}
               actions={actions}
-              daySelected={day}
+              dayNo={dayNo}
             />
           </TabPanel>
         );

@@ -57,12 +57,12 @@ class PackageDayPlanner extends React.Component {
   // Display Widget
   render() {
     const {classes, plan, planExt} = this.props;
-    const {reference, actions, daySelected} = this.props;
-    console.log('>>>>PackageDayPlanner, render()', {plan, daySelected});
+    const {reference, actions, dayNo} = this.props;
+    console.log('>>>>PackageDayPlanner, render()', {plan, dayNo});
     // Local Variables
-    const day = plan.days[daySelected - 1];
+    const day = plan.days[dayNo - 1];
     const {cities, items} = day;
-    const isLastDay = daySelected === plan.days.length;
+    const isLastDay = dayNo === plan.days.length;
     const selectedCity =
       this.state.selectedCity ||
       (isLastDay ? cities[0].name : cities[cities.length - 1].name);
@@ -71,7 +71,7 @@ class PackageDayPlanner extends React.Component {
     }
     const {products, attractions} = reference.activities[selectedCity];
     const {handleSelectItem} = actions;
-    const title = `Day ${daySelected}:`;
+    const title = `Day ${dayNo}:`;
     const itemSelected = [];
     // Unselected products of the selected city
     const productUnselected = _.filter(products, (p) => {
@@ -123,7 +123,7 @@ class PackageDayPlanner extends React.Component {
             item={item}
             type={type}
             isSelected={isSelected}
-            daySelected={daySelected}
+            dayNo={dayNo}
             actions={{handleSelectItem}}
           />
         );
@@ -134,7 +134,7 @@ class PackageDayPlanner extends React.Component {
         const isSelected = selectedCity === c.name;
         return (
           <Button
-            key={`${daySelected}##${c.name}`}
+            key={`${dayNo}##${c.name}`}
             color={isSelected ? 'primary' : 'default'}
             size='small'
             variant='contained'
