@@ -1,6 +1,5 @@
 // Components
 import React, {createElement} from 'react';
-import Image from 'rc-image';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -15,6 +14,9 @@ const {ATTRACTION, PRODUCT} = CONSTANTS.get().DataModel.TravelPlanItemType;
 const styles = (theme) => ({
   root: {
     width: '100%',
+  },
+  image: {
+    width: '-webkit-fill-available',
   },
 });
 const StyledMenu = withStyles({
@@ -74,7 +76,11 @@ class ItemGrid extends React.Component {
     const {anchorTraveler} = this.state;
     // Local Functions
     const getImage = () => {
-      return <Image src={item.imgUrl} />;
+      return (
+        <div>
+          <img src={item.imgUrl} className={classes.image} />
+        </div>
+      );
     };
     const getTraveller = () => {
       const strTraveler =
