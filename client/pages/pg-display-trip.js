@@ -25,7 +25,7 @@ const styles = (theme) => ({
     height: '100%',
   },
   whitespaceTop: {
-    height: 120,
+    height: 100,
   },
   whitespaceBottom: {
     height: 50,
@@ -103,7 +103,7 @@ function TabPanel(props) {
       {...other}
     >
       {value === index && (
-        <Box p={3}>
+        <Box p={3} style={{padding: '8px'}}>
           <div>{children}</div>
         </Box>
       )}

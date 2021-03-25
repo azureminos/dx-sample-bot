@@ -4,8 +4,7 @@ import Accordion from '@material-ui/core/Accordion';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import {withStyles} from '@material-ui/core/styles';
-import ProductGrid from '../components-v2/product-grid';
-import AttractionGrid from '../components-v2/attraction-grid';
+import ItemGrid from './item-grid';
 import CONSTANTS from '../../lib/constants';
 // ====== Icons ======
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -34,16 +33,13 @@ class PackageDayOrganizer extends React.Component {
     // Bind event handlers
     // Init data
     // Setup state
-    this.state = {
-      selectedItem: '',
-    };
+    this.state = {};
   }
   // Event Handlers
   // Display Widget
   render() {
     const {classes, plan, planExt} = this.props;
     const {reference, actions, dayNo} = this.props;
-    const {selectedItem} = this.state;
     console.log('>>>>PackageDayOrganizer, render()', {plan, dayNo});
     // Local Variables
     const day = plan.days[dayNo - 1];
@@ -55,7 +51,12 @@ class PackageDayOrganizer extends React.Component {
             <div className={classes.heading}>{item.name}</div>
           </AccordionSummary>
           <AccordionDetails>
-            {item ? <ProductGrid /> : <AttractionGrid />}
+            <ItemGrid
+              item={item}
+              maxPeople={plan.totalPeople}
+              reference={reference}
+              actions={actions}
+            />
           </AccordionDetails>
         </Accordion>
       );
