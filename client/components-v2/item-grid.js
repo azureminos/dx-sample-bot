@@ -13,7 +13,9 @@ import CONSTANTS from '../../lib/constants';
 // Variables
 const {ATTRACTION, PRODUCT} = CONSTANTS.get().DataModel.TravelPlanItemType;
 const styles = (theme) => ({
-  root: {},
+  root: {
+    width: '100%',
+  },
 });
 const StyledMenu = withStyles({
   paper: {
@@ -75,14 +77,19 @@ class ItemGrid extends React.Component {
       return <Image src={item.imgUrl} />;
     };
     const getTraveller = () => {
+      const strTraveler =
+        !item.totalAdults && !item.totalKids
+          ? 'Number of travelers'
+          : `Adults: ${item.totalAdults}, Kids: ${item.totalKids}`;
       return (
         <div>
           <Button
             variant='contained'
             color='primary'
+            fullWidth
             onClick={this.handleClickTraveler}
           >
-            Open Menu
+            {strTraveler}
           </Button>
           <StyledMenu
             anchorEl={anchorTraveler}
@@ -108,7 +115,7 @@ class ItemGrid extends React.Component {
     };
     // Display Widget
     return (
-      <div>
+      <div className={classes.root}>
         {getImage()}
         {getTraveller()}
         {getTimeSlot()}
