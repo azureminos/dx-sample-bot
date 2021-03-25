@@ -27,21 +27,25 @@ class ItemGrid extends React.Component {
     // Setup state
     this.state = {
       anchorTraveler: null,
+      widthTraveler: null,
     };
   }
   // Event Handlers
   handleClickTraveler(event) {
-    this.setState({anchorTraveler: event.currentTarget});
+    this.setState({
+      anchorTraveler: event.currentTarget,
+      widthTraveler: event.currentTarget.clientWidth,
+    });
   }
   handleCloseTraveler() {
-    this.setState({anchorTraveler: null});
+    this.setState({anchorTraveler: null, widthTraveler: null});
   }
   // Display Widget
   render() {
     // console.log('>>>>ItemGrid.render', this.props);
     // Local Variables
     const {classes, item, maxPeople, reference, actions} = this.props;
-    const {anchorTraveler} = this.state;
+    const {anchorTraveler, widthTraveler} = this.state;
     // Local Functions
     const getImage = () => {
       return (
@@ -78,7 +82,7 @@ class ItemGrid extends React.Component {
               horizontal: 'left',
             }}
           >
-            <div className={classes.typography}>
+            <div style={{width: `${widthTraveler || 100}px`}}>
               The content of the Popover.
             </div>
           </Popover>
