@@ -1,10 +1,7 @@
 // Components
 import React, {createElement} from 'react';
 import Button from '@material-ui/core/Button';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
+import Popover from '@material-ui/core/Popover';
 import {withStyles} from '@material-ui/core/styles';
 import CONSTANTS from '../../lib/constants';
 
@@ -19,35 +16,6 @@ const styles = (theme) => ({
     width: '-webkit-fill-available',
   },
 });
-const StyledMenu = withStyles({
-  paper: {
-    border: '1px solid #d3d4d5',
-  },
-})((props) => (
-  <Menu
-    elevation={0}
-    getContentAnchorEl={null}
-    anchorOrigin={{
-      vertical: 'bottom',
-      horizontal: 'center',
-    }}
-    transformOrigin={{
-      vertical: 'top',
-      horizontal: 'center',
-    }}
-    {...props}
-  />
-));
-const StyledMenuItem = withStyles((theme) => ({
-  root: {
-    '&:focus': {
-      backgroundColor: theme.palette.primary.main,
-      '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
-        color: theme.palette.common.white,
-      },
-    },
-  },
-}))(MenuItem);
 
 class ItemGrid extends React.Component {
   constructor(props) {
@@ -97,19 +65,23 @@ class ItemGrid extends React.Component {
           >
             {strTraveler}
           </Button>
-          <StyledMenu
+          <Popover
+            open={!!anchorTraveler}
             anchorEl={anchorTraveler}
-            keepMounted
-            open={Boolean(anchorTraveler)}
             onClose={this.handleCloseTraveler}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'left',
+            }}
           >
-            <StyledMenuItem>
-              <div>Adult</div>
-            </StyledMenuItem>
-            <StyledMenuItem>
-              <div>Kid</div>
-            </StyledMenuItem>
-          </StyledMenu>
+            <div className={classes.typography}>
+              The content of the Popover.
+            </div>
+          </Popover>
         </div>
       );
     };
