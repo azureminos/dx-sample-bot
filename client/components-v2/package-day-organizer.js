@@ -45,12 +45,12 @@ class PackageDayOrganizer extends React.Component {
     const day = plan.days[dayNo - 1];
     // Local Functions
     const getItem = (item) => {
-      const handlePeopleChange = (val) => {
-        if (actions && actions.handlePeopleChange) {
-          actions.handlePeopleChange(val, dayNo, item.itemId);
+      const handleItemPeopleChange = (val) => {
+        if (actions && actions.handleItemPeopleChange) {
+          actions.handleItemPeopleChange(val, dayNo, item.itemId);
         }
       };
-      const itemActions = {handlePeopleChange};
+      const itemActions = {handleItemPeopleChange};
       return (
         <Accordion key={`${dayNo}#${item.name}`}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>

@@ -64,11 +64,11 @@ class ItemGrid extends React.Component {
   handleKidChange(event) {
     this.setState({totalKids: event.target.value});
   }
-  doHandlePeopleChange() {
+  doHandleItemPeopleChange() {
     const {totalAdults, totalKids} = this.state;
     const {actions} = this.props;
-    if (actions && actions.handlePeopleChange) {
-      actions.handlePeopleChange({totalAdults, totalKids});
+    if (actions && actions.handleItemPeopleChange) {
+      actions.handleItemPeopleChange({totalAdults, totalKids});
     }
   }
   // Display Widget
@@ -96,14 +96,14 @@ class ItemGrid extends React.Component {
     };
     const getTraveller = () => {
       const strTraveler =
-        !totalAdults && !totalKids
+        !item.totalAdults && !item.totalKids
           ? 'Number of travelers'
           : `Adults: ${item.totalAdults || 0}, Kids: ${item.totalKids || 0}`;
       const getButtons = (width) => {
         const getOptions = (max) => {
           const options = [];
           for (let i = 0; i <= max; i++) {
-            options.push(<option value={i}>{i}}</option>);
+            options.push(<option value={i}>{i}</option>);
           }
           return options;
         };
@@ -160,7 +160,7 @@ class ItemGrid extends React.Component {
               variant='contained'
               color='primary'
               fullWidth
-              onClick={this.doHandlePeopleChange}
+              onClick={this.doHandleItemPeopleChange}
             >
               Apply
             </Button>
