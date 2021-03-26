@@ -200,7 +200,7 @@ class ItemGrid extends React.Component {
       );
     };
     const getTimeSlot = () => {
-      return <div>TimeSlot</div>;
+      return '';
     };
     const getDetails = () => {
       return <div>Details</div>;
