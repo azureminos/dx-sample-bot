@@ -9,7 +9,7 @@ import CONSTANTS from '../../lib/constants';
 // ====== Icons ======
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 // Variables
-const {TravelPlanItemType} = CONSTANTS.get().DataModel;
+const {rateType} = CONSTANTS.get().DataModel;
 const styles = (theme) => ({
   root: {
     width: '100%',
@@ -45,6 +45,26 @@ class PackageDayOrganizer extends React.Component {
     const day = plan.days[dayNo - 1];
     // Local Functions
     const getItem = (item) => {
+      const handleAdultChange = (val) => {
+        if (actions && actions.handlePeopleChange) {
+          const opt = {
+            dayNo: dayNo,
+            itemId: item.itemId,
+            type: rateType.ADULT,
+          };
+          actions.handlePeopleChange(val, opt);
+        }
+      };
+      const handleKidChange = (val) => {
+        if (actions && actions.handlePeopleChange) {
+          const opt = {
+            dayNo: dayNo,
+            itemId: item.itemId,
+            type: rateType.CHILD,
+          };
+          actions.handlePeopleChange(val, opt);
+        }
+      };
       return (
         <Accordion key={`${dayNo}#${item.name}`}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -55,7 +75,7 @@ class PackageDayOrganizer extends React.Component {
               item={item}
               maxPeople={plan.totalPeople}
               reference={reference}
-              actions={actions}
+              actions={{handleAdultChange, handleKidChange}}
             />
           </AccordionDetails>
         </Accordion>

@@ -55,18 +55,18 @@ class ItemGrid extends React.Component {
   handleCloseTraveler() {
     this.setState({anchorTraveler: null, widthTraveler: null});
   }
-  doHandleAdultChange(input) {
-    console.log('>>>>ItemGrid.doHandleAdultChange', input);
+  doHandleAdultChange(event) {
+    // console.log('>>>>ItemGrid.doHandleAdultChange', event);
     const {actions} = this.props;
     if (actions && actions.handleAdultChange) {
-      actions.handleAdultChange(input);
+      actions.handleAdultChange(event.target.value);
     }
   }
-  doHandleKidChange(input) {
-    console.log('>>>>ItemGrid.doHandleKidChange', input);
+  doHandleKidChange(event) {
+    // console.log('>>>>ItemGrid.doHandleKidChange', input);
     const {actions} = this.props;
     if (actions && actions.handleKidChange) {
-      actions.handleKidChange(input);
+      actions.handleKidChange(event.target.value);
     }
   }
   // Display Widget

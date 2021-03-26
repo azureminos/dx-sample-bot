@@ -449,14 +449,28 @@ class App extends React.Component {
       this.pushToRemote('plan:save', {senderId, plan});
     }
   }
-  handlePeopleChange(delta) {
+  handlePeopleChange(val, ext) {
     // console.log('>>>>handlePeopleChange', people);
     const {plan} = this.state;
-    plan.totalPeople = plan.totalPeople + delta;
-    for (let i = 0; plan.days && i < plan.days.length; i++) {
-      const day = plan.days[i];
-      for (let m = 0; day.items && m < day.items.length; m++) {
-        day.items[m].totalPeople = plan.totalPeople;
+    if (!ext) {
+      plan.totalPeople = plan.totalPeople + val;
+      for (let i = 0; plan.days && i < plan.days.length; i++) {
+        const day = plan.days[i];
+        for (let m = 0; day.items && m < day.items.length; m++) {
+          day.items[m].totalPeople = plan.totalPeople;
+        }
+      }
+    } else {
+      const {dayNo, itemId, type} = ext;
+      const day = plan.days[dayNo - 1];
+      for (let i = 0; i < day.items.length; i++) {
+        if (day.items[i].itemId === itemId) {
+          if (type === DataModel.rateType.ADULT) {
+            day.items[i].totalAdults = val;
+          } else if (type === DataModel.rateType.CHILD) {
+            day.items[i].totalKids = val;
+          }
+        }
       }
     }
     // TODO: Need to notify user of the change to TotalPeople
@@ -858,6 +872,7 @@ class App extends React.Component {
       const actionsDisplayTrip = {
         handleBtnComplete: this.handleBtnComplete,
         handleBtnBack: this.handleBtnBack,
+        handlePeopleChange: this.handlePeopleChange,
       };
       page = (
         <PageDisplayTrip
