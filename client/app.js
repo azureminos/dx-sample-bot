@@ -449,28 +449,36 @@ class App extends React.Component {
       this.pushToRemote('plan:save', {senderId, plan});
     }
   }
-  handlePeopleChange(val, ext) {
+  handlePeopleChange(delta) {
     // console.log('>>>>handlePeopleChange', people);
     const {plan} = this.state;
-    if (!ext) {
-      plan.totalPeople = plan.totalPeople + val;
-      for (let i = 0; plan.days && i < plan.days.length; i++) {
-        const day = plan.days[i];
-        for (let m = 0; day.items && m < day.items.length; m++) {
-          day.items[m].totalPeople = plan.totalPeople;
-        }
+    plan.totalPeople = plan.totalPeople + delta;
+    for (let i = 0; plan.days && i < plan.days.length; i++) {
+      const day = plan.days[i];
+      for (let m = 0; day.items && m < day.items.length; m++) {
+        day.items[m].totalPeople = plan.totalPeople;
       }
-    } else {
-      const {dayNo, itemId, type} = ext;
-      const day = plan.days[dayNo - 1];
-      for (let i = 0; i < day.items.length; i++) {
-        if (day.items[i].itemId === itemId) {
-          if (type === DataModel.rateType.ADULT) {
-            day.items[i].totalAdults = val;
-          } else if (type === DataModel.rateType.CHILD) {
-            day.items[i].totalKids = val;
-          }
-        }
+    }
+    // TODO: Need to notify user of the change to TotalPeople
+    this.setState({plan});
+    // Socket update totalPeople when plan id exists
+    if (plan._id) {
+      const senderId = this.props.viewerId;
+      const totalPeople = plan.totalPeople;
+      const planId = plan._id;
+      this.pushToRemote('people:save', {senderId, planId, totalPeople});
+    }
+  }
+  handleItemPeopleChange(val, dayNo, itemId) {
+    console.log('>>>>handleItemPeopleChange', {val, dayNo, itemId});
+    const {plan} = this.state;
+    const {totalAdults, totalKids} = val;
+    const day = plan.days[dayNo - 1];
+    for (let i = 0; i < day.items.length; i++) {
+      if (day.items[i].itemId === itemId) {
+        day.items[i].totalAdults = totalAdults;
+        day.items[i].totalKids = totalKids;
+        day.items[i].totalPeople = totalAdults + totalKids;
       }
     }
     // TODO: Need to notify user of the change to TotalPeople
@@ -721,8 +729,8 @@ class App extends React.Component {
           return att._id === dAttractions[i]._id;
         });
         if (a) {
-          const dIdx = dDays.length >= dAttractions.length ?
-            i : i % dDays.length;
+          const dIdx =
+            dDays.length >= dAttractions.length ? i : i % dDays.length;
           if (dDays[dIdx]) {
             dDays[dIdx].items = [];
             dDays[dIdx].items.push({
@@ -872,7 +880,7 @@ class App extends React.Component {
       const actionsDisplayTrip = {
         handleBtnComplete: this.handleBtnComplete,
         handleBtnBack: this.handleBtnBack,
-        handlePeopleChange: this.handlePeopleChange,
+        handleItemPeopleChange: this.handleItemPeopleChange,
       };
       page = (
         <PageDisplayTrip
@@ -893,21 +901,27 @@ class App extends React.Component {
           transitionLeaveTimeout={500}
         >
           {page}
-          {popup.open ?
+          {popup.open ? (
             <PopupMessage
               open={popup.open}
               handleClose={this.handlePopupClose}
               title={popup.title}
               message={popup.message}
               buttons={popup.buttons}
-            /> : ''}
-          {payment.open ?
+            />
+          ) : (
+            ''
+          )}
+          {payment.open ? (
             <PopupPayment
               open={payment.open}
               plan={plan}
               handleClose={this.handlePopupClose}
               handlePayment={this.handlePayment}
-            /> : ''}
+            />
+          ) : (
+            ''
+          )}
         </CSSTransitionGroup>
       </div>
     );

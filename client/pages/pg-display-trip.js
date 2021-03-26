@@ -152,7 +152,6 @@ class PageDisplayTrip extends React.Component {
     console.log('>>>>PageDisplayTrip, render()', this.props);
     const {classes, reference, actions} = this.props;
     const {plan, planExt, hasBtnBack, dayNo} = this.props;
-    const {destinations} = reference;
     const {startDate, endDate, totalPeople} = plan;
 
     // Local Functions

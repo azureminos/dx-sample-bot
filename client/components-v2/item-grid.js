@@ -36,15 +36,16 @@ class ItemGrid extends React.Component {
     // Bind event handlers
     this.handleClickTraveler = this.handleClickTraveler.bind(this);
     this.handleCloseTraveler = this.handleCloseTraveler.bind(this);
-    this.doHandleAdultChange = this.doHandleAdultChange.bind(this);
-    this.doHandleKidChange = this.doHandleKidChange.bind(this);
+    this.handleAdultChange = this.handleAdultChange.bind(this);
+    this.handleKidChange = this.handleKidChange.bind(this);
+    this.doHandlePeopleChange = this.doHandlePeopleChange.bind(this);
     // Init data
     // Setup state
     this.state = {
       anchorTraveler: null,
       widthTraveler: null,
-      totalAdults: null,
-      totalKids: null,
+      totalAdults: this.props.item.totalAdults || 0,
+      totalKids: this.props.item.totalKids || 0,
     };
   }
   // Event Handlers
@@ -63,14 +64,20 @@ class ItemGrid extends React.Component {
   handleKidChange(event) {
     this.setState({totalKids: event.target.value});
   }
+  doHandlePeopleChange() {
+    const {totalAdults, totalKids} = this.state;
+    const {actions} = this.props;
+    if (actions && actions.handlePeopleChange) {
+      actions.handlePeopleChange({totalAdults, totalKids});
+    }
+  }
   // Display Widget
   render() {
     // console.log('>>>>ItemGrid.render', this.props);
     // Local Variables
     const {classes, item, maxPeople, reference} = this.props;
-    const {anchorTraveler, widthTraveler} = this.state;
-    const {activities} = reference;
-    const {attractions, products} = activities[item.destName];
+    const {anchorTraveler, widthTraveler, totalAdults, totalKids} = this.state;
+    const {attractions, products} = reference.activities[item.destName];
     const itemExt =
       item.itemType === PRODUCT
         ? _.find(products, (p) => {
@@ -89,7 +96,7 @@ class ItemGrid extends React.Component {
     };
     const getTraveller = () => {
       const strTraveler =
-        !item.totalAdults && !item.totalKids
+        !totalAdults && !totalKids
           ? 'Number of travelers'
           : `Adults: ${item.totalAdults || 0}, Kids: ${item.totalKids || 0}`;
       const getButtons = (width) => {
@@ -116,7 +123,7 @@ class ItemGrid extends React.Component {
                   <InputLabel htmlFor='adult-selector'>Adult</InputLabel>
                   <Select
                     native
-                    value={item.totalAdults || 0}
+                    value={totalAdults}
                     onChange={this.handleAdultChange}
                     label='Adult'
                     inputProps={{
@@ -124,7 +131,7 @@ class ItemGrid extends React.Component {
                       id: 'adult-selector',
                     }}
                   >
-                    {getOptions(maxPeople - item.totalKids)}
+                    {getOptions(maxPeople - totalKids)}
                   </Select>
                 </FormControl>
               </div>
@@ -136,7 +143,7 @@ class ItemGrid extends React.Component {
                   <InputLabel htmlFor='kid-selector'>Kid</InputLabel>
                   <Select
                     native
-                    value={item.totalKids || 0}
+                    value={totalKids}
                     onChange={this.handleKidChange}
                     label='Kid'
                     inputProps={{
@@ -144,7 +151,7 @@ class ItemGrid extends React.Component {
                       id: 'kid-selector',
                     }}
                   >
-                    {getOptions(maxPeople - item.totalAdults)}
+                    {getOptions(maxPeople - totalAdults)}
                   </Select>
                 </FormControl>
               </div>
@@ -154,7 +161,7 @@ class ItemGrid extends React.Component {
                 variant='contained'
                 color='primary'
                 fullWidth
-                onClick={this.handleClickTraveler}
+                onClick={this.doHandlePeopleChange}
               >
                 Apply
               </Button>
