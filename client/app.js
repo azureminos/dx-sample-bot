@@ -487,9 +487,11 @@ class App extends React.Component {
         day.items[i].totalAdults = totalAdults;
         day.items[i].totalKids = totalKids;
         day.items[i].totalPeople = totalAdults + totalKids;
+        day.items[i].totalPrice = val.totalPrice;
         params.totalPeople = day.items[i].totalPeople;
         params.totalAdults = day.items[i].totalAdults;
         params.totalKids = day.items[i].totalKids;
+        params.totalPrice = day.items[i].totalPrice;
       }
     }
     // TODO: Need to notify user of the change to TotalPeople

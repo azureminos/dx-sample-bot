@@ -66,9 +66,20 @@ class ItemGrid extends React.Component {
   }
   doHandleItemPeopleChange() {
     const {totalAdults, totalKids} = this.state;
-    const {actions} = this.props;
+    const {item, reference, actions} = this.props;
+    const {attractions, products} = reference.activities[item.destName];
+    const itemExt =
+      item.itemType === PRODUCT
+        ? _.find(products, (p) => {
+          return p.productCode === item.itemId;
+        })
+        : _.find(attractions, (a) => {
+          return a.seoId === item.itemId;
+        });
+    const totalPrice =
+      item.itemType === PRODUCT ? itemExt.price * (totalAdults + totalKids) : 0;
     if (actions && actions.handleItemPeopleChange) {
-      actions.handleItemPeopleChange({totalAdults, totalKids});
+      actions.handleItemPeopleChange({totalAdults, totalKids, totalPrice});
     }
   }
   // Display Widget

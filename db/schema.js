@@ -448,12 +448,13 @@ const updatePlanDayItem = (item, callback) => {
 const updatePlanDayItemPeople = (input, callback) => {
   // console.log('>>>>Model.updatePlanDayItemPeople', input);
   const {senderId, planId, dayNo, itemId} = input;
-  const {totalPeople, totalAdults, totalKids} = input;
+  const {totalPeople, totalAdults, totalKids, totalPrice} = input;
   const filter = {travelPlan: planId, dayNo, itemId};
   const doc = {
     totalPeople,
     totalAdults,
     totalKids,
+    totalPrice,
     updatedBy: senderId,
     updatedAt: new Date(),
   };
@@ -559,6 +560,8 @@ const findFullPlan = (planId, callback) => {
               itemType: it.itemType,
               itemId: it.itemId,
               totalPeople: it.totalPeople,
+              totalAdults: it.totalAdults,
+              totalKids: it.totalKids,
               totalPrice: it.totalPrice,
               destName: it.destName,
               name: it.name,

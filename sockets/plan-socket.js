@@ -174,8 +174,6 @@ const savePlan = (input) => {
                   destName: it.destName,
                   imgUrl: it.imgUrl,
                   totalPeople: it.totalPeople,
-                  totalAdults: it.totalAdults,
-                  totalKids: it.totalKids,
                   createdAt: new Date(),
                   createdBy: senderId,
                   updatedAt: new Date(),
