@@ -215,7 +215,7 @@ const savePeople = (input) => {
 const saveItemPeople = (input) => {
   const {request, sendStatus, socket, socketUsers} = input;
   // console.log('>>>>Socket.saveItemPeople', {request, socketUsers});
-  Model.updateItemPeople(request, (err, result) => {
+  Model.updatePlanDayItemPeople(request, (err, result) => {
     // console.log('>>>>Socket.saveItemPeople completed', {err, result});
   });
 };
