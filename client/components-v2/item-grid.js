@@ -29,8 +29,10 @@ const styles = (theme) => ({
     width: '80%',
   },
   hDivDescription: {
-    padding: theme.spacing(1),
     width: '100%',
+  },
+  hDivDescriptionItem: {
+    padding: 8,
   },
 });
 
@@ -69,7 +71,8 @@ class ItemGrid extends React.Component {
     this.setState({totalKids: event.target.value});
   }
   doHandleItemPeopleChange() {
-    const {totalAdults, totalKids} = this.state;
+    const totalAdults = Number(this.state.totalAdults || 0);
+    const totalKids = Number(this.state.totalKids || 0);
     const {item, reference, actions} = this.props;
     const {attractions, products} = reference.activities[item.destName];
     const itemExt =
@@ -222,26 +225,23 @@ class ItemGrid extends React.Component {
     };
     const getDetails = () => {
       return (
-        <table className={classes.hDivDescription}>
-          <tbody>
-            <tr>
-              <th>Price:</th>
-              <th>{itemExt.price}</th>
-            </tr>
-            <tr>
-              <td>Duration:</td>
-              <td>{itemExt.duration}</td>
-            </tr>
-            <tr>
-              <td>Hotel Pickup:</td>
-              <td>{itemExt.hotelPickup ? 'Offered' : 'Not Offered'}</td>
-            </tr>
-            <tr>
-              <td>Overview</td>
-              <td>{itemExt.shortDescription}</td>
-            </tr>
-          </tbody>
-        </table>
+        <div className={classes.hDivDescriptionItem}>
+          <div
+            className={classes.hDivDescriptionItem}
+          >{`Price: ${itemExt.currencyCode} ${itemExt.price}`}</div>
+          <div
+            className={classes.hDivDescriptionItem}
+          >{`Duration: ${itemExt.duration}`}</div>
+          <div className={classes.hDivDescriptionItem}>{`Hotel Pickup: ${
+            itemExt.hotelPickup ? 'Offered' : 'Not Offered'
+          }`}</div>
+          <div className={classes.hDivDescriptionItem}>
+            <b>Overview</b>
+          </div>
+          <div className={classes.hDivDescriptionItem}>
+            {itemExt.shortDescription}
+          </div>
+        </div>
       );
     };
     // Display Widget

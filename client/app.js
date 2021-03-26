@@ -473,8 +473,7 @@ class App extends React.Component {
   handleItemPeopleChange(val, dayNo, itemId) {
     console.log('>>>>handleItemPeopleChange', {val, dayNo, itemId});
     const {plan} = this.state;
-    const totalAdults = Number(val.totalAdults);
-    const totalKids = Number(val.totalKids);
+    const {totalAdults, totalKids} = val;
     const params = {
       senderId: this.props.viewerId,
       planId: plan._id,
