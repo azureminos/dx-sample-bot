@@ -4,6 +4,9 @@ import React, {createElement} from 'react';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Popover from '@material-ui/core/Popover';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 import {withStyles} from '@material-ui/core/styles';
 import CONSTANTS from '../../lib/constants';
 import AddBoxIcon from '@material-ui/icons/AddBoxOutlined';
@@ -18,17 +21,12 @@ const styles = (theme) => ({
   image: {
     width: '-webkit-fill-available',
   },
-  hDivFlex: {
-    display: 'flex',
-    margin: 'auto',
-  },
-  hDivPeopleDisplay: {
-    padding: '4px',
-    margin: 'auto',
+  hDivPeople: {
+    width: '50%',
   },
   hDivPeopleControl: {
-    minWidth: '32px',
-    padding: '4px',
+    margin: theme.spacing(1),
+    minWidth: 80,
   },
 });
 
@@ -58,14 +56,14 @@ class ItemGrid extends React.Component {
     this.setState({anchorTraveler: null, widthTraveler: null});
   }
   doHandleAdultChange(input) {
-    // console.log('>>>>ItemGrid.doHandleAdultChange', input);
+    console.log('>>>>ItemGrid.doHandleAdultChange', input);
     const {actions} = this.props;
     if (actions && actions.handleAdultChange) {
       actions.handleAdultChange(input);
     }
   }
   doHandleKidChange(input) {
-    // console.log('>>>>ItemGrid.doHandleKidChange', input);
+    console.log('>>>>ItemGrid.doHandleKidChange', input);
     const {actions} = this.props;
     if (actions && actions.handleKidChange) {
       actions.handleKidChange(input);
@@ -75,7 +73,7 @@ class ItemGrid extends React.Component {
   render() {
     // console.log('>>>>ItemGrid.render', this.props);
     // Local Variables
-    const {classes, item, maxPeople, reference, actions} = this.props;
+    const {classes, item, maxPeople, reference} = this.props;
     const {anchorTraveler, widthTraveler} = this.state;
     const {activities} = reference;
     const {attractions, products} = activities[item.destName];
@@ -107,48 +105,52 @@ class ItemGrid extends React.Component {
           );
         }
         return (
-          <div style={{width: `${width || 100}px`}}>
-            <div className={classes.hDivFlex}>
-              <div className={classes.hDivPeopleDisplay}>Adult</div>
-              <IconButton
-                onClick={() => {
-                  this.doHandleAdultChange(1);
-                }}
+          <div style={{display: 'flex', width: `${width || 100}px`}}>
+            <div className={classes.hDivPeople}>
+              <FormControl
+                variant='outlined'
                 className={classes.hDivPeopleControl}
               >
-                <AddBoxIcon color='primary' fontSize='default' />
-              </IconButton>
-              <div className={classes.hDivPeopleDisplay}>
-                {item.totalAdults}
-              </div>
-              <IconButton
-                onClick={() => {
-                  this.doHandleAdultChange(-1);
-                }}
-                className={classes.hDivPeopleControl}
-              >
-                <MinusBoxIcon color='primary' fontSize='default' />
-              </IconButton>
+                <InputLabel htmlFor='adult-selector'>Age</InputLabel>
+                <Select
+                  native
+                  value={item.totalAdults || 0}
+                  onChange={this.handleAdultChange}
+                  label='Adult'
+                  inputProps={{
+                    name: 'adult',
+                    id: 'adult-selector',
+                  }}
+                >
+                  <option value={0}>0</option>
+                  <option value={1}>1</option>
+                  <option value={2}>2</option>
+                  <option value={3}>3</option>
+                </Select>
+              </FormControl>
             </div>
-            <div className={classes.hDivFlex}>
-              <div className={classes.hDivPeopleDisplay}>Kid</div>
-              <IconButton
-                onClick={() => {
-                  this.doHandleKidChange(1);
-                }}
+            <div className={classes.hDivPeople}>
+              <FormControl
+                variant='outlined'
                 className={classes.hDivPeopleControl}
               >
-                <AddBoxIcon color='primary' fontSize='default' />
-              </IconButton>
-              <div className={classes.hDivPeopleDisplay}>{item.totalKids}</div>
-              <IconButton
-                onClick={() => {
-                  this.doHandleKidChange(-1);
-                }}
-                className={classes.hDivPeopleControl}
-              >
-                <MinusBoxIcon color='primary' fontSize='default' />
-              </IconButton>
+                <InputLabel htmlFor='kid-selector'>Age</InputLabel>
+                <Select
+                  native
+                  value={item.totalKids || 0}
+                  onChange={this.handleKidChange}
+                  label='Kid'
+                  inputProps={{
+                    name: 'kid',
+                    id: 'kid-selector',
+                  }}
+                >
+                  <option value={0}>0</option>
+                  <option value={1}>1</option>
+                  <option value={2}>2</option>
+                  <option value={3}>3</option>
+                </Select>
+              </FormControl>
             </div>
           </div>
         );
