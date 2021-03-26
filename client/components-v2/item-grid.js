@@ -26,7 +26,7 @@ const styles = (theme) => ({
   },
   hDivPeopleControl: {
     margin: theme.spacing(1),
-    minWidth: 80,
+    width: '80%',
   },
 });
 
@@ -111,11 +111,11 @@ class ItemGrid extends React.Component {
                 variant='outlined'
                 className={classes.hDivPeopleControl}
               >
-                <InputLabel htmlFor='adult-selector'>Age</InputLabel>
+                <InputLabel htmlFor='adult-selector'>Adult</InputLabel>
                 <Select
                   native
                   value={item.totalAdults || 0}
-                  onChange={this.handleAdultChange}
+                  onChange={this.doHandleAdultChange}
                   label='Adult'
                   inputProps={{
                     name: 'adult',
@@ -134,11 +134,11 @@ class ItemGrid extends React.Component {
                 variant='outlined'
                 className={classes.hDivPeopleControl}
               >
-                <InputLabel htmlFor='kid-selector'>Age</InputLabel>
+                <InputLabel htmlFor='kid-selector'>Kid</InputLabel>
                 <Select
                   native
                   value={item.totalKids || 0}
-                  onChange={this.handleKidChange}
+                  onChange={this.doHandleKidChange}
                   label='Kid'
                   inputProps={{
                     name: 'kid',
