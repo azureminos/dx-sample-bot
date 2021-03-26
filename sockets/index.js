@@ -69,6 +69,7 @@ export default function attachSockets(io) {
     channel('push:planItem:add', PlanSocket.addPlanItem);
     channel('push:planItem:remove', PlanSocket.removePlanItem);
     channel('push:people:save', PlanSocket.savePeople);
+    channel('push:itemPeople:save', PlanSocket.saveItemPeople);
     channel('push:hotel:save', PlanSocket.saveHotel);
     /* channel('push:user:view', UserSocket.view);
     channel('push:user:join', UserSocket.joinPackage);

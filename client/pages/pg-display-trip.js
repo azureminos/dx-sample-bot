@@ -122,7 +122,7 @@ class PageDisplayTrip extends React.Component {
     // Bind handler
     this.doHandleTabSelect = this.doHandleTabSelect.bind(this);
     this.doHandleBtnComplete = this.doHandleBtnComplete.bind(this);
-    this.doHandleBtnBackPlanner = this.doHandleBtnBackPlanner.bind(this);
+    this.doHandleBtnBack = this.doHandleBtnBack.bind(this);
     // Init state
     this.state = {
       tabSelected: 0,
@@ -140,11 +140,11 @@ class PageDisplayTrip extends React.Component {
       actions.handleBtnComplete();
     }
   }
-  doHandleBtnBackPlanner() {
-    // console.log('>>>>PageDisplayTrip.doHandleBtnBackPlanner', input);
+  doHandleBtnBack() {
+    // console.log('>>>>PageDisplayTrip.doHandleBtnBack', input);
     const {actions} = this.props;
-    if (actions && actions.handleBtnBackPlanner) {
-      actions.handleBtnBackPlanner();
+    if (actions && actions.handleBtnBack) {
+      actions.handleBtnBack();
     }
   }
   // Display page
@@ -255,7 +255,7 @@ class PageDisplayTrip extends React.Component {
                 <Button
                   fullWidth
                   color='primary'
-                  onClick={this.doHandleBtnBackPlanner}
+                  onClick={this.doHandleBtnBack}
                   classes={{label: classes.fBtnLabel}}
                 >
                   Back

@@ -473,23 +473,30 @@ class App extends React.Component {
   handleItemPeopleChange(val, dayNo, itemId) {
     console.log('>>>>handleItemPeopleChange', {val, dayNo, itemId});
     const {plan} = this.state;
-    const {totalAdults, totalKids} = val;
+    const totalAdults = Number(val.totalAdults);
+    const totalKids = Number(val.totalKids);
+    const params = {
+      senderId: this.props.viewerId,
+      planId: plan._id,
+      dayNo: dayNo,
+      itemId: itemId,
+    };
     const day = plan.days[dayNo - 1];
     for (let i = 0; i < day.items.length; i++) {
       if (day.items[i].itemId === itemId) {
         day.items[i].totalAdults = totalAdults;
         day.items[i].totalKids = totalKids;
         day.items[i].totalPeople = totalAdults + totalKids;
+        params.totalPeople = day.items[i].totalPeople;
+        params.totalAdults = day.items[i].totalAdults;
+        params.totalKids = day.items[i].totalKids;
       }
     }
     // TODO: Need to notify user of the change to TotalPeople
     this.setState({plan});
     // Socket update totalPeople when plan id exists
     if (plan._id) {
-      const senderId = this.props.viewerId;
-      const totalPeople = plan.totalPeople;
-      const planId = plan._id;
-      this.pushToRemote('people:save', {senderId, planId, totalPeople});
+      this.pushToRemote('itemPeople:save', params);
     }
   }
   handleTagGroupChange(tagGroup) {

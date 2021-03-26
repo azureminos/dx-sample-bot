@@ -445,6 +445,20 @@ const updatePlanDayItem = (item, callback) => {
   // console.log('>>>>Model.updatePlanDayItem', plan);
   callback();
 };
+const updatePlanDayItemPeople = (input, callback) => {
+  // console.log('>>>>Model.updatePlanDayItemPeople', input);
+  const {senderId, planId, dayNo, itemId} = input;
+  const {totalPeople, totalAdults, totalKids} = input;
+  const filter = {travelPlan: planId, dayNo, itemId};
+  const doc = {
+    totalPeople,
+    totalAdults,
+    totalKids,
+    updatedBy: senderId,
+    updatedAt: new Date(),
+  };
+  return DbTravelPlanItem.updateOne(filter, doc, callback);
+};
 const updatePlanDayHotel = (input, callback) => {
   console.log('>>>>Model.updatePlanDayHotel', input);
   const {senderId, planId, dayNo, hotel} = input;
@@ -606,6 +620,7 @@ export default {
   updatePlanDayItem,
   updatePlanPeople,
   updatePlanDayHotel,
+  updatePlanDayItemPeople,
   deletePlan,
   deletePlanDay,
   deletePlanItem,

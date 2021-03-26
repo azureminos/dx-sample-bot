@@ -212,6 +212,14 @@ const savePeople = (input) => {
   });
 };
 
+const saveItemPeople = (input) => {
+  const {request, sendStatus, socket, socketUsers} = input;
+  // console.log('>>>>Socket.saveItemPeople', {request, socketUsers});
+  Model.updateItemPeople(request, (err, result) => {
+    // console.log('>>>>Socket.saveItemPeople completed', {err, result});
+  });
+};
+
 const saveHotel = (input) => {
   const {request, sendStatus, socket, socketUsers} = input;
   // console.log('>>>>Socket.saveHotel', {request, socketUsers});
@@ -324,6 +332,7 @@ export default {
   addPlanItem,
   removePlanItem,
   savePeople,
+  saveItemPeople,
   saveHotel,
   listAllPlan,
   updatePlanStatus,
