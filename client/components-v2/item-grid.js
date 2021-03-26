@@ -113,8 +113,8 @@ class ItemGrid extends React.Component {
           );
         }
         return (
-          <div style={{display: 'flex', width: `${width || 100}px`}}>
-            <div>
+          <div style={{width: `${width || 100}px`}}>
+            <div style={{display: 'flex'}}>
               <div className={classes.hDivPeople}>
                 <FormControl
                   variant='outlined'
@@ -156,16 +156,14 @@ class ItemGrid extends React.Component {
                 </FormControl>
               </div>
             </div>
-            <div>
-              <Button
-                variant='contained'
-                color='primary'
-                fullWidth
-                onClick={this.doHandlePeopleChange}
-              >
-                Apply
-              </Button>
-            </div>
+            <Button
+              variant='contained'
+              color='primary'
+              fullWidth
+              onClick={this.doHandlePeopleChange}
+            >
+              Apply
+            </Button>
           </div>
         );
       };
