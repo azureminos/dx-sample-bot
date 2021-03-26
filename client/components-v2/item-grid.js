@@ -43,6 +43,8 @@ class ItemGrid extends React.Component {
     this.state = {
       anchorTraveler: null,
       widthTraveler: null,
+      totalAdults: null,
+      totalKids: null,
     };
   }
   // Event Handlers
@@ -55,19 +57,11 @@ class ItemGrid extends React.Component {
   handleCloseTraveler() {
     this.setState({anchorTraveler: null, widthTraveler: null});
   }
-  doHandleAdultChange(event) {
-    // console.log('>>>>ItemGrid.doHandleAdultChange', event);
-    const {actions} = this.props;
-    if (actions && actions.handleAdultChange) {
-      actions.handleAdultChange(event.target.value);
-    }
+  handleAdultChange(event) {
+    this.setState({totalAdults: event.target.value});
   }
-  doHandleKidChange(event) {
-    // console.log('>>>>ItemGrid.doHandleKidChange', input);
-    const {actions} = this.props;
-    if (actions && actions.handleKidChange) {
-      actions.handleKidChange(event.target.value);
-    }
+  handleKidChange(event) {
+    this.setState({totalKids: event.target.value});
   }
   // Display Widget
   render() {
@@ -77,6 +71,14 @@ class ItemGrid extends React.Component {
     const {anchorTraveler, widthTraveler} = this.state;
     const {activities} = reference;
     const {attractions, products} = activities[item.destName];
+    const itemExt =
+      item.itemType === PRODUCT
+        ? _.find(products, (p) => {
+          return p.productCode === item.itemId;
+        })
+        : _.find(attractions, (a) => {
+          return a.seoId === item.itemId;
+        });
     // Local Functions
     const getImage = () => {
       return (
@@ -89,16 +91,15 @@ class ItemGrid extends React.Component {
       const strTraveler =
         !item.totalAdults && !item.totalKids
           ? 'Number of travelers'
-          : `Adults: ${item.totalAdults}, Kids: ${item.totalKids}`;
+          : `Adults: ${item.totalAdults || 0}, Kids: ${item.totalKids || 0}`;
       const getButtons = (width) => {
-        const itemExt =
-          item.itemType === PRODUCT
-            ? _.find(products, (p) => {
-              return p.productCode === item.itemId;
-            })
-            : _.find(attractions, (a) => {
-              return a.seoId === item.itemId;
-            });
+        const getOptions = (max) => {
+          const options = [];
+          for (let i = 0; i <= max; i++) {
+            options.push(<option value={i}>{i}}</option>);
+          }
+          return options;
+        };
         if (item.pricePlan) {
           return (
             <div style={{width: `${width || 100}px`}}>price plan options</div>
@@ -106,51 +107,57 @@ class ItemGrid extends React.Component {
         }
         return (
           <div style={{display: 'flex', width: `${width || 100}px`}}>
-            <div className={classes.hDivPeople}>
-              <FormControl
-                variant='outlined'
-                className={classes.hDivPeopleControl}
-              >
-                <InputLabel htmlFor='adult-selector'>Adult</InputLabel>
-                <Select
-                  native
-                  value={item.totalAdults || 0}
-                  onChange={this.doHandleAdultChange}
-                  label='Adult'
-                  inputProps={{
-                    name: 'adult',
-                    id: 'adult-selector',
-                  }}
+            <div>
+              <div className={classes.hDivPeople}>
+                <FormControl
+                  variant='outlined'
+                  className={classes.hDivPeopleControl}
                 >
-                  <option value={0}>0</option>
-                  <option value={1}>1</option>
-                  <option value={2}>2</option>
-                  <option value={3}>3</option>
-                </Select>
-              </FormControl>
+                  <InputLabel htmlFor='adult-selector'>Adult</InputLabel>
+                  <Select
+                    native
+                    value={item.totalAdults || 0}
+                    onChange={this.handleAdultChange}
+                    label='Adult'
+                    inputProps={{
+                      name: 'adult',
+                      id: 'adult-selector',
+                    }}
+                  >
+                    {getOptions(maxPeople - item.totalKids)}
+                  </Select>
+                </FormControl>
+              </div>
+              <div className={classes.hDivPeople}>
+                <FormControl
+                  variant='outlined'
+                  className={classes.hDivPeopleControl}
+                >
+                  <InputLabel htmlFor='kid-selector'>Kid</InputLabel>
+                  <Select
+                    native
+                    value={item.totalKids || 0}
+                    onChange={this.handleKidChange}
+                    label='Kid'
+                    inputProps={{
+                      name: 'kid',
+                      id: 'kid-selector',
+                    }}
+                  >
+                    {getOptions(maxPeople - item.totalAdults)}
+                  </Select>
+                </FormControl>
+              </div>
             </div>
-            <div className={classes.hDivPeople}>
-              <FormControl
-                variant='outlined'
-                className={classes.hDivPeopleControl}
+            <div>
+              <Button
+                variant='contained'
+                color='primary'
+                fullWidth
+                onClick={this.handleClickTraveler}
               >
-                <InputLabel htmlFor='kid-selector'>Kid</InputLabel>
-                <Select
-                  native
-                  value={item.totalKids || 0}
-                  onChange={this.doHandleKidChange}
-                  label='Kid'
-                  inputProps={{
-                    name: 'kid',
-                    id: 'kid-selector',
-                  }}
-                >
-                  <option value={0}>0</option>
-                  <option value={1}>1</option>
-                  <option value={2}>2</option>
-                  <option value={3}>3</option>
-                </Select>
-              </FormControl>
+                Apply
+              </Button>
             </div>
           </div>
         );
