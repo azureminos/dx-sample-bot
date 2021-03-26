@@ -38,7 +38,7 @@ class ItemGrid extends React.Component {
     this.handleCloseTraveler = this.handleCloseTraveler.bind(this);
     this.handleAdultChange = this.handleAdultChange.bind(this);
     this.handleKidChange = this.handleKidChange.bind(this);
-    this.doHandlePeopleChange = this.doHandlePeopleChange.bind(this);
+    this.doHandleItemPeopleChange = this.doHandleItemPeopleChange.bind(this);
     // Init data
     // Setup state
     this.state = {
@@ -103,7 +103,11 @@ class ItemGrid extends React.Component {
         const getOptions = (max) => {
           const options = [];
           for (let i = 0; i <= max; i++) {
-            options.push(<option value={i}>{i}</option>);
+            options.push(
+              <option key={`${item.itemId}#${i}`} value={i}>
+                {i}
+              </option>
+            );
           }
           return options;
         };
