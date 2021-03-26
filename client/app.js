@@ -52,6 +52,7 @@ class App extends React.Component {
     // Register on-page event handler
     this.handleDateRangeChange = this.handleDateRangeChange.bind(this);
     this.handlePeopleChange = this.handlePeopleChange.bind(this);
+    this.handleItemPeopleChange = this.handleItemPeopleChange.bind(this);
     this.handleTagGroupChange = this.handleTagGroupChange.bind(this);
     this.handleSetStartCity = this.handleSetStartCity.bind(this);
     this.handleSetDestination = this.handleSetDestination.bind(this);
