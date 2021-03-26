@@ -139,7 +139,7 @@ const view = (input) => {
             console.error('>>>>Database Error', err);
             sendStatus(SocketStatus.DB_ERROR);
           } else {
-            console.log('>>>>Model.view retrieved plan', plan);
+            // console.log('>>>>Model.view retrieved plan', plan);
             const activities = {};
             const cities = [];
             const cityIds = [];

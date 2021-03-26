@@ -63,7 +63,7 @@ class PopupPayment extends React.Component {
     const dtEnd = plan.endDate.format('DD/MM/YYYY');
     _.each(plan.days, (d) => {
       _.each(d.items, (i) => {
-        estCost = estCost + i.totalPrice;
+        estCost = estCost + (i.totalPrice || 0);
       });
     });
     // ====== Local Functions ======

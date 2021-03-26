@@ -28,6 +28,10 @@ const styles = (theme) => ({
     margin: theme.spacing(1),
     width: '80%',
   },
+  hDivDescription: {
+    padding: theme.spacing(1),
+    width: '100%',
+  },
 });
 
 class ItemGrid extends React.Component {
@@ -77,7 +81,10 @@ class ItemGrid extends React.Component {
           return a.seoId === item.itemId;
         });
     const totalPrice =
-      item.itemType === PRODUCT ? itemExt.price * (totalAdults + totalKids) : 0;
+      item.itemType === PRODUCT
+        ? (itemExt.price || 0) * (totalAdults + totalKids)
+        : 0;
+    this.setState({anchorTraveler: null, widthTraveler: null});
     if (actions && actions.handleItemPeopleChange) {
       actions.handleItemPeopleChange({totalAdults, totalKids, totalPrice});
     }
@@ -214,7 +221,28 @@ class ItemGrid extends React.Component {
       return '';
     };
     const getDetails = () => {
-      return <div>Details</div>;
+      return (
+        <table className={classes.hDivDescription}>
+          <tbody>
+            <tr>
+              <th>Price:</th>
+              <th>{itemExt.price}</th>
+            </tr>
+            <tr>
+              <td>Duration:</td>
+              <td>{itemExt.duration}</td>
+            </tr>
+            <tr>
+              <td>Hotel Pickup:</td>
+              <td>{itemExt.hotelPickup ? 'Offered' : 'Not Offered'}</td>
+            </tr>
+            <tr>
+              <td>Overview</td>
+              <td>{itemExt.shortDescription}</td>
+            </tr>
+          </tbody>
+        </table>
+      );
     };
     // Display Widget
     return (

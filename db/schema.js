@@ -524,9 +524,9 @@ const findFullPlan = (planId, callback) => {
       },
     },
     function(err, res) {
-      console.log('>>>>Model.findFullPlan instance', res.instance);
-      console.log('>>>>Model.findFullPlan days', res.days);
-      console.log('>>>>Model.findFullPlan items', res.items);
+      // console.log('>>>>Model.findFullPlan instance', res.instance);
+      // console.log('>>>>Model.findFullPlan days', res.days);
+      // console.log('>>>>Model.findFullPlan items', res.items);
       let plan = null;
       if (!err && res.instance && res.instance.length > 0) {
         const tmpPlan = res.instance[0];
@@ -554,7 +554,7 @@ const findFullPlan = (planId, callback) => {
           const its = _.filter(res.items, (item) => {
             return d.dayNo === item.dayNo;
           });
-          console.log(`>>>>Model.findFullPlan Day[${d.dayNo}]`, its);
+          // console.log(`>>>>Model.findFullPlan Day[${d.dayNo}]`, its);
           _.each(its, (it) => {
             day.items.push({
               itemType: it.itemType,
@@ -569,7 +569,7 @@ const findFullPlan = (planId, callback) => {
               isUserSelected: true,
             });
           });
-          console.log(`>>>>Model.findFullPlan Day[${day.dayNo}]`, day.items);
+          // console.log(`>>>>Model.findFullPlan Day[${day.dayNo}]`, day.items);
           plan.days.push(day);
         });
       }

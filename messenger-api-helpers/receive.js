@@ -57,7 +57,7 @@ const handleReceivePostback = (event) => {
       if (err) {
         console.error('>>>>Model.findFullPlan failed', err);
       }
-      console.log('>>>>Model.findFullPlan completed', res);
+      // console.log('>>>>Model.findFullPlan completed', res);
       sendApi.sendPlanDayMessage(senderId, res);
     });
   } else {
@@ -104,7 +104,7 @@ const handleReceiveMessage = (event) => {
       if (err) {
         console.error('>>>>Model.findFullPlan failed', err);
       }
-      console.log('>>>>Model.findFullPlan completed', res);
+      // console.log('>>>>Model.findFullPlan completed', res);
       sendApi.sendPlanDayMessage(senderId, res);
     });
   } else if (
