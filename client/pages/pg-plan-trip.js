@@ -32,7 +32,7 @@ const styles = (theme) => ({
     height: '100%',
   },
   whitespaceTop: {
-    height: 120,
+    height: 60,
   },
   whitespaceBottom: {
     height: 50,
@@ -50,29 +50,11 @@ const styles = (theme) => ({
     padding: 0,
     minHeight: '16px',
   },
-  hDivFlex: {
-    display: 'flex',
-    margin: 'auto',
-  },
-  hDivPeopleDisplay: {
-    padding: '4px',
-    margin: 'auto',
-  },
-  hDivPeopleControl: {
-    minWidth: '32px',
-    padding: '4px',
-  },
   bRoot: {
     backgroundColor: theme.palette.background.paper,
     display: 'flex',
     height: 'fit-content',
     width: '100%',
-  },
-  bGridSelected: {
-    border: '4px solid black',
-  },
-  bGridUnselected: {
-    border: 'none',
   },
   fAppBar: {
     position: 'fixed',
@@ -87,10 +69,11 @@ const styles = (theme) => ({
     padding: 0,
     minHeight: '16px',
   },
-  fDivFlex: {
+  fButtons: {
     display: 'flex',
   },
-  fDivMiddle: {
+  fDivPlan: {
+    display: 'flex',
     margin: 'auto',
   },
   fBtnLabel: {
@@ -132,14 +115,11 @@ class PagePlanTrip extends React.Component {
     // Bind handler
     this.doHandleTabSelect = this.doHandleTabSelect.bind(this);
     this.doHandleAddressChange = this.doHandleAddressChange.bind(this);
-    this.doHandleDateRangeChange = this.doHandleDateRangeChange.bind(this);
-    this.doHandlePeopleChange = this.doHandlePeopleChange.bind(this);
-    this.doHandleUpdateHotel = this.doHandleUpdateHotel.bind(this);
     this.handlePopupClose = this.handlePopupClose.bind(this);
     this.handleBtnHotel = this.handleBtnHotel.bind(this);
     this.handleHotelClose = this.handleHotelClose.bind(this);
-    this.doHandleBtnBack = this.doHandleBtnBack.bind(this);
-    this.doHandleBtnNext = this.doHandleBtnNext.bind(this);
+    this.doHandleBtnLeft = this.doHandleBtnLeft.bind(this);
+    this.doHandleBtnRight = this.doHandleBtnRight.bind(this);
     // Init state
     this.state = {
       focusedDateInput: null,
@@ -179,18 +159,24 @@ class PagePlanTrip extends React.Component {
       actions.handleTabSelect(newValue);
     }
   }
-  doHandleBtnBack() {
-    // console.log('>>>>PagePlanTrip.doHandleBtnBack', this.props);
-    const {actions} = this.props;
-    if (actions && actions.handleBtnBack) {
-      actions.handleBtnBack();
+  doHandleBtnLeft() {
+    // console.log('>>>>PagePlanTrip.doHandleBtnLeft', this.props);
+    const {tabSelected, actions} = this.props;
+    if (tabSelected === 0 && actions && actions.handleBtnGoStart) {
+      actions.handleBtnGoStart();
+    } else if (actions && actions.handleBtnGoDisplay) {
+      actions.handleBtnGoDisplay();
     }
   }
-  doHandleBtnNext() {
-    // console.log('>>>>PagePlanTrip.doHandleBtnNext', this.props);
+  doHandleBtnRight() {
+    // console.log('>>>>PagePlanTrip.doHandleBtnRight', this.props);
     const {actions} = this.props;
-    if (actions && actions.handleBtnNext) {
-      actions.handleBtnNext();
+    const error = Helper.validatePlan();
+    if (error) {
+      const popup = {};
+      this.setState({popup});
+    } else if (actions && actions.handleBtnGoPayment) {
+      actions.handleBtnGoPayment();
     }
   }
   doHandleUpdateHotel(input) {
@@ -251,20 +237,6 @@ class PagePlanTrip extends React.Component {
       this.setState({selectedAddress: address, selectedLocation: ''});
     }
   }
-  doHandleDateRangeChange(input) {
-    // console.log('>>>>PagePlanTrip.doHandleDateRangeChange', input);
-    const {actions} = this.props;
-    if (actions && actions.handleDateRangeChange) {
-      actions.handleDateRangeChange(input);
-    }
-  }
-  doHandlePeopleChange(input) {
-    // console.log('>>>>PagePlanTrip.doHandlePeopleChange', input);
-    const {actions} = this.props;
-    if (actions && actions.handlePeopleChange) {
-      actions.handlePeopleChange(input);
-    }
-  }
   // Display page
   render() {
     console.log('>>>>PagePlanTrip, render()', this.props);
@@ -272,38 +244,9 @@ class PagePlanTrip extends React.Component {
     const {plan, planExt} = this.props;
     const {destinations} = reference;
     const {startDate, endDate, totalPeople} = plan;
-    const {focusedDateInput, selectedAddress, popup, popupHotel} = this.state;
-    const isNotAllowAdd = totalPeople >= Global.maxPeopleSelection;
-    const isNotAllowRemove = totalPeople <= 1;
+    const {selectedAddress, popup, popupHotel} = this.state;
+    const dateRange = '01/Mar/2021 - 03/Mar/2021';
     // Local Functions
-    const getPeopleControl = () => {
-      return (
-        <div className={classes.hDivFlex}>
-          <div className={classes.hDivPeopleDisplay}>
-            <PeopleIcon color='primary' fontSize='default' />
-          </div>
-          <div className={classes.hDivPeopleDisplay}>{totalPeople}</div>
-          <IconButton
-            disabled={isNotAllowAdd}
-            onClick={() => {
-              this.doHandlePeopleChange(1);
-            }}
-            className={classes.hDivPeopleControl}
-          >
-            <AddBoxIcon color='primary' fontSize='default' />
-          </IconButton>
-          <IconButton
-            disabled={isNotAllowRemove}
-            onClick={() => {
-              this.doHandlePeopleChange(-1);
-            }}
-            className={classes.hDivPeopleControl}
-          >
-            <MinusBoxIcon color='primary' fontSize='default' />
-          </IconButton>
-        </div>
-      );
-    };
     const getHeader = () => {
       const tabItems = [<Tab key={0} label='Summary' {...a11yProps(0)} />];
       for (let i = 0; i < plan.totalDays; i++) {
@@ -335,51 +278,7 @@ class PagePlanTrip extends React.Component {
 
       return (
         <AppBar position='fixed' color='default' className={classes.hAppBar}>
-          <Toolbar className={classes.hToolbar}>
-            <table style={{width: '100%'}}>
-              <tbody>
-                <tr>
-                  <td>
-                    <DateRangeIcon color='primary' fontSize='default' />
-                  </td>
-                  <td>
-                    <div className={classes.hDivFlex}>
-                      <DateRangePicker
-                        startDate={startDate}
-                        startDateId='trip_start_date_id'
-                        endDate={endDate}
-                        endDateId='trip_end_date_id'
-                        numberOfMonths={1}
-                        small
-                        onDatesChange={this.doHandleDateRangeChange}
-                        focusedInput={focusedDateInput}
-                        onFocusChange={(focusedInput) =>
-                          this.setState({focusedDateInput: focusedInput})
-                        }
-                      />
-                      {getPeopleControl()}
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <PlaceIcon color='primary' fontSize='default' />
-                  </td>
-                  <td>
-                    <LocationSearchInput
-                      hints={'Where to?'}
-                      fullWidth
-                      handleChange={(input) => {
-                        this.doHandleAddressChange({...input, destinations});
-                      }}
-                      address={selectedAddress}
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            {tabs}
-          </Toolbar>
+          <Toolbar className={classes.hToolbar}>{tabs}</Toolbar>
         </AppBar>
       );
     };
@@ -440,30 +339,31 @@ class PagePlanTrip extends React.Component {
       return (
         <AppBar position='fixed' color='default' className={classes.fAppBar}>
           <Toolbar className={classes.fToolbar}>
-            <div className={classes.fDivFlex}>
-              {actions.handleBtnBack ? (
-                <Button
-                  color='primary'
-                  onClick={this.doHandleBtnBack}
-                  classes={{label: classes.fBtnLabel}}
-                >
-                  Back
-                </Button>
-              ) : (
-                ''
-              )}
-              <div className={classes.fDivMiddle}>Hello</div>
-              {actions.handleBtnNext ? (
-                <Button
-                  color='primary'
-                  onClick={this.doHandleBtnNext}
-                  classes={{label: classes.fBtnLabel}}
-                >
-                  Next
-                </Button>
-              ) : (
-                ''
-              )}
+            <div className={classes.fButtons}>
+              <Button
+                color='primary'
+                onClick={this.doHandleBtnLeft}
+                classes={{label: classes.fBtnLabel}}
+              >
+                {tabSelected === 0 ? 'Trip Details' : 'Booking Details'}
+              </Button>
+              <div className={classes.fDivPlan}>
+                <div>
+                  <DateRangeIcon color='primary' fontSize='default' />
+                </div>
+                <div>{dateRange}</div>
+                <div>
+                  <PeopleIcon color='primary' fontSize='default' />
+                </div>
+                <div>{totalPeople}</div>
+              </div>
+              <Button
+                color='primary'
+                onClick={this.doHandleBtnRight}
+                classes={{label: classes.fBtnLabel}}
+              >
+                Pay
+              </Button>
             </div>
           </Toolbar>
         </AppBar>

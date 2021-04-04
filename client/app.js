@@ -880,8 +880,9 @@ class App extends React.Component {
         handleDragItem: this.handleDragItem,
         handleSelectItem: this.handleSelectItem,
         handleUpdateHotel: this.handleUpdateHotel,
-        handleBtnBack: this.handleBtnGoStart,
-        handleBtnNext: this.handleBtnGoDisplay,
+        handleBtnGoStart: this.handleBtnGoStart,
+        handleBtnGoDisplay: this.handleBtnGoDisplay,
+        handleBtnGoPayment: this.handleBtnGoPayment,
         handleTabSelect: this.handleTabSelect,
       };
       page = (
@@ -897,8 +898,9 @@ class App extends React.Component {
       document.title = 'Update My Holiday';
       const actionsDisplayTrip = {
         handleItemPeopleChange: this.handleItemPeopleChange,
-        handleBtnBack: this.handleBtnGoPlan,
-        handleBtnNext: this.handleBtnGoPayment,
+        handleBtnGoStart: this.handleBtnGoStart,
+        handleBtnGoPlan: this.handleBtnGoPlan,
+        handleBtnGoPayment: this.handleBtnGoPayment,
         handleTabSelect: this.handleTabSelect,
       };
       page = (

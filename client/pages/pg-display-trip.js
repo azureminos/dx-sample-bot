@@ -27,7 +27,7 @@ const styles = (theme) => ({
     height: '100%',
   },
   whitespaceTop: {
-    height: 100,
+    height: 60,
   },
   whitespaceBottom: {
     height: 50,
@@ -44,18 +44,6 @@ const styles = (theme) => ({
     justifyContent: 'space-between',
     padding: 0,
     minHeight: '16px',
-  },
-  hDivFlex: {
-    display: 'flex',
-    margin: 'auto',
-  },
-  hDivPeopleDisplay: {
-    padding: '4px',
-    margin: 'auto',
-  },
-  hDivPeopleControl: {
-    minWidth: '32px',
-    padding: '4px',
   },
   bRoot: {
     backgroundColor: theme.palette.background.paper,
@@ -82,12 +70,16 @@ const styles = (theme) => ({
     padding: 0,
     minHeight: '16px',
   },
+  fButtons: {
+    display: 'flex',
+  },
+  fDivPlan: {
+    display: 'flex',
+    margin: 'auto',
+  },
   fBtnLabel: {
     alignItems: 'baseline',
     height: 45,
-  },
-  fButtons: {
-    display: 'flex',
   },
 });
 
@@ -123,8 +115,8 @@ class PageDisplayTrip extends React.Component {
     super(props);
     // Bind handler
     this.doHandleTabSelect = this.doHandleTabSelect.bind(this);
-    this.doHandleBtnNext = this.doHandleBtnNext.bind(this);
-    this.doHandleBtnBack = this.doHandleBtnBack.bind(this);
+    this.doHandleBtnLeft = this.doHandleBtnLeft.bind(this);
+    this.doHandleBtnRight = this.doHandleBtnRight.bind(this);
     this.handleHotelClose = this.handleHotelClose.bind(this);
     this.doHandleUpdateHotel = this.doHandleUpdateHotel.bind(this);
     // Init state
@@ -158,18 +150,24 @@ class PageDisplayTrip extends React.Component {
       actions.handleTabSelect(newValue);
     }
   }
-  doHandleBtnNext() {
-    // console.log('>>>>PageDisplayTrip.doHandleBtnNext', this.props);
-    const {actions} = this.props;
-    if (actions && actions.handleBtnNext) {
-      actions.handleBtnNext();
+  doHandleBtnLeft() {
+    // console.log('>>>>PageDisplayTrip.doHandleBtnLeft', this.props);
+    const {tabSelected, actions} = this.props;
+    if (tabSelected === 0 && actions && actions.handleBtnGoStart) {
+      actions.handleBtnGoStart();
+    } else if (actions && actions.handleBtnGoPlan) {
+      actions.handleBtnGoPlan();
     }
   }
-  doHandleBtnBack() {
-    // console.log('>>>>PageDisplayTrip.doHandleBtnBack', input);
+  doHandleBtnRight() {
+    // console.log('>>>>PageDisplayTrip.doHandleBtnRight', this.props);
     const {actions} = this.props;
-    if (actions && actions.handleBtnBack) {
-      actions.handleBtnBack();
+    const error = Helper.validatePlan();
+    if (error) {
+      const popup = {};
+      this.setState({popup});
+    } else if (actions && actions.handleBtnGoPayment) {
+      actions.handleBtnGoPayment();
     }
   }
   // Display page
@@ -179,18 +177,11 @@ class PageDisplayTrip extends React.Component {
     const {classes, tabSelected, reference, actions} = this.props;
     const {plan, planExt, dayNo} = this.props;
     const {startDate, endDate, totalPeople} = plan;
+    const dateRange = '01/Mar/2021 - 03/Mar/2021';
+    const btnBack = '';
+    const btnNext = '';
 
     // Local Functions
-    const getPeopleControl = () => {
-      return (
-        <div className={classes.hDivFlex}>
-          <div className={classes.hDivPeopleDisplay}>
-            <PeopleIcon color='primary' fontSize='default' />
-          </div>
-          <div className={classes.hDivPeopleDisplay}>{totalPeople}</div>
-        </div>
-      );
-    };
     const getHeader = () => {
       const tabItems = [<Tab key={0} label='Summary' {...a11yProps(0)} />];
       for (let i = 0; i < plan.totalDays; i++) {
@@ -221,34 +212,7 @@ class PageDisplayTrip extends React.Component {
 
       return (
         <AppBar position='fixed' color='default' className={classes.hAppBar}>
-          <Toolbar className={classes.hToolbar}>
-            <table style={{width: '100%'}}>
-              <tbody>
-                <tr>
-                  <td>
-                    <DateRangeIcon color='primary' fontSize='default' />
-                  </td>
-                  <td>
-                    <div className={classes.hDivFlex}>
-                      <DateRangePicker
-                        startDate={startDate}
-                        startDateId='trip_start_date_id'
-                        endDate={endDate}
-                        endDateId='trip_end_date_id'
-                        numberOfMonths={1}
-                        small
-                        readOnly
-                        onDatesChange={() => {}}
-                        onFocusChange={() => {}}
-                      />
-                      {getPeopleControl()}
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            {tabs}
-          </Toolbar>
+          <Toolbar className={classes.hToolbar}>{tabs}</Toolbar>
         </AppBar>
       );
     };
@@ -304,31 +268,30 @@ class PageDisplayTrip extends React.Component {
         <AppBar position='fixed' color='default' className={classes.fAppBar}>
           <Toolbar className={classes.fToolbar}>
             <div className={classes.fButtons}>
-              {actions.handleBtnBack ? (
-                <Button
-                  fullWidth
-                  color='primary'
-                  onClick={this.doHandleBtnBack}
-                  classes={{label: classes.fBtnLabel}}
-                >
-                  Back
-                </Button>
-              ) : (
-                ''
-              )}
-              <div>Hello</div>
-              {actions.handleBtnNext ? (
-                <Button
-                  fullWidth
-                  color='primary'
-                  onClick={this.doHandleBtnNext}
-                  classes={{label: classes.fBtnLabel}}
-                >
-                  Next
-                </Button>
-              ) : (
-                ''
-              )}
+              <Button
+                color='primary'
+                onClick={this.doHandleBtnLeft}
+                classes={{label: classes.fBtnLabel}}
+              >
+                {tabSelected === 0 ? 'Trip Details' : 'More Activities'}
+              </Button>
+              <div className={classes.fDivPlan}>
+                <div>
+                  <DateRangeIcon color='primary' fontSize='default' />
+                </div>
+                <div>{dateRange}</div>
+                <div>
+                  <PeopleIcon color='primary' fontSize='default' />
+                </div>
+                <div>{totalPeople}</div>
+              </div>
+              <Button
+                color='primary'
+                onClick={this.doHandleBtnRight}
+                classes={{label: classes.fBtnLabel}}
+              >
+                Pay
+              </Button>
             </div>
           </Toolbar>
         </AppBar>
