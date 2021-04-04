@@ -116,14 +116,12 @@ class App extends React.Component {
   }
   handleBtnStartHoliday() {
     const {plan} = this.state;
+    plan.status = Instance.status.INITIATED;
+    this.setState({plan, homepage: Page.ShowPlan});
     if (!plan._id) {
-      plan.status = Instance.status.INITIATED;
-      this.setState({plan});
       // Sync to server
       const senderId = this.props.viewerId;
       this.pushToRemote('plan:save', {plan, senderId});
-    } else {
-      this.setState({homepage: Page.ShowPlan});
     }
   }
   handleTabSelect(tabSelected) {
@@ -864,36 +862,17 @@ class App extends React.Component {
           handlePeopleChange: this.handlePeopleChange,
           handleBtnStartHoliday: this.handleBtnStartHoliday,
         };
-        const actionsPlanTrip = {
-          handleDateRangeChange: this.handleDateRangeChange,
-          handleSetDestination: this.handleSetDestination,
-          handlePeopleChange: this.handlePeopleChange,
-          handleDragItem: this.handleDragItem,
-          handleSelectItem: this.handleSelectItem,
-          handleUpdateHotel: this.handleUpdateHotel,
-          handleBtnBack: this.handleBtnGoStart,
-          handleBtnNext: this.handleBtnGoPayment,
-          handleTabSelect: this.handleTabSelect,
-        };
-        page =
-          plan.status === Instance.status.DRAFT ? (
-            <PageStartTrip
-              plan={plan}
-              planExt={planExt}
-              reference={reference}
-              actions={actionsStartTrip}
-            />
-          ) : (
-            <PagePlanTrip
-              tabSelected={tabSelected}
-              plan={plan}
-              planExt={planExt}
-              reference={reference}
-              actions={actionsPlanTrip}
-            />
-          );
+        page = (
+          <PageStartTrip
+            plan={plan}
+            planExt={planExt}
+            reference={reference}
+            actions={actionsStartTrip}
+          />
+        );
       }
     } else if (homepage === Page.ShowPlan) {
+      document.title = 'Update My Holiday';
       const actionsPlanTrip = {
         handleDateRangeChange: this.handleDateRangeChange,
         handleSetDestination: this.handleSetDestination,
@@ -915,6 +894,7 @@ class App extends React.Component {
         />
       );
     } else if (homepage === Page.FinalizePlan) {
+      document.title = 'Update My Holiday';
       const actionsDisplayTrip = {
         handleItemPeopleChange: this.handleItemPeopleChange,
         handleBtnBack: this.handleBtnGoPlan,
