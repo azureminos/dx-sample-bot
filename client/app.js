@@ -231,29 +231,15 @@ class App extends React.Component {
   handleDragItem(result) {
     console.log('>>>>handleDragItem', result);
     const {draggableId, source, destination} = result;
-    const {plan} = this.state;
+    const {plan, planExt, reference} = this.state;
     const reorg = (dayNo, idxSrc, idxDst) => {
       const day = plan.days[dayNo - 1];
       day.isCustomized = true;
       const tmpCity = day.cities[idxSrc];
-      const IDX_DAY_START = 0;
-      const IDX_DAY_END = plan.days[dayNo - 1].cities.length - 1;
       day.cities[idxSrc] = day.cities[idxDst];
       day.cities[idxDst] = tmpCity;
       // Extended logic
-      if (idxSrc === IDX_DAY_START || idxDst === IDX_DAY_START) {
-        // Set as the last city of previous day if moved first city of the day
-        plan.days[dayNo - 2].cities.push(day.cities[0]);
-        return true;
-      } else if (idxSrc === IDX_DAY_END || idxDst === IDX_DAY_END) {
-        // Set as the first city of next day if moved last city of the day
-        plan.days[dayNo].cities = _.concat(
-          [day.cities[day.cities.length - 1]],
-          plan.days[dayNo].cities
-        );
-        return true;
-      }
-      return false;
+      return tmpCity.name;
     };
     const move = (src, dst) => {
       const srcDay = Number(src.droppableId.split('##')[1]);
@@ -275,9 +261,9 @@ class App extends React.Component {
         } else if (dst.index === dstCities.length - 1) {
           // Set as the first city of next day if moved last city of the day
         }
-        return true;
+        return srcCity.name;
       }
-      return false;
+      return null;
     };
 
     const FIRST_DAY = 'day##1';
@@ -347,7 +333,20 @@ class App extends React.Component {
       }
     }
     if (source.droppableId !== destination.droppableId) {
-      if (move(source, destination)) {
+      const dayNo = Number(destination.droppableId.split('##')[1]);
+      const cityName = move(source, destination);
+      if (cityName) {
+        const day = plan.days[dayNo - 1];
+        if (!day.items || day.items.length === 0) {
+          plan.days = Helper.fillDays(
+            {days: plan.days, dayNo},
+            plan.totalPeople,
+            cityName,
+            planExt.selectedTagGroups,
+            reference.activities,
+            reference.dayPlans
+          );
+        }
         this.setState({plan});
         // Socket update plan
         const senderId = this.props.viewerId;
@@ -596,7 +595,7 @@ class App extends React.Component {
     } else {
       // Fill the days
       plan.days = Helper.fillDays(
-        plan.days,
+        {days: plan.days},
         plan.totalPeople,
         name,
         selectedTagGroups,
@@ -760,7 +759,7 @@ class App extends React.Component {
       }
       // Fill the day with products (max 3 items per day)
       plan.days = Helper.fillDays(
-        plan.days,
+        {days: plan.days},
         plan.totalPeople,
         results.city,
         selectedTagGroups,
