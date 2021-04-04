@@ -4,7 +4,6 @@ import 'react-dates/initialize';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
@@ -124,6 +123,8 @@ class PagePlanTrip extends React.Component {
     this.handleHotelClose = this.handleHotelClose.bind(this);
     this.handleBtnDestination = this.handleBtnDestination.bind(this);
     this.handleDestinationClose = this.handleDestinationClose.bind(this);
+    this.doHandleUpdateDestination = this.doHandleUpdateDestination.bind(this);
+    this.doHandleUpdateHotel = this.doHandleUpdateHotel.bind(this);
     this.doHandleBtnLeft = this.doHandleBtnLeft.bind(this);
     this.doHandleBtnRight = this.doHandleBtnRight.bind(this);
     // Init state
@@ -196,6 +197,15 @@ class PagePlanTrip extends React.Component {
       this.setState({popup});
     } else if (actions && actions.handleBtnGoPayment) {
       actions.handleBtnGoPayment();
+    }
+  }
+  doHandleUpdateDestination(input) {
+    // console.log('>>>>PagePlanTrip.doHandleUpdateDestination', input);
+    const popupDest = {open: false, message: '', dayNo: null};
+    this.setState({popupDest});
+    const {actions} = this.props;
+    if (actions && actions.handleSetDestination) {
+      actions.handleSetDestination(input);
     }
   }
   doHandleUpdateHotel(input) {
@@ -310,7 +320,7 @@ class PagePlanTrip extends React.Component {
             dayNo={popupDest.dayNo}
             destinations={destinations}
             handleClose={this.handleDestinationClose}
-            handleAddDestination={actions.handleSetDestination}
+            handleAddDestination={this.doHandleUpdateDestination}
           />
         </div>
       );

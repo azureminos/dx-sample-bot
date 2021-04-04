@@ -581,8 +581,10 @@ class App extends React.Component {
     if (!day.cities || day.cities.length === 0) {
       day.cities = [city];
       day.items = [];
-    } else {
+    } else if (dayNo !== plan.days.length) {
       day.cities.push(city);
+    } else {
+      day.cities = [city, ...day.cities];
     }
     console.log('>>>>handleSetDestination completed', plan);
     // Load related activity if new destination
