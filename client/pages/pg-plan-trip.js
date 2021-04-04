@@ -163,6 +163,10 @@ class PagePlanTrip extends React.Component {
     const popupDest = {open: false, message: '', dayNo: null};
     this.setState({popupDest});
   }
+  handleBtnHotel(dayNo) {
+    const popupHotel = {open: true, message: '', dayNo: dayNo};
+    this.setState({popupHotel});
+  }
   handleBtnDestination(dayNo) {
     const popupDest = {open: true, message: '', dayNo: dayNo};
     this.setState({popupDest});
