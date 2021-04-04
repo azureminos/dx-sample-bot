@@ -14,6 +14,7 @@ import PopupMessage from '../components-v2/popup-message';
 import PackageSummary from '../components-v2/package-summary';
 import PackageDayPlanner from '../components-v2/package-day-planner';
 import PopupHotel from '../components-v2/popup-hotel';
+import PopupDestination from '../components-v2/popup-destination';
 import Helper from '../../lib/helper';
 import CONSTANTS from '../../lib/constants';
 // ====== Icons && CSS ======
@@ -118,16 +119,16 @@ class PagePlanTrip extends React.Component {
     super(props);
     // Bind handler
     this.doHandleTabSelect = this.doHandleTabSelect.bind(this);
-    this.doHandleAddressChange = this.doHandleAddressChange.bind(this);
     this.handlePopupClose = this.handlePopupClose.bind(this);
     this.handleBtnHotel = this.handleBtnHotel.bind(this);
     this.handleHotelClose = this.handleHotelClose.bind(this);
+    this.handleBtnDestination = this.handleBtnDestination.bind(this);
+    this.handleDestinationClose = this.handleDestinationClose.bind(this);
     this.doHandleBtnLeft = this.doHandleBtnLeft.bind(this);
     this.doHandleBtnRight = this.doHandleBtnRight.bind(this);
     // Init state
     this.state = {
       focusedDateInput: null,
-      selectedAddress: '',
       selectedLocation: '',
       popup: {
         open: false,
@@ -135,6 +136,11 @@ class PagePlanTrip extends React.Component {
         message: '',
       },
       popupHotel: {
+        open: false,
+        message: '',
+        dayNo: null,
+      },
+      popupDest: {
         open: false,
         message: '',
         dayNo: null,
@@ -152,9 +158,14 @@ class PagePlanTrip extends React.Component {
     const popupHotel = {open: false, message: '', dayNo: null};
     this.setState({popupHotel});
   }
-  handleBtnHotel(dayNo) {
-    const popupHotel = {open: true, message: '', dayNo: dayNo};
-    this.setState({popupHotel});
+  handleDestinationClose() {
+    // console.log('>>>>PageStartTrip.handleDestinationClose');
+    const popupDest = {open: false, message: '', dayNo: null};
+    this.setState({popupDest});
+  }
+  handleBtnDestination(dayNo) {
+    const popupDest = {open: true, message: '', dayNo: dayNo};
+    this.setState({popupDest});
   }
   doHandleTabSelect(event, newValue) {
     // console.log('>>>>PagePlanTrip.doHandleTabSelect', newValue);
@@ -192,55 +203,6 @@ class PagePlanTrip extends React.Component {
       actions.handleUpdateHotel(input);
     }
   }
-  doHandleAddressChange(input) {
-    const {address, location, destinations} = input;
-    console.log('>>>>PagePlanTrip.doHandleAddressChange', input);
-    if (location) {
-      fetch('/api/tool/searchAttraction/', {
-        method: 'POST',
-        body: JSON.stringify({name: address.split(',')[0]}),
-        headers: {'Content-Type': 'application/json'},
-      })
-        .then((response) => response.json())
-        .then((json) => {
-          console.log('>>>>doHandleAddressChange.matchActivity', json);
-          const closeCity = Helper.findCloseCity(location, destinations);
-          if (!closeCity) {
-            // Enter a new location
-            const popup = {
-              open: true,
-              title: 'Destination city not found',
-              message: 'Please enter a valid address for the destination city',
-            };
-            this.setState({selectedAddress: '', selectedLocation: '', popup});
-          } else {
-            if (address.indexOf(closeCity.name) > -1) {
-              this.setState({
-                selectedAddress: '',
-                selectedLocation: '',
-              });
-            } else {
-              const popup = {
-                open: true,
-                title: 'Destination city found',
-                message: `Destination got updated as the nearest city ${closeCity.name}`,
-              };
-              this.setState({
-                selectedAddress: '',
-                selectedLocation: '',
-                popup,
-              });
-            }
-            const {actions} = this.props;
-            if (actions && actions.handleSetDestination) {
-              actions.handleSetDestination({city: closeCity, ...json});
-            }
-          }
-        });
-    } else {
-      this.setState({selectedAddress: address, selectedLocation: ''});
-    }
-  }
   // Display page
   render() {
     console.log('>>>>PagePlanTrip, render()', this.props);
@@ -248,7 +210,7 @@ class PagePlanTrip extends React.Component {
     const {plan, planExt} = this.props;
     const {destinations} = reference;
     const {startDate, endDate, totalPeople} = plan;
-    const {selectedAddress, popup, popupHotel} = this.state;
+    const {popup, popupHotel, popupDest} = this.state;
     const strStartDate = '01/Mar/2021';
     const strEndDate = '03/Mar/2021';
     // Local Functions
@@ -299,6 +261,7 @@ class PagePlanTrip extends React.Component {
             actions={{
               ...actions,
               handleBtnHotel: this.handleBtnHotel,
+              handleBtnDestination: this.handleBtnDestination,
               handleTabSelect: this.doHandleTabSelect,
             }}
           />
@@ -336,6 +299,14 @@ class PagePlanTrip extends React.Component {
             }
             handleClose={this.handleHotelClose}
             handleUpdateHotel={this.doHandleUpdateHotel}
+          />
+          <PopupDestination
+            open={popupDest.open}
+            message={popupDest.message}
+            dayNo={popupDest.dayNo}
+            destinations={destinations}
+            handleClose={this.handleDestinationClose}
+            handleAddDestination={actions.handleSetDestination}
           />
         </div>
       );

@@ -63,6 +63,7 @@ class PackageSummary extends React.Component {
     super(props);
     // Bind event handlers
     this.doHandleDragItem = this.doHandleDragItem.bind(this);
+    this.doHandleDeleteItem = this.doHandleDeleteItem.bind(this);
     this.doHandleTabSelect = this.doHandleTabSelect.bind(this);
     this.doHandleBtnHotel = this.doHandleBtnHotel.bind(this);
     // Init data
@@ -76,11 +77,25 @@ class PackageSummary extends React.Component {
       actions.handleBtnHotel(dayNo);
     }
   }
+  doHandleBtnDestination(dayNo) {
+    console.log('>>>>PackageSummary.doHandleBtnDestination', dayNo);
+    const {actions} = this.props;
+    if (actions && actions.handleBtnDestination) {
+      actions.handleBtnDestination(dayNo);
+    }
+  }
   doHandleDragItem(result) {
     console.log('>>>>PackageSummary.doHandleDragItem', result);
     const {actions} = this.props;
     if (actions && actions.handleDragItem) {
       actions.handleDragItem(result);
+    }
+  }
+  doHandleDeleteItem(dayNo, destId) {
+    console.log('>>>>PackageSummary.doHandleDeleteItem', {dayNo, destId});
+    const {actions} = this.props;
+    if (actions && actions.handleDeleteDestination) {
+      actions.handleDeleteDestination(dayNo, destId);
     }
   }
   doHandleTabSelect(event, newValue) {
@@ -100,6 +115,10 @@ class PackageSummary extends React.Component {
         <div className={classes.divFlex}>
           {_.map(day.cities, (cc, index) => {
             const uItemId = `item##${day.dayNo}##${cc.destinationId}##${index}`;
+            const isFixed =
+              (day.dayNo === 1 && index === 0) ||
+              (day.dayNo === plan.days.length &&
+                index === day.cities.length - 1);
             return (
               <Draggable key={uItemId} draggableId={uItemId} index={index}>
                 {(provided, snapshot) => (
@@ -113,9 +132,18 @@ class PackageSummary extends React.Component {
                     )}
                   >
                     <div>{cc.name}</div>
-                    <div style={{margin: 'auto'}}>
-                      <ClearIcon fontSize='small' />
-                    </div>
+                    {!isFixed ? (
+                      <div
+                        onClick={() => {
+                          this.doHandleDeleteItem(day.dayNo, cc.destinationId);
+                        }}
+                        style={{margin: 'auto'}}
+                      >
+                        <ClearIcon fontSize='small' />
+                      </div>
+                    ) : (
+                      ''
+                    )}
                   </div>
                 )}
               </Draggable>
@@ -166,8 +194,13 @@ class PackageSummary extends React.Component {
                   >
                     {getCityItems(day)}
                     <div style={{margin: 'auto'}} />
-                    <div>
-                      <AddIcon />
+                    <div
+                      onClick={() => {
+                        this.doHandleBtnDestination(day.dayNo);
+                      }}
+                      style={{margin: 'auto 0'}}
+                    >
+                      <AddIcon fontSize='small' />
                     </div>
                     {provided.placeholder}
                   </div>
