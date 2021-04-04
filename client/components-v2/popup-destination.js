@@ -20,7 +20,7 @@ class PopupDestination extends React.Component {
     super(props);
     // Bind handler
     this.doHandleClose = this.doHandleClose.bind(this);
-    this.doHandleUpdateHotel = this.doHandleUpdateHotel.bind(this);
+    this.doHandleAddDestination = this.doHandleAddDestination.bind(this);
     this.doHandleAddressChange = this.doHandleAddressChange.bind(this);
     // Set initial state
     this.state = {
