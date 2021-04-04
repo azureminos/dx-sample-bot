@@ -56,16 +56,17 @@ class App extends React.Component {
     this.handleTagGroupChange = this.handleTagGroupChange.bind(this);
     this.handleSetStartCity = this.handleSetStartCity.bind(this);
     this.handleSetDestination = this.handleSetDestination.bind(this);
-    this.handleBtnStartHoliday = this.handleBtnStartHoliday.bind(this);
     this.handleDragItem = this.handleDragItem.bind(this);
     this.handleSelectItem = this.handleSelectItem.bind(this);
     this.handlePopupClose = this.handlePopupClose.bind(this);
     this.handleRemoveCity = this.handleRemoveCity.bind(this);
     this.handleUpdateHotel = this.handleUpdateHotel.bind(this);
     this.handleClickPlanCard = this.handleClickPlanCard.bind(this);
-    this.handleBtnBack = this.handleBtnBack.bind(this);
-    this.handleBtnNext = this.handleBtnNext.bind(this);
-    this.handleBtnComplete = this.handleBtnComplete.bind(this);
+    this.handleBtnStartHoliday = this.handleBtnStartHoliday.bind(this);
+    this.handleBtnGoStart = this.handleBtnGoStart.bind(this);
+    this.handleBtnGoPlan = this.handleBtnGoPlan.bind(this);
+    this.handleBtnGoDisplay = this.handleBtnGoDisplay.bind(this);
+    this.handleBtnGoPayment = this.handleBtnGoPayment.bind(this);
     this.handlePayment = this.handlePayment.bind(this);
     // State
     this.state = {
@@ -111,18 +112,22 @@ class App extends React.Component {
     };
     this.pushToRemote('plan:updateStatus', req);
   }
-  handleBtnComplete() {
-    // console.log('>>>>handleBtnComplete');
-    const payment = {open: true};
-    this.setState({payment});
+  handleBtnGoStart() {
+    // console.log('>>>>handleBtnGoStart');
+    this.setState({homepage: Page.NewPlan});
   }
-  handleBtnBack() {
-    // console.log('>>>>handleBtnBack');
+  handleBtnGoPlan() {
+    // console.log('>>>>handleBtnGoPlan');
     this.setState({homepage: Page.ShowPlan});
   }
-  handleBtnNext() {
-    // console.log('>>>>handleBtnNext');
+  handleBtnGoDisplay() {
+    // console.log('>>>>handleBtnGoDisplay');
     this.setState({homepage: Page.FinalizePlan});
+  }
+  handleBtnGoPayment() {
+    // console.log('>>>>handleBtnGoPayment');
+    const payment = {open: true};
+    this.setState({payment});
   }
   handlePopupClose() {
     // console.log('>>>>handlePopupClose');
@@ -840,6 +845,7 @@ class App extends React.Component {
           handleSetStartCity: this.handleSetStartCity,
           handlePeopleChange: this.handlePeopleChange,
           handleBtnStartHoliday: this.handleBtnStartHoliday,
+          handleBtnNext: this.handleBtnGoPlan,
         };
         const actionsPlanTrip = {
           handleDateRangeChange: this.handleDateRangeChange,
@@ -848,7 +854,8 @@ class App extends React.Component {
           handleDragItem: this.handleDragItem,
           handleSelectItem: this.handleSelectItem,
           handleUpdateHotel: this.handleUpdateHotel,
-          handleBtnComplete: this.handleBtnNext,
+          handleBtnBack: this.handleBtnGoStart,
+          handleBtnNext: this.handleBtnGoPayment,
         };
         page =
           plan.status === Instance.status.DRAFT ? (
@@ -875,7 +882,8 @@ class App extends React.Component {
         handleDragItem: this.handleDragItem,
         handleSelectItem: this.handleSelectItem,
         handleUpdateHotel: this.handleUpdateHotel,
-        handleBtnComplete: this.handleBtnNext,
+        handleBtnBack: this.handleBtnGoStart,
+        handleBtnNext: this.handleBtnGoDisplay,
       };
       page = (
         <PagePlanTrip
@@ -887,13 +895,12 @@ class App extends React.Component {
       );
     } else if (homepage === Page.FinalizePlan) {
       const actionsDisplayTrip = {
-        handleBtnComplete: this.handleBtnComplete,
-        handleBtnBack: this.handleBtnBack,
+        handleBtnBack: this.handleBtnGoPlan,
+        handleBtnNext: this.handleBtnGoPayment,
         handleItemPeopleChange: this.handleItemPeopleChange,
       };
       page = (
         <PageDisplayTrip
-          hasBtnBack
           plan={plan}
           planExt={planExt}
           reference={reference}

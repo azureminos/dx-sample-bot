@@ -10,6 +10,8 @@ import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 import {withStyles} from '@material-ui/core/styles';
 import PackageDayOrganizer from '../components-v2/package-day-organizer';
+import PackageSummary from '../components-v2/package-summary';
+import PopupHotel from '../components-v2/popup-hotel';
 import Helper from '../../lib/helper';
 import CONSTANTS from '../../lib/constants';
 // ====== Icons && CSS ======
@@ -121,23 +123,44 @@ class PageDisplayTrip extends React.Component {
     super(props);
     // Bind handler
     this.doHandleTabSelect = this.doHandleTabSelect.bind(this);
-    this.doHandleBtnComplete = this.doHandleBtnComplete.bind(this);
+    this.doHandleBtnNext = this.doHandleBtnNext.bind(this);
     this.doHandleBtnBack = this.doHandleBtnBack.bind(this);
+    this.handleHotelClose = this.handleHotelClose.bind(this);
+    this.doHandleUpdateHotel = this.doHandleUpdateHotel.bind(this);
     // Init state
     this.state = {
       tabSelected: 0,
+      popupHotel: {
+        open: false,
+        message: '',
+        dayNo: null,
+      },
     };
   }
   // Event Handler
+  handleHotelClose() {
+    // console.log('>>>>PageStartTrip.handleHotelClose');
+    const popupHotel = {open: false, message: '', dayNo: null};
+    this.setState({popupHotel});
+  }
+  doHandleUpdateHotel(input) {
+    // console.log('>>>>PagePlanTrip.doHandleUpdateHotel', input);
+    const popupHotel = {open: false, message: '', dayNo: null};
+    this.setState({popupHotel});
+    const {actions} = this.props;
+    if (actions && actions.handleUpdateHotel) {
+      actions.handleUpdateHotel(input);
+    }
+  }
   doHandleTabSelect(event, newValue) {
     // console.log('>>>>PageDisplayTrip.doHandleTabSelect', newValue);
     this.setState({tabSelected: newValue});
   }
-  doHandleBtnComplete() {
-    // console.log('>>>>PageDisplayTrip.doHandleBtnComplete', this.props);
+  doHandleBtnNext() {
+    // console.log('>>>>PageDisplayTrip.doHandleBtnNext', this.props);
     const {actions} = this.props;
-    if (actions && actions.handleBtnComplete) {
-      actions.handleBtnComplete();
+    if (actions && actions.handleBtnNext) {
+      actions.handleBtnNext();
     }
   }
   doHandleBtnBack() {
@@ -150,8 +173,9 @@ class PageDisplayTrip extends React.Component {
   // Display page
   render() {
     console.log('>>>>PageDisplayTrip, render()', this.props);
+    const {popupHotel} = this.state;
     const {classes, reference, actions} = this.props;
-    const {plan, planExt, hasBtnBack, dayNo} = this.props;
+    const {plan, planExt, dayNo} = this.props;
     const {startDate, endDate, totalPeople} = plan;
 
     // Local Functions
@@ -166,7 +190,7 @@ class PageDisplayTrip extends React.Component {
       );
     };
     const getHeader = () => {
-      const tabItems = [];
+      const tabItems = [<Tab key={0} label='Summary' {...a11yProps(0)} />];
       for (let i = 0; i < plan.totalDays; i++) {
         const dayNo = i + 1;
         tabItems.push(
@@ -229,7 +253,20 @@ class PageDisplayTrip extends React.Component {
 
     const getBody = () => {
       const totalDays = endDate.diff(startDate, 'days') + 1;
-      const tabPanels = [];
+      const tabPanels = [
+        <TabPanel key={0} value={this.state.tabSelected} index={0}>
+          <PackageSummary
+            plan={plan}
+            planExt={planExt}
+            reference={reference}
+            actions={{
+              ...actions,
+              handleBtnHotel: this.handleBtnHotel,
+              handleTabSelect: this.doHandleTabSelect,
+            }}
+          />
+        </TabPanel>,
+      ];
       for (let i = 0; i < totalDays; i++) {
         const dayNo = i + 1;
         tabPanels.push(
@@ -244,14 +281,28 @@ class PageDisplayTrip extends React.Component {
           </TabPanel>
         );
       }
-      return <div className={classes.bRoot}>{tabPanels}</div>;
+      return (
+        <div className={classes.bRoot}>
+          {tabPanels}
+          <PopupHotel
+            open={popupHotel.open}
+            message={popupHotel.message}
+            dayNo={popupHotel.dayNo}
+            hotel={
+              popupHotel.dayNo ? plan.days[popupHotel.dayNo - 1].hotel : null
+            }
+            handleClose={this.handleHotelClose}
+            handleUpdateHotel={this.doHandleUpdateHotel}
+          />
+        </div>
+      );
     };
     const getFooter = () => {
       return (
         <AppBar position='fixed' color='default' className={classes.fAppBar}>
           <Toolbar className={classes.fToolbar}>
             <div className={classes.fButtons}>
-              {hasBtnBack ? (
+              {actions.handleBtnBack ? (
                 <Button
                   fullWidth
                   color='primary'
@@ -263,14 +314,19 @@ class PageDisplayTrip extends React.Component {
               ) : (
                 ''
               )}
-              <Button
-                fullWidth
-                color='primary'
-                onClick={this.doHandleBtnComplete}
-                classes={{label: classes.fBtnLabel}}
-              >
-                Complete
-              </Button>
+              <div>Hello</div>
+              {actions.handleBtnNext ? (
+                <Button
+                  fullWidth
+                  color='primary'
+                  onClick={this.doHandleBtnNext}
+                  classes={{label: classes.fBtnLabel}}
+                >
+                  Next
+                </Button>
+              ) : (
+                ''
+              )}
             </div>
           </Toolbar>
         </AppBar>

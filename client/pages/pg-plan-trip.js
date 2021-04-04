@@ -132,7 +132,7 @@ class PagePlanTrip extends React.Component {
     this.handlePopupClose = this.handlePopupClose.bind(this);
     this.handleBtnHotel = this.handleBtnHotel.bind(this);
     this.handleHotelClose = this.handleHotelClose.bind(this);
-    this.doHandleBtnComplete = this.doHandleBtnComplete.bind(this);
+    this.doHandleBtnNext = this.doHandleBtnNext.bind(this);
     // Init state
     this.state = {
       tabSelected: 0,
@@ -170,11 +170,18 @@ class PagePlanTrip extends React.Component {
     // console.log('>>>>PagePlanTrip.doHandleTabSelect', newValue);
     this.setState({tabSelected: newValue});
   }
-  doHandleBtnComplete() {
-    // console.log('>>>>PagePlanTrip.doHandleBtnComplete', this.props);
+  doHandleBtnBack() {
+    // console.log('>>>>PagePlanTrip.doHandleBtnBack', this.props);
     const {actions} = this.props;
-    if (actions && actions.handleBtnComplete) {
-      actions.handleBtnComplete();
+    if (actions && actions.handleBtnBack) {
+      actions.handleBtnBack();
+    }
+  }
+  doHandleBtnNext() {
+    // console.log('>>>>PagePlanTrip.doHandleBtnNext', this.props);
+    const {actions} = this.props;
+    if (actions && actions.handleBtnNext) {
+      actions.handleBtnNext();
     }
   }
   doHandleUpdateHotel(input) {
@@ -424,14 +431,31 @@ class PagePlanTrip extends React.Component {
         <AppBar position='fixed' color='default' className={classes.fAppBar}>
           <Toolbar className={classes.fToolbar}>
             <div>
-              <Button
-                fullWidth
-                color='primary'
-                onClick={this.doHandleBtnComplete}
-                classes={{label: classes.fBtnLabel}}
-              >
-                Next
-              </Button>
+              {actions.handleBtnBack ? (
+                <Button
+                  fullWidth
+                  color='primary'
+                  onClick={this.doHandleBtnBack}
+                  classes={{label: classes.fBtnLabel}}
+                >
+                  Back
+                </Button>
+              ) : (
+                ''
+              )}
+              <div>Hello</div>
+              {actions.handleBtnNext ? (
+                <Button
+                  fullWidth
+                  color='primary'
+                  onClick={this.doHandleBtnNext}
+                  classes={{label: classes.fBtnLabel}}
+                >
+                  Next
+                </Button>
+              ) : (
+                ''
+              )}
             </div>
           </Toolbar>
         </AppBar>

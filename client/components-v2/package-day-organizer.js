@@ -5,11 +5,9 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import {withStyles} from '@material-ui/core/styles';
 import ItemGrid from './item-grid';
-import CONSTANTS from '../../lib/constants';
 // ====== Icons ======
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 // Variables
-const {rateType} = CONSTANTS.get().DataModel;
 const styles = (theme) => ({
   root: {
     width: '100%',
