@@ -269,7 +269,7 @@ class App extends React.Component {
     const FIRST_DAY = 'day##1';
     const LAST_DAY = `day##${plan.days.length}`;
     const IDX_PLAN_START = 0;
-    const IDX_PLAN_END = plan.days[plan.days.length - 1].cities.length - 1;
+    const IDX_PLAN_END = plan.days[plan.days.length - 1].cities.length;
 
     if (source.droppableId === FIRST_DAY && source.index === IDX_PLAN_START) {
       // moved start city of first day, no action
@@ -359,9 +359,9 @@ class App extends React.Component {
   }
   handleSelectItem(input) {
     console.log('>>>>handleSelectItem', input);
-    const {item, type, isSelected, daySelected} = input;
+    const {item, type, isSelected, dayNo} = input;
     const {plan} = this.state;
-    const day = plan.days[daySelected - 1];
+    const day = plan.days[dayNo - 1];
     if (isSelected) {
       // Item to remove
       day.isCustomized = true;
@@ -372,7 +372,7 @@ class App extends React.Component {
       const req = {
         senderId: this.props.viewerId,
         planId: plan._id,
-        dayNo: daySelected,
+        dayNo: dayNo,
         itemId: item.itemId,
       };
       this.pushToRemote('planItem:remove', req);
@@ -407,7 +407,7 @@ class App extends React.Component {
       const req = {
         senderId: this.props.viewerId,
         planId: plan._id,
-        dayNo: daySelected,
+        dayNo: dayNo,
         item: it,
       };
       this.pushToRemote('planItem:add', req);
