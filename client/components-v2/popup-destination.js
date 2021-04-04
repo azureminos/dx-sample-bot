@@ -50,6 +50,12 @@ class PopupDestination extends React.Component {
       .then((response) => response.json())
       .then((json) => {
         console.log('>>>>doHandleAddressChange.matchActivity', json);
+        this.setState({
+          sAddress: '',
+          sLocation: '',
+          sCity: null,
+          error: '',
+        });
         if (this.props.handleAddDestination) {
           this.props.handleAddDestination({dayNo, city: sCity, ...json});
         }

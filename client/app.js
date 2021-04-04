@@ -561,7 +561,7 @@ class App extends React.Component {
     const {plan, planExt, reference} = this.state;
     const {preferAttractions, selectedTagGroups} = planExt;
     const {activities, dayPlans} = reference;
-    const {city, attraction} = input;
+    const {dayNo, city, attraction} = input;
     const {destinationId, name} = city;
     console.log('>>>>handleSetDestination', {input, plan});
     if (
@@ -570,43 +570,19 @@ class App extends React.Component {
         return a._id === attraction._id;
       })
     ) {
-      preferAttractions.push({...attraction, destName: name});
+      preferAttractions.push({...attraction, destName: name, dayNo});
     }
     // Ignore existing
-    let isExist = false;
-    let isUpdate = false;
-    let isAdded = false;
-    for (let i = 0; i < plan.days.length; i++) {
-      const day = plan.days[i];
-      const matcher = _.find(day.cities, (cc) => {
-        return cc.name === name;
-      });
-      if (matcher) {
-        isExist = true;
-        break;
-      }
-      if (!day.cities || day.cities.length === 0) {
-        day.cities = [city];
-        day.items = [];
-        isAdded = true;
-      } else if (!day.isCustomized && day.cities.length === 1 && !isUpdate) {
-        day.cities.push(city);
-        isUpdate = true;
-        isAdded = true;
-      } else if (!day.isCustomized && isUpdate) {
-        if (i === plan.days.length - 1) {
-          day.cities = [city, plan.endCity];
-          day.items = [];
-        } else {
-          day.cities = [city];
-          day.items = [];
-        }
-      }
-    }
-    if (isExist) {
-      return;
-    } else if (!isAdded) {
-      // TODO: add nearest city if not added
+    const day = plan.days[dayNo - 1];
+    const matcher = _.find(day.cities, (cc) => {
+      return cc.name === name;
+    });
+    if (matcher) return;
+    if (!day.cities || day.cities.length === 0) {
+      day.cities = [city];
+      day.items = [];
+    } else {
+      day.cities.push(city);
     }
     console.log('>>>>handleSetDestination completed', plan);
     // Load related activity if new destination
