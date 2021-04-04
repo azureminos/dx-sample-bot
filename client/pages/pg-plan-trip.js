@@ -87,6 +87,12 @@ const styles = (theme) => ({
     padding: 0,
     minHeight: '16px',
   },
+  fDivFlex: {
+    display: 'flex',
+  },
+  fDivMiddle: {
+    margin: 'auto',
+  },
   fBtnLabel: {
     alignItems: 'baseline',
     height: 45,
@@ -136,7 +142,6 @@ class PagePlanTrip extends React.Component {
     this.doHandleBtnNext = this.doHandleBtnNext.bind(this);
     // Init state
     this.state = {
-      tabSelected: 0,
       focusedDateInput: null,
       selectedAddress: '',
       selectedLocation: '',
@@ -169,7 +174,10 @@ class PagePlanTrip extends React.Component {
   }
   doHandleTabSelect(event, newValue) {
     // console.log('>>>>PagePlanTrip.doHandleTabSelect', newValue);
-    this.setState({tabSelected: newValue});
+    const {actions} = this.props;
+    if (actions && actions.handleTabSelect) {
+      actions.handleTabSelect(newValue);
+    }
   }
   doHandleBtnBack() {
     // console.log('>>>>PagePlanTrip.doHandleBtnBack', this.props);
@@ -260,7 +268,8 @@ class PagePlanTrip extends React.Component {
   // Display page
   render() {
     console.log('>>>>PagePlanTrip, render()', this.props);
-    const {classes, plan, planExt, reference, actions} = this.props;
+    const {classes, tabSelected, reference, actions} = this.props;
+    const {plan, planExt} = this.props;
     const {destinations} = reference;
     const {startDate, endDate, totalPeople} = plan;
     const {focusedDateInput, selectedAddress, popup, popupHotel} = this.state;
@@ -312,7 +321,7 @@ class PagePlanTrip extends React.Component {
       const tabs = (
         <Tabs
           variant='scrollable'
-          value={this.state.tabSelected}
+          value={tabSelected}
           indicatorColor='primary'
           textColor='primary'
           variant='scrollable'
@@ -378,7 +387,7 @@ class PagePlanTrip extends React.Component {
     const getBody = () => {
       const totalDays = endDate.diff(startDate, 'days') + 1;
       const tabPanels = [
-        <TabPanel key={0} value={this.state.tabSelected} index={0}>
+        <TabPanel key={0} value={tabSelected} index={0}>
           <PackageSummary
             plan={plan}
             planExt={planExt}
@@ -394,7 +403,7 @@ class PagePlanTrip extends React.Component {
       for (let i = 0; i < totalDays; i++) {
         const dayNo = i + 1;
         tabPanels.push(
-          <TabPanel key={dayNo} value={this.state.tabSelected} index={dayNo}>
+          <TabPanel key={dayNo} value={tabSelected} index={dayNo}>
             <PackageDayPlanner
               plan={plan}
               planExt={planExt}
@@ -431,10 +440,9 @@ class PagePlanTrip extends React.Component {
       return (
         <AppBar position='fixed' color='default' className={classes.fAppBar}>
           <Toolbar className={classes.fToolbar}>
-            <div>
+            <div className={classes.fDivFlex}>
               {actions.handleBtnBack ? (
                 <Button
-                  fullWidth
                   color='primary'
                   onClick={this.doHandleBtnBack}
                   classes={{label: classes.fBtnLabel}}
@@ -444,10 +452,9 @@ class PagePlanTrip extends React.Component {
               ) : (
                 ''
               )}
-              <div>Hello</div>
+              <div className={classes.fDivMiddle}>Hello</div>
               {actions.handleBtnNext ? (
                 <Button
-                  fullWidth
                   color='primary'
                   onClick={this.doHandleBtnNext}
                   classes={{label: classes.fBtnLabel}}

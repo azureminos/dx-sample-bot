@@ -129,7 +129,6 @@ class PageDisplayTrip extends React.Component {
     this.doHandleUpdateHotel = this.doHandleUpdateHotel.bind(this);
     // Init state
     this.state = {
-      tabSelected: 0,
       popupHotel: {
         open: false,
         message: '',
@@ -154,7 +153,10 @@ class PageDisplayTrip extends React.Component {
   }
   doHandleTabSelect(event, newValue) {
     // console.log('>>>>PageDisplayTrip.doHandleTabSelect', newValue);
-    this.setState({tabSelected: newValue});
+    const {actions} = this.props;
+    if (actions && actions.handleTabSelect) {
+      actions.handleTabSelect(newValue);
+    }
   }
   doHandleBtnNext() {
     // console.log('>>>>PageDisplayTrip.doHandleBtnNext', this.props);
@@ -174,7 +176,7 @@ class PageDisplayTrip extends React.Component {
   render() {
     console.log('>>>>PageDisplayTrip, render()', this.props);
     const {popupHotel} = this.state;
-    const {classes, reference, actions} = this.props;
+    const {classes, tabSelected, reference, actions} = this.props;
     const {plan, planExt, dayNo} = this.props;
     const {startDate, endDate, totalPeople} = plan;
 
@@ -205,7 +207,7 @@ class PageDisplayTrip extends React.Component {
       const tabs = (
         <Tabs
           variant='scrollable'
-          value={dayNo || this.state.tabSelected}
+          value={dayNo || tabSelected}
           indicatorColor='primary'
           textColor='primary'
           variant='scrollable'
@@ -254,7 +256,7 @@ class PageDisplayTrip extends React.Component {
     const getBody = () => {
       const totalDays = endDate.diff(startDate, 'days') + 1;
       const tabPanels = [
-        <TabPanel key={0} value={this.state.tabSelected} index={0}>
+        <TabPanel key={0} value={tabSelected} index={0}>
           <PackageSummary
             plan={plan}
             planExt={planExt}
@@ -270,7 +272,7 @@ class PageDisplayTrip extends React.Component {
       for (let i = 0; i < totalDays; i++) {
         const dayNo = i + 1;
         tabPanels.push(
-          <TabPanel key={dayNo} value={this.state.tabSelected} index={i}>
+          <TabPanel key={dayNo} value={tabSelected} index={dayNo}>
             <PackageDayOrganizer
               plan={plan}
               planExt={planExt}

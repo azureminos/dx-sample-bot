@@ -50,6 +50,7 @@ class App extends React.Component {
     this.handleRefActivity = this.handleRefActivity.bind(this);
     this.handleRefDestination = this.handleRefDestination.bind(this);
     // Register on-page event handler
+    this.handleTabSelect = this.handleTabSelect.bind(this);
     this.handleDateRangeChange = this.handleDateRangeChange.bind(this);
     this.handlePeopleChange = this.handlePeopleChange.bind(this);
     this.handleItemPeopleChange = this.handleItemPeopleChange.bind(this);
@@ -71,6 +72,7 @@ class App extends React.Component {
     // State
     this.state = {
       homepage: '',
+      tabSelected: 0,
       user: null,
       plans: null,
       plan: null,
@@ -111,6 +113,22 @@ class App extends React.Component {
       status: result.status,
     };
     this.pushToRemote('plan:updateStatus', req);
+  }
+  handleBtnStartHoliday() {
+    const {plan} = this.state;
+    if (!plan._id) {
+      plan.status = Instance.status.INITIATED;
+      this.setState({plan});
+      // Sync to server
+      const senderId = this.props.viewerId;
+      this.pushToRemote('plan:save', {plan, senderId});
+    } else {
+      this.setState({homepage: Page.ShowPlan});
+    }
+  }
+  handleTabSelect(tabSelected) {
+    // console.log('>>>>handleTabSelect');
+    this.setState({tabSelected: tabSelected});
   }
   handleBtnGoStart() {
     // console.log('>>>>handleBtnGoStart');
@@ -398,14 +416,6 @@ class App extends React.Component {
     }
     this.setState({plan});
   }
-  handleBtnStartHoliday() {
-    const {plan, planExt} = this.state;
-    plan.status = Instance.status.INITIATED;
-    this.setState({plan});
-    // Sync to server
-    const senderId = this.props.viewerId;
-    this.pushToRemote('plan:save', {plan, senderId});
-  }
   handleDateRangeChange({startDate, endDate}) {
     // console.log('>>>>handleDateRangeChange', {startDate, endDate});
     let plan = this.state.plan;
@@ -537,6 +547,13 @@ class App extends React.Component {
       city: city.name,
       cityId: city.destinationId,
     });
+    // Socket update startCity when plan id exists
+    if (plan._id) {
+      /* const senderId = this.props.viewerId;
+      const totalPeople = plan.totalPeople;
+      const planId = plan._id;
+      this.pushToRemote('people:save', {senderId, planId, totalPeople});*/
+    }
   }
   handleSetDestination(input) {
     const {plan, planExt, reference} = this.state;
@@ -825,7 +842,8 @@ class App extends React.Component {
     // Local Variables
     console.log('>>>>MobileApp.render', {state: this.state, props: this.props});
     const {apiUri, viewerId, windowWidth} = this.props;
-    const {homepage, plan, planExt, reference, popup, payment} = this.state;
+    const {homepage, tabSelected} = this.state;
+    const {plan, planExt, reference, popup, payment} = this.state;
     // Sub Components
     let page = <div>Loading...</div>;
     if (homepage === Page.MainPage) {
@@ -845,7 +863,6 @@ class App extends React.Component {
           handleSetStartCity: this.handleSetStartCity,
           handlePeopleChange: this.handlePeopleChange,
           handleBtnStartHoliday: this.handleBtnStartHoliday,
-          handleBtnNext: this.handleBtnGoPlan,
         };
         const actionsPlanTrip = {
           handleDateRangeChange: this.handleDateRangeChange,
@@ -856,6 +873,7 @@ class App extends React.Component {
           handleUpdateHotel: this.handleUpdateHotel,
           handleBtnBack: this.handleBtnGoStart,
           handleBtnNext: this.handleBtnGoPayment,
+          handleTabSelect: this.handleTabSelect,
         };
         page =
           plan.status === Instance.status.DRAFT ? (
@@ -867,6 +885,7 @@ class App extends React.Component {
             />
           ) : (
             <PagePlanTrip
+              tabSelected={tabSelected}
               plan={plan}
               planExt={planExt}
               reference={reference}
@@ -884,9 +903,11 @@ class App extends React.Component {
         handleUpdateHotel: this.handleUpdateHotel,
         handleBtnBack: this.handleBtnGoStart,
         handleBtnNext: this.handleBtnGoDisplay,
+        handleTabSelect: this.handleTabSelect,
       };
       page = (
         <PagePlanTrip
+          tabSelected={tabSelected}
           plan={plan}
           planExt={planExt}
           reference={reference}
@@ -895,12 +916,14 @@ class App extends React.Component {
       );
     } else if (homepage === Page.FinalizePlan) {
       const actionsDisplayTrip = {
+        handleItemPeopleChange: this.handleItemPeopleChange,
         handleBtnBack: this.handleBtnGoPlan,
         handleBtnNext: this.handleBtnGoPayment,
-        handleItemPeopleChange: this.handleItemPeopleChange,
+        handleTabSelect: this.handleTabSelect,
       };
       page = (
         <PageDisplayTrip
+          tabSelected={tabSelected}
           plan={plan}
           planExt={planExt}
           reference={reference}
