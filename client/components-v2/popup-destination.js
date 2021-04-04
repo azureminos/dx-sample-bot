@@ -26,6 +26,7 @@ class PopupDestination extends React.Component {
     this.state = {
       sAddress: '',
       sLocation: '',
+      sCity: null,
       error: '',
     };
   }
@@ -39,30 +40,47 @@ class PopupDestination extends React.Component {
   }
   doHandleAddDestination() {
     console.log('>>>>PopupDestination.doHandleAddDestination', this.state);
+    const {dayNo} = this.props;
+    const {sAddress, sCity} = this.state;
+    fetch('/api/tool/searchAttraction/', {
+      method: 'POST',
+      body: JSON.stringify({name: sAddress.split(',')[0]}),
+      headers: {'Content-Type': 'application/json'},
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        console.log('>>>>doHandleAddressChange.matchActivity', json);
+        if (this.props.handleAddDestination) {
+          this.props.handleAddDestination({dayNo, city: sCity, ...json});
+        }
+      });
   }
   doHandleAddressChange(input) {
     console.log('>>>>PopupDestination.doHandleAddressChange', input);
     const {address, location} = input;
     if (location) {
-      fetch('/api/tool/searchAttraction/', {
-        method: 'POST',
-        body: JSON.stringify({name: address.split(',')[0]}),
-        headers: {'Content-Type': 'application/json'},
-      })
-        .then((response) => response.json())
-        .then((json) => {
-          console.log('>>>>doHandleAddressChange.matchActivity', json);
-          const {destinations} = this.props;
-          const closeCity = Helper.findCloseCity(location, destinations);
-          if (!closeCity) {
-            // Enter a new location
-            const error =
-              'Please enter a valid address for the destination city';
-            this.setState({sAddress: '', sLocation: '', error});
-          } else {
-            console.log('>>>>test', closeCity);
-          }
+      const {destinations} = this.props;
+      const closeCity = Helper.findCloseCity(location, destinations);
+      if (!closeCity) {
+        // Enter a new location
+        const error = 'Please enter a valid address for the destination city';
+        this.setState({sAddress: '', sLocation: '', error});
+      } else if (address.indexOf(closeCity.name) > -1) {
+        this.setState({
+          sAddress: address,
+          sLocation: location,
+          sCity: closeCity,
+          error: '',
         });
+      } else {
+        const error = `Found the nearest city ${closeCity.name}`;
+        this.setState({
+          sAddress: address,
+          sLocation: location,
+          sCity: closeCity,
+          error: error,
+        });
+      }
     } else {
       this.setState({sAddress: address, sLocation: ''});
     }
