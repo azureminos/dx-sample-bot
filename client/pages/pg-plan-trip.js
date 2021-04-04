@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import React, {createElement} from 'react';
 import 'react-dates/initialize';
-import {DateRangePicker} from 'react-dates';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
@@ -21,8 +20,6 @@ import CONSTANTS from '../../lib/constants';
 import PlaceIcon from '@material-ui/icons/Place';
 import DateRangeIcon from '@material-ui/icons/DateRange';
 import PeopleIcon from '@material-ui/icons/People';
-import AddBoxIcon from '@material-ui/icons/AddBoxOutlined';
-import MinusBoxIcon from '@material-ui/icons/IndeterminateCheckBoxOutlined';
 import 'react-dates/lib/css/_datepicker.css';
 
 // Variables
@@ -75,6 +72,13 @@ const styles = (theme) => ({
   fDivPlan: {
     display: 'flex',
     margin: 'auto',
+  },
+  fDivPlanItem: {
+    margin: 'auto',
+    padding: '0px 4px',
+  },
+  fBtnRoot: {
+    width: 80,
   },
   fBtnLabel: {
     alignItems: 'baseline',
@@ -245,7 +249,8 @@ class PagePlanTrip extends React.Component {
     const {destinations} = reference;
     const {startDate, endDate, totalPeople} = plan;
     const {selectedAddress, popup, popupHotel} = this.state;
-    const dateRange = '01/Mar/2021 - 03/Mar/2021';
+    const strStartDate = '01/Mar/2021';
+    const strEndDate = '03/Mar/2021';
     // Local Functions
     const getHeader = () => {
       const tabItems = [<Tab key={0} label='Summary' {...a11yProps(0)} />];
@@ -343,24 +348,35 @@ class PagePlanTrip extends React.Component {
               <Button
                 color='primary'
                 onClick={this.doHandleBtnLeft}
-                classes={{label: classes.fBtnLabel}}
+                classes={{root: classes.fBtnRoot, label: classes.fBtnLabel}}
               >
                 {tabSelected === 0 ? 'Trip Details' : 'Booking Details'}
               </Button>
               <div className={classes.fDivPlan}>
-                <div>
+                <div className={classes.fDivPlanItem}>
                   <DateRangeIcon color='primary' fontSize='default' />
                 </div>
-                <div>{dateRange}</div>
-                <div>
+                <table className={classes.fDivPlanItem}>
+                  <tbody>
+                    <tr>
+                      <td>Start:</td>
+                      <td>{strStartDate}</td>
+                    </tr>
+                    <tr>
+                      <td>End:</td>
+                      <td>{strEndDate}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div className={classes.fDivPlanItem}>
                   <PeopleIcon color='primary' fontSize='default' />
                 </div>
-                <div>{totalPeople}</div>
+                <div className={classes.fDivPlanItem}>{totalPeople}</div>
               </div>
               <Button
                 color='primary'
                 onClick={this.doHandleBtnRight}
-                classes={{label: classes.fBtnLabel}}
+                classes={{root: classes.fBtnRoot, label: classes.fBtnLabel}}
               >
                 Pay
               </Button>
