@@ -7,6 +7,7 @@ import GridListTile from '@material-ui/core/GridListTile';
 import {withStyles} from '@material-ui/core/styles';
 // ====== Icons ======
 import HotelIcon from '@material-ui/icons/Hotel';
+import ClearIcon from '@material-ui/icons/Clear';
 // Variables & Functions
 const styles = (theme) => ({
   root: {
@@ -41,6 +42,7 @@ const styles = (theme) => ({
 
 const getItemStyle = (isDragging, draggableStyle) => ({
   // some basic styles to make the items look a bit nicer
+  display: 'flex',
   userSelect: 'none',
   padding: 4,
   margin: 4,
@@ -108,7 +110,10 @@ class PackageSummary extends React.Component {
                       provided.draggableProps.style
                     )}
                   >
-                    {cc.name}
+                    <div>{cc.name}</div>
+                    <div style={{margin: 'auto'}}>
+                      <ClearIcon />
+                    </div>
                   </div>
                 )}
               </Draggable>
@@ -158,6 +163,7 @@ class PackageSummary extends React.Component {
                     style={getListStyle(snapshot.isDraggingOver)}
                   >
                     {getCityItems(day)}
+                    <div>+</div>
                     {provided.placeholder}
                   </div>
                 </div>

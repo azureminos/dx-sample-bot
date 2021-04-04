@@ -227,7 +227,7 @@ class PageStartTrip extends React.Component {
     const {focusedDateInput, popup} = this.state;
     let selectedAddress = this.state.selectedAddress;
     if (!selectedAddress && plan.startCity && plan.startCity.name) {
-      selectedAddress = `${plan.startCity.name} ${plan.startCity.state}`;
+      selectedAddress = `${plan.startCity.name}, ${plan.startCity.state}`;
     }
     const isNotAllowAdd = totalPeople >= Global.maxPeopleSelection;
     const isNotAllowRemove = totalPeople <= 1;
