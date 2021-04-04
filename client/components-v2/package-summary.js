@@ -7,6 +7,7 @@ import GridListTile from '@material-ui/core/GridListTile';
 import {withStyles} from '@material-ui/core/styles';
 // ====== Icons ======
 import HotelIcon from '@material-ui/icons/Hotel';
+import AddIcon from '@material-ui/icons/Add';
 import ClearIcon from '@material-ui/icons/Clear';
 // Variables & Functions
 const styles = (theme) => ({
@@ -55,6 +56,7 @@ const getListStyle = (isDraggingOver) => ({
   padding: 0,
   minHeight: 16,
   width: '100%',
+  display: 'flex',
 });
 class PackageSummary extends React.Component {
   constructor(props) {
@@ -112,7 +114,7 @@ class PackageSummary extends React.Component {
                   >
                     <div>{cc.name}</div>
                     <div style={{margin: 'auto'}}>
-                      <ClearIcon />
+                      <ClearIcon fontSize='small' />
                     </div>
                   </div>
                 )}
@@ -163,7 +165,10 @@ class PackageSummary extends React.Component {
                     style={getListStyle(snapshot.isDraggingOver)}
                   >
                     {getCityItems(day)}
-                    <div>+</div>
+                    <div style={{margin: 'auto'}} />
+                    <div>
+                      <AddIcon />
+                    </div>
                     {provided.placeholder}
                   </div>
                 </div>
