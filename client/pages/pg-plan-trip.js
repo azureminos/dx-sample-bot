@@ -132,6 +132,7 @@ class PagePlanTrip extends React.Component {
     this.handlePopupClose = this.handlePopupClose.bind(this);
     this.handleBtnHotel = this.handleBtnHotel.bind(this);
     this.handleHotelClose = this.handleHotelClose.bind(this);
+    this.doHandleBtnBack = this.doHandleBtnBack.bind(this);
     this.doHandleBtnNext = this.doHandleBtnNext.bind(this);
     // Init state
     this.state = {

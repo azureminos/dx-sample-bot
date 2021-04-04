@@ -149,9 +149,13 @@ class PageStartTrip extends React.Component {
       };
       this.setState({popup});
     } else {
-      const {actions} = this.props;
-      if (actions && actions.handleBtnStartHoliday) {
-        actions.handleBtnStartHoliday();
+      const {plan, actions} = this.props;
+      if (plan._id) {
+        if (actions && actions.handleBtnStartHoliday) {
+          actions.handleBtnStartHoliday();
+        }
+      } else if (actions && actions.handleBtnNext) {
+        actions.handleBtnNext();
       }
     }
   }
