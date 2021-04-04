@@ -42,6 +42,12 @@ class PopupDestination extends React.Component {
   }
   doHandleAddressChange(input) {
     console.log('>>>>PopupDestination.doHandleAddressChange', input);
+    const {address, location, type} = input;
+    if (location) {
+      //
+    } else {
+      this.setState({sAddress: address, sLocation: ''});
+    }
   }
   // Render web widget
   render() {
