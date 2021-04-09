@@ -47,7 +47,7 @@ const openExistingPackageButton = (
     title: buttonText,
     url: instanceUrl,
     messenger_extensions: true,
-    webview_height_ratio: 'full',
+    webview_height_ratio: 'tall',
     webview_share_button: 'hide',
   };
 };
@@ -226,7 +226,7 @@ const messageCreatePlan = (apiUri, userId) => {
                 title: 'New',
                 url: urlCreatePlan(apiUri, userId),
                 messenger_extensions: true,
-                webview_height_ratio: 'full',
+                webview_height_ratio: 'tall',
                 webview_share_button: 'hide',
               },
             ],
@@ -256,7 +256,7 @@ const messageAllPlan = (apiUri, userId) => {
                 title: 'Open',
                 url: urlAllPlan(apiUri, userId),
                 messenger_extensions: true,
-                webview_height_ratio: 'full',
+                webview_height_ratio: 'tall',
                 webview_share_button: 'hide',
               },
             ],

@@ -231,6 +231,7 @@ class PageStartTrip extends React.Component {
     }
     const isNotAllowAdd = totalPeople >= Global.maxPeopleSelection;
     const isNotAllowRemove = totalPeople <= 1;
+    const btnStart = plan._id ? 'Continue' : 'Start My Holiday';
     // Local Functions
     const getPeopleControl = () => {
       return (
@@ -382,7 +383,7 @@ class PageStartTrip extends React.Component {
                   this.doHandleBtnStartHoliday(plan);
                 }}
               >
-                Start My Holiday
+                {btnStart}
               </Button>
             </Toolbar>
           </AppBar>
