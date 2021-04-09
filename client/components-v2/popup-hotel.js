@@ -98,7 +98,11 @@ class PopupHotel extends React.Component {
     };
     // ====== Web Elements ======
     const btnOk = sLocation ? (
-      <Button onClick={this.doHandleUpdateHotel} color='primary'>
+      <Button
+        variant='contained'
+        onClick={this.doHandleUpdateHotel}
+        color='primary'
+      >
         OK
       </Button>
     ) : (
@@ -126,7 +130,11 @@ class PopupHotel extends React.Component {
         </DialogContent>
         <DialogActions>
           {btnOk}
-          <Button onClick={this.doHandleClose} color='primary'>
+          <Button
+            variant='contained'
+            onClick={this.doHandleClose}
+            color='primary'
+          >
             Close
           </Button>
         </DialogActions>

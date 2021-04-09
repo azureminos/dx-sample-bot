@@ -29,14 +29,24 @@ class PopupMessage extends React.Component {
       if (btns && btns.length > 0) {
         return _.map(btns, (b) => {
           return (
-            <Button key={b.name} onClick={b.click} color='primary'>
+            <Button
+              variant='contained'
+              key={b.name}
+              onClick={b.click}
+              color='primary'
+            >
               {b.name}
             </Button>
           );
         });
       }
       return (
-        <Button onClick={handleClose} color='primary' autoFocus>
+        <Button
+          variant='contained'
+          onClick={handleClose}
+          color='primary'
+          autoFocus
+        >
           Close
         </Button>
       );

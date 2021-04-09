@@ -8,7 +8,6 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 import {withStyles} from '@material-ui/core/styles';
-import LocationSearchInput from '../components-v2/location-search-input';
 import PopupMessage from '../components-v2/popup-message';
 import PackageSummary from '../components-v2/package-summary';
 import PackageDayPlanner from '../components-v2/package-day-planner';
@@ -17,7 +16,6 @@ import PopupDestination from '../components-v2/popup-destination';
 import Helper from '../../lib/helper';
 import CONSTANTS from '../../lib/constants';
 // ====== Icons && CSS ======
-import PlaceIcon from '@material-ui/icons/Place';
 import DateRangeIcon from '@material-ui/icons/DateRange';
 import PeopleIcon from '@material-ui/icons/People';
 import 'react-dates/lib/css/_datepicker.css';
@@ -125,6 +123,7 @@ class PagePlanTrip extends React.Component {
     this.handleDestinationClose = this.handleDestinationClose.bind(this);
     this.doHandleUpdateDestination = this.doHandleUpdateDestination.bind(this);
     this.doHandleUpdateHotel = this.doHandleUpdateHotel.bind(this);
+    this.doHandleBtnGoStart = this.doHandleBtnGoStart.bind(this);
     this.doHandleBtnLeft = this.doHandleBtnLeft.bind(this);
     this.doHandleBtnRight = this.doHandleBtnRight.bind(this);
     // Init state
@@ -177,6 +176,13 @@ class PagePlanTrip extends React.Component {
     const {actions} = this.props;
     if (actions && actions.handleTabSelect) {
       actions.handleTabSelect(newValue);
+    }
+  }
+  doHandleBtnGoStart() {
+    // console.log('>>>>PagePlanTrip.doHandleBtnGoStart', this.props);
+    const {actions} = this.props;
+    if (actions && actions.handleBtnGoStart) {
+      actions.handleBtnGoStart();
     }
   }
   doHandleBtnLeft() {
@@ -332,12 +338,16 @@ class PagePlanTrip extends React.Component {
             <div className={classes.fButtons}>
               <Button
                 color='primary'
+                variant='contained'
                 onClick={this.doHandleBtnLeft}
                 classes={{root: classes.fBtnRoot, label: classes.fBtnLabel}}
               >
                 {tabSelected === 0 ? 'Trip Details' : 'Booking Details'}
               </Button>
-              <div className={classes.fDivPlan}>
+              <div
+                className={classes.fDivPlan}
+                onClick={this.doHandleBtnGoStart}
+              >
                 <div className={classes.fDivPlanItem}>
                   <DateRangeIcon color='primary' fontSize='default' />
                 </div>
@@ -360,6 +370,7 @@ class PagePlanTrip extends React.Component {
               </div>
               <Button
                 color='primary'
+                variant='contained'
                 onClick={this.doHandleBtnRight}
                 classes={{root: classes.fBtnRoot, label: classes.fBtnLabel}}
               >

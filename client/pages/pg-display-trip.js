@@ -123,6 +123,7 @@ class PageDisplayTrip extends React.Component {
     this.doHandleTabSelect = this.doHandleTabSelect.bind(this);
     this.doHandleBtnLeft = this.doHandleBtnLeft.bind(this);
     this.doHandleBtnRight = this.doHandleBtnRight.bind(this);
+    this.doHandleBtnGoStart = this.doHandleBtnGoStart.bind(this);
     this.handleHotelClose = this.handleHotelClose.bind(this);
     this.doHandleUpdateHotel = this.doHandleUpdateHotel.bind(this);
     // Init state
@@ -154,6 +155,13 @@ class PageDisplayTrip extends React.Component {
     const {actions} = this.props;
     if (actions && actions.handleTabSelect) {
       actions.handleTabSelect(newValue);
+    }
+  }
+  doHandleBtnGoStart() {
+    // console.log('>>>>PageDisplayTrip.doHandleBtnGoStart', this.props);
+    const {actions} = this.props;
+    if (actions && actions.handleBtnGoStart) {
+      actions.handleBtnGoStart();
     }
   }
   doHandleBtnLeft() {
@@ -273,13 +281,17 @@ class PageDisplayTrip extends React.Component {
           <Toolbar className={classes.fToolbar}>
             <div className={classes.fButtons}>
               <Button
+                variant='contained'
                 color='primary'
                 onClick={this.doHandleBtnLeft}
                 classes={{root: classes.fBtnRoot, label: classes.fBtnLabel}}
               >
                 {tabSelected === 0 ? 'Trip Details' : 'More Activities'}
               </Button>
-              <div className={classes.fDivPlan}>
+              <div
+                className={classes.fDivPlan}
+                onClick={this.doHandleBtnGoStart}
+              >
                 <div className={classes.fDivPlanItem}>
                   <DateRangeIcon color='primary' fontSize='default' />
                 </div>
@@ -302,6 +314,7 @@ class PageDisplayTrip extends React.Component {
               </div>
               <Button
                 color='primary'
+                variant='contained'
                 onClick={this.doHandleBtnRight}
                 classes={{root: classes.fBtnRoot, label: classes.fBtnLabel}}
               >

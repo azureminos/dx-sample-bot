@@ -826,7 +826,7 @@ class App extends React.Component {
     // Sub Components
     let page = <div>Loading...</div>;
     if (homepage === Page.MainPage) {
-      document.title = 'My Holiday Plans';
+      // document.title = 'My Holiday Plans';
       const actionsAllPlan = {
         handleClickPlanCard: this.handleClickPlanCard,
       };
@@ -834,7 +834,7 @@ class App extends React.Component {
         <PageAllTravel plans={this.state.plans} actions={actionsAllPlan} />
       );
     } else if (homepage === Page.NewPlan) {
-      document.title = 'Start My Holiday';
+      // document.title = 'Start My Holiday';
       if (reference.tagGroups) {
         const actionsStartTrip = {
           handleDateRangeChange: this.handleDateRangeChange,
@@ -853,7 +853,7 @@ class App extends React.Component {
         );
       }
     } else if (homepage === Page.ShowPlan) {
-      document.title = 'Update My Holiday';
+      // document.title = 'Update My Holiday';
       const actionsPlanTrip = {
         handleDateRangeChange: this.handleDateRangeChange,
         handleSetDestination: this.handleSetDestination,
@@ -877,7 +877,7 @@ class App extends React.Component {
         />
       );
     } else if (homepage === Page.FinalizePlan) {
-      document.title = 'Update My Holiday';
+      // document.title = 'Update My Holiday';
       const actionsDisplayTrip = {
         handleItemPeopleChange: this.handleItemPeopleChange,
         handleBtnGoStart: this.handleBtnGoStart,

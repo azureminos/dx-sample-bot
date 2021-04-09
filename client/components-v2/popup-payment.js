@@ -118,7 +118,12 @@ class PopupPayment extends React.Component {
           </div>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color='primary' autoFocus>
+          <Button
+            variant='contained'
+            onClick={handleClose}
+            color='primary'
+            autoFocus
+          >
             Close
           </Button>
         </DialogActions>

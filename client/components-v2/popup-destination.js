@@ -106,7 +106,11 @@ class PopupDestination extends React.Component {
     };
     // ====== Web Elements ======
     const btnOk = sLocation ? (
-      <Button onClick={this.doHandleAddDestination} color='primary'>
+      <Button
+        onClick={this.doHandleAddDestination}
+        variant='contained'
+        color='primary'
+      >
         OK
       </Button>
     ) : (
@@ -134,7 +138,11 @@ class PopupDestination extends React.Component {
         </DialogContent>
         <DialogActions>
           {btnOk}
-          <Button onClick={this.doHandleClose} color='primary'>
+          <Button
+            variant='contained'
+            onClick={this.doHandleClose}
+            color='primary'
+          >
             Close
           </Button>
         </DialogActions>

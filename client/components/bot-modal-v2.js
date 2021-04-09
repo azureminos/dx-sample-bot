@@ -377,6 +377,7 @@ class BotModal extends React.Component {
     const dButtons = _.map(secModal.buttons, (b) => {
       return (
         <Button
+          variant='contained'
           key={b.title}
           onClick={() => {
             b.handleClick();

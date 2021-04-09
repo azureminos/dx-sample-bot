@@ -378,6 +378,7 @@ class PageStartTrip extends React.Component {
               <Button
                 fullWidth
                 color='primary'
+                variant='contained'
                 classes={{label: classes.fBtnLabel}}
                 onClick={() => {
                   this.doHandleBtnStartHoliday(plan);
