@@ -11,10 +11,10 @@ import {withStyles} from '@material-ui/core/styles';
 import PackageDayOrganizer from '../components-v2/package-day-organizer';
 import PackageSummary from '../components-v2/package-summary';
 import PopupHotel from '../components-v2/popup-hotel';
+import PopupDestination from '../components-v2/popup-destination';
 import Helper from '../../lib/helper';
 import CONSTANTS from '../../lib/constants';
 // ====== Icons && CSS ======
-import PlaceIcon from '@material-ui/icons/Place';
 import DateRangeIcon from '@material-ui/icons/DateRange';
 import PeopleIcon from '@material-ui/icons/People';
 import 'react-dates/lib/css/_datepicker.css';
@@ -121,11 +121,16 @@ class PageDisplayTrip extends React.Component {
     super(props);
     // Bind handler
     this.doHandleTabSelect = this.doHandleTabSelect.bind(this);
+    this.handleBtnHotel = this.handleBtnHotel.bind(this);
+    this.handleHotelClose = this.handleHotelClose.bind(this);
+    this.doHandleUpdateHotel = this.doHandleUpdateHotel.bind(this);
+    this.handleBtnDestination = this.handleBtnDestination.bind(this);
+    this.handleDestinationClose = this.handleDestinationClose.bind(this);
+    this.doHandleUpdateDestination = this.doHandleUpdateDestination.bind(this);
     this.doHandleBtnLeft = this.doHandleBtnLeft.bind(this);
     this.doHandleBtnRight = this.doHandleBtnRight.bind(this);
     this.doHandleBtnGoStart = this.doHandleBtnGoStart.bind(this);
-    this.handleHotelClose = this.handleHotelClose.bind(this);
-    this.doHandleUpdateHotel = this.doHandleUpdateHotel.bind(this);
+
     // Init state
     this.state = {
       popupHotel: {
@@ -133,22 +138,36 @@ class PageDisplayTrip extends React.Component {
         message: '',
         dayNo: null,
       },
+      popupDest: {
+        open: false,
+        message: '',
+        dayNo: null,
+      },
     };
   }
   // Event Handler
+  handlePopupClose() {
+    // console.log('>>>>PageDisplayTrip.handlePopupClose');
+    const popup = {open: false, title: '', message: ''};
+    this.setState({popup});
+  }
   handleHotelClose() {
     // console.log('>>>>PageStartTrip.handleHotelClose');
     const popupHotel = {open: false, message: '', dayNo: null};
     this.setState({popupHotel});
   }
-  doHandleUpdateHotel(input) {
-    // console.log('>>>>PagePlanTrip.doHandleUpdateHotel', input);
-    const popupHotel = {open: false, message: '', dayNo: null};
+  handleDestinationClose() {
+    // console.log('>>>>PageStartTrip.handleDestinationClose');
+    const popupDest = {open: false, message: '', dayNo: null};
+    this.setState({popupDest});
+  }
+  handleBtnHotel(dayNo) {
+    const popupHotel = {open: true, message: '', dayNo: dayNo};
     this.setState({popupHotel});
-    const {actions} = this.props;
-    if (actions && actions.handleUpdateHotel) {
-      actions.handleUpdateHotel(input);
-    }
+  }
+  handleBtnDestination(dayNo) {
+    const popupDest = {open: true, message: '', dayNo: dayNo};
+    this.setState({popupDest});
   }
   doHandleTabSelect(event, newValue) {
     // console.log('>>>>PageDisplayTrip.doHandleTabSelect', newValue);
@@ -169,28 +188,51 @@ class PageDisplayTrip extends React.Component {
     const {tabSelected, actions} = this.props;
     if (tabSelected === 0 && actions && actions.handleBtnGoStart) {
       actions.handleBtnGoStart();
-    } else if (actions && actions.handleBtnGoPlan) {
-      actions.handleBtnGoPlan();
+    } else if (actions && actions.handleBtnGoDisplay) {
+      actions.handleBtnGoDisplay();
     }
   }
   doHandleBtnRight() {
     // console.log('>>>>PageDisplayTrip.doHandleBtnRight', this.props);
+    const {actions, plan, tabSelected} = this.props;
+    if (tabSelected === plan.days.length) {
+      const error = Helper.validatePlan();
+      if (error) {
+        const popup = {};
+        this.setState({popup});
+      } else if (actions && actions.handleBtnGoPayment) {
+        actions.handleBtnGoPayment();
+      }
+    } else if (actions && actions.handleTabSelect) {
+      actions.handleTabSelect(tabSelected + 1);
+    }
+  }
+  doHandleUpdateDestination(input) {
+    // console.log('>>>>PagePlanTrip.doHandleUpdateDestination', input);
+    const popupDest = {open: false, message: '', dayNo: null};
+    this.setState({popupDest});
     const {actions} = this.props;
-    const error = Helper.validatePlan();
-    if (error) {
-      const popup = {};
-      this.setState({popup});
-    } else if (actions && actions.handleBtnGoPayment) {
-      actions.handleBtnGoPayment();
+    if (actions && actions.handleSetDestination) {
+      actions.handleSetDestination(input);
+    }
+  }
+  doHandleUpdateHotel(input) {
+    // console.log('>>>>PagePlanTrip.doHandleUpdateHotel', input);
+    const popupHotel = {open: false, message: '', dayNo: null};
+    this.setState({popupHotel});
+    const {actions} = this.props;
+    if (actions && actions.handleUpdateHotel) {
+      actions.handleUpdateHotel(input);
     }
   }
   // Display page
   render() {
     console.log('>>>>PageDisplayTrip, render()', this.props);
-    const {popupHotel} = this.state;
-    const {classes, tabSelected, reference, actions} = this.props;
-    const {plan, planExt, dayNo} = this.props;
+    const {classes, reference, actions} = this.props;
+    const {tabSelected, plan, planExt} = this.props;
+    const {destinations} = reference;
     const {startDate, endDate, totalPeople} = plan;
+    const {popupHotel, popupDest} = this.state;
     const strStartDate = '01/Mar/2021';
     const strEndDate = '03/Mar/2021';
     // Local Functions
@@ -210,7 +252,7 @@ class PageDisplayTrip extends React.Component {
       const tabs = (
         <Tabs
           variant='scrollable'
-          value={dayNo || tabSelected}
+          value={tabSelected}
           indicatorColor='primary'
           textColor='primary'
           variant='scrollable'
@@ -240,6 +282,7 @@ class PageDisplayTrip extends React.Component {
             actions={{
               ...actions,
               handleBtnHotel: this.handleBtnHotel,
+              handleBtnDestination: this.handleBtnDestination,
               handleTabSelect: this.doHandleTabSelect,
             }}
           />
@@ -271,6 +314,14 @@ class PageDisplayTrip extends React.Component {
             }
             handleClose={this.handleHotelClose}
             handleUpdateHotel={this.doHandleUpdateHotel}
+          />
+          <PopupDestination
+            open={popupDest.open}
+            message={popupDest.message}
+            dayNo={popupDest.dayNo}
+            destinations={destinations}
+            handleClose={this.handleDestinationClose}
+            handleAddDestination={this.doHandleUpdateDestination}
           />
         </div>
       );

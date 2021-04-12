@@ -119,17 +119,15 @@ class PagePlanTrip extends React.Component {
     this.handlePopupClose = this.handlePopupClose.bind(this);
     this.handleBtnHotel = this.handleBtnHotel.bind(this);
     this.handleHotelClose = this.handleHotelClose.bind(this);
+    this.doHandleUpdateHotel = this.doHandleUpdateHotel.bind(this);
     this.handleBtnDestination = this.handleBtnDestination.bind(this);
     this.handleDestinationClose = this.handleDestinationClose.bind(this);
     this.doHandleUpdateDestination = this.doHandleUpdateDestination.bind(this);
-    this.doHandleUpdateHotel = this.doHandleUpdateHotel.bind(this);
     this.doHandleBtnGoStart = this.doHandleBtnGoStart.bind(this);
     this.doHandleBtnLeft = this.doHandleBtnLeft.bind(this);
     this.doHandleBtnRight = this.doHandleBtnRight.bind(this);
     // Init state
     this.state = {
-      focusedDateInput: null,
-      selectedLocation: '',
       popup: {
         open: false,
         title: '',
@@ -378,7 +376,7 @@ class PagePlanTrip extends React.Component {
                 onClick={this.doHandleBtnRight}
                 classes={{root: classes.fBtnRoot, label: classes.fBtnLabel}}
               >
-                {tabSelected === plan.days.length ? 'Next Day' : 'Pay'}
+                {tabSelected !== plan.days.length ? 'Next Day' : 'Pay'}
               </Button>
             </div>
           </Toolbar>
