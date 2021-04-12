@@ -196,13 +196,17 @@ class PagePlanTrip extends React.Component {
   }
   doHandleBtnRight() {
     // console.log('>>>>PagePlanTrip.doHandleBtnRight', this.props);
-    const {actions} = this.props;
-    const error = Helper.validatePlan();
-    if (error) {
-      const popup = {};
-      this.setState({popup});
-    } else if (actions && actions.handleBtnGoPayment) {
-      actions.handleBtnGoPayment();
+    const {actions, plan, tabSelected} = this.props;
+    if (tabSelected === plan.days.length) {
+      const error = Helper.validatePlan();
+      if (error) {
+        const popup = {};
+        this.setState({popup});
+      } else if (actions && actions.handleBtnGoPayment) {
+        actions.handleBtnGoPayment();
+      }
+    } else if (actions && actions.handleTabSelect) {
+      actions.handleTabSelect(tabSelected + 1);
     }
   }
   doHandleUpdateDestination(input) {
@@ -226,8 +230,8 @@ class PagePlanTrip extends React.Component {
   // Display page
   render() {
     console.log('>>>>PagePlanTrip, render()', this.props);
-    const {classes, tabSelected, reference, actions} = this.props;
-    const {plan, planExt} = this.props;
+    const {classes, reference, actions} = this.props;
+    const {tabSelected, plan, planExt} = this.props;
     const {destinations} = reference;
     const {startDate, endDate, totalPeople} = plan;
     const {popup, popupHotel, popupDest} = this.state;
@@ -374,7 +378,7 @@ class PagePlanTrip extends React.Component {
                 onClick={this.doHandleBtnRight}
                 classes={{root: classes.fBtnRoot, label: classes.fBtnLabel}}
               >
-                Pay
+                {tabSelected === plan.days.length ? 'Next Day' : 'Pay'}
               </Button>
             </div>
           </Toolbar>

@@ -42,27 +42,10 @@ class PopupDestination extends React.Component {
     console.log('>>>>PopupDestination.doHandleAddDestination', this.state);
     const {dayNo} = this.props;
     const {sAddress, sCity} = this.state;
-    fetch('/api/tool/searchAttraction/', {
-      method: 'POST',
-      body: JSON.stringify({name: sAddress.split(',')[0]}),
-      headers: {'Content-Type': 'application/json'},
-    })
-      .then((response) => response.json())
-      .then((json) => {
-        console.log('>>>>doHandleAddressChange.matchActivity', json);
-        this.setState({
-          sAddress: '',
-          sLocation: '',
-          sCity: null,
-          error: '',
-        });
-        if (this.props.handleAddDestination) {
-          this.props.handleAddDestination({dayNo, city: sCity, ...json});
-        }
-      });
   }
   doHandleAddressChange(input) {
     console.log('>>>>PopupDestination.doHandleAddressChange', input);
+    const {dayNo, handleAddDestination} = this.props;
     const {address, location} = input;
     if (location) {
       const {destinations} = this.props;
@@ -71,21 +54,25 @@ class PopupDestination extends React.Component {
         // Enter a new location
         const error = 'Please enter a valid address for the destination city';
         this.setState({sAddress: '', sLocation: '', error});
-      } else if (address.indexOf(closeCity.name) > -1) {
-        this.setState({
-          sAddress: address,
-          sLocation: location,
-          sCity: closeCity,
-          error: '',
-        });
       } else {
-        const error = `Found the nearest city ${closeCity.name}`;
-        this.setState({
-          sAddress: address,
-          sLocation: location,
-          sCity: closeCity,
-          error: error,
-        });
+        fetch('/api/tool/searchAttraction/', {
+          method: 'POST',
+          body: JSON.stringify({name: address.split(',')[0]}),
+          headers: {'Content-Type': 'application/json'},
+        })
+          .then((response) => response.json())
+          .then((json) => {
+            console.log('>>>>doHandleAddressChange.matchActivity', json);
+            this.setState({
+              sAddress: '',
+              sLocation: '',
+              sCity: null,
+              error: '',
+            });
+            if (handleAddDestination) {
+              handleAddDestination({dayNo, city: closeCity, ...json});
+            }
+          });
       }
     } else {
       this.setState({sAddress: address, sLocation: ''});
@@ -96,7 +83,7 @@ class PopupDestination extends React.Component {
     // ====== Local Variables ======
     console.log('>>>>PopupDestination.render', this.props);
     const {open, message, dayNo} = this.props;
-    const {error, sLocation, sAddress} = this.state;
+    const {error, sAddress} = this.state;
     // ====== Local Functions ======
     const getMessage = (msg) => {
       if (msg) {
@@ -105,17 +92,6 @@ class PopupDestination extends React.Component {
       return '';
     };
     // ====== Web Elements ======
-    const btnOk = sLocation ? (
-      <Button
-        onClick={this.doHandleAddDestination}
-        variant='contained'
-        color='primary'
-      >
-        OK
-      </Button>
-    ) : (
-      ''
-    );
     // ====== Display ======
     return (
       <Dialog
@@ -123,7 +99,9 @@ class PopupDestination extends React.Component {
         onClose={this.doHandleClose}
         aria-labelledby='alert-dialog-hotel'
       >
-        <DialogTitle id='alert-dialog-hotel'>{`Day ${dayNo}: Add Destination`}</DialogTitle>
+        <DialogTitle id='alert-dialog-hotel'>
+          {`Day ${dayNo}: Add Destination`}
+        </DialogTitle>
         <DialogContent>
           <div>
             <div>Please enter the name or address of your destination</div>
@@ -137,7 +115,6 @@ class PopupDestination extends React.Component {
           </div>
         </DialogContent>
         <DialogActions>
-          {btnOk}
           <Button
             variant='contained'
             onClick={this.doHandleClose}
