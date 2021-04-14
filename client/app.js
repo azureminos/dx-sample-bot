@@ -57,8 +57,7 @@ class App extends React.Component {
     this.handleTagGroupChange = this.handleTagGroupChange.bind(this);
     this.handleSetStartCity = this.handleSetStartCity.bind(this);
     this.handleSetDestination = this.handleSetDestination.bind(this);
-    this.handleDragItem = this.handleDragItem.bind(this);
-    this.handleDeleteDestination = this.handleDeleteDestination.bind(this);
+    this.handleDragCity = this.handleDragCity.bind(this);
     this.handleSelectItem = this.handleSelectItem.bind(this);
     this.handlePopupClose = this.handlePopupClose.bind(this);
     this.handleRemoveCity = this.handleRemoveCity.bind(this);
@@ -228,8 +227,8 @@ class App extends React.Component {
     const senderId = this.props.viewerId;
     this.pushToRemote('plan:save', {senderId, plan});
   }
-  handleDragItem(result) {
-    console.log('>>>>handleDragItem', result);
+  handleDragCity(result) {
+    console.log('>>>>handleDragCity', result);
     const {draggableId, source, destination} = result;
     const {plan, planExt, reference} = this.state;
     const reorg = (dayNo, idxSrc, idxDst) => {
@@ -353,9 +352,6 @@ class App extends React.Component {
         this.pushToRemote('plan:save', {senderId, plan});
       }
     }
-  }
-  handleDeleteDestination(dayNo, destId) {
-    console.log('>>>>handleDeleteDestination', {dayNo, destId});
   }
   handleSelectItem(input) {
     console.log('>>>>handleSelectItem', input);
@@ -855,11 +851,9 @@ class App extends React.Component {
     } else if (homepage === Page.ShowPlan) {
       // document.title = 'Update My Holiday';
       const actionsPlanTrip = {
-        handleDateRangeChange: this.handleDateRangeChange,
         handleSetDestination: this.handleSetDestination,
-        handleDeleteDestination: this.handleDeleteDestination,
-        handlePeopleChange: this.handlePeopleChange,
-        handleDragItem: this.handleDragItem,
+        handleRemoveCity: this.handleRemoveCity,
+        handleDragCity: this.handleDragCity,
         handleSelectItem: this.handleSelectItem,
         handleUpdateHotel: this.handleUpdateHotel,
         handleBtnGoStart: this.handleBtnGoStart,
@@ -879,6 +873,10 @@ class App extends React.Component {
     } else if (homepage === Page.FinalizePlan) {
       // document.title = 'Update My Holiday';
       const actionsDisplayTrip = {
+        handleSetDestination: this.handleSetDestination,
+        handleRemoveCity: this.handleRemoveCity,
+        handleDragCity: this.handleDragCity,
+        handleUpdateHotel: this.handleUpdateHotel,
         handleItemPeopleChange: this.handleItemPeopleChange,
         handleBtnGoStart: this.handleBtnGoStart,
         handleBtnGoPlan: this.handleBtnGoPlan,

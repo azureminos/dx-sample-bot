@@ -62,8 +62,8 @@ class PackageSummary extends React.Component {
   constructor(props) {
     super(props);
     // Bind event handlers
-    this.doHandleDragItem = this.doHandleDragItem.bind(this);
-    this.doHandleDeleteItem = this.doHandleDeleteItem.bind(this);
+    this.doHandleDragCity = this.doHandleDragCity.bind(this);
+    this.doHandleRemoveCity = this.doHandleRemoveCity.bind(this);
     this.doHandleTabSelect = this.doHandleTabSelect.bind(this);
     this.doHandleBtnHotel = this.doHandleBtnHotel.bind(this);
     // Init data
@@ -84,18 +84,18 @@ class PackageSummary extends React.Component {
       actions.handleBtnDestination(dayNo);
     }
   }
-  doHandleDragItem(result) {
-    console.log('>>>>PackageSummary.doHandleDragItem', result);
+  doHandleDragCity(result) {
+    console.log('>>>>PackageSummary.doHandleDragCity', result);
     const {actions} = this.props;
-    if (actions && actions.handleDragItem) {
-      actions.handleDragItem(result);
+    if (actions && actions.handleDragCity) {
+      actions.handleDragCity(result);
     }
   }
-  doHandleDeleteItem(dayNo, destId) {
-    console.log('>>>>PackageSummary.doHandleDeleteItem', {dayNo, destId});
+  doHandleRemoveCity(dayNo, index) {
+    console.log('>>>>PackageSummary.doHandleRemoveCity', {dayNo, index});
     const {actions} = this.props;
-    if (actions && actions.handleDeleteDestination) {
-      actions.handleDeleteDestination(dayNo, destId);
+    if (actions && actions.handleRemoveCity) {
+      actions.handleRemoveCity(dayNo, index);
     }
   }
   doHandleTabSelect(event, newValue) {
@@ -135,7 +135,7 @@ class PackageSummary extends React.Component {
                     {!isFixed ? (
                       <div
                         onClick={() => {
-                          this.doHandleDeleteItem(day.dayNo, cc.destinationId);
+                          this.doHandleRemoveCity(day.dayNo, index);
                         }}
                         style={{margin: 'auto'}}
                       >
@@ -215,7 +215,7 @@ class PackageSummary extends React.Component {
     // Sub Components
     // Display Widget
     return (
-      <DragDropContext onDragEnd={this.doHandleDragItem}>
+      <DragDropContext onDragEnd={this.doHandleDragCity}>
         {_.map(plan.days, (day) => {
           return getDayBlock(day);
         })}
