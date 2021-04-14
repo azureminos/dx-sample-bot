@@ -83,7 +83,7 @@ class PopupHotel extends React.Component {
   render() {
     // ====== Local Variables ======
     console.log('>>>>PopupHotel.render', this.props);
-    const {open, message, hotel} = this.props;
+    const {message, hotel} = this.props;
     const {error, sLocation} = this.state;
     const hotelAddress = hotel
       ? `${hotel.name || ''}${hotel.name ? ', ' : ''}${hotel.address}`
@@ -111,7 +111,7 @@ class PopupHotel extends React.Component {
     // ====== Display ======
     return (
       <Dialog
-        open={open}
+        open
         onClose={this.doHandleClose}
         aria-labelledby='alert-dialog-hotel'
       >

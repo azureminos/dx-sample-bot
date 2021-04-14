@@ -76,7 +76,7 @@ class PopupDestination extends React.Component {
   render() {
     // ====== Local Variables ======
     console.log('>>>>PopupDestination.render', this.props);
-    const {open, message, dayNo} = this.props;
+    const {message, dayNo} = this.props;
     const {error, sAddress} = this.state;
     // ====== Local Functions ======
     const getMessage = (msg) => {
@@ -89,7 +89,7 @@ class PopupDestination extends React.Component {
     // ====== Display ======
     return (
       <Dialog
-        open={open}
+        open
         onClose={this.doHandleClose}
         aria-labelledby='alert-dialog-hotel'
       >

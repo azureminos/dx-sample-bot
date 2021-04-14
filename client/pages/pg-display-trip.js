@@ -305,24 +305,30 @@ class PageDisplayTrip extends React.Component {
       return (
         <div className={classes.bRoot}>
           {tabPanels}
-          <PopupHotel
-            open={popupHotel.open}
-            message={popupHotel.message}
-            dayNo={popupHotel.dayNo}
-            hotel={
-              popupHotel.dayNo ? plan.days[popupHotel.dayNo - 1].hotel : null
-            }
-            handleClose={this.handleHotelClose}
-            handleUpdateHotel={this.doHandleUpdateHotel}
-          />
-          <PopupDestination
-            open={popupDest.open}
-            message={popupDest.message}
-            dayNo={popupDest.dayNo}
-            destinations={destinations}
-            handleClose={this.handleDestinationClose}
-            handleAddDestination={this.doHandleUpdateDestination}
-          />
+          {popupDest.open ? (
+            <PopupHotel
+              message={popupHotel.message}
+              dayNo={popupHotel.dayNo}
+              hotel={
+                popupHotel.dayNo ? plan.days[popupHotel.dayNo - 1].hotel : null
+              }
+              handleClose={this.handleHotelClose}
+              handleUpdateHotel={this.doHandleUpdateHotel}
+            />
+          ) : (
+            ''
+          )}
+          {popupDest.open ? (
+            <PopupDestination
+              message={popupDest.message}
+              dayNo={popupDest.dayNo}
+              destinations={destinations}
+              handleClose={this.handleDestinationClose}
+              handleAddDestination={this.doHandleUpdateDestination}
+            />
+          ) : (
+            ''
+          )}
         </div>
       );
     };
