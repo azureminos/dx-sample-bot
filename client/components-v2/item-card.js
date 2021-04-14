@@ -43,7 +43,7 @@ class ItemCard extends React.Component {
   constructor() {
     super();
     this.doHandleSelectItem = this.doHandleSelectItem.bind(this);
-
+    this.doHandleItemDetails = this.doHandleSelectItem.bind(this);
     this.state = {};
   }
   // Event Handlers
@@ -54,7 +54,14 @@ class ItemCard extends React.Component {
       actions.handleSelectItem(input);
     }
   }
-
+  doHandleItemDetails(input) {
+    console.log('>>>>ItemCard.doHandleItemDetails', input);
+    const {actions} = this.props;
+    if (actions && actions.handleItemDetails) {
+      actions.handleItemDetails(input);
+    }
+  }
+  // Display Widget
   render() {
     // console.log('>>>>ItemCard.render', this.props);
     // Local Variables
@@ -69,7 +76,7 @@ class ItemCard extends React.Component {
         <div
           className={classes.imgWrapper}
           onClick={() =>
-            this.doHandleSelectItem({item, type, isSelected, dayNo})
+            this.doHandleItemDetails({item, type, isSelected, dayNo})
           }
         >
           <img src={thumbnailURL} alt={name} className={classes.imgItem} />
@@ -94,7 +101,14 @@ class ItemCard extends React.Component {
               }}
             />
           </div>
-          <div className={classes.cardTitle}>{name}</div>
+          <div
+            className={classes.cardTitle}
+            onClick={() =>
+              this.doHandleItemDetails({item, type, isSelected, dayNo})
+            }
+          >
+            {name}
+          </div>
         </div>
       </Card>
     );

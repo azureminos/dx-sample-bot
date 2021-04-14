@@ -70,7 +70,12 @@ class PackageDayPlanner extends React.Component {
       return <div>Loading</div>;
     }
     const {products, attractions} = reference.activities[selectedCity];
-    const {handleSelectItem} = actions;
+    const popupItemDetails = (input) => {
+      console.log('>>>>PackageDayPlanner.popupItemDetails', input);
+    };
+    const viewItemDetails = (input) => {
+      console.log('>>>>PackageDayPlanner.viewItemDetails', input);
+    };
     const title = `Day ${dayNo}:`;
     const itemSelected = [];
     // Unselected products of the selected city
@@ -117,7 +122,10 @@ class PackageDayPlanner extends React.Component {
     };
     const getItemCards = (items, isSelected, type) => {
       return _.map(items, (item) => {
-        const cardActions = {handleSelectItem};
+        const cardActions = {
+          handleSelectItem: actions.handleSelectItem,
+          handleItemDetails: type ? popupItemDetails : viewItemDetails,
+        };
         return (
           <ItemCard
             key={getItemKey(item, type)}

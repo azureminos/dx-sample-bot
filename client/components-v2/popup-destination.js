@@ -25,7 +25,6 @@ class PopupDestination extends React.Component {
     this.state = {
       sAddress: '',
       sLocation: '',
-      sCity: null,
       error: '',
     };
   }
@@ -49,6 +48,11 @@ class PopupDestination extends React.Component {
         const error = 'Please enter a valid address for the destination city';
         this.setState({sAddress: '', sLocation: '', error});
       } else {
+        this.setState({
+          sAddress: address,
+          sLocation: location,
+          error: '',
+        });
         fetch('/api/tool/searchAttraction/', {
           method: 'POST',
           body: JSON.stringify({name: address.split(',')[0]}),
@@ -57,12 +61,6 @@ class PopupDestination extends React.Component {
           .then((response) => response.json())
           .then((json) => {
             console.log('>>>>doHandleAddressChange.matchActivity', json);
-            this.setState({
-              sAddress: address,
-              sLocation: '',
-              sCity: null,
-              error: '',
-            });
             if (handleAddDestination) {
               handleAddDestination({dayNo, city: closeCity, ...json});
             }
