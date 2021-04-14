@@ -153,12 +153,12 @@ class PagePlanTrip extends React.Component {
   }
   handleHotelClose() {
     // console.log('>>>>PageStartTrip.handleHotelClose');
-    const popupHotel = {open: false, message: '', dayNo: null};
+    const popupHotel = {open: false, message: ''};
     this.setState({popupHotel});
   }
   handleDestinationClose() {
     // console.log('>>>>PageStartTrip.handleDestinationClose');
-    const popupDest = {open: false, message: '', dayNo: null};
+    const popupDest = {open: false, message: ''};
     this.setState({popupDest});
   }
   handleBtnHotel(dayNo) {
@@ -209,7 +209,7 @@ class PagePlanTrip extends React.Component {
   }
   doHandleUpdateDestination(input) {
     // console.log('>>>>PagePlanTrip.doHandleUpdateDestination', input);
-    const popupDest = {open: false, message: '', dayNo: null};
+    const popupDest = {open: false, message: ''};
     this.setState({popupDest});
     const {actions} = this.props;
     if (actions && actions.handleSetDestination) {
@@ -218,7 +218,7 @@ class PagePlanTrip extends React.Component {
   }
   doHandleUpdateHotel(input) {
     // console.log('>>>>PagePlanTrip.doHandleUpdateHotel', input);
-    const popupHotel = {open: false, message: '', dayNo: null};
+    const popupHotel = {open: false, message: ''};
     this.setState({popupHotel});
     const {actions} = this.props;
     if (actions && actions.handleUpdateHotel) {

@@ -20,7 +20,6 @@ class PopupDestination extends React.Component {
     super(props);
     // Bind handler
     this.doHandleClose = this.doHandleClose.bind(this);
-    this.doHandleAddDestination = this.doHandleAddDestination.bind(this);
     this.doHandleAddressChange = this.doHandleAddressChange.bind(this);
     // Set initial state
     this.state = {
@@ -37,11 +36,6 @@ class PopupDestination extends React.Component {
     if (this.props.handleClose) {
       this.props.handleClose();
     }
-  }
-  doHandleAddDestination() {
-    console.log('>>>>PopupDestination.doHandleAddDestination', this.state);
-    const {dayNo} = this.props;
-    const {sAddress, sCity} = this.state;
   }
   doHandleAddressChange(input) {
     console.log('>>>>PopupDestination.doHandleAddressChange', input);
@@ -64,7 +58,7 @@ class PopupDestination extends React.Component {
           .then((json) => {
             console.log('>>>>doHandleAddressChange.matchActivity', json);
             this.setState({
-              sAddress: '',
+              sAddress: address,
               sLocation: '',
               sCity: null,
               error: '',

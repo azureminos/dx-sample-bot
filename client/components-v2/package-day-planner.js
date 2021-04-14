@@ -117,6 +117,7 @@ class PackageDayPlanner extends React.Component {
     };
     const getItemCards = (items, isSelected, type) => {
       return _.map(items, (item) => {
+        const cardActions = {handleSelectItem};
         return (
           <ItemCard
             key={getItemKey(item, type)}
@@ -124,7 +125,7 @@ class PackageDayPlanner extends React.Component {
             type={type}
             isSelected={isSelected}
             dayNo={dayNo}
-            actions={{handleSelectItem}}
+            actions={cardActions}
           />
         );
       });
