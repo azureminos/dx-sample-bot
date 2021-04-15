@@ -43,7 +43,7 @@ class ItemCard extends React.Component {
   constructor() {
     super();
     this.doHandleSelectItem = this.doHandleSelectItem.bind(this);
-    this.doHandleItemDetails = this.doHandleSelectItem.bind(this);
+    this.doHandleItemDetails = this.doHandleItemDetails.bind(this);
     this.state = {};
   }
   // Event Handlers
