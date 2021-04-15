@@ -51,6 +51,7 @@ class App extends React.Component {
     this.handleRefDestination = this.handleRefDestination.bind(this);
     // Register on-page event handler
     this.handleTabSelect = this.handleTabSelect.bind(this);
+    this.handleViewItemDetails = this.handleViewItemDetails.bind(this);
     this.handleDateRangeChange = this.handleDateRangeChange.bind(this);
     this.handlePeopleChange = this.handlePeopleChange.bind(this);
     this.handleItemPeopleChange = this.handleItemPeopleChange.bind(this);
@@ -73,6 +74,7 @@ class App extends React.Component {
     this.state = {
       homepage: '',
       tabSelected: 0,
+      itemSelected: '',
       user: null,
       plans: null,
       plan: null,
@@ -113,6 +115,13 @@ class App extends React.Component {
       status: result.status,
     };
     this.pushToRemote('plan:updateStatus', req);
+  }
+  handleViewItemDetails(input) {
+    console.log('>>>>handleViewItemDetails', input);
+    this.setState({
+      itemSelected: input,
+      homepage: Page.FinalizePlan,
+    });
   }
   handleBtnStartHoliday() {
     const {plan} = this.state;
@@ -817,7 +826,7 @@ class App extends React.Component {
     // Local Variables
     console.log('>>>>MobileApp.render', {state: this.state, props: this.props});
     const {apiUri, viewerId, windowWidth} = this.props;
-    const {homepage, tabSelected} = this.state;
+    const {homepage, tabSelected, itemSelected} = this.state;
     const {plan, planExt, reference, popup, payment} = this.state;
     // Sub Components
     let page = <div>Loading...</div>;
@@ -860,6 +869,7 @@ class App extends React.Component {
         handleBtnGoDisplay: this.handleBtnGoDisplay,
         handleBtnGoPayment: this.handleBtnGoPayment,
         handleTabSelect: this.handleTabSelect,
+        handleViewItemDetails: this.handleViewItemDetails,
       };
       page = (
         <PagePlanTrip
@@ -886,6 +896,7 @@ class App extends React.Component {
       page = (
         <PageDisplayTrip
           tabSelected={tabSelected}
+          itemSelected={itemSelected}
           plan={plan}
           planExt={planExt}
           reference={reference}

@@ -229,7 +229,7 @@ class PageDisplayTrip extends React.Component {
   render() {
     console.log('>>>>PageDisplayTrip, render()', this.props);
     const {classes, reference, actions} = this.props;
-    const {tabSelected, plan, planExt} = this.props;
+    const {tabSelected, itemSelected, plan, planExt} = this.props;
     const {destinations} = reference;
     const {startDate, endDate, totalPeople} = plan;
     const {popupHotel, popupDest} = this.state;
@@ -293,6 +293,7 @@ class PageDisplayTrip extends React.Component {
         tabPanels.push(
           <TabPanel key={dayNo} value={tabSelected} index={dayNo}>
             <PackageDayOrganizer
+              itemSelected={itemSelected}
               plan={plan}
               planExt={planExt}
               reference={reference}

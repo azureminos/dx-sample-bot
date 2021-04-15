@@ -58,6 +58,11 @@ class PackageDayPlanner extends React.Component {
   render() {
     const {classes, plan, planExt} = this.props;
     const {reference, actions, dayNo} = this.props;
+    const {
+      handleSelectItem,
+      handlePopupItemDetails,
+      handleViewItemDetails,
+    } = actions;
     console.log('>>>>PackageDayPlanner, render()', {plan, dayNo});
     // Local Variables
     const day = plan.days[dayNo - 1];
@@ -70,12 +75,6 @@ class PackageDayPlanner extends React.Component {
       return <div>Loading</div>;
     }
     const {products, attractions} = reference.activities[selectedCity];
-    const popupItemDetails = (input) => {
-      console.log('>>>>PackageDayPlanner.popupItemDetails', input);
-    };
-    const viewItemDetails = (input) => {
-      console.log('>>>>PackageDayPlanner.viewItemDetails', input);
-    };
     const title = `Day ${dayNo}:`;
     const itemSelected = [];
     // Unselected products of the selected city
@@ -123,8 +122,10 @@ class PackageDayPlanner extends React.Component {
     const getItemCards = (items, isSelected, type) => {
       return _.map(items, (item) => {
         const cardActions = {
-          handleSelectItem: actions.handleSelectItem,
-          handleItemDetails: type ? popupItemDetails : viewItemDetails,
+          handleSelectItem: handleSelectItem,
+          handleItemDetails: type
+            ? handlePopupItemDetails
+            : handleViewItemDetails,
         };
         return (
           <ItemCard

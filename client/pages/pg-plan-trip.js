@@ -116,6 +116,7 @@ class PagePlanTrip extends React.Component {
     super(props);
     // Bind handler
     this.doHandleTabSelect = this.doHandleTabSelect.bind(this);
+    this.handlePopupItemDetails = this.handlePopupItemDetails.bind(this);
     this.handlePopupClose = this.handlePopupClose.bind(this);
     this.handleBtnHotel = this.handleBtnHotel.bind(this);
     this.handleHotelClose = this.handleHotelClose.bind(this);
@@ -168,6 +169,9 @@ class PagePlanTrip extends React.Component {
   handleBtnDestination(dayNo) {
     const popupDest = {open: true, message: '', dayNo: dayNo};
     this.setState({popupDest});
+  }
+  handlePopupItemDetails(input) {
+    console.log('>>>>PagePlanTrip.handlePopupItemDetails', input);
   }
   doHandleTabSelect(event, newValue) {
     // console.log('>>>>PagePlanTrip.doHandleTabSelect', newValue);
@@ -297,7 +301,10 @@ class PagePlanTrip extends React.Component {
               plan={plan}
               planExt={planExt}
               reference={reference}
-              actions={actions}
+              actions={{
+                ...actions,
+                handlePopupItemDetails: this.handlePopupItemDetails,
+              }}
               dayNo={dayNo}
             />
           </TabPanel>

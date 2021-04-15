@@ -36,13 +36,16 @@ class PackageDayOrganizer extends React.Component {
   // Event Handlers
   // Display Widget
   render() {
-    const {classes, plan, planExt} = this.props;
+    const {classes, itemSelected, plan, planExt} = this.props;
     const {reference, actions, dayNo} = this.props;
-    console.log('>>>>PackageDayOrganizer, render()', {plan, dayNo});
+    console.log('>>>>PackageDayOrganizer, render()', this.props);
     // Local Variables
     const day = plan.days[dayNo - 1];
     // Local Functions
-    const getItem = (item) => {
+    const getItem = (item, idx) => {
+      const isExpand =
+        (!itemSelected && idx === 0) ||
+        (itemSelected && item.itemId === itemSelected);
       const handleItemPeopleChange = (val) => {
         if (actions && actions.handleItemPeopleChange) {
           actions.handleItemPeopleChange(val, dayNo, item.itemId);
@@ -50,7 +53,7 @@ class PackageDayOrganizer extends React.Component {
       };
       const itemActions = {handleItemPeopleChange};
       return (
-        <Accordion key={`${dayNo}#${item.name}`}>
+        <Accordion expanded={isExpand} key={`${dayNo}#${item.name}`}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <div className={classes.heading}>{item.name}</div>
           </AccordionSummary>
@@ -65,14 +68,15 @@ class PackageDayOrganizer extends React.Component {
         </Accordion>
       );
     };
+    const getAccordions = (items) => {
+      const acs = [];
+      _.each(items, (item, idx) => {
+        acs.push(getItem(item, idx));
+      });
+      return acs;
+    };
     // Display Widget
-    return (
-      <div>
-        {_.map(day.items, (it) => {
-          return getItem(it);
-        })}
-      </div>
-    );
+    return <div>{getAccordions(day.items)}</div>;
   }
 }
 
