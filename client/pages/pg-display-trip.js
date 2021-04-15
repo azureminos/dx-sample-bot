@@ -188,8 +188,8 @@ class PageDisplayTrip extends React.Component {
     const {tabSelected, actions} = this.props;
     if (tabSelected === 0 && actions && actions.handleBtnGoStart) {
       actions.handleBtnGoStart();
-    } else if (actions && actions.handleBtnGoDisplay) {
-      actions.handleBtnGoDisplay();
+    } else if (actions && actions.handleBtnGoPlan) {
+      actions.handleBtnGoPlan();
     }
   }
   doHandleBtnRight() {
