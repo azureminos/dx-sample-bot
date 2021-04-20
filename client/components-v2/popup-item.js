@@ -30,7 +30,7 @@ class PopupItem extends React.Component {
     // ====== Display ======
     return (
       <Dialog
-        open={open}
+        open
         onClose={handleClose}
         aria-labelledby='alert-dialog-title'
         aria-describedby='alert-dialog-description'
