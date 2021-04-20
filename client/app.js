@@ -119,7 +119,7 @@ class App extends React.Component {
   handleViewItemDetails(input) {
     console.log('>>>>handleViewItemDetails', input);
     this.setState({
-      itemSelected: input,
+      itemSelected: input.item.itemId,
       homepage: Page.FinalizePlan,
     });
   }

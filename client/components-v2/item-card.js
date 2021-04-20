@@ -59,7 +59,7 @@ class ItemCard extends React.Component {
     const {item, type, isSelected, dayNo} = input;
     const {actions} = this.props;
     if (actions && actions.handleItemDetails) {
-      actions.handleItemDetails(item.itemId);
+      actions.handleItemDetails({item, type, isSelected, dayNo});
     }
   }
   // Display Widget
