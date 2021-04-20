@@ -13,6 +13,7 @@ import PackageSummary from '../components-v2/package-summary';
 import PackageDayPlanner from '../components-v2/package-day-planner';
 import PopupHotel from '../components-v2/popup-hotel';
 import PopupDestination from '../components-v2/popup-destination';
+import PopupItem from '../components-v2/popup-item';
 import Helper from '../../lib/helper';
 import CONSTANTS from '../../lib/constants';
 // ====== Icons && CSS ======
@@ -144,6 +145,13 @@ class PagePlanTrip extends React.Component {
         message: '',
         dayNo: null,
       },
+      popupItem: {
+        open: false,
+        message: '',
+        dayNo: null,
+        type: null,
+        item: null,
+      },
     };
   }
   // Event Handler
@@ -153,25 +161,33 @@ class PagePlanTrip extends React.Component {
     this.setState({popup});
   }
   handleHotelClose() {
-    // console.log('>>>>PageStartTrip.handleHotelClose');
+    // console.log('>>>>PagePlanTrip.handleHotelClose');
     const popupHotel = {open: false, message: ''};
     this.setState({popupHotel});
-  }
-  handleDestinationClose() {
-    // console.log('>>>>PageStartTrip.handleDestinationClose');
-    const popupDest = {open: false, message: ''};
-    this.setState({popupDest});
   }
   handleBtnHotel(dayNo) {
     const popupHotel = {open: true, message: '', dayNo: dayNo};
     this.setState({popupHotel});
   }
+  handleDestinationClose() {
+    // console.log('>>>>PagePlanTrip.handleDestinationClose');
+    const popupDest = {open: false, message: ''};
+    this.setState({popupDest});
+  }
   handleBtnDestination(dayNo) {
     const popupDest = {open: true, message: '', dayNo: dayNo};
     this.setState({popupDest});
   }
+  handleItemClose() {
+    // console.log('>>>>PagePlanTrip.handleItemClose');
+    const popupItem = {open: false, title: '', message: ''};
+    this.setState({popupItem});
+  }
   handlePopupItemDetails(input) {
     console.log('>>>>PagePlanTrip.handlePopupItemDetails', input);
+    const {item, type, dayNo} = input;
+    const popupItem = {open: true, message: '', dayNo, type, item};
+    this.setState({popupItem});
   }
   doHandleTabSelect(event, newValue) {
     // console.log('>>>>PagePlanTrip.doHandleTabSelect', newValue);
@@ -179,6 +195,13 @@ class PagePlanTrip extends React.Component {
     if (actions && actions.handleTabSelect) {
       actions.handleTabSelect(newValue);
     }
+  }
+  doHandleSelectItem(input) {
+    console.log('>>>>PagePlanTrip.doHandleSelectItem', input);
+    /* const {actions} = this.props;
+    if (actions && actions.handleSelectItem) {
+      actions.handleSelectItem(input);
+    }*/
   }
   doHandleBtnGoStart() {
     // console.log('>>>>PagePlanTrip.doHandleBtnGoStart', this.props);
@@ -236,7 +259,7 @@ class PagePlanTrip extends React.Component {
     const {tabSelected, plan, planExt} = this.props;
     const {destinations} = reference;
     const {startDate, endDate, totalPeople} = plan;
-    const {popup, popupHotel, popupDest} = this.state;
+    const {popup, popupHotel, popupDest, popupItem} = this.state;
     const strStartDate = '01/Mar/2021';
     const strEndDate = '03/Mar/2021';
     // Local Functions
@@ -343,6 +366,18 @@ class PagePlanTrip extends React.Component {
               destinations={destinations}
               handleClose={this.handleDestinationClose}
               handleAddDestination={this.doHandleUpdateDestination}
+            />
+          ) : (
+            ''
+          )}
+          {popupItem.open ? (
+            <PopupItem
+              message={popupItem.message}
+              dayNo={popupItem.dayNo}
+              item={popupItem.item}
+              destinations={destinations}
+              handleClose={this.handleItemClose}
+              handleSelectItem={this.doHandleSelectItem}
             />
           ) : (
             ''

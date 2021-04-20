@@ -45,8 +45,8 @@ class PopupPayment extends React.Component {
   // Render web widget
   render() {
     // ====== Local Variables ======
-    const {open, handleClose, plan} = this.props;
-    console.log('>>>>PopupPayment.render', {open, plan});
+    const {handleClose, plan} = this.props;
+    console.log('>>>>PopupPayment.render', plan);
     const ppOptions = {
       clientId:
         Payment.env === 'production' ? Payment.production : Payment.sandbox,
@@ -71,7 +71,7 @@ class PopupPayment extends React.Component {
     // ====== Display ======
     return (
       <Dialog
-        open={open}
+        open
         onClose={handleClose}
         aria-labelledby='alert-dialog-title'
         aria-describedby='alert-dialog-description'

@@ -376,7 +376,7 @@ class PageDisplayTrip extends React.Component {
                 onClick={this.doHandleBtnRight}
                 classes={{root: classes.fBtnRoot, label: classes.fBtnLabel}}
               >
-                Pay
+                {tabSelected !== plan.days.length ? 'Next Day' : 'Pay'}
               </Button>
             </div>
           </Toolbar>
