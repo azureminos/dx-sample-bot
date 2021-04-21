@@ -199,10 +199,12 @@ class PagePlanTrip extends React.Component {
   }
   doHandleSelectItem(input) {
     console.log('>>>>PagePlanTrip.doHandleSelectItem', input);
-    /* const {actions} = this.props;
+    const popupItem = {open: false, title: '', message: ''};
+    this.setState({popupItem});
+    const {actions} = this.props;
     if (actions && actions.handleSelectItem) {
       actions.handleSelectItem(input);
-    }*/
+    }
   }
   doHandleBtnGoStart() {
     // console.log('>>>>PagePlanTrip.doHandleBtnGoStart', this.props);

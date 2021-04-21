@@ -50,11 +50,11 @@ class PopupItem extends React.Component {
           <Button
             variant='contained'
             onClick={() => {
-              const type = '';
-              handleSelectItem(item, type, dayNo);
+              handleSelectItem({item, type, dayNo});
             }}
             color='primary'
             autoFocus
+            fullWidth
           >
             Add to my plan
           </Button>
