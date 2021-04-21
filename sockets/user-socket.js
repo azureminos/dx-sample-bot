@@ -127,70 +127,63 @@ const view = (input) => {
       socketUsers.set(socket.id, {senderId});
       socket.join(planId);
     }
-    getUserDetails(senderId, (err, user) => {
+    // console.log('>>>>Model.view Level 2 Result', user);
+    const homepage = Page.ShowPlan;
+    Model.findFullPlan(planId, (err, plan) => {
       if (err) {
         console.error('>>>>Database Error', err);
         sendStatus(SocketStatus.DB_ERROR);
       } else {
-        // console.log('>>>>Model.view Level 2 Result', user);
-        const homepage = Page.ShowPlan;
-        Model.findFullPlan(planId, (err, plan) => {
-          if (err) {
-            console.error('>>>>Database Error', err);
-            sendStatus(SocketStatus.DB_ERROR);
-          } else {
-            // console.log('>>>>Model.view retrieved plan', plan);
-            const activities = {};
-            const cities = [];
-            const cityIds = [];
-            _.each(plan.days, (d) => {
-              _.each(d.cities, (dc) => {
-                const matcher = _.find(cities, (c) => {
-                  return c.destinationId === dc.destinationId;
-                });
-                if (!matcher) {
-                  cityIds.push(dc.destinationId);
-                  cities.push({
-                    city: dc.name,
-                    cityId: dc.destinationId,
-                  });
-                }
-              });
+        // console.log('>>>>Model.view retrieved plan', plan);
+        const activities = {};
+        const cities = [];
+        const cityIds = [];
+        _.each(plan.days, (d) => {
+          _.each(d.cities, (dc) => {
+            const matcher = _.find(cities, (c) => {
+              return c.destinationId === dc.destinationId;
             });
-            async.parallel(
-              {
-                products: (callback) => {
-                  Model.getAllProduct(cityIds, callback);
-                },
-                attractions: (callback) => {
-                  Model.getAllAttraction(cityIds, callback);
-                },
-              },
-              function(err, result) {
-                if (err) {
-                  console.error('>>>>Database Error', err);
-                  sendStatus(SocketStatus.DB_ERROR);
-                } else {
-                  // console.error('>>>>Database Results', result);
-                  _.each(cities, (it) => {
-                    const tmpProduct = _.filter(result.products, (p) => {
-                      return p.primaryDestinationId === it.cityId;
-                    });
-                    const tmpAttraction = _.filter(result.attractions, (a) => {
-                      return a.primaryDestinationId === it.cityId;
-                    });
-                    activities[it.city] = {
-                      products: tmpProduct || [],
-                      attractions: tmpAttraction || [],
-                    };
-                  });
-                  socket.emit('init', {user, homepage, plan, activities});
-                  sendStatus(SocketStatus.OK);
-                }
-              }
-            );
-          }
+            if (!matcher) {
+              cityIds.push(dc.destinationId);
+              cities.push({
+                city: dc.name,
+                cityId: dc.destinationId,
+              });
+            }
+          });
         });
+        async.parallel(
+          {
+            products: (callback) => {
+              Model.getAllProduct(cityIds, callback);
+            },
+            attractions: (callback) => {
+              Model.getAllAttraction(cityIds, callback);
+            },
+          },
+          function(err, result) {
+            if (err) {
+              console.error('>>>>Database Error', err);
+              sendStatus(SocketStatus.DB_ERROR);
+            } else {
+              // console.error('>>>>Database Results', result);
+              _.each(cities, (it) => {
+                const tmpProduct = _.filter(result.products, (p) => {
+                  return p.primaryDestinationId === it.cityId;
+                });
+                const tmpAttraction = _.filter(result.attractions, (a) => {
+                  return a.primaryDestinationId === it.cityId;
+                });
+                activities[it.city] = {
+                  products: tmpProduct || [],
+                  attractions: tmpAttraction || [],
+                };
+              });
+              socket.emit('init', {homepage, plan});
+              sendStatus(SocketStatus.OK);
+            }
+          }
+        );
       }
     });
   }
