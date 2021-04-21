@@ -29,20 +29,28 @@ class PackageDayOrganizer extends React.Component {
   constructor(props) {
     super(props);
     // Bind event handlers
+    this.handleAccordion = this.handleAccordion.bind(this);
     // Init data
     // Setup state
-    this.state = {};
+    this.state = {
+      itemSelected: this.props.itemSelected,
+    };
   }
   // Event Handlers
+  handleAccordion(itemId) {
+    const {itemSelected} = this.state;
+    this.setState({itemSelected: itemId === itemSelected ? '' : itemId});
+  }
   // Display Widget
   render() {
-    const {classes, itemSelected, plan, planExt} = this.props;
+    const {classes, plan, planExt} = this.props;
     const {reference, actions, dayNo} = this.props;
     console.log('>>>>PackageDayOrganizer, render()', this.props);
     // Local Variables
     const day = plan.days[dayNo - 1];
     // Local Functions
     const getItem = (item, idx) => {
+      const {itemSelected} = this.state;
       const isExpand =
         (!itemSelected && idx === 0) ||
         (itemSelected && item.itemId === itemSelected);
@@ -54,7 +62,12 @@ class PackageDayOrganizer extends React.Component {
       const itemActions = {handleItemPeopleChange};
       return (
         <Accordion expanded={isExpand} key={`${dayNo}#${item.name}`}>
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <AccordionSummary
+            onClick={() => {
+              this.handleAccordion(item.itemId);
+            }}
+            expandIcon={<ExpandMoreIcon />}
+          >
             <div className={classes.heading}>{item.name}</div>
           </AccordionSummary>
           <AccordionDetails>
