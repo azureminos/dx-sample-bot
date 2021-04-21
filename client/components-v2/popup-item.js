@@ -25,6 +25,13 @@ class PopupItem extends React.Component {
     // ====== Local Variables ======
     const {dayNo, item, type, reference} = this.props;
     const {handleClose, handleSelectItem} = this.props;
+    const itemGrid = {
+      itemType: type,
+      itemId: type === 'PRODUCT' ? item.productCode : item.seoId,
+      imgUrl: item.thumbnailURL,
+      pricePlan: item.pricePlan,
+      destName: item.primaryDestinationName,
+    };
     // ====== Local Functions ======
     // ====== Web Elements ======
     // ====== Display ======
@@ -37,7 +44,7 @@ class PopupItem extends React.Component {
       >
         <DialogTitle id='alert-dialog-title'>{item.name}</DialogTitle>
         <DialogContent>
-          <ItemGrid item={item} reference={reference} />
+          <ItemGrid item={itemGrid} itemExt={item} />
         </DialogContent>
         <DialogActions>
           <Button

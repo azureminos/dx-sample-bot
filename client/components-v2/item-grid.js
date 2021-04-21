@@ -74,15 +74,18 @@ class ItemGrid extends React.Component {
     const totalAdults = Number(this.state.totalAdults || 0);
     const totalKids = Number(this.state.totalKids || 0);
     const {item, reference, actions} = this.props;
-    const {attractions, products} = reference.activities[item.destName];
-    const itemExt =
-      item.itemType === PRODUCT
-        ? _.find(products, (p) => {
-          return p.productCode === item.itemId;
-        })
-        : _.find(attractions, (a) => {
-          return a.seoId === item.itemId;
-        });
+    let itemExt = this.props.itemExt;
+    if (!itemExt) {
+      const {attractions, products} = reference.activities[item.destName];
+      itemExt =
+        item.itemType === PRODUCT
+          ? _.find(products, (p) => {
+            return p.productCode === item.itemId;
+          })
+          : _.find(attractions, (a) => {
+            return a.seoId === item.itemId;
+          });
+    }
     const totalPrice =
       item.itemType === PRODUCT
         ? (itemExt.price || 0) * (totalAdults + totalKids)
@@ -98,15 +101,18 @@ class ItemGrid extends React.Component {
     // Local Variables
     const {classes, item, maxPeople, reference} = this.props;
     const {anchorTraveler, widthTraveler, totalAdults, totalKids} = this.state;
-    const {attractions, products} = reference.activities[item.destName];
-    const itemExt =
-      item.itemType === PRODUCT
-        ? _.find(products, (p) => {
-          return p.productCode === item.itemId;
-        })
-        : _.find(attractions, (a) => {
-          return a.seoId === item.itemId;
-        });
+    let itemExt = this.props.itemExt;
+    if (!itemExt) {
+      const {attractions, products} = reference.activities[item.destName];
+      itemExt =
+        item.itemType === PRODUCT
+          ? _.find(products, (p) => {
+            return p.productCode === item.itemId;
+          })
+          : _.find(attractions, (a) => {
+            return a.seoId === item.itemId;
+          });
+    }
     // Local Functions
     const getImage = () => {
       return (

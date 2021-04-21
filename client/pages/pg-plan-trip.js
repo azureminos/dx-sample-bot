@@ -376,6 +376,7 @@ class PagePlanTrip extends React.Component {
               message={popupItem.message}
               dayNo={popupItem.dayNo}
               item={popupItem.item}
+              type={popupItem.type}
               reference={reference}
               handleClose={this.handleItemClose}
               handleSelectItem={this.doHandleSelectItem}
