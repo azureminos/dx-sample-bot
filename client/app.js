@@ -135,7 +135,7 @@ class App extends React.Component {
   }
   handleTabSelect(tabSelected) {
     // console.log('>>>>handleTabSelect');
-    this.setState({tabSelected: tabSelected});
+    this.setState({tabSelected, itemSelected: ''});
   }
   handleBtnGoStart() {
     // console.log('>>>>handleBtnGoStart');
