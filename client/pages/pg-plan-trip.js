@@ -126,6 +126,7 @@ class PagePlanTrip extends React.Component {
     this.handleBtnDestination = this.handleBtnDestination.bind(this);
     this.handleDestinationClose = this.handleDestinationClose.bind(this);
     this.doHandleUpdateDestination = this.doHandleUpdateDestination.bind(this);
+    this.doHandleSelectItem  = this.doHandleSelectItem .bind(this);
     this.doHandleBtnGoStart = this.doHandleBtnGoStart.bind(this);
     this.doHandleBtnLeft = this.doHandleBtnLeft.bind(this);
     this.doHandleBtnRight = this.doHandleBtnRight.bind(this);
