@@ -4,8 +4,8 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import ItemGrid from '../components-v2/item-grid';
 import {withStyles} from '@material-ui/core/styles';
 
 // Variables
@@ -23,7 +23,7 @@ class PopupItem extends React.Component {
   render() {
     console.log('>>>>PopupItem.render', this.props);
     // ====== Local Variables ======
-    const {dayNo, item, destinations, message} = this.props;
+    const {dayNo, item, type, reference} = this.props;
     const {handleClose, handleSelectItem} = this.props;
     // ====== Local Functions ======
     // ====== Web Elements ======
@@ -35,17 +35,16 @@ class PopupItem extends React.Component {
         aria-labelledby='alert-dialog-title'
         aria-describedby='alert-dialog-description'
       >
-        <DialogTitle id='alert-dialog-title'>Hello Title</DialogTitle>
+        <DialogTitle id='alert-dialog-title'>{item.name}</DialogTitle>
         <DialogContent>
-          <DialogContentText id='alert-dialog-description'>
-            {message || 'Hello Message'}
-          </DialogContentText>
+          <ItemGrid item={item} reference={reference} />
         </DialogContent>
         <DialogActions>
           <Button
             variant='contained'
             onClick={() => {
-              handleSelectItem();
+              const type = '';
+              handleSelectItem(item, type, dayNo);
             }}
             color='primary'
             autoFocus

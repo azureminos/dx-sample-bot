@@ -117,6 +117,7 @@ class PagePlanTrip extends React.Component {
     super(props);
     // Bind handler
     this.doHandleTabSelect = this.doHandleTabSelect.bind(this);
+    this.handleItemClose = this.handleItemClose.bind(this);
     this.handlePopupItemDetails = this.handlePopupItemDetails.bind(this);
     this.handlePopupClose = this.handlePopupClose.bind(this);
     this.handleBtnHotel = this.handleBtnHotel.bind(this);
@@ -375,7 +376,7 @@ class PagePlanTrip extends React.Component {
               message={popupItem.message}
               dayNo={popupItem.dayNo}
               item={popupItem.item}
-              destinations={destinations}
+              reference={reference}
               handleClose={this.handleItemClose}
               handleSelectItem={this.doHandleSelectItem}
             />

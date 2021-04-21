@@ -248,7 +248,7 @@ class ItemGrid extends React.Component {
     return (
       <div className={classes.root}>
         {getImage()}
-        {getTraveller()}
+        {maxPeople ? getTraveller() : ''}
         {getTimeSlot()}
         {getDetails()}
       </div>
