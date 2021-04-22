@@ -714,10 +714,11 @@ class App extends React.Component {
     this.setState({reference: {...reference, destinations: results}});
   }
   handleRefActivity(results) {
-    // console.log('>>>>Result from socket [ref:activity]', results);
+    console.log('>>>>Result from socket [ref:activity]', results);
     const {plan, planExt, reference} = this.state;
     const {preferAttractions, selectedTagGroups} = planExt;
-    const {activities, dayPlans} = reference;
+    const dayPlans = reference.dayPlans;
+    const activities = reference.activities || {};
     if (Array.isArray(results)) {
       _.each(results, (r) => {
         activities[r.city] = {

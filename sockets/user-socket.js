@@ -141,7 +141,7 @@ const view = (input) => {
         _.each(plan.days, (d) => {
           _.each(d.cities, (dc) => {
             const matcher = _.find(cities, (c) => {
-              return c.destinationId === dc.destinationId;
+              return c.cityId === dc.destinationId;
             });
             if (!matcher) {
               cityIds.push(dc.destinationId);
