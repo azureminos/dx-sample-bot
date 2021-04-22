@@ -56,7 +56,7 @@ class ItemGrid extends React.Component {
   }
   componentDidMount() {
     const {item, defaultClick} = this.props;
-    const elBtn = document.getElementById(`btn-people-${item.itemId}`);
+    const elBtn = document.getElementByName(`btn-people-${item.itemId}`);
     const aTraveler = defaultClick ? elBtn : null;
     const wTraveler = defaultClick ? elBtn.clientWidth : null;
     this.state = {
@@ -197,7 +197,7 @@ class ItemGrid extends React.Component {
                 </FormControl>
               </div>
             </div>
-            <div id={`btn-people-${item.itemId}`}>
+            <div name={`btn-people-${item.itemId}`}>
               <Button
                 variant='contained'
                 color='primary'
