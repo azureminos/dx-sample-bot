@@ -197,15 +197,16 @@ class ItemGrid extends React.Component {
                 </FormControl>
               </div>
             </div>
-            <Button
-              variant='contained'
-              color='primary'
-              fullWidth
-              onClick={this.doHandleItemPeopleChange}
-              id={`btn-people-${item.itemId}`}
-            >
-              Apply
-            </Button>
+            <div id={`btn-people-${item.itemId}`}>
+              <Button
+                variant='contained'
+                color='primary'
+                fullWidth
+                onClick={this.doHandleItemPeopleChange}
+              >
+                Apply
+              </Button>
+            </div>
           </div>
         );
       };
