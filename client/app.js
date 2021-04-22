@@ -30,8 +30,8 @@ import '../public/style.css';
 
 // Variables
 let socket;
-const styles = (theme) => ({});
-const {Instance, SocketChannel, Page, DataModel} = CONSTANTS.get();
+const styles = () => ({});
+const {Instance, Page, DataModel} = CONSTANTS.get();
 /* ==============================
    = React Application          =
    ============================== */
@@ -718,67 +718,80 @@ class App extends React.Component {
     const {plan, planExt, reference} = this.state;
     const {preferAttractions, selectedTagGroups} = planExt;
     const {activities, dayPlans} = reference;
-    const {products, attractions} = results;
-    // Update reference
-    activities[results.city] = {products, attractions};
-    const isStartCity = plan.startCity && plan.startCity.name === results.city;
-    const isEndCity = plan.endCity && plan.endCity.name === results.city;
-    if (isStartCity || isEndCity) {
-      this.setState({
-        reference: {...reference, activities},
+    if (Array.isArray(results)) {
+      _.each(results, (r) => {
+        activities[r.city] = {
+          products: r.products,
+          attractions: r.attractions,
+        };
+        this.setState({
+          reference: {...reference, activities},
+        });
       });
     } else {
-      // Check user preferred attraction
-      const dAttractions = _.filter(preferAttractions, (p) => {
-        return p.destName === results.city;
-      });
-      const dDays = _.filter(plan.days, (d) => {
-        const matcher = _.find(d.cities, (c) => {
-          return c.name === results.city;
+      const {products, attractions} = results;
+      // Update reference
+      activities[results.city] = {products, attractions};
+      if (
+        (plan.startCity && plan.startCity.name === results.city) ||
+        (plan.endCity && plan.endCity.name === results.city)
+      ) {
+        this.setState({
+          reference: {...reference, activities},
         });
-        return !!matcher;
-      });
-      // Add attractions one by one to each days
-      for (let i = 0; i < dAttractions.length; i++) {
-        const a = _.find(attractions, (att) => {
-          return att._id === dAttractions[i]._id;
+      } else {
+        // Check user preferred attraction
+        const dAttractions = _.filter(preferAttractions, (p) => {
+          return p.destName === results.city;
         });
-        if (a) {
-          const dIdx =
-            dDays.length >= dAttractions.length ? i : i % dDays.length;
-          if (dDays[dIdx]) {
-            dDays[dIdx].items = [];
-            dDays[dIdx].items.push({
-              name: a.name,
-              itemType: DataModel.TravelPlanItemType.ATTRACTION,
-              itemId: a.seoId,
-              destName: a.primaryDestinationName,
-              isUserSelected: true,
-              totalPeople: plan.totalPeople,
-              totalPrice: 0,
-              imgUrl: a.thumbnailURL,
-              notes: '',
-            });
+        const dDays = _.filter(plan.days, (d) => {
+          const matcher = _.find(d.cities, (c) => {
+            return c.name === results.city;
+          });
+          return !!matcher;
+        });
+        // Add attractions one by one to each days
+        for (let i = 0; i < dAttractions.length; i++) {
+          const a = _.find(attractions, (att) => {
+            return att._id === dAttractions[i]._id;
+          });
+          if (a) {
+            const dIdx =
+              dDays.length >= dAttractions.length ? i : i % dDays.length;
+            if (dDays[dIdx]) {
+              dDays[dIdx].items = [];
+              dDays[dIdx].items.push({
+                name: a.name,
+                itemType: DataModel.TravelPlanItemType.ATTRACTION,
+                itemId: a.seoId,
+                destName: a.primaryDestinationName,
+                isUserSelected: true,
+                totalPeople: plan.totalPeople,
+                totalPrice: 0,
+                imgUrl: a.thumbnailURL,
+                notes: '',
+              });
+            }
           }
         }
+        // Fill the day with products (max 3 items per day)
+        plan.days = Helper.fillDays(
+          {days: plan.days},
+          plan.totalPeople,
+          results.city,
+          selectedTagGroups,
+          activities,
+          dayPlans
+        );
+        // Update state
+        this.setState({
+          plan: plan,
+          reference: {...reference, activities},
+        });
+        // Socket update plan
+        const senderId = this.props.viewerId;
+        this.pushToRemote('plan:save', {senderId, plan});
       }
-      // Fill the day with products (max 3 items per day)
-      plan.days = Helper.fillDays(
-        {days: plan.days},
-        plan.totalPeople,
-        results.city,
-        selectedTagGroups,
-        activities,
-        dayPlans
-      );
-      // Update state
-      this.setState({
-        plan: plan,
-        reference: {...reference, activities},
-      });
-      // Socket update plan
-      const senderId = this.props.viewerId;
-      this.pushToRemote('plan:save', {senderId, plan});
     }
   }
   /* ==============================
@@ -825,7 +838,6 @@ class App extends React.Component {
   render() {
     // Local Variables
     console.log('>>>>MobileApp.render', {state: this.state, props: this.props});
-    const {apiUri, viewerId, windowWidth} = this.props;
     const {homepage, tabSelected, itemSelected} = this.state;
     const {plan, planExt, reference, popup, payment} = this.state;
     // Sub Components

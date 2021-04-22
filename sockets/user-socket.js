@@ -135,7 +135,7 @@ const view = (input) => {
         sendStatus(SocketStatus.DB_ERROR);
       } else {
         // console.log('>>>>Model.view retrieved plan', plan);
-        const activities = {};
+        const activities = [];
         const cities = [];
         const cityIds = [];
         _.each(plan.days, (d) => {
@@ -174,12 +174,14 @@ const view = (input) => {
                 const tmpAttraction = _.filter(result.attractions, (a) => {
                   return a.primaryDestinationId === it.cityId;
                 });
-                activities[it.city] = {
+                activities.push({
+                  city: it.city,
                   products: tmpProduct || [],
                   attractions: tmpAttraction || [],
-                };
+                });
               });
               socket.emit('init', {homepage, plan});
+              socket.emit('ref:activity', activities);
               sendStatus(SocketStatus.OK);
             }
           }
