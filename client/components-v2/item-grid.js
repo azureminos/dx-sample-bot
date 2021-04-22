@@ -56,7 +56,7 @@ class ItemGrid extends React.Component {
   }
   componentDidMount() {
     const {item, defaultClick} = this.props;
-    const elBtn = document.getElementByName(`btn-people-${item.itemId}`);
+    const elBtn = document.getElementsByName(`btn-people-${item.itemId}`);
     const aTraveler = defaultClick ? elBtn : null;
     const wTraveler = defaultClick ? elBtn.clientWidth : null;
     this.state = {
