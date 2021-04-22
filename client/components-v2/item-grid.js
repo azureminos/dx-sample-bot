@@ -47,9 +47,13 @@ class ItemGrid extends React.Component {
     this.doHandleItemPeopleChange = this.doHandleItemPeopleChange.bind(this);
     // Init data
     // Setup state
+    const {item, defaultClick} = this.props;
+    const elBtn = document.getElementById(`btn-people-${item.itemId}`);
+    const aTraveler = defaultClick ? elBtn : null;
+    const wTraveler = defaultClick ? elBtn.clientWidth : null;
     this.state = {
-      anchorTraveler: null,
-      widthTraveler: null,
+      anchorTraveler: aTraveler,
+      widthTraveler: wTraveler,
       totalAdults: this.props.item.totalAdults || 0,
       totalKids: this.props.item.totalKids || 0,
     };
@@ -192,6 +196,7 @@ class ItemGrid extends React.Component {
               color='primary'
               fullWidth
               onClick={this.doHandleItemPeopleChange}
+              id={`btn-people-${item.itemId}`}
             >
               Apply
             </Button>

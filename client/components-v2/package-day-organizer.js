@@ -53,7 +53,7 @@ class PackageDayOrganizer extends React.Component {
       const {itemSelected} = this.state;
       const isExpand =
         (!itemSelected && idx === 0) ||
-        (itemSelected && item.itemId === itemSelected);
+        (!!itemSelected && item.itemId === itemSelected);
       const handleItemPeopleChange = (val) => {
         if (actions && actions.handleItemPeopleChange) {
           actions.handleItemPeopleChange(val, dayNo, item.itemId);
@@ -76,6 +76,7 @@ class PackageDayOrganizer extends React.Component {
               maxPeople={plan.totalPeople}
               reference={reference}
               actions={itemActions}
+              defaultClick={isExpand}
             />
           </AccordionDetails>
         </Accordion>
