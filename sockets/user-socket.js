@@ -135,6 +135,8 @@ const view = (input) => {
         sendStatus(SocketStatus.DB_ERROR);
       } else {
         // console.log('>>>>Model.view retrieved plan', plan);
+        socket.emit('init', {homepage, plan});
+        // Get all activities
         const activities = [];
         const cities = [];
         const cityIds = [];
@@ -180,7 +182,6 @@ const view = (input) => {
                   attractions: tmpAttraction || [],
                 });
               });
-              socket.emit('init', {homepage, plan});
               socket.emit('ref:activity', activities);
               sendStatus(SocketStatus.OK);
             }
