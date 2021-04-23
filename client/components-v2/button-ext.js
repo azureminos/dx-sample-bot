@@ -5,9 +5,10 @@ import Button from '@material-ui/core/Button';
 export default function ButtonExtent(props) {
   const btnPeople = React.useRef();
   useEffect(() => {
-    if (props.defaultClick) {
+    console.log('>>>>ButtonExtent.useEffect');
+    /* if (props.defaultClick) {
       btnPeople.current.click();
-    }
+    }*/
   });
   return (
     <Button
