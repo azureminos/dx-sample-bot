@@ -6,7 +6,7 @@ import Popover from '@material-ui/core/Popover';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import ButtonExtent from './button-ext';
+// import ButtonExtent from './button-ext';
 import {withStyles} from '@material-ui/core/styles';
 import CONSTANTS from '../../lib/constants';
 // Styles
@@ -44,6 +44,7 @@ class ItemGrid extends React.Component {
     this.handleKidChange = this.handleKidChange.bind(this);
     this.doHandleItemPeopleChange = this.doHandleItemPeopleChange.bind(this);
     // Init data
+    this.btnPeople = React.createRef();
     // Setup state
     this.state = {
       anchorTraveler: null,
@@ -196,17 +197,23 @@ class ItemGrid extends React.Component {
           </div>
         );
       };
+      const eWidth = this.btnPeople.current
+        ? this.btnPeople.current.clientWidth
+        : 0;
       return (
         <div>
-          <ButtonExtent
-            title={strTraveler}
-            defaultClick={defaultClick && !anchorTraveler}
-            onClick={this.handleClickTraveler}
+          <Button
+            variant='contained'
+            color='primary'
             fullWidth
-          />
+            onClick={this.handleClickTraveler}
+            ref={this.btnPeople}
+          >
+            {strTraveler}
+          </Button>
           <Popover
-            open={!!anchorTraveler}
-            anchorEl={anchorTraveler}
+            open={defaultClick}
+            anchorEl={this.btnPeople.current}
             onClose={this.handleCloseTraveler}
             anchorOrigin={{
               vertical: 'bottom',
@@ -217,7 +224,7 @@ class ItemGrid extends React.Component {
               horizontal: 'left',
             }}
           >
-            {getButtons(widthTraveler)}
+            {getButtons(eWidth)}
           </Popover>
         </div>
       );
