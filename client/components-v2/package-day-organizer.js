@@ -43,7 +43,8 @@ class PackageDayOrganizer extends React.Component {
     };
   }
   componentDidMount() {
-    scroller.scrollTo('myScrollToElement', {
+    const {itemSelected} = this.state;
+    scroller.scrollTo(`myScroll#${itemSelected}`, {
       duration: 0,
       delay: 0,
       smooth: 'easeInOutQuart',
@@ -51,7 +52,8 @@ class PackageDayOrganizer extends React.Component {
     });
   }
   componentDidUpdate() {
-    scroller.scrollTo('myScrollToElement', {
+    const {itemSelected} = this.state;
+    scroller.scrollTo(`myScroll#${itemSelected}`, {
       duration: 0,
       delay: 0,
       smooth: 'easeInOutQuart',
@@ -80,11 +82,6 @@ class PackageDayOrganizer extends React.Component {
         }
       };
       const itemActions = {handleItemPeopleChange};
-      const elAccordionTitle = isExpand ? (
-        <Element name='myScrollToElement'>{item.name}</Element>
-      ) : (
-        item.name
-      );
       return (
         <Accordion expanded={isExpand} key={`${dayNo}#${item.name}`}>
           <AccordionSummary
@@ -93,7 +90,9 @@ class PackageDayOrganizer extends React.Component {
             }}
             expandIcon={<ExpandMoreIcon />}
           >
-            <div className={classes.heading}>{elAccordionTitle}</div>
+            <div className={classes.heading}>
+              <Element name={`myScroll#${item.itemId}`}>{item.name}</Element>
+            </div>
           </AccordionSummary>
           <AccordionDetails>
             <ItemGrid
