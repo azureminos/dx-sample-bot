@@ -200,6 +200,25 @@ class ItemGrid extends React.Component {
       const eWidth = this.btnPeople.current
         ? this.btnPeople.current.clientWidth
         : 0;
+      const popover = defaultClick ? (
+        <Popover
+          open
+          anchorEl={this.btnPeople.current}
+          onClose={this.handleCloseTraveler}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'left',
+          }}
+        >
+          {getButtons(eWidth)}
+        </Popover>
+      ) : (
+        ''
+      );
       return (
         <div>
           <Button
@@ -211,21 +230,7 @@ class ItemGrid extends React.Component {
           >
             {strTraveler}
           </Button>
-          <Popover
-            open={defaultClick}
-            anchorEl={this.btnPeople.current}
-            onClose={this.handleCloseTraveler}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left',
-            }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'left',
-            }}
-          >
-            {getButtons(eWidth)}
-          </Popover>
+          {popover}
         </div>
       );
     };
