@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import React, {createElement} from 'react';
-import {Element, scroller} from 'react-scroll';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
@@ -31,7 +30,9 @@ class PackageDayOrganizer extends React.Component {
     super(props);
     // Bind event handlers
     this.handleAccordion = this.handleAccordion.bind(this);
+    this.executeScroll = this.executeScroll.bind(this);
     // Init data
+    this.myRef = React.createRef();
     const day = this.props.plan.days[this.props.dayNo - 1];
     const fstItemId =
       day.items && day.items.length > 0 ? day.items[0].itemId : '';
@@ -43,24 +44,15 @@ class PackageDayOrganizer extends React.Component {
     };
   }
   componentDidMount() {
-    const {itemSelected} = this.state;
-    scroller.scrollTo(`myScroll#${itemSelected}`, {
-      duration: 0,
-      delay: 0,
-      smooth: 'easeInOutQuart',
-      offset: -60,
-    });
+    this.executeScroll();
   }
   componentDidUpdate() {
-    const {itemSelected} = this.state;
-    scroller.scrollTo(`myScroll#${itemSelected}`, {
-      duration: 0,
-      delay: 0,
-      smooth: 'easeInOutQuart',
-      offset: -60,
-    });
+    this.executeScroll();
   }
   // Event Handlers
+  executeScroll() {
+    this.myRef.current.scrollIntoView();
+  }
   handleAccordion(itemId) {
     const {itemSelected} = this.state;
     this.setState({itemSelected: itemId === itemSelected ? '' : itemId});
@@ -90,8 +82,8 @@ class PackageDayOrganizer extends React.Component {
             }}
             expandIcon={<ExpandMoreIcon />}
           >
-            <div className={classes.heading}>
-              <Element name={`myScroll#${item.itemId}`}>{item.name}</Element>
+            <div className={classes.heading} ref={isExpand ? this.myRef : null}>
+              {item.name}
             </div>
           </AccordionSummary>
           <AccordionDetails>
