@@ -54,8 +54,10 @@ class ItemGrid extends React.Component {
       totalKids: this.props.item.totalKids || 0,
     };
   }
-  simulateClick(e) {
-    e.click();
+  simulateClick(e, defaultClick) {
+    if (defaultClick) {
+      e.click();
+    }
   }
   /* componentDidMount() {
     const {item, defaultClick} = this.props;
@@ -112,7 +114,7 @@ class ItemGrid extends React.Component {
   render() {
     // console.log('>>>>ItemGrid.render', this.props);
     // Local Variables
-    const {classes, item, maxPeople, reference} = this.props;
+    const {classes, item, maxPeople, reference, defaultClick} = this.props;
     const {anchorTraveler, widthTraveler, totalAdults, totalKids} = this.state;
     let itemExt = this.props.itemExt;
     if (!itemExt) {
@@ -205,7 +207,9 @@ class ItemGrid extends React.Component {
               color='primary'
               fullWidth
               onClick={this.doHandleItemPeopleChange}
-              ref={this.simulateClick}
+              ref={(e) => {
+                this.simulateClick(e, defaultClick);
+              }}
             >
               Apply
             </Button>
