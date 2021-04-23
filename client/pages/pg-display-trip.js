@@ -25,12 +25,6 @@ const styles = (theme) => ({
   root: {
     height: '100%',
   },
-  whitespaceTop: {
-    height: 60,
-  },
-  whitespaceBottom: {
-    height: 50,
-  },
   hAppBar: {
     position: 'fixed',
     width: '100%',
@@ -49,6 +43,8 @@ const styles = (theme) => ({
     display: 'flex',
     height: 'fit-content',
     width: '100%',
+    paddingTop: 60,
+    paddingBottom: 50,
   },
   bGridSelected: {
     border: '4px solid black',
@@ -389,9 +385,7 @@ class PageDisplayTrip extends React.Component {
     return (
       <div className={classes.root}>
         {getHeader()}
-        <div className={classes.whitespaceTop} />
         {getBody()}
-        <div className={classes.whitespaceBottom} />
         {getFooter()}
       </div>
     );

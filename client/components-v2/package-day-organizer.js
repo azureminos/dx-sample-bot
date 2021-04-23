@@ -52,11 +52,7 @@ class PackageDayOrganizer extends React.Component {
   // Event Handlers
   executeScroll() {
     if (this.myRef && this.myRef.current) {
-      window.scroll({
-        top: this.myRef.current.offsetTop - 60,
-        left: 0,
-        behavior: 'smooth',
-      });
+      this.myRef.current.scrollIntoView();
     }
   }
   handleAccordion(itemId) {
