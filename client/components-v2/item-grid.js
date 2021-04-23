@@ -100,7 +100,6 @@ class ItemGrid extends React.Component {
   render() {
     // console.log('>>>>ItemGrid.render', this.props);
     // Local Variables
-    const inputRef = React.useRef(null);
     const {classes, item, maxPeople, reference, defaultClick} = this.props;
     const {anchorTraveler, widthTraveler, totalAdults, totalKids} = this.state;
     let itemExt = this.props.itemExt;
