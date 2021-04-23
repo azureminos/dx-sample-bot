@@ -45,8 +45,8 @@ class ItemGrid extends React.Component {
     this.handleAdultChange = this.handleAdultChange.bind(this);
     this.handleKidChange = this.handleKidChange.bind(this);
     this.doHandleItemPeopleChange = this.doHandleItemPeopleChange.bind(this);
-    this.simulateClick = this.simulateClick.bind(this);
     // Init data
+    this.btnPeople = React.createRef();
     // Setup state
     this.state = {
       anchorTraveler: null,
@@ -55,22 +55,11 @@ class ItemGrid extends React.Component {
       totalKids: this.props.item.totalKids || 0,
     };
   }
-  simulateClick(e, defaultClick) {
-    console.log('simulate click');
-    if (defaultClick) {
-      e.click();
+  componentDidMount() {
+    if (this.props.defaultClick) {
+      this.btnPeople.current.onClick();
     }
   }
-  /* componentDidMount() {
-    const {item, defaultClick} = this.props;
-    const elBtn = document.getElementsByName(`btn-people-${item.itemId}`);
-    const aTraveler = defaultClick ? elBtn : null;
-    const wTraveler = defaultClick ? elBtn.clientWidth : null;
-    this.state = {
-      anchorTraveler: aTraveler,
-      widthTraveler: wTraveler,
-    };
-  }*/
   // Event Handlers
   handleClickTraveler(event) {
     this.setState({
@@ -116,6 +105,7 @@ class ItemGrid extends React.Component {
   render() {
     // console.log('>>>>ItemGrid.render', this.props);
     // Local Variables
+    const inputRef = React.useRef(null);
     const {classes, item, maxPeople, reference, defaultClick} = this.props;
     const {anchorTraveler, widthTraveler, totalAdults, totalKids} = this.state;
     let itemExt = this.props.itemExt;
@@ -209,7 +199,7 @@ class ItemGrid extends React.Component {
               color='primary'
               fullWidth
               onClick={this.doHandleItemPeopleChange}
-              ref={this.simulateClick}
+              ref={this.btnPeople}
             >
               Apply
             </Button>
