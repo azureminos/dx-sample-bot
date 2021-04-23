@@ -2,7 +2,6 @@
 import _ from 'lodash';
 import React, {createElement} from 'react';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
 import Popover from '@material-ui/core/Popover';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
@@ -10,8 +9,6 @@ import Select from '@material-ui/core/Select';
 import ButtonExtent from './button-ext';
 import {withStyles} from '@material-ui/core/styles';
 import CONSTANTS from '../../lib/constants';
-import AddBoxIcon from '@material-ui/icons/AddBoxOutlined';
-import MinusBoxIcon from '@material-ui/icons/IndeterminateCheckBoxOutlined';
 // Styles
 // Variables
 const {ATTRACTION, PRODUCT} = CONSTANTS.get().DataModel.TravelPlanItemType;
