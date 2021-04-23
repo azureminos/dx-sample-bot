@@ -197,7 +197,7 @@ class ItemGrid extends React.Component {
           </div>
         );
       };
-      const popover = defaultClick ? (
+      const popover = anchorTraveler ? (
         <Popover
           open
           anchorEl={anchorTraveler}
