@@ -50,6 +50,14 @@ class PackageDayOrganizer extends React.Component {
       offset: -60,
     });
   }
+  componentDidUpdate() {
+    scroller.scrollTo('myScrollToElement', {
+      duration: 0,
+      delay: 0,
+      smooth: 'easeInOutQuart',
+      offset: -60,
+    });
+  }
   // Event Handlers
   handleAccordion(itemId) {
     const {itemSelected} = this.state;
