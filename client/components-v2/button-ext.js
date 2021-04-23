@@ -6,7 +6,7 @@ export default function ButtonExtent(props) {
   const btnPeople = React.useRef();
   useEffect(() => {
     if (props.defaultClick) {
-      btnPeople.current.handleClick();
+      btnPeople.current.click();
     }
   });
   return (
