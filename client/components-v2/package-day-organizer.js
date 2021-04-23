@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import React, {createElement} from 'react';
+import {Element, scroller} from 'react-scroll';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
@@ -41,6 +42,14 @@ class PackageDayOrganizer extends React.Component {
         : fstItemId,
     };
   }
+  componentDidMount() {
+    scroller.scrollTo('myScrollToElement', {
+      duration: 0,
+      delay: 0,
+      smooth: 'easeInOutQuart',
+      offset: -60,
+    });
+  }
   // Event Handlers
   handleAccordion(itemId) {
     const {itemSelected} = this.state;
@@ -63,6 +72,11 @@ class PackageDayOrganizer extends React.Component {
         }
       };
       const itemActions = {handleItemPeopleChange};
+      const elAccordionTitle = isExpand ? (
+        <Element name='myScrollToElement'>{item.name}</Element>
+      ) : (
+        item.name
+      );
       return (
         <Accordion expanded={isExpand} key={`${dayNo}#${item.name}`}>
           <AccordionSummary
@@ -71,7 +85,7 @@ class PackageDayOrganizer extends React.Component {
             }}
             expandIcon={<ExpandMoreIcon />}
           >
-            <div className={classes.heading}>{item.name}</div>
+            <div className={classes.heading}>{elAccordionTitle}</div>
           </AccordionSummary>
           <AccordionDetails>
             <ItemGrid
