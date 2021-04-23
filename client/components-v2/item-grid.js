@@ -197,13 +197,10 @@ class ItemGrid extends React.Component {
           </div>
         );
       };
-      const eWidth = this.btnPeople.current
-        ? this.btnPeople.current.clientWidth
-        : 0;
       const popover = defaultClick ? (
         <Popover
           open
-          anchorEl={this.btnPeople.current}
+          anchorEl={anchorTraveler}
           onClose={this.handleCloseTraveler}
           anchorOrigin={{
             vertical: 'bottom',
@@ -214,7 +211,7 @@ class ItemGrid extends React.Component {
             horizontal: 'left',
           }}
         >
-          {getButtons(eWidth)}
+          {getButtons(widthTraveler)}
         </Popover>
       ) : (
         ''
