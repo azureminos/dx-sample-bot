@@ -203,7 +203,7 @@ class ItemGrid extends React.Component {
         <div>
           <ButtonExtent
             title={strTraveler}
-            defaultClick={defaultClick}
+            defaultClick={defaultClick && !anchorTraveler}
             onClick={this.handleClickTraveler}
             fullWidth
           />
