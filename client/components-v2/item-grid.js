@@ -45,6 +45,7 @@ class ItemGrid extends React.Component {
     this.handleAdultChange = this.handleAdultChange.bind(this);
     this.handleKidChange = this.handleKidChange.bind(this);
     this.doHandleItemPeopleChange = this.doHandleItemPeopleChange.bind(this);
+    this.simulateClick = this.simulateClick.bind(this);
     // Init data
     // Setup state
     this.state = {
@@ -55,6 +56,7 @@ class ItemGrid extends React.Component {
     };
   }
   simulateClick(e, defaultClick) {
+    console.log('simulate click');
     if (defaultClick) {
       e.click();
     }
@@ -207,9 +209,7 @@ class ItemGrid extends React.Component {
               color='primary'
               fullWidth
               onClick={this.doHandleItemPeopleChange}
-              ref={(e) => {
-                this.simulateClick(e, defaultClick);
-              }}
+              ref={this.simulateClick}
             >
               Apply
             </Button>
