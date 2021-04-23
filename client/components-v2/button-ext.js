@@ -2,10 +2,10 @@
 import React, {createElement, useEffect} from 'react';
 import Button from '@material-ui/core/Button';
 // Variables
-export default function ButtonExtent() {
+export default function ButtonExtent(props) {
   const btnPeople = React.useRef();
   useEffect(() => {
-    if (this.props.defaultClick) {
+    if (props.defaultClick) {
       btnPeople.current.handleClick();
     }
   });
@@ -13,11 +13,11 @@ export default function ButtonExtent() {
     <Button
       variant='contained'
       color='primary'
-      fullWidth={!!this.props.fullWidth}
-      onClick={this.props.onClick}
+      fullWidth={!!props.fullWidth}
+      onClick={props.onClick}
       ref={btnPeople}
     >
-      {this.props.title}
+      {props.title}
     </Button>
   );
 }
