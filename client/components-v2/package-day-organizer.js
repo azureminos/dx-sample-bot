@@ -31,9 +31,14 @@ class PackageDayOrganizer extends React.Component {
     // Bind event handlers
     this.handleAccordion = this.handleAccordion.bind(this);
     // Init data
+    const day = this.props.plan.days[this.props.dayNo - 1];
+    const fstItemId =
+      day.items && day.items.length > 0 ? day.items[0].itemId : '';
     // Setup state
     this.state = {
-      itemSelected: this.props.itemSelected,
+      itemSelected: this.props.itemSelected
+        ? this.props.itemSelected
+        : fstItemId,
     };
   }
   // Event Handlers
@@ -49,11 +54,9 @@ class PackageDayOrganizer extends React.Component {
     // Local Variables
     const day = plan.days[dayNo - 1];
     // Local Functions
-    const getItem = (item, idx) => {
+    const getItem = (item) => {
       const {itemSelected} = this.state;
-      const isExpand =
-        (!itemSelected && idx === 0) ||
-        (!!itemSelected && item.itemId === itemSelected);
+      const isExpand = item.itemId === itemSelected;
       const handleItemPeopleChange = (val) => {
         if (actions && actions.handleItemPeopleChange) {
           actions.handleItemPeopleChange(val, dayNo, item.itemId);
