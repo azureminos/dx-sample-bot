@@ -7,6 +7,7 @@ import Popover from '@material-ui/core/Popover';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import ButtonExtent from './button-ext';
 import {withStyles} from '@material-ui/core/styles';
 import CONSTANTS from '../../lib/constants';
 import AddBoxIcon from '@material-ui/icons/AddBoxOutlined';
@@ -46,7 +47,6 @@ class ItemGrid extends React.Component {
     this.handleKidChange = this.handleKidChange.bind(this);
     this.doHandleItemPeopleChange = this.doHandleItemPeopleChange.bind(this);
     // Init data
-    this.btnPeople = React.createRef();
     // Setup state
     this.state = {
       anchorTraveler: null,
@@ -54,11 +54,6 @@ class ItemGrid extends React.Component {
       totalAdults: this.props.item.totalAdults || 0,
       totalKids: this.props.item.totalKids || 0,
     };
-  }
-  componentDidMount() {
-    if (this.props.defaultClick) {
-      this.btnPeople.current.onClick();
-    }
   }
   // Event Handlers
   handleClickTraveler(event) {
@@ -105,7 +100,6 @@ class ItemGrid extends React.Component {
   render() {
     // console.log('>>>>ItemGrid.render', this.props);
     // Local Variables
-    const inputRef = React.useRef(null);
     const {classes, item, maxPeople, reference, defaultClick} = this.props;
     const {anchorTraveler, widthTraveler, totalAdults, totalKids} = this.state;
     let itemExt = this.props.itemExt;
@@ -194,15 +188,11 @@ class ItemGrid extends React.Component {
                 </FormControl>
               </div>
             </div>
-            <Button
-              variant='contained'
-              color='primary'
-              fullWidth
+            <ButtonExtent
+              title={'Apply'}
+              defaultClick={defaultClick}
               onClick={this.doHandleItemPeopleChange}
-              ref={this.btnPeople}
-            >
-              Apply
-            </Button>
+            />
           </div>
         );
       };
