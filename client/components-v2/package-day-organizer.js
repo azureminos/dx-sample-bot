@@ -51,7 +51,9 @@ class PackageDayOrganizer extends React.Component {
   }
   // Event Handlers
   executeScroll() {
-    this.myRef.current.scrollIntoView();
+    if (this.myRef && this.myRef.current) {
+      this.myRef.current.scrollIntoView();
+    }
   }
   handleAccordion(itemId) {
     const {itemSelected} = this.state;
