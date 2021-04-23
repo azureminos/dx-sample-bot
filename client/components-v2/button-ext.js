@@ -13,7 +13,7 @@ export default function ButtonExtent() {
     <Button
       variant='contained'
       color='primary'
-      fullWidth
+      fullWidth={!!this.props.fullWidth}
       onClick={this.props.onClick}
       ref={btnPeople}
     >

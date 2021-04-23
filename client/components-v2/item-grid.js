@@ -100,6 +100,7 @@ class ItemGrid extends React.Component {
   render() {
     // console.log('>>>>ItemGrid.render', this.props);
     // Local Variables
+    const inputRef = React.useRef(null);
     const {classes, item, maxPeople, reference, defaultClick} = this.props;
     const {anchorTraveler, widthTraveler, totalAdults, totalKids} = this.state;
     let itemExt = this.props.itemExt;
@@ -188,24 +189,25 @@ class ItemGrid extends React.Component {
                 </FormControl>
               </div>
             </div>
-            <ButtonExtent
-              title={'Apply'}
-              defaultClick={defaultClick}
+            <Button
+              variant='contained'
+              color='primary'
+              fullWidth
               onClick={this.doHandleItemPeopleChange}
-            />
+            >
+              Apply
+            </Button>
           </div>
         );
       };
       return (
         <div>
-          <Button
-            variant='contained'
-            color='primary'
-            fullWidth
+          <ButtonExtent
+            title={strTraveler}
+            defaultClick={defaultClick}
             onClick={this.handleClickTraveler}
-          >
-            {strTraveler}
-          </Button>
+            fullWidth
+          />
           <Popover
             open={!!anchorTraveler}
             anchorEl={anchorTraveler}
