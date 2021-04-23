@@ -54,7 +54,10 @@ class ItemGrid extends React.Component {
       totalKids: this.props.item.totalKids || 0,
     };
   }
-  componentDidMount() {
+  simulateClick(e) {
+    e.click();
+  }
+  /* componentDidMount() {
     const {item, defaultClick} = this.props;
     const elBtn = document.getElementsByName(`btn-people-${item.itemId}`);
     const aTraveler = defaultClick ? elBtn : null;
@@ -63,7 +66,7 @@ class ItemGrid extends React.Component {
       anchorTraveler: aTraveler,
       widthTraveler: wTraveler,
     };
-  }
+  }*/
   // Event Handlers
   handleClickTraveler(event) {
     this.setState({
@@ -197,16 +200,15 @@ class ItemGrid extends React.Component {
                 </FormControl>
               </div>
             </div>
-            <div name={`btn-people-${item.itemId}`}>
-              <Button
-                variant='contained'
-                color='primary'
-                fullWidth
-                onClick={this.doHandleItemPeopleChange}
-              >
-                Apply
-              </Button>
-            </div>
+            <Button
+              variant='contained'
+              color='primary'
+              fullWidth
+              onClick={this.doHandleItemPeopleChange}
+              ref={this.simulateClick}
+            >
+              Apply
+            </Button>
           </div>
         );
       };
