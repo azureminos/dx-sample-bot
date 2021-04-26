@@ -16,7 +16,7 @@ export default function ButtonExtent(props) {
       color='primary'
       fullWidth={!!props.fullWidth}
       onClick={() => {
-        props.onClick(this.btnPeople.current);
+        props.onClick(btnPeople.current);
       }}
       ref={btnPeople}
     >
