@@ -90,7 +90,6 @@ class ItemGrid extends React.Component {
       item.itemType === PRODUCT
         ? (itemExt.price || 0) * (totalAdults + totalKids)
         : 0;
-    this.setState({anchorTraveler: null, widthTraveler: null});
     if (actions && actions.handleItemPeopleChange) {
       actions.handleItemPeopleChange({totalAdults, totalKids, totalPrice});
     }
@@ -100,7 +99,9 @@ class ItemGrid extends React.Component {
     // console.log('>>>>ItemGrid.render', this.props);
     // Local Variables
     const {classes, item, maxPeople, reference, open} = this.props;
-    const {anchorTraveler, widthTraveler, totalAdults, totalKids} = this.state;
+    const {totalAdults, totalKids} = this.state;
+    const anchorTraveler = this.btnPeople.current;
+    const widthTraveler = anchorTraveler.clientWidth;
     let itemExt = this.props.itemExt;
     if (!itemExt) {
       const {attractions, products} = reference.activities[item.destName];
