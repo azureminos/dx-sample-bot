@@ -39,11 +39,23 @@ class PackageDayOrganizer extends React.Component {
     const fstItemId =
       day.items && day.items.length > 0 ? day.items[0].itemId : '';
     const popover = {};
-    _.each(day.items, (it) => {
-      popover[it.itemId] = !!(
-        this.props.itemSelected && this.props.itemSelected === it.itemId
-      );
-    });
+    let isFound = false;
+    for (let i = 0; i < day.items.length; i++) {
+      const it = day.items[i];
+      if (this.props.itemSelected && this.props.itemSelected === it.itemId) {
+        popover[it.itemId] = true;
+      } else if (
+        !this.props.itemSelected &&
+        !isFound &&
+        !it.totalAdults &&
+        !it.totalKids
+      ) {
+        isFound = true;
+        popover[it.itemId] = true;
+      } else {
+        popover[it.itemId] = false;
+      }
+    }
     // Setup state
     this.state = {
       itemSelected: this.props.itemSelected

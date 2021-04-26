@@ -15,7 +15,9 @@ export default function ButtonExtent(props) {
       variant='contained'
       color='primary'
       fullWidth={!!props.fullWidth}
-      onClick={props.onClick}
+      onClick={() => {
+        props.onClick(this.btnPeople.current);
+      }}
       ref={btnPeople}
     >
       {props.title}
