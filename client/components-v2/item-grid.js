@@ -98,7 +98,7 @@ class ItemGrid extends React.Component {
   componentDidMount() {
     // can use any refs here
     console.log('ItemGrid.componentDidMount', this.btnPeople);
-    if (this.props.open && !this.state.anchorTraveler) {
+    if (!this.state.anchorTraveler) {
       this.setState({anchorTraveler: this.btnPeople.current});
     }
   }
