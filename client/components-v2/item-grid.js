@@ -59,9 +59,9 @@ class ItemGrid extends React.Component {
     this.setState({totalKids: event.target.value});
   }
   doHandleClickTraveler(itemId) {
-    const {actions} = this.props;
+    const {actions, open} = this.props;
     if (actions && actions.handleClickTraveler) {
-      actions.handleClickTraveler(itemId, true);
+      actions.handleClickTraveler(itemId, !open);
     }
   }
   doHandleCloseTraveler(itemId) {
@@ -91,7 +91,8 @@ class ItemGrid extends React.Component {
         ? (itemExt.price || 0) * (totalAdults + totalKids)
         : 0;
     if (actions && actions.handleItemPeopleChange) {
-      actions.handleItemPeopleChange({totalAdults, totalKids, totalPrice});
+      const val = {totalAdults, totalKids, totalPrice};
+      actions.handleItemPeopleChange(val, item.itemId);
     }
   }
   // Display Widget

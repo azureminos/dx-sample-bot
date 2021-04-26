@@ -31,6 +31,7 @@ class PackageDayOrganizer extends React.Component {
     // Bind event handlers
     this.handleAccordion = this.handleAccordion.bind(this);
     this.handleClickTraveler = this.handleClickTraveler.bind(this);
+    this.doHandleItemPeopleChange = this.doHandleItemPeopleChange.bind(this);
     this.executeScroll = this.executeScroll.bind(this);
     // Init data
     this.myRef = React.createRef();
@@ -68,6 +69,15 @@ class PackageDayOrganizer extends React.Component {
     popover[itemId] = isOpen;
     this.setState({popover});
   }
+  doHandleItemPeopleChange(val, itemId) {
+    const {actions, dayNo} = this.props;
+    const {itemSelected, popover} = this.state;
+    popover[itemSelected] = false;
+    this.setState({popover});
+    if (actions && actions.handleItemPeopleChange) {
+      actions.handleItemPeopleChange(val, dayNo, itemId);
+    }
+  }
   handleAccordion(itemId) {
     const {itemSelected, popover} = this.state;
     if (itemId === itemSelected) {
@@ -95,13 +105,8 @@ class PackageDayOrganizer extends React.Component {
       const {itemSelected, popover} = this.state;
       const isExpand = item.itemId === itemSelected;
       const isPopoverOpen = popover[item.itemId];
-      const handleItemPeopleChange = (val) => {
-        if (actions && actions.handleItemPeopleChange) {
-          actions.handleItemPeopleChange(val, dayNo, item.itemId);
-        }
-      };
       const itemActions = {
-        handleItemPeopleChange: handleItemPeopleChange,
+        handleItemPeopleChange: this.doHandleItemPeopleChange,
         handleClickTraveler: this.handleClickTraveler,
       };
       return (
