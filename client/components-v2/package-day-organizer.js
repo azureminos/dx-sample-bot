@@ -30,17 +30,25 @@ class PackageDayOrganizer extends React.Component {
     super(props);
     // Bind event handlers
     this.handleAccordion = this.handleAccordion.bind(this);
+    this.handleClickTraveler = this.handleClickTraveler.bind(this);
     this.executeScroll = this.executeScroll.bind(this);
     // Init data
     this.myRef = React.createRef();
     const day = this.props.plan.days[this.props.dayNo - 1];
     const fstItemId =
       day.items && day.items.length > 0 ? day.items[0].itemId : '';
+    const popover = {};
+    _.each(day.items, (it) => {
+      popover[it.itemId] = !!(
+        this.props.itemSelected && this.props.itemSelected === it.itemId
+      );
+    });
     // Setup state
     this.state = {
       itemSelected: this.props.itemSelected
         ? this.props.itemSelected
         : fstItemId,
+      popover: popover,
     };
   }
   componentDidMount() {
@@ -55,6 +63,11 @@ class PackageDayOrganizer extends React.Component {
       this.myRef.current.scrollIntoView();
     }
   }
+  handleClickTraveler(itemId, isOpen) {
+    const {popover} = this.state;
+    popover[itemId] = isOpen;
+    this.setState({popover});
+  }
   handleAccordion(itemId) {
     const {itemSelected} = this.state;
     this.setState({itemSelected: itemId === itemSelected ? '' : itemId});
@@ -68,14 +81,18 @@ class PackageDayOrganizer extends React.Component {
     const day = plan.days[dayNo - 1];
     // Local Functions
     const getItem = (item) => {
-      const {itemSelected} = this.state;
+      const {itemSelected, popover} = this.state;
       const isExpand = item.itemId === itemSelected;
+      const isPopoverOpen = popover[item.itemId];
       const handleItemPeopleChange = (val) => {
         if (actions && actions.handleItemPeopleChange) {
           actions.handleItemPeopleChange(val, dayNo, item.itemId);
         }
       };
-      const itemActions = {handleItemPeopleChange};
+      const itemActions = {
+        handleItemPeopleChange: handleItemPeopleChange,
+        handleClickTraveler: this.handleClickTraveler,
+      };
       return (
         <Accordion expanded={isExpand} key={`${dayNo}#${item.name}`}>
           <AccordionSummary
@@ -94,7 +111,7 @@ class PackageDayOrganizer extends React.Component {
               maxPeople={plan.totalPeople}
               reference={reference}
               actions={itemActions}
-              defaultClick={isExpand}
+              open={isPopoverOpen}
             />
           </AccordionDetails>
         </Accordion>

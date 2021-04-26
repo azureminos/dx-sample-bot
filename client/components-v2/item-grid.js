@@ -38,8 +38,8 @@ class ItemGrid extends React.Component {
   constructor(props) {
     super(props);
     // Bind event handlers
-    this.handleClickTraveler = this.handleClickTraveler.bind(this);
-    this.handleCloseTraveler = this.handleCloseTraveler.bind(this);
+    this.doHandleClickTraveler = this.doHandleClickTraveler.bind(this);
+    this.doHandleCloseTraveler = this.doHandleCloseTraveler.bind(this);
     this.handleAdultChange = this.handleAdultChange.bind(this);
     this.handleKidChange = this.handleKidChange.bind(this);
     this.doHandleItemPeopleChange = this.doHandleItemPeopleChange.bind(this);
@@ -47,27 +47,28 @@ class ItemGrid extends React.Component {
     this.btnPeople = React.createRef();
     // Setup state
     this.state = {
-      anchorTraveler: null,
-      widthTraveler: null,
       totalAdults: this.props.item.totalAdults || 0,
       totalKids: this.props.item.totalKids || 0,
     };
   }
   // Event Handlers
-  handleClickTraveler(event) {
-    this.setState({
-      anchorTraveler: event.currentTarget,
-      widthTraveler: event.currentTarget.clientWidth,
-    });
-  }
-  handleCloseTraveler() {
-    this.setState({anchorTraveler: null, widthTraveler: null});
-  }
   handleAdultChange(event) {
     this.setState({totalAdults: event.target.value});
   }
   handleKidChange(event) {
     this.setState({totalKids: event.target.value});
+  }
+  doHandleClickTraveler(itemId) {
+    const actions = this.props;
+    if (actions && actions.handleClickTraveler) {
+      actions.handleClickTraveler(itemId, true);
+    }
+  }
+  doHandleCloseTraveler(itemId) {
+    const actions = this.props;
+    if (actions && actions.handleClickTraveler) {
+      actions.handleClickTraveler(itemId, false);
+    }
   }
   doHandleItemPeopleChange() {
     const totalAdults = Number(this.state.totalAdults || 0);
@@ -98,7 +99,7 @@ class ItemGrid extends React.Component {
   render() {
     // console.log('>>>>ItemGrid.render', this.props);
     // Local Variables
-    const {classes, item, maxPeople, reference, defaultClick} = this.props;
+    const {classes, item, maxPeople, reference, open} = this.props;
     const {anchorTraveler, widthTraveler, totalAdults, totalKids} = this.state;
     let itemExt = this.props.itemExt;
     if (!itemExt) {
@@ -199,9 +200,11 @@ class ItemGrid extends React.Component {
       };
       const popover = anchorTraveler ? (
         <Popover
-          open
+          open={open}
           anchorEl={anchorTraveler}
-          onClose={this.handleCloseTraveler}
+          onClose={() => {
+            this.doHandleCloseTraveler(item.itemId);
+          }}
           anchorOrigin={{
             vertical: 'bottom',
             horizontal: 'left',
@@ -222,7 +225,9 @@ class ItemGrid extends React.Component {
             variant='contained'
             color='primary'
             fullWidth
-            onClick={this.handleClickTraveler}
+            onClick={() => {
+              this.doHandleClickTraveler(item.itemId);
+            }}
             ref={this.btnPeople}
           >
             {strTraveler}
