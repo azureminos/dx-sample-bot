@@ -76,7 +76,7 @@ class PackageDayOrganizer extends React.Component {
     popover[itemSelected] = false;
     const day = plan.days[dayNo - 1];
     for (let i = 0; i < day.items.length; i++) {
-      if (day.items[i] === itemSelected && i < day.items.length - 1) {
+      if (day.items[i].itemId === itemSelected && i < day.items.length - 1) {
         const iNext = day.items[i + 1];
         popover[iNext.itemId] = !iNext.totalAdults && !iNext.totalKids;
         sItemId = iNext.itemId;
