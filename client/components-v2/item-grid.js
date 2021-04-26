@@ -199,27 +199,6 @@ class ItemGrid extends React.Component {
           </div>
         );
       };
-      const popover = anchorTraveler ? (
-        <Popover
-          open={open}
-          anchorEl={anchorTraveler}
-          onClose={() => {
-            this.doHandleCloseTraveler(item.itemId);
-          }}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'left',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'left',
-          }}
-        >
-          {getButtons(widthTraveler)}
-        </Popover>
-      ) : (
-        ''
-      );
       return (
         <div>
           <Button
@@ -233,7 +212,7 @@ class ItemGrid extends React.Component {
           >
             {strTraveler}
           </Button>
-          {popover}
+          {open ? getButtons(widthTraveler) : ''}
         </div>
       );
     };
