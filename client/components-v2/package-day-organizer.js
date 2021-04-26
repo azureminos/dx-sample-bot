@@ -70,10 +70,19 @@ class PackageDayOrganizer extends React.Component {
     this.setState({popover});
   }
   doHandleItemPeopleChange(val, itemId) {
-    const {actions, dayNo} = this.props;
+    const {actions, dayNo, plan} = this.props;
     const {itemSelected, popover} = this.state;
+    let sItemId = itemSelected;
     popover[itemSelected] = false;
-    this.setState({popover});
+    const day = plan.days[dayNo - 1];
+    for (let i = 0; i < day.items.length; i++) {
+      if (day.items[i] === itemSelected && i < day.items.length - 1) {
+        const iNext = day.items[i + 1];
+        popover[iNext.itemId] = !iNext.totalAdults && !iNext.totalKids;
+        sItemId = iNext.itemId;
+      }
+    }
+    this.setState({popover, itemSelected: sItemId});
     if (actions && actions.handleItemPeopleChange) {
       actions.handleItemPeopleChange(val, dayNo, itemId);
     }
