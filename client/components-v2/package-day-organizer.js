@@ -69,8 +69,19 @@ class PackageDayOrganizer extends React.Component {
     this.setState({popover});
   }
   handleAccordion(itemId) {
-    const {itemSelected} = this.state;
-    this.setState({itemSelected: itemId === itemSelected ? '' : itemId});
+    const {itemSelected, popover} = this.state;
+    if (itemId === itemSelected) {
+      popover[itemId] = false;
+      this.setState({itemSelected: '', popover});
+    } else {
+      const day = this.props.plan.days[this.props.dayNo - 1];
+      const item = _.find(day.items, (it) => {
+        return itemId === it.itemId;
+      });
+      popover[itemId] = item && !item.totalAdults && !item.totalKids;
+      popover[itemSelected] = false;
+      this.setState({itemSelected: itemId, popover});
+    }
   }
   // Display Widget
   render() {

@@ -59,13 +59,13 @@ class ItemGrid extends React.Component {
     this.setState({totalKids: event.target.value});
   }
   doHandleClickTraveler(itemId) {
-    const actions = this.props;
+    const {actions} = this.props;
     if (actions && actions.handleClickTraveler) {
       actions.handleClickTraveler(itemId, true);
     }
   }
   doHandleCloseTraveler(itemId) {
-    const actions = this.props;
+    const {actions} = this.props;
     if (actions && actions.handleClickTraveler) {
       actions.handleClickTraveler(itemId, false);
     }
