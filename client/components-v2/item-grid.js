@@ -43,6 +43,7 @@ class ItemGrid extends React.Component {
     this.handleKidChange = this.handleKidChange.bind(this);
     this.doHandleItemPeopleChange = this.doHandleItemPeopleChange.bind(this);
     // Init data
+    this.btnPeople = React.createRef();
     // Setup state
     this.state = {
       anchorTraveler: null,
@@ -57,11 +58,11 @@ class ItemGrid extends React.Component {
   handleKidChange(event) {
     this.setState({totalKids: event.target.value});
   }
-  doHandleClickTraveler(el, isUserClick) {
+  doHandleClickTraveler(el) {
     const {actions, open, item} = this.props;
     this.setState({anchorTraveler: el});
     if (actions && actions.handleClickTraveler) {
-      actions.handleClickTraveler(item.itemId, !isUserClick || !open);
+      actions.handleClickTraveler(item.itemId, !open);
     }
   }
   doHandleCloseTraveler() {
@@ -94,6 +95,10 @@ class ItemGrid extends React.Component {
       const val = {totalAdults, totalKids, totalPrice};
       actions.handleItemPeopleChange(val, item.itemId);
     }
+  }
+  componentDidMount() {
+    // can use any refs here
+    console.log('ItemGrid.componentDidMount', this.btnPeople);
   }
   // Display Widget
   render() {
@@ -198,34 +203,38 @@ class ItemGrid extends React.Component {
           </div>
         );
       };
-      const popover =
-        open && anchorTraveler ? (
-          <Popover
-            open
-            anchorEl={anchorTraveler}
-            onClose={this.doHandleCloseTraveler}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left',
-            }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'left',
-            }}
-          >
-            {getButtons(anchorTraveler.clientWidth)}
-          </Popover>
-        ) : (
-          ''
-        );
+      const popover = open ? (
+        <Popover
+          open
+          anchorEl={anchorTraveler}
+          onClose={this.doHandleCloseTraveler}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'left',
+          }}
+        >
+          {getButtons(anchorTraveler.clientWidth)}
+        </Popover>
+      ) : (
+        ''
+      );
       return (
         <div>
-          <ButtonExtent
+          <Button
+            variant='contained'
+            color='primary'
             fullWidth
-            onClick={this.doHandleClickTraveler}
-            title={strTraveler}
-            defaultClick={open}
-          />
+            onClick={() => {
+              this.doHandleClickTraveler();
+            }}
+            ref={this.btnPeople}
+          >
+            {strTraveler}
+          </Button>
           {popover}
         </div>
       );
