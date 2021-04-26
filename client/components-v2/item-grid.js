@@ -100,8 +100,6 @@ class ItemGrid extends React.Component {
     // Local Variables
     const {classes, item, maxPeople, reference, open} = this.props;
     const {totalAdults, totalKids} = this.state;
-    const anchorTraveler = this.btnPeople.current;
-    const widthTraveler = anchorTraveler.clientWidth;
     let itemExt = this.props.itemExt;
     if (!itemExt) {
       const {attractions, products} = reference.activities[item.destName];
