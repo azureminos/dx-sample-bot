@@ -125,7 +125,7 @@ class ItemGrid extends React.Component {
         !item.totalAdults && !item.totalKids
           ? 'Number of travelers'
           : `Adults: ${item.totalAdults || 0}, Kids: ${item.totalKids || 0}`;
-      const getButtons = (width) => {
+      const getButtons = () => {
         const getOptions = (max) => {
           const options = [];
           for (let i = 0; i <= max; i++) {
@@ -138,12 +138,10 @@ class ItemGrid extends React.Component {
           return options;
         };
         if (item.pricePlan) {
-          return (
-            <div style={{width: `${width || 100}px`}}>price plan options</div>
-          );
+          return <div style={{width: '100%'}}>price plan options</div>;
         }
         return (
-          <div style={{width: `${width || 100}px`}}>
+          <div style={{width: '100%'}}>
             <div style={{display: 'flex'}}>
               <div className={classes.hDivPeople}>
                 <FormControl
@@ -210,7 +208,7 @@ class ItemGrid extends React.Component {
           >
             {strTraveler}
           </Button>
-          {open ? getButtons(widthTraveler) : ''}
+          {open ? getButtons() : ''}
         </div>
       );
     };
