@@ -7,7 +7,7 @@ export default function ButtonExtent(props) {
   useEffect(() => {
     if (props.defaultClick) {
       console.log('>>>>ButtonExtent.useEffect');
-      btnPeople.current.click();
+      props.onClick(btnPeople.current, false);
     }
   });
   return (
@@ -16,7 +16,7 @@ export default function ButtonExtent(props) {
       color='primary'
       fullWidth={!!props.fullWidth}
       onClick={() => {
-        props.onClick(btnPeople.current);
+        props.onClick(btnPeople.current, true);
       }}
       ref={btnPeople}
     >

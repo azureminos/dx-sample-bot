@@ -57,11 +57,11 @@ class ItemGrid extends React.Component {
   handleKidChange(event) {
     this.setState({totalKids: event.target.value});
   }
-  doHandleClickTraveler(el) {
+  doHandleClickTraveler(el, isUserClick) {
     const {actions, open, item} = this.props;
     this.setState({anchorTraveler: el});
     if (actions && actions.handleClickTraveler) {
-      actions.handleClickTraveler(item.itemId, !open);
+      actions.handleClickTraveler(item.itemId, !isUserClick || !open);
     }
   }
   doHandleCloseTraveler() {
