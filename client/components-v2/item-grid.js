@@ -6,7 +6,6 @@ import Popover from '@material-ui/core/Popover';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-// import ButtonExtent from './button-ext';
 import {withStyles} from '@material-ui/core/styles';
 import CONSTANTS from '../../lib/constants';
 // Styles
@@ -39,10 +38,10 @@ class ItemGrid extends React.Component {
     super(props);
     // Bind event handlers
     this.doHandleClickTraveler = this.doHandleClickTraveler.bind(this);
+    this.doHandleCloseTraveler = this.doHandleCloseTraveler.bind(this);
     this.handleAdultChange = this.handleAdultChange.bind(this);
     this.handleKidChange = this.handleKidChange.bind(this);
     this.doHandleItemPeopleChange = this.doHandleItemPeopleChange.bind(this);
-    // Init data
     // Setup state
     this.state = {
       totalAdults: this.props.item.totalAdults || 0,
@@ -56,10 +55,16 @@ class ItemGrid extends React.Component {
   handleKidChange(event) {
     this.setState({totalKids: event.target.value});
   }
-  doHandleClickTraveler() {
-    const {item, actions, open} = this.props;
+  doHandleClickTraveler(itemId) {
+    const {actions, open} = this.props;
     if (actions && actions.handleClickTraveler) {
-      actions.handleClickTraveler(item.itemId, !open);
+      actions.handleClickTraveler(itemId, !open);
+    }
+  }
+  doHandleCloseTraveler(itemId) {
+    const {actions} = this.props;
+    if (actions && actions.handleClickTraveler) {
+      actions.handleClickTraveler(itemId, false);
     }
   }
   doHandleItemPeopleChange() {
@@ -195,7 +200,7 @@ class ItemGrid extends React.Component {
             color='primary'
             fullWidth
             onClick={() => {
-              this.doHandleClickTraveler();
+              this.doHandleClickTraveler(item.itemId);
             }}
           >
             {strTraveler}
