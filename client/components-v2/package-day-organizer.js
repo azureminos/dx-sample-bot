@@ -1,173 +1,248 @@
+// Components
 import _ from 'lodash';
 import React, {createElement} from 'react';
-import Accordion from '@material-ui/core/Accordion';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
+import Button from '@material-ui/core/Button';
+import Popover from '@material-ui/core/Popover';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 import {withStyles} from '@material-ui/core/styles';
-import ItemGrid from './item-grid';
-// ====== Icons ======
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import CONSTANTS from '../../lib/constants';
+// Styles
 // Variables
+const {ATTRACTION, PRODUCT} = CONSTANTS.get().DataModel.TravelPlanItemType;
 const styles = (theme) => ({
   root: {
     width: '100%',
-    backgroundColor: theme.palette.background.paper,
   },
-  divTitleRoot: {
-    display: 'flex',
-    alignItems: 'center',
+  image: {
+    width: '-webkit-fill-available',
   },
-  divTitleItem: {
-    margin: 4,
+  hDivPeople: {
+    width: '50%',
   },
-  fBtnRoot: {
-    margin: 4,
+  hDivPeopleControl: {
+    margin: theme.spacing(1),
+    width: '80%',
+  },
+  hDivDescription: {
+    width: '100%',
+  },
+  hDivDescriptionItem: {
+    padding: 8,
   },
 });
 
-class PackageDayOrganizer extends React.Component {
+class ItemGrid extends React.Component {
   constructor(props) {
     super(props);
     // Bind event handlers
-    this.handleAccordion = this.handleAccordion.bind(this);
-    this.handleClickTraveler = this.handleClickTraveler.bind(this);
+    this.doHandleClickTraveler = this.doHandleClickTraveler.bind(this);
+    this.doHandleCloseTraveler = this.doHandleCloseTraveler.bind(this);
+    this.handleAdultChange = this.handleAdultChange.bind(this);
+    this.handleKidChange = this.handleKidChange.bind(this);
     this.doHandleItemPeopleChange = this.doHandleItemPeopleChange.bind(this);
-    this.executeScroll = this.executeScroll.bind(this);
-    // Init data
-    this.myRef = React.createRef();
-    const day = this.props.plan.days[this.props.dayNo - 1];
-    const fstItemId =
-      day.items && day.items.length > 0 ? day.items[0].itemId : '';
-    const popover = {};
-    let isFound = false;
-    for (let i = 0; i < day.items.length; i++) {
-      const it = day.items[i];
-      if (this.props.itemSelected && this.props.itemSelected === it.itemId) {
-        popover[it.itemId] = true;
-      } else if (
-        !this.props.itemSelected &&
-        !isFound &&
-        !it.totalAdults &&
-        !it.totalKids
-      ) {
-        isFound = true;
-        popover[it.itemId] = true;
-      } else {
-        popover[it.itemId] = false;
-      }
-    }
     // Setup state
     this.state = {
-      itemSelected: this.props.itemSelected
-        ? this.props.itemSelected
-        : fstItemId,
-      popover: popover,
+      totalAdults: this.props.item.totalAdults || 0,
+      totalKids: this.props.item.totalKids || 0,
     };
   }
-  componentDidMount() {
-    this.executeScroll();
-  }
-  componentDidUpdate() {
-    this.executeScroll();
-  }
   // Event Handlers
-  executeScroll() {
-    if (this.myRef && this.myRef.current) {
-      this.myRef.current.scrollIntoView();
+  handleAdultChange(event) {
+    this.setState({totalAdults: event.target.value});
+  }
+  handleKidChange(event) {
+    this.setState({totalKids: event.target.value});
+  }
+  doHandleClickTraveler(itemId) {
+    const {actions, open} = this.props;
+    if (actions && actions.handleClickTraveler) {
+      actions.handleClickTraveler(itemId, !open);
     }
   }
-  handleClickTraveler(itemId, isOpen) {
-    const {popover} = this.state;
-    popover[itemId] = isOpen;
-    this.setState({popover});
-  }
-  doHandleItemPeopleChange(val, itemId) {
-    const {actions, dayNo, plan} = this.props;
-    const {itemSelected, popover} = this.state;
-    let sItemId = itemSelected;
-    popover[itemSelected] = false;
-    const day = plan.days[dayNo - 1];
-    for (let i = 0; i < day.items.length; i++) {
-      const iNext = day.items[i];
-      if (
-        !iNext.totalAdults &&
-        !iNext.totalKids &&
-        day.items[i].itemId !== itemSelected
-      ) {
-        popover[iNext.itemId] = true;
-        sItemId = iNext.itemId;
-      }
+  doHandleCloseTraveler(itemId) {
+    const {actions} = this.props;
+    if (actions && actions.handleClickTraveler) {
+      actions.handleClickTraveler(itemId, false);
     }
-    this.setState({popover, itemSelected: sItemId});
+  }
+  doHandleItemPeopleChange() {
+    const totalAdults = Number(this.state.totalAdults || 0);
+    const totalKids = Number(this.state.totalKids || 0);
+    const {item, reference, actions} = this.props;
+    let itemExt = this.props.itemExt;
+    if (!itemExt) {
+      const {attractions, products} = reference.activities[item.destName];
+      itemExt =
+        item.itemType === PRODUCT
+          ? _.find(products, (p) => {
+            return p.productCode === item.itemId;
+          })
+          : _.find(attractions, (a) => {
+            return a.seoId === item.itemId;
+          });
+    }
+    const totalPrice =
+      item.itemType === PRODUCT
+        ? (itemExt.price || 0) * (totalAdults + totalKids)
+        : 0;
     if (actions && actions.handleItemPeopleChange) {
-      actions.handleItemPeopleChange(val, dayNo, itemId);
-    }
-  }
-  handleAccordion(itemId) {
-    const {itemSelected, popover} = this.state;
-    if (itemId === itemSelected) {
-      popover[itemId] = false;
-      this.setState({itemSelected: '', popover});
-    } else {
-      const day = this.props.plan.days[this.props.dayNo - 1];
-      const item = _.find(day.items, (it) => {
-        return itemId === it.itemId;
-      });
-      popover[itemId] = item && !item.totalAdults && !item.totalKids;
-      popover[itemSelected] = false;
-      this.setState({itemSelected: itemId, popover});
+      const val = {totalAdults, totalKids, totalPrice};
+      actions.handleItemPeopleChange(val, item.itemId);
     }
   }
   // Display Widget
   render() {
-    const {classes, plan, planExt} = this.props;
-    const {reference, actions, dayNo} = this.props;
-    console.log('>>>>PackageDayOrganizer, render()', this.props);
+    // console.log('>>>>ItemGrid.render', this.props);
     // Local Variables
-    const day = plan.days[dayNo - 1];
+    const {classes, item, maxPeople, reference, open} = this.props;
+    const {totalAdults, totalKids} = this.state;
+    let itemExt = this.props.itemExt;
+    if (!itemExt) {
+      const {attractions, products} = reference.activities[item.destName];
+      itemExt =
+        item.itemType === PRODUCT
+          ? _.find(products, (p) => {
+            return p.productCode === item.itemId;
+          })
+          : _.find(attractions, (a) => {
+            return a.seoId === item.itemId;
+          });
+    }
     // Local Functions
-    const getItem = (item) => {
-      const {itemSelected, popover} = this.state;
-      const isExpand = item.itemId === itemSelected;
-      const isPopoverOpen = popover[item.itemId];
-      const itemActions = {
-        handleItemPeopleChange: this.doHandleItemPeopleChange,
-        handleClickTraveler: this.handleClickTraveler,
-      };
+    const getImage = () => {
       return (
-        <Accordion expanded={isExpand} key={`${dayNo}#${item.name}`}>
-          <AccordionSummary
-            onClick={() => {
-              this.handleAccordion(item.itemId);
-            }}
-            expandIcon={<ExpandMoreIcon />}
-          >
-            <div className={classes.heading} ref={isExpand ? this.myRef : null}>
-              {item.name}
-            </div>
-          </AccordionSummary>
-          <AccordionDetails>
-            <ItemGrid
-              item={item}
-              maxPeople={plan.totalPeople}
-              reference={reference}
-              actions={itemActions}
-              open={isPopoverOpen}
-            />
-          </AccordionDetails>
-        </Accordion>
+        <div>
+          <img src={item.imgUrl} className={classes.image} />
+        </div>
       );
     };
-    const getAccordions = (items) => {
-      const acs = [];
-      _.each(items, (item, idx) => {
-        acs.push(getItem(item, idx));
-      });
-      return acs;
+    const getTraveller = () => {
+      const strTraveler =
+        !item.totalAdults && !item.totalKids
+          ? 'Number of travelers'
+          : `Adults: ${item.totalAdults || 0}, Kids: ${item.totalKids || 0}`;
+      const getButtons = () => {
+        const getOptions = (max) => {
+          const options = [];
+          for (let i = 0; i <= max; i++) {
+            options.push(
+              <option key={`${item.itemId}#${i}`} value={i}>
+                {i}
+              </option>
+            );
+          }
+          return options;
+        };
+        if (item.pricePlan) {
+          return <div style={{width: '100%'}}>price plan options</div>;
+        }
+        return (
+          <div style={{width: '100%'}}>
+            <div style={{display: 'flex'}}>
+              <div className={classes.hDivPeople}>
+                <FormControl
+                  variant='outlined'
+                  className={classes.hDivPeopleControl}
+                >
+                  <InputLabel htmlFor='adult-selector'>Adult</InputLabel>
+                  <Select
+                    native
+                    value={totalAdults}
+                    onChange={this.handleAdultChange}
+                    label='Adult'
+                    inputProps={{
+                      name: 'adult',
+                      id: 'adult-selector',
+                    }}
+                  >
+                    {getOptions(maxPeople - totalKids)}
+                  </Select>
+                </FormControl>
+              </div>
+              <div className={classes.hDivPeople}>
+                <FormControl
+                  variant='outlined'
+                  className={classes.hDivPeopleControl}
+                >
+                  <InputLabel htmlFor='kid-selector'>Kid</InputLabel>
+                  <Select
+                    native
+                    value={totalKids}
+                    onChange={this.handleKidChange}
+                    label='Kid'
+                    inputProps={{
+                      name: 'kid',
+                      id: 'kid-selector',
+                    }}
+                  >
+                    {getOptions(maxPeople - totalAdults)}
+                  </Select>
+                </FormControl>
+              </div>
+            </div>
+            <Button
+              variant='contained'
+              color='primary'
+              fullWidth
+              onClick={this.doHandleItemPeopleChange}
+            >
+              Apply
+            </Button>
+          </div>
+        );
+      };
+      return (
+        <div>
+          <Button
+            variant='contained'
+            color='primary'
+            fullWidth
+            onClick={() => {
+              this.doHandleClickTraveler(item.itemId);
+            }}
+          >
+            {strTraveler}
+          </Button>
+          {open ? getButtons() : ''}
+        </div>
+      );
+    };
+    const getTimeSlot = () => {
+      return '';
+    };
+    const getDetails = () => {
+      return (
+        <div className={classes.hDivDescriptionItem}>
+          <div
+            className={classes.hDivDescriptionItem}
+          >{`Price: ${itemExt.currencyCode} ${itemExt.price}`}</div>
+          <div
+            className={classes.hDivDescriptionItem}
+          >{`Duration: ${itemExt.duration}`}</div>
+          <div className={classes.hDivDescriptionItem}>{`Hotel Pickup: ${
+            itemExt.hotelPickup ? 'Offered' : 'Not Offered'
+          }`}</div>
+          <div className={classes.hDivDescriptionItem}>
+            <b>Overview</b>
+          </div>
+          <div className={classes.hDivDescriptionItem}>
+            {itemExt.shortDescription}
+          </div>
+        </div>
+      );
     };
     // Display Widget
-    return <div>{getAccordions(day.items)}</div>;
+    return (
+      <div className={classes.root}>
+        {getImage()}
+        {maxPeople ? getTraveller() : ''}
+        {getTimeSlot()}
+        {getDetails()}
+      </div>
+    );
   }
 }
 
-export default withStyles(styles)(PackageDayOrganizer);
+export default withStyles(styles, {withTheme: true})(ItemGrid);
