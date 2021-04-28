@@ -592,11 +592,13 @@ class App extends React.Component {
     }
     console.log('>>>>handleSetDestination completed', plan);
     // Load related activity if new destination
-    if (!activities[name]) {
+    if (!activities[name] && destinationId !== -1) {
       this.pushToRemote('ref:activity', {
         city: name,
         cityId: destinationId,
       });
+    } else if (!activities[name] && destinationId === -1) {
+      console.log(`>>>>${name} is a unknown city`);
     } else {
       // Fill the days
       plan.days = Helper.fillDays(
