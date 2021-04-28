@@ -115,6 +115,8 @@ class PackageSummary extends React.Component {
         <div className={classes.divFlex}>
           {_.map(day.cities, (cc, index) => {
             const uItemId = `item##${day.dayNo}##${cc.destinationId}##${index}`;
+            const isFixed =
+              day.dayNo === plan.days.length && index === day.cities.length - 1;
             return (
               <Draggable key={uItemId} draggableId={uItemId} index={index}>
                 {(provided, snapshot) => (
@@ -128,7 +130,7 @@ class PackageSummary extends React.Component {
                     )}
                   >
                     <div>{cc.name}</div>
-                    {!day.dayNo === 1 && index === 0 ? (
+                    {isFixed ? (
                       <div
                         onClick={() => {
                           this.doHandleRemoveCity(day.dayNo, index);
