@@ -365,6 +365,7 @@ class PagePlanTrip extends React.Component {
           )}
           {popupDest.open ? (
             <PopupDestination
+              planExt={planExt}
               message={popupDest.message}
               dayNo={popupDest.dayNo}
               destinations={destinations}
