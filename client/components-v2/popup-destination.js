@@ -39,14 +39,32 @@ class PopupDestination extends React.Component {
   doHandleAddressChange(input) {
     console.log('>>>>PopupDestination.doHandleAddressChange', input);
     const {dayNo, handleAddDestination} = this.props;
-    const {address, location} = input;
+    const {address, location, type} = input;
     if (location) {
       const {destinations} = this.props;
       const closeCity = Helper.findCloseCity(location, destinations);
       if (!closeCity) {
-        // Enter a new location
-        const error = 'Please enter a valid address for the destination city';
-        this.setState({sAddress: '', sLocation: '', error});
+        // Option 1: Enter a new location
+        /* const error = 'Please enter a valid address for the destination city';
+        this.setState({sAddress: '', sLocation: '', error});*/
+        // Option 2: allow but show no activities
+        this.setState({
+          sAddress: address,
+          sLocation: location,
+          error: '',
+        });
+        if (handleAddDestination) {
+          const {country} = this.props.planExt;
+          const oCity = Helper.getCityFromAddress(type, address, country);
+          const tmpCity = {
+            destinationId: -1,
+            distance: -1,
+            location: location,
+            name: oCity.name,
+            state: oCity.state,
+          };
+          handleAddDestination({dayNo, city: tmpCity});
+        }
       } else {
         this.setState({
           sAddress: address,
