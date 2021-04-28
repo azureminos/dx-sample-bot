@@ -9,6 +9,7 @@ import CONSTANTS from '../../lib/constants';
 // ====== Icons ======
 // Variables
 const {TravelPlanItemType} = CONSTANTS.get().DataModel;
+const {PRODUCT, ATTRACTION} = TravelPlanItemType;
 const styles = (theme) => ({
   root: {
     width: '100%',
@@ -68,29 +69,22 @@ class PackageDayPlanner extends React.Component {
     const day = plan.days[dayNo - 1];
     const {cities, items} = day;
     const isLastDay = dayNo === plan.days.length;
-    const selectedCity =
+    const isUserSelected = !!this.state.selectedCity;
+    let selectedCity =
       this.state.selectedCity ||
       (isLastDay ? cities[0].name : cities[cities.length - 1].name);
-    if (!reference.activities[selectedCity]) {
-      return <div>Loading</div>;
+    if (!isUserSelected && !reference.activities[selectedCity]) {
+      for (let i = 0; i < cities.length; i++) {
+        if (reference.activities[cities[i].name]) {
+          selectedCity = cities[i].name;
+          break;
+        }
+      }
     }
-    const {products, attractions} = reference.activities[selectedCity];
     const title = `Day ${dayNo}:`;
     const itemSelected = [];
-    // Unselected products of the selected city
-    const productUnselected = _.filter(products, (p) => {
-      const pMatcher = _.find(items, (it) => {
-        return it.itemId === p.productCode;
-      });
-      return !pMatcher;
-    });
-    // Unselected attractions of the selected city
-    const attractionUnselected = _.filter(attractions, (a) => {
-      const aMatcher = _.find(items, (it) => {
-        return it.itemId === a.seoId;
-      });
-      return !aMatcher;
-    });
+    let productUnselected = [];
+    let attractionUnselected = [];
     // Enhanced items
     for (let m = 0; m < items.length; m++) {
       const i = items[m];
@@ -110,35 +104,24 @@ class PackageDayPlanner extends React.Component {
         continue;
       }
     }
-    // Local Functions
-    const getItemKey = (item, type) => {
-      if (type === TravelPlanItemType.PRODUCT) {
-        return item.productCode;
-      } else if (type === TravelPlanItemType.ATTRACTION) {
-        return item.seoId;
-      }
-      return item.itemId;
-    };
-    const getItemCards = (items, isSelected, type) => {
-      return _.map(items, (item) => {
-        const cardActions = {
-          handleSelectItem: handleSelectItem,
-          handleItemDetails: type
-            ? handlePopupItemDetails
-            : handleViewItemDetails,
-        };
-        return (
-          <ItemCard
-            key={getItemKey(item, type)}
-            item={item}
-            type={type}
-            isSelected={isSelected}
-            dayNo={dayNo}
-            actions={cardActions}
-          />
-        );
+    if (reference.activities[selectedCity]) {
+      const {products, attractions} = reference.activities[selectedCity];
+      // Unselected products of the selected city
+      productUnselected = _.filter(products, (p) => {
+        const pMatcher = _.find(items, (it) => {
+          return it.itemId === p.productCode;
+        });
+        return !pMatcher;
       });
-    };
+      // Unselected attractions of the selected city
+      attractionUnselected = _.filter(attractions, (a) => {
+        const aMatcher = _.find(items, (it) => {
+          return it.itemId === a.seoId;
+        });
+        return !aMatcher;
+      });
+    }
+    // Local Functions
     const getBtnCity = (cts) => {
       return _.map(cts, (c) => {
         const isSelected = selectedCity === c.name;
@@ -158,6 +141,78 @@ class PackageDayPlanner extends React.Component {
         );
       });
     };
+    const getItemCards = (items, isSelected, type) => {
+      const getItemKey = (item, type) => {
+        if (type === PRODUCT) {
+          return item.productCode;
+        } else if (type === ATTRACTION) {
+          return item.seoId;
+        }
+        return item.itemId;
+      };
+      return _.map(items, (item) => {
+        const cardActions = {
+          handleSelectItem: handleSelectItem,
+          handleItemDetails: type
+            ? handlePopupItemDetails
+            : handleViewItemDetails,
+        };
+        return (
+          <ItemCard
+            key={getItemKey(item, type)}
+            item={item}
+            type={type}
+            isSelected={isSelected}
+            dayNo={dayNo}
+            actions={cardActions}
+          />
+        );
+      });
+    };
+    const getSelectedItems = (items) => {
+      return (
+        <div>
+          <div className={classes.divTitleItem}>Activities Planned</div>
+          <Carousel
+            deviceType={'mobile'}
+            itemClass='image-item'
+            responsive={responsive1}
+          >
+            {getItemCards(items, true)}
+          </Carousel>
+        </div>
+      );
+    };
+    const getUnselectedProducts = (items) => {
+      return (
+        <div>
+          <div className={classes.divTitleItem}>Things To Do</div>
+          <Carousel
+            deviceType={'mobile'}
+            partialVisible
+            itemClass='image-item'
+            responsive={responsive2}
+          >
+            {getItemCards(items, false, PRODUCT)}
+          </Carousel>
+        </div>
+      );
+    };
+    const getUnselectedAttractions = (items) => {
+      return (
+        <div>
+          <div className={classes.divTitleItem}>Local Attractions</div>
+          <Carousel
+            deviceType={'mobile'}
+            partialVisible
+            itemClass='image-item'
+            responsive={responsive2}
+          >
+            {getItemCards(items, false, ATTRACTION)}
+          </Carousel>
+        </div>
+      );
+    };
     // Display Widget
     return (
       <div>
@@ -166,36 +221,22 @@ class PackageDayPlanner extends React.Component {
           {getBtnCity(cities)}
         </div>
         <Divider />
-        <div className={classes.divTitleItem}>Activities Planned</div>
-        <Carousel
-          deviceType={'mobile'}
-          itemClass='image-item'
-          responsive={responsive1}
-        >
-          {getItemCards(itemSelected, true)}
-        </Carousel>
-        <div className={classes.divTitleItem}>Things To Do</div>
-        <Carousel
-          deviceType={'mobile'}
-          partialVisible
-          itemClass='image-item'
-          responsive={responsive2}
-        >
-          {getItemCards(productUnselected, false, TravelPlanItemType.PRODUCT)}
-        </Carousel>
-        <div className={classes.divTitleItem}>Local Attractions</div>
-        <Carousel
-          deviceType={'mobile'}
-          partialVisible
-          itemClass='image-item'
-          responsive={responsive2}
-        >
-          {getItemCards(
-            attractionUnselected,
-            false,
-            TravelPlanItemType.ATTRACTION
-          )}
-        </Carousel>
+        {itemSelected.length > 0 ||
+        productUnselected.length > 0 ||
+        attractionUnselected.length > 0
+          ? getSelectedItems(itemSelected)
+          : ''}
+        {productUnselected.length > 0
+          ? getUnselectedProducts(productUnselected)
+          : ''}
+        {attractionUnselected.length > 0
+          ? getUnselectedAttractions(attractionUnselected)
+          : ''}
+        {itemSelected.length === 0 &&
+        productUnselected.length === 0 &&
+        attractionUnselected.length === 0
+          ? 'a static page'
+          : ''}
       </div>
     );
   }
