@@ -130,7 +130,7 @@ class PackageSummary extends React.Component {
                     )}
                   >
                     <div>{cc.name}</div>
-                    {isFixed ? (
+                    {!isFixed ? (
                       <div
                         onClick={() => {
                           this.doHandleRemoveCity(day.dayNo, index);
