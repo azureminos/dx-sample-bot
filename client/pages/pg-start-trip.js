@@ -18,7 +18,6 @@ import CONSTANTS from '../../lib/constants';
 // ====== Icons && CSS ======
 import HomeWorkIcon from '@material-ui/icons/HomeWork';
 import DateRangeIcon from '@material-ui/icons/DateRange';
-import PeopleIcon from '@material-ui/icons/People';
 import ChildIcon from '@material-ui/icons/ChildCare';
 import AdultIcon from '@material-ui/icons/Mood';
 import AddBoxIcon from '@material-ui/icons/AddBoxOutlined';
@@ -55,6 +54,11 @@ const styles = (theme) => ({
   hDivFlex: {
     display: 'flex',
     margin: 'auto',
+  },
+  hDivFlex1: {
+    display: 'flex',
+    margin: 'auto',
+    padding: '0px 8px',
   },
   hDivPeopleDisplay: {
     padding: '4px',
@@ -249,6 +253,7 @@ class PageStartTrip extends React.Component {
       return (
         <div className={classes.hDivFlex}>
           <div
+            className={classes.hDivFlex1}
             onClick={() => {
               this.togglePeopleDrawer(true);
             }}
@@ -259,6 +264,7 @@ class PageStartTrip extends React.Component {
             <div className={classes.hDivPeopleDisplay}>{totalAdults || 0}</div>
           </div>
           <div
+            className={classes.hDivFlex1}
             onClick={() => {
               this.togglePeopleDrawer(true);
             }}
@@ -276,55 +282,67 @@ class PageStartTrip extends React.Component {
             }}
           >
             <div>
-              <div>Travellers</div>>
-              <div className={classes.hDivFlex}>
-                <div className={classes.hDivPeopleDisplay}>
-                  <AdultIcon color='primary' fontSize='default' />
-                </div>
-                <div>Adults</div>
-                <IconButton
-                  disabled={totalAdults <= 1}
-                  onClick={() => {
-                    this.doHandleAdultChange(-1);
-                  }}
-                  className={classes.hDivPeopleControl}
-                >
-                  <MinusBoxIcon color='primary' fontSize='default' />
-                </IconButton>
-                <div className={classes.hDivPeopleDisplay}>{totalAdults}</div>
-                <IconButton
-                  onClick={() => {
-                    this.doHandleAdultChange(1);
-                  }}
-                  className={classes.hDivPeopleControl}
-                >
-                  <AddBoxIcon color='primary' fontSize='default' />
-                </IconButton>
-              </div>
-              <div className={classes.hDivFlex}>
-                <div className={classes.hDivPeopleDisplay}>
-                  <ChildIcon color='primary' fontSize='default' />
-                </div>
-                <div>Children</div>
-                <IconButton
-                  disabled={totalKids <= 0}
-                  onClick={() => {
-                    this.doHandleKidChange(-1);
-                  }}
-                  className={classes.hDivPeopleControl}
-                >
-                  <MinusBoxIcon color='primary' fontSize='default' />
-                </IconButton>
-                <div className={classes.hDivPeopleDisplay}>{totalKids}</div>
-                <IconButton
-                  onClick={() => {
-                    this.doHandleKidChange(1);
-                  }}
-                  className={classes.hDivPeopleControl}
-                >
-                  <AddBoxIcon color='primary' fontSize='default' />
-                </IconButton>
-              </div>
+              <div>Travellers</div>
+              <table style={{width: '100%'}}>
+                <tbody>
+                  <tr>
+                    <td>
+                      <AdultIcon color='primary' fontSize='default' />
+                    </td>
+                    <td>Adults</td>
+                    <td>
+                      <IconButton
+                        onClick={() => {
+                          this.doHandleAdultChange(1);
+                        }}
+                        className={classes.hDivPeopleControl}
+                      >
+                        <AddBoxIcon color='primary' fontSize='default' />
+                      </IconButton>
+                    </td>
+                    <td>{totalAdults}</td>
+                    <td>
+                      <IconButton
+                        disabled={totalAdults <= 1}
+                        onClick={() => {
+                          this.doHandleAdultChange(-1);
+                        }}
+                        className={classes.hDivPeopleControl}
+                      >
+                        <MinusBoxIcon color='primary' fontSize='default' />
+                      </IconButton>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <ChildIcon color='primary' fontSize='default' />
+                    </td>
+                    <td>Kids</td>
+                    <td>
+                      <IconButton
+                        onClick={() => {
+                          this.doHandleKidChange(1);
+                        }}
+                        className={classes.hDivPeopleControl}
+                      >
+                        <AddBoxIcon color='primary' fontSize='default' />
+                      </IconButton>
+                    </td>
+                    <td>{totalKids}</td>
+                    <td>
+                      <IconButton
+                        disabled={totalKids <= 0}
+                        onClick={() => {
+                          this.doHandleKidChange(-1);
+                        }}
+                        className={classes.hDivPeopleControl}
+                      >
+                        <MinusBoxIcon color='primary' fontSize='default' />
+                      </IconButton>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </Drawer>
         </div>

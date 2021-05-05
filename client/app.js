@@ -474,8 +474,8 @@ class App extends React.Component {
   handlePeopleChange(dAdult, dKid) {
     // console.log('>>>>handlePeopleChange', people);
     const {plan} = this.state;
-    plan.totalAdults = plan.totalAdults + dAdult;
-    plan.totalKids = plan.totalKids + dKid;
+    plan.totalAdults = (plan.totalAdults || 0) + dAdult;
+    plan.totalKids = (plan.totalKids || 0) + dKid;
     plan.totalPeople = plan.totalAdults + plan.totalKids;
     for (let i = 0; plan.days && i < plan.days.length; i++) {
       const day = plan.days[i];
