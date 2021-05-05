@@ -471,24 +471,31 @@ class App extends React.Component {
       this.pushToRemote('plan:save', {senderId, plan});
     }
   }
-  handlePeopleChange(delta) {
+  handlePeopleChange(dAdult, dKid) {
     // console.log('>>>>handlePeopleChange', people);
     const {plan} = this.state;
-    plan.totalPeople = plan.totalPeople + delta;
+    plan.totalAdults = plan.totalAdults + dAdult;
+    plan.totalKids = plan.totalKids + dKid;
+    plan.totalPeople = plan.totalAdults + plan.totalKids;
     for (let i = 0; plan.days && i < plan.days.length; i++) {
       const day = plan.days[i];
       for (let m = 0; day.items && m < day.items.length; m++) {
         day.items[m].totalPeople = plan.totalPeople;
+        day.items[m].totalAdults = plan.totalAdults;
+        day.items[m].totalKids = plan.totalKids;
       }
     }
     // TODO: Need to notify user of the change to TotalPeople
     this.setState({plan});
     // Socket update totalPeople when plan id exists
     if (plan._id) {
-      const senderId = this.props.viewerId;
-      const totalPeople = plan.totalPeople;
-      const planId = plan._id;
-      this.pushToRemote('people:save', {senderId, planId, totalPeople});
+      const params = {
+        senderId: this.props.viewerId,
+        planId: plan._id,
+        totalAdults: plan.totalAdults,
+        totalKids: plan.totalKids,
+      };
+      this.pushToRemote('people:save', params);
     }
   }
   handleItemPeopleChange(val, dayNo, itemId) {

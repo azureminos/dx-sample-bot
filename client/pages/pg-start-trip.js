@@ -114,7 +114,8 @@ class PageStartTrip extends React.Component {
     this.doHandleAddressChange = this.doHandleAddressChange.bind(this);
     this.doHandleDateRangeChange = this.doHandleDateRangeChange.bind(this);
     this.doHandleTagGroupChange = this.doHandleTagGroupChange.bind(this);
-    this.doHandlePeopleChange = this.doHandlePeopleChange.bind(this);
+    this.doHandleAdultChange = this.doHandleAdultChange.bind(this);
+    this.doHandleKidChange = this.doHandleKidChange.bind(this);
     this.handlePopupClose = this.handlePopupClose.bind(this);
     this.togglePeopleDrawer = this.togglePeopleDrawer.bind(this);
     // Init state
@@ -211,11 +212,16 @@ class PageStartTrip extends React.Component {
       actions.handleDateRangeChange(input);
     }
   }
-  doHandlePeopleChange(input) {
-    // console.log('>>>>PageStartTrip.doHandlePeopleChange', input);
+  doHandleAdultChange(input) {
     const {actions} = this.props;
     if (actions && actions.handlePeopleChange) {
-      actions.handlePeopleChange(input);
+      actions.handlePeopleChange(input, 0);
+    }
+  }
+  doHandleKidChange(input) {
+    const {actions} = this.props;
+    if (actions && actions.handlePeopleChange) {
+      actions.handlePeopleChange(0, input);
     }
   }
   doHandleTagGroupChange(name) {
@@ -269,7 +275,57 @@ class PageStartTrip extends React.Component {
               this.togglePeopleDrawer(false);
             }}
           >
-            <div>Hello</div>
+            <div>
+              <div>Travellers</div>>
+              <div className={classes.hDivFlex}>
+                <div className={classes.hDivPeopleDisplay}>
+                  <AdultIcon color='primary' fontSize='default' />
+                </div>
+                <div>Adults</div>
+                <IconButton
+                  disabled={totalAdults <= 1}
+                  onClick={() => {
+                    this.doHandleAdultChange(-1);
+                  }}
+                  className={classes.hDivPeopleControl}
+                >
+                  <MinusBoxIcon color='primary' fontSize='default' />
+                </IconButton>
+                <div className={classes.hDivPeopleDisplay}>{totalAdults}</div>
+                <IconButton
+                  onClick={() => {
+                    this.doHandleAdultChange(1);
+                  }}
+                  className={classes.hDivPeopleControl}
+                >
+                  <AddBoxIcon color='primary' fontSize='default' />
+                </IconButton>
+              </div>
+              <div className={classes.hDivFlex}>
+                <div className={classes.hDivPeopleDisplay}>
+                  <ChildIcon color='primary' fontSize='default' />
+                </div>
+                <div>Children</div>
+                <IconButton
+                  disabled={totalKids <= 0}
+                  onClick={() => {
+                    this.doHandleKidChange(-1);
+                  }}
+                  className={classes.hDivPeopleControl}
+                >
+                  <MinusBoxIcon color='primary' fontSize='default' />
+                </IconButton>
+                <div className={classes.hDivPeopleDisplay}>{totalKids}</div>
+                <IconButton
+                  onClick={() => {
+                    this.doHandleKidChange(1);
+                  }}
+                  className={classes.hDivPeopleControl}
+                >
+                  <AddBoxIcon color='primary' fontSize='default' />
+                </IconButton>
+              </div>
+            </div>
           </Drawer>
         </div>
       );

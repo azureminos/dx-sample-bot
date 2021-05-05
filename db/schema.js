@@ -397,13 +397,16 @@ const createPlanDay = (input, callback) => {
 };
 const updatePlanPeople = (input, callback) => {
   // console.log('>>>>Model.updatePlanPeople', input);
-  const {senderId, planId, totalPeople} = input;
+  const {senderId, planId, totalAdults, totalKids} = input;
+  const totalPeople = totalAdults + totalKids;
   async.parallel(
     {
       instance: (callback) => {
         const filter = {_id: planId};
         const doc = {
           totalPeople: totalPeople,
+          totalAdults: totalAdults,
+          totalKids: totalKids,
           updatedBy: senderId,
           updatedAt: new Date(),
         };
@@ -413,6 +416,8 @@ const updatePlanPeople = (input, callback) => {
         const filter = {travelPlan: planId};
         const doc = {
           totalPeople: totalPeople,
+          totalAdults: totalAdults,
+          totalKids: totalKids,
           updatedBy: senderId,
           updatedAt: new Date(),
         };
