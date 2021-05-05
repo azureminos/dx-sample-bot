@@ -9,6 +9,7 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import IconButton from '@material-ui/core/IconButton';
+import Drawer from '@material-ui/core/Drawer';
 import {withStyles} from '@material-ui/core/styles';
 import LocationSearchInput from '../components-v2/location-search-input';
 import PopupMessage from '../components-v2/popup-message';
@@ -18,6 +19,8 @@ import CONSTANTS from '../../lib/constants';
 import HomeWorkIcon from '@material-ui/icons/HomeWork';
 import DateRangeIcon from '@material-ui/icons/DateRange';
 import PeopleIcon from '@material-ui/icons/People';
+import ChildIcon from '@material-ui/icons/ChildCare';
+import AdultIcon from '@material-ui/icons/Mood';
 import AddBoxIcon from '@material-ui/icons/AddBoxOutlined';
 import MinusBoxIcon from '@material-ui/icons/IndeterminateCheckBoxOutlined';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
@@ -113,8 +116,10 @@ class PageStartTrip extends React.Component {
     this.doHandleTagGroupChange = this.doHandleTagGroupChange.bind(this);
     this.doHandlePeopleChange = this.doHandlePeopleChange.bind(this);
     this.handlePopupClose = this.handlePopupClose.bind(this);
+    this.togglePeopleDrawer = this.togglePeopleDrawer.bind(this);
     // Init state
     this.state = {
+      openPeopleDrawer: false,
       focusedDateInput: null,
       selectedAddress: '',
       selectedLocation: '',
@@ -126,6 +131,9 @@ class PageStartTrip extends React.Component {
     };
   }
   // Event Handler
+  togglePeopleDrawer(open) {
+    this.setState({openPeopleDrawer: open});
+  }
   handlePopupClose() {
     // console.log('>>>>PageStartTrip.handlePopupClose');
     const popup = {open: false, title: '', message: ''};
@@ -222,42 +230,40 @@ class PageStartTrip extends React.Component {
     // console.log('>>>>PageStartTrip, render()', this.props);
     const {classes, plan, planExt, reference} = this.props;
     const {tagGroups, destinations} = reference;
-    const {startDate, endDate, totalPeople} = plan;
+    const {startDate, endDate, totalAdults, totalKids} = plan;
     const {selectedTagGroups} = planExt;
-    const {focusedDateInput, popup} = this.state;
+    const {focusedDateInput, openPeopleDrawer, popup} = this.state;
     let selectedAddress = this.state.selectedAddress;
     if (!selectedAddress && plan.startCity && plan.startCity.name) {
       selectedAddress = `${plan.startCity.name}, ${plan.startCity.state}`;
     }
-    const isNotAllowAdd = totalPeople >= Global.maxPeopleSelection;
-    const isNotAllowRemove = totalPeople <= 1;
     const btnStart = plan._id ? 'Continue' : 'Start My Holiday';
     // Local Functions
     const getPeopleControl = () => {
       return (
-        <div className={classes.hDivFlex}>
+        <div
+          className={classes.hDivFlex}
+          onClick={() => {
+            this.togglePeopleDrawer(true);
+          }}
+        >
           <div className={classes.hDivPeopleDisplay}>
-            <PeopleIcon color='primary' fontSize='default' />
+            <AdultIcon color='primary' fontSize='default' />
           </div>
-          <div className={classes.hDivPeopleDisplay}>{totalPeople}</div>
-          <IconButton
-            disabled={isNotAllowAdd}
-            onClick={() => {
-              this.doHandlePeopleChange(1);
+          <div className={classes.hDivPeopleDisplay}>{totalAdults || 0}</div>
+          <div className={classes.hDivPeopleDisplay}>
+            <ChildIcon color='primary' fontSize='default' />
+          </div>
+          <div className={classes.hDivPeopleDisplay}>{totalKids || 0}</div>
+          <Drawer
+            anchor={'bottom'}
+            open={openPeopleDrawer}
+            onClose={() => {
+              this.togglePeopleDrawer(false);
             }}
-            className={classes.hDivPeopleControl}
           >
-            <AddBoxIcon color='primary' fontSize='default' />
-          </IconButton>
-          <IconButton
-            disabled={isNotAllowRemove}
-            onClick={() => {
-              this.doHandlePeopleChange(-1);
-            }}
-            className={classes.hDivPeopleControl}
-          >
-            <MinusBoxIcon color='primary' fontSize='default' />
-          </IconButton>
+            <div>Hello</div>
+          </Drawer>
         </div>
       );
     };
