@@ -241,20 +241,27 @@ class PageStartTrip extends React.Component {
     // Local Functions
     const getPeopleControl = () => {
       return (
-        <div
-          className={classes.hDivFlex}
-          onClick={() => {
-            this.togglePeopleDrawer(true);
-          }}
-        >
-          <div className={classes.hDivPeopleDisplay}>
-            <AdultIcon color='primary' fontSize='default' />
+        <div className={classes.hDivFlex}>
+          <div
+            onClick={() => {
+              this.togglePeopleDrawer(true);
+            }}
+          >
+            <div className={classes.hDivPeopleDisplay}>
+              <AdultIcon color='primary' fontSize='default' />
+            </div>
+            <div className={classes.hDivPeopleDisplay}>{totalAdults || 0}</div>
           </div>
-          <div className={classes.hDivPeopleDisplay}>{totalAdults || 0}</div>
-          <div className={classes.hDivPeopleDisplay}>
-            <ChildIcon color='primary' fontSize='default' />
+          <div
+            onClick={() => {
+              this.togglePeopleDrawer(true);
+            }}
+          >
+            <div className={classes.hDivPeopleDisplay}>
+              <ChildIcon color='primary' fontSize='default' />
+            </div>
+            <div className={classes.hDivPeopleDisplay}>{totalKids || 0}</div>
           </div>
-          <div className={classes.hDivPeopleDisplay}>{totalKids || 0}</div>
           <Drawer
             anchor={'bottom'}
             open={openPeopleDrawer}
