@@ -303,7 +303,7 @@ class PageStartTrip extends React.Component {
                       </IconButton>
                     </td>
                     <td style={{width: '10%', textAlign: 'center'}}>
-                      {totalAdults}
+                      {totalAdults || 0}
                     </td>
                     <td style={{width: '20%', textAlign: 'left'}}>
                       <IconButton
@@ -336,7 +336,7 @@ class PageStartTrip extends React.Component {
                       </IconButton>
                     </td>
                     <td style={{width: '10%', textAlign: 'center'}}>
-                      {totalKids}
+                      {totalKids || 0}
                     </td>
                     <td style={{width: '20%', textAlign: 'left'}}>
                       <IconButton
