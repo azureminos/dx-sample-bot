@@ -282,15 +282,17 @@ class PageStartTrip extends React.Component {
             }}
           >
             <div>
-              <div>Travellers</div>
+              <div style={{fontSize: 'x-large', padding: '8px'}}>
+                Travellers
+              </div>
               <table style={{width: '100%'}}>
                 <tbody>
                   <tr>
-                    <td>
+                    <td style={{width: '20%', textAlign: 'center'}}>
                       <AdultIcon color='primary' fontSize='default' />
                     </td>
-                    <td>Adults</td>
-                    <td>
+                    <td style={{width: '30%', textAlign: 'left'}}>Adults</td>
+                    <td style={{width: '20%', textAlign: 'right'}}>
                       <IconButton
                         onClick={() => {
                           this.doHandleAdultChange(1);
@@ -300,8 +302,10 @@ class PageStartTrip extends React.Component {
                         <AddBoxIcon color='primary' fontSize='default' />
                       </IconButton>
                     </td>
-                    <td>{totalAdults}</td>
-                    <td>
+                    <td style={{width: '10%', textAlign: 'center'}}>
+                      {totalAdults}
+                    </td>
+                    <td style={{width: '20%', textAlign: 'left'}}>
                       <IconButton
                         disabled={totalAdults <= 1}
                         onClick={() => {
@@ -309,16 +313,19 @@ class PageStartTrip extends React.Component {
                         }}
                         className={classes.hDivPeopleControl}
                       >
-                        <MinusBoxIcon color='primary' fontSize='default' />
+                        <MinusBoxIcon
+                          color={totalAdults <= 1 ? 'grey' : 'primary'}
+                          fontSize='default'
+                        />
                       </IconButton>
                     </td>
                   </tr>
                   <tr>
-                    <td>
+                    <td style={{width: '20%', textAlign: 'center'}}>
                       <ChildIcon color='primary' fontSize='default' />
                     </td>
-                    <td>Kids</td>
-                    <td>
+                    <td style={{width: '30%', textAlign: 'left'}}>Kids</td>
+                    <td style={{width: '20%', textAlign: 'right'}}>
                       <IconButton
                         onClick={() => {
                           this.doHandleKidChange(1);
@@ -328,8 +335,10 @@ class PageStartTrip extends React.Component {
                         <AddBoxIcon color='primary' fontSize='default' />
                       </IconButton>
                     </td>
-                    <td>{totalKids}</td>
-                    <td>
+                    <td style={{width: '10%', textAlign: 'center'}}>
+                      {totalKids}
+                    </td>
+                    <td style={{width: '20%', textAlign: 'left'}}>
                       <IconButton
                         disabled={totalKids <= 0}
                         onClick={() => {
@@ -337,7 +346,10 @@ class PageStartTrip extends React.Component {
                         }}
                         className={classes.hDivPeopleControl}
                       >
-                        <MinusBoxIcon color='primary' fontSize='default' />
+                        <MinusBoxIcon
+                          color={totalKids <= 0 ? 'grey' : 'primary'}
+                          fontSize='default'
+                        />
                       </IconButton>
                     </td>
                   </tr>
