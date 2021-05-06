@@ -16,7 +16,7 @@ import PopupMessage from '../components-v2/popup-message';
 import Helper from '../../lib/helper';
 import CONSTANTS from '../../lib/constants';
 // ====== Icons && CSS ======
-import HomeWorkIcon from '@material-ui/icons/HomeWork';
+import LocationIcon from '@material-ui/icons/LocationOn';
 import DateRangeIcon from '@material-ui/icons/DateRange';
 import ChildIcon from '@material-ui/icons/ChildCare';
 import AdultIcon from '@material-ui/icons/Mood';
@@ -82,7 +82,6 @@ const styles = (theme) => ({
   },
   bGridListDiv: {
     width: 500,
-    height: 450,
   },
   bGridItemTitleBar: {
     background:
@@ -393,7 +392,7 @@ class PageStartTrip extends React.Component {
                 </tr>
                 <tr>
                   <td>
-                    <HomeWorkIcon color='primary' fontSize='default' />
+                    <LocationIcon color='primary' fontSize='default' />
                   </td>
                   <td>
                     <LocationSearchInput
@@ -470,28 +469,24 @@ class PageStartTrip extends React.Component {
       );
       return body;
     };
-    const getFooter = (isDateSelected) => {
-      let footer = <div />;
-      if (isDateSelected) {
-        footer = (
-          <AppBar position='fixed' color='default' className={classes.fAppBar}>
-            <Toolbar className={classes.fToolbar}>
-              <Button
-                fullWidth
-                color='primary'
-                variant='contained'
-                classes={{label: classes.fBtnLabel}}
-                onClick={() => {
-                  this.doHandleBtnStartHoliday(plan);
-                }}
-              >
-                {btnStart}
-              </Button>
-            </Toolbar>
-          </AppBar>
-        );
-      }
-      return footer;
+    const getFooter = () => {
+      return (
+        <AppBar position='fixed' color='default' className={classes.fAppBar}>
+          <Toolbar className={classes.fToolbar}>
+            <Button
+              fullWidth
+              color='primary'
+              variant='contained'
+              classes={{label: classes.fBtnLabel}}
+              onClick={() => {
+                this.doHandleBtnStartHoliday(plan);
+              }}
+            >
+              {btnStart}
+            </Button>
+          </Toolbar>
+        </AppBar>
+      );
     };
     // Local Variables
     const isDateSelected =
@@ -503,8 +498,8 @@ class PageStartTrip extends React.Component {
         {getHeader()}
         <div className={classes.whitespaceTop} />
         {getBody()}
-        <div className={classes.whitespaceBottom} />
-        {getFooter(isDateSelected)}
+        {isDateSelected ? <div className={classes.whitespaceBottom} /> : ''}
+        {isDateSelected ? getFooter() : ''}
       </div>
     );
   }
