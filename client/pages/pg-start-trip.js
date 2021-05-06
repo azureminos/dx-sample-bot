@@ -250,6 +250,8 @@ class PageStartTrip extends React.Component {
     const btnStart = plan._id ? 'Continue' : 'Start My Holiday';
     // Local Functions
     const getPeopleControl = () => {
+      const isAdultDisabled = !totalAdults || totalAdults <= 1;
+      const isKidDisabled = !totalKids || totalKids <= 0;
       return (
         <div className={classes.hDivFlex}>
           <div
@@ -307,14 +309,14 @@ class PageStartTrip extends React.Component {
                     </td>
                     <td style={{width: '20%', textAlign: 'left'}}>
                       <IconButton
-                        disabled={totalAdults <= 1}
+                        disabled={isAdultDisabled}
                         onClick={() => {
                           this.doHandleAdultChange(-1);
                         }}
                         className={classes.hDivPeopleControl}
                       >
                         <MinusBoxIcon
-                          color={totalAdults <= 1 ? 'grey' : 'primary'}
+                          color={isAdultDisabled ? 'grey' : 'primary'}
                           fontSize='default'
                         />
                       </IconButton>
@@ -340,14 +342,14 @@ class PageStartTrip extends React.Component {
                     </td>
                     <td style={{width: '20%', textAlign: 'left'}}>
                       <IconButton
-                        disabled={totalKids <= 0}
+                        disabled={isKidDisabled}
                         onClick={() => {
                           this.doHandleKidChange(-1);
                         }}
                         className={classes.hDivPeopleControl}
                       >
                         <MinusBoxIcon
-                          color={totalKids <= 0 ? 'grey' : 'primary'}
+                          color={isKidDisabled ? 'grey' : 'primary'}
                           fontSize='default'
                         />
                       </IconButton>

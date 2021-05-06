@@ -14,6 +14,15 @@ import CONSTANTS from '../lib/constants';
 const {Global} = CONSTANTS.get();
 const router = express.Router();
 
+const handleWebAccess = (req, res) => {
+  const appId = Global.appId;
+
+  console.log('>>>>Web Printing input params', req.params);
+  res.render('./main', {
+    appId,
+  });
+};
+
 const handleWebviewAccess = (req, res) => {
   const appId = Global.appId;
   const {hostname} = req;
@@ -24,7 +33,7 @@ const handleWebviewAccess = (req, res) => {
 
   const {userId, type, id} = req.params;
 
-  console.log('>>>>Printing input params', {type, id});
+  console.log('>>>>Webview Printing input params', req.params);
 
   if (!type) {
     // Go to main page
@@ -66,6 +75,7 @@ const handleSearchAttraction = (req, res) => {
   });
 };
 
+router.get('/', handleWebAccess);
 router.get('/web', handleWebviewAccess);
 router.get('/web/:userId/:type', handleWebviewAccess);
 router.get('/web/:userId/:type/:id', handleWebviewAccess);
