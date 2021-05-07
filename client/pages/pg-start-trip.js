@@ -83,6 +83,9 @@ const styles = (theme) => ({
   bGridListDiv: {
     width: 500,
   },
+  bGridItemTitle: {
+    borderRadius: '12px',
+  },
   bGridItemTitleBar: {
     background:
       'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, ' +
@@ -420,8 +423,7 @@ class PageStartTrip extends React.Component {
         return (
           <GridListTile
             key={t._id}
-            cols={t.featured ? 2 : 1}
-            rows={t.featured ? 2 : 1}
+            classes={{tile: classes.bGridItemTitle}}
             onClick={() => {
               this.doHandleTagGroupChange(t.name);
             }}
@@ -451,7 +453,7 @@ class PageStartTrip extends React.Component {
           <div className={classes.bGridListRoot}>
             <GridList
               cellHeight={200}
-              spacing={1}
+              spacing={8}
               className={classes.bGridListDiv}
             >
               {_.map(tagGroups, (t) => {
