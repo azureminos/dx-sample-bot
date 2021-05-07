@@ -33,7 +33,7 @@ const styles = (theme) => ({
     height: '100%',
   },
   whitespaceTop: {
-    height: 100,
+    height: 90,
   },
   whitespaceBottom: {
     height: 50,
@@ -79,6 +79,7 @@ const styles = (theme) => ({
     flexWrap: 'wrap',
     justifyContent: 'space-around',
     overflow: 'hidden',
+    margin: '0px 8px',
   },
   bGridListDiv: {
     width: 500,
@@ -432,6 +433,10 @@ class PageStartTrip extends React.Component {
             <GridListTileBar
               title={t.name}
               titlePosition='top'
+              className={classes.bGridItemTitleBar}
+            />
+            <GridListTileBar
+              titlePosition='bottom'
               actionIcon={
                 <IconButton aria-label={`star ${t.name}`}>
                   {isSelected ? (
@@ -441,7 +446,7 @@ class PageStartTrip extends React.Component {
                   )}
                 </IconButton>
               }
-              actionPosition='left'
+              actionPosition='right'
               className={classes.bGridItemTitleBar}
             />
           </GridListTile>
