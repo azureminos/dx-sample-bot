@@ -87,10 +87,15 @@ const styles = (theme) => ({
   bGridItemTitle: {
     borderRadius: '12px',
   },
-  bGridItemTitleBar: {
+  bGridItemTitleBarC1: {
     background:
       'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, ' +
       'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
+  },
+  bGridItemTitleBarC2: {
+    background:
+      'linear-gradient(to bottom, rgba(0,0,0,0.7) 100%, ' +
+      'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 0%)',
   },
   fAppBar: {
     position: 'fixed',
@@ -431,12 +436,7 @@ class PageStartTrip extends React.Component {
           >
             <img src={t.imgUrl || Global.defaultImgUrl} alt={t.name} />
             <GridListTileBar
-              title={t.name}
               titlePosition='top'
-              className={classes.bGridItemTitleBar}
-            />
-            <GridListTileBar
-              titlePosition='bottom'
               actionIcon={
                 <IconButton aria-label={`star ${t.name}`}>
                   {isSelected ? (
@@ -447,7 +447,12 @@ class PageStartTrip extends React.Component {
                 </IconButton>
               }
               actionPosition='right'
-              className={classes.bGridItemTitleBar}
+              className={classes.bGridItemTitleBarC1}
+            />
+            <GridListTileBar
+              title={t.name}
+              titlePosition='bottom'
+              className={classes.bGridItemTitleBarC2}
             />
           </GridListTile>
         );
