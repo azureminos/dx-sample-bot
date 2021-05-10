@@ -229,8 +229,10 @@ class PageDisplayTrip extends React.Component {
     const {destinations} = reference;
     const {startDate, endDate, totalPeople} = plan;
     const {popupHotel, popupDest} = this.state;
-    const strStartDate = '01/Mar/2021';
-    const strEndDate = '03/Mar/2021';
+    const strStartDate = plan.startDate
+      ? plan.startDate.format('DD-MM-YYYY')
+      : '';
+    const strEndDate = plan.endDate ? plan.endDate.format('DD-MM-YYYY') : '';
     // Local Functions
     const getHeader = () => {
       const tabItems = [<Tab key={0} label='Summary' {...a11yProps(0)} />];

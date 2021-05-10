@@ -36,7 +36,7 @@ const styles = (theme) => ({
     height: 90,
   },
   whitespaceBottom: {
-    height: 50,
+    height: 70,
   },
   hAppBar: {
     position: 'fixed',

@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React, {createElement} from 'react';
 import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
-import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/IconButton';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import {withStyles} from '@material-ui/core/styles';
@@ -148,38 +148,37 @@ class PackageSummary extends React.Component {
         </div>
       );
     };
-    const getDayBlock = (day) => {
+    const getDayBlock = (day, startDate) => {
       // console.log('>>>>DnD.getDayBlock', day);
+      const curDate = startDate.add(day.dayNo - 1, 'days');
+      const divDate = (
+        <div className={classes.divStyle}>{curDate.format('DD-MM-YYYY')}</div>
+      );
+      const divAddHotel = (
+        <Button
+          variant='contained'
+          color='primary'
+          size='small'
+          className={{root: classes.divBtnHotel}}
+          startIcon={<AddIcon />}
+          onClick={() => {
+            this.doHandleBtnHotel(day.dayNo);
+          }}
+        >
+          Save
+        </Button>
+      );
+      const divHotel = '';
       return (
         <div key={`day##${day.dayNo}`}>
           <div className={classes.divDayTitle}>
-            <div className={classes.divStyle}>{`Day ${day.dayNo}`}</div>
-            <IconButton
-              onClick={() => {
-                this.doHandleBtnHotel(day.dayNo);
-              }}
-              classes={{root: classes.divBtnHotel}}
-            >
-              <HotelIcon color='primary' fontSize='default' />
-            </IconButton>
+            <div className={classes.divFlex}>
+              <div className={classes.divStyle}>{`Day ${day.dayNo}`}</div>
+              {divDate}
+            </div>
+            {divAddHotel}
           </div>
-          <div className={classes.rootGridList}>
-            <GridList className={classes.divGridList} cols={3}>
-              {_.map(day.items, (item) => {
-                return (
-                  <GridListTile key={`day##${day.dayNo}##${item.itemId}`}>
-                    <img
-                      src={item.imgUrl}
-                      alt={item.name}
-                      onClick={(e) => {
-                        this.doHandleTabSelect(e, day.dayNo);
-                      }}
-                    />
-                  </GridListTile>
-                );
-              })}
-            </GridList>
-          </div>
+          {divHotel}
           <div className={classes.divStyle}>
             <Droppable droppableId={`day##${day.dayNo}`} direction='horizontal'>
               {(provided, snapshot) => (
@@ -204,6 +203,23 @@ class PackageSummary extends React.Component {
               )}
             </Droppable>
           </div>
+          <div className={classes.rootGridList}>
+            <GridList className={classes.divGridList} cols={3}>
+              {_.map(day.items, (item) => {
+                return (
+                  <GridListTile key={`day##${day.dayNo}##${item.itemId}`}>
+                    <img
+                      src={item.imgUrl}
+                      alt={item.name}
+                      onClick={(e) => {
+                        this.doHandleTabSelect(e, day.dayNo);
+                      }}
+                    />
+                  </GridListTile>
+                );
+              })}
+            </GridList>
+          </div>
         </div>
       );
     };
@@ -213,7 +229,7 @@ class PackageSummary extends React.Component {
     return (
       <DragDropContext onDragEnd={this.doHandleDragCity}>
         {_.map(plan.days, (day) => {
-          return getDayBlock(day);
+          return getDayBlock(day, plan.startDate);
         })}
       </DragDropContext>
     );
