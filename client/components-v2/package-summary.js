@@ -27,32 +27,38 @@ const styles = (theme) => ({
     flexWrap: 'nowrap',
     transform: 'translateZ(0)',
   },
+  divFlex: {
+    display: 'flex',
+  },
   divStyle: {
     margin: '4px 0px',
   },
-  divDayNo: {
-    margin: '4px 8px',
-    font: '600 20px Arial',
+  divDayTitle: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    padding: '0px 4px',
   },
-  divAddHotel: {
-    color: Color.default,
-    fontSize: 12,
-    fontFamily: defaultFont,
-    borderRadius: 0,
+  divDayNo: {
+    margin: 'auto',
+    font: '600 20px Arial',
   },
   divDate: {
     background: 'lightgray',
     borderRadius: '12px',
     font: '200 12px Arial',
-    margin: 'auto',
+    margin: 'auto 8px',
     padding: '2px 8px',
   },
-  divFlex: {
-    display: 'flex',
+  divAddHotel: {
+    color: Color.default,
+    fontSize: 16,
+    fontFamily: defaultFont,
+    borderRadius: 0,
+    padding: 4,
   },
-  divDayTitle: {
-    display: 'flex',
-    justifyContent: 'space-between',
+  divDestTitle: {
+    fontFamily: defaultFont,
+    fontSize: 16,
   },
   divBtnHotel: {
     padding: 0,
@@ -63,16 +69,20 @@ const getItemStyle = (isDragging, draggableStyle) => ({
   // some basic styles to make the items look a bit nicer
   display: 'flex',
   userSelect: 'none',
+  minHeight: 32,
   padding: 4,
-  margin: 4,
-  background: isDragging ? 'lightgreen' : 'grey',
+  margin: '0px 8px 0px 0px',
+  borderRadius: '4px',
+  fontFamily: defaultFont,
+  fontSize: '16px',
+  background: isDragging ? 'lightgreen' : Color.default,
   ...draggableStyle,
 });
 
 const getListStyle = (isDraggingOver) => ({
-  background: isDraggingOver ? 'lightblue' : 'lightgrey',
+  background: isDraggingOver ? 'lightblue' : 'white',
   padding: 0,
-  minHeight: 16,
+  minHeight: 32,
   width: '100%',
   display: 'flex',
 });
@@ -180,7 +190,7 @@ class PackageSummary extends React.Component {
             this.doHandleBtnHotel(day.dayNo);
           }}
         >
-          <AddIcon size='small' />
+          <AddIcon fontSize='small' />
           Add Hotel
         </Button>
       );
@@ -196,6 +206,7 @@ class PackageSummary extends React.Component {
           </div>
           {divHotel}
           <div className={classes.divStyle}>
+            <div className={classes.divDestTitle}>Destinations</div>
             <Droppable droppableId={`day##${day.dayNo}`} direction='horizontal'>
               {(provided, snapshot) => (
                 <div>
