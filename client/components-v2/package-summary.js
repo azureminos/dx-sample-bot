@@ -156,11 +156,10 @@ class PackageSummary extends React.Component {
       );
       const divAddHotel = (
         <Button
-          variant='contained'
           color='primary'
           size='small'
-          className={{root: classes.divBtnHotel}}
-          startIcon={<AddIcon />}
+          classes={{root: classes.divBtnHotel}}
+          starticon={<AddIcon />}
           onClick={() => {
             this.doHandleBtnHotel(day.dayNo);
           }}
