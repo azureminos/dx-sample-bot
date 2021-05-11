@@ -10,7 +10,7 @@ import AddIcon from '@material-ui/icons/Add';
 import ClearIcon from '@material-ui/icons/Clear';
 import CONSTANTS from '../../lib/constants';
 // Variables & Functions
-const {Color, defaultFont} = CONSTANTS.get().style;
+const {Color, defaultFont} = CONSTANTS.get().Style;
 const styles = (theme) => ({
   root: {
     width: '100%',
