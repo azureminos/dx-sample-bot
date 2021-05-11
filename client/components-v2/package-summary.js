@@ -6,10 +6,11 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import {withStyles} from '@material-ui/core/styles';
 // ====== Icons ======
-import HotelIcon from '@material-ui/icons/Hotel';
 import AddIcon from '@material-ui/icons/Add';
 import ClearIcon from '@material-ui/icons/Clear';
+import CONSTANTS from '../../lib/constants';
 // Variables & Functions
+const {Color, defaultFont} = CONSTANTS.get().style;
 const styles = (theme) => ({
   root: {
     width: '100%',
@@ -28,6 +29,23 @@ const styles = (theme) => ({
   },
   divStyle: {
     margin: '4px 0px',
+  },
+  divDayNo: {
+    margin: '4px 8px',
+    font: '600 20px Arial',
+  },
+  divAddHotel: {
+    color: Color.default,
+    fontSize: 12,
+    fontFamily: defaultFont,
+    borderRadius: 0,
+  },
+  divDate: {
+    background: 'lightgray',
+    borderRadius: '12px',
+    font: '200 12px Arial',
+    margin: 'auto',
+    padding: '2px 8px',
   },
   divFlex: {
     display: 'flex',
@@ -152,17 +170,17 @@ class PackageSummary extends React.Component {
       // console.log('>>>>DnD.getDayBlock', day);
       const curDate = startDate.clone().add(day.dayNo - 1, 'days');
       const divDate = (
-        <div className={classes.divStyle}>{curDate.format('DD-MM-YYYY')}</div>
+        <div className={classes.divDate}>{curDate.format('DD-MM-YYYY')}</div>
       );
       const divAddHotel = (
         <Button
           color='primary'
-          size='small'
+          className={classes.divAddHotel}
           onClick={() => {
             this.doHandleBtnHotel(day.dayNo);
           }}
         >
-          <AddIcon />
+          <AddIcon size='small' />
           Add Hotel
         </Button>
       );
@@ -171,7 +189,7 @@ class PackageSummary extends React.Component {
         <div key={`day##${day.dayNo}`}>
           <div className={classes.divDayTitle}>
             <div className={classes.divFlex}>
-              <div className={classes.divStyle}>{`Day ${day.dayNo}`}</div>
+              <div className={classes.divDayNo}>{`Day ${day.dayNo}`}</div>
               {divDate}
             </div>
             {divAddHotel}
