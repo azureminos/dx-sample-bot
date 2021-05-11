@@ -31,7 +31,11 @@ const styles = (theme) => ({
     display: 'flex',
   },
   divStyle: {
-    margin: '4px 0px',
+    margin: 4,
+  },
+  divDayBlock: {
+    display: 'flex',
+    padding: '8px 0px',
   },
   divDayTitle: {
     display: 'flex',
@@ -40,7 +44,7 @@ const styles = (theme) => ({
   },
   divDayNo: {
     margin: 'auto',
-    font: '600 20px Arial',
+    font: '600 24px Arial',
   },
   divDate: {
     background: 'lightgray',
@@ -59,6 +63,7 @@ const styles = (theme) => ({
   divDestTitle: {
     fontFamily: defaultFont,
     fontSize: 16,
+    padding: '8px 0px',
   },
   divBtnHotel: {
     padding: 0,
@@ -69,20 +74,21 @@ const getItemStyle = (isDragging, draggableStyle) => ({
   // some basic styles to make the items look a bit nicer
   display: 'flex',
   userSelect: 'none',
-  minHeight: 32,
-  padding: 4,
+  minHeight: 28,
+  padding: '0px 4px',
   margin: '0px 8px 0px 0px',
-  borderRadius: '4px',
+  borderRadius: '8px',
   fontFamily: defaultFont,
   fontSize: '16px',
+  color: 'white',
   background: isDragging ? 'lightgreen' : Color.default,
   ...draggableStyle,
 });
 
 const getListStyle = (isDraggingOver) => ({
-  background: isDraggingOver ? 'lightblue' : 'white',
+  background: isDraggingOver ? 'lightblue' : 'lightgrey',
   padding: 0,
-  minHeight: 32,
+  minHeight: 28,
   width: '100%',
   display: 'flex',
 });
@@ -155,13 +161,13 @@ class PackageSummary extends React.Component {
                       provided.draggableProps.style
                     )}
                   >
-                    <div>{cc.name}</div>
+                    <div style={{margin: 'auto'}}>{cc.name}</div>
                     {!(day.dayNo === 1 && index === 0) ? (
                       <div
                         onClick={() => {
                           this.doHandleRemoveCity(day.dayNo, index);
                         }}
-                        style={{margin: 'auto'}}
+                        style={{margin: 'auto', padding: '0px 4px'}}
                       >
                         <ClearIcon fontSize='small' />
                       </div>
@@ -196,7 +202,7 @@ class PackageSummary extends React.Component {
       );
       const divHotel = '';
       return (
-        <div key={`day##${day.dayNo}`}>
+        <div key={`day##${day.dayNo}`} className={classes.divDayBlock}>
           <div className={classes.divDayTitle}>
             <div className={classes.divFlex}>
               <div className={classes.divDayNo}>{`Day ${day.dayNo}`}</div>
