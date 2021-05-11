@@ -158,8 +158,6 @@ class PackageSummary extends React.Component {
         <Button
           color='primary'
           size='small'
-          classes={{root: classes.divBtnHotel}}
-          starticon={<AddIcon />}
           onClick={() => {
             this.doHandleBtnHotel(day.dayNo);
           }}
