@@ -150,7 +150,7 @@ class PackageSummary extends React.Component {
     };
     const getDayBlock = (day, startDate) => {
       // console.log('>>>>DnD.getDayBlock', day);
-      const curDate = startDate.add(day.dayNo - 1, 'days');
+      const curDate = startDate.clone.add(day.dayNo - 1, 'days');
       const divDate = (
         <div className={classes.divStyle}>{curDate.format('DD-MM-YYYY')}</div>
       );
