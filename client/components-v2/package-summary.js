@@ -34,7 +34,6 @@ const styles = (theme) => ({
     margin: 4,
   },
   divDayBlock: {
-    display: 'flex',
     padding: '8px 0px',
   },
   divDayTitle: {
@@ -87,8 +86,9 @@ const getItemStyle = (isDragging, draggableStyle) => ({
 
 const getListStyle = (isDraggingOver) => ({
   background: isDraggingOver ? 'lightblue' : 'lightgrey',
-  padding: 0,
-  minHeight: 28,
+  padding: 4,
+  minHeight: 36,
+  borderRadius: '8px',
   width: '100%',
   display: 'flex',
 });
