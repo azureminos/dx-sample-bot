@@ -223,21 +223,7 @@ class PackageSummary extends React.Component {
         </Button>
       );
       const divHotel = '';
-      const getItemImages = (items) => {
-        return _.map(items, (item) => {
-          return (
-            <Card key={item.name}>
-              <div className={classes.imgWrapper}>
-                <img
-                  src={item.thumbnailURL}
-                  alt={item.name}
-                  className={classes.imgItem}
-                />
-              </div>
-            </Card>
-          );
-        });
-      };
+
       return (
         <div key={`day##${day.dayNo}`} className={classes.divDayBlock}>
           <div className={classes.divDayTitle}>
@@ -279,7 +265,19 @@ class PackageSummary extends React.Component {
               itemClass='image-item'
               responsive={responsive1}
             >
-              {getItemImages(items)}
+              {_.map(day.items, (item) => {
+                return (
+                  <Card key={item.name}>
+                    <div className={classes.imgWrapper}>
+                      <img
+                        src={item.thumbnailURL}
+                        alt={item.name}
+                        className={classes.imgItem}
+                      />
+                    </div>
+                  </Card>
+                );
+              })}
             </Carousel>
           </div>
         </div>
