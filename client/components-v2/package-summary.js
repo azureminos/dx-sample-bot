@@ -62,6 +62,17 @@ const styles = (theme) => ({
   },
   divHotelBlock: {
     display: 'flex',
+    background: Color.default,
+    width: 'fit-content',
+    color: 'white',
+    padding: '4px 8px',
+    margin: 4,
+    borderRadius: '4px',
+  },
+  divHotelTitle: {
+    fontFamily: defaultFont,
+    fontSize: '12px',
+    margin: 'auto 4px',
   },
   divDestTitle: {
     fontFamily: defaultFont,
@@ -125,6 +136,7 @@ class PackageSummary extends React.Component {
     this.doHandleRemoveCity = this.doHandleRemoveCity.bind(this);
     this.doHandleTabSelect = this.doHandleTabSelect.bind(this);
     this.doHandleBtnHotel = this.doHandleBtnHotel.bind(this);
+    this.doHandleRemoveHotel = this.doHandleRemoveHotel.bind(this);
     // Init data
     // Setup state
   }
@@ -134,6 +146,13 @@ class PackageSummary extends React.Component {
     const {actions} = this.props;
     if (actions && actions.handleBtnHotel) {
       actions.handleBtnHotel(dayNo);
+    }
+  }
+  doHandleRemoveHotel(dayNo) {
+    console.log('>>>>PackageSummary.doHandleRemoveHotel', dayNo);
+    const {actions} = this.props;
+    if (actions && actions.handleRemoveHotel) {
+      actions.handleRemoveHotel(dayNo);
     }
   }
   doHandleBtnDestination(dayNo) {
@@ -229,9 +248,9 @@ class PackageSummary extends React.Component {
       );
       const divHotel = day.hotel ? (
         <div className={classes.divHotelBlock}>
-          <HotelIcon fontSize='small' />
-          <div>{day.hotel.name}</div>
-          <ClearIcon fontSize='small' />
+          <HotelIcon styles={{margin: 'auto'}} fontSize='small' />
+          <div className={classes.divHotelTitle}>{day.hotel.name}</div>
+          <ClearIcon styles={{margin: 'auto'}} fontSize='small' />
         </div>
       ) : (
         ''

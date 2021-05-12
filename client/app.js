@@ -63,6 +63,7 @@ class App extends React.Component {
     this.handlePopupClose = this.handlePopupClose.bind(this);
     this.handleRemoveCity = this.handleRemoveCity.bind(this);
     this.handleUpdateHotel = this.handleUpdateHotel.bind(this);
+    this.handleRemoveHotel = this.handleRemoveHotel.bind(this);
     this.handleClickPlanCard = this.handleClickPlanCard.bind(this);
     this.handleBtnStartHoliday = this.handleBtnStartHoliday.bind(this);
     this.handleBtnGoStart = this.handleBtnGoStart.bind(this);
@@ -182,6 +183,16 @@ class App extends React.Component {
     const senderId = this.props.viewerId;
     const planId = plan._id;
     this.pushToRemote('hotel:save', {senderId, planId, dayNo, hotel});
+  }
+  handleRemoveHotel(dayNo) {
+    // console.log('>>>>handleRemoveHotel', input);
+    const {plan} = this.state;
+    plan.days[dayNo - 1].hotel = null;
+    this.setState({plan});
+    // Socket Remove Hotel
+    const senderId = this.props.viewerId;
+    const planId = plan._id;
+    //this.pushToRemote('hotel:remove', {senderId, planId, dayNo});
   }
   handleRemoveCity(dayNo, index) {
     console.log('>>>>handleRemoveCity', {dayNo, index});
@@ -887,6 +898,7 @@ class App extends React.Component {
         handleDragCity: this.handleDragCity,
         handleSelectItem: this.handleSelectItem,
         handleUpdateHotel: this.handleUpdateHotel,
+        handleRemoveHotel: this.handleRemoveHotel,
         handleBtnGoStart: this.handleBtnGoStart,
         handleBtnGoDisplay: this.handleBtnGoDisplay,
         handleBtnGoPayment: this.handleBtnGoPayment,
@@ -909,6 +921,7 @@ class App extends React.Component {
         handleRemoveCity: this.handleRemoveCity,
         handleDragCity: this.handleDragCity,
         handleUpdateHotel: this.handleUpdateHotel,
+        handleRemoveHotel: this.handleRemoveHotel,
         handleItemPeopleChange: this.handleItemPeopleChange,
         handleBtnGoStart: this.handleBtnGoStart,
         handleBtnGoPlan: this.handleBtnGoPlan,
