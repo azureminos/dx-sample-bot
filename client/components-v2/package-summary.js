@@ -270,7 +270,7 @@ class PackageSummary extends React.Component {
                   <Card key={item.name}>
                     <div className={classes.imgWrapper}>
                       <img
-                        src={item.thumbnailURL}
+                        src={item.imgUrl}
                         alt={item.name}
                         className={classes.imgItem}
                       />
