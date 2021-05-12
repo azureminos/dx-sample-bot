@@ -4,12 +4,11 @@ import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
 import Button from '@material-ui/core/IconButton';
 import Carousel from 'react-multi-carousel';
 import Card from '@material-ui/core/Card';
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
 import {withStyles} from '@material-ui/core/styles';
 // ====== Icons ======
 import AddIcon from '@material-ui/icons/Add';
 import ClearIcon from '@material-ui/icons/Clear';
+import HotelIcon from '@material-ui/icons/Hotel';
 import CONSTANTS from '../../lib/constants';
 // Variables & Functions
 const {Color, defaultFont} = CONSTANTS.get().Style;
@@ -61,13 +60,17 @@ const styles = (theme) => ({
     borderRadius: 0,
     padding: 4,
   },
+  divHotelBlock: {
+    display: 'flex',
+  },
   divDestTitle: {
     fontFamily: defaultFont,
     fontSize: 16,
     padding: '8px 0px',
   },
-  divBtnHotel: {
-    padding: 0,
+  imgCard: {
+    overflow: 'hidden',
+    margin: 4,
   },
   imgWrapper: {
     height: 0,
@@ -210,7 +213,7 @@ class PackageSummary extends React.Component {
       const divDate = (
         <div className={classes.divDate}>{curDate.format('DD-MM-YYYY')}</div>
       );
-      const divAddHotel = (
+      const divAddHotel = !day.hotel ? (
         <Button
           color='primary'
           className={classes.divAddHotel}
@@ -221,8 +224,18 @@ class PackageSummary extends React.Component {
           <AddIcon fontSize='small' />
           Add Hotel
         </Button>
+      ) : (
+        ''
       );
-      const divHotel = '';
+      const divHotel = day.hotel ? (
+        <div className={classes.divHotelBlock}>
+          <HotelIcon fontSize='small' />
+          <div>{day.hotel.name}</div>
+          <ClearIcon fontSize='small' />
+        </div>
+      ) : (
+        ''
+      );
 
       return (
         <div key={`day##${day.dayNo}`} className={classes.divDayBlock}>
@@ -267,12 +280,15 @@ class PackageSummary extends React.Component {
             >
               {_.map(day.items, (item) => {
                 return (
-                  <Card key={item.name}>
+                  <Card key={item.name} classes={{root: classes.imgCard}}>
                     <div className={classes.imgWrapper}>
                       <img
                         src={item.imgUrl}
                         alt={item.name}
                         className={classes.imgItem}
+                        onClick={(e) => {
+                          this.doHandleTabSelect(e, day.dayNo);
+                        }}
                       />
                     </div>
                   </Card>
