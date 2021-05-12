@@ -2,6 +2,8 @@ import _ from 'lodash';
 import React, {createElement} from 'react';
 import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
 import Button from '@material-ui/core/IconButton';
+import Carousel from 'react-multi-carousel';
+import Card from '@material-ui/core/Card';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import {withStyles} from '@material-ui/core/styles';
@@ -67,7 +69,27 @@ const styles = (theme) => ({
   divBtnHotel: {
     padding: 0,
   },
+  imgWrapper: {
+    height: 0,
+    overflow: 'hidden',
+    paddingTop: '100%',
+    position: 'relative',
+  },
+  imgItem: {
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+    position: 'absolute',
+  },
 });
+const responsive1 = {
+  mobile: {
+    breakpoint: {max: 464, min: 0},
+    items: 3,
+  },
+};
 
 const getItemStyle = (isDragging, draggableStyle) => ({
   // some basic styles to make the items look a bit nicer
@@ -201,6 +223,21 @@ class PackageSummary extends React.Component {
         </Button>
       );
       const divHotel = '';
+      const getItemImages = (items) => {
+        return _.map(items, (item) => {
+          return (
+            <Card key={item.name}>
+              <div className={classes.imgWrapper}>
+                <img
+                  src={item.thumbnailURL}
+                  alt={item.name}
+                  className={classes.imgItem}
+                />
+              </div>
+            </Card>
+          );
+        });
+      };
       return (
         <div key={`day##${day.dayNo}`} className={classes.divDayBlock}>
           <div className={classes.divDayTitle}>
@@ -236,22 +273,14 @@ class PackageSummary extends React.Component {
               )}
             </Droppable>
           </div>
-          <div className={classes.rootGridList}>
-            <GridList className={classes.divGridList} cols={3}>
-              {_.map(day.items, (item) => {
-                return (
-                  <GridListTile key={`day##${day.dayNo}##${item.itemId}`}>
-                    <img
-                      src={item.imgUrl}
-                      alt={item.name}
-                      onClick={(e) => {
-                        this.doHandleTabSelect(e, day.dayNo);
-                      }}
-                    />
-                  </GridListTile>
-                );
-              })}
-            </GridList>
+          <div>
+            <Carousel
+              deviceType={'mobile'}
+              itemClass='image-item'
+              responsive={responsive1}
+            >
+              {getItemImages(items)}
+            </Carousel>
           </div>
         </div>
       );
