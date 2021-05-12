@@ -1,7 +1,8 @@
 import _ from 'lodash';
 import React, {createElement} from 'react';
 import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
-import Button from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
 import Carousel from 'react-multi-carousel';
 import Card from '@material-ui/core/Card';
 import {withStyles} from '@material-ui/core/styles';
@@ -250,7 +251,15 @@ class PackageSummary extends React.Component {
         <div className={classes.divHotelBlock}>
           <HotelIcon styles={{margin: 'auto'}} fontSize='small' />
           <div className={classes.divHotelTitle}>{day.hotel.name}</div>
-          <ClearIcon styles={{margin: 'auto'}} fontSize='small' />
+          <IconButton
+            size='small'
+            aria-label='Remove Hotel'
+            onClick={() => {
+              this.doHandleRemoveHotel(day.dayNo);
+            }}
+          >
+            <ClearIcon styles={{margin: 'auto'}} fontSize='small' />
+          </IconButton>
         </div>
       ) : (
         ''

@@ -177,7 +177,7 @@ class App extends React.Component {
       location,
     };
     // console.log('>>>>handleUpdateHotel rs', hotel);
-    plan.days[dayNo].hotel = hotel;
+    plan.days[dayNo - 1].hotel = hotel;
     this.setState({plan});
     // Socket Update Hotel
     const senderId = this.props.viewerId;
