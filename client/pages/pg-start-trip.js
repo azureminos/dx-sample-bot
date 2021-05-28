@@ -501,7 +501,7 @@ class PageStartTrip extends React.Component {
       );
     };
     // Local Variables
-    const isDateSelected =
+    const isDateSelected = plan.startCity &&
       startDate && endDate && endDate.diff(startDate, 'days') >= 0;
     // Sub Components
     // Display Widget

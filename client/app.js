@@ -200,7 +200,7 @@ class App extends React.Component {
     const {activities, dayPlans} = this.state.reference;
     const tags = this.state.planExt.selectedTagGroups;
     const plan = this.state.plan;
-    const {totalPeople, days} = plan;
+    const {totalAdults, totalKids, days} = plan;
 
     const day = days[dayNo - 1];
     day.cities = _.concat(
@@ -209,7 +209,7 @@ class App extends React.Component {
     );
     day.items = Helper.checkDayActivity(
       day,
-      totalPeople,
+      totalAdults, totalKids,
       tags,
       activities,
       dayPlans
@@ -220,7 +220,7 @@ class App extends React.Component {
         dayPrev.cities = _.slice(dayPrev.cities, 0, dayPrev.cities.length - 1);
         dayPrev.items = Helper.checkDayActivity(
           dayPrev,
-          totalPeople,
+          totalAdults, totalKids,
           tags,
           activities,
           dayPlans
@@ -235,7 +235,7 @@ class App extends React.Component {
         );
         dayNext.items = Helper.checkDayActivity(
           dayNext,
-          totalPeople,
+          totalAdults, totalKids,
           tags,
           activities,
           dayPlans
