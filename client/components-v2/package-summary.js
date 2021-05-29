@@ -60,6 +60,7 @@ const styles = (theme) => ({
     fontFamily: defaultFont,
     borderRadius: 0,
     padding: 4,
+    textTransform: 'none',
   },
   divHotelBlock: {
     display: 'flex',
@@ -90,6 +91,7 @@ const styles = (theme) => ({
     minHeight: '28px',
     fontFamily: 'arial',
     fontSize: '16px',
+    textTransform: 'none',
   },
   imgCard: {
     overflow: 'hidden',
