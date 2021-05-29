@@ -80,6 +80,17 @@ const styles = (theme) => ({
     fontSize: 16,
     padding: '8px 0px',
   },
+  divBtnAddDest: {
+    margin: 'auto 0px',
+    display: 'flex',
+    background: 'black',
+    color: 'white',
+    padding: '4px',
+    borderRadius: '8px',
+    minHeight: '28px',
+    fontFamily: 'arial',
+    fontSize: '16px',
+  },
   imgCard: {
     overflow: 'hidden',
     margin: 4,
@@ -285,14 +296,14 @@ class PackageSummary extends React.Component {
                     style={getListStyle(snapshot.isDraggingOver)}
                   >
                     {getCityItems(day)}
-                    <div style={{margin: 'auto'}} />
                     <div
                       onClick={() => {
                         this.doHandleBtnDestination(day.dayNo);
                       }}
-                      style={{margin: 'auto 0'}}
+                      className={classes.divBtnAddDest}
                     >
-                      <AddIcon fontSize='small' />
+                      <AddIcon styles={{margin: 'auto'}} fontSize='small' />
+                      <div style={{margin: 'auto'}}>Add</div>
                     </div>
                     {provided.placeholder}
                   </div>
