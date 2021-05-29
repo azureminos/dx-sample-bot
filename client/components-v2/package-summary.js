@@ -246,7 +246,6 @@ class PackageSummary extends React.Component {
       );
       const divAddHotel = !day.hotel ? (
         <Button
-          color='primary'
           className={classes.divAddHotel}
           onClick={() => {
             this.doHandleBtnHotel(day.dayNo);
@@ -296,15 +295,15 @@ class PackageSummary extends React.Component {
                     style={getListStyle(snapshot.isDraggingOver)}
                   >
                     {getCityItems(day)}
-                    <div
+                    <Button
                       onClick={() => {
                         this.doHandleBtnDestination(day.dayNo);
                       }}
                       className={classes.divBtnAddDest}
                     >
-                      <AddIcon styles={{margin: 'auto'}} fontSize='small' />
-                      <div style={{margin: 'auto'}}>Add</div>
-                    </div>
+                      <AddIcon fontSize='small' />
+                      Add
+                    </Button>
                     {provided.placeholder}
                   </div>
                 </div>
