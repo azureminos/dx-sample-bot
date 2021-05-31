@@ -94,8 +94,8 @@ const styles = (theme) => ({
   },
   bGridItemTitleBarC2: {
     background:
-    'linear-gradient(to top, rgba(0,0,0,0.7) 0%, ' +
-    'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
+      'linear-gradient(to top, rgba(0,0,0,0.7) 0%, ' +
+      'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
   },
   fAppBar: {
     position: 'fixed',
@@ -258,8 +258,6 @@ class PageStartTrip extends React.Component {
     const btnStart = plan._id ? 'Continue' : 'Start My Holiday';
     // Local Functions
     const getPeopleControl = () => {
-      const isAdultDisabled = !totalAdults || totalAdults <= 1;
-      const isKidDisabled = !totalKids || totalKids <= 0;
       return (
         <div className={classes.hDivFlex}>
           <div
@@ -284,89 +282,6 @@ class PageStartTrip extends React.Component {
             </div>
             <div className={classes.hDivPeopleDisplay}>{totalKids || 0}</div>
           </div>
-          <Drawer
-            anchor={'bottom'}
-            open={openPeopleDrawer}
-            onClose={() => {
-              this.togglePeopleDrawer(false);
-            }}
-          >
-            <div>
-              <div style={{fontSize: 'x-large', padding: '8px'}}>
-                Travellers
-              </div>
-              <table style={{width: '100%'}}>
-                <tbody>
-                  <tr>
-                    <td style={{width: '20%', textAlign: 'center'}}>
-                      <AdultIcon color='primary' fontSize='default' />
-                    </td>
-                    <td style={{width: '30%', textAlign: 'left'}}>Adults</td>
-                    <td style={{width: '20%', textAlign: 'right'}}>
-                      <IconButton
-                        onClick={() => {
-                          this.doHandleAdultChange(1);
-                        }}
-                        className={classes.hDivPeopleControl}
-                      >
-                        <AddBoxIcon color='primary' fontSize='default' />
-                      </IconButton>
-                    </td>
-                    <td style={{width: '10%', textAlign: 'center'}}>
-                      {totalAdults || 0}
-                    </td>
-                    <td style={{width: '20%', textAlign: 'left'}}>
-                      <IconButton
-                        disabled={isAdultDisabled}
-                        onClick={() => {
-                          this.doHandleAdultChange(-1);
-                        }}
-                        className={classes.hDivPeopleControl}
-                      >
-                        <MinusBoxIcon
-                          color={isAdultDisabled ? 'grey' : 'primary'}
-                          fontSize='default'
-                        />
-                      </IconButton>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style={{width: '20%', textAlign: 'center'}}>
-                      <ChildIcon color='primary' fontSize='default' />
-                    </td>
-                    <td style={{width: '30%', textAlign: 'left'}}>Kids</td>
-                    <td style={{width: '20%', textAlign: 'right'}}>
-                      <IconButton
-                        onClick={() => {
-                          this.doHandleKidChange(1);
-                        }}
-                        className={classes.hDivPeopleControl}
-                      >
-                        <AddBoxIcon color='primary' fontSize='default' />
-                      </IconButton>
-                    </td>
-                    <td style={{width: '10%', textAlign: 'center'}}>
-                      {totalKids || 0}
-                    </td>
-                    <td style={{width: '20%', textAlign: 'left'}}>
-                      <IconButton
-                        disabled={isKidDisabled}
-                        onClick={() => {
-                          this.doHandleKidChange(-1);
-                        }}
-                        className={classes.hDivPeopleControl}
-                      >
-                        <MinusBoxIcon
-                          color={isKidDisabled ? 'grey' : 'primary'}
-                          fontSize='default'
-                        />
-                      </IconButton>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </Drawer>
         </div>
       );
     };
@@ -500,9 +415,99 @@ class PageStartTrip extends React.Component {
         </AppBar>
       );
     };
+    const getDrawerPeople = () => {
+      const isAdultDisabled = !totalAdults || totalAdults <= 1;
+      const isKidDisabled = !totalKids || totalKids <= 0;
+      return (
+        <Drawer
+          anchor={'bottom'}
+          open={openPeopleDrawer}
+          onClose={() => {
+            this.togglePeopleDrawer(false);
+          }}
+        >
+          <div>
+            <div style={{fontSize: 'x-large', padding: '8px'}}>Travellers</div>
+            <table style={{width: '100%'}}>
+              <tbody>
+                <tr>
+                  <td style={{width: '20%', textAlign: 'center'}}>
+                    <AdultIcon color='primary' fontSize='default' />
+                  </td>
+                  <td style={{width: '30%', textAlign: 'left'}}>Adults</td>
+                  <td style={{width: '20%', textAlign: 'right'}}>
+                    <IconButton
+                      onClick={() => {
+                        this.doHandleAdultChange(1);
+                      }}
+                      className={classes.hDivPeopleControl}
+                    >
+                      <AddBoxIcon color='primary' fontSize='default' />
+                    </IconButton>
+                  </td>
+                  <td style={{width: '10%', textAlign: 'center'}}>
+                    {totalAdults || 0}
+                  </td>
+                  <td style={{width: '20%', textAlign: 'left'}}>
+                    <IconButton
+                      disabled={isAdultDisabled}
+                      onClick={() => {
+                        this.doHandleAdultChange(-1);
+                      }}
+                      className={classes.hDivPeopleControl}
+                    >
+                      <MinusBoxIcon
+                        color={isAdultDisabled ? 'grey' : 'primary'}
+                        fontSize='default'
+                      />
+                    </IconButton>
+                  </td>
+                </tr>
+                <tr>
+                  <td style={{width: '20%', textAlign: 'center'}}>
+                    <ChildIcon color='primary' fontSize='default' />
+                  </td>
+                  <td style={{width: '30%', textAlign: 'left'}}>Kids</td>
+                  <td style={{width: '20%', textAlign: 'right'}}>
+                    <IconButton
+                      onClick={() => {
+                        this.doHandleKidChange(1);
+                      }}
+                      className={classes.hDivPeopleControl}
+                    >
+                      <AddBoxIcon color='primary' fontSize='default' />
+                    </IconButton>
+                  </td>
+                  <td style={{width: '10%', textAlign: 'center'}}>
+                    {totalKids || 0}
+                  </td>
+                  <td style={{width: '20%', textAlign: 'left'}}>
+                    <IconButton
+                      disabled={isKidDisabled}
+                      onClick={() => {
+                        this.doHandleKidChange(-1);
+                      }}
+                      className={classes.hDivPeopleControl}
+                    >
+                      <MinusBoxIcon
+                        color={isKidDisabled ? 'grey' : 'primary'}
+                        fontSize='default'
+                      />
+                    </IconButton>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </Drawer>
+      );
+    };
     // Local Variables
-    const isDateSelected = plan.startCity &&
-      startDate && endDate && endDate.diff(startDate, 'days') >= 0;
+    const isDateSelected =
+      plan.startCity &&
+      startDate &&
+      endDate &&
+      endDate.diff(startDate, 'days') >= 0;
     // Sub Components
     // Display Widget
     return (
@@ -512,6 +517,7 @@ class PageStartTrip extends React.Component {
         {getBody()}
         {isDateSelected ? <div className={classes.whitespaceBottom} /> : ''}
         {isDateSelected ? getFooter() : ''}
+        {openPeopleDrawer ? getDrawerPeople() : ''}
       </div>
     );
   }
