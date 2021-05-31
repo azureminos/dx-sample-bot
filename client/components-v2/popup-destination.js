@@ -1,17 +1,11 @@
 import _ from 'lodash';
 import React, {createElement} from 'react';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import Drawer from '@material-ui/core/Drawer';
 import LocationSearchInput from './location-search-input';
-import CONSTANTS from '../../lib/constants';
 import Helper from '../../lib/helper';
 import {withStyles} from '@material-ui/core/styles';
 
 // Variables
-const {Global} = CONSTANTS.get();
 const styles = (theme) => ({});
 
 class PopupDestination extends React.Component {
@@ -104,36 +98,19 @@ class PopupDestination extends React.Component {
     // ====== Web Elements ======
     // ====== Display ======
     return (
-      <Dialog
-        open
-        onClose={this.doHandleClose}
-        aria-labelledby='alert-dialog-hotel'
-      >
-        <DialogTitle id='alert-dialog-hotel'>
-          {`Day ${dayNo}: Add Destination`}
-        </DialogTitle>
-        <DialogContent>
-          <div>
-            <div>Please enter the name or address of your destination</div>
-            {getMessage(message || error)}
-            <LocationSearchInput
-              hints={`Day ${dayNo}: Where to visit`}
-              fullWidth
-              handleChange={this.doHandleAddressChange}
-              address={sAddress}
-            />
-          </div>
-        </DialogContent>
-        <DialogActions>
-          <Button
-            variant='contained'
-            onClick={this.doHandleClose}
-            color='primary'
-          >
-            Close
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <Drawer anchor={'bottom'} open onClose={this.doHandleClose}>
+        <div>{`Day ${dayNo}: Add Destination`}</div>
+        <div>
+          <div>Please enter the name or address of your destination</div>
+          {getMessage(message || error)}
+          <LocationSearchInput
+            hints={`Day ${dayNo}: Where to visit`}
+            fullWidth
+            handleChange={this.doHandleAddressChange}
+            address={sAddress}
+          />
+        </div>
+      </Drawer>
     );
   }
 }

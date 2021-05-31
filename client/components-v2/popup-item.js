@@ -1,10 +1,7 @@
 import _ from 'lodash';
 import React, {createElement} from 'react';
+import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import ItemGrid from '../components-v2/item-grid';
 import {withStyles} from '@material-ui/core/styles';
 
@@ -36,17 +33,12 @@ class PopupItem extends React.Component {
     // ====== Web Elements ======
     // ====== Display ======
     return (
-      <Dialog
-        open
-        onClose={handleClose}
-        aria-labelledby='alert-dialog-title'
-        aria-describedby='alert-dialog-description'
-      >
-        <DialogTitle id='alert-dialog-title'>{item.name}</DialogTitle>
-        <DialogContent>
+      <Drawer anchor={'bottom'} open onClose={handleClose}>
+        <div>{item.name}</div>
+        <div>
           <ItemGrid item={itemGrid} itemExt={item} />
-        </DialogContent>
-        <DialogActions>
+        </div>
+        <div>
           <Button
             variant='contained'
             onClick={() => {
@@ -58,8 +50,8 @@ class PopupItem extends React.Component {
           >
             Add to my plan
           </Button>
-        </DialogActions>
-      </Dialog>
+        </div>
+      </Drawer>
     );
   }
 }

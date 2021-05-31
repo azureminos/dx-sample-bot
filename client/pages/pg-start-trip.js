@@ -421,7 +421,7 @@ class PageStartTrip extends React.Component {
       return (
         <Drawer
           anchor={'bottom'}
-          open={openPeopleDrawer}
+          open
           onClose={() => {
             this.togglePeopleDrawer(false);
           }}

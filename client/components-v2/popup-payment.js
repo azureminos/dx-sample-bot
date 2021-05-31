@@ -1,10 +1,7 @@
 import _ from 'lodash';
 import React, {createElement} from 'react';
+import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import {withStyles} from '@material-ui/core/styles';
 import {PayPalButton} from 'react-paypal-button-v2';
 import CONSTANTS from '../../lib/constants';
@@ -69,54 +66,47 @@ class PopupPayment extends React.Component {
     // ====== Web Elements ======
     // ====== Display ======
     return (
-      <Dialog
-        open
-        onClose={handleClose}
-        aria-labelledby='alert-dialog-title'
-        aria-describedby='alert-dialog-description'
-      >
-        <DialogTitle id='alert-dialog-title'>Payment</DialogTitle>
-        <DialogContent>
-          <div>
-            <table>
-              <tbody>
-                <tr>
-                  <td>
-                    <b>Trip Dates</b>
-                  </td>
-                  <td>{`${dtStart} - ${dtEnd}`}</td>
-                </tr>
-                <tr>
-                  <td>
-                    <b>Total People</b>
-                  </td>
-                  <td>{plan.totalPeople}</td>
-                </tr>
-                <tr>
-                  <td>
-                    <b>Estimated Cost</b>
-                  </td>
-                  <td>{estCost}</td>
-                </tr>
-                <tr>
-                  <td>
-                    <b>Initial Deposit</b>
-                  </td>
-                  <td>{Payment.deposit}</td>
-                </tr>
-              </tbody>
-            </table>
-            <PayPalButton
-              amount={Payment.deposit}
-              options={ppOptions}
-              buttonStyles={buttonStyles}
-              onSuccess={this.handlePaySuccess}
-              onError={this.handlePayError}
-              onCancel={this.handlePayCancel}
-            />
-          </div>
-        </DialogContent>
-        <DialogActions>
+      <Drawer anchor={'bottom'} open onClose={handleClose}>
+        <div>Payment</div>
+        <div>
+          <table>
+            <tbody>
+              <tr>
+                <td>
+                  <b>Trip Dates</b>
+                </td>
+                <td>{`${dtStart} - ${dtEnd}`}</td>
+              </tr>
+              <tr>
+                <td>
+                  <b>Total People</b>
+                </td>
+                <td>{plan.totalPeople}</td>
+              </tr>
+              <tr>
+                <td>
+                  <b>Estimated Cost</b>
+                </td>
+                <td>{estCost}</td>
+              </tr>
+              <tr>
+                <td>
+                  <b>Initial Deposit</b>
+                </td>
+                <td>{Payment.deposit}</td>
+              </tr>
+            </tbody>
+          </table>
+          <PayPalButton
+            amount={Payment.deposit}
+            options={ppOptions}
+            buttonStyles={buttonStyles}
+            onSuccess={this.handlePaySuccess}
+            onError={this.handlePayError}
+            onCancel={this.handlePayCancel}
+          />
+        </div>
+        <div>
           <Button
             variant='contained'
             onClick={handleClose}
@@ -125,8 +115,8 @@ class PopupPayment extends React.Component {
           >
             Close
           </Button>
-        </DialogActions>
-      </Dialog>
+        </div>
+      </Drawer>
     );
   }
 }

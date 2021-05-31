@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import React, {createElement} from 'react';
 import Button from '@material-ui/core/Button';
+import Drawer from '@material-ui/core/Drawer';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -110,25 +111,19 @@ class PopupHotel extends React.Component {
     );
     // ====== Display ======
     return (
-      <Dialog
-        open
-        onClose={this.doHandleClose}
-        aria-labelledby='alert-dialog-hotel'
-      >
-        <DialogTitle id='alert-dialog-hotel'>Add/Update Hotel</DialogTitle>
-        <DialogContent>
-          <div>
-            <div>Please enter your hotel name or address</div>
-            {getMessage(message || error)}
-            <LocationSearchInput
-              hints={'Where to stay?'}
-              fullWidth
-              handleChange={this.doHandleAddressChange}
-              address={sAddress}
-            />
-          </div>
-        </DialogContent>
-        <DialogActions>
+      <Drawer anchor={'bottom'} open onClose={this.doHandleClose}>
+        <div>Add/Update Hotel</div>
+        <div>
+          <div>Please enter your hotel name or address</div>
+          {getMessage(message || error)}
+          <LocationSearchInput
+            hints={'Where to stay?'}
+            fullWidth
+            handleChange={this.doHandleAddressChange}
+            address={sAddress}
+          />
+        </div>
+        <div>
           {btnOk}
           <Button
             variant='contained'
@@ -137,8 +132,8 @@ class PopupHotel extends React.Component {
           >
             Close
           </Button>
-        </DialogActions>
-      </Dialog>
+        </div>
+      </Drawer>
     );
   }
 }
