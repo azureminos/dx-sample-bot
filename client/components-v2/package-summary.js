@@ -85,7 +85,7 @@ const styles = (theme) => ({
     color: 'white',
     padding: '4px',
     borderRadius: '8px',
-    minHeight: '28px',
+    minHeight: 36,
     fontSize: '12px',
     textTransform: 'none',
   },
@@ -119,7 +119,7 @@ const getItemStyle = (isDragging, draggableStyle) => ({
   // some basic styles to make the items look a bit nicer
   display: 'flex',
   userSelect: 'none',
-  minHeight: 28,
+  minHeight: 36,
   padding: '0px 4px',
   margin: '0px 8px 0px 0px',
   borderRadius: '8px',

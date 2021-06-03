@@ -946,7 +946,7 @@ class App extends React.Component {
     return (
       <div
         id='app'
-        style={{margin: '0px', height: '100%', fontFamily: Style.defaultFont}}
+        style={{margin: '0px', height: '100%'}}
       >
         <CSSTransitionGroup
           transitionName='page'
