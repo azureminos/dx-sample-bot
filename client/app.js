@@ -31,7 +31,7 @@ import '../public/style.css';
 // Variables
 let socket;
 const styles = () => ({});
-const {Instance, Page, DataModel} = CONSTANTS.get();
+const {Instance, Page, DataModel, Style} = CONSTANTS.get();
 /* ==============================
    = React Application          =
    ============================== */
@@ -192,7 +192,7 @@ class App extends React.Component {
     // Socket Remove Hotel
     const senderId = this.props.viewerId;
     const planId = plan._id;
-    //this.pushToRemote('hotel:remove', {senderId, planId, dayNo});
+    // this.pushToRemote('hotel:remove', {senderId, planId, dayNo});
   }
   handleRemoveCity(dayNo, index) {
     console.log('>>>>handleRemoveCity', {dayNo, index});
@@ -209,7 +209,8 @@ class App extends React.Component {
     );
     day.items = Helper.checkDayActivity(
       day,
-      totalAdults, totalKids,
+      totalAdults,
+      totalKids,
       tags,
       activities,
       dayPlans
@@ -220,7 +221,8 @@ class App extends React.Component {
         dayPrev.cities = _.slice(dayPrev.cities, 0, dayPrev.cities.length - 1);
         dayPrev.items = Helper.checkDayActivity(
           dayPrev,
-          totalAdults, totalKids,
+          totalAdults,
+          totalKids,
           tags,
           activities,
           dayPlans
@@ -235,7 +237,8 @@ class App extends React.Component {
         );
         dayNext.items = Helper.checkDayActivity(
           dayNext,
-          totalAdults, totalKids,
+          totalAdults,
+          totalKids,
           tags,
           activities,
           dayPlans
@@ -941,7 +944,10 @@ class App extends React.Component {
     }
     /* ----------  Animated Wrapper  ---------- */
     return (
-      <div id='app' style={{margin: '0px', height: '100%'}}>
+      <div
+        id='app'
+        style={{margin: '0px', height: '100%', fontFamily: Style.defaultFont}}
+      >
         <CSSTransitionGroup
           transitionName='page'
           transitionEnterTimeout={500}

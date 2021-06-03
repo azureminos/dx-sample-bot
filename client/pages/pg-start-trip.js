@@ -38,6 +38,10 @@ const styles = (theme) => ({
   whitespaceBottom: {
     height: 70,
   },
+  drawerRadius: {
+    borderTopLeftRadius: '16px',
+    borderTopRightRadius: '16px',
+  },
   hAppBar: {
     position: 'fixed',
     width: '100%',
@@ -425,6 +429,7 @@ class PageStartTrip extends React.Component {
           onClose={() => {
             this.togglePeopleDrawer(false);
           }}
+          classes={{paper: classes.drawerRadius}}
         >
           <div>
             <div style={{fontSize: 'x-large', padding: '8px'}}>Travellers</div>

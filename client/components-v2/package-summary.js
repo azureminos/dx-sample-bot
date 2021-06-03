@@ -12,7 +12,7 @@ import ClearIcon from '@material-ui/icons/Clear';
 import HotelIcon from '@material-ui/icons/Hotel';
 import CONSTANTS from '../../lib/constants';
 // Variables & Functions
-const {Color, defaultFont} = CONSTANTS.get().Style;
+const {Color} = CONSTANTS.get().Style;
 const styles = (theme) => ({
   root: {
     width: '100%',
@@ -57,7 +57,6 @@ const styles = (theme) => ({
   divAddHotel: {
     color: Color.default,
     fontSize: 16,
-    fontFamily: defaultFont,
     borderRadius: 0,
     padding: 4,
     textTransform: 'none',
@@ -72,25 +71,22 @@ const styles = (theme) => ({
     borderRadius: '4px',
   },
   divHotelTitle: {
-    fontFamily: defaultFont,
     fontSize: '12px',
     margin: 'auto 4px',
   },
   divDestTitle: {
-    fontFamily: defaultFont,
     fontSize: 16,
     padding: '8px 0px',
   },
   divBtnAddDest: {
     margin: 'auto 0px',
     display: 'flex',
-    background: 'black',
+    background: 'darkblue',
     color: 'white',
     padding: '4px',
     borderRadius: '8px',
     minHeight: '28px',
-    fontFamily: 'arial',
-    fontSize: '16px',
+    fontSize: '12px',
     textTransform: 'none',
   },
   imgCard: {
@@ -127,8 +123,7 @@ const getItemStyle = (isDragging, draggableStyle) => ({
   padding: '0px 4px',
   margin: '0px 8px 0px 0px',
   borderRadius: '8px',
-  fontFamily: defaultFont,
-  fontSize: '16px',
+  fontSize: '12px',
   color: 'white',
   background: isDragging ? 'lightgreen' : Color.default,
   ...draggableStyle,
