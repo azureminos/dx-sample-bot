@@ -68,7 +68,7 @@ const styles = (theme) => ({
     color: 'white',
     padding: '4px 8px',
     margin: 4,
-    borderRadius: '4px',
+    borderRadius: '8px',
   },
   divHotelTitle: {
     fontSize: '12px',
@@ -79,6 +79,17 @@ const styles = (theme) => ({
     padding: '8px 0px',
   },
   divBtnAddDest: {
+    margin: 'auto 0px',
+    display: 'flex',
+    background: 'darkblue',
+    color: 'white',
+    padding: '4px',
+    borderRadius: '8px',
+    minHeight: 20,
+    fontSize: '12px',
+    textTransform: 'none',
+  },
+  divBtnAddDestIcon: {
     margin: 'auto 0px',
     display: 'flex',
     background: 'darkblue',
@@ -216,14 +227,16 @@ class PackageSummary extends React.Component {
                   >
                     <div style={{margin: 'auto'}}>{cc.name}</div>
                     {!(day.dayNo === 1 && index === 0) ? (
-                      <div
+                      <IconButton
+                        size='small'
+                        aria-label='Remove City'
                         onClick={() => {
                           this.doHandleRemoveCity(day.dayNo, index);
                         }}
-                        style={{margin: 'auto', padding: '0px 4px'}}
+                        styles={{color: 'white'}}
                       >
                         <ClearIcon fontSize='small' />
-                      </div>
+                      </IconButton>
                     ) : (
                       ''
                     )}
@@ -244,7 +257,7 @@ class PackageSummary extends React.Component {
       const divAddHotel = !day.hotel ? (
         <Button
           className={classes.divAddHotel}
-          endIcon={<AddIcon fontSize='small' />}
+          startIcon={<AddIcon fontSize='small' />}
           onClick={() => {
             this.doHandleBtnHotel(day.dayNo);
           }}
@@ -256,7 +269,9 @@ class PackageSummary extends React.Component {
       );
       const divHotel = day.hotel ? (
         <div className={classes.divHotelBlock}>
-          <HotelIcon styles={{margin: 'auto'}} fontSize='small' />
+          <div styles={{margin: 'auto'}}>
+            <HotelIcon fontSize='small' />
+          </div>
           <div className={classes.divHotelTitle}>{day.hotel.name}</div>
           <IconButton
             size='small'
@@ -264,8 +279,9 @@ class PackageSummary extends React.Component {
             onClick={() => {
               this.doHandleRemoveHotel(day.dayNo);
             }}
+            styles={{color: 'white'}}
           >
-            <ClearIcon styles={{margin: 'auto'}} fontSize='small' />
+            <ClearIcon fontSize='small' />
           </IconButton>
         </div>
       ) : (
