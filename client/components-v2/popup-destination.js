@@ -10,7 +10,7 @@ const styles = (theme) => ({
   drawerBody: {
     borderTopLeftRadius: '16px',
     borderTopRightRadius: '16px',
-    padding: 8,
+    padding: '8px 8px 40px 8px',
   },
 });
 

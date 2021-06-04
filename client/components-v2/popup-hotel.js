@@ -12,7 +12,13 @@ import {withStyles} from '@material-ui/core/styles';
 
 // Variables
 const {Global} = CONSTANTS.get();
-const styles = (theme) => ({});
+const styles = (theme) => ({
+  drawerBody: {
+    borderTopLeftRadius: '16px',
+    borderTopRightRadius: '16px',
+    padding: '8px 8px 40px 8px',
+  },
+});
 
 class PopupHotel extends React.Component {
   constructor(props) {
@@ -84,7 +90,7 @@ class PopupHotel extends React.Component {
   render() {
     // ====== Local Variables ======
     console.log('>>>>PopupHotel.render', this.props);
-    const {message, hotel} = this.props;
+    const {classes, message, hotel} = this.props;
     const {error, sLocation} = this.state;
     const hotelAddress = hotel
       ? `${hotel.name || ''}${hotel.name ? ', ' : ''}${hotel.address}`
@@ -103,6 +109,7 @@ class PopupHotel extends React.Component {
         variant='contained'
         onClick={this.doHandleUpdateHotel}
         color='primary'
+        style={{width: '100%'}}
       >
         OK
       </Button>
@@ -111,10 +118,19 @@ class PopupHotel extends React.Component {
     );
     // ====== Display ======
     return (
-      <Drawer anchor={'bottom'} open onClose={this.doHandleClose}>
-        <div>Add/Update Hotel</div>
+      <Drawer
+        anchor={'bottom'}
+        open
+        onClose={this.doHandleClose}
+        classes={{paper: classes.drawerBody}}
+      >
+        <div style={{fontSize: 'x-large', fontWeight: 'bold'}}>
+          Add/Update Hotel
+        </div>
         <div>
-          <div>Please enter your hotel name or address</div>
+          <div style={{padding: '8px 0'}}>
+            Please enter your hotel name or address
+          </div>
           {getMessage(message || error)}
           <LocationSearchInput
             hints={'Where to stay?'}
@@ -123,12 +139,13 @@ class PopupHotel extends React.Component {
             address={sAddress}
           />
         </div>
-        <div>
+        <div style={{display: 'flex'}}>
           {btnOk}
           <Button
             variant='contained'
             onClick={this.doHandleClose}
             color='primary'
+            style={{width: '100%'}}
           >
             Close
           </Button>
