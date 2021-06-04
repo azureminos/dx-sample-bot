@@ -297,7 +297,7 @@ class PackageSummary extends React.Component {
                         this.doHandleBtnDestination(day.dayNo);
                       }}
                       className={classes.divBtnAddDest}
-                      startIcon={<AddIcon fontSize='small' />}
+                      startIcon={<ClearIcon fontSize='small' />}
                     >
                       Add
                     </Button>
