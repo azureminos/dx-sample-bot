@@ -86,6 +86,7 @@ const styles = (theme) => ({
     padding: '4px',
     borderRadius: '8px',
     minHeight: 20,
+    minWidth: 30,
     fontSize: '12px',
     textTransform: 'none',
   },
@@ -102,6 +103,9 @@ const styles = (theme) => ({
   },
   btnColor: {
     color: 'white',
+  },
+  btnIconMargin: {
+    margin: 0,
   },
   imgCard: {
     overflow: 'hidden',
@@ -315,7 +319,10 @@ class PackageSummary extends React.Component {
                       onClick={() => {
                         this.doHandleBtnDestination(day.dayNo);
                       }}
-                      className={classes.divBtnAddDest}
+                      classes={{
+                        root: classes.divBtnAddDest,
+                        startIcon: classes.btnIconMargin,
+                      }}
                       startIcon={<AddIcon fontSize='small' />}
                     >
                       Add
