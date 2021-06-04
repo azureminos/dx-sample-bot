@@ -100,6 +100,9 @@ const styles = (theme) => ({
     fontSize: '12px',
     textTransform: 'none',
   },
+  btnColor: {
+    color: 'white',
+  },
   imgCard: {
     overflow: 'hidden',
     margin: 4,
@@ -229,11 +232,11 @@ class PackageSummary extends React.Component {
                     {!(day.dayNo === 1 && index === 0) ? (
                       <IconButton
                         size='small'
-                        color='white'
                         aria-label='Remove City'
                         onClick={() => {
                           this.doHandleRemoveCity(day.dayNo, index);
                         }}
+                        classes={{root: classes.btnColor}}
                       >
                         <ClearIcon fontSize='small' />
                       </IconButton>
@@ -269,17 +272,17 @@ class PackageSummary extends React.Component {
       );
       const divHotel = day.hotel ? (
         <div className={classes.divHotelBlock}>
-          <div styles={{margin: 'auto'}}>
+          <div style={{margin: 'auto'}}>
             <HotelIcon fontSize='small' />
           </div>
           <div className={classes.divHotelTitle}>{day.hotel.name}</div>
           <IconButton
             size='small'
-            color='white'
             aria-label='Remove Hotel'
             onClick={() => {
               this.doHandleRemoveHotel(day.dayNo);
             }}
+            classes={{root: classes.btnColor}}
           >
             <ClearIcon fontSize='small' />
           </IconButton>
