@@ -6,7 +6,13 @@ import Helper from '../../lib/helper';
 import {withStyles} from '@material-ui/core/styles';
 
 // Variables
-const styles = (theme) => ({});
+const styles = (theme) => ({
+  drawerBody: {
+    borderTopLeftRadius: '16px',
+    borderTopRightRadius: '16px',
+    padding: 8,
+  },
+});
 
 class PopupDestination extends React.Component {
   constructor(props) {
@@ -86,7 +92,7 @@ class PopupDestination extends React.Component {
   render() {
     // ====== Local Variables ======
     console.log('>>>>PopupDestination.render', this.props);
-    const {message, dayNo} = this.props;
+    const {classes, message, dayNo} = this.props;
     const {error, sAddress} = this.state;
     // ====== Local Functions ======
     const getMessage = (msg) => {
@@ -98,10 +104,19 @@ class PopupDestination extends React.Component {
     // ====== Web Elements ======
     // ====== Display ======
     return (
-      <Drawer anchor={'bottom'} open onClose={this.doHandleClose}>
-        <div>{`Day ${dayNo}: Add Destination`}</div>
+      <Drawer
+        anchor={'bottom'}
+        open
+        onClose={this.doHandleClose}
+        classes={{paper: classes.drawerBody}}
+      >
+        <div
+          style={{fontSize: 'x-large', fontWeight: 'bold'}}
+        >{`Day ${dayNo}: Add Destination`}</div>
         <div>
-          <div>Please enter the name or address of your destination</div>
+          <div style={{padding: '8px 0'}}>
+            Please enter the name or address of your destination
+          </div>
           {getMessage(message || error)}
           <LocationSearchInput
             hints={`Day ${dayNo}: Where to visit`}
