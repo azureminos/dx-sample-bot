@@ -244,11 +244,11 @@ class PackageSummary extends React.Component {
       const divAddHotel = !day.hotel ? (
         <Button
           className={classes.divAddHotel}
+          endIcon={<AddIcon fontSize='small' />}
           onClick={() => {
             this.doHandleBtnHotel(day.dayNo);
           }}
         >
-          <AddIcon fontSize='small' />
           Add Hotel
         </Button>
       ) : (
@@ -297,8 +297,8 @@ class PackageSummary extends React.Component {
                         this.doHandleBtnDestination(day.dayNo);
                       }}
                       className={classes.divBtnAddDest}
+                      startIcon={<AddIcon fontSize='small' />}
                     >
-                      <AddIcon fontSize='small' />
                       Add
                     </Button>
                     {provided.placeholder}
