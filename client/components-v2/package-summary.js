@@ -233,9 +233,8 @@ class PackageSummary extends React.Component {
                         onClick={() => {
                           this.doHandleRemoveCity(day.dayNo, index);
                         }}
-                        styles={{color: 'white'}}
                       >
-                        <ClearIcon fontSize='small' />
+                        <ClearIcon fontSize='small' color='white' />
                       </IconButton>
                     ) : (
                       ''
@@ -279,9 +278,8 @@ class PackageSummary extends React.Component {
             onClick={() => {
               this.doHandleRemoveHotel(day.dayNo);
             }}
-            styles={{color: 'white'}}
           >
-            <ClearIcon fontSize='small' />
+            <ClearIcon fontSize='small' color='white' />
           </IconButton>
         </div>
       ) : (
@@ -313,7 +311,7 @@ class PackageSummary extends React.Component {
                         this.doHandleBtnDestination(day.dayNo);
                       }}
                       className={classes.divBtnAddDest}
-                      startIcon={<ClearIcon fontSize='small' />}
+                      startIcon={<AddIcon fontSize='small' />}
                     >
                       Add
                     </Button>
