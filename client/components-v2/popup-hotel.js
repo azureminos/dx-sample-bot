@@ -139,7 +139,7 @@ class PopupHotel extends React.Component {
             address={sAddress}
           />
         </div>
-        <div style={{display: 'flex'}}>
+        <div style={{display: 'flex', padding: '8px 0'}}>
           {btnOk}
           <Button
             variant='contained'

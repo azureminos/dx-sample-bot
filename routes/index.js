@@ -26,10 +26,12 @@ const handleWebAccess = (req, res) => {
 const handleWebviewAccess = (req, res) => {
   const appId = Global.appId;
   const {hostname} = req;
-  const {PORT, LOCAL} = process.env;
+  const {PORT, LOCAL, GOOGLE_API_ID} = process.env;
   const socketAddress = LOCAL
     ? `http://${hostname}:${PORT}`
     : `https://${hostname}`;
+  const urlGoogleBase = 'https://maps.googleapis.com/maps/api/js';
+  const urlGoogleApi = `${urlGoogleBase}?key=${GOOGLE_API_ID}&libraries=places`;
 
   const {userId, type, id} = req.params;
 
@@ -41,6 +43,7 @@ const handleWebviewAccess = (req, res) => {
       appId,
       userId,
       socketAddress,
+      urlGoogleApi,
     });
   } else if (type === 'plan') {
     // planId: new, go to pick date page
@@ -50,6 +53,7 @@ const handleWebviewAccess = (req, res) => {
       appId,
       userId,
       socketAddress,
+      urlGoogleApi,
     });
   }
 };
