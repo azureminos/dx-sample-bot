@@ -60,7 +60,7 @@
     "recess": "^1.1.9",
     "request": "^2.79.0",
     "serve-favicon": "^2.1.7",
-    "socket.io": "^2.3.0",
+    "socket.io": "^2.5.0",
     "style-loader": "^0.13.2",
     "svgo": "0.7.1",
     "uglify-loader": "^1.4.0",
